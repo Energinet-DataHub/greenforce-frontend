@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Location } from '@angular/common';
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -54,13 +54,12 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import {
   BasePaths,
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { Router } from '@angular/router';
-import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -116,7 +115,7 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="location.back()" variant="secondary"
+            <watt-button (click)="cancel()" variant="secondary"
               >{{ t('cancel') }}
             </watt-button>
             <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
@@ -192,7 +191,6 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 })
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
-  protected readonly location = inject(Location);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
@@ -441,6 +439,21 @@ export class DhUpdateCustomerDataComponent {
       getPath<BasePaths>('metering-point'),
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
+    ]);
+  }
+
+  cancel() {
+    const previousUrl =
+      this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
+
+    if (previousUrl) {
+      this.router.navigateByUrl(previousUrl.toString(), { replaceUrl: true });
+      return;
+    }
+
+    this.router.navigate([
+      getPath<BasePaths>('metering-point'),
+      this.internalMeteringPointId()
     ]);
   }
 }
