@@ -18,7 +18,7 @@
 //#endregion
 import '@testing-library/cypress/add-commands';
 
-function loginViaB2C(email: string, password: string) {
+function loginViaB2C(email: string, password: string, initialUrl: string) {
   cy.findByRole('button').click();
 
   // Login to B2C.
@@ -42,7 +42,17 @@ function loginViaB2C(email: string, password: string) {
   );
 
   // Ensure Microsoft has redirected us back to the app with our logged in user.
-  cy.url().should('equals', Cypress.config('baseUrl') + '/');
+  if (initialUrl === '/') {
+    // User might be redirected to either metering-point/search or message-archive based on permissions
+    cy.url().should('satisfy', (url: string) => {
+      return (
+        url === Cypress.config('baseUrl') + '/metering-point/search' ||
+        url === Cypress.config('baseUrl') + '/message-archive'
+      );
+    });
+  } else {
+    cy.url().should('equals', Cypress.config('baseUrl') + initialUrl);
+  }
 }
 
 Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/') => {
@@ -57,7 +67,7 @@ Cypress.Commands.add('login', (email: string, password: string, initialUrl = '/'
     cy.removeCookieBanner();
     cy.visit(initialUrl);
 
-    loginViaB2C(email, password);
+    loginViaB2C(email, password, initialUrl);
   });
 
   log.snapshot('after');
