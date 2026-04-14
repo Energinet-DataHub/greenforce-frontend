@@ -17,17 +17,18 @@
  */
 //#endregion
 import {
-  afterRenderEffect,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
   effect,
-  ElementRef,
   inject,
   input,
   signal,
+  computed,
+  Component,
   viewChild,
+  ElementRef,
+  afterRenderEffect,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import { FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -37,38 +38,43 @@ import {
   VaterStackComponent,
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
+
 import {
   WattMenuComponent,
   WattMenuItemComponent,
   WattMenuTriggerDirective,
 } from '@energinet/watt/menu';
-import { MessageFormValue } from '../types';
-import { DhActorConversationMessageForm } from './message-form';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
-import {
-  CloseConversationDocument,
-  GetConversationDocument,
-  GetConversationsDocument,
-  GetMeteringPointConversationInfoDocument,
-  MarkConversationUnReadDocument,
-  MarketRole,
-  ParticipantType,
-  SendActorConversationMessageDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { injectUploadMessageDocument } from './upload-message-document';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
+import {
+  MarketRole,
+  ParticipantType,
+  GetConversationDocument,
+  GetConversationsDocument,
+  CloseConversationDocument,
+  MarkConversationUnReadDocument,
+  SendActorConversationMessageDocument,
+  GetMeteringPointConversationInfoDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { MessageFormValue } from '../types';
 import { DhActorConversationMessage } from './message';
+import { DhActorConversationMessageForm } from './message-form';
+import { injectUploadMessageDocument } from './upload-message-document';
 import { DhActorConversationInternalNoteModal } from './internal-note-modal';
-import { WattSkeletonComponent } from '@energinet/watt/skeleton';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+import { DhActorConversationConfirmCloseConversation } from './confirm-close-conversation';
 
 @Component({
   selector: 'dh-actor-conversation-details',
@@ -84,17 +90,14 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
     WattButtonComponent,
     WattHeadingComponent,
     WattMenuItemComponent,
+    WattSkeletonComponent,
+    WATT_DESCRIPTION_LIST,
     WattSeparatorComponent,
     WattMenuTriggerDirective,
     VaterFlexComponent,
     VaterUtilityDirective,
     DhResultComponent,
     DhActorConversationMessage,
-    VaterFlexComponent,
-    WattHeadingComponent,
-    WattSeparatorComponent,
-    WattSkeletonComponent,
-    WATT_DESCRIPTION_LIST,
     DhActorConversationMessageForm,
   ],
   styles: `
@@ -209,12 +212,21 @@ export class DhActorConversationDetails {
   });
 
   async closeConversation() {
+    if (this.formControl.value.content || (this.formControl.value.files ?? []).length) {
+      const confirmed = await this.modalService.open({
+        component: DhActorConversationConfirmCloseConversation,
+      });
+      if (!confirmed) return;
+    }
+
     await this.closeConversationMutation.mutate({
       variables: {
         conversationId: this.conversationId(),
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
     });
+
+    this.clearMessageForm();
   }
 
   openInternalNoteModal(internalNote: string | null | undefined) {

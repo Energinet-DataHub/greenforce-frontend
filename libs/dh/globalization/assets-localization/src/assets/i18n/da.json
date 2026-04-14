@@ -831,6 +831,12 @@
           "error": "Der opstod en fejl under opdatering af intern note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Afslut sag uden at sende besked?",
+        "message": "Du har indtastet en besked, der ikke bliver sendt, hvis du afslutter sagen.",
+        "confirmButton": "Afslut sag",
+        "cancelButton": "Luk"
+      },
       "messagePlaceholder": "Skriv en besked",
       "sendButton": "Send besked",
       "attachFileButton": "Vedhæft fil",
@@ -1048,12 +1054,18 @@
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
       "actions": {
-        "SEND_INFORMATION": "Send information",
-        "FAS_SEND_INFORMATION": "Net og el kan sende information",
-        "CANCEL_WORKFLOW": "Annuller",
-        "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
-        "REJECT_REQUEST": "Afvis anmodning",
-        "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+        "EndOfSupply": {
+          "SEND_INFORMATION": "Anmod om serviceydelse",
+          "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
+          "CANCEL_WORKFLOW": "Annuller",
+          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "REJECT_REQUEST": "Afvis anmodning",
+          "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+        },
+        "CustomerMoveIn": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+        }
       },
       "rejectProcess": {
         "title": "Leveranceophør - serviceanmodning afvist",
@@ -1125,6 +1137,8 @@
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information om annullering pga. manglende afbrydelse (RSM-004)",
+        "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information om annullering pga. manglende afbrydelse (RSM-004)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_1": "Anmodning om oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
@@ -1193,6 +1207,24 @@
           "skipped": "Sprunget over",
           "canceled": "Annulleret",
           "succeeded": "Modtaget"
+        }
+      },
+      "requestService": {
+        "title": "Leveranceophør: Anmodning om serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "serviceKindPlaceholder": "Vælg",
+        "startDateLabel": "Udførselsdato",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Send anmodning",
+        "successToast": "Anmodning om serviceydelse indsendt",
+        "errorToast": "Anmodning om serviceydelse fejlede",
+        "serviceKinds": {
+          "ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER": "Afbrydelse - anmodet kunde",
+          "THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION": "Politiet skal inddrages i afbrydelsen",
+          "THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION": "Kommunen skal inddrages i afbrydelsen",
+          "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen",
+          "OTHER_REASON": "Anden årsag"
         }
       }
     },
