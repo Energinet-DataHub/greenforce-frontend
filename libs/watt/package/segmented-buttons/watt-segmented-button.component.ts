@@ -16,20 +16,29 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ChangeDetectionStrategy, input, inject, ElementRef } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  signal,
+  inject,
+  ElementRef,
+} from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+
+export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standalone';
 
 @Component({
   selector: 'watt-segmented-button',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, NgTemplateOutlet],
   styles: `
     :host {
       display: flex;
     }
 
-    a,
-    button {
+    a, button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -37,6 +46,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       height: 2.5rem;
       padding: 0 0.75rem;
       border: 1px solid var(--watt-color-neutral-grey-700);
+      border-radius: 4px;
       font-size: 1rem;
       font-weight: 600;
       color: var(--watt-on-light-high-emphasis);
@@ -58,47 +68,37 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         position: relative;
         z-index: 1;
       }
-    }
 
-    a.active,
-    :host(.watt-segmented-button--selected) a,
-    :host(.watt-segmented-button--selected) button {
-      background-color: var(--watt-color-primary);
-      color: var(--watt-color-neutral-white);
-
-      &:hover,
-      &:focus-visible {
+      &[aria-checked='true'],
+      &.active {
         background-color: var(--watt-color-primary);
+        color: var(--watt-color-neutral-white);
+
+        &:hover,
+        &:focus-visible {
+          background-color: var(--watt-color-primary);
+        }
       }
-    }
 
-    :host(.watt-segmented-button--disabled) a,
-    :host(.watt-segmented-button--disabled) button {
-      cursor: default;
-      background-color: var(--watt-color-neutral-grey-200);
-      color: rgba(
-        0,
-        0,
-        0,
-        0.26
-      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
-
-      &:hover,
-      &:focus-visible {
+      &[aria-disabled='true'] {
+        cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
-      }
-    }
+        color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
-    :host(.watt-segmented-button--disabled.watt-segmented-button--selected) a,
-    :host(.watt-segmented-button--disabled.watt-segmented-button--selected) button {
-      background-color: var(--watt-color-neutral-grey-400);
-      color: var(
-        --watt-on-light-high-emphasis
-      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+        &:hover,
+        &:focus-visible {
+          background-color: var(--watt-color-neutral-grey-200);
+        }
 
-      &:hover,
-      &:focus-visible {
-        background-color: var(--watt-color-neutral-grey-400);
+        &[aria-checked='true'] {
+          background-color: var(--watt-color-neutral-grey-400);
+          color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+
+          &:hover,
+          &:focus-visible {
+            background-color: var(--watt-color-neutral-grey-400);
+          }
+        }
       }
     }
 
@@ -120,25 +120,39 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     }
   `,
   host: {
-    '[class.watt-segmented-button--selected]': 'selected',
-    '[class.watt-segmented-button--disabled]': 'disabled',
-    '[class.watt-segmented-button--first]': 'position === "first"',
-    '[class.watt-segmented-button--middle]': 'position === "middle"',
-    '[class.watt-segmented-button--last]': 'position === "last"',
+    '[class.watt-segmented-button--first]': 'position() === "first"',
+    '[class.watt-segmented-button--middle]': 'position() === "middle"',
+    '[class.watt-segmented-button--last]': 'position() === "last"',
   },
   template: `
+    <ng-template #labelTemplate><ng-content /></ng-template>
+
     @if (link()) {
       <a
-        [routerLink]="link()"
+        role="radio"
+        [routerLink]="disabled() ? null : link()"
         queryParamsHandling="merge"
         routerLinkActive
         #rla="routerLinkActive"
         [class.active]="rla.isActive"
+        [attr.aria-checked]="selected() || rla.isActive"
+        [attr.aria-disabled]="disabled() ? true : null"
+        [attr.tabindex]="tabIndex()"
       >
-        <ng-content />
+        <ng-container *ngTemplateOutlet="labelTemplate" />
       </a>
     } @else {
-      <button type="button" [disabled]="disabled" (click)="onClick()"><ng-content /></button>
+      <button
+        type="button"
+        role="radio"
+        [attr.aria-checked]="selected()"
+        [attr.aria-disabled]="disabled() ? true : null"
+        [attr.tabindex]="tabIndex()"
+        [disabled]="disabled()"
+        (click)="onClick()"
+      >
+        <ng-container *ngTemplateOutlet="labelTemplate" />
+      </button>
     }
   `,
 })
@@ -146,16 +160,25 @@ export class WattSegmentedButtonComponent {
   value = input<string>();
   link = input<string>();
 
-  selected = false;
-  disabled = false;
-  position: 'first' | 'middle' | 'last' | 'standalone' = 'standalone';
+  selected = signal(false);
+  disabled = signal(false);
+  position = signal<WattSegmentedButtonPosition>('standalone');
+  tabIndex = signal<number>(0);
 
   private readonly elementRef = inject(ElementRef);
 
+  focus(): void {
+    const host = this.elementRef.nativeElement as HTMLElement;
+    const interactive = host.querySelector<HTMLElement>('a, button');
+    interactive?.focus();
+  }
+
   onClick(): void {
-    if (this.disabled) return;
+    if (this.disabled()) return;
+    const value = this.value();
+    if (value === undefined) return;
     this.elementRef.nativeElement.dispatchEvent(
-      new CustomEvent('segmentSelect', { bubbles: true, detail: this.value() })
+      new CustomEvent('segmentSelect', { bubbles: true, detail: value })
     );
   }
 }

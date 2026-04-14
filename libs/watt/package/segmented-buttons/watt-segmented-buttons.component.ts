@@ -29,7 +29,17 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
+import {
+  WattSegmentedButtonComponent,
+  WattSegmentedButtonPosition,
+} from './watt-segmented-button.component';
+
+function resolvePosition(index: number, total: number): WattSegmentedButtonPosition {
+  if (total === 1) return 'standalone';
+  if (index === 0) return 'first';
+  if (index === total - 1) return 'last';
+  return 'middle';
+}
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,7 +52,9 @@ import { WattSegmentedButtonComponent } from './watt-segmented-button.component'
   ],
   selector: 'watt-segmented-buttons',
   host: {
+    role: 'radiogroup',
     '(segmentSelect)': 'onSegmentSelect($event)',
+    '(keydown)': 'onKeydown($event)',
   },
   styles: `
     :host {
@@ -62,13 +74,14 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
       const buttons = this.buttons();
       const selected = this.selected();
       const disabled = this.disabled();
-      const last = buttons.length - 1;
+      const focusedIndex = this.resolveFocusedIndex(buttons, selected);
 
       for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
-        button.selected = button.value() === selected;
-        button.disabled = disabled;
-        button.position = i === 0 ? 'first' : i === last ? 'last' : 'middle';
+        button.selected.set(button.value() === selected);
+        button.disabled.set(disabled);
+        button.position.set(resolvePosition(i, buttons.length));
+        button.tabIndex.set(!disabled && i === focusedIndex ? 0 : -1);
       }
     });
   }
@@ -76,6 +89,43 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
   onSegmentSelect(event: Event): void {
     if (this.disabled()) return;
     this.selected.set((event as CustomEvent<string>).detail);
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    if (this.disabled()) return;
+    const buttons = this.buttons();
+    if (buttons.length === 0) return;
+
+    const currentIndex = buttons.findIndex(
+      (button) => button.value() === this.selected()
+    );
+    const activeIndex = currentIndex === -1 ? 0 : currentIndex;
+
+    let nextIndex: number | null = null;
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        nextIndex = (activeIndex + 1) % buttons.length;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        nextIndex = (activeIndex - 1 + buttons.length) % buttons.length;
+        break;
+      case 'Home':
+        nextIndex = 0;
+        break;
+      case 'End':
+        nextIndex = buttons.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    const nextButton = buttons[nextIndex];
+    const nextValue = nextButton.value();
+    if (nextValue !== undefined) this.selected.set(nextValue);
+    nextButton.focus();
   }
 
   writeValue(selected: string): void {
@@ -92,5 +142,13 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled.set(isDisabled);
+  }
+
+  private resolveFocusedIndex(
+    buttons: readonly WattSegmentedButtonComponent[],
+    selected: string
+  ): number {
+    const selectedIndex = buttons.findIndex((button) => button.value() === selected);
+    return selectedIndex === -1 ? 0 : selectedIndex;
   }
 }

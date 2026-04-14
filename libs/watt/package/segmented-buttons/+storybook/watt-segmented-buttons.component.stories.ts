@@ -124,7 +124,8 @@ export const Overview: Story = {
             color: rgba(0, 0, 0, 0.6);
           }
 
-          .hover-cell watt-segmented-button {
+          .hover-cell ::ng-deep watt-segmented-button a,
+          .hover-cell ::ng-deep watt-segmented-button button {
             background-color: var(--watt-color-neutral-grey-200);
           }
 
@@ -133,9 +134,41 @@ export const Overview: Story = {
             height: 16px;
           }
 
-          .start watt-segmented-button { border-radius: 4px 0 0 4px; }
-          .middle watt-segmented-button { border-radius: 0; }
-          .end watt-segmented-button { border-radius: 0 4px 4px 0; }
+          .start ::ng-deep watt-segmented-button a,
+          .start ::ng-deep watt-segmented-button button {
+            border-right-width: 0;
+            border-radius: 4px 0 0 4px;
+          }
+
+          .middle ::ng-deep watt-segmented-button a,
+          .middle ::ng-deep watt-segmented-button button {
+            border-right-width: 0;
+            border-radius: 0;
+          }
+
+          .end ::ng-deep watt-segmented-button a,
+          .end ::ng-deep watt-segmented-button button {
+            border-radius: 0 4px 4px 0;
+          }
+
+          .mock-selected ::ng-deep watt-segmented-button a,
+          .mock-selected ::ng-deep watt-segmented-button button {
+            background-color: var(--watt-color-primary);
+            color: var(--watt-color-neutral-white);
+          }
+
+          .mock-disabled ::ng-deep watt-segmented-button a,
+          .mock-disabled ::ng-deep watt-segmented-button button {
+            background-color: var(--watt-color-neutral-grey-200);
+            color: rgba(0, 0, 0, 0.26);
+            cursor: default;
+          }
+
+          .mock-disabled.mock-selected ::ng-deep watt-segmented-button a,
+          .mock-disabled.mock-selected ::ng-deep watt-segmented-button button {
+            background-color: var(--watt-color-neutral-grey-400);
+            color: var(--watt-on-light-high-emphasis);
+          }
         `,
       ],
       template: `
@@ -166,8 +199,8 @@ export const Overview: Story = {
                 <div class="start hover-cell">
                   <watt-segmented-button>Label</watt-segmented-button>
                 </div>
-                <div class="start">
-                  <watt-segmented-button class="watt-segmented-button--disabled">Label</watt-segmented-button>
+                <div class="start mock-disabled">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
 
                 <div class="middle">
@@ -176,8 +209,8 @@ export const Overview: Story = {
                 <div class="middle hover-cell">
                   <watt-segmented-button>Label</watt-segmented-button>
                 </div>
-                <div class="middle">
-                  <watt-segmented-button class="watt-segmented-button--disabled">Label</watt-segmented-button>
+                <div class="middle mock-disabled">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
 
                 <div class="end">
@@ -186,34 +219,34 @@ export const Overview: Story = {
                 <div class="end hover-cell">
                   <watt-segmented-button>Label</watt-segmented-button>
                 </div>
-                <div class="end">
-                  <watt-segmented-button class="watt-segmented-button--disabled">Label</watt-segmented-button>
+                <div class="end mock-disabled">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
 
                 <div class="blocks-gap"></div>
 
-                <div class="start">
-                  <watt-segmented-button class="watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="start mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
                 <div></div>
-                <div class="start">
-                  <watt-segmented-button class="watt-segmented-button--disabled watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="start mock-disabled mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
 
-                <div class="middle">
-                  <watt-segmented-button class="watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="middle mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
                 <div></div>
-                <div class="middle">
-                  <watt-segmented-button class="watt-segmented-button--disabled watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="middle mock-disabled mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
 
-                <div class="end">
-                  <watt-segmented-button class="watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="end mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
                 <div></div>
-                <div class="end">
-                  <watt-segmented-button class="watt-segmented-button--disabled watt-segmented-button--selected">Label</watt-segmented-button>
+                <div class="end mock-disabled mock-selected">
+                  <watt-segmented-button>Label</watt-segmented-button>
                 </div>
               </div>
             </div>
