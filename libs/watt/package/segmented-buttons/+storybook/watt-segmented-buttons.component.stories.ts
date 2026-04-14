@@ -16,13 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, effect, input, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { provideRouter } from '@angular/router';
 import { Meta, applicationConfig, moduleMetadata, StoryObj } from '@storybook/angular';
 
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
+
+const BLOCK_ROWS = [0, 1, 2] as const;
 
 @Component({
   selector: 'watt-segmented-buttons-showcase',
@@ -119,7 +121,7 @@ import { WattSegmentedButtonComponent } from '../watt-segmented-button.component
               <div class="column-header">Hover</div>
               <div class="column-header">Disabled</div>
 
-              @for (_ of [1, 2, 3]; track $index) {
+              @for (i of rows; track i) {
                 <watt-segmented-buttons>
                   <watt-segmented-button>Label</watt-segmented-button>
                 </watt-segmented-buttons>
@@ -130,21 +132,21 @@ import { WattSegmentedButtonComponent } from '../watt-segmented-button.component
                   </watt-segmented-buttons>
                 </div>
 
-                <watt-segmented-buttons [formControl]="disabledBlock">
+                <watt-segmented-buttons [formControl]="disabledBlocks[i]">
                   <watt-segmented-button value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
               }
 
               <div class="blocks-gap"></div>
 
-              @for (_ of [1, 2, 3]; track $index) {
-                <watt-segmented-buttons [formControl]="selectedBlock">
+              @for (i of rows; track i) {
+                <watt-segmented-buttons [formControl]="selectedBlocks[i]">
                   <watt-segmented-button value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
 
                 <div></div>
 
-                <watt-segmented-buttons [formControl]="disabledSelectedBlock">
+                <watt-segmented-buttons [formControl]="disabledSelectedBlocks[i]">
                   <watt-segmented-button value="x">Label</watt-segmented-button>
                 </watt-segmented-buttons>
               }
@@ -156,10 +158,23 @@ import { WattSegmentedButtonComponent } from '../watt-segmented-button.component
   `,
 })
 class WattSegmentedButtonsShowcase {
+  disabled = input(false);
+
   overviewControl = new FormControl('day');
-  disabledBlock = new FormControl({ value: null, disabled: true });
-  selectedBlock = new FormControl('x');
-  disabledSelectedBlock = new FormControl({ value: 'x', disabled: true });
+  disabledBlocks = BLOCK_ROWS.map(() => new FormControl({ value: null, disabled: true }));
+  selectedBlocks = BLOCK_ROWS.map(() => new FormControl('x'));
+  disabledSelectedBlocks = BLOCK_ROWS.map(
+    () => new FormControl({ value: 'x', disabled: true })
+  );
+
+  rows = BLOCK_ROWS;
+
+  constructor() {
+    effect(() => {
+      if (this.disabled()) this.overviewControl.disable();
+      else this.overviewControl.enable();
+    });
+  }
 }
 
 const meta: Meta<WattSegmentedButtonsShowcase> = {
@@ -169,11 +184,23 @@ const meta: Meta<WattSegmentedButtonsShowcase> = {
     applicationConfig({ providers: [provideRouter([])] }),
     moduleMetadata({ imports: [WattSegmentedButtonsShowcase] }),
   ],
+  argTypes: {
+    disabled: {
+      control: 'boolean',
+      description: 'Disable the overview segmented buttons group',
+    },
+  },
+  args: {
+    disabled: false,
+  },
 };
 export default meta;
 
 type Story = StoryObj<WattSegmentedButtonsShowcase>;
 
 export const Overview: Story = {
-  render: () => ({ template: `<watt-segmented-buttons-showcase />` }),
+  render: (args) => ({
+    props: args,
+    template: `<watt-segmented-buttons-showcase [disabled]="disabled" />`,
+  }),
 };
