@@ -328,9 +328,9 @@ describe(WattSegmentedButtonsComponent, () => {
       );
 
       const button = container.querySelector('watt-segmented-button');
-      expect(button).not.toHaveClass('watt-segmented-button--first');
-      expect(button).not.toHaveClass('watt-segmented-button--middle');
-      expect(button).not.toHaveClass('watt-segmented-button--last');
+      expect(button).not.toHaveClass('start');
+      expect(button).not.toHaveClass('middle');
+      expect(button).not.toHaveClass('end');
     });
   });
 });

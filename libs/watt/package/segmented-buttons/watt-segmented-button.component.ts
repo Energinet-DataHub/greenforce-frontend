@@ -85,12 +85,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       &:disabled {
         cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
-        color: rgba(
-          0,
-          0,
-          0,
-          0.26
-        ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+        color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
         &:hover,
         &:focus-visible {
@@ -99,9 +94,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
 
         &[aria-checked='true'] {
           background-color: var(--watt-color-neutral-grey-400);
-          color: var(
-            --watt-on-light-high-emphasis
-          ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+          color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
           &:hover,
           &:focus-visible {
@@ -111,7 +104,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       }
     }
 
-    /* Documentation aliases — flat selectors so they aren't affected by CSS nesting limitations */
+    /* Documentation aliases — also used by the parent group to apply position. */
     :host(.hover) a,
     :host(.hover) button {
       background-color: var(--watt-color-neutral-grey-200);
@@ -143,34 +136,23 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
-    :host(.watt-segmented-button--first) a,
-    :host(.watt-segmented-button--first) button,
     :host(.start) a,
     :host(.start) button {
       border-right-width: 0;
       border-radius: 4px 0 0 4px;
     }
 
-    :host(.watt-segmented-button--middle) a,
-    :host(.watt-segmented-button--middle) button,
     :host(.middle) a,
     :host(.middle) button {
       border-right-width: 0;
       border-radius: 0;
     }
 
-    :host(.watt-segmented-button--last) a,
-    :host(.watt-segmented-button--last) button,
     :host(.end) a,
     :host(.end) button {
       border-radius: 0 4px 4px 0;
     }
   `,
-  host: {
-    '[class.watt-segmented-button--first]': 'position() === "first"',
-    '[class.watt-segmented-button--middle]': 'position() === "middle"',
-    '[class.watt-segmented-button--last]': 'position() === "last"',
-  },
   template: `
     <ng-template #labelTemplate><ng-content /></ng-template>
 
@@ -208,10 +190,9 @@ export class WattSegmentedButtonComponent {
 
   selected = signal(false);
   disabled = signal(false);
-  position = signal<WattSegmentedButtonPosition>('standalone');
   tabIndex = signal(0);
 
-  private readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject(ElementRef);
 
   focus(): void {
     const host = this.elementRef.nativeElement as HTMLElement;

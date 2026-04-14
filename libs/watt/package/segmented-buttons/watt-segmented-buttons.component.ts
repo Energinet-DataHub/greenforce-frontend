@@ -29,17 +29,17 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import {
-  WattSegmentedButtonComponent,
-  WattSegmentedButtonPosition,
-} from './watt-segmented-button.component';
+import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
 
 type ReadonlyButtons = readonly WattSegmentedButtonComponent[];
 
-function resolvePosition(index: number, total: number): WattSegmentedButtonPosition {
-  if (total === 1) return 'standalone';
-  if (index === 0) return 'first';
-  if (index === total - 1) return 'last';
+const POSITION_CLASSES = ['start', 'middle', 'end'] as const;
+type PositionClass = (typeof POSITION_CLASSES)[number] | null;
+
+function resolvePosition(index: number, total: number): PositionClass {
+  if (total === 1) return null;
+  if (index === 0) return 'start';
+  if (index === total - 1) return 'end';
   return 'middle';
 }
 
@@ -104,8 +104,11 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
         const button = buttons[i];
         button.selected.set(button.value() === selected);
         button.disabled.set(disabled);
-        button.position.set(resolvePosition(i, buttons.length));
         button.tabIndex.set(!disabled && i === focusedIndex ? 0 : -1);
+
+        const position = resolvePosition(i, buttons.length);
+        const classList = button.elementRef.nativeElement.classList;
+        for (const cls of POSITION_CLASSES) classList.toggle(cls, cls === position);
       }
     });
   }
