@@ -18,7 +18,6 @@
 //#endregion
 import { Injectable, NgZone, inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
 import {
   concat,
   distinctUntilChanged,
@@ -33,10 +32,9 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 enum ActivityState {
   Inactive,
@@ -44,13 +42,15 @@ enum ActivityState {
   Overdue,
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhInactivityDetectionService {
-  private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -108,12 +108,10 @@ export class DhInactivityDetectionService {
   }
 
   private logout() {
-    const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
-      ? `/metering-point/search`
-      : this.location.path();
+    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
 
     this.msal.logoutRedirect({
-      postLogoutRedirectUri,
+      postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
     });
   }
 }
