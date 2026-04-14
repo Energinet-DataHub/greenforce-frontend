@@ -245,7 +245,6 @@ export class DhUpdateCustomerDataComponent {
     this.shouldClearContacts() ? undefined : this.technicalContact()
   );
 
-  navigate = injectRelativeNavigate();
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
