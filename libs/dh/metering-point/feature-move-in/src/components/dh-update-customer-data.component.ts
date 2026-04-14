@@ -125,9 +125,13 @@ import {
       <vater-flex direction="row" gap="m" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
+          <watt-card-title>
+            <h3>
+              {{ t('customerDetails.label') }}
+            </h3>
+          </watt-card-title>
           @if (isLoading()) {
             <vater-stack gap="l" align="start">
-              <watt-skeleton width="50%" height="28px" />
               <watt-skeleton width="25%" height="24px" />
               <vater-stack fill="horizontal" gap="xs" align="start">
                 <watt-skeleton width="25%" />
@@ -138,12 +142,8 @@ import {
                 <watt-skeleton height="46px" />
               </vater-stack>
             </vater-stack>
-          } @else {
-            <watt-card-title>
-              <h3>
-                {{ t('customerDetails.label') }}
-              </h3>
-            </watt-card-title>
+          }
+          @if (!isLoading()) {
             @if (isBusinessCustomer()) {
               <dh-business-customer-details
                 [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
@@ -318,6 +318,9 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.businessCustomerDetails.controls.companyName.setValue(
         data.firstCustomerName
       );
+      data.firstCustomerCvr
+        ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr)
+        : null;
     } else {
       this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
         data.firstCustomerName
