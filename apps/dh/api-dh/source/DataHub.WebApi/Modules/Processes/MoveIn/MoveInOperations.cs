@@ -13,14 +13,15 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
-using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
+using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
@@ -86,10 +87,11 @@ public static class MoveInOperations
             cutOffDate = await moveInClient.GetCutOffDateAsync(processId, ct);
         }
 
-        var command = new RequestChangeCustomerCharacteristicsCommandV1(
-            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
+        var command = new RequestChangeCustomerCharacteristicsCommandV2(
+            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
+                StartDate: cutOffDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
