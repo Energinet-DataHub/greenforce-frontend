@@ -82,8 +82,8 @@ export class StateLocationStrategy extends PathLocationStrategy {
 export const provideStateLocationStrategy = (): Provider => ({
   provide: LocationStrategy,
   useFactory: ({ current }: DhAppEnvironmentConfig) => {
-    if (current === DhAppEnvironment.local) {
-      // return inject(PathLocationStrategy);
+    if (current === DhAppEnvironment.dev_001) {
+      return inject(PathLocationStrategy);
     }
 
     return inject(StateLocationStrategy);
