@@ -30,10 +30,15 @@ export class DhPageLeaveRedirectService {
     let route: ActivatedRouteSnapshot | undefined = this.activatedRoute.snapshot.root;
 
     while (route !== undefined) {
-      maybeRedirectUrl = route.data['pageLeaveRedirectUrl'];
+      const pageLeaveRedirectUrl = route.data['pageLeaveRedirectUrl'];
+
+      if (typeof pageLeaveRedirectUrl === 'string') {
+        maybeRedirectUrl = pageLeaveRedirectUrl;
+      }
+
       route = route.children.find((child) => child.outlet === PRIMARY_OUTLET);
     }
 
-    return typeof maybeRedirectUrl === 'string' ? maybeRedirectUrl : null;
+    return maybeRedirectUrl ?? null;
   }
 }
