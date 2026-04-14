@@ -11,20 +11,19 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-name: CI orchestrator
+
+# Dotnet CI — must be triggered directly (not via workflow_call) so that
+# github.event_name equals 'pull_request' or 'merge_group' inside the
+# reusable dotnet-build-prerelease workflow. When called via workflow_call,
+# github.event_name becomes 'workflow_call' and the conditional steps that
+# create the zip artifact are skipped, causing Attest SBOM to fail.
+name: DH CI Dotnet
 
 permissions:
-  actions: write
-  checks: write
+  attestations: write
   contents: write
   id-token: write
-  issues: read
-  pull-requests: write
-  attestations: write
-
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  pull-requests: read
 
 on:
   pull_request:
@@ -34,24 +33,9 @@ on:
     types: [checks_requested]
 
 jobs:
-  dh_ci_frontend:
-    uses: ./.github/workflows/pr.yml
-    secrets: inherit
-
-  #
-  # Branch policy status check
-  #
-  allow_merge_ci_orchestrator:
-    permissions: {}
-    runs-on: ubuntu-latest
-    needs: [dh_ci_frontend]
-    if: |
-      always()
-    steps:
-      - name: Verify if merge is allowed
-        run: |
-          echo "${{ toJSON(needs) }}"
-          if [[ ${{ contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled') }} = true ]]; then
-            echo "Failed"
-            exit 1
-          fi
+  dotnet_ci_build:
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1
+    with:
+      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
+      release_name_prefix: ui_dotnet
+      sbom_root_directory: apps/dh/api-dh
