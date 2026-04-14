@@ -85,13 +85,20 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
     :host(.disabled) button {
       cursor: default;
       background-color: var(--watt-color-neutral-grey-200);
-      color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: rgba(
+        0,
+        0,
+        0,
+        0.26
+      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
     :host(.disabled.selected) a,
     :host(.disabled.selected) button {
       background-color: var(--watt-color-neutral-grey-400);
-      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: var(
+        --watt-on-light-high-emphasis
+      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
     :host(.start) a,
