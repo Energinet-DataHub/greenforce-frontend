@@ -128,9 +128,13 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
       <vater-flex direction="row" gap="m" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
+          <watt-card-title>
+            <h3>
+              {{ t('customerDetails.label') }}
+            </h3>
+          </watt-card-title>
           @if (isLoading()) {
             <vater-stack gap="l" align="start">
-              <watt-skeleton width="50%" height="28px" />
               <watt-skeleton width="25%" height="24px" />
               <vater-stack fill="horizontal" gap="xs" align="start">
                 <watt-skeleton width="25%" />
@@ -143,11 +147,6 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
             </vater-stack>
           }
           @if (!isLoading()) {
-            <watt-card-title>
-              <h3>
-                {{ t('customerDetails.label') }}
-              </h3>
-            </watt-card-title>
             @if (isBusinessCustomer()) {
               <dh-business-customer-details
                 [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
