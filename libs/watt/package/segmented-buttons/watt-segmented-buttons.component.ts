@@ -96,9 +96,7 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
     const buttons = this.buttons();
     if (buttons.length === 0) return;
 
-    const currentIndex = buttons.findIndex(
-      (button) => button.value() === this.selected()
-    );
+    const currentIndex = buttons.findIndex((button) => button.value() === this.selected());
     const activeIndex = currentIndex === -1 ? 0 : currentIndex;
 
     let nextIndex: number | null = null;

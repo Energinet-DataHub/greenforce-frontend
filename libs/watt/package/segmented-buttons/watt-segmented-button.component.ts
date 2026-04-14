@@ -38,7 +38,8 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       display: flex;
     }
 
-    a, button {
+    a,
+    button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -83,7 +84,12 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       &[aria-disabled='true'] {
         cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
-        color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+        color: rgba(
+          0,
+          0,
+          0,
+          0.26
+        ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
         &:hover,
         &:focus-visible {
@@ -92,7 +98,9 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
 
         &[aria-checked='true'] {
           background-color: var(--watt-color-neutral-grey-400);
-          color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+          color: var(
+            --watt-on-light-high-emphasis
+          ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
 
           &:hover,
           &:focus-visible {
