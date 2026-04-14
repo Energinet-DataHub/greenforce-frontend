@@ -236,10 +236,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  // During a move-in (processId present), only keep contact fields empty when
-  // temporary storage data actually exists.
-  // Avoid coupling this state to query loading, since a loading transition can
-  // cause derived form state to be recreated and wipe user-entered values.
   private readonly shouldClearContacts = computed(
     () => !!this.processId() && !!this.temporaryStorageCustomer()
   );
