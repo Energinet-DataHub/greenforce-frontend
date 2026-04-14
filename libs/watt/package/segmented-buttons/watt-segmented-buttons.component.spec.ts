@@ -82,7 +82,11 @@ describe(WattSegmentedButtonsComponent, () => {
   describe('selection', () => {
     async function setup(initialValue: string | null = 'day') {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="day">Day</watt-segmented-button>
@@ -102,9 +106,18 @@ describe(WattSegmentedButtonsComponent, () => {
     it('marks the initially selected button as checked', async () => {
       await setup('month');
 
-      expect(screen.getByRole('radio', { name: 'Day' })).toHaveAttribute('aria-checked', 'false');
-      expect(screen.getByRole('radio', { name: 'Month' })).toHaveAttribute('aria-checked', 'true');
-      expect(screen.getByRole('radio', { name: 'Year' })).toHaveAttribute('aria-checked', 'false');
+      expect(screen.getByRole('radio', { name: 'Day' })).toHaveAttribute(
+        'aria-checked',
+        'false'
+      );
+      expect(screen.getByRole('radio', { name: 'Month' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
+      expect(screen.getByRole('radio', { name: 'Year' })).toHaveAttribute(
+        'aria-checked',
+        'false'
+      );
     });
 
     it('updates the form control when clicking a button', async () => {
@@ -113,12 +126,19 @@ describe(WattSegmentedButtonsComponent, () => {
       await userEvent.click(screen.getByRole('radio', { name: 'Year' }));
 
       expect(host.control.value).toBe('year');
-      expect(screen.getByRole('radio', { name: 'Year' })).toHaveAttribute('aria-checked', 'true');
+      expect(screen.getByRole('radio', { name: 'Year' })).toHaveAttribute(
+        'aria-checked',
+        'true'
+      );
     });
 
     it('does not emit when a button has no value', async () => {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="keep">Keep</watt-segmented-button>
@@ -139,9 +159,13 @@ describe(WattSegmentedButtonsComponent, () => {
   });
 
   describe('disabled state', () => {
-    it('marks all buttons with aria-disabled when the group is disabled', async () => {
+    it('marks native buttons as disabled when the group is disabled', async () => {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="day">Day</watt-segmented-button>
@@ -155,13 +179,17 @@ describe(WattSegmentedButtonsComponent, () => {
 
       await render(TestHostComponent);
 
-      expect(screen.getByRole('radio', { name: 'Day' })).toHaveAttribute('aria-disabled', 'true');
-      expect(screen.getByRole('radio', { name: 'Month' })).toHaveAttribute('aria-disabled', 'true');
+      expect(screen.getByRole('radio', { name: 'Day' })).toBeDisabled();
+      expect(screen.getByRole('radio', { name: 'Month' })).toBeDisabled();
     });
 
     it('does not change selection when clicking a disabled group', async () => {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="day">Day</watt-segmented-button>
@@ -182,7 +210,11 @@ describe(WattSegmentedButtonsComponent, () => {
 
     it('removes disabled link from tab order and prevents navigation', async () => {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button link="/day">Day</watt-segmented-button>
@@ -220,7 +252,11 @@ describe(WattSegmentedButtonsComponent, () => {
 
     it('uses roving tabindex so only the selected button is in the tab order', async () => {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="day">Day</watt-segmented-button>
@@ -244,7 +280,11 @@ describe(WattSegmentedButtonsComponent, () => {
   describe('keyboard navigation', () => {
     async function setup(initialValue: string | null = 'day') {
       @Component({
-        imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+        imports: [
+          WattSegmentedButtonsComponent,
+          WattSegmentedButtonComponent,
+          ReactiveFormsModule,
+        ],
         template: `
           <watt-segmented-buttons [formControl]="control">
             <watt-segmented-button value="day">Day</watt-segmented-button>

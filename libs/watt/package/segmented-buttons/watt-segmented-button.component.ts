@@ -154,7 +154,6 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
         type="button"
         role="radio"
         [attr.aria-checked]="selected()"
-        [attr.aria-disabled]="disabled() ? true : null"
         [attr.tabindex]="tabIndex()"
         [disabled]="disabled()"
         (click)="onClick()"
@@ -171,7 +170,7 @@ export class WattSegmentedButtonComponent {
   selected = signal(false);
   disabled = signal(false);
   position = signal<WattSegmentedButtonPosition>('standalone');
-  tabIndex = signal<number>(0);
+  tabIndex = signal(0);
 
   private readonly elementRef = inject(ElementRef);
 

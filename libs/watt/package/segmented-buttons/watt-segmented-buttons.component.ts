@@ -34,11 +34,35 @@ import {
   WattSegmentedButtonPosition,
 } from './watt-segmented-button.component';
 
+type ReadonlyButtons = readonly WattSegmentedButtonComponent[];
+
 function resolvePosition(index: number, total: number): WattSegmentedButtonPosition {
   if (total === 1) return 'standalone';
   if (index === 0) return 'first';
   if (index === total - 1) return 'last';
   return 'middle';
+}
+
+function findIndexByValue(buttons: ReadonlyButtons, value: string): number {
+  const index = buttons.findIndex((button) => button.value() === value);
+  return index === -1 ? 0 : index;
+}
+
+function nextKeyboardIndex(key: string, current: number, total: number): number | null {
+  switch (key) {
+    case 'ArrowRight':
+    case 'ArrowDown':
+      return (current + 1) % total;
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      return (current - 1 + total) % total;
+    case 'Home':
+      return 0;
+    case 'End':
+      return total - 1;
+    default:
+      return null;
+  }
 }
 
 @Component({
@@ -74,7 +98,7 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
       const buttons = this.buttons();
       const selected = this.selected();
       const disabled = this.disabled();
-      const focusedIndex = this.resolveFocusedIndex(buttons, selected);
+      const focusedIndex = findIndexByValue(buttons, selected);
 
       for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
@@ -96,28 +120,9 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
     const buttons = this.buttons();
     if (buttons.length === 0) return;
 
-    const currentIndex = buttons.findIndex((button) => button.value() === this.selected());
-    const activeIndex = currentIndex === -1 ? 0 : currentIndex;
-
-    let nextIndex: number | null = null;
-    switch (event.key) {
-      case 'ArrowRight':
-      case 'ArrowDown':
-        nextIndex = (activeIndex + 1) % buttons.length;
-        break;
-      case 'ArrowLeft':
-      case 'ArrowUp':
-        nextIndex = (activeIndex - 1 + buttons.length) % buttons.length;
-        break;
-      case 'Home':
-        nextIndex = 0;
-        break;
-      case 'End':
-        nextIndex = buttons.length - 1;
-        break;
-      default:
-        return;
-    }
+    const currentIndex = findIndexByValue(buttons, this.selected());
+    const nextIndex = nextKeyboardIndex(event.key, currentIndex, buttons.length);
+    if (nextIndex === null) return;
 
     event.preventDefault();
     const nextButton = buttons[nextIndex];
@@ -140,13 +145,5 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
 
   setDisabledState?(isDisabled: boolean): void {
     this.disabled.set(isDisabled);
-  }
-
-  private resolveFocusedIndex(
-    buttons: readonly WattSegmentedButtonComponent[],
-    selected: string
-  ): number {
-    const selectedIndex = buttons.findIndex((button) => button.value() === selected);
-    return selectedIndex === -1 ? 0 : selectedIndex;
   }
 }
