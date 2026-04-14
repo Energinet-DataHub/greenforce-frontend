@@ -24,6 +24,7 @@ permissions:
   attestations: write
   contents: write
   id-token: write
+  pull-requests: read
 on:
   push:
     branches:
@@ -115,13 +116,20 @@ jobs:
           sbom-path: ${{ github.workspace }}/sbom.spdx.json
 
       - name: Create pre-release
-        uses: Energinet-Datahub/.github/.github/actions/github-create-release@actions/v1
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ steps.get_releaseversion_strings.outputs.release_version }}
-          prerelease: true
-          title: ${{ steps.get_releaseversion_strings.outputs.release_version }}
-          files: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RELEASE_TAG="${{ steps.get_releaseversion_strings.outputs.release_version }}"
+          RELEASE_FILE="${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}"
+
+          gh release delete "$RELEASE_TAG" --yes --cleanup-tag 2>/dev/null || true
+
+          gh release create "$RELEASE_TAG" \
+            --title "$RELEASE_TAG" \
+            --prerelease \
+            --target "${{ github.sha }}" \
+            --generate-notes \
+            "$RELEASE_FILE"
 
   frontend_promote_prerelease:
     needs: [frontend_ci_build]
