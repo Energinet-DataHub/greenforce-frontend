@@ -30,6 +30,7 @@ public record DocumentType : Enumeration<DocumentType>
     public static readonly DocumentType RequestChangeOfPriceList = new();
     public static readonly DocumentType ConfirmRequestChangeOfPriceList = new();
     public static readonly DocumentType RejectRequestChangeOfPriceList = new();
+    public static readonly DocumentType RequestPriceList = new();
 
     public static readonly DocumentType B2CRequestAggregatedMeasureData =
         new() { GraphQLName = "B2C_REQUEST_AGGREGATED_MEASURE_DATA" };

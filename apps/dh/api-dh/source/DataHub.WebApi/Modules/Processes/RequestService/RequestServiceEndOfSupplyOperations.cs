@@ -13,33 +13,40 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestService.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestService.V1.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.Cancellation;
+namespace Energinet.DataHub.WebApi.Modules.Processes.RequestService;
 
-public static class CancelEndOfSupplyOperations
+public static class RequestServiceEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Policy = "EnergySupplierOrGridAccessProvider")]
-    public static async Task<bool> CancelEndOfSupplyAsync(
+    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    public static async Task<bool> RequestServiceEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,
+        ServiceKindV1 serviceKind,
+        DateTimeOffset startDate,
+        string? description,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        var command = new RequestCancellationCommandV1(
-            new RequestCancellationV1(
+        var command = new RequestServiceCommandV1(
+            new RequestServiceV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: BusinessReasonV1.EndOfSupply,
-                ProcessReference: processId));
+                ProcessReference: processId,
+                StartDate: startDate,
+                ServiceKind: serviceKind,
+                Description: description ?? string.Empty));
 
         var result = await ediB2CClient.SendAsync(command, ct);
 
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command CancelEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command RequestServiceEndOfSupply failed for metering point '{meteringPointId}' (processId: {processId}). EDI response: {result}");
     }
 }
