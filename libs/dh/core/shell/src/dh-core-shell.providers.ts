@@ -88,7 +88,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  provideStateLocationStrategy(),
+  environment.production ? provideStateLocationStrategy() : [],
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   microsoftClarityProviders,
