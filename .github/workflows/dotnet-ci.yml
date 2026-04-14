@@ -12,11 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Dotnet CI — must be triggered directly (not via workflow_call) so that
-# github.event_name equals 'pull_request' or 'merge_group' inside the
-# reusable dotnet-build-prerelease workflow. When called via workflow_call,
-# github.event_name becomes 'workflow_call' and the conditional steps that
-# create the zip artifact are skipped, causing Attest SBOM to fail.
+# Dotnet CI entry point for pull_request and merge_group events.
+# This workflow delegates the build to the reusable
+# dotnet-build-prerelease workflow via jobs.<job>.uses, so the called
+# workflow runs under workflow_call semantics. Any event-specific branching
+# needed by the reusable workflow must therefore be handled explicitly there.
 name: DH CI Dotnet
 
 permissions:
@@ -24,6 +24,10 @@ permissions:
   contents: write
   id-token: write
   pull-requests: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 on:
   pull_request:
