@@ -135,6 +135,6 @@ export class DhInactivityDetectionService {
       return `/admin/users`;
     }
 
-    return this.location.path();
+    return url;
   }
 }
