@@ -16,243 +16,164 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, applicationConfig, moduleMetadata, StoryObj } from '@storybook/angular';
-import { provideRouter } from '@angular/router';
-
+import { Component, ViewEncapsulation } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { provideRouter } from '@angular/router';
+import { Meta, applicationConfig, moduleMetadata, StoryObj } from '@storybook/angular';
+
 import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
 
-const meta: Meta<WattSegmentedButtonsComponent & { disabled: boolean }> = {
-  title: 'Components/Segmented buttons',
-  component: WattSegmentedButtonsComponent,
-  decorators: [
-    applicationConfig({
-      providers: [provideRouter([])],
-    }),
-    moduleMetadata({
-      imports: [ReactiveFormsModule, WattSegmentedButtonsComponent, WattSegmentedButtonComponent],
-    }),
-  ],
-  argTypes: {
-    disabled: {
-      control: 'boolean',
-      description: 'Disable the segmented buttons group',
-    },
-  },
-  args: {
-    disabled: false,
-  },
-};
-export default meta;
+@Component({
+  selector: 'watt-segmented-buttons-showcase',
+  imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
+  encapsulation: ViewEncapsulation.None,
+  styles: `
+    .watt-segmented-buttons-showcase {
+      background: #e5e5e5;
+      padding: 40px;
+      margin: -16px;
 
-type Story = StoryObj<WattSegmentedButtonsComponent & { disabled: boolean }>;
+      .page {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        max-width: 560px;
+      }
 
-const sourceCode = `
-<watt-segmented-buttons [formControl]="formControl">
-  <watt-segmented-button value="day">Dag</watt-segmented-button>
-  <watt-segmented-button value="month">Måned</watt-segmented-button>
-  <watt-segmented-button value="year">År</watt-segmented-button>
-  <watt-segmented-button value="all">Alle år</watt-segmented-button>
-</watt-segmented-buttons>
-`.trim();
+      .section {
+        background: white;
+        border-radius: 12px;
+        padding: 48px 56px;
+      }
 
-export const Overview: Story = {
-  parameters: {
-    docs: {
-      source: { code: sourceCode },
-    },
-  },
-  render: (args) => {
-    const formControl = new FormControl('day');
-    if (args.disabled) formControl.disable();
-    return {
-      props: { formControl },
-      styles: [
-        `
-          :host {
-            display: block;
-            background: #e5e5e5;
-            padding: 40px;
-            margin: -16px;
-          }
+      .section-title {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 36px;
+        font-weight: 300;
+        color: rgba(0, 0, 0, 0.87);
+        margin: 0 0 24px;
+      }
 
-          .page {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            max-width: 560px;
-          }
+      .divider {
+        border: none;
+        border-top: 1px solid var(--watt-color-neutral-grey-300);
+        margin: 0 0 32px;
+      }
 
-          .section {
-            background: white;
-            border-radius: 12px;
-            padding: 48px 56px;
-          }
+      .dashed-border {
+        border: 2px dashed #7c4dff;
+        border-radius: 8px;
+        padding: 24px 40px;
+        margin-top: 8px;
+      }
 
-          .section-title {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 36px;
-            font-weight: 300;
-            color: rgba(0, 0, 0, 0.87);
-            margin: 0 0 24px;
-          }
+      .blocks-grid {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        gap: 24px 32px;
+        justify-items: start;
+      }
 
-          .divider {
-            border: none;
-            border-top: 1px solid var(--watt-color-neutral-grey-300);
-            margin: 0 0 32px;
-          }
+      .column-header {
+        font-family: 'Open Sans', sans-serif;
+        font-size: 14px;
+        color: rgba(0, 0, 0, 0.6);
+      }
 
-          .dashed-border {
-            border: 2px dashed #7c4dff;
-            border-radius: 8px;
-            padding: 24px 40px;
-            margin-top: 8px;
-          }
+      .blocks-gap {
+        grid-column: 1 / -1;
+        height: 16px;
+      }
 
-          .blocks-grid {
-            display: grid;
-            grid-template-columns: repeat(3, auto);
-            gap: 24px 32px;
-            justify-items: start;
-          }
+      /*
+       * Hover is an interaction state and cannot be expressed via FormControl
+       * or component inputs. The block below mirrors the component's own
+       * :hover background so the documentation matches Figma exactly.
+       */
+      .hover-cell watt-segmented-button button {
+        background-color: var(--watt-color-neutral-grey-200);
+      }
+    }
+  `,
+  template: `
+    <div class="watt-segmented-buttons-showcase">
+      <div class="page">
+        <div class="section">
+          <div class="section-title">Segmented button</div>
+          <hr class="divider" />
+          <watt-segmented-buttons [formControl]="overviewControl">
+            <watt-segmented-button value="day">Dag</watt-segmented-button>
+            <watt-segmented-button value="month">Måned</watt-segmented-button>
+            <watt-segmented-button value="year">År</watt-segmented-button>
+            <watt-segmented-button value="all">Alle år</watt-segmented-button>
+          </watt-segmented-buttons>
+        </div>
 
-          .column-header {
-            font-family: 'Open Sans', sans-serif;
-            font-size: 14px;
-            color: rgba(0, 0, 0, 0.6);
-          }
+        <div class="section">
+          <div class="section-title">Building blocks</div>
+          <hr class="divider" />
+          <div class="dashed-border">
+            <div class="blocks-grid">
+              <div class="column-header">Enabled</div>
+              <div class="column-header">Hover</div>
+              <div class="column-header">Disabled</div>
 
-          .hover-cell ::ng-deep watt-segmented-button a,
-          .hover-cell ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-200);
-          }
-
-          .blocks-gap {
-            grid-column: 1 / -1;
-            height: 16px;
-          }
-
-          .start ::ng-deep watt-segmented-button a,
-          .start ::ng-deep watt-segmented-button button {
-            border-right-width: 0;
-            border-radius: 4px 0 0 4px;
-          }
-
-          .middle ::ng-deep watt-segmented-button a,
-          .middle ::ng-deep watt-segmented-button button {
-            border-right-width: 0;
-            border-radius: 0;
-          }
-
-          .end ::ng-deep watt-segmented-button a,
-          .end ::ng-deep watt-segmented-button button {
-            border-radius: 0 4px 4px 0;
-          }
-
-          .mock-selected ::ng-deep watt-segmented-button a,
-          .mock-selected ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-primary);
-            color: var(--watt-color-neutral-white);
-          }
-
-          .mock-disabled ::ng-deep watt-segmented-button a,
-          .mock-disabled ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-200);
-            color: rgba(0, 0, 0, 0.26);
-            cursor: default;
-          }
-
-          .mock-disabled.mock-selected ::ng-deep watt-segmented-button a,
-          .mock-disabled.mock-selected ::ng-deep watt-segmented-button button {
-            background-color: var(--watt-color-neutral-grey-400);
-            color: var(--watt-on-light-high-emphasis);
-          }
-        `,
-      ],
-      template: `
-        <div class="page">
-          <div class="section">
-            <div class="section-title">Segmented button</div>
-            <hr class="divider" />
-            <watt-segmented-buttons [formControl]="formControl">
-              <watt-segmented-button value="day">Dag</watt-segmented-button>
-              <watt-segmented-button value="month">Måned</watt-segmented-button>
-              <watt-segmented-button value="year">År</watt-segmented-button>
-              <watt-segmented-button value="all">Alle år</watt-segmented-button>
-            </watt-segmented-buttons>
-          </div>
-
-          <div class="section">
-            <div class="section-title">Building blocks</div>
-            <hr class="divider" />
-            <div class="dashed-border">
-              <div class="blocks-grid">
-                <div class="column-header">Enabled</div>
-                <div class="column-header">Hover</div>
-                <div class="column-header">Disabled</div>
-
-                <div class="start">
+              @for (_ of [1, 2, 3]; track $index) {
+                <watt-segmented-buttons>
                   <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="start hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="start mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
+                </watt-segmented-buttons>
+
+                <div class="hover-cell">
+                  <watt-segmented-buttons>
+                    <watt-segmented-button>Label</watt-segmented-button>
+                  </watt-segmented-buttons>
                 </div>
 
-                <div class="middle">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="middle hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="middle mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
+                <watt-segmented-buttons [formControl]="disabledBlock">
+                  <watt-segmented-button value="x">Label</watt-segmented-button>
+                </watt-segmented-buttons>
+              }
 
-                <div class="end">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="end hover-cell">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div class="end mock-disabled">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
+              <div class="blocks-gap"></div>
 
-                <div class="blocks-gap"></div>
+              @for (_ of [1, 2, 3]; track $index) {
+                <watt-segmented-buttons [formControl]="selectedBlock">
+                  <watt-segmented-button value="x">Label</watt-segmented-button>
+                </watt-segmented-buttons>
 
-                <div class="start mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
                 <div></div>
-                <div class="start mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
 
-                <div class="middle mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div></div>
-                <div class="middle mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-
-                <div class="end mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-                <div></div>
-                <div class="end mock-disabled mock-selected">
-                  <watt-segmented-button>Label</watt-segmented-button>
-                </div>
-              </div>
+                <watt-segmented-buttons [formControl]="disabledSelectedBlock">
+                  <watt-segmented-button value="x">Label</watt-segmented-button>
+                </watt-segmented-buttons>
+              }
             </div>
           </div>
         </div>
-      `,
-    };
-  },
+      </div>
+    </div>
+  `,
+})
+class WattSegmentedButtonsShowcase {
+  overviewControl = new FormControl('day');
+  disabledBlock = new FormControl({ value: null, disabled: true });
+  selectedBlock = new FormControl('x');
+  disabledSelectedBlock = new FormControl({ value: 'x', disabled: true });
+}
+
+const meta: Meta<WattSegmentedButtonsShowcase> = {
+  title: 'Components/Segmented buttons',
+  component: WattSegmentedButtonsShowcase,
+  decorators: [
+    applicationConfig({ providers: [provideRouter([])] }),
+    moduleMetadata({ imports: [WattSegmentedButtonsShowcase] }),
+  ],
+};
+export default meta;
+
+type Story = StoryObj<WattSegmentedButtonsShowcase>;
+
+export const Overview: Story = {
+  render: () => ({ template: `<watt-segmented-buttons-showcase />` }),
 };
