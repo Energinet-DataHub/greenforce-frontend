@@ -59,8 +59,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       font-family: inherit;
 
       &:hover,
-      &:focus-visible,
-      :host(.hover) & {
+      &:focus-visible {
         background-color: var(--watt-color-neutral-grey-200);
       }
 
@@ -72,8 +71,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       }
 
       &[aria-checked='true'],
-      &.active,
-      :host(.selected) & {
+      &.active {
         background-color: var(--watt-color-primary);
         color: var(--watt-color-neutral-white);
 
@@ -84,8 +82,7 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       }
 
       &[aria-disabled='true'],
-      &:disabled,
-      :host(.disabled) & {
+      &:disabled {
         cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
         color: rgba(
@@ -99,24 +96,44 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
         &:focus-visible {
           background-color: var(--watt-color-neutral-grey-200);
         }
+
+        &[aria-checked='true'] {
+          background-color: var(--watt-color-neutral-grey-400);
+          color: var(
+            --watt-on-light-high-emphasis
+          ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+
+          &:hover,
+          &:focus-visible {
+            background-color: var(--watt-color-neutral-grey-400);
+          }
+        }
       }
     }
 
-    :host(.disabled.selected) a,
-    :host(.disabled.selected) button,
-    :host(.disabled) a[aria-checked='true'],
-    :host(.disabled) button[aria-checked='true'],
-    a[aria-disabled='true'][aria-checked='true'],
-    button:disabled[aria-checked='true'] {
-      background-color: var(--watt-color-neutral-grey-400);
-      color: var(
-        --watt-on-light-high-emphasis
-      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+    /* Documentation aliases — flat selectors so they aren't affected by CSS nesting limitations */
+    :host(.hover) a,
+    :host(.hover) button {
+      background-color: var(--watt-color-neutral-grey-200);
+    }
 
-      &:hover,
-      &:focus-visible {
-        background-color: var(--watt-color-neutral-grey-400);
-      }
+    :host(.selected) a,
+    :host(.selected) button {
+      background-color: var(--watt-color-primary);
+      color: var(--watt-color-neutral-white);
+    }
+
+    :host(.disabled) a,
+    :host(.disabled) button {
+      cursor: default;
+      background-color: var(--watt-color-neutral-grey-200);
+      color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+    }
+
+    :host(.disabled.selected) a,
+    :host(.disabled.selected) button {
+      background-color: var(--watt-color-neutral-grey-400);
+      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
     :host(.watt-segmented-button--first) a,
