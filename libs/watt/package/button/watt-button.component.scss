@@ -135,8 +135,8 @@ watt-button {
   &.watt-button--selection {
     .mat-mdc-button.mat-selection {
       @include watt.typography-watt-text-m;
-      border-radius: 4px;
       border: 1px solid var(--watt-color-neutral-grey-500);
+      border-radius: 4px;
 
       &:hover {
         background-color: var(--watt-color-neutral-grey-100);

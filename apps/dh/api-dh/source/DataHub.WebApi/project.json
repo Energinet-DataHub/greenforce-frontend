@@ -7,7 +7,8 @@
   "prefix": "dh",
   "targets": {
     "build": {
-      "dependsOn": ["restore", "^build"]
+      "dependsOn": ["restore", "^build"],
+      "defaultConfiguration": "release"
     }
   }
 }

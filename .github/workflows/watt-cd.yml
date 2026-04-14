@@ -20,10 +20,7 @@ permissions:
   id-token: write
 
 env:
-  # Nx Cloud
-  NX_BRANCH: ${{ github.event.number }}
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
-  NX_CI_EXECUTION_ID: ${{ github.run_id }}
 
 on:
   push:
@@ -32,88 +29,114 @@ on:
 
 jobs:
   #
-  # Detect changes to start relevant jobs
+  # Detect whether Watt changed in the merged commit
   #
-
   changes:
-    uses: ./.github/workflows/detect-changes.yml
+    runs-on: ubuntu-latest
+    outputs:
+      watt_affected: ${{ steps.watt_affected.outputs.affected }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 2
+
+      - name: Setup toolchains with mise
+        uses: jdx/mise-action@v4.0.1
+
+      - name: Get Bun cache directory
+        id: bun_cache
+        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Bun packages
+        uses: actions/cache@v5.0.4
+        with:
+          path: ${{ steps.bun_cache.outputs.dir }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - run: bun install --frozen-lockfile
+
+      - name: Is Watt affected?
+        id: watt_affected
+        uses: ./.github/actions/is-affected
+        with:
+          project: watt
+          base: HEAD~1
 
   #
-  # Frontend
+  # Deploy Storybook to Chromatic
   #
-
   chromatic_deployment:
     name: Deploy to Chromatic
     needs: changes
-    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
-    # Operating System
+    if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
-    # Job steps
     steps:
       - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
-      - name: Bun setup
-        uses: oven-sh/setup-bun@v2
+      - name: Setup toolchains with mise
+        uses: jdx/mise-action@v4.0.1
+
+      - name: Get Bun cache directory
+        id: bun_cache
+        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Bun packages
+        uses: actions/cache@v5.0.4
         with:
-          bun-version-file: package.json
+          path: ${{ steps.bun_cache.outputs.dir }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+      - run: bun install --frozen-lockfile
 
-      # 👇 Adds Chromatic as a step in the workflow
       - name: Publish to Chromatic
         uses: chromaui/action@v15
-        # Chromatic GitHub Action options
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          # 👇 Chromatic projectToken, refer to the manage page to obtain it.
           projectToken: ${{ secrets.chromatic_project_token }}
-          exitZeroOnChanges: true # 👈 Option to prevent the workflow from failing
+          exitZeroOnChanges: true
           buildScriptName: designsystem:build
 
+  #
+  # Publish npm package
+  #
   npm_publish:
     name: Publish to NPM
     continue-on-error: true
     needs: changes
-    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
+    if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Generate Github token
-        uses: actions/create-github-app-token@v3
-        id: generate_token
-        with:
-          app-id: ${{ vars.dh3serviceaccount_appid }}
-          private-key: ${{ secrets.dh3serviceaccount_privatekey }}
-          owner: Energinet-DataHub
+      - uses: actions/checkout@v6
 
-      - name: Check out source code
-        uses: actions/checkout@v6
-        with:
-          token: ${{ steps.generate_token.outputs.token }}
-          ref: ${{ github.head_ref }}
+      - name: Setup toolchains with mise
+        uses: jdx/mise-action@v4.0.1
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version-file: package.json
+      - name: Get Bun cache directory
+        id: bun_cache
+        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
 
-      - name: Bun setup
-        uses: oven-sh/setup-bun@v2
+      - name: Cache Bun packages
+        uses: actions/cache@v5.0.4
         with:
-          bun-version-file: package.json
+          path: ${{ steps.bun_cache.outputs.dir }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
 
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+      - run: bun install --frozen-lockfile
 
       - name: Publish to npm
         run: bun nx run watt:publish --force
 
   #
-  # Send notification to teams channel if deployment dispatch failed
+  # Send notification to teams channel if deployment failed
   #
-
   dispatch_failed:
     needs: [chromatic_deployment, npm_publish]
     if: |
