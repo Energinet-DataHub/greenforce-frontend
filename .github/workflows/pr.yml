@@ -66,6 +66,7 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
       - uses: nrwl/nx-set-shas@v5.0.1
+        id: nx_set_shas
       - name: "Lint and fix affected projects"
         run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
 
@@ -92,6 +93,19 @@ jobs:
       - name: Format projects and configuration files
         run: bun run format -- --base="$NX_BASE" --head="$NX_HEAD"
 
+      - name: Bump Watt version if affected
+        id: watt_affected
+        uses: ./.github/actions/is-affected
+        with:
+          project: watt
+          base: ${{ steps.nx_set_shas.outputs.base }}
+          head: ${{ steps.nx_set_shas.outputs.head }}
+      - name: Bump Watt peer dependencies and version
+        if: ${{ steps.watt_affected.outputs.affected == 'true' }}
+        run: |
+          bun nx g @energinet-datahub/tools/package:peer-dependencies --project="watt" --packageJson="libs/watt/package/package.json"
+          bun nx g @energinet-datahub/tools/package:version-bump --packageJson="libs/watt/package/package.json"
+
       - name: Commit CI QA fixes
         if: ${{ github.event.pull_request.head.ref }}
         run: |
@@ -106,7 +120,7 @@ jobs:
 
           git commit -m "QA fixes"
           git push origin HEAD:${{ github.event.pull_request.head.ref }} --force-with-lease
-      - run: bun nx affected --parallel -t test build --base="$NX_BASE" --head="$NX_HEAD"
+      - run: bun nx affected --parallel -t test build package --base="$NX_BASE" --head="$NX_HEAD"
       - name: "End-to-end test affected products"
         run: bun nx affected --parallel -t e2e --base="$NX_BASE" --head="$NX_HEAD"
       - name: Upload artifact

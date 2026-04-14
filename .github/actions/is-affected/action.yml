@@ -1,0 +1,28 @@
+name: Is project affected
+description: Checks whether a given Nx project is in the affected project set
+inputs:
+  project:
+    description: Nx project name to check
+    required: true
+  base:
+    description: Base ref for nx affected comparison
+    required: true
+  head:
+    description: Head ref for nx affected comparison
+    required: false
+    default: HEAD
+outputs:
+  affected:
+    description: "'true' if the project is affected, 'false' otherwise"
+    value: ${{ steps.check.outputs.affected }}
+runs:
+  using: composite
+  steps:
+    - name: Check if project is affected
+      id: check
+      shell: bash
+      run: |
+        AFFECTED=$(bunx nx show projects --affected --base="${{ inputs.base }}" --head="${{ inputs.head }}" --json 2>/dev/null \
+          | node -e "process.exit(JSON.parse(require('fs').readFileSync(0,'utf8')).includes('${{ inputs.project }}') ? 0 : 1)" \
+          && echo 'true' || echo 'false')
+        echo "affected=$AFFECTED" >> "$GITHUB_OUTPUT"
