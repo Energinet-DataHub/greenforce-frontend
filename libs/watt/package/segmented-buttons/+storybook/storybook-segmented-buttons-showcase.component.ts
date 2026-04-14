@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, input, ViewEncapsulation } from '@angular/core';
+import { Component, effect, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
@@ -25,12 +25,11 @@ import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.compone
 @Component({
   selector: 'watt-storybook-segmented-buttons-showcase',
   imports: [WattSegmentedButtonsComponent, WattSegmentedButtonComponent, ReactiveFormsModule],
-  encapsulation: ViewEncapsulation.None,
   styles: `
-    .watt-storybook-segmented-buttons-showcase {
+    :host {
+      display: block;
       background: #e5e5e5;
       padding: 40px;
-      margin: -16px;
 
       .page {
         display: flex;
@@ -86,48 +85,42 @@ import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.compone
     }
   `,
   template: `
-    <div class="watt-storybook-segmented-buttons-showcase">
-      <div class="page">
-        <div class="section">
-          <div class="section-title">Segmented button</div>
-          <hr class="divider" />
-          <watt-segmented-buttons [formControl]="overviewControl">
-            <watt-segmented-button value="day">Dag</watt-segmented-button>
-            <watt-segmented-button link="/month">Måned</watt-segmented-button>
-            <watt-segmented-button value="year">År</watt-segmented-button>
-            <watt-segmented-button link="/all">Alle år</watt-segmented-button>
-          </watt-segmented-buttons>
-        </div>
+    <div class="page">
+      <div class="section">
+        <div class="section-title">Segmented button</div>
+        <hr class="divider" />
+        <watt-segmented-buttons [formControl]="overviewControl">
+          <watt-segmented-button value="day">Dag</watt-segmented-button>
+          <watt-segmented-button link="/month">Måned</watt-segmented-button>
+          <watt-segmented-button value="year">År</watt-segmented-button>
+          <watt-segmented-button link="/all">Alle år</watt-segmented-button>
+        </watt-segmented-buttons>
+      </div>
 
-        <div class="section">
-          <div class="section-title">Building blocks</div>
-          <hr class="divider" />
-          <div class="dashed-border">
-            <div class="blocks-grid">
-              <div class="column-header">Enabled</div>
-              <div class="column-header">Hover</div>
-              <div class="column-header">Disabled</div>
+      <div class="section">
+        <div class="section-title">Building blocks</div>
+        <hr class="divider" />
+        <div class="dashed-border">
+          <div class="blocks-grid">
+            <div class="column-header">Enabled</div>
+            <div class="column-header">Hover</div>
+            <div class="column-header">Disabled</div>
 
-              @for (position of positions; track position) {
-                <watt-segmented-button [class]="position">Label</watt-segmented-button>
-                <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
-                <watt-segmented-button [class]="position + ' disabled'"
-                  >Label</watt-segmented-button
-                >
-              }
+            @for (position of positions; track position) {
+              <watt-segmented-button [class]="position">Label</watt-segmented-button>
+              <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
+              <watt-segmented-button [class]="position + ' disabled'">Label</watt-segmented-button>
+            }
 
-              <div class="blocks-gap"></div>
+            <div class="blocks-gap"></div>
 
-              @for (position of positions; track position) {
-                <watt-segmented-button [class]="position + ' selected'"
-                  >Label</watt-segmented-button
-                >
-                <div></div>
-                <watt-segmented-button [class]="position + ' disabled selected'"
-                  >Label</watt-segmented-button
-                >
-              }
-            </div>
+            @for (position of positions; track position) {
+              <watt-segmented-button [class]="position + ' selected'">Label</watt-segmented-button>
+              <div></div>
+              <watt-segmented-button [class]="position + ' disabled selected'"
+                >Label</watt-segmented-button
+              >
+            }
           </div>
         </div>
       </div>
