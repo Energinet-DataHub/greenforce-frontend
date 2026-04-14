@@ -111,15 +111,21 @@ import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.compone
               @for (position of positions; track position) {
                 <watt-segmented-button [class]="position">Label</watt-segmented-button>
                 <watt-segmented-button [class]="position + ' hover'">Label</watt-segmented-button>
-                <watt-segmented-button [class]="position + ' disabled'">Label</watt-segmented-button>
+                <watt-segmented-button [class]="position + ' disabled'"
+                  >Label</watt-segmented-button
+                >
               }
 
               <div class="blocks-gap"></div>
 
               @for (position of positions; track position) {
-                <watt-segmented-button [class]="position + ' selected'">Label</watt-segmented-button>
+                <watt-segmented-button [class]="position + ' selected'"
+                  >Label</watt-segmented-button
+                >
                 <div></div>
-                <watt-segmented-button [class]="position + ' disabled selected'">Label</watt-segmented-button>
+                <watt-segmented-button [class]="position + ' disabled selected'"
+                  >Label</watt-segmented-button
+                >
               }
             </div>
           </div>
