@@ -831,6 +831,12 @@
           "error": "An error occurred updating the internal note"
         }
       },
+      "confirmCloseConversation": {
+        "title": "Close case without sending message?",
+        "message": "You have entered a message that will not be sent if you close the case.",
+        "confirmButton": "Close case",
+        "cancelButton": "Close"
+      },
       "messagePlaceholder": "Write a message",
       "sendButton": "Send message",
       "attachFileButton": "Attach file",
@@ -1048,12 +1054,18 @@
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
       "actions": {
-        "SEND_INFORMATION": "Send information",
-        "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information",
-        "CANCEL_WORKFLOW": "Cancel",
-        "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
-        "REJECT_REQUEST": "Reject request",
-        "FAS_REJECT_REQUEST": "Grid operator can reject request"
+        "EndOfSupply": {
+          "SEND_INFORMATION": "Request service",
+          "FAS_SEND_INFORMATION": "Electricity supplier can request service",
+          "CANCEL_WORKFLOW": "Cancel",
+          "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+          "REJECT_REQUEST": "Reject request",
+          "FAS_REJECT_REQUEST": "Grid operator can reject request"
+        },
+        "CustomerMoveIn": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information"
+        }
       },
       "rejectProcess": {
         "title": "End of supply - service request rejected",
@@ -1195,6 +1207,24 @@
           "skipped": "Skipped",
           "canceled": "Canceled",
           "succeeded": "Received"
+        }
+      },
+      "requestService": {
+        "title": "End of supply: Request service",
+        "serviceKindLabel": "Requested service",
+        "serviceKindPlaceholder": "Select",
+        "startDateLabel": "Execution date",
+        "descriptionLabel": "Remarks",
+        "cancel": "Close",
+        "confirm": "Send request",
+        "successToast": "Service request submitted",
+        "errorToast": "Service request failed",
+        "serviceKinds": {
+          "ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER": "Disconnection - requested by customer",
+          "THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION": "Police must be involved in disconnection",
+          "THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION": "Municipality must be involved in disconnection",
+          "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Bailiffs court must be involved in disconnection",
+          "OTHER_REASON": "Other reason"
         }
       }
     },
