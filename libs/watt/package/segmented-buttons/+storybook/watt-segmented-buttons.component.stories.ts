@@ -163,9 +163,7 @@ class WattSegmentedButtonsShowcase {
   overviewControl = new FormControl('day');
   disabledBlocks = BLOCK_ROWS.map(() => new FormControl({ value: null, disabled: true }));
   selectedBlocks = BLOCK_ROWS.map(() => new FormControl('x'));
-  disabledSelectedBlocks = BLOCK_ROWS.map(
-    () => new FormControl({ value: 'x', disabled: true })
-  );
+  disabledSelectedBlocks = BLOCK_ROWS.map(() => new FormControl({ value: 'x', disabled: true }));
 
   rows = BLOCK_ROWS;
 
