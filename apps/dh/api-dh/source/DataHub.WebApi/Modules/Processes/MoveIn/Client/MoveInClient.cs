@@ -43,7 +43,9 @@ public class MoveInClient(
         var transactionId = instances.FirstOrDefault(i => i.Id == processGuid)?.TransactionId;
 
         if (transactionId is null)
+        {
             return null;
+        }
 
         var query = new TemporaryStorageDataQuery(
             userIdentity,
@@ -52,7 +54,7 @@ public class MoveInClient(
             transactionId);
 
         return await processManagerClient
-            .SearchWorkflowInstanceByCustomQueryAsync<RequestTemporaryStorageResult>(query, ct);
+            .SearchWorkflowInstanceByCustomQueryAsync(query, ct);
     }
 
     public async Task<DateTimeOffset?> GetCutOffDateAsync(
