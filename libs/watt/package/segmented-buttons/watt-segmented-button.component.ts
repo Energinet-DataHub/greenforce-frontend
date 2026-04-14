@@ -81,7 +81,8 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
         }
       }
 
-      &[aria-disabled='true'] {
+      &[aria-disabled='true'],
+      &:disabled {
         cursor: default;
         background-color: var(--watt-color-neutral-grey-200);
         color: rgba(
