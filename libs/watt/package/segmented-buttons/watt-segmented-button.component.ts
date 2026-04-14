@@ -57,66 +57,24 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
       user-select: none;
       box-sizing: border-box;
       font-family: inherit;
-
-      &:hover,
-      &:focus-visible {
-        background-color: var(--watt-color-neutral-grey-200);
-      }
-
-      &:focus-visible {
-        outline: none;
-        box-shadow: 0 0 0 2px var(--watt-color-primary-dark);
-        position: relative;
-        z-index: 1;
-      }
-
-      &[aria-checked='true'],
-      &.active {
-        background-color: var(--watt-color-primary);
-        color: var(--watt-color-neutral-white);
-
-        &:hover,
-        &:focus-visible {
-          background-color: var(--watt-color-primary);
-        }
-      }
-
-      &[aria-disabled='true'],
-      &:disabled {
-        cursor: default;
-        background-color: var(--watt-color-neutral-grey-200);
-        color: rgba(
-          0,
-          0,
-          0,
-          0.26
-        ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
-
-        &:hover,
-        &:focus-visible {
-          background-color: var(--watt-color-neutral-grey-200);
-        }
-
-        &[aria-checked='true'] {
-          background-color: var(--watt-color-neutral-grey-400);
-          color: var(
-            --watt-on-light-high-emphasis
-          ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
-
-          &:hover,
-          &:focus-visible {
-            background-color: var(--watt-color-neutral-grey-400);
-          }
-        }
-      }
     }
 
-    /* Documentation aliases — also used by the parent group to apply position. */
+    a:hover,
+    button:hover,
     :host(.hover) a,
     :host(.hover) button {
       background-color: var(--watt-color-neutral-grey-200);
     }
 
+    a:focus-visible,
+    button:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--watt-color-primary-dark);
+      position: relative;
+      z-index: 1;
+    }
+
+    a.active,
     :host(.selected) a,
     :host(.selected) button {
       background-color: var(--watt-color-primary);
@@ -127,20 +85,13 @@ export type WattSegmentedButtonPosition = 'first' | 'middle' | 'last' | 'standal
     :host(.disabled) button {
       cursor: default;
       background-color: var(--watt-color-neutral-grey-200);
-      color: rgba(
-        0,
-        0,
-        0,
-        0.26
-      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: rgba(0, 0, 0, 0.26); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
     :host(.disabled.selected) a,
     :host(.disabled.selected) button {
       background-color: var(--watt-color-neutral-grey-400);
-      color: var(
-        --watt-on-light-high-emphasis
-      ); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
+      color: var(--watt-on-light-high-emphasis); /* Not part of Watt foundations — see Figma note on disabled segmented buttons */
     }
 
     :host(.start) a,

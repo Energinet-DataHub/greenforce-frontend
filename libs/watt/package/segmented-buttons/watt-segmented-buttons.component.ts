@@ -102,13 +102,16 @@ export class WattSegmentedButtonsComponent implements ControlValueAccessor {
 
       for (let i = 0; i < buttons.length; i++) {
         const button = buttons[i];
-        button.selected.set(button.value() === selected);
+        const isSelected = button.value() === selected;
+        button.selected.set(isSelected);
         button.disabled.set(disabled);
         button.tabIndex.set(!disabled && i === focusedIndex ? 0 : -1);
 
         const position = resolvePosition(i, buttons.length);
         const classList = button.elementRef.nativeElement.classList;
         for (const cls of POSITION_CLASSES) classList.toggle(cls, cls === position);
+        classList.toggle('selected', isSelected);
+        classList.toggle('disabled', disabled);
       }
     });
   }
