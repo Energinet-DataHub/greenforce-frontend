@@ -113,14 +113,16 @@ describe('Process overview', () => {
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
-    userEvent.click(sendInfoButtons[0]);
+    await userEvent.click(sendInfoButtons[0]);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'metering-point',
-      'imp-456',
-      'update-customer-details',
-      expect.any(String),
-    ]);
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-456',
+        'update-customer-details',
+        expect.any(String),
+      ])
+    );
   });
 
   it('should not show action buttons when user has no market role', async () => {
