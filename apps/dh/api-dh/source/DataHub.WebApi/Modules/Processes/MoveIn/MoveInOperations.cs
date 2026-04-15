@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
@@ -76,7 +75,7 @@ public static class MoveInOperations
         string? processId,
         bool? protectedName,
         bool electricalHeating,
-        IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
+        IReadOnlyCollection<UsagePointLocationV2>? usagePointLocations,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
@@ -91,7 +90,7 @@ public static class MoveInOperations
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
-                StartDate: cutOffDate,
+                StartDate: cutOffDate ?? DateTimeOffset.UtcNow,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
