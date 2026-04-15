@@ -217,15 +217,17 @@ export class DhMessageQueueOverview {
 
   private readonly updateDataSourcesEffect = effect(() => {
     const queues = this.queues();
-    if (queues.length === 0) return;
+    this.dataSources.clear();
 
     for (const queue of queues) {
-      const ds = this.dataSources.get(queue.category) ?? new WattTableDataSource<QueuedMessage>();
+      const ds = new WattTableDataSource<QueuedMessage>();
       ds.data = queue.messages;
       this.dataSources.set(queue.category, ds);
     }
 
-    this.selectedCategory.set(queues[0].category);
+    if (queues.length > 0) {
+      this.selectedCategory.set(queues[0].category);
+    }
   });
 
   getCategoryLabel(category: string): string {

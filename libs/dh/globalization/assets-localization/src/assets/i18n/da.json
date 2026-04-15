@@ -1757,6 +1757,7 @@
       "MISSING_NON_PROFILED_TIME_SERIES": "Manglende ikke-profilerede tidsserie",
       "MISSING_PROFILED_READING": "Manglende profilaflæsning",
       "PREPARATION_FOR_IMBALANCE_SETTLEMENT": "Forberedelse til ubalanceafregning",
+      "PROCESS_CANCELLED_BY_ITX": "Annulleret af ITX",
       "PROCESS_CANCELLED_BY_I_T_X": "Annulleret af ITX",
       "PROPOSAL_CONTACT_INFORMATION": "Forslag til kontaktinformation",
       "REMINDER": "Påmindelse",

@@ -1757,6 +1757,7 @@
       "MISSING_NON_PROFILED_TIME_SERIES": "Missing non-profiled time series",
       "MISSING_PROFILED_READING": "Missing profiled reading",
       "PREPARATION_FOR_IMBALANCE_SETTLEMENT": "Preparation for imbalance settlement",
+      "PROCESS_CANCELLED_BY_ITX": "Cancelled by ITX",
       "PROCESS_CANCELLED_BY_I_T_X": "Cancelled by ITX",
       "PROPOSAL_CONTACT_INFORMATION": "Proposal contact information",
       "REMINDER": "Reminder",
