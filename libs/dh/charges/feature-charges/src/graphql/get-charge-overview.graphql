@@ -1,0 +1,29 @@
+query GetChargeOverview(
+  $after: String
+  $before: String
+  $first: Int
+  $last: Int
+  $query: ChargeOverviewQueryInput
+  $filter: String
+) {
+  chargeOverview(
+    after: $after
+    before: $before
+    first: $first
+    last: $last
+    query: $query
+    filter: $filter
+  ) {
+    totalCount
+    nodes {
+      period
+      charge {
+        ...ChargeFields
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+    }
+  }
+}

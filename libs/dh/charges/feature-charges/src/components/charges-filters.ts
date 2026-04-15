@@ -25,9 +25,8 @@ import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 import {
   ChargeType,
   EicFunction,
-  ChargeStatus,
   ChargeResolution,
-  ChargesQueryInput,
+  ChargeOverviewQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -37,26 +36,31 @@ import {
   dhMakeFormControl,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
+import { WattDateChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 
 @Component({
   selector: 'dh-charges-filters',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+    VATER,
+    WattDateChipComponent,
     WattDropdownComponent,
-    VaterStackComponent,
+    WattFormChipDirective,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
       vater-stack
-      scrollable
+      wrap
       direction="row"
       gap="s"
       tabindex="-1"
@@ -74,6 +78,16 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         translateKey="charges.chargeTypes"
       />
 
+      <watt-date-chip
+        [formControl]="form().controls.activePeriodStart"
+        [placeholder]="t('activePeriodStart')"
+      />
+
+      <watt-date-chip
+        [formControl]="form().controls.activePeriodEnd"
+        [placeholder]="t('activePeriodEnd')"
+      />
+
       @if (selectedActor.marketRole !== 'SystemOperator') {
         <watt-dropdown
           [formControl]="this.form().controls.owners"
@@ -83,16 +97,6 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
           [placeholder]="t('owners')"
         />
       }
-
-      <watt-dropdown
-        [formControl]="this.form().controls.status"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="statusOptions"
-        [placeholder]="t('status')"
-        dhDropdownTranslator
-        translateKey="charges.charges.table.chargeStatus"
-      />
 
       <watt-dropdown
         [formControl]="this.form().controls.resolution"
@@ -113,6 +117,8 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         [options]="moreOptions()"
         [placeholder]="t('moreOptions')"
       />
+
+      <dh-reset-filters-button />
     </form>
   `,
 })
@@ -124,10 +130,8 @@ export class DhChargesFilters {
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<ChargesQueryInput>({ status: [ChargeStatus.Current] });
-
+  filter = model<ChargeOverviewQueryInput>({});
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus);
   resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
   moreOptions = computed(() => this.getMoreOptions());
   owners = computed(() => {
@@ -147,7 +151,6 @@ export class DhChargesFilters {
   });
 
   form = computed(() => {
-    const initial = untracked(() => this.filter());
     return new FormGroup({
       types: dhMakeFormControl(),
       owners: dhMakeFormControl(
@@ -155,9 +158,10 @@ export class DhChargesFilters {
           ? [this.selectedActor.gln]
           : null
       ),
-      status: dhMakeFormControl(initial.status),
+      activePeriodStart: dhMakeFormControl<Date>(),
+      activePeriodEnd: dhMakeFormControl<Date>(),
       resolution: dhMakeFormControl<ChargeResolution[]>(),
-      moreOptions: dhMakeFormControl<ChargesQueryInput[] | null>(null),
+      moreOptions: dhMakeFormControl<string[] | null>(null),
     });
   });
 
@@ -166,9 +170,10 @@ export class DhChargesFilters {
   constructor() {
     effect(() => {
       this.filter.set({
-        status: this.valuesChanges().status,
         owners: this.valuesChanges().owners,
         types: this.valuesChanges().types,
+        activePeriodStart: this.valuesChanges().activePeriodEnd,
+        activePeriodEnd: this.valuesChanges().activePeriodStart,
         resolution: this.valuesChanges().resolution,
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
@@ -180,9 +185,12 @@ export class DhChargesFilters {
 
   // Gets the boolean value for an option filter defined in `moreOptions`. When both
   // `true` and `false` exists for the same filter, then `null` is returned instead.
-  private getOptionFilter = (selector: (input: ChargesQueryInput) => boolean | null | undefined) =>
+  private getOptionFilter = (
+    selector: (input: ChargeOverviewQueryInput) => boolean | null | undefined
+  ) =>
     this.valuesChanges()
-      .moreOptions?.map(selector)
+      .moreOptions?.map((x) => JSON.parse(x))
+      .map(selector)
       .filter((x) => x !== undefined)
       .reduce((acc, next) => (acc === !next ? null : next), null);
 
@@ -211,21 +219,21 @@ export class DhChargesFilters {
   }
 
   private createGroupOption(
-    name: keyof ChargesQueryInput,
+    name: keyof ChargeOverviewQueryInput,
     { noInvertedOption = false } = {}
-  ): WattDropdownOptionGroup<ChargesQueryInput> {
+  ): WattDropdownOptionGroup<string> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
         {
-          value: { [name]: true },
+          value: JSON.stringify({ [name]: true }),
           displayValue: this.moreOptionsTranslations()[name],
         },
         ...(noInvertedOption
           ? []
           : [
               {
-                value: { [name]: false },
+                value: JSON.stringify({ [name]: false }),
                 displayValue: this.moreOptionsTranslations()[`not_${name}`],
               },
             ]),
