@@ -35,6 +35,7 @@ import { MsalService } from '@azure/msal-angular';
 import { WattModalService } from '@energinet/watt/modal';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
 
@@ -44,13 +45,16 @@ enum ActivityState {
   Overdue,
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhInactivityDetectionService {
   private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -96,6 +100,8 @@ export class DhInactivityDetectionService {
 
   private openModal() {
     this.ngZone.run(() => {
+      this.appInsights.trackEvent('User inactivity: Showing warning modal');
+
       this.modalService.open({
         component: DhInactivityLogoutComponent,
         onClosed: (result) => result && this.logout(),
@@ -111,6 +117,8 @@ export class DhInactivityDetectionService {
     const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
       ? `/metering-point/search`
       : this.location.path();
+
+    this.appInsights.trackEvent('User inactivity: Automatic logout');
 
     this.msal.logoutRedirect({
       postLogoutRedirectUri,
