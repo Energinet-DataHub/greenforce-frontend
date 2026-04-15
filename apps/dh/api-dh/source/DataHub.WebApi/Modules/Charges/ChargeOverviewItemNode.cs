@@ -24,6 +24,7 @@ public static partial class ChargeOverviewItemNode
 {
     [Query]
     [UsePaging]
+    [UseSorting]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,

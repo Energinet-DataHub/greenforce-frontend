@@ -102,7 +102,7 @@ import { DhChargesFilters } from './charges-filters';
         <ng-container *wattTableCell="columns.type; let element">
           {{ 'charges.chargeTypes.' + element.charge.type | transloco }}
         </ng-container>
-        <ng-container *wattTableCell="columns.activePeriod; let element">
+        <ng-container *wattTableCell="columns.period; let element">
           {{ element.period | wattDate }}
         </ng-container>
       </watt-table>
@@ -116,9 +116,9 @@ export class DhCharges {
   dataSource = new GetChargeOverviewDataSource();
 
   columns: WattTableColumnDef<ChargeOverviewItem> = {
-    type: { accessor: (item) => item.charge.type, sort: false },
-    code: { accessor: (item) => item.charge.code, sort: false },
-    name: { accessor: (item) => item.charge.name, sort: false },
+    type: { accessor: (item) => item.charge.type },
+    code: { accessor: (item) => item.charge.code },
+    name: { accessor: (item) => item.charge.name },
     owner: { accessor: (item) => item.charge.owner?.displayName, sort: false },
     period: { accessor: 'period' },
   };

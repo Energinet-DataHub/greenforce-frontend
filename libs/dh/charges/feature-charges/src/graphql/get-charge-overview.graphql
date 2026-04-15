@@ -4,6 +4,7 @@ query GetChargeOverview(
   $first: Int
   $last: Int
   $query: ChargeOverviewQueryInput
+  $order: [ChargeOverviewItemSortInput!]
   $filter: String
 ) {
   chargeOverview(
@@ -12,6 +13,7 @@ query GetChargeOverview(
     first: $first
     last: $last
     query: $query
+    order: $order
     filter: $filter
   ) {
     totalCount
