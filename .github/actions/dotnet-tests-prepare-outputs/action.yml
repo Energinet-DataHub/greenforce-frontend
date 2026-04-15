@@ -13,6 +13,7 @@
 # limitations under the License.
 
 name: Prepare dotnet tests outputs
+description: Prepares tests dotnet outputs for publishing artifacts to dotnet.
 
 #
 # This action is called from the 'dotnet-build-prerelease.yml' file.
@@ -22,6 +23,7 @@ name: Prepare dotnet tests outputs
 
 inputs:
   output_path:
+    description: Path to output folder, where all published test assemblies will be placed in subfolders.
     required: true
 
 runs:
