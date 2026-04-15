@@ -176,8 +176,17 @@ export class DhMessageQueueOverview {
     },
   };
 
+  private static readonly categoryOrder: Record<string, number> = {
+    [MessageCategoryV1.Processes]: 0,
+    [MessageCategoryV1.MeasureData]: 1,
+    [MessageCategoryV1.Aggregations]: 2,
+  };
+
   readonly hasActor = computed(() => !this.isFas() || !!this.actorValue());
-  readonly queues = computed(() => this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []);
+  readonly queues = computed(() =>
+    (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? [])
+      .toSorted((a, b) => DhMessageQueueOverview.categoryOrder[a.category] - DhMessageQueueOverview.categoryOrder[b.category])
+  );
   readonly loading = this.messageQueuesQuery.loading;
   readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
 
