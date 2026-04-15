@@ -15,43 +15,35 @@
 # DataHub UI Frontend and BFF
 name: DH CD
 
-permissions:
-  contents: write
+env:
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
+  NX_CI_EXECUTION_ID: ${{ github.run_id }}-${{ github.run_attempt }}
 
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+  pull-requests: read
 on:
   push:
     branches:
       - main
-
 concurrency:
   group: dh-cd
 
 jobs:
-  #
-  # Detect changes to start relevant jobs
-  #
-
-  changes:
-    uses: ./.github/workflows/detect-changes.yml
-
-  #
-  # CD .NET
-  #
-
+  # promote dotnet prerelease from PR
   dotnet_promote_prerelease:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
     with:
       release_name_prefix: ui_dotnet
 
-  #
-  # Frontend
-  #
+  frontend_ci_build:
+    uses: ./.github/workflows/frontend-build-prerelease.yml
+    secrets: inherit
 
   frontend_promote_prerelease:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
+    needs: [frontend_ci_build]
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
     with:
       release_name_prefix: ui_frontend
@@ -59,10 +51,9 @@ jobs:
   #
   # Dispatch deployment request
   #
-
   dispatch_deploment_event:
     runs-on: ubuntu-latest
-    needs: [changes, dotnet_promote_prerelease, frontend_promote_prerelease]
+    needs: [dotnet_promote_prerelease, frontend_promote_prerelease]
     if: |
       always() &&
       !contains(needs.*.result, 'failure') &&
@@ -74,11 +65,11 @@ jobs:
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
-      - uses: actions/create-github-app-token@v3
+      - uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         name: Generate Github token
         id: generate_token
         with:
-          app-id: ${{ vars.dh3serviceaccount_appid }}
+          client-id: ${{ vars.dh3serviceaccount_appid }}
           private-key: ${{ secrets.dh3serviceaccount_privatekey }}
           owner: Energinet-DataHub
 
@@ -87,18 +78,17 @@ jobs:
         id: find_pull_request
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v4
+        uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
           repository: ${{ vars.environment_repository_path }}
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
-          client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "${{ needs.changes.outputs.dh_dotnet }}", "frontend": "${{ needs.changes.outputs.dh_frontend }}"}'
+          client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "true", "frontend": "true"}'
 
   #
   # Send notification to teams channel if deployment dispatch failed
   #
-
   dispatch_failed:
     needs:
       [

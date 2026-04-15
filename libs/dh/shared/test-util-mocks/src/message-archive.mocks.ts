@@ -234,10 +234,29 @@ function getMeteringPointProcessOverview() {
       },
     };
 
+    const endOfSupplyRequestServiceProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-eos-request-service',
+      businessReason: ProcessManagerBusinessReason.EndOfSupply,
+      createdAt: new Date('2025-02-17T10:00:00Z'),
+      cutoffDate: new Date('2025-02-22T10:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [WorkflowAction.SendInformation],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[2],
+      },
+    };
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessOverview: [endOfSupplyProcess, customerMoveInProcess, ...mockProcesses],
+        meteringPointProcessOverview: [
+          endOfSupplyProcess,
+          customerMoveInProcess,
+          endOfSupplyRequestServiceProcess,
+          ...mockProcesses,
+        ],
       },
     });
   });
@@ -245,7 +264,11 @@ function getMeteringPointProcessOverview() {
 
 const knownProcesses: Record<
   string,
-  { businessReason: ProcessManagerBusinessReason; state: MeteringPointProcessState }
+  {
+    businessReason: ProcessManagerBusinessReason;
+    state: MeteringPointProcessState;
+    availableActions?: WorkflowAction[];
+  }
 > = {
   'process-eos-cancel': {
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
@@ -254,6 +277,11 @@ const knownProcesses: Record<
   'process-cmi-info': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Running,
+  },
+  'process-eos-request-service': {
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    state: MeteringPointProcessState.Running,
+    availableActions: [WorkflowAction.SendInformation],
   },
 };
 
@@ -313,7 +341,7 @@ function getMeteringPointProcessById(apiBase: string) {
       known?.businessReason ??
       translatedBusinessReasons[safeIndex % translatedBusinessReasons.length];
     const state = known?.state ?? allStates[safeIndex % allStates.length];
-    const availableActions = getAvailableActions(businessReason, state);
+    const availableActions = known?.availableActions ?? getAvailableActions(businessReason, state);
 
     return HttpResponse.json({
       data: {

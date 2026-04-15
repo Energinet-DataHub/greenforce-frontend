@@ -16,37 +16,57 @@
  * limitations under the License.
  */
 //#endregion
-import { NgTemplateOutlet } from '@angular/common';
-import { RouterLinkWithHref, RouterLinkActive } from '@angular/router';
-import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   model,
   signal,
   inject,
+  effect,
   Component,
   ElementRef,
   forwardRef,
   contentChildren,
-  ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { WattSegmentedButtonComponent } from './watt-segmented-button.component';
 
-/**
- * Segmented buttons.
- */
+type ReadonlyButtons = readonly WattSegmentedButtonComponent[];
+
+const POSITION_CLASSES = ['start', 'middle', 'end'] as const;
+type PositionClass = (typeof POSITION_CLASSES)[number] | null;
+
+function resolvePosition(index: number, total: number): PositionClass {
+  if (total === 1) return null;
+  if (index === 0) return 'start';
+  if (index === total - 1) return 'end';
+  return 'middle';
+}
+
+function findIndexByValue(buttons: ReadonlyButtons, value: string): number {
+  const index = buttons.findIndex((button) => button.value() === value);
+  return index === -1 ? 0 : index;
+}
+
+function nextKeyboardIndex(key: string, current: number, total: number): number | null {
+  switch (key) {
+    case 'ArrowRight':
+    case 'ArrowDown':
+      return (current + 1) % total;
+    case 'ArrowLeft':
+    case 'ArrowUp':
+      return (current - 1 + total) % total;
+    case 'Home':
+      return 0;
+    case 'End':
+      return total - 1;
+    default:
+      return null;
+  }
+}
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
-  imports: [
-    MatButtonToggleModule,
-    FormsModule,
-    NgTemplateOutlet,
-    RouterLinkWithHref,
-    RouterLinkActive,
-  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -55,63 +75,67 @@ import { WattSegmentedButtonComponent } from './watt-segmented-button.component'
     },
   ],
   selector: 'watt-segmented-buttons',
+  host: {
+    role: 'radiogroup',
+    '(segmentSelect)': 'onSegmentSelect($event)',
+    '(keydown)': 'onKeydown($event)',
+  },
   styles: `
-    @use '@energinet/watt/utils' as watt;
-    @use '@angular/material' as mat;
-
-    :root {
-      @include mat.button-toggle-overrides(
-        (
-          selected-state-text-color: white,
-          selected-state-background-color: var(--watt-color-primary),
-          height: 2.5rem,
-        )
-      );
-
-      mat-button-toggle-group {
-        border-color: var(--watt-color-neutral-grey-700);
-
-        mat-button-toggle {
-          border-color: var(--watt-color-neutral-grey-700) !important;
-
-          button {
-            min-width: 6.5rem;
-
-            span {
-              font-size: 0.875rem;
-              font-weight: 600;
-            }
-          }
-        }
-      }
+    :host {
+      display: inline-flex;
     }
   `,
-  template: `
-    <mat-button-toggle-group
-      [(ngModel)]="selected"
-      [multiple]="false"
-      [hideSingleSelectionIndicator]="true"
-      [disabled]="disabled()"
-    >
-      @for (segmentedButton of segmentedButtonElements(); track segmentedButton) {
-        <mat-button-toggle
-          [routerLink]="segmentedButton.link()"
-          queryParamsHandling="merge"
-          routerLinkActive="mat-button-toggle-checked"
-          [disableRipple]="true"
-          [value]="segmentedButton.value()"
-        >
-          <ng-container *ngTemplateOutlet="segmentedButton.templateRef()" />
-        </mat-button-toggle>
-      }
-    </mat-button-toggle-group>
-  `,
+  template: `<ng-content />`,
 })
 export class WattSegmentedButtonsComponent implements ControlValueAccessor {
-  private element = inject(ElementRef);
-  segmentedButtonElements = contentChildren(WattSegmentedButtonComponent);
+  private readonly element = inject(ElementRef);
+  private readonly buttons = contentChildren(WattSegmentedButtonComponent);
   selected = model<string>('');
   disabled = signal(false);
+
+  constructor() {
+    effect(() => {
+      const buttons = this.buttons();
+      const selected = this.selected();
+      const disabled = this.disabled();
+      const focusedIndex = findIndexByValue(buttons, selected);
+
+      for (let i = 0; i < buttons.length; i++) {
+        const button = buttons[i];
+        const isSelected = button.value() === selected;
+        button.selected.set(isSelected);
+        button.disabled.set(disabled);
+        button.tabIndex.set(!disabled && i === focusedIndex ? 0 : -1);
+
+        const position = resolvePosition(i, buttons.length);
+        const classList = button.elementRef.nativeElement.classList;
+        for (const cls of POSITION_CLASSES) classList.toggle(cls, cls === position);
+        classList.toggle('selected', isSelected);
+        classList.toggle('disabled', disabled);
+      }
+    });
+  }
+
+  onSegmentSelect(event: Event): void {
+    if (this.disabled()) return;
+    this.selected.set((event as CustomEvent<string>).detail);
+  }
+
+  onKeydown(event: KeyboardEvent): void {
+    if (this.disabled()) return;
+    const buttons = this.buttons();
+    if (buttons.length === 0) return;
+
+    const currentIndex = findIndexByValue(buttons, this.selected());
+    const nextIndex = nextKeyboardIndex(event.key, currentIndex, buttons.length);
+    if (nextIndex === null) return;
+
+    event.preventDefault();
+    const nextButton = buttons[nextIndex];
+    const nextValue = nextButton.value();
+    if (nextValue !== undefined) this.selected.set(nextValue);
+    nextButton.focus();
+  }
 
   writeValue(selected: string): void {
     this.selected.set(selected);

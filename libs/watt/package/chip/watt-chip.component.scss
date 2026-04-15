@@ -41,8 +41,8 @@ label {
 
   &.selected {
     background: var(--watt-color-primary);
-    color: var(--watt-on-dark-high-emphasis);
     border-color: transparent;
+    color: var(--watt-on-dark-high-emphasis);
 
     &:hover,
     &:focus-within {
