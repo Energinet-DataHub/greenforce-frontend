@@ -266,4 +266,33 @@ describe('DhMessageQueueOverview', () => {
     // After data loads, selectedCategory should be the first sorted category (Processes)
     expect(component.selectedCategory()).toBe(MessageCategoryV1.Processes);
   });
+
+  it('should always show all 3 category tabs even when queues are empty', async () => {
+    await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    // All 3 tabs should always be present regardless of data
+    const radios = screen.getAllByRole('radio');
+    expect(radios[0].textContent).toContain('Masterdata');
+    expect(radios[1].textContent).toContain('Measure data');
+    expect(radios[2].textContent).toContain('Settlements');
+  });
+
+  it('should show count of 0 for categories without messages', async () => {
+    const fixture = await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    const component = fixture.componentInstance;
+
+    // getCount should return 0 for a category not in the API response
+    expect(component.getCount('NON_EXISTENT')).toBe(0);
+  });
 });
