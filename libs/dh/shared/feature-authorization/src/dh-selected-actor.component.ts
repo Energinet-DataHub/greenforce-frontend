@@ -29,11 +29,10 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
@@ -49,6 +48,7 @@ export class DhSelectedActorComponent {
   private readonly router = inject(Router);
   private readonly location = inject(windowLocationToken);
   private readonly actorStorage = inject(DhActorStorage);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
 
   private query = query(GetSelectionMarketParticipantsDocument);
   private memberOfMarketParticipants = computed(
@@ -109,8 +109,10 @@ export class DhSelectedActorComponent {
   selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
     this.actorStorage.setSelectedActor(marketParticipant);
 
-    if (isMeteringPointSubPath(this.router.url)) {
-      await this.router.navigate(['/metering-point/search']);
+    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
+
+    if (maybeRedirectUrl) {
+      await this.router.navigate([maybeRedirectUrl]);
     }
 
     this.location.reload();

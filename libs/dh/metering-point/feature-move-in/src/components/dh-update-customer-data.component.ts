@@ -125,9 +125,13 @@ import {
       <vater-flex direction="row" gap="m" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
+          <watt-card-title>
+            <h3>
+              {{ t('customerDetails.label') }}
+            </h3>
+          </watt-card-title>
           @if (isLoading()) {
             <vater-stack gap="l" align="start">
-              <watt-skeleton width="50%" height="28px" />
               <watt-skeleton width="25%" height="24px" />
               <vater-stack fill="horizontal" gap="xs" align="start">
                 <watt-skeleton width="25%" />
@@ -138,12 +142,8 @@ import {
                 <watt-skeleton height="46px" />
               </vater-stack>
             </vater-stack>
-          } @else {
-            <watt-card-title>
-              <h3>
-                {{ t('customerDetails.label') }}
-              </h3>
-            </watt-card-title>
+          }
+          @if (!isLoading()) {
             @if (isBusinessCustomer()) {
               <dh-business-customer-details
                 [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
@@ -235,6 +235,18 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
+  private readonly shouldClearContacts = computed(
+    () => !!this.processId() && !!this.temporaryStorageCustomer()
+  );
+
+  private readonly effectiveLegalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.legalContact()
+  );
+
+  private readonly effectiveTechnicalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.technicalContact()
+  );
+
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
@@ -279,18 +291,18 @@ export class DhUpdateCustomerDataComponent {
         }),
         legalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.legalContact()
+          this.effectiveLegalContact()
         ),
         legalContactAddressDetails: createContactAddressDetailsForm(
-          this.legalContact(),
+          this.effectiveLegalContact(),
           this.installationAddress()
         ),
         technicalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.technicalContact()
+          this.effectiveTechnicalContact()
         ),
         technicalContactAddressDetails: createContactAddressDetailsForm(
-          this.technicalContact(),
+          this.effectiveTechnicalContact(),
           this.installationAddress()
         ),
       })
@@ -308,6 +320,9 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.businessCustomerDetails.controls.companyName.setValue(
         data.firstCustomerName
       );
+      data.firstCustomerCvr
+        ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr)
+        : null;
     } else {
       this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
         data.firstCustomerName
@@ -327,7 +342,7 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      technicalNameSameAsContactName ? legalCustomerName : this.technicalContact()?.name,
+      technicalNameSameAsContactName ? legalCustomerName : this.effectiveTechnicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
@@ -339,7 +354,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly syncTechnicalContactAddress = effect(() => {
     const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
     const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
-    const contact = this.technicalContact();
     const installationAddress = this.installationAddress();
 
     sync(
@@ -348,7 +362,7 @@ export class DhUpdateCustomerDataComponent {
         ? installationAddress
           ? { ...installationAddress, postBox: null }
           : null
-        : contact,
+        : this.effectiveTechnicalContact(),
       technicalAddressSameAsInstallation
     );
   });
@@ -364,7 +378,7 @@ export class DhUpdateCustomerDataComponent {
     const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      legalNameSameAsContactName ? legalCustomerName : this.legalContact()?.name,
+      legalNameSameAsContactName ? legalCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
   });
@@ -376,7 +390,6 @@ export class DhUpdateCustomerDataComponent {
   private readonly syncLegalContactAddress = effect(() => {
     const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
     const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
-    const contact = this.legalContact();
     const installationAddress = this.installationAddress();
 
     sync(
@@ -385,7 +398,7 @@ export class DhUpdateCustomerDataComponent {
         ? installationAddress
           ? { ...installationAddress, postBox: null }
           : null
-        : contact,
+        : this.effectiveLegalContact(),
       legalAddressSameAsInstallation
     );
   });
