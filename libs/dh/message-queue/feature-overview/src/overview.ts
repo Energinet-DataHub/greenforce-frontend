@@ -116,9 +116,9 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
 
       @if (hasActor()) {
         <watt-segmented-buttons [(selected)]="selectedCategory">
-          @for (queue of queues(); track queue.category) {
-            <watt-segmented-button [value]="queue.category">
-              {{ getCategoryLabel(queue.category) }} ({{ queue.count }})
+          @for (category of categories; track category) {
+            <watt-segmented-button [value]="category">
+              {{ getCategoryLabel(category) }} ({{ getCount(category) }})
             </watt-segmented-button>
           }
         </watt-segmented-buttons>
@@ -156,6 +156,7 @@ export class DhMessageQueueOverview {
   readonly actorControl = new FormControl<string | null>(null);
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
+  readonly categories = [MessageCategoryV1.Processes, MessageCategoryV1.MeasureData, MessageCategoryV1.Aggregations];
   readonly selectedCategory = signal<string>(MessageCategoryV1.Processes);
 
   readonly columns: WattTableColumnDef<QueuedMessage> = {
@@ -220,12 +221,9 @@ export class DhMessageQueueOverview {
     this.fetchQueues(gln, role);
   });
 
-  private readonly selectFirstCategoryEffect = effect(() => {
-    const queues = this.queues();
-    if (queues.length > 0) {
-      this.selectedCategory.set(queues[0].category);
-    }
-  });
+  getCount(category: string): number {
+    return this.queues().find((q) => q.category === category)?.count ?? 0;
+  }
 
   getCategoryLabel(category: string): string {
     const keyMap: Record<string, string> = {
