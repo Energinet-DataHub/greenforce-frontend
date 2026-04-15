@@ -409,7 +409,7 @@
           "type": "Type",
           "name": "Name",
           "owner": "Owner",
-          "activePeriod": "Current period"
+          "period": "Current period"
         },
         "filters": {
           "chargeType": "Type",

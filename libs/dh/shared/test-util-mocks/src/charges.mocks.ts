@@ -20,7 +20,7 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 
 import {
-  mockGetChargesQuery,
+  mockGetChargeOverviewQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetChargeByTypeQuery,
@@ -438,21 +438,27 @@ const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
 };
 
 function getCharges() {
-  return mockGetChargesQuery(async () => {
+  return mockGetChargeOverviewQuery(async () => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        charges: {
-          __typename: 'ChargesConnection',
+        chargeOverview: {
+          __typename: 'ChargeOverviewConnection',
           pageInfo: {
             __typename: 'PageInfo',
             startCursor: null,
             endCursor: null,
           },
           totalCount: charges.length,
-          nodes: charges,
+          nodes: charges.flatMap((charge) =>
+            charge.periods.map((p) => ({
+              __typename: 'ChargeOverviewItem',
+              charge,
+              period: p.period,
+            }))
+          ),
         },
       },
     });

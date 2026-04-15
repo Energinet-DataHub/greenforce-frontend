@@ -409,7 +409,7 @@
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
-          "activePeriod": "Aktuel periode"
+          "period": "Aktuel periode"
         },
         "filters": {
           "chargeType": "Type",

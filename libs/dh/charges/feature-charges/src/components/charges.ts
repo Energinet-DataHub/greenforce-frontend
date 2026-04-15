@@ -120,7 +120,7 @@ export class DhCharges {
     code: { accessor: (item) => item.charge.code, sort: false },
     name: { accessor: (item) => item.charge.name, sort: false },
     owner: { accessor: (item) => item.charge.owner?.displayName, sort: false },
-    activePeriod: { accessor: 'period', sort: false },
+    period: { accessor: 'period' },
   };
 
   fetch = (query: ChargeOverviewQueryInput) => this.dataSource.refetch({ query });
