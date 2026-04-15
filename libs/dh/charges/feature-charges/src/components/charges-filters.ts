@@ -172,8 +172,8 @@ export class DhChargesFilters {
       this.filter.set({
         owners: this.valuesChanges().owners,
         types: this.valuesChanges().types,
-        activePeriodStart: this.valuesChanges().activePeriodEnd,
-        activePeriodEnd: this.valuesChanges().activePeriodStart,
+        activePeriodStart: this.valuesChanges().activePeriodStart,
+        activePeriodEnd: this.valuesChanges().activePeriodEnd,
         resolution: this.valuesChanges().resolution,
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
