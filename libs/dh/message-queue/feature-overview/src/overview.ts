@@ -184,8 +184,11 @@ export class DhMessageQueueOverview {
 
   readonly hasActor = computed(() => !this.isFas() || !!this.actorValue());
   readonly queues = computed(() =>
-    (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? [])
-      .toSorted((a, b) => DhMessageQueueOverview.categoryOrder[a.category] - DhMessageQueueOverview.categoryOrder[b.category])
+    (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []).toSorted(
+      (a, b) =>
+        DhMessageQueueOverview.categoryOrder[a.category] -
+        DhMessageQueueOverview.categoryOrder[b.category]
+    )
   );
   readonly loading = this.messageQueuesQuery.loading;
   readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
