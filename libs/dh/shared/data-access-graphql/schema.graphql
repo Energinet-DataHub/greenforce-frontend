@@ -297,6 +297,7 @@ type Charge {
   code: String!
   name: String!
   type: ChargeType!
+  typeDisplayName: String!
   displayName: String!
   description: String!
   periods: [ChargePeriod!]!

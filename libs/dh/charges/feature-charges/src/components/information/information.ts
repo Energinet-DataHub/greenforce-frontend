@@ -97,7 +97,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
             </vater-stack>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('charge.type')">
-                {{ t('chargeTypes.' + charge.type) }}
+                {{ charge.typeDisplayName }}
               </watt-description-list-item>
               <watt-description-list-item [label]="t('charge.owner')">
                 {{ charge.owner?.displayName | dhEmDashFallback }}

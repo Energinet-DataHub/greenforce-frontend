@@ -248,12 +248,15 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    private static Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
+    private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(
             Id: charge.ChargeIdentifierDto,
             Resolution: Resolution.FromName(charge.ResolutionDto),
             TaxIndicator: charge.TaxIndicator,
             SpotDependingPrice: charge.PricingCategoryDto == PricingCategoryDto.SpotDependingPrice,
+            TypeDisplayName: ChargeTypeTranslator.Translate(
+                ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
+                httpContext),
             PeriodDtos: [.. charge.Periods
                 .Where(x => x.StartDate <= x.EndDate)
                 .OrderByDescending(x => x.StartDate)

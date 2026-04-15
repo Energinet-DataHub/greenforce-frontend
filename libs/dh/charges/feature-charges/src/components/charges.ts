@@ -18,7 +18,7 @@
 //#endregione';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 
@@ -52,7 +52,6 @@ import { DhChargesFilters } from './charges-filters';
     RouterLink,
     RouterOutlet,
     TranslocoDirective,
-    TranslocoPipe,
     VATER,
     WattButtonComponent,
     WattDataFiltersComponent,
@@ -100,7 +99,7 @@ import { DhChargesFilters } from './charges-filters';
         (rowClick)="navigation.navigate('id', $event.charge.id, 'prices', $event.charge.resolution)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.charge.type | transloco }}
+          {{ element.charge.typeDisplayName }}
         </ng-container>
         <ng-container *wattTableCell="columns.period; let element">
           {{ element.period | wattDate }}

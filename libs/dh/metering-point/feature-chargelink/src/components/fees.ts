@@ -20,7 +20,7 @@ import { RouterOutlet } from '@angular/router';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, inject, input } from '@angular/core';
 
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattDataTableComponent } from '@energinet/watt/data';
@@ -44,7 +44,6 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
     ReactiveFormsModule,
     RouterOutlet,
     TranslocoDirective,
-    TranslocoPipe,
 
     WATT_TABLE,
     WattDatePipe,
@@ -71,7 +70,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.charge?.type | transloco }}
+          {{ element.charge?.typeDisplayName }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.date; let element">

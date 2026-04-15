@@ -104,6 +104,7 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Code);
         descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Type);
+        descriptor.Field(f => f.TypeDisplayName);
         descriptor.Field(f => $"{f.Code} - {f.Name}").Name("displayName");
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);

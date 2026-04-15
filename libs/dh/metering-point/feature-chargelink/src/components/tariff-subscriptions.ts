@@ -20,7 +20,7 @@ import { RouterOutlet } from '@angular/router';
 import { Component, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattIconComponent } from '@energinet/watt/icon';
@@ -51,7 +51,6 @@ import { Charge } from '../types';
   selector: 'dh-metering-point-charge-links-tariff-subscriptions',
   imports: [
     RouterOutlet,
-    TranslocoPipe,
     TranslocoDirective,
     ReactiveFormsModule,
 
@@ -96,7 +95,7 @@ import { Charge } from '../types';
         (rowClick)="navigation.navigate('details', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ 'charges.chargeTypes.' + element.charge?.type | transloco }}
+          {{ element.charge?.typeDisplayName }}
         </ng-container>
 
         <ng-container *wattTableCell="columns.period; let element">

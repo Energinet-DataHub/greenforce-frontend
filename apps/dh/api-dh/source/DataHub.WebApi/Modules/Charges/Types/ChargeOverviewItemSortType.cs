@@ -25,7 +25,7 @@ public sealed class ChargeOverviewItemSortType : SortInputType<ChargeOverviewIte
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Charge.Name).Name("name");
         descriptor.Field(f => f.Charge.Code).Name("code");
-        descriptor.Field(f => f.Charge.Type.Name).Name("type");
+        descriptor.Field(f => f.Charge.TypeDisplayName).Name("type");
         descriptor.Field(f => f.Period.Start).Name("period");
     }
 }
