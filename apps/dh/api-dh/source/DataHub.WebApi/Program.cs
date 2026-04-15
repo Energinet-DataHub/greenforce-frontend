@@ -14,7 +14,6 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
-using Energinet.DataHub.WebApi.Utilities;
 using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
@@ -26,6 +25,8 @@ using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
+using Energinet.DataHub.WebApi.Utilities;
+using HotChocolate.Execution;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using OpenTelemetry.Trace;
