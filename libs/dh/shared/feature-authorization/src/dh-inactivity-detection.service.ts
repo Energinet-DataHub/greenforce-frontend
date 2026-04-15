@@ -18,7 +18,6 @@
 //#endregion
 import { Injectable, NgZone, inject } from '@angular/core';
 import { Location } from '@angular/common';
-import { Router } from '@angular/router';
 import {
   concat,
   distinctUntilChanged,
@@ -33,11 +32,10 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 enum ActivityState {
   Inactive,
@@ -49,11 +47,11 @@ enum ActivityState {
   providedIn: 'root',
 })
 export class DhInactivityDetectionService {
-  private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
   private readonly appInsights = inject(DhApplicationInsights);
 
   private readonly secondsUntilWarning = 115 * 60;
@@ -114,9 +112,7 @@ export class DhInactivityDetectionService {
   }
 
   private logout(reason: 'automatic_logout' | 'manual_logout') {
-    const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
-      ? `/metering-point/search`
-      : this.location.path();
+    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
 
     this.appInsights.trackEvent(`User inactivity: ${reason}`);
     this.appInsights.flush();
@@ -125,7 +121,7 @@ export class DhInactivityDetectionService {
     setTimeout(
       () =>
         this.msal.logoutRedirect({
-          postLogoutRedirectUri,
+          postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
         }),
       2_000
     );
