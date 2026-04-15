@@ -35,6 +35,7 @@ import {
 import {
   OutgoingDocumentTypeV1,
   BusinessReasonV1,
+  MessageCategoryV1,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -203,5 +204,66 @@ describe('DhMessageQueueOverview', () => {
 
     const wholesaleRow = { businessReason: BusinessReasonV1.WholeSettlement } as QueuedMessage;
     expect(accessor(wholesaleRow)).toBe('Wholesale settlement');
+  });
+
+  it('should update activeDataSource when selectedCategory changes', async () => {
+    const fixture = await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    const component = fixture.componentInstance;
+
+    // Default: first category (Processes/Masterdata)
+    const initialDs = component.activeDataSource();
+    expect(initialDs.data.length).toBe(3);
+
+    // Switch to MeasureData
+    component.selectedCategory.set(MessageCategoryV1.MeasureData);
+    fixture.detectChanges();
+
+    const measureDs = component.activeDataSource();
+    expect(measureDs.data.length).toBe(2);
+
+    // Switch to Aggregations
+    component.selectedCategory.set(MessageCategoryV1.Aggregations);
+    fixture.detectChanges();
+
+    const aggregationsDs = component.activeDataSource();
+    expect(aggregationsDs.data.length).toBe(1);
+  });
+
+  it('should return empty dataSource for category with no messages', async () => {
+    const fixture = await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    const component = fixture.componentInstance;
+
+    // Set a category that doesn't exist in the data
+    component.selectedCategory.set('NON_EXISTENT');
+    fixture.detectChanges();
+
+    const ds = component.activeDataSource();
+    expect(ds.data.length).toBe(0);
+  });
+
+  it('should select first category as default when data loads', async () => {
+    const fixture = await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    const component = fixture.componentInstance;
+
+    // After data loads, selectedCategory should be the first sorted category (Processes)
+    expect(component.selectedCategory()).toBe(MessageCategoryV1.Processes);
   });
 });
