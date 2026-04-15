@@ -83,9 +83,11 @@ describe('DhMessageQueueOverview', () => {
   it('should render segmented buttons with correct labels and counts', async () => {
     await setup();
 
+    // Wait for GraphQL data to load and counts to update
     await waitForAsync(() => {
       const radios = screen.getAllByRole('radio');
       expect(radios.length).toBe(3);
+      expect(radios[0].textContent).toContain('3');
     });
 
     const radios = screen.getAllByRole('radio');
@@ -209,9 +211,9 @@ describe('DhMessageQueueOverview', () => {
   it('should update activeDataSource when selectedCategory changes', async () => {
     const fixture = await setup({ isFas: false });
 
+    // Wait for data to load
     await waitForAsync(() => {
-      const radios = screen.getAllByRole('radio');
-      expect(radios.length).toBe(3);
+      expect(fixture.componentInstance.activeDataSource().data.length).toBeGreaterThan(0);
     });
 
     const component = fixture.componentInstance;
