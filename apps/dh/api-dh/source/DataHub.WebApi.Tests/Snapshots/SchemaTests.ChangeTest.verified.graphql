@@ -373,26 +373,6 @@ type ChargeSeriesPointChange {
   messageId: String
 }
 
-"A connection to a list of items."
-type ChargesConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ChargesEdge!]
-  "A flattened list of the nodes."
-  nodes: [Charge!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ChargesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Charge!
-}
-
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
   dlqCount: Long!
   processedCount: Int!
@@ -1422,7 +1402,6 @@ type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
-  charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
@@ -2094,24 +2073,6 @@ input ChargeOverviewQueryInput {
 input ChargePointV2Input {
   position: Int!
   priceAmount: Decimal!
-}
-
-input ChargeSortInput {
-  name: SortEnumType
-  code: SortEnumType
-  type: SortEnumType
-  status: SortEnumType
-}
-
-input ChargesQueryInput {
-  types: [ChargeType!]
-  owners: [String!]
-  status: [ChargeStatus!]
-  resolution: [ChargeResolution!]
-  vatInclusive: Boolean
-  transparentInvoicing: Boolean
-  spotDependingPrice: Boolean
-  missingPriceSeries: Boolean
 }
 
 input CloseConversationInput {
