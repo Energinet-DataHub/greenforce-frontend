@@ -150,8 +150,8 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
     addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
     periodStart: dhMakeFormControl<Date | null>(null, Validators.required),
     periodEnd: dhMakeFormControl<Date | null>(null),
-    attachedBbrNotification: dhMakeFormControl<boolean>(false),
-    attachedBbrDocumentation: dhMakeFormControl<boolean>(false),
+    attachedBbrNotification: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
+    attachedBbrDocumentation: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
   });
 
   value = toSignal(this.form.valueChanges);
