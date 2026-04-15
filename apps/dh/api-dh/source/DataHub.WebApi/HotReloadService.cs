@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Utilities;
 using HotChocolate.Execution;
 
 #if DEBUG
@@ -38,7 +39,7 @@ public static class HotReloadService
             // Wait for the new executor to be available before generating the schema file
             if (e.Type == RequestExecutorEventType.Created)
             {
-                var sdl = e.Executor.Schema.ToString();
+                var sdl = SchemaExporter.SortSdl(e.Executor.Schema.ToString());
                 var fileName = System.IO.Path.Combine(Environment.CurrentDirectory, "../../../../../libs/dh/shared/data-access-graphql/schema.graphql");
                 File.WriteAllText(fileName, sdl);
                 disposable?.Dispose();

@@ -14,6 +14,7 @@
 
 using System.Text.Json.Serialization;
 using Azure.Monitor.OpenTelemetry.AspNetCore;
+using Energinet.DataHub.WebApi.Utilities;
 using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.Core.App.Common.Extensions.Options;
 using Energinet.DataHub.Core.App.WebApp.Extensions.Builder;
@@ -179,6 +180,20 @@ if (!environment.IsDevelopment())
 app.MapLiveHealthChecks();
 app.MapReadyHealthChecks();
 app.MapStatusHealthChecks();
+
+// Intercept `schema export` to produce a sorted, deterministic schema file in one pass,
+// avoiding a second app-startup for post-processing.
+if (args is ["schema", "export", "--output", var schemaOutputPath])
+{
+    await app.StartAsync();
+    var executor = await app.Services
+        .GetRequiredService<IRequestExecutorResolver>()
+        .GetRequestExecutorAsync();
+    var sdl = SchemaExporter.SortSdl(executor.Schema.ToString());
+    await File.WriteAllTextAsync(schemaOutputPath, sdl);
+    await app.StopAsync();
+    return;
+}
 
 app.RunWithGraphQLCommands(args);
 
