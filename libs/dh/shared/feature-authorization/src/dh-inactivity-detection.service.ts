@@ -91,7 +91,7 @@ export class DhInactivityDetectionService {
             this.openModal();
             break;
           case ActivityState.Overdue:
-            this.logout();
+            this.logout('automatic_logout');
             break;
         }
       });
@@ -104,7 +104,7 @@ export class DhInactivityDetectionService {
 
       this.modalService.open({
         component: DhInactivityLogoutComponent,
-        onClosed: (result) => result && this.logout(),
+        onClosed: (result) => result && this.logout('manual_logout'),
       });
     });
   }
@@ -113,15 +113,21 @@ export class DhInactivityDetectionService {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 
-  private logout() {
+  private logout(reason: 'automatic_logout' | 'manual_logout') {
     const postLogoutRedirectUri = isMeteringPointSubPath(this.router.url)
       ? `/metering-point/search`
       : this.location.path();
 
-    this.appInsights.trackEvent('User inactivity: Automatic logout');
+    this.appInsights.trackEvent(`User inactivity: ${reason}`);
+    this.appInsights.flush();
 
-    this.msal.logoutRedirect({
-      postLogoutRedirectUri,
-    });
+    // Delay redirect to logout so AppInsights has a chance to flush
+    setTimeout(
+      () =>
+        this.msal.logoutRedirect({
+          postLogoutRedirectUri,
+        }),
+      2_000
+    );
   }
 }
