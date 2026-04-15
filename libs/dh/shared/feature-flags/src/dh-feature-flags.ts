@@ -48,7 +48,6 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.dev_001,
       DhAppEnvironment.dev_003,
       DhAppEnvironment.test_001,
-      DhAppEnvironment.test_002,
       DhAppEnvironment.preprod,
       DhAppEnvironment.prod,
     ],

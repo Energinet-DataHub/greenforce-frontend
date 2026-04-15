@@ -34,10 +34,6 @@ const environments = [
     url: 'https://test.datahub3.dk/',
   },
   {
-    name: 'test_002',
-    url: 'https://test002.datahub3.dk/',
-  },
-  {
     name: 'preprod',
     url: 'https://preprod.datahub3.dk/',
   },
