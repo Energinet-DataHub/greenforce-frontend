@@ -1646,7 +1646,6 @@ type RequestSettlementReportPayload {
 type RequestTemporaryStorageResult {
   firstCustomerName: String!
   isBusinessCustomer: Boolean!
-  firstCustomerCvr: String
 }
 
 "A connection to a list of items."
@@ -2765,7 +2764,6 @@ enum ArchivedMessageDocumentType {
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
-  REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -3518,6 +3516,7 @@ enum ProcessManagerBusinessReason {
   NoDisconnectionOfMeteringPoint
   ServiceRequest
   CancelServiceRequest
+  RequestForChargeInformation
   PeriodicMetering
   PeriodicFlexMetering
   Cancellation
@@ -3542,7 +3541,6 @@ enum ProcessManagerBusinessReason {
   TransferMeteringPoint
   UnrequestedChangeOfEnergySupplier
   UpdateMasterDataMeter
-  ChangeOfEstimatedAnnualVolume
   BalanceFixing
   BalanceSettlement
   PreliminaryAggregation
@@ -3654,9 +3652,6 @@ enum ServiceKindV1 {
   THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION
   THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION
   OTHER_REASON
-  DISCONNECT
-  CONNECT
-  METER_CHECK
 }
 
 enum SettlementReportMarketRole {
