@@ -162,7 +162,8 @@ export class DhMessageQueueOverview {
       sort: false,
     },
     businessReason: {
-      accessor: (row) => this.transloco.translate(`messageQueue.businessReasons.${row.businessReason}`),
+      accessor: (row) =>
+        this.transloco.translate(`messageQueue.businessReasons.${row.businessReason}`),
       sort: false,
     },
     enqueuedAt: {
