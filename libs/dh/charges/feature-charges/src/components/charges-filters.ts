@@ -18,7 +18,7 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, model, untracked } from '@angular/core';
+import { Component, computed, effect, inject, model } from '@angular/core';
 
 import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 
