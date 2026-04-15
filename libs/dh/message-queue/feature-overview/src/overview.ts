@@ -167,9 +167,7 @@ export class DhMessageQueueOverview {
     if (!data) return;
 
     for (const queue of data.actorMessageQueues.queues) {
-      const ds =
-        this.dataSources.get(queue.category) ??
-        new WattTableDataSource<QueuedMessage>();
+      const ds = this.dataSources.get(queue.category) ?? new WattTableDataSource<QueuedMessage>();
       ds.data = queue.messages;
       this.dataSources.set(queue.category, ds);
     }
