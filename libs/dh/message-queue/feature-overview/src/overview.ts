@@ -176,20 +176,12 @@ export class DhMessageQueueOverview {
     },
   };
 
-  private static readonly categoryOrder: Record<string, number> = {
-    [MessageCategoryV1.Processes]: 0,
-    [MessageCategoryV1.MeasureData]: 1,
-    [MessageCategoryV1.Aggregations]: 2,
-  };
-
   readonly hasActor = computed(() => !this.isFas() || !!this.actorValue());
-  readonly queues = computed(() =>
-    (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []).toSorted(
-      (a, b) =>
-        DhMessageQueueOverview.categoryOrder[a.category] -
-        DhMessageQueueOverview.categoryOrder[b.category]
-    )
-  );
+  readonly queues = computed(() => {
+    const order = [MessageCategoryV1.Processes, MessageCategoryV1.MeasureData, MessageCategoryV1.Aggregations];
+    return (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? [])
+      .toSorted((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
+  });
   readonly loading = this.messageQueuesQuery.loading;
   readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
 
@@ -219,19 +211,16 @@ export class DhMessageQueueOverview {
   });
 
   private readonly updateDataSourcesEffect = effect(() => {
-    const data = this.messageQueuesQuery.data();
-    if (!data) return;
+    const queues = this.queues();
+    if (queues.length === 0) return;
 
-    const queues = data.actorMessageQueues.queues;
     for (const queue of queues) {
       const ds = this.dataSources.get(queue.category) ?? new WattTableDataSource<QueuedMessage>();
       ds.data = queue.messages;
       this.dataSources.set(queue.category, ds);
     }
 
-    if (queues.length > 0) {
-      this.selectedCategory.set(queues[0].category);
-    }
+    this.selectedCategory.set(queues[0].category);
   });
 
   getCategoryLabel(category: string): string {
