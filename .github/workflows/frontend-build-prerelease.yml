@@ -36,9 +36,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
-          # Use PR branch name when called from a pull_request event,
-          # fall back to the triggering commit SHA for push events.
-          ref: ${{ github.event.pull_request.head.ref || github.sha }}
+          # Use the immutable PR head SHA when called from a pull_request event
+          # so the checkout always matches the release target commit.
+          # Fall back to github.sha for push events.
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup .NET
         uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
