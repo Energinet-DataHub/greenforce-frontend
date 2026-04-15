@@ -35,14 +35,14 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/create-github-app-token@v3
+      - uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         name: Generate Github token
         id: generate_token
         with:
           client-id: ${{ vars.dh3serviceaccount_appid }}
           private-key: ${{ secrets.dh3serviceaccount_privatekey }}
           owner: Energinet-DataHub
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           filter: tree:0
           fetch-depth: 0
@@ -50,14 +50,14 @@ jobs:
           token: ${{ steps.generate_token.outputs.token }}
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@v4.0.1
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
       - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="CYPRESS_DH_E2E_USERNAME,CYPRESS_DH_E2E_PASSWORD,CYPRESS_DH_E2E_B2C_URL,ELECTRON_EXTRA_LAUNCH_ARGS"
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
       - name: Cache Bun packages
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.bun_cache.outputs.dir }}
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
@@ -65,7 +65,7 @@ jobs:
             ${{ runner.os }}-bun-
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      - uses: nrwl/nx-set-shas@v5.0.1
+      - uses: nrwl/nx-set-shas@afb73a62d26e41464e9254689e1fd6122ee683c1 # v5.0.1
         id: nx_set_shas
       - name: "Lint and fix affected projects"
         run: bun run affected:lint:fix -- --base="$NX_BASE" --head="$NX_HEAD"
@@ -125,7 +125,7 @@ jobs:
         run: bun nx affected --parallel -t e2e --base="$NX_BASE" --head="$NX_HEAD"
       - name: Upload artifact
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: cypress-e2e
           path: dist/cypress/apps/
