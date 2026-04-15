@@ -33,15 +33,8 @@ concurrency:
   group: dh-cd
 
 jobs:
-  dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1
-    with:
-      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
-      release_name_prefix: ui_dotnet
-      sbom_root_directory: apps/dh/api-dh
-
+  # promote dotnet prerelease from PR
   dotnet_promote_prerelease:
-    needs: [dotnet_ci_build]
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
     with:
       release_name_prefix: ui_dotnet
