@@ -157,7 +157,6 @@ export class DhMessageQueueOverview {
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
   readonly selectedCategory = signal<string>(MessageCategoryV1.Processes);
-  private readonly dataSources = new Map<string, WattTableDataSource<QueuedMessage>>();
 
   readonly columns: WattTableColumnDef<QueuedMessage> = {
     messageId: { accessor: 'messageId', sort: false },
@@ -188,7 +187,13 @@ export class DhMessageQueueOverview {
     );
   });
   readonly loading = this.messageQueuesQuery.loading;
-  readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
+  readonly activeDataSource = computed(() => {
+    const category = this.selectedCategory();
+    const queue = this.queues().find((q) => q.category === category);
+    const ds = new WattTableDataSource<QueuedMessage>();
+    ds.data = queue?.messages ?? [];
+    return ds;
+  });
 
   readonly actorOptions = computed<WattDropdownOptions>(() => {
     const participants = this.marketParticipantsQuery.data()?.marketParticipants ?? [];
@@ -215,16 +220,8 @@ export class DhMessageQueueOverview {
     this.fetchQueues(gln, role);
   });
 
-  private readonly updateDataSourcesEffect = effect(() => {
+  private readonly selectFirstCategoryEffect = effect(() => {
     const queues = this.queues();
-    this.dataSources.clear();
-
-    for (const queue of queues) {
-      const ds = new WattTableDataSource<QueuedMessage>();
-      ds.data = queue.messages;
-      this.dataSources.set(queue.category, ds);
-    }
-
     if (queues.length > 0) {
       this.selectedCategory.set(queues[0].category);
     }
@@ -237,10 +234,6 @@ export class DhMessageQueueOverview {
       [MessageCategoryV1.Aggregations]: 'messageQueue.tabs.aggregations',
     };
     return this.transloco.translate(keyMap[category] ?? category);
-  }
-
-  getDataSource(category: string): WattTableDataSource<QueuedMessage> {
-    return this.dataSources.get(category) ?? new WattTableDataSource<QueuedMessage>();
   }
 
   private fetchQueues(actorNumber: string, actorRole: string): void {
