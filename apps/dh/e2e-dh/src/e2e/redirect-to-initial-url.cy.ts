@@ -20,9 +20,12 @@
 describe('Redirect to initial URL', () => {
   const initialUrl = '/market-participant/actors';
 
-  it('should have correct redirectTo value before login', () => {
+  beforeEach(() => {
+    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
     cy.visit(initialUrl);
+  });
 
+  it('should have correct redirectTo value before login', () => {
     cy.location('href', { timeout: 10_000 }).should((url) => {
       expect(url).to.include('/login');
       expect(url).to.include(`dhRedirectTo=${encodeURIComponent(initialUrl)}`);

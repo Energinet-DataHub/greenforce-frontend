@@ -17,6 +17,13 @@
  */
 //#endregion
 describe('Language selection', () => {
+  const initialUrl = '/message-archive';
+
+  beforeEach(() => {
+    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+    cy.visit(initialUrl);
+  });
+
   it(`toggle languages`, () => {
     // Given no language is selected
     // Then Danish translations are displayed
@@ -36,9 +43,7 @@ describe('Language selection', () => {
     cy.findByText('English').click({ force: true });
 
     // Handle the auto-opening modal
-    cy.findByRole('dialog', {
-      timeout: 10_000,
-    }).should('exist');
+    cy.findByRole('dialog', { timeout: 10_000 }).should('exist');
     cy.findByRole('button', { name: /close/i }).click();
     cy.findByRole('dialog').should('not.exist');
 
