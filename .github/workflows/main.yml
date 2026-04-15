@@ -16,7 +16,6 @@
 name: DH CD
 
 env:
-  APP_NAME: app-dh
   NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
   NX_CI_EXECUTION_ID: ${{ github.run_id }}-${{ github.run_attempt }}
 
@@ -24,6 +23,7 @@ permissions:
   attestations: write
   contents: write
   id-token: write
+  pull-requests: read
 on:
   push:
     branches:
@@ -32,96 +32,15 @@ concurrency:
   group: dh-cd
 
 jobs:
-  dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1
-    with:
-      solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
-      release_name_prefix: ui_dotnet
-      sbom_root_directory: apps/dh/api-dh
-
+  # promote dotnet prerelease from PR
   dotnet_promote_prerelease:
-    needs: [dotnet_ci_build]
     uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
     with:
       release_name_prefix: ui_dotnet
 
   frontend_ci_build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5.2.0
-
-      - name: Bun setup
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: package.json
-
-      - name: Get Bun cache directory
-        id: bun_cache
-        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Bun packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.bun_cache.outputs.dir }}
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile --yarn
-
-      - name: Production build
-        run: bun run nx build ${{ env.APP_NAME }}
-
-      - name: Optimize i18n assets
-        run: bun run i18n:optimize:${{ env.APP_NAME }}
-
-      - name: Get releaseversion strings
-        id: get_releaseversion_strings
-        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v1
-        with:
-          release_name_prefix: ui_frontend
-
-      - name: Setup Release
-        shell: bash
-        run: |
-          mkdir -p ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
-
-      - name: Generate SBOM for node_modules
-        uses: anchore/sbom-action@v0.24.0
-        with:
-          file: ./yarn.lock
-          format: spdx-json
-          output-file: ${{ github.workspace }}/sbom.spdx.json
-
-      - name: Zip artifact
-        uses: thedoctor0/zip-release@0.7.6
-        with:
-          type: zip
-          filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
-          directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v4.1.0
-        with:
-          subject-path: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
-          sbom-path: ${{ github.workspace }}/sbom.spdx.json
-
-      - name: Create pre-release
-        uses: Energinet-Datahub/.github/.github/actions/github-create-release@actions/v1
-        with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: ${{ steps.get_releaseversion_strings.outputs.release_version }}
-          prerelease: true
-          title: ${{ steps.get_releaseversion_strings.outputs.release_version }}
-          files: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
+    uses: ./.github/workflows/frontend-build-prerelease.yml
+    secrets: inherit
 
   frontend_promote_prerelease:
     needs: [frontend_ci_build]
@@ -146,7 +65,7 @@ jobs:
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
-      - uses: actions/create-github-app-token@v3
+      - uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
         name: Generate Github token
         id: generate_token
         with:
@@ -159,7 +78,7 @@ jobs:
         id: find_pull_request
 
       - name: Repository Dispatch
-        uses: peter-evans/repository-dispatch@v4
+        uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
           repository: ${{ vars.environment_repository_path }}
