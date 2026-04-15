@@ -20,15 +20,11 @@
 import { Routes } from '@angular/router';
 
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
 
 const routes: Routes = [
   {
     path: '',
-    canActivate: [
-      PermissionGuard(['actor-message-queue:view']),
-      FeatureFlagGuard('actor-message-queue'),
-    ],
+    canActivate: [PermissionGuard(['actor-message-queue:view'])],
     data: {
       titleTranslationKey: 'messageQueue.topBarTitle',
     },
