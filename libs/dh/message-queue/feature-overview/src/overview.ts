@@ -86,6 +86,10 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
         margin-bottom: var(--watt-space-m);
       }
 
+      watt-segmented-buttons {
+        margin-bottom: var(--watt-space-m);
+      }
+
       watt-data-table {
         width: 987px;
         max-width: 100%;

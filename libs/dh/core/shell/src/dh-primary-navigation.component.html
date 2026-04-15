@@ -56,9 +56,14 @@ limitations under the License.
         {{ transloco("messageArchive.requestCalculation") }}
       </watt-nav-list-item>
 
-      <watt-nav-list-item *dhFeatureFlag="'actor-message-queue'" [link]="getLink('message-queue')">
-        {{ transloco("messageArchive.messageQueue") }}
-      </watt-nav-list-item>
+      <ng-container *dhFeatureFlag="'actor-message-queue'">
+        <watt-nav-list-item
+          *dhPermissionRequired="['actor-message-queue:view']"
+          [link]="getLink('message-queue')"
+        >
+          {{ transloco("messageArchive.messageQueue") }}
+        </watt-nav-list-item>
+      </ng-container>
     </watt-nav-list>
 
     <watt-nav-list>

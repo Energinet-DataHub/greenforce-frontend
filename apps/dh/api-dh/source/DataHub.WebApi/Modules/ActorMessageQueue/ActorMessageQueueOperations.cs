@@ -45,6 +45,13 @@ public static class ActorMessageQueueOperations
 
     private static ActorMessageQueueResult MapToResult(ActorMessageQueuesResponseV1 response) =>
         new(response.ActorQueues.Values
+            .OrderBy(q => q.MessageCategory switch
+            {
+                MessageCategoryV1.Processes => 0,
+                MessageCategoryV1.MeasureData => 1,
+                MessageCategoryV1.Aggregations => 2,
+                _ => 3,
+            })
             .Select(q => new ActorMessageQueue(
                 q.MessageCategory,
                 q.NumberOfMessagesInQueue,
