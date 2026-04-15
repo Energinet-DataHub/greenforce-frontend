@@ -19,6 +19,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injectable,
   computed,
   effect,
   inject,
@@ -49,21 +50,23 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 
+@Injectable()
+class MessageQueueDataIntlService extends WattDataIntlService {
+  private readonly transloco = inject(TranslocoService);
+  constructor() {
+    super();
+    this.transloco.selectTranslateObject('messageQueue.emptyState').subscribe((t) => {
+      this.emptyTitle = t.title;
+      this.emptyText = t.message;
+      this.changes.next();
+    });
+  }
+}
+
 @Component({
   selector: 'dh-message-queue-overview',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: WattDataIntlService,
-      useFactory: () => {
-        const intl = new WattDataIntlService();
-        const transloco = inject(TranslocoService);
-        intl.emptyTitle = transloco.translate('messageQueue.emptyState.title');
-        intl.emptyText = transloco.translate('messageQueue.emptyState.message');
-        return intl;
-      },
-    },
-  ],
+  providers: [{ provide: WattDataIntlService, useClass: MessageQueueDataIntlService }],
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -129,6 +132,7 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
           [enableCount]="false"
           [header]="false"
           [ready]="!loading()"
+          [error]="error()"
         >
           <watt-table
             *transloco="let resolveHeader; prefix: 'messageQueue.table'"
@@ -192,6 +196,7 @@ export class DhMessageQueueOverview {
     );
   });
   readonly loading = this.messageQueuesQuery.loading;
+  readonly error = this.messageQueuesQuery.error;
   readonly activeDataSource = computed(() => {
     const category = this.selectedCategory();
     const queue = this.queues().find((q) => q.category === category);

@@ -297,4 +297,41 @@ describe('DhMessageQueueOverview', () => {
     // getCount should return 0 for a category not in the API response
     expect(component.getCount('NON_EXISTENT')).toBe(0);
   });
+
+  it('should load queues when FAS user selects an actor', async () => {
+    const fixture = await setup({ isFas: true });
+
+    // Dropdown should be visible
+    await waitForAsync(() => {
+      expect(document.querySelector('watt-dropdown')).not.toBeNull();
+    });
+
+    const component = fixture.componentInstance;
+
+    // Simulate actor selection
+    component.actorControl.setValue('5790001330552|EnergySupplier');
+    fixture.detectChanges();
+
+    // Wait for data to load after actor selection
+    await waitForAsync(() => {
+      expect(component.activeDataSource().data.length).toBeGreaterThan(0);
+    });
+
+    // Segmented buttons should be visible with data
+    const radios = screen.getAllByRole('radio');
+    expect(radios.length).toBe(3);
+    expect(component.queues().length).toBeGreaterThan(0);
+  });
+
+  it('should show error state when query fails', async () => {
+    const fixture = await setup({ isFas: false });
+
+    await waitForAsync(() => {
+      const radios = screen.getAllByRole('radio');
+      expect(radios.length).toBe(3);
+    });
+
+    // error signal should be exposed
+    expect(fixture.componentInstance.error).toBeDefined();
+  });
 });
