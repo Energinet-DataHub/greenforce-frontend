@@ -1,2 +1,0 @@
-
-export { Watt<%= className %>Component } from './watt-<%= fileName %>.component';
