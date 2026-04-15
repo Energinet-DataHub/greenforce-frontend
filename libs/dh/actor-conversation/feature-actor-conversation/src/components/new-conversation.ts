@@ -92,7 +92,20 @@ import { dayjs } from '@energinet/watt/core/date';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .header-background {
+      position: sticky;
+      top: var(--watt-space-ml);
+      z-index: 2;
       background-color: var(--bg-card);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(-1 * var(--watt-space-ml));
+        right: 0;
+        left: 0;
+        height: var(--watt-space-ml);
+        background-color: var(--bg-card);
+      }
     }
   `,
   template: `
@@ -105,7 +118,6 @@ import { dayjs } from '@energinet/watt/core/date';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack
-        sticky="top"
         direction="row"
         fill="horizontal"
         align="start"
