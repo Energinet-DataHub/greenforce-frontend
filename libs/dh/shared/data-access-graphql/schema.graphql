@@ -1646,6 +1646,7 @@ type RequestSettlementReportPayload {
 type RequestTemporaryStorageResult {
   firstCustomerName: String!
   isBusinessCustomer: Boolean!
+  firstCustomerCvr: String
 }
 
 "A connection to a list of items."
@@ -3517,7 +3518,6 @@ enum ProcessManagerBusinessReason {
   NoDisconnectionOfMeteringPoint
   ServiceRequest
   CancelServiceRequest
-  RequestForChargeInformation
   PeriodicMetering
   PeriodicFlexMetering
   Cancellation
@@ -3542,6 +3542,7 @@ enum ProcessManagerBusinessReason {
   TransferMeteringPoint
   UnrequestedChangeOfEnergySupplier
   UpdateMasterDataMeter
+  ChangeOfEstimatedAnnualVolume
   BalanceFixing
   BalanceSettlement
   PreliminaryAggregation

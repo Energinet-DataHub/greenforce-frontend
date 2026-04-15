@@ -22,6 +22,7 @@
     "affected:lint": "nx affected:lint --max-warnings=0 --parallel",
     "affected:lint:fix": "nx affected:lint --max-warnings=0 --fix --parallel",
     "affected:test": "nx affected:test",
+    "affected:format": "nx affected -t format  --max-warnings=0 --fix --parallel --sort-root-tsconfig-paths",
     "analyze:app-dh": "source-map-explorer dist/apps/dh/app-dh/**/*.js",
     "build": "nx run-many --target=build --configuration=production",
     "ci": "bun run lint && bun run test && bun run build && bun run e2e -- --configuration=ci",
@@ -61,7 +62,7 @@
     "env": "nx run @energinet-datahub/tools/environment:switch --skip-nx-cache"
   },
   "dependencies": {
-    "@analogjs/vite-plugin-angular": "2.2.3",
+    "@analogjs/vite-plugin-angular": "2.4.0",
     "@angular/animations": "21.2.5",
     "@angular/cdk": "21.2.3",
     "@angular/common": "21.2.5",
@@ -102,7 +103,7 @@
   },
   "devDependencies": {
     "@actions/core": "3.0.0",
-    "@analogjs/vitest-angular": "2.2.3",
+    "@analogjs/vitest-angular": "2.4.0",
     "@angular-devkit/build-angular": "21.2.3",
     "@angular-eslint/eslint-plugin": "21.3.1",
     "@angular-eslint/eslint-plugin-template": "21.3.1",
