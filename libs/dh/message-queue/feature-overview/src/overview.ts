@@ -156,7 +156,11 @@ export class DhMessageQueueOverview {
   readonly actorControl = new FormControl<string | null>(null);
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
-  readonly categories = [MessageCategoryV1.Processes, MessageCategoryV1.MeasureData, MessageCategoryV1.Aggregations];
+  readonly categories = [
+    MessageCategoryV1.Processes,
+    MessageCategoryV1.MeasureData,
+    MessageCategoryV1.Aggregations,
+  ];
   readonly selectedCategory = signal<string>(MessageCategoryV1.Processes);
 
   readonly columns: WattTableColumnDef<QueuedMessage> = {
