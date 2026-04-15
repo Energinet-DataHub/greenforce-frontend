@@ -109,14 +109,17 @@ describe('Process overview details', () => {
     expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(true);
   });
 
-  it('should disable action buttons for FAS users', async () => {
-    await setup('process-eos-cancel', { isFas: true });
+  it.each([
+    ['process-eos-cancel', /Cancel|Reject request/i],
+    ['process-eos-request-service', /Request service/i],
+  ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
+    await setup(processId, { isFas: true });
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
     );
-    const actionButtons = screen.getAllByRole('button', { name: /Cancel|Reject request/i });
+    const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
     actionButtons.forEach((button) => {
-      expect(button).toBeDisabled();
+      expect((button as HTMLButtonElement).disabled).toBe(true);
     });
   });
 });
