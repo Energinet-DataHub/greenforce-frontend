@@ -54,7 +54,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
               class="slide-toggle-margin-bottom"
               data-testid="legal-contact-same-as-customer"
             >
-              {{ t( contactType() + 'SameAsCustomer') }}
+              {{ t(contactType() + 'SameAsCustomer') }}
             </watt-slide-toggle>
 
             <watt-text-field
