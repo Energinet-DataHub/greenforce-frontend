@@ -35,7 +35,10 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
-async function setup(processId = 'process-eos-cancel', permissionOverrides: { isFas?: boolean } = {}) {
+async function setup(
+  processId = 'process-eos-cancel',
+  permissionOverrides: { isFas?: boolean } = {}
+) {
   const { isFas = false } = permissionOverrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [

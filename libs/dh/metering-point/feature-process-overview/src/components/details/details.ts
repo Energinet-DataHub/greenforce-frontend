@@ -101,11 +101,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
             | supportedActions: businessReason();
           track action
         ) {
-          <watt-button
-            variant="secondary"
-            [disabled]="isFas()"
-            (click)="executeAction(action)"
-          >
+          <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
             {{ t('actions.' + businessReason() + '.' + action) }}
           </watt-button>
         }
