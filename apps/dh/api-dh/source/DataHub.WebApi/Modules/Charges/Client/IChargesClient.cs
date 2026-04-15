@@ -28,21 +28,6 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 public interface IChargesClient
 {
     /// <summary>
-    /// Query charge information.
-    /// </summary>
-    Task<IEnumerable<Charge>> GetChargesAsync(
-        string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        ChargeStatus[]? status,
-        Resolution[]? resolution,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
-        CancellationToken ct = default);
-
-    /// <summary>
     /// Query charge overview items (charges flattened by period).
     /// </summary>
     Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(

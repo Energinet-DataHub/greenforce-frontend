@@ -37,65 +37,6 @@ public class ChargesClient(
     IHttpContextAccessor httpContext,
     IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
 {
-    public async Task<IEnumerable<Charge>> GetChargesAsync(
-        string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        ChargeStatus[]? status,
-        Resolution[]? resolution,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
-        CancellationToken ct = default)
-    {
-        var filterDto = new ChargeInformationFilterDto(string.Empty, owners ?? [], types?.Select(c => c.Type) ?? []);
-        var result = await client.GetChargeInformationAsync(
-            new(0, 10000, filterDto, ChargeInformationSortProperty.Type, true),
-            ct);
-
-        if (!result.IsSuccess)
-        {
-            throw new GraphQLException(result.DiagnosticMessage);
-        }
-
-        // Map and apply filters
-        var data = result.Data ?? [];
-        var charges = data
-            .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
-            .Select(MapChargeInformationDtoToCharge)
-            .Where(c => owners?.Contains(c.Id.Owner) ?? true)
-            .Where(c => types?.Contains(c.Type) ?? true)
-            .Where(c => status?.Any(s => s == c.Status || s == c.ActivePeriod?.Status) ?? true)
-            .Where(c => resolution?.Contains(c.Resolution) ?? true)
-            .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
-            .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
-            .Where(c => spotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
-            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
-            .OrderBy(c => c.Type.Name)
-            .ThenBy(c => c.Id.Owner)
-            .ThenBy(c => c.LatestPeriod.Period.Start)
-            .ThenBy(c => c.Code)
-            .ToList();
-
-        // This filter is expensive since it has to fetch series for each charge,
-        // which is why it is deferred until after applying all other filters.
-        if (missingPriceSeries.HasValue)
-        {
-            // Cancelled charges does not have price series, but they are also not missing.
-            // This means they can just be removed from the result before fetching series.
-            return await charges
-                .ToAsyncEnumerable()
-                .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, cancellationToken) => (charge, series: await GetChargeSeriesAsync(charge, cancellationToken)))
-                .Where(r => r.series.Any() != missingPriceSeries.Value)
-                .Select(c => c.charge)
-                .ToListAsync(ct);
-        }
-
-        return charges;
-    }
-
     public async Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
         ChargeOverviewQuery? query,
