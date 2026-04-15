@@ -35,7 +35,11 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
-async function setup(processId = 'process-eos-cancel') {
+async function setup(
+  processId = 'process-eos-cancel',
+  permissionOverrides: { isFas?: boolean } = {}
+) {
+  const { isFas = false } = permissionOverrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -47,7 +51,7 @@ async function setup(processId = 'process-eos-cancel') {
       {
         provide: PermissionService,
         useValue: {
-          isFas: () => of(false),
+          isFas: () => of(isFas),
           hasMarketRole: () => of(true),
           hasPermission: () => of(true),
         },
@@ -106,5 +110,19 @@ describe('Process overview details', () => {
     await setup();
     const terms = screen.getAllByRole('term');
     expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(true);
+  });
+
+  it.each([
+    ['process-eos-cancel', /Cancel|Reject request/i],
+    ['process-eos-request-service', /Request service/i],
+  ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
+    await setup(processId, { isFas: true });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
+    );
+    const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
+    actionButtons.forEach((button) => {
+      expect((button as HTMLButtonElement).disabled).toBe(true);
+    });
   });
 });
