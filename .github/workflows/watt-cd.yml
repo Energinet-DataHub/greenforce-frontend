@@ -36,19 +36,19 @@ jobs:
     outputs:
       watt_affected: ${{ steps.watt_affected.outputs.affected }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 2
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@v4.0.1
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Bun packages
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.bun_cache.outputs.dir }}
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
@@ -73,19 +73,19 @@ jobs:
     if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@v4.0.1
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Bun packages
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.bun_cache.outputs.dir }}
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
@@ -95,7 +95,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        uses: chromaui/action@v15
+        uses: chromaui/action@eea1606238fd97a70b5af723d103953d1f40967b # v15.3.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.chromatic_project_token }}
@@ -112,17 +112,17 @@ jobs:
     if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@v4.0.1
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
 
       - name: Cache Bun packages
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
           path: ${{ steps.bun_cache.outputs.dir }}
           key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
