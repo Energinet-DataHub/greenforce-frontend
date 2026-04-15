@@ -110,7 +110,7 @@ export class DhInactivityDetectionService {
   private isOverdue(suspendedAt: Date) {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
-   
+
   private logout(reason: 'automatic_logout' | 'manual_logout') {
     const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
 
@@ -121,8 +121,8 @@ export class DhInactivityDetectionService {
     setTimeout(
       () =>
         this.msal.logoutRedirect({
-      postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
-    }),
+          postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
+        }),
       2_000
     );
   }
