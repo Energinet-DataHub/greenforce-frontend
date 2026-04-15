@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { WATT_TABS } from '@energinet/watt/tabs';
+import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
@@ -47,7 +47,7 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    WATT_TABS,
+    WATT_SEGMENTED_BUTTONS,
     WATT_TABLE,
     WattDropdownComponent,
     WattSpinnerComponent,
@@ -92,18 +92,20 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
         }
 
         @if (queues().length > 0) {
-          <watt-tabs>
+          <watt-segmented-buttons [(selected)]="selectedCategory">
             @for (queue of queues(); track queue.category) {
-              <watt-tab [label]="getCategoryLabel(queue.category) + ' (' + queue.count + ')'">
-                <watt-table
-                  *transloco="let resolveHeader; prefix: 'messageQueue.table'"
-                  [dataSource]="getDataSource(queue.category)"
-                  [columns]="columns"
-                  [resolveHeader]="resolveHeader"
-                />
-              </watt-tab>
+              <watt-segmented-button [value]="queue.category">
+                {{ getCategoryLabel(queue.category) }} ({{ queue.count }})
+              </watt-segmented-button>
             }
-          </watt-tabs>
+          </watt-segmented-buttons>
+
+          <watt-table
+            *transloco="let resolveHeader; prefix: 'messageQueue.table'"
+            [dataSource]="activeDataSource()"
+            [columns]="columns"
+            [resolveHeader]="resolveHeader"
+          />
 
           <p class="table-info">{{ t('tableInfo') }}</p>
         }
@@ -123,6 +125,7 @@ export class DhMessageQueueOverview {
   readonly actorControl = new FormControl<string | null>(null);
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
+  readonly selectedCategory = signal(MessageCategoryV1.Processes);
   private readonly dataSources = new Map<string, WattTableDataSource<QueuedMessage>>();
 
   readonly columns: WattTableColumnDef<QueuedMessage> = {
@@ -136,6 +139,7 @@ export class DhMessageQueueOverview {
 
   readonly queues = computed(() => this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []);
   readonly loading = this.messageQueuesQuery.loading;
+  readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
 
   readonly actorOptions = computed<WattDropdownOptions>(() => {
     const participants = this.marketParticipantsQuery.data()?.marketParticipants ?? [];
@@ -166,10 +170,15 @@ export class DhMessageQueueOverview {
     const data = this.messageQueuesQuery.data();
     if (!data) return;
 
-    for (const queue of data.actorMessageQueues.queues) {
+    const queues = data.actorMessageQueues.queues;
+    for (const queue of queues) {
       const ds = this.dataSources.get(queue.category) ?? new WattTableDataSource<QueuedMessage>();
       ds.data = queue.messages;
       this.dataSources.set(queue.category, ds);
+    }
+
+    if (queues.length > 0) {
+      this.selectedCategory.set(queues[0].category as MessageCategoryV1);
     }
   });
 
