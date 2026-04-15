@@ -53,7 +53,7 @@ export function messageQueueMocks() {
                     __typename: 'QueuedMessage',
                     messageId: 'MSG-002',
                     documentType: OutgoingDocumentTypeV1.NotifyAggregatedMeasureData,
-                    businessReason: BusinessReasonV1.BalanceFixing,
+                    businessReason: BusinessReasonV1.BalanceSettlement,
                     enqueuedAt: new Date('2026-04-02T09:30:00Z'),
                   },
                   {
@@ -95,7 +95,7 @@ export function messageQueueMocks() {
                     __typename: 'QueuedMessage',
                     messageId: 'MSG-006',
                     documentType: OutgoingDocumentTypeV1.NotifyAggregatedMeasureData,
-                    businessReason: BusinessReasonV1.WholesaleFixing,
+                    businessReason: BusinessReasonV1.WholeSettlement,
                     enqueuedAt: new Date('2026-04-01T06:00:00Z'),
                   },
                 ],

@@ -30,8 +30,9 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
+
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { wattFormatDate } from '@energinet/watt/core/date';
 
@@ -51,73 +52,92 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
 @Component({
   selector: 'dh-message-queue-overview',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: WattDataIntlService,
+      useFactory: () => {
+        const intl = new WattDataIntlService();
+        const transloco = inject(TranslocoService);
+        intl.emptyTitle = transloco.translate('messageQueue.emptyState.title');
+        intl.emptyText = transloco.translate('messageQueue.emptyState.message');
+        return intl;
+      },
+    },
+  ],
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
     WATT_SEGMENTED_BUTTONS,
     WATT_TABLE,
+    WattDataTableComponent,
     WattDropdownComponent,
-    WattSpinnerComponent,
     VaterStackComponent,
   ],
   styles: [
     `
-      :host {
-        display: block;
-        padding: var(--watt-space-ml);
-      }
-
       .table-info {
-        margin-top: var(--watt-space-s);
+        margin-top: var(--watt-space-m);
         font-style: italic;
         color: var(--watt-on-light--medium);
       }
 
       .actor-select {
-        max-width: 400px;
+        width: 384px;
         margin-bottom: var(--watt-space-m);
+      }
+
+      watt-data-table {
+        width: 987px;
+        max-width: 100%;
+        height: 618px;
       }
     `,
   ],
   template: `
-    <ng-container *transloco="let t; prefix: 'messageQueue'">
-      <vater-stack direction="column" gap="m">
-        <h2>{{ t('topBarTitle') }}</h2>
+    <vater-stack
+      direction="column"
+      gap="s"
+      align="start"
+      *transloco="let t; prefix: 'messageQueue'"
+    >
+      @if (isFas()) {
+        <div class="actor-select">
+          <watt-dropdown
+            [label]="t('selectActor')"
+            [options]="actorOptions()"
+            [formControl]="actorControl"
+          />
+        </div>
+      }
 
-        @if (isAdmin()) {
-          <div class="actor-select">
-            <watt-dropdown
-              [label]="t('selectActor')"
-              [options]="actorOptions()"
-              [formControl]="actorControl"
-            />
-          </div>
-        }
+      @if (hasActor()) {
+        <watt-segmented-buttons [(selected)]="selectedCategory">
+          @for (queue of queues(); track queue.category) {
+            <watt-segmented-button [value]="queue.category">
+              {{ getCategoryLabel(queue.category) }} ({{ queue.count }})
+            </watt-segmented-button>
+          }
+        </watt-segmented-buttons>
 
-        @if (loading()) {
-          <watt-spinner />
-        }
-
-        @if (queues().length > 0) {
-          <watt-segmented-buttons [(selected)]="selectedCategory">
-            @for (queue of queues(); track queue.category) {
-              <watt-segmented-button [value]="queue.category">
-                {{ getCategoryLabel(queue.category) }} ({{ queue.count }})
-              </watt-segmented-button>
-            }
-          </watt-segmented-buttons>
-
+        <watt-data-table
+          [enablePaginator]="false"
+          [enableSearch]="false"
+          [enableCount]="false"
+          [header]="false"
+          [ready]="!loading()"
+        >
           <watt-table
             *transloco="let resolveHeader; prefix: 'messageQueue.table'"
             [dataSource]="activeDataSource()"
             [columns]="columns"
             [resolveHeader]="resolveHeader"
+            [loading]="loading()"
           />
+        </watt-data-table>
 
-          <p class="table-info">{{ t('tableInfo') }}</p>
-        }
-      </vater-stack>
-    </ng-container>
+        <p class="table-info">{{ t('tableInfo') }}</p>
+      }
+    </vater-stack>
   `,
 })
 export class DhMessageQueueOverview {
@@ -128,22 +148,30 @@ export class DhMessageQueueOverview {
   private readonly marketParticipantsQuery = lazyQuery(GetMarketParticipantsDocument);
   private readonly messageQueuesQuery = lazyQuery(GetActorMessageQueuesDocument);
 
-  readonly isAdmin = toSignal(this.permissionService.isFas(), { initialValue: false });
+  readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
   readonly actorControl = new FormControl<string | null>(null);
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
-  readonly selectedCategory = signal(MessageCategoryV1.Processes);
+  readonly selectedCategory = signal<string>(MessageCategoryV1.Processes);
   private readonly dataSources = new Map<string, WattTableDataSource<QueuedMessage>>();
 
   readonly columns: WattTableColumnDef<QueuedMessage> = {
-    messageId: { accessor: 'messageId' },
-    documentType: { accessor: 'documentType' },
-    businessReason: { accessor: 'businessReason' },
+    messageId: { accessor: 'messageId', sort: false },
+    documentType: {
+      accessor: (row) => this.transloco.translate(`messageQueue.documentTypes.${row.documentType}`),
+      sort: false,
+    },
+    businessReason: {
+      accessor: (row) => this.transloco.translate(`messageQueue.businessReasons.${row.businessReason}`),
+      sort: false,
+    },
     enqueuedAt: {
       accessor: (row) => wattFormatDate(row.enqueuedAt, 'long'),
+      sort: false,
     },
   };
 
+  readonly hasActor = computed(() => !this.isFas() || !!this.actorValue());
   readonly queues = computed(() => this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []);
   readonly loading = this.messageQueuesQuery.loading;
   readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
@@ -157,8 +185,8 @@ export class DhMessageQueueOverview {
   });
 
   private readonly loadDataEffect = effect(() => {
-    const admin = this.isAdmin();
-    if (admin) {
+    const fas = this.isFas();
+    if (fas) {
       this.marketParticipantsQuery.query({});
     } else {
       const actor = this.actorStorage.getSelectedActor();
@@ -185,11 +213,11 @@ export class DhMessageQueueOverview {
     }
 
     if (queues.length > 0) {
-      this.selectedCategory.set(queues[0].category as MessageCategoryV1);
+      this.selectedCategory.set(queues[0].category);
     }
   });
 
-  getCategoryLabel(category: MessageCategoryV1): string {
+  getCategoryLabel(category: string): string {
     const keyMap: Record<string, string> = {
       [MessageCategoryV1.Processes]: 'messageQueue.tabs.masterdata',
       [MessageCategoryV1.MeasureData]: 'messageQueue.tabs.measureData',
@@ -198,7 +226,7 @@ export class DhMessageQueueOverview {
     return this.transloco.translate(keyMap[category] ?? category);
   }
 
-  getDataSource(category: MessageCategoryV1): WattTableDataSource<QueuedMessage> {
+  getDataSource(category: string): WattTableDataSource<QueuedMessage> {
     return this.dataSources.get(category) ?? new WattTableDataSource<QueuedMessage>();
   }
 
