@@ -13,7 +13,7 @@
 # limitations under the License.
 
 name: Prepare dotnet tests outputs
-description: Prepares tests dotnet outputs for publishing artifacts to dotnet.
+description: Prepares .NET test outputs for publishing as artifacts.
 
 #
 # This action is called from the 'dotnet-build-prerelease.yml' file.
