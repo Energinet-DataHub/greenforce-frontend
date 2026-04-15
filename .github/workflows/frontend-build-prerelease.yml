@@ -28,6 +28,7 @@ permissions:
 
 env:
   APP_NAME: app-dh
+  NX_CLOUD_ACCESS_TOKEN: ${{ secrets.NX_CLOUD_ACCESS_TOKEN }}
 
 jobs:
   build:
