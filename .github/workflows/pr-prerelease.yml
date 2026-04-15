@@ -31,109 +31,14 @@ permissions:
   id-token: write
   pull-requests: write
 
-env:
-  APP_NAME: app-dh
-
 jobs:
   #
   # Build and publish a frontend prerelease tagged ui_frontend_<PR>
   #
   frontend_prerelease:
     if: github.event.label.name == 'Prerelease'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/create-github-app-token@v3
-        name: Generate Github token
-        id: generate_token
-        with:
-          client-id: ${{ vars.dh3serviceaccount_appid }}
-          private-key: ${{ secrets.dh3serviceaccount_privatekey }}
-          owner: Energinet-DataHub
-
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          token: ${{ steps.generate_token.outputs.token }}
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v5.2.0
-
-      - name: Bun setup
-        uses: oven-sh/setup-bun@v2
-        with:
-          bun-version-file: package.json
-
-      - name: Get Bun cache directory
-        id: bun_cache
-        run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
-
-      - name: Cache Bun packages
-        uses: actions/cache@v4
-        with:
-          path: ${{ steps.bun_cache.outputs.dir }}
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock', 'package.json') }}
-          restore-keys: |
-            ${{ runner.os }}-bun-
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile --yarn
-
-      - name: Production build
-        run: bun run nx build ${{ env.APP_NAME }}
-
-      - name: Optimize i18n assets
-        run: bun run i18n:optimize:${{ env.APP_NAME }}
-
-      - name: Get releaseversion strings
-        id: get_releaseversion_strings
-        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v1
-        with:
-          release_name_prefix: ui_frontend
-
-      - name: Setup Release
-        shell: bash
-        run: |
-          mkdir -p ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/3rdpartylicenses.txt ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/dist/apps/dh/${{ env.APP_NAME }}/browser/* ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ env.APP_NAME }}
-          cp -R ${{ github.workspace }}/apps/dh/e2e-dh ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
-
-      - name: Generate SBOM for node_modules
-        uses: anchore/sbom-action@v0.24.0
-        with:
-          file: ./yarn.lock
-          format: spdx-json
-          output-file: ${{ github.workspace }}/sbom.spdx.json
-
-      - name: Zip artifact
-        uses: thedoctor0/zip-release@0.7.6
-        with:
-          type: zip
-          filename: ${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
-          directory: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}
-
-      - name: Attest SBOM
-        uses: actions/attest-sbom@v4.1.0
-        with:
-          subject-path: ${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}
-          sbom-path: ${{ github.workspace }}/sbom.spdx.json
-
-      - name: Create pre-release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          RELEASE_TAG="${{ steps.get_releaseversion_strings.outputs.release_version }}"
-          RELEASE_FILE="${{ github.workspace }}/${{ steps.get_releaseversion_strings.outputs.release_version }}/${{ steps.get_releaseversion_strings.outputs.release_zip_filename }}"
-
-          gh release delete "$RELEASE_TAG" --yes --cleanup-tag 2>/dev/null || true
-
-          gh release create "$RELEASE_TAG" \
-            --title "$RELEASE_TAG" \
-            --prerelease \
-            --target "${{ github.event.pull_request.head.sha }}" \
-            --generate-notes \
-            "$RELEASE_FILE"
+    uses: ./.github/workflows/frontend-build-prerelease.yml
+    secrets: inherit
 
   #
   # Build and publish a backend prerelease tagged ui_dotnet_<PR>.
