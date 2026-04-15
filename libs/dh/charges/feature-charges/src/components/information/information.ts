@@ -45,7 +45,6 @@ import {
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
@@ -73,7 +72,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattButtonComponent,
     WattIconComponent,
     DhEmDashFallbackPipe,
-    DhChargesStatus,
     DhToolbarPortalComponent,
     DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
@@ -96,7 +94,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
           <header>
             <vater-stack direction="row" gap="m" class="watt-space-stack-m">
               <h2 [style.margin]="0">{{ charge.displayName }}</h2>
-              <dh-charges-status [status]="charge.status" />
             </vater-stack>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('charge.type')">
