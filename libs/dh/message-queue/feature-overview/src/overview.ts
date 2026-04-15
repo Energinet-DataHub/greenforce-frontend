@@ -178,9 +178,14 @@ export class DhMessageQueueOverview {
 
   readonly hasActor = computed(() => !this.isFas() || !!this.actorValue());
   readonly queues = computed(() => {
-    const order = [MessageCategoryV1.Processes, MessageCategoryV1.MeasureData, MessageCategoryV1.Aggregations];
-    return (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? [])
-      .toSorted((a, b) => order.indexOf(a.category) - order.indexOf(b.category));
+    const order = [
+      MessageCategoryV1.Processes,
+      MessageCategoryV1.MeasureData,
+      MessageCategoryV1.Aggregations,
+    ];
+    return (this.messageQueuesQuery.data()?.actorMessageQueues.queues ?? []).toSorted(
+      (a, b) => order.indexOf(a.category) - order.indexOf(b.category)
+    );
   });
   readonly loading = this.messageQueuesQuery.loading;
   readonly activeDataSource = computed(() => this.getDataSource(this.selectedCategory()));
