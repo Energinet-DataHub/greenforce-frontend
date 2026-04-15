@@ -17,8 +17,8 @@
  */
 //#endregion
 import { Injectable, NgZone, inject } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import {
   concat,
   distinctUntilChanged,
@@ -33,10 +33,10 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
-// eslint-disable-next-line @nx/enforce-module-boundaries
-import { isMeteringPointSubPath } from '@energinet-datahub/dh/shared/domain';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 enum ActivityState {
   Inactive,
@@ -46,13 +46,17 @@ enum ActivityState {
 
 const POST_LOGIN_REDIRECT_KEY = 'dh-post-login-redirect';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhInactivityDetectionService {
   private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -91,7 +95,7 @@ export class DhInactivityDetectionService {
             this.openModal();
             break;
           case ActivityState.Overdue:
-            this.logout();
+            this.logout('automatic_logout');
             break;
         }
       });
@@ -100,9 +104,11 @@ export class DhInactivityDetectionService {
 
   private openModal() {
     this.ngZone.run(() => {
+      this.appInsights.trackEvent('User inactivity: Showing warning modal');
+
       this.modalService.open({
         component: DhInactivityLogoutComponent,
-        onClosed: (result) => result && this.logout(),
+        onClosed: (result) => result && this.logout('manual_logout'),
       });
     });
   }
@@ -111,30 +117,24 @@ export class DhInactivityDetectionService {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 
-  private logout() {
-    const redirectUrl = this.postLoginRedirectUrl(this.router.url);
+  private logout(reason: 'automatic_logout' | 'manual_logout') {
+    const redirectUrl = this.pageLeaveRedirectService.getRedirectUrl() ?? this.location.path();
 
-    sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
-    this.msal.logoutRedirect();
+    this.appInsights.trackEvent(`User inactivity: ${reason}`);
+    this.appInsights.flush();
+
+    // Delay redirect to logout so AppInsights has a chance to flush
+    setTimeout(() => {
+      sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
+      this.msal.logoutRedirect();
+    }, 2_000);
   }
 
   private restoreRouteAfterLogin() {
-    const redirectUrl = sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY);
-    if (!redirectUrl) return;
+    const maybeRedirectUrl = sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY);
+    if (!maybeRedirectUrl) return;
 
     sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
-    this.router.navigateByUrl(redirectUrl);
-  }
-
-  private postLoginRedirectUrl(url: string): string {
-    if (isMeteringPointSubPath(url)) {
-      return `/metering-point/search`;
-    }
-
-    if (url.includes('/admin/users/details')) {
-      return `/admin/users`;
-    }
-
-    return url;
+    this.router.navigateByUrl(maybeRedirectUrl);
   }
 }
