@@ -883,7 +883,8 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "periodEndError": "End date must be after start date"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "yes": "Yes",

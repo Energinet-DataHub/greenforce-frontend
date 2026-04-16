@@ -26,13 +26,16 @@ import {
   input,
 } from '@angular/core';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormGroup,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { skip } from 'rxjs';
 
@@ -43,10 +46,11 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
-import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
+import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { ElectricalHeatingFormValue } from '../types';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
@@ -68,6 +72,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     WattDescriptionListItemComponent,
     WattDatePipe,
     VaterFlexComponent,
+    WattFieldErrorComponent,
   ],
   styles: `
     h3 {
@@ -120,7 +125,11 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
         <watt-datepicker [label]="t('periodStart')" [formControl]="form.controls.periodStart" />
-        <watt-datepicker [label]="t('periodEnd')" [formControl]="form.controls.periodEnd" />
+        <watt-datepicker [label]="t('periodEnd')" [formControl]="form.controls.periodEnd">
+          @if (form.controls.periodEnd.errors?.periodEndBeforePeriodStart) {
+            <watt-field-error> {{ t('periodEndError') }}</watt-field-error>
+          }
+        </watt-datepicker>
       </vater-flex>
 
       <vater-stack gap="s" align="start">
@@ -136,23 +145,42 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
   private readonly cdr = inject(ChangeDetectorRef);
+
+  private readonly periodEndAfterStartValidator: ValidatorFn = (
+    control: AbstractControl<Date | null>
+  ): ValidationErrors | null => {
+    const periodStart = dayjs(control.parent?.get('periodStart')?.value);
+    const periodEnd = dayjs(control.value);
+
+    if (!periodStart.isValid() || !periodEnd.isValid()) return null;
+
+    return periodEnd.isBefore(periodStart) ? { periodEndBeforePeriodStart: true } : null;
+  };
+
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
     if (!periods || periods.length === 0) return [];
-    const now = new Date();
+    const now = dayjs();
     return periods.map((p) => {
-      const to = p.to && new Date(p.to) <= now ? p.to : null;
+      const to = p.to && dayjs(p.to).isBefore(now) ? p.to : null;
       return wattFormatDate({ start: p.from, end: to }) ?? '';
     });
   });
+
   form = new FormGroup({
     addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
     periodStart: dhMakeFormControl<Date | null>(null, Validators.required),
-    periodEnd: dhMakeFormControl<Date | null>(null),
+    periodEnd: dhMakeFormControl<Date | null>(null, this.periodEndAfterStartValidator),
     attachedBbrNotification: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
     attachedBbrDocumentation: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
   });
+
+  constructor() {
+    this.form.controls.periodStart.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
+      this.form.controls.periodEnd.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    });
+  }
 
   value = toSignal(this.form.valueChanges);
 
@@ -195,6 +223,8 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
         { emitEvent: false }
       );
     }
+
+    this.form.controls.periodEnd.updateValueAndValidity({ onlySelf: true, emitEvent: false });
     this.cdr.markForCheck();
   }
 
