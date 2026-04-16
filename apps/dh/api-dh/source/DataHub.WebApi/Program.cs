@@ -25,6 +25,8 @@ using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
+using Energinet.DataHub.WebApi.Utilities;
+using HotChocolate.Execution;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using OpenTelemetry.Trace;
@@ -139,6 +141,16 @@ var app = builder.Build();
 #if DEBUG
 HotReloadService.Services = app.Services;
 #endif
+
+// Intercept the Hot Chocolate "schema export" CLI command so the output is always
+// sorted alphabetically, producing a deterministic schema regardless of host platform.
+if (isGeneratorToolBuild && args is ["schema", "export", "--output", var schemaOutputPath])
+{
+    var executorResolver = app.Services.GetRequiredService<IRequestExecutorResolver>();
+    var executor = await executorResolver.GetRequestExecutorAsync();
+    SchemaExporter.Write(executor.Schema.ToString(), schemaOutputPath);
+    return;
+}
 
 app.UseForwardedHeaders();
 

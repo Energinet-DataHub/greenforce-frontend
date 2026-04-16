@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Utilities;
 using HotChocolate.Execution;
 
 #if DEBUG
@@ -40,7 +41,7 @@ public static class HotReloadService
             {
                 var sdl = e.Executor.Schema.ToString();
                 var fileName = System.IO.Path.Combine(Environment.CurrentDirectory, "../../../../../libs/dh/shared/data-access-graphql/schema.graphql");
-                File.WriteAllText(fileName, sdl);
+                SchemaExporter.Write(sdl, fileName);
                 disposable?.Dispose();
             }
         });
