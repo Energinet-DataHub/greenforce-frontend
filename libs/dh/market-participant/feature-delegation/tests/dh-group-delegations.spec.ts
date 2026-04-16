@@ -23,7 +23,7 @@ import { dhGroupDelegations } from '../src/dh-group-delegations';
 
 describe(dhGroupDelegations, () => {
   it('should group delegations by type', () => {
-    const delegations = Object.values(DelegatedProcess).map((messageType) => ({
+    const delegations = Object.values(DelegatedProcess).sort().map((messageType) => ({
       process: messageType as DelegatedProcess,
     })) as DhDelegations;
 
