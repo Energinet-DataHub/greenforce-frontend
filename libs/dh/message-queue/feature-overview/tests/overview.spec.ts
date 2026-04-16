@@ -83,20 +83,17 @@ describe('DhMessageQueueOverview', () => {
   it('should render tabs in correct order (Masterdata, Measure data, Settlements) with counts', async () => {
     await setup();
 
-    // Wait for both tabs and data to be rendered
     await waitForAsync(() => {
       const radios = screen.getAllByRole('radio');
       expect(radios.length).toBe(3);
+      // Order: Processes (Masterdata) -> MeasureData -> Aggregations (Settlements)
       expect(radios[0].textContent).toContain('Masterdata');
       expect(radios[0].textContent).toContain('3');
+      expect(radios[1].textContent).toContain('Measure data');
+      expect(radios[1].textContent).toContain('2');
+      expect(radios[2].textContent).toContain('Settlements');
+      expect(radios[2].textContent).toContain('1');
     });
-
-    const radios = screen.getAllByRole('radio');
-    // Order: Processes (Masterdata) -> MeasureData -> Aggregations (Settlements)
-    expect(radios[1].textContent).toContain('Measure data');
-    expect(radios[1].textContent).toContain('2');
-    expect(radios[2].textContent).toContain('Settlements');
-    expect(radios[2].textContent).toContain('1');
   });
 
   it('should show actor dropdown only for FAS users', async () => {
@@ -291,15 +288,14 @@ describe('DhMessageQueueOverview', () => {
     expect(component.queues().length).toBeGreaterThan(0);
   });
 
-  it('should not show error state on successful load', async () => {
-    await setup({ isFas: false });
+  it('should have no error after successful load', async () => {
+    const fixture = await setup({ isFas: false });
 
     await waitForAsync(() => {
       const radios = screen.getAllByRole('radio');
       expect(radios.length).toBe(3);
     });
 
-    // Error state should not be visible when query succeeds
-    expect(screen.queryByText(/unexpected error/i)).not.toBeInTheDocument();
+    expect(fixture.componentInstance.error()).toBeFalsy();
   });
 });
