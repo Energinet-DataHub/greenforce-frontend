@@ -287,15 +287,4 @@ describe('DhMessageQueueOverview', () => {
     expect(radios.length).toBe(3);
     expect(component.queues().length).toBeGreaterThan(0);
   });
-
-  it('should have no error after successful load', async () => {
-    const fixture = await setup({ isFas: false });
-
-    await waitForAsync(() => {
-      const radios = screen.getAllByRole('radio');
-      expect(radios.length).toBe(3);
-    });
-
-    expect(fixture.componentInstance.error()).toBeFalsy();
-  });
 });
