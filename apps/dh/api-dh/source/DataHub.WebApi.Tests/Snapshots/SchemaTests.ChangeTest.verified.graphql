@@ -1405,7 +1405,7 @@ type Query {
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
-  chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
+  chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeOverviewItemSortInput!]): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
   chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1626,6 +1626,7 @@ type RequestSettlementReportPayload {
 type RequestTemporaryStorageResult {
   firstCustomerName: String!
   isBusinessCustomer: Boolean!
+  firstCustomerCvr: String
 }
 
 "A connection to a list of items."
@@ -2057,6 +2058,13 @@ input ChargeIdentifierDtoSortInput {
 input ChargeLinkDtoSortInput {
   meteringPointId: SortEnumType
   chargeIdentifier: ChargeIdentifierDtoSortInput
+}
+
+input ChargeOverviewItemSortInput {
+  name: SortEnumType
+  code: SortEnumType
+  type: SortEnumType
+  period: SortEnumType
 }
 
 input ChargeOverviewQueryInput {
@@ -2726,6 +2734,7 @@ enum ArchivedMessageDocumentType {
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
+  REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -3478,7 +3487,6 @@ enum ProcessManagerBusinessReason {
   NoDisconnectionOfMeteringPoint
   ServiceRequest
   CancelServiceRequest
-  RequestForChargeInformation
   PeriodicMetering
   PeriodicFlexMetering
   Cancellation
@@ -3503,6 +3511,7 @@ enum ProcessManagerBusinessReason {
   TransferMeteringPoint
   UnrequestedChangeOfEnergySupplier
   UpdateMasterDataMeter
+  ChangeOfEstimatedAnnualVolume
   BalanceFixing
   BalanceSettlement
   PreliminaryAggregation
@@ -3614,6 +3623,9 @@ enum ServiceKindV1 {
   THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION
   THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION
   OTHER_REASON
+  DISCONNECT
+  CONNECT
+  METER_CHECK
 }
 
 enum SettlementReportMarketRole {
