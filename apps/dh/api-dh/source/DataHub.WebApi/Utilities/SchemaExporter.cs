@@ -56,7 +56,7 @@ public static class SchemaExporter
             System.IO.Directory.CreateDirectory(directory);
         }
 
-        System.IO.File.WriteAllText(outputPath, sorted, Encoding.UTF8);
+        System.IO.File.WriteAllText(outputPath, sorted, new UTF8Encoding(false));
     }
 
     private static string GetSortKey(IDefinitionNode definition) => definition switch
