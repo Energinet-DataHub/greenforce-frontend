@@ -236,6 +236,8 @@ export class DhMessageQueueOverview {
   }
 
   getCategoryLabel(category: string): string {
+    // EDI categories map to domain-specific UI labels:
+    // Processes = master data changes, MeasureData = metering, Aggregations = settlements
     const keyMap: Record<string, string> = {
       [MessageCategoryV1.Processes]: 'messageQueue.tabs.masterdata',
       [MessageCategoryV1.MeasureData]: 'messageQueue.tabs.measureData',
