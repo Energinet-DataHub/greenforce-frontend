@@ -73,6 +73,15 @@ jobs:
       - name: Generate graphQL schema
         run: bun nx run dh-shared-domain:generate
 
+      - name: Report schema drift
+        run: |
+          if git diff --quiet libs/dh/shared/data-access-graphql/schema.graphql; then
+            echo "✅ schema.graphql is already up to date."
+          else
+            echo "⚠️ schema.graphql was changed by the generate step — it will be committed as a QA fix."
+            git diff --stat libs/dh/shared/data-access-graphql/schema.graphql
+          fi
+
       - name: Read .allowed-licenses.json
         id: allowed-licenses
         shell: bash

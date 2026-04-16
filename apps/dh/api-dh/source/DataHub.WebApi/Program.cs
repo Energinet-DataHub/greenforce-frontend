@@ -182,16 +182,18 @@ app.MapLiveHealthChecks();
 app.MapReadyHealthChecks();
 app.MapStatusHealthChecks();
 
-// Intercept `schema export` to produce a sorted, deterministic schema file in one pass,
-// avoiding a second app-startup for post-processing.
+// Intercept `schema export` to write a line-ending-normalized schema file.
+// Canonical sorting is handled downstream by tools/normalize-schema.js so that
+// there is a single source of truth for the committed schema ordering.
 if (args is ["schema", "export", "--output", var schemaOutputPath])
 {
     await app.StartAsync();
     var executor = await app.Services
         .GetRequiredService<IRequestExecutorResolver>()
         .GetRequestExecutorAsync();
-    var sdl = SchemaExporter.SortSdl(executor.Schema.ToString());
-    await File.WriteAllTextAsync(schemaOutputPath, sdl);
+    var sdl = SchemaExporter.NormalizeSdl(executor.Schema.ToString());
+    // Write UTF-8 without BOM so the file is byte-identical across platforms.
+    await File.WriteAllTextAsync(schemaOutputPath, sdl, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
     await app.StopAsync();
     return;
 }

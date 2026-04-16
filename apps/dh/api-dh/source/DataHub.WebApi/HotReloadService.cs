@@ -39,9 +39,11 @@ public static class HotReloadService
             // Wait for the new executor to be available before generating the schema file
             if (e.Type == RequestExecutorEventType.Created)
             {
-                var sdl = SchemaExporter.SortSdl(e.Executor.Schema.ToString());
+                var sdl = SchemaExporter.NormalizeSdl(e.Executor.Schema.ToString());
                 var fileName = System.IO.Path.Combine(Environment.CurrentDirectory, "../../../../../libs/dh/shared/data-access-graphql/schema.graphql");
-                File.WriteAllText(fileName, sdl);
+                // Use UTF-8 without BOM and explicit LF line endings so the file
+                // is byte-identical to the output of tools/normalize-schema.js.
+                File.WriteAllText(fileName, sdl, new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
                 disposable?.Dispose();
             }
         });

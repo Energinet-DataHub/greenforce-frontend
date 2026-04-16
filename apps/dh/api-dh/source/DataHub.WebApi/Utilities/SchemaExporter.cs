@@ -12,70 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Language;
-
 namespace Energinet.DataHub.WebApi.Utilities;
 
 /// <summary>
-/// Utility for exporting GraphQL schema SDL in a deterministic, sorted format.
+/// Utility for exporting GraphQL schema SDL in a platform-consistent format.
+///
+/// Sorting and canonical ordering is handled downstream by the JavaScript
+/// <c>tools/normalize-schema.js</c> step (which uses <c>lexicographicSortSchema</c>
+/// from the <c>graphql</c> package) so that there is a single source of truth for
+/// the committed schema shape. This class is responsible only for ensuring the
+/// SDL written to disk uses LF line endings regardless of the host OS.
 /// </summary>
 public static class SchemaExporter
 {
     /// <summary>
-    /// Parses the given SDL, sorts all type definitions alphabetically and sorts
-    /// the members (fields, enum values) within each type, then returns the
-    /// re-printed SDL. This ensures a stable, diff-friendly schema file.
+    /// Normalizes line endings in the given SDL to LF so the file is
+    /// byte-identical across Windows and Unix build agents.
     /// </summary>
-    public static string SortSdl(string sdl)
-    {
-        var document = Utf8GraphQLParser.Parse(sdl);
-        var sorted = SortDocument(document);
-        return sorted.ToString(indented: true);
-    }
-
-    private static DocumentNode SortDocument(DocumentNode document)
-    {
-        // Keep schema definitions (the `schema { }` block) first, then sort
-        // all named type definitions alphabetically.
-        var schemaFirst = document.Definitions
-            .Where(d => d is SchemaDefinitionNode or SchemaExtensionNode);
-
-        var namedSorted = document.Definitions
-            .OfType<INamedSyntaxNode>()
-            .OrderBy(d => d.Name.Value, StringComparer.Ordinal)
-            .Cast<IDefinitionNode>()
-            .Select(SortMembers);
-
-        var rest = document.Definitions
-            .Where(d => d is not SchemaDefinitionNode
-                     && d is not SchemaExtensionNode
-                     && d is not INamedSyntaxNode);
-
-        return document.WithDefinitions(
-        [
-            .. schemaFirst,
-            .. namedSorted,
-            .. rest,
-        ]);
-    }
-
-    private static IDefinitionNode SortMembers(IDefinitionNode def) => def switch
-    {
-        ObjectTypeDefinitionNode obj => obj.WithFields(
-            [.. obj.Fields.OrderBy(f => f.Name.Value, StringComparer.Ordinal)]),
-
-        ObjectTypeExtensionNode ext => ext.WithFields(
-            [.. ext.Fields.OrderBy(f => f.Name.Value, StringComparer.Ordinal)]),
-
-        InterfaceTypeDefinitionNode iface => iface.WithFields(
-            [.. iface.Fields.OrderBy(f => f.Name.Value, StringComparer.Ordinal)]),
-
-        InputObjectTypeDefinitionNode input => input.WithFields(
-            [.. input.Fields.OrderBy(f => f.Name.Value, StringComparer.Ordinal)]),
-
-        EnumTypeDefinitionNode @enum => @enum.WithValues(
-            [.. @enum.Values.OrderBy(v => v.Name.Value, StringComparer.Ordinal)]),
-
-        _ => def,
-    };
+    public static string NormalizeSdl(string sdl) =>
+        sdl.Replace("\r\n", "\n");
 }

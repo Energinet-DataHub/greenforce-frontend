@@ -51,8 +51,7 @@
         "{projectRoot}/src/generated/graphql/msw.ts"
       ],
       "options": {
-        "commands": ["graphql-codegen"],
-        "args": ["--watch"]
+        "commands": ["node ./tools/normalize-schema.js && graphql-codegen --watch"]
       }
     }
   }
