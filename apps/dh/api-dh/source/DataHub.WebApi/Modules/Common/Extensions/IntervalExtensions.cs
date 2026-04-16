@@ -20,8 +20,8 @@ public static class IntervalExtensions
 {
     public static bool Overlaps(this Interval interval, Interval other)
     {
-        if (other.HasStart && interval.HasEnd && interval.End < other.Start) return false;
-        if (other.HasEnd && interval.Start > other.End) return false;
+        if (other.HasStart && interval.HasEnd && interval.End <= other.Start) return false;
+        if (other.HasEnd && interval.Start >= other.End) return false;
         return true;
     }
 }

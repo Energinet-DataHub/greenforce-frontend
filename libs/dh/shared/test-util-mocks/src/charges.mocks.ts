@@ -446,6 +446,14 @@ function getCharges() {
   return mockGetChargeOverviewQuery(async () => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
+    const nodes = charges.flatMap((charge) =>
+      charge.periods.map((p) => ({
+        __typename: 'ChargeOverviewItem' as const,
+        charge,
+        period: p.period,
+      }))
+    );
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
@@ -456,14 +464,8 @@ function getCharges() {
             startCursor: null,
             endCursor: null,
           },
-          totalCount: charges.length,
-          nodes: charges.flatMap((charge) =>
-            charge.periods.map((p) => ({
-              __typename: 'ChargeOverviewItem',
-              charge,
-              period: p.period,
-            }))
-          ),
+          totalCount: nodes.length,
+          nodes,
         },
       },
     });
