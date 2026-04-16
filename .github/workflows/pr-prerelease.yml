@@ -1,0 +1,112 @@
+# Copyright 2020 Energinet DataHub A/S
+#
+# Licensed under the Apache License, Version 2.0 (the "License2");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# On-demand prerelease for both frontend (ui_frontend_<PR>) and backend (ui_dotnet_<PR>).
+# Add the "Prerelease" label to a PR to trigger.
+# The label is removed automatically after the workflow completes so it can be re-added to re-trigger.
+name: PR On-Demand Prerelease
+
+on:
+  pull_request:
+    types: [labeled]
+
+concurrency:
+  group: pr-prerelease-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  attestations: write
+  contents: write
+  id-token: write
+  pull-requests: write
+
+jobs:
+  #
+  # Build and publish a frontend prerelease tagged ui_frontend_<PR>
+  #
+  frontend_prerelease:
+    if: github.event.label.name == 'Prerelease'
+    uses: ./.github/workflows/frontend-build-prerelease.yml
+    secrets: inherit
+
+  #
+  # Build and publish a backend prerelease tagged ui_dotnet_<PR>.
+  # Delegates to dotnet-ci.yml which calls dotnet-build-prerelease.yml@workflows/v1.
+  # github.event_name propagates as 'pull_request' through the workflow_call chain so
+  # the prerelease creation step in the shared helper runs as expected.
+  #
+  backend_prerelease:
+    if: github.event.label.name == 'Prerelease'
+    uses: ./.github/workflows/dotnet-ci.yml
+    secrets: inherit
+
+  #
+  # Remove the label after both jobs finish (success or failure)
+  # so it can be re-added to re-trigger a fresh prerelease.
+  #
+  remove_label:
+    needs: [frontend_prerelease, backend_prerelease]
+    if: always() && github.event.label.name == 'Prerelease'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove Prerelease label
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            try {
+              await github.rest.issues.removeLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                name: 'Prerelease',
+              });
+            } catch (e) {
+              // 404 means the label was already removed — not an error
+              if (e.status !== 404) throw e;
+            }
+
+  #
+  # Post a summary comment on the PR with the outcome and release tag names.
+  #
+  notify:
+    needs: [frontend_prerelease, backend_prerelease]
+    if: always() && github.event.label.name == 'Prerelease'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Post result comment
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
+        with:
+          script: |
+            const frontend = '${{ needs.frontend_prerelease.result }}';
+            const backend  = '${{ needs.backend_prerelease.result }}';
+            const pr       = context.issue.number;
+
+            const icon = (r) => r === 'success' ? '✅' : r === 'skipped' ? '⏭️' : '❌';
+            const tag  = (prefix) => `\`${prefix}_${pr}\``;
+
+            const body = [
+              '### On-demand prerelease',
+              '',
+              '| | Result | Tag |',
+              '|---|---|---|',
+              `| Frontend | ${icon(frontend)} ${frontend} | ${tag('ui_frontend')} |`,
+              `| Backend  | ${icon(backend)}  ${backend}  | ${tag('ui_dotnet')}  |`,
+            ].join('\n');
+
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr,
+              body,
+            });
