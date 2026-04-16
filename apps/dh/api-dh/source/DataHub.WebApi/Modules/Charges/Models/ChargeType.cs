@@ -41,9 +41,9 @@ public record ChargeType(
 
     public RequestChangeOfPriceListChargeType ToRequestChangeOfPriceListChargeType() => Type switch
     {
-        ExternalChargeType.Tariff => RequestChangeOfPriceListChargeType.Tariff,
-        ExternalChargeType.Subscription => RequestChangeOfPriceListChargeType.Subscription,
-        ExternalChargeType.Fee => RequestChangeOfPriceListChargeType.Fee,
+        ExternalChargeType.Tariff => RequestChangeOfPriceListChargeType.D03,
+        ExternalChargeType.Subscription => RequestChangeOfPriceListChargeType.D01,
+        ExternalChargeType.Fee => RequestChangeOfPriceListChargeType.D02,
     };
 
     public RequestChangeBillingMasterDataChargeType ToRequestChangeBillingMasterDataChargeType() => Type switch
