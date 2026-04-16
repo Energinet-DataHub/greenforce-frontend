@@ -31,36 +31,36 @@ describe(dhGroupDelegations, () => {
 
     expect(result).toEqual([
       {
-        type: DelegatedProcess.RequestEnergyResults,
-        delegations: [{ process: DelegatedProcess.RequestEnergyResults }],
-      },
-      {
         type: DelegatedProcess.ReceiveEnergyResults,
         delegations: [{ process: DelegatedProcess.ReceiveEnergyResults }],
       },
       {
-        type: DelegatedProcess.RequestWholesaleResults,
-        delegations: [{ process: DelegatedProcess.RequestWholesaleResults }],
-      },
-      {
-        type: DelegatedProcess.ReceiveWholesaleResults,
-        delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
-      },
-      {
-        type: DelegatedProcess.RequestMeteringPointData,
-        delegations: [{ process: DelegatedProcess.RequestMeteringPointData }],
+        type: DelegatedProcess.ReceiveGapLog,
+        delegations: [{ process: DelegatedProcess.ReceiveGapLog }],
       },
       {
         type: DelegatedProcess.ReceiveMeteringPointData,
         delegations: [{ process: DelegatedProcess.ReceiveMeteringPointData }],
       },
       {
-        type: DelegatedProcess.SendMeteringPointData,
-        delegations: [{ process: DelegatedProcess.SendMeteringPointData }],
+        type: DelegatedProcess.ReceiveWholesaleResults,
+        delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
       },
       {
-        type: DelegatedProcess.ReceiveGapLog,
-        delegations: [{ process: DelegatedProcess.ReceiveGapLog }],
+        type: DelegatedProcess.RequestEnergyResults,
+        delegations: [{ process: DelegatedProcess.RequestEnergyResults }],
+      },
+      {
+        type: DelegatedProcess.RequestMeteringPointData,
+        delegations: [{ process: DelegatedProcess.RequestMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.RequestWholesaleResults,
+        delegations: [{ process: DelegatedProcess.RequestWholesaleResults }],
+      },
+      {
+        type: DelegatedProcess.SendMeteringPointData,
+        delegations: [{ process: DelegatedProcess.SendMeteringPointData }],
       },
     ]);
   });
