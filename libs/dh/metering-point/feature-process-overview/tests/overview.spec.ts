@@ -113,7 +113,7 @@ describe('Process overview', () => {
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
-    await userEvent.click(sendInfoButtons[0]);
+    userEvent.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
       expect(router.navigate).toHaveBeenCalledWith([

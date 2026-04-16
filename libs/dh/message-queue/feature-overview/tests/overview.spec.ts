@@ -80,40 +80,23 @@ async function setup(permissionOverrides: { isFas?: boolean } = {}) {
 }
 
 describe('DhMessageQueueOverview', () => {
-  it('should render segmented buttons with correct labels and counts', async () => {
+  it('should render tabs in correct order (Masterdata, Measure data, Settlements) with counts', async () => {
     await setup();
 
-    // Wait for GraphQL data to load and counts to update
+    // Wait for both tabs and data to be rendered
     await waitForAsync(() => {
       const radios = screen.getAllByRole('radio');
       expect(radios.length).toBe(3);
+      expect(radios[0].textContent).toContain('Masterdata');
       expect(radios[0].textContent).toContain('3');
     });
 
     const radios = screen.getAllByRole('radio');
-    expect(radios[0].textContent).toContain('Masterdata');
-    expect(radios[0].textContent).toContain('3');
+    // Order: Processes (Masterdata) -> MeasureData -> Aggregations (Settlements)
     expect(radios[1].textContent).toContain('Measure data');
     expect(radios[1].textContent).toContain('2');
     expect(radios[2].textContent).toContain('Settlements');
     expect(radios[2].textContent).toContain('1');
-  });
-
-  it('should sort tabs in correct order: Masterdata, Measure data, Settlements', async () => {
-    await setup();
-
-    await waitForAsync(() => {
-      const radios = screen.getAllByRole('radio');
-      expect(radios.length).toBe(3);
-    });
-
-    const radios = screen.getAllByRole('radio');
-    const labels = radios.map((r) => r.textContent?.trim() ?? '');
-
-    // Order must be: Processes (Masterdata) -> MeasureData -> Aggregations (Settlements)
-    expect(labels[0]).toContain('Masterdata');
-    expect(labels[1]).toContain('Measure data');
-    expect(labels[2]).toContain('Settlements');
   });
 
   it('should show actor dropdown only for FAS users', async () => {
@@ -213,27 +196,27 @@ describe('DhMessageQueueOverview', () => {
 
     // Wait for data to load
     await waitForAsync(() => {
-      expect(fixture.componentInstance.activeDataSource().data.length).toBeGreaterThan(0);
+      expect(fixture.componentInstance.activeDataSource.data.length).toBeGreaterThan(0);
     });
 
     const component = fixture.componentInstance;
 
     // Default: first category (Processes/Masterdata)
-    const initialDs = component.activeDataSource();
+    const initialDs = component.activeDataSource;
     expect(initialDs.data.length).toBe(3);
 
     // Switch to MeasureData
     component.selectedCategory.set(MessageCategoryV1.MeasureData);
     fixture.detectChanges();
 
-    const measureDs = component.activeDataSource();
+    const measureDs = component.activeDataSource;
     expect(measureDs.data.length).toBe(2);
 
     // Switch to Aggregations
     component.selectedCategory.set(MessageCategoryV1.Aggregations);
     fixture.detectChanges();
 
-    const aggregationsDs = component.activeDataSource();
+    const aggregationsDs = component.activeDataSource;
     expect(aggregationsDs.data.length).toBe(1);
   });
 
@@ -251,7 +234,7 @@ describe('DhMessageQueueOverview', () => {
     component.selectedCategory.set('NON_EXISTENT');
     fixture.detectChanges();
 
-    const ds = component.activeDataSource();
+    const ds = component.activeDataSource;
     expect(ds.data.length).toBe(0);
   });
 
@@ -267,21 +250,6 @@ describe('DhMessageQueueOverview', () => {
 
     // After data loads, selectedCategory should be the first sorted category (Processes)
     expect(component.selectedCategory()).toBe(MessageCategoryV1.Processes);
-  });
-
-  it('should always show all 3 category tabs even when queues are empty', async () => {
-    await setup({ isFas: false });
-
-    await waitForAsync(() => {
-      const radios = screen.getAllByRole('radio');
-      expect(radios.length).toBe(3);
-    });
-
-    // All 3 tabs should always be present regardless of data
-    const radios = screen.getAllByRole('radio');
-    expect(radios[0].textContent).toContain('Masterdata');
-    expect(radios[1].textContent).toContain('Measure data');
-    expect(radios[2].textContent).toContain('Settlements');
   });
 
   it('should show count of 0 for categories without messages', async () => {
@@ -314,7 +282,7 @@ describe('DhMessageQueueOverview', () => {
 
     // Wait for data to load after actor selection
     await waitForAsync(() => {
-      expect(component.activeDataSource().data.length).toBeGreaterThan(0);
+      expect(component.activeDataSource.data.length).toBeGreaterThan(0);
     });
 
     // Segmented buttons should be visible with data
@@ -323,15 +291,15 @@ describe('DhMessageQueueOverview', () => {
     expect(component.queues().length).toBeGreaterThan(0);
   });
 
-  it('should show error state when query fails', async () => {
-    const fixture = await setup({ isFas: false });
+  it('should not show error state on successful load', async () => {
+    await setup({ isFas: false });
 
     await waitForAsync(() => {
       const radios = screen.getAllByRole('radio');
       expect(radios.length).toBe(3);
     });
 
-    // error signal should be exposed
-    expect(fixture.componentInstance.error).toBeDefined();
+    // Error state should not be visible when query succeeds
+    expect(screen.queryByText(/unexpected error/i)).not.toBeInTheDocument();
   });
 });

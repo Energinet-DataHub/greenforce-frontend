@@ -40,11 +40,13 @@ public static class ActorMessageQueueOperations
 
         return result.IsSuccess
             ? MapToResult(result.Data)
-            : throw new GraphQLException($"Failed to retrieve actor message queues for actor {actorNumber} ({actorRole})");
+            : throw new GraphQLException(
+                $"Failed to retrieve actor message queues for actor {actorNumber} ({actorRole}). Result: {result}");
     }
 
     private static ActorMessageQueueResult MapToResult(ActorMessageQueuesResponseV1 response) =>
         new(response.ActorQueues.Values
+            .OrderBy(q => q.MessageCategory)
             .Select(q => new ActorMessageQueue(
                 q.MessageCategory,
                 q.NumberOfMessagesInQueue,

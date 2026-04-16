@@ -25,12 +25,12 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_SEGMENTED_BUTTONS } from '@energinet/watt/segmented-buttons';
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
@@ -42,7 +42,7 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GetActorMessageQueuesDocument,
   GetMarketParticipantsDocument,
@@ -55,11 +55,14 @@ class MessageQueueDataIntlService extends WattDataIntlService {
   private readonly transloco = inject(TranslocoService);
   constructor() {
     super();
-    this.transloco.selectTranslateObject('messageQueue.emptyState').subscribe((t) => {
-      this.emptyTitle = t.title;
-      this.emptyText = t.message;
-      this.changes.next();
-    });
+    this.transloco
+      .selectTranslateObject('messageQueue.emptyState')
+      .pipe(takeUntilDestroyed())
+      .subscribe((t) => {
+        this.emptyTitle = t.title;
+        this.emptyText = t.message;
+        this.changes.next();
+      });
   }
 }
 
@@ -136,7 +139,7 @@ class MessageQueueDataIntlService extends WattDataIntlService {
         >
           <watt-table
             *transloco="let resolveHeader; prefix: 'messageQueue.table'"
-            [dataSource]="activeDataSource()"
+            [dataSource]="activeDataSource"
             [columns]="columns"
             [resolveHeader]="resolveHeader"
             [loading]="loading()"
@@ -157,7 +160,7 @@ export class DhMessageQueueOverview {
   private readonly messageQueuesQuery = lazyQuery(GetActorMessageQueuesDocument);
 
   readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
-  readonly actorControl = new FormControl<string | null>(null);
+  readonly actorControl = dhMakeFormControl<string | null>(null);
   private readonly actorValue = dhFormControlToSignal(this.actorControl);
 
   readonly categories = [
@@ -197,12 +200,10 @@ export class DhMessageQueueOverview {
   });
   readonly loading = this.messageQueuesQuery.loading;
   readonly error = this.messageQueuesQuery.error;
-  readonly activeDataSource = computed(() => {
+  readonly activeDataSource = dataSource<QueuedMessage>(() => {
     const category = this.selectedCategory();
     const queue = this.queues().find((q) => q.category === category);
-    const ds = new WattTableDataSource<QueuedMessage>();
-    ds.data = queue?.messages ?? [];
-    return ds;
+    return queue?.messages ?? [];
   });
 
   readonly actorOptions = computed<WattDropdownOptions>(() => {
