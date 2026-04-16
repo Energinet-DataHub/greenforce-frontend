@@ -115,12 +115,14 @@ describe('Process overview', () => {
 
     userEvent.click(sendInfoButtons[0]);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'metering-point',
-      'imp-456',
-      'update-customer-details',
-      expect.any(String),
-    ]);
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-456',
+        'update-customer-details',
+        expect.any(String),
+      ])
+    );
   });
 
   it('should not show action buttons when user has no market role', async () => {
