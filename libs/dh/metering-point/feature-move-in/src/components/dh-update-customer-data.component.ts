@@ -164,6 +164,7 @@ import {
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.legalContactDetails"
+            contactType="legalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
@@ -178,6 +179,7 @@ import {
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.technicalContactDetails"
+            contactType="technicalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"

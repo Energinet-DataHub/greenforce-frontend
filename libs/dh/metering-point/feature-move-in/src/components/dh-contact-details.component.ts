@@ -21,7 +21,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
-import { ContactDetailsFormType } from '../types';
+import { ContactDetailsFormType, ContactType } from '../types';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
@@ -54,7 +54,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
               class="slide-toggle-margin-bottom"
               data-testid="legal-contact-same-as-customer"
             >
-              {{ t('contactSameAsCustomer') }}
+              {{ t(contactType() + 'SameAsCustomer') }}
             </watt-slide-toggle>
 
             <watt-text-field
@@ -103,4 +103,5 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 })
 export class DhContactDetailsComponent {
   contactDetailsFormGroup = input<FormGroup<ContactDetailsFormType>>();
+  contactType = input.required<ContactType>();
 }

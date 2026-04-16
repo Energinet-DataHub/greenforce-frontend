@@ -76,6 +76,7 @@ export type BasePaths =
   | 'market-participant'
   | 'actor-conversation'
   | 'message-archive'
+  | 'message-queue'
   | 'esett'
   | 'admin'
   | 'imbalance-prices'
