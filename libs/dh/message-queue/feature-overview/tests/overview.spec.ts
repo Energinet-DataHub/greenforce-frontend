@@ -20,7 +20,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 import { render, screen } from '@testing-library/angular';
+import { graphql, HttpResponse } from 'msw';
 import { of } from 'rxjs';
+
+const server = globalThis.__mswServer;
 
 import {
   getTranslocoTestingModule,
@@ -41,8 +44,8 @@ import type { QueuedMessage } from '@energinet-datahub/dh/shared/domain/graphql'
 
 import { DhMessageQueueOverview } from '../src/overview';
 
-async function setup(permissionOverrides: { isFas?: boolean } = {}) {
-  const { isFas = false } = permissionOverrides;
+async function setup(overrides: { isFas?: boolean; actorGln?: string } = {}) {
+  const { isFas = false, actorGln = '5790001330552' } = overrides;
 
   const { fixture } = await render(DhMessageQueueOverview, {
     providers: [
@@ -63,11 +66,11 @@ async function setup(permissionOverrides: { isFas?: boolean } = {}) {
         useValue: {
           getSelectedActor: () => ({
             id: 'actor-1',
-            gln: '5790001330552',
+            gln: actorGln,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
             marketRole: 'EnergySupplier',
-            displayName: 'Test Actor (5790001330552)',
+            displayName: `Test Actor (${actorGln})`,
           }),
           getSelectedActorId: () => 'actor-1',
         },
@@ -80,6 +83,20 @@ async function setup(permissionOverrides: { isFas?: boolean } = {}) {
 }
 
 describe('DhMessageQueueOverview', () => {
+  it('shows error message when query fails', async () => {
+    server.use(
+      graphql.query('GetActorMessageQueues', () => new HttpResponse(null, { status: 400 }))
+    );
+
+    await setup({ isFas: false, actorGln: '9999999999999' });
+
+    await waitForAsync(() => {
+      expect(
+        screen.getByRole('heading', { name: /unexpected error/i })
+      ).toBeInTheDocument();
+    });
+  });
+
   it('should render tabs in correct order (Masterdata, Measure data, Settlements) with counts', async () => {
     await setup();
 

@@ -24,10 +24,26 @@ import '@energinet-datahub/gf/test-util-vitest'; // Import MSW polyfills
 import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
-import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { setupServer, SetupServerApi } from 'msw/node';
+import {
+  onUnhandledRequest,
+  handlers,
+} from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/test-util-mocks';
-setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+
+declare global {
+  // eslint-disable-next-line no-var
+  var __mswServer: SetupServerApi;
+}
+
+const server = setupServer(...handlers(dhLocalApiEnvironment.apiBase, mocks));
+globalThis.__mswServer = server;
+
+beforeAll(() => server.listen({ onUnhandledRequest }));
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 addDomMatchers();
 setUpTestbed();
 setUpAngularTestingLibrary();
