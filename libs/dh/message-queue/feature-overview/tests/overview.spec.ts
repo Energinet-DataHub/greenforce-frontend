@@ -91,9 +91,7 @@ describe('DhMessageQueueOverview', () => {
     await setup({ isFas: false, actorGln: '9999999999999' });
 
     await waitForAsync(() => {
-      expect(
-        screen.getByRole('heading', { name: /unexpected error/i })
-      ).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: /unexpected error/i })).toBeInTheDocument();
     });
   });
 

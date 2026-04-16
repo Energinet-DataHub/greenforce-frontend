@@ -25,10 +25,7 @@ import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/
 import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
 
 import { setupServer, SetupServerApi } from 'msw/node';
-import {
-  onUnhandledRequest,
-  handlers,
-} from '@energinet-datahub/gf/msw/test-util-msw-setup';
+import { onUnhandledRequest, handlers } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/test-util-mocks';
 
