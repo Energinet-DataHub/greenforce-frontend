@@ -19,6 +19,7 @@
 import { OverlayModule } from '@angular/cdk/overlay';
 import {
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
@@ -81,6 +82,7 @@ function minutesToTime(value: number): string {
   styleUrls: ['./watt-timepicker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: WattTimepickerComponent }],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.aria-owns]': 'ariaOwns()',
   },

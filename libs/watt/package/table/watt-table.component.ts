@@ -18,6 +18,7 @@
 //#endregion
 import { KeyValue, KeyValuePipe, NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   contentChild,
@@ -220,6 +221,7 @@ export class WattTableToolbarDirective<T> {
   selector: 'watt-table',
   styleUrls: ['./watt-table.component.scss'],
   templateUrl: './watt-table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.watt-table-variant-zebra]': 'variant() === "zebra"',
     '[style.--watt-table-grid-template-columns]': 'sizing().join(" ")',

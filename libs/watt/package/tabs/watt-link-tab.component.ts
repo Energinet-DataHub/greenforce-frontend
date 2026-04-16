@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'watt-link-tab',
   template: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattLinkTabComponent {
   label = input.required<string>();

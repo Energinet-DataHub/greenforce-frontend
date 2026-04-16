@@ -16,12 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, TemplateRef, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { WattPortalService } from './watt-portal-service';
 
 @Component({
   selector: 'watt-portal',
   template: `<ng-template><ng-content /></ng-template>`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattPortal {
   private portalService = inject(WattPortalService);

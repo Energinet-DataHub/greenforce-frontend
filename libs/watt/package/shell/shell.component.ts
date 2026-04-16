@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Router, NavigationEnd } from '@angular/router';
-import { Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 
 import { filter, map } from 'rxjs';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -32,6 +32,7 @@ import { WattBreakpointsObserver } from '@energinet/watt/core/breakpoints';
   styleUrls: ['./shell.component.scss'],
   templateUrl: './shell.component.html',
   imports: [MatSidenavModule, MatToolbarModule, WattButtonComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattShellComponent {
   private breakpointObserver = inject(WattBreakpointsObserver);

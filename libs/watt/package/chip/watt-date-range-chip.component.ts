@@ -25,6 +25,7 @@ import {
   Component,
   Injectable,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 
@@ -89,6 +90,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   ],
   selector: 'watt-date-range-chip',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       watt-date-range-chip {

@@ -16,7 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  computed,
+  input,
+} from '@angular/core';
 import { WattIcon, WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattEmptyStateExploreComponent } from './icons/explore';
 import { WattEmptyStateNoResultsComponent } from './icons/no-results';
@@ -28,6 +34,7 @@ import { WattEmptyStateCooperationComponent } from './icons/cooperation';
  * `import { WattEmptyStateComponent } from '@energinet/watt/empty-state';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-empty-state',
   encapsulation: ViewEncapsulation.None,
   imports: [

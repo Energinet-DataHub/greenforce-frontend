@@ -16,11 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'vater-grid-area, [vater-grid-area]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [

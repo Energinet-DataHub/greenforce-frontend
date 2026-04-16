@@ -17,7 +17,14 @@
  */
 //#endregion
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, contentChildren, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  contentChildren,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { WattDescriptionListItemComponent } from './watt-description-list-item.component';
 /**
@@ -25,6 +32,7 @@ import { WattDescriptionListItemComponent } from './watt-description-list-item.c
  * `import { WattDescriptionListComponent } from '@energinet/watt/description-list';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-description-list',
   styleUrls: ['./watt-description-list.component.scss'],

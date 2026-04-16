@@ -18,6 +18,7 @@
 //#endregion
 import {
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
   effect,
@@ -34,6 +35,7 @@ import { Maskito, MaskitoOptions } from '@maskito/core';
   templateUrl: './watt-placeholder-mask.component.html',
   styleUrls: ['./watt-placeholder-mask.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WattPlaceholderMaskComponent {
   cdr = inject(ChangeDetectorRef);

@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <watt-field
-  [control]="parentControl"
+  [control]="parentControl()"
   [chipMode]="chipMode()"
   [label]="label()"
   (click)="onFieldClick($event)"
@@ -64,8 +64,8 @@ limitations under the License.
         closeIcon="close"
         [showToggleAllCheckbox]="multiple()"
         (toggleAll)="onToggleAll($event)"
-        [toggleAllCheckboxChecked]="isToggleAllChecked"
-        [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate"
+        [toggleAllCheckboxChecked]="isToggleAllChecked()"
+        [toggleAllCheckboxIndeterminate]="isToggleAllIndeterminate()"
         [noEntriesFoundLabel]="noOptionsFoundLabel()"
       >
         <watt-icon ngxMatSelectSearchClear name="close" size="s" />

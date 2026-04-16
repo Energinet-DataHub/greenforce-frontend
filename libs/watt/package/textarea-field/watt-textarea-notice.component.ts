@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-textarea-notice',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
   styles: `

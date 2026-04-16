@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, model, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model, output } from '@angular/core';
 
 import { WattChipComponent } from './watt-chip.component';
 
@@ -32,6 +32,7 @@ function isFirstRender() {
 @Component({
   imports: [WattChipComponent],
   selector: 'watt-filter-chip',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <watt-chip [disabled]="disabled()" [selected]="isFirstRender() ? selected() : input.checked">
       <input

@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 /**
  * Usage:
  * `import { WattSpinnerComponent } from '@energinet/watt/spinner';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-spinner',
   styles: `
     :host {

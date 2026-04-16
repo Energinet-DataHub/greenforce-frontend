@@ -16,7 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, ViewEncapsulation } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 
 export type WattHeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
 
@@ -25,6 +31,7 @@ export type WattHeadingSize = '1' | '2' | '3' | '4' | '5' | '6';
  * `import { WattHeadingComponent } from '@energinet/watt/heading';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-heading, [watt-heading]',
   encapsulation: ViewEncapsulation.None,
   template: '<ng-content />',

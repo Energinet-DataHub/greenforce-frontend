@@ -29,6 +29,7 @@ import {
   AfterViewInit,
   booleanAttribute,
   ChangeDetectorRef,
+  ChangeDetectionStrategy,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -81,6 +82,7 @@ export const danishTimeZoneIdentifier = 'Europe/Copenhagen';
   styleUrls: ['./watt-datepicker.component.scss'],
   providers: [{ provide: MatFormFieldControl, useExisting: WattDatepickerComponent }],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatInputModule,
     MatDatepickerModule,

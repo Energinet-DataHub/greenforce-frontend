@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output, TemplateRef, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  output,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { MatStep } from '@angular/material/stepper';
 import { CdkStep } from '@angular/cdk/stepper';
 
@@ -24,6 +31,7 @@ export { CdkStep as WattStep };
 
 @Component({
   selector: 'watt-stepper-step',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <ng-template #templateRef>
     <ng-content />
   </ng-template>`,

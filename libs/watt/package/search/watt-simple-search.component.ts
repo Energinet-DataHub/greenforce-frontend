@@ -17,7 +17,7 @@
  */
 //#endregion
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
@@ -26,6 +26,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
 @Component({
   imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
       height: 44px; /* Magix UX number (replace with variable) */

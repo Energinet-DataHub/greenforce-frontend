@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
   contentChild,
@@ -44,6 +45,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
 
 @Component({
   selector: 'watt-data-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     VaterFlexComponent,
     VaterStackComponent,

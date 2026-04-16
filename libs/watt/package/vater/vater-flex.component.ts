@@ -16,12 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { VaterUtilityDirective } from './vater-utility.directive';
 import { VaterFlexboxDirective } from './vater-flexbox.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'vater-flex, [vater-flex]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [
