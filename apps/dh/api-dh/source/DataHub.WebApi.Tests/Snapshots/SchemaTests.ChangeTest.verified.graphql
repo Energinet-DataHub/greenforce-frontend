@@ -1242,9 +1242,9 @@ type Mutation {
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -2043,7 +2043,7 @@ input CancelSettlementReportInput {
 
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
-  businessReason: ChangeCustomerCharacteristicsBusinessReason!
+  businessReason: BusinessReasonV2!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
@@ -2052,7 +2052,7 @@ input ChangeCustomerCharacteristicsInput {
   processId: String
   protectedName: Boolean
   electricalHeating: Boolean!
-  usagePointLocations: [UsagePointLocationV1Input!]
+  usagePointLocations: [UsagePointLocationV2Input!]
 }
 
 input ChangeProductionObligationInput {
@@ -2555,7 +2555,7 @@ input StopProcessDelegationDtoInput {
   stopsAt: DateTime
 }
 
-input StreetDetailV1Input {
+input StreetDetailV2Input {
   buildingNumber: String
   streetName: String
   streetCode: String
@@ -2567,7 +2567,7 @@ input SyncJobSetJobVersionEventStoreExportInput {
   version: DateTime
 }
 
-input TownDetailV1Input {
+input TownDetailV2Input {
   municipalityCode: String
   additionalCityName: String
   cityName: String
@@ -2642,13 +2642,13 @@ input UpdateUserRoleInput {
   userRole: UpdateUserRoleDtoInput!
 }
 
-input UsagePointLocationV1Input {
-  addressType: AddressTypeV1!
+input UsagePointLocationV2Input {
+  addressType: AddressTypeV2!
   darReference: String
   attention: String
   email: String
-  streetDetail: StreetDetailV1Input
-  townDetail: TownDetailV1Input
+  streetDetail: StreetDetailV2Input
+  townDetail: TownDetailV2Input
   postalCode: String
   contactName: String
   phone: String
@@ -2708,7 +2708,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
-enum AddressTypeV1 {
+enum AddressTypeV2 {
   TECHNICAL
   LEGAL
 }
@@ -2846,6 +2846,14 @@ enum BusinessReasonV1 {
   TRANSFER_METERING_POINT
   UNREQUESTED_CHANGE_OF_ENERGY_SUPPLIER
   CHANGE_OF_ESTIMATED_ANNUAL_VOLUME
+}
+
+enum BusinessReasonV2 {
+  ELECTRICAL_HEATING
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
+  UPDATE_MASTER_DATA_CONSUMER
+  CUSTOMER_MOVE_IN
 }
 
 enum CalculationExecutionType {
