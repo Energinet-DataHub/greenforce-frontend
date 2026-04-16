@@ -166,9 +166,9 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
     if (!periods || periods.length === 0) return [];
-    const now = dayjs();
+    const now = new Date();
     return periods.map((p) => {
-      const to = p.to && dayjs(p.to).isBefore(now) ? p.to : null;
+      const to = p.to && new Date(p.to) <= now ? p.to : null;
       return wattFormatDate({ start: p.from, end: to }) ?? '';
     });
   });
