@@ -106,7 +106,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
           [attr.aria-label]="label()"
           autocomplete="tel"
           inputmode="tel"
-          [value]="value"
+          [value]="value()"
           [formControl]="formControl()"
           (blur)="onTouched()"
           (input)="onChanged($event)"

@@ -369,10 +369,10 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
               ...this.parentControl()?.errors,
             }) as ValidationErrors
         ),
-        map((errors) => (Object.keys(errors as object).length > 0 ? errors : null)),
+        map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
         takeUntilDestroyed(this.destroyRef)
       )
-      .subscribe((errors: ValidationErrors | null) => {
+      .subscribe((errors) => {
         this.matSelectControl.setErrors(errors);
       });
   }
