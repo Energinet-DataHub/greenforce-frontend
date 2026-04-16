@@ -20,6 +20,7 @@ using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extensions;
 using NodaTime;
 using Xunit;
+using MeasurementUnit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Extensions;
 
@@ -81,8 +82,8 @@ public class MeasurementDtoExtensionsTests
         var date = new LocalDate(2025, 5, 1); // A standard day
         var positions = new List<MeasurementPositionDto>
             {
-                new(1, date.ToUtcDateTimeOffset(), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
-                new(4, date.ToUtcDateTimeOffset().AddMinutes(60), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
+                new(1, date.ToUtcDateTimeOffset(), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, MeasurementUnit.kWh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
+                new(4, date.ToUtcDateTimeOffset().AddMinutes(60), new List<MeasurementPointDto> { new(1, 0, Quality.Calculated, MeasurementUnit.kWh, Resolution.QuarterHourly, date.ToUtcDateTimeOffset().AddMinutes(60), date.ToUtcDateTimeOffset().AddMinutes(60)) }),
             };
 
         // Act
@@ -158,7 +159,7 @@ public class MeasurementDtoExtensionsTests
                 date.AddMinutes(i * 15),
                 new List<MeasurementPointDto>
                 {
-                    new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)),
+                    new(1, 0, Quality.Calculated, MeasurementUnit.kWh, Resolution.QuarterHourly, date.AddMinutes(60), date.AddMinutes(60)),
                 }));
         }
 
@@ -176,7 +177,7 @@ public class MeasurementDtoExtensionsTests
                 date.AddHours(i),
                 new List<MeasurementPointDto>
                 {
-                    new(1, 0, Quality.Calculated, Unit.kVArh, Resolution.Hourly, date.AddMinutes(60), date.AddMinutes(60)),
+                    new(1, 0, Quality.Calculated, MeasurementUnit.kWh, Resolution.Hourly, date.AddMinutes(60), date.AddMinutes(60)),
                 }));
         }
 

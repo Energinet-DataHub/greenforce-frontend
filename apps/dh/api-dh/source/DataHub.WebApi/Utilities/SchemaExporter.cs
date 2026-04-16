@@ -25,7 +25,8 @@ public static class SchemaExporter
 {
     /// <summary>
     /// Parses <paramref name="sdl"/> and returns a new SDL string with all type definitions
-    /// sorted alphabetically. The <c>schema</c> block is always emitted first.
+    /// sorted alphabetically. The <c>schema</c> block is always emitted first, followed by
+    /// directives and type definitions sorted alphabetically by name.
     /// </summary>
     /// <param name="sdl">The GraphQL SDL string to sort.</param>
     /// <returns>A sorted SDL string.</returns>
@@ -61,8 +62,9 @@ public static class SchemaExporter
 
     private static string GetSortKey(IDefinitionNode definition) => definition switch
     {
-        SchemaDefinitionNode => "\0", // schema block always first
-        INamedSyntaxNode named => named.Name.Value,
-        _ => string.Empty,
+        SchemaDefinitionNode => "0:",  // schema block always first
+        DirectiveDefinitionNode directive => "1:" + directive.Name.Value,
+        INamedSyntaxNode named => "1:" + named.Name.Value,
+        _ => "2:",
     };
 }
