@@ -203,7 +203,8 @@ export class DhMeteringPointActionsComponent {
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||
-        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
+        ElectricityMarketViewConnectionState.Disconnected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
