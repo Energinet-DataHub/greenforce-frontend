@@ -37,6 +37,7 @@ import { chargesMocks } from './src/charges.mocks';
 import { measurementsReportsMocks } from './src/measurements-reports.mocks';
 import { releaseTogglesMocks } from './src/release-toggles.mocks';
 import { moveInMocks } from './src/move-in.mocks';
+import { messageQueueMocks } from './src/message-queue.mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -59,4 +60,5 @@ export const mocks = [
   measurementsReportsMocks,
   releaseTogglesMocks,
   moveInMocks,
+  messageQueueMocks,
 ];

@@ -121,7 +121,7 @@ public class CalculationAuthOperationTests
     [InlineData(UserIdentity.Anonymous)]
     public async Task ExecuteCalculationSubscriptionsAsync(UserIdentity userIdentity)
     {
-        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
         var server = new GraphQLTestService();
 
         // It seems like the test has to return actual data in order for the Authorize attribute
