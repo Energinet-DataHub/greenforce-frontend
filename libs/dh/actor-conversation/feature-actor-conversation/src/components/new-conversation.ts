@@ -17,59 +17,66 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
+  input,
   effect,
   inject,
-  input,
   output,
   signal,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
 } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { WattHeadingComponent } from '@energinet/watt/heading';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-  dhFormControlToSignal,
-  dhMakeFormControl,
-  dhMeteringPointIdValidator,
-  dhSyncControlValidators,
-} from '@energinet-datahub/dh/shared/ui-util';
+
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
+import { TranslocoDirective } from '@jsverse/transloco';
+
+import { dayjs } from '@energinet/watt/core/date';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+
 import {
-  ElectricalHeatingFormValue,
-  internalNoteMaxLength,
-  MessageFormValue,
-  messageMaxLength,
-} from '../types';
+  dhMakeFormControl,
+  dhFormControlToSignal,
+  dhSyncControlValidators,
+  dhMeteringPointIdValidator,
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
+} from '@energinet-datahub/dh/shared/ui-util';
+
 import {
-  ConversationSubject,
-  EicFunction,
-  ElectricityMarketViewMeteringPointType,
-  GetConversationsDocument,
-  GetElectricalHeatingDocument,
-  GetMeteringPointTypeDocument,
   MarketRole,
+  EicFunction,
+  ConversationSubject,
+  GetConversationsDocument,
   StartConversationDocument,
+  GetMeteringPointTypeDocument,
+  GetElectricalHeatingDocument,
+  ElectricityMarketViewMeteringPointType,
   StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorConversationMessageForm } from './message-form';
-import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { injectUploadMessageDocument } from './upload-message-document';
-import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
+import { DhActorConversationMessageForm } from './message-form';
+import { injectUploadMessageDocument } from './upload-message-document';
+import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
 import { DhActorConversationElectricalHeatingForm } from './electrical-heating-form';
 import { DhActorConversationMeteringPointSearch } from './metering-point-search';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { dayjs } from '@energinet/watt/core/date';
 
+import {
+  MessageFormValue,
+  messageMaxLength,
+  internalNoteMaxLength,
+  ElectricalHeatingFormValue,
+} from '../types';
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
@@ -189,6 +196,7 @@ import { dayjs } from '@energinet/watt/core/date';
               [uploadError]="uploadError()"
               [formControl]="newConversationForm().controls.message"
               [disableAnonymous]="disableAnonymous()"
+              [numberOfRequiredAttachments]="shouldShowElectricalHeatingForm() ? 2 : 0"
             />
           </vater-stack>
         </vater-grid-area>

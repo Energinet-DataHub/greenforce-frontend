@@ -818,6 +818,7 @@
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
       "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
+      "numberOfRequiredAttachments": "Du skal vedhæfte mindst {{ count }} fil(er)",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "idLabel": "Sags-ID",
       "internalNoteLabel": "Intern note",
