@@ -17,40 +17,45 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  forwardRef,
   inject,
   input,
+  computed,
+  Component,
+  forwardRef,
+  ChangeDetectorRef,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
 import {
-  AbstractControl,
-  ControlValueAccessor,
   FormGroup,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+  ValidationErrors,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
+  ControlValueAccessor,
 } from '@angular/forms';
-import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { skip } from 'rxjs';
 
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { skip } from 'rxjs';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
-import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
-import { ElectricalHeatingFormValue } from '../types';
-import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { ElectricalHeatingFormValue } from '../types';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
