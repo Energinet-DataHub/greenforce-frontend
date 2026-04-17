@@ -610,6 +610,7 @@ type Charge {
   status: ChargeStatus!
   transparentInvoicing: Boolean!
   type: ChargeType!
+  typeDisplayName: String!
   vatInclusive: Boolean!
 }
 
@@ -641,6 +642,50 @@ type ChargeLinkHistory {
 type ChargeLinkPeriod {
   amount: Int!
   interval: DateRange!
+}
+
+"A connection to a list of items."
+type ChargeOverviewConnection {
+  "A list of edges."
+  edges: [ChargeOverviewEdge!]
+  "A flattened list of the nodes."
+  nodes: [ChargeOverviewItem!]
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargeOverviewEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ChargeOverviewItem!
+}
+
+type ChargeOverviewItem {
+  charge: Charge!
+  period: DateRange!
+}
+
+input ChargeOverviewItemSortInput {
+  code: SortEnumType
+  name: SortEnumType
+  period: SortEnumType
+  type: SortEnumType
+}
+
+input ChargeOverviewQueryInput {
+  activePeriodEnd: DateTime
+  activePeriodStart: DateTime
+  missingPriceSeries: Boolean
+  owners: [String!]
+  resolution: [ChargeResolution!]
+  spotDependingPrice: Boolean
+  transparentInvoicing: Boolean
+  types: [ChargeType!]
+  vatInclusive: Boolean
 }
 
 type ChargePeriod {
@@ -677,13 +722,6 @@ type ChargeSeriesPointChange {
   price: Decimal!
 }
 
-input ChargeSortInput {
-  code: SortEnumType
-  name: SortEnumType
-  status: SortEnumType
-  type: SortEnumType
-}
-
 enum ChargeStatus {
   AWAITING
   CANCELLED
@@ -696,37 +734,6 @@ enum ChargeType {
   SUBSCRIPTION
   TARIFF
   TARIFF_TAX
-}
-
-"A connection to a list of items."
-type ChargesConnection {
-  "A list of edges."
-  edges: [ChargesEdge!]
-  "A flattened list of the nodes."
-  nodes: [Charge!]
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ChargesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Charge!
-}
-
-input ChargesQueryInput {
-  missingPriceSeries: Boolean
-  owners: [String!]
-  resolution: [ChargeResolution!]
-  spotDependingPrice: Boolean
-  status: [ChargeStatus!]
-  transparentInvoicing: Boolean
-  types: [ChargeType!]
-  vatInclusive: Boolean
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
@@ -2839,7 +2846,7 @@ type Query {
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  charges("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [ChargeSortInput!] query: ChargesQueryInput): ChargesConnection @authorize(roles: [ "charges:view" ])
+  chargeOverview("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [ChargeOverviewItemSortInput!] query: ChargeOverviewQueryInput): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(closed: Boolean meteringPointIdentification: String opened: Boolean ownConversations: Boolean searchTerm: String subjects: [ConversationSubject!] unread: Boolean): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
