@@ -16,14 +16,13 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RejectRequestService.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RejectRequestService.V1.Models;
 using HotChocolate.Authorization;
-using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Rejection;
 
 public static class RejectEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.GridAccessProvider))]
+    [Authorize(Roles = ["metering-point:end-of-supply-respond"])]
     public static async Task<bool> RejectEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,
