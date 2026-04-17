@@ -20,12 +20,16 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  computed,
   contentChild,
   inject,
   input,
   output,
   viewChild,
 } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { NEVER } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 
 import {
@@ -126,11 +130,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
-          @if (
-            enableEmptyState() &&
-            !table().loading() &&
-            table().dataSource().filteredData.length === 0
-          ) {
+          @if (enableEmptyState() && !table().loading() && filteredDataCount() === 0) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
                 <watt-empty-state
@@ -189,6 +189,20 @@ export class WattDataTableComponent {
   retry = output();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
+
+  /**
+   * Reactive count of filtered rows. Required under OnPush because
+   * `filteredData` is a plain mutable property on MatTableDataSource —
+   * we subscribe to the data source's `connect()` observable (which emits
+   * on every data/filter/sort change) and re-read `filteredData.length`
+   * each time it fires.
+   */
+  protected readonly filteredDataCount = toSignal(
+    toObservable(computed(() => this.table().dataSource())).pipe(
+      switchMap((ds) => ds.connect({ viewChange: NEVER }).pipe(map(() => ds.filteredData.length)))
+    ),
+    { initialValue: 0 }
+  );
 
   search = viewChild(WattSimpleSearchComponent);
   reset = () => this.search()?.clear();
