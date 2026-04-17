@@ -38,7 +38,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
-  AddressTypeV1,
+  AddressTypeV2,
   ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
   GetTemporaryStorageDataDocument,
@@ -247,6 +247,10 @@ export class DhUpdateCustomerDataComponent {
     this.shouldClearContacts() ? undefined : this.technicalContact()
   );
 
+  private readonly effectiveSecondaryCustomer = computed(() =>
+    this.shouldClearContacts() ? undefined : this.secondaryCustomer()
+  );
+
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
@@ -283,10 +287,10 @@ export class DhUpdateCustomerDataComponent {
             '',
             !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
           ),
-          customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
+          customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
           cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
           nameProtection: dhMakeFormControl<boolean>(
-            this.secondaryCustomer()?.isProtectedName ?? false
+            this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),
         }),
         legalContactDetails: createCustomerContactDetailsForm(
@@ -436,12 +440,12 @@ export class DhUpdateCustomerDataComponent {
             mapUsagePointLocation(
               legalContactDetails,
               legalContactAddressDetails,
-              AddressTypeV1.Legal
+              AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
               technicalContactDetails,
               technicalContactAddressDetails,
-              AddressTypeV1.Technical
+              AddressTypeV2.Technical
             ),
           ],
         },
