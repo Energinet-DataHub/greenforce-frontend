@@ -20,16 +20,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
-  computed,
   contentChild,
+  effect,
   inject,
   input,
   output,
+  signal,
   viewChild,
 } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NEVER } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { PageEvent } from '@angular/material/paginator';
 
 import {
@@ -193,16 +192,22 @@ export class WattDataTableComponent {
   /**
    * Reactive count of filtered rows. Required under OnPush because
    * `filteredData` is a plain mutable property on MatTableDataSource —
-   * we subscribe to the data source's `connect()` observable (which emits
-   * on every data/filter/sort change) and re-read `filteredData.length`
-   * each time it fires.
+   * not tracked by Angular's signal graph. We use an effect (runs after
+   * content init, so contentChild.required is safe to read) to subscribe
+   * to the data source's `connect()` observable, re-reading filteredData.length
+   * on every emission and storing it as a signal.
    */
-  protected readonly filteredDataCount = toSignal(
-    toObservable(computed(() => this.table().dataSource())).pipe(
-      switchMap((ds) => ds.connect({ viewChange: NEVER }).pipe(map(() => ds.filteredData.length)))
-    ),
-    { initialValue: 0 }
-  );
+  protected readonly filteredDataCount = signal(0);
+
+  constructor() {
+    effect((onCleanup) => {
+      const ds = this.table().dataSource();
+      const sub = ds.connect({ viewChange: NEVER }).subscribe(() => {
+        this.filteredDataCount.set(ds.filteredData.length);
+      });
+      onCleanup(() => sub.unsubscribe());
+    });
+  }
 
   search = viewChild(WattSimpleSearchComponent);
   reset = () => this.search()?.clear();
