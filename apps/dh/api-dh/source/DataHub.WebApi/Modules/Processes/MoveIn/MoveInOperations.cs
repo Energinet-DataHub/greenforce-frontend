@@ -80,17 +80,26 @@ public static class MoveInOperations
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
     {
-        DateTimeOffset? startDate = null;
+        var resolvedStartDate = DateTimeOffset.UtcNow;
         if (processId != null)
         {
-            startDate = await moveInClient.GetStartDateAsync(processId, ct);
+            var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
+            if (startDate is null)
+            {
+                throw new HotChocolate.GraphQLException(
+                    HotChocolate.ErrorBuilder.New()
+                        .SetMessage($"Unable to resolve start date for process '{processId}'.")
+                        .Build());
+            }
+
+            resolvedStartDate = startDate.Value;
         }
 
         var command = new RequestChangeCustomerCharacteristicsCommandV2(
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
-                StartDate: startDate ?? DateTimeOffset.UtcNow,
+                StartDate: resolvedStartDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
