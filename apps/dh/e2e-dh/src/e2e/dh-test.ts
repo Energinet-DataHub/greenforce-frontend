@@ -50,7 +50,6 @@ async function loginViaB2C(page: Page, email: string, password: string, initialU
   await page.locator('#next').click();
 
   // Wait for redirect back to the app
-  const baseURL = page.context().pages()[0]?.url() || '';
   if (initialUrl === '/') {
     // User might be redirected to either metering-point/search or message-archive based on permissions
     await expect(page).toHaveURL(/\/(metering-point\/search|message-archive)/, { timeout: 30_000 });
