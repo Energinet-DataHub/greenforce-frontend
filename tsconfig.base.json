@@ -218,8 +218,8 @@
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
         "./libs/gf/globalization/configuration-danish-locale/index.ts",
       ],
-      "@energinet-datahub/dh/globalization/util-translation-resource": [
-        "./libs/dh/globalization/util-translation-resource/index.ts",
+      "@energinet-datahub/dh/globalization/util-i18n": [
+        "./libs/dh/globalization/util-i18n/index.ts",
       ],
       "@energinet-datahub/gf/globalization/data-access-localization": [
         "./libs/gf/globalization/data-access-localization/index.ts",
