@@ -234,7 +234,10 @@ describe('DhActionsRegistry', () => {
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
+            permissions: [
+              'metering-point:end-of-supply-request',
+              'metering-point:end-of-supply-respond',
+            ],
             callback: vi.fn(),
           },
         },
@@ -255,7 +258,10 @@ describe('DhActionsRegistry', () => {
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
+            permissions: [
+              'metering-point:end-of-supply-request',
+              'metering-point:end-of-supply-respond',
+            ],
             callback: vi.fn(),
           },
         },
@@ -276,7 +282,10 @@ describe('DhActionsRegistry', () => {
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
+            permissions: [
+              'metering-point:end-of-supply-request',
+              'metering-point:end-of-supply-respond',
+            ],
             callback: vi.fn(),
           },
         },
