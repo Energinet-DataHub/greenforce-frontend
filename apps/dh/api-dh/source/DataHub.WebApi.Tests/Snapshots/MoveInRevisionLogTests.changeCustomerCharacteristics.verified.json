@@ -1,7 +1,7 @@
 ﻿{
   "activity": "changeCustomerCharacteristics",
   "payload": {
-    "query": "mutation($meteringPointId: String!, $businessReason: ChangeCustomerCharacteristicsBusinessReason!, $electricalHeating: Boolean!) { changeCustomerCharacteristics(input: { meteringPointId: $meteringPointId, businessReason: $businessReason, electricalHeating: $electricalHeating }) { boolean } }",
+    "query": "mutation($meteringPointId: String!, $businessReason: BusinessReasonV2!, $electricalHeating: Boolean!) { changeCustomerCharacteristics(input: { meteringPointId: $meteringPointId, businessReason: $businessReason, electricalHeating: $electricalHeating }) { boolean } }",
     "variables": {
       "meteringPointId": "571313180000000005",
       "businessReason": "ELECTRICAL_HEATING",

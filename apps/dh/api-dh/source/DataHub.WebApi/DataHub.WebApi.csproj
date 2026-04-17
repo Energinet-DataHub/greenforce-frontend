@@ -76,8 +76,8 @@ limitations under the License.
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="HotChocolate.Types.NodaTime" Version="15.1.12" />
-    <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.12" />
+    <PackageReference Include="HotChocolate.Types.NodaTime" Version="15.1.14" />
+    <PackageReference Include="HotChocolate.Types.OffsetPagination" Version="15.1.14" />
     <PackageReference Include="Microsoft.FeatureManagement" Version="4.4.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
