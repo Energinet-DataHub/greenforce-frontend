@@ -16,29 +16,32 @@
  * limitations under the License.
  */
 //#endregion
-describe('Application shell', () => {
+
+import { test, expect } from '@playwright/test';
+
+test.describe('Application shell', () => {
+  test.skip();
+
   const initialUrl = '/message-archive';
 
-  beforeEach(() => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
-    cy.visit(initialUrl);
-  });
+  test('should display welcome message', async ({ page }) => {
+    await page.goto(initialUrl);
 
-  it.skip('should display welcome message', () => {
-    cy.findByRole('heading', { name: /Fremsøg forretningsbeskeder/i });
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     // Page loaded
-    cy.get('.selected-organization-name-label', {
+    await expect(page.locator('.selected-organization-name-label')).toBeVisible({
       timeout: 10_000,
-    }).should('exist');
+    });
 
     // Handle the auto-opening modal
-    cy.findByRole('dialog').should('exist');
-    cy.findByRole('button', { name: /close/i }).click();
-    cy.findByRole('dialog').should('not.exist');
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible();
+    await page.getByRole('button', { name: /close/i }).click();
+    await expect(dialog).toBeHidden();
 
     // Make sure correct organization is selected
-    cy.get('.selected-organization-name-label').click();
-    cy.findAllByText('Energinet DataHub A/S').should('exist');
+    await page.locator('.selected-organization-name-label').click();
+    await expect(page.getByText('Energinet DataHub A/S').first()).toBeVisible();
   });
 });

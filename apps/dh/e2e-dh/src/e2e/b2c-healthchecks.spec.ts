@@ -16,6 +16,11 @@
  * limitations under the License.
  */
 //#endregion
+
+import { test, expect } from '@playwright/test';
+
+test.describe.configure({ retries: 3 });
+
 const environments = [
   {
     name: 'dev_001',
@@ -43,20 +48,19 @@ const environments = [
   },
 ];
 
-environments.forEach((env) => {
-  it(`[B2C Healthcheck] ${env.name}`, { retries: 3 }, () => {
+for (const env of environments) {
+  test(`[B2C Healthcheck] ${env.name}`, async ({ page, request }) => {
     // Should be able to reach the app
-    cy.request(env.url).then((resp) => {
-      expect(resp.status).to.eq(200);
-    });
+    const response = await request.get(env.url);
+    expect(response.status()).toBe(200);
 
-    cy.visit(env.url);
+    await page.goto(env.url);
 
-    cy.get('watt-button').click({ force: true });
+    await page.locator('watt-button').click();
 
     // Should have correct redirect_uri
-    cy.location('href', { timeout: 10_000 }).should((url) => {
-      expect(url).to.include(`redirect_uri=${encodeURIComponent(env.url)}`);
+    await expect(page).toHaveURL(new RegExp(`redirect_uri=${encodeURIComponent(env.url)}`), {
+      timeout: 10_000,
     });
   });
-});
+}

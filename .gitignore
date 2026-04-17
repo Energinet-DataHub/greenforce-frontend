@@ -39,8 +39,10 @@ libs/dh/shared/domain/src/generated/graphql
 # nested node_modules
 node_modules
 
-# Cypress
-cypress.env.json
+# Playwright
+test-output/
+playwright-report/
+blob-report/
 
 # Design tokens
 style-dictionary-tokens

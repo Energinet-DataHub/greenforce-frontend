@@ -7,24 +7,13 @@
   "implicitDependencies": ["app-dh"],
   "targets": {
     "e2e": {
+      "dependsOn": ["^generate"]
+    },
+    "e2e-acceptance": {
       "dependsOn": ["^generate"],
-      "configurations": {
-        "ci": {
-          "args": "--browser chrome --config excludeSpecPattern=**/*-healthchecks.cy.ts"
-        },
-        "health": {
-          "args": "--browser chrome --spec **/*-healthchecks.cy.ts"
-        },
-        "dev": {
-          "env": {
-            "CYPRESS_webServerCommand": "bun nx run app-dh:serve:development"
-          }
-        },
-        "production": {
-          "env": {
-            "CYPRESS_webServerCommand": "bun nx run app-dh:serve:production"
-          }
-        }
+      "command": "playwright test --config=playwright-acceptance-tests.config.ts",
+      "options": {
+        "cwd": "apps/dh/e2e-dh"
       }
     }
   }

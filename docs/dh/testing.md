@@ -94,13 +94,31 @@ For UI-based debugging, the Vitest extension provides an integrated test explore
 
 ## E2E Testing
 
-To be able to running the tests locally, you will need to rename `apps/e2e-dh/cypress.env.json.sample` to `apps/e2e-dh/cypress.env.json` and insert the required information. `DH_E2E_B2C_URL` is optional and can be set to the application's B2C authority from `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json` if you want an explicit origin check during login. To run the tests use following command:
+E2E tests use [Playwright](https://playwright.dev/). Before running locally, ensure Playwright browsers are installed:
+
+`bunx playwright install --with-deps chromium`
+
+Set the following environment variables for B2C authentication tests (optional):
+
+- `DH_E2E_USERNAME` – B2C test user email
+- `DH_E2E_PASSWORD` – B2C test user password
+- `DH_E2E_B2C_URL` – B2C authority URL (optional, can be set from `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`)
+
+To run the tests:
 
 `bun nx e2e e2e-dh`
 
-To debug / watch-mode E2E tests:
+To run acceptance tests (excludes B2C healthchecks):
 
-`bun nx e2e e2e-dh --watch`
+`bun nx run e2e-dh:e2e-acceptance`
+
+To run tests in headed mode for debugging:
+
+`bun nx e2e e2e-dh -- --headed`
+
+To run tests in UI mode:
+
+`bun nx e2e e2e-dh -- --ui`
 
 ## Manual deploy to an existing environment
 

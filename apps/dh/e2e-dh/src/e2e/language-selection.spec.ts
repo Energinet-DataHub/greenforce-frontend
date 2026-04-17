@@ -16,43 +16,46 @@
  * limitations under the License.
  */
 //#endregion
-describe('Language selection', () => {
+
+import { test, expect } from '@playwright/test';
+
+test.describe('Language selection', () => {
+  test.skip();
+
   const initialUrl = '/message-archive';
 
-  beforeEach(() => {
-    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
-    cy.visit(initialUrl);
-  });
+  test('toggle languages', async ({ page }) => {
+    await page.goto(initialUrl);
 
-  it.skip(`toggle languages`, () => {
     // Given no language is selected
     // Then Danish translations are displayed
-    cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
-    });
+    await expect(
+      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
+    ).toBeVisible();
 
     // When English is selected
     // Then English translations are displayed
-    cy.findByTestId('profileMenu').click({ force: true });
-    cy.findByText('English').click({ force: true });
+    await page.getByTestId('profileMenu').click();
+    await page.getByText('English').click();
 
     // Handle the auto-opening modal
-    cy.findByRole('dialog', { timeout: 10_000 }).should('exist');
-    cy.findByRole('button', { name: /close/i }).click();
-    cy.findByRole('dialog').should('not.exist');
+    const dialog = page.getByRole('dialog');
+    await expect(dialog).toBeVisible({ timeout: 10_000 });
+    await page.getByRole('button', { name: /close/i }).click();
+    await expect(dialog).toBeHidden();
 
-    cy.findByRole('heading', {
-      name: new RegExp('Search in request and response messages', 'i'),
-    });
+    await expect(
+      page.getByRole('heading', { name: /Search in request and response messages/i })
+    ).toBeVisible();
 
     // Given English is selected
     // When Danish is selected
     // Then Danish translations are displayed
-    cy.findByTestId('profileMenu').click({ force: true });
-    cy.findByText('Dansk').click({ force: true });
+    await page.getByTestId('profileMenu').click();
+    await page.getByText('Dansk').click();
 
-    cy.findByRole('heading', {
-      name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
-    });
+    await expect(
+      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
+    ).toBeVisible();
   });
 });

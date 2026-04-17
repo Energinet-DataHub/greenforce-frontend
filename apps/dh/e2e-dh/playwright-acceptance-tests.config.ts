@@ -16,10 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string, initialUrl?: string): void;
-    removeCookieBanner(): void;
-  }
-}
+import { defineConfig, devices } from '@playwright/test';
+import { nxE2EPreset } from '@nx/playwright/preset';
+
+export default defineConfig({
+  ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
+  use: {
+    ignoreHTTPSErrors: true,
+    trace: 'on-first-retry',
+    video: 'on',
+  },
+  timeout: 30_000,
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
+    },
+  ],
+  testIgnore: ['**/b2c-healthchecks.spec.ts'],
+});
