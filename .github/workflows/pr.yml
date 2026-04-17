@@ -16,7 +16,6 @@ name: DH CI Frontend
 permissions:
   actions: write
   contents: write
-  pull-requests: write
 on:
   workflow_call: {}
 env:
@@ -132,3 +131,5 @@ jobs:
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
         if: always()
+        env:
+          NX_CLOUD_GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
