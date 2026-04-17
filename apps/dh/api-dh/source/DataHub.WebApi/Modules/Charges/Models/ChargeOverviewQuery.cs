@@ -16,11 +16,12 @@ using Energinet.DataHub.WebApi.Modules.Common.Models;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargesQuery(
+public record ChargeOverviewQuery(
     ChargeType[]? Types,
     string[]? Owners,
-    ChargeStatus[]? Status,
     Resolution[]? Resolution,
+    DateTimeOffset? ActivePeriodStart,
+    DateTimeOffset? ActivePeriodEnd,
     bool? VatInclusive,
     bool? TransparentInvoicing,
     bool? SpotDependingPrice,
