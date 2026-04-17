@@ -16,7 +16,7 @@ name: DH CI Frontend
 permissions:
   actions: write
   contents: write
-
+  pull-requests: write
 on:
   workflow_call: {}
 env:
