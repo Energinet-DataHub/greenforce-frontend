@@ -28,6 +28,7 @@ using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
@@ -56,6 +57,7 @@ public class GraphQLTestService
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
         EdiB2CClientMock = new Mock<IB2CClient>();
+        MoveInClientMock = new Mock<IMoveInClient>();
         RevisionLogClientMock = new Mock<IRevisionLogClient>();
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
@@ -106,6 +108,7 @@ public class GraphQLTestService
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(EdiB2CClientMock.Object)
+            .AddSingleton(MoveInClientMock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
@@ -145,6 +148,8 @@ public class GraphQLTestService
     public Mock<IGridAreasClient> GridAreasClientMock { get; set; }
 
     public Mock<IB2CClient> EdiB2CClientMock { get; set; }
+
+    public Mock<IMoveInClient> MoveInClientMock { get; set; }
 
     public Mock<IRevisionLogClient> RevisionLogClientMock { get; set; }
 
