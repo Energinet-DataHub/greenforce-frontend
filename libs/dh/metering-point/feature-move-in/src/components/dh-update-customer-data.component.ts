@@ -38,7 +38,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
-  AddressTypeV1,
+  AddressTypeV2,
   ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
   GetTemporaryStorageDataDocument,
@@ -440,12 +440,12 @@ export class DhUpdateCustomerDataComponent {
             mapUsagePointLocation(
               legalContactDetails,
               legalContactAddressDetails,
-              AddressTypeV1.Legal
+              AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
               technicalContactDetails,
               technicalContactAddressDetails,
-              AddressTypeV1.Technical
+              AddressTypeV2.Technical
             ),
           ],
         },
