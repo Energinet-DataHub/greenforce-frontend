@@ -56,20 +56,15 @@ limitations under the License.
                 <watt-badge type="neutral">{{ t("closed") }}</watt-badge>
               }
             </vater-stack>
-            @if (conversation.internalNote; as internalNote) {
-              <watt-badge type="neutral">{{ t("internalNote") }}</watt-badge>
-
-              <watt-description-list variant="inline-flow">
-                <watt-description-list-item
-                  [label]="t('idLabel')"
-                  [value]="conversation.displayId"
-                />
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item [label]="t('idLabel')" [value]="conversation.displayId" />
+              @if (conversation.internalNote; as internalNote) {
                 <watt-description-list-item
                   [label]="t('internalNoteLabel')"
                   [value]="internalNote"
                 />
-              </watt-description-list>
-            }
+              }
+            </watt-description-list>
             @if (meteringPointConversationInfo(); as meteringPointInfo) {
               <watt-description-list variant="inline-flow" *transloco="let tBase">
                 <watt-description-list-item [label]="meteringPointInstallLabel()" />
