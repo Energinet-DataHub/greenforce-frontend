@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './dh-test';
 
 test.describe('Redirect to initial URL', () => {
   const initialUrl = '/market-participant/actors';
@@ -33,6 +33,10 @@ test.describe('Redirect to initial URL', () => {
   test.describe('After login', () => {
     test.skip();
 
+    test.beforeEach(async ({ login }) => {
+      await login(initialUrl);
+    });
+
     test('should display correct page title after login', async ({ page }) => {
       await page.goto(initialUrl);
 
@@ -45,6 +49,10 @@ test.describe('Redirect to initial URL', () => {
     test.skip();
 
     const logoutInitialUrl = '/grid-areas';
+
+    test.beforeEach(async ({ login }) => {
+      await login(logoutInitialUrl);
+    });
 
     test('should redirect back to login page after manual logout', async ({ page }) => {
       await page.goto(logoutInitialUrl);

@@ -17,12 +17,16 @@
  */
 //#endregion
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from './dh-test';
 
 test.describe('Application shell', () => {
   test.skip();
 
   const initialUrl = '/message-archive';
+
+  test.beforeEach(async ({ login }) => {
+    await login(initialUrl);
+  });
 
   test('should display welcome message', async ({ page }) => {
     await page.goto(initialUrl);
