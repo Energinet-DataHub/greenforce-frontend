@@ -141,6 +141,7 @@
         "ts-node": "10.9.2",
         "typescript": "5.9.3",
         "typescript-eslint": "7.16.0",
+        "typescript-result": "^3.5.2",
         "vite": "7.3.2",
         "vite-tsconfig-paths": "6.1.1",
         "vitest": "4.0.18",
@@ -4036,6 +4037,8 @@
     "typescript": ["typescript@5.9.3", "", { "bin": { "tsc": "bin/tsc", "tsserver": "bin/tsserver" } }, "sha512-jl1vZzPDinLr9eUt3J/t7V6FgNEw9QjvBPdysz9KfQDD41fQrC2Y4vKQdiaUpFT4bXlb1RHhLpp8wtm6M5TgSw=="],
 
     "typescript-eslint": ["typescript-eslint@7.16.0", "", { "dependencies": { "@typescript-eslint/eslint-plugin": "7.16.0", "@typescript-eslint/parser": "7.16.0", "@typescript-eslint/utils": "7.16.0" }, "peerDependencies": { "eslint": "^8.56.0" } }, "sha512-kaVRivQjOzuoCXU6+hLnjo3/baxyzWVO5GrnExkFzETRYJKVHYkrJglOu2OCm8Hi9RPDWX1PTNNTpU5KRV0+RA=="],
+
+    "typescript-result": ["typescript-result@3.5.2", "", {}, "sha512-kYBOXx/WOdwnfRfkOgEy+Or0VKxR9No1znb+5jPBYplksjx/koluC/OwIgBgYCCPgukxMuwXqMcv1qSDlvrlFA=="],
 
     "typical": ["typical@7.3.0", "", {}, "sha512-ya4mg/30vm+DOWfBg4YK3j2WD6TWtRkCbasOJr40CseYENzCUby/7rIvXA99JGsQHeNxLbnXdyLLxKSv3tauFw=="],
 

@@ -1,169 +1,119 @@
-/**
- * i18n Codegen Script
- *
- * Scans all Nx projects for `src/i18n/da.json` files and generates:
- * 1. A centralized types file with nested TypeScript interfaces per scope
- *    and a TranslationScopeMap for type-safe scope lookup
- * 2. A centralized providers file with Transloco scope providers per scope
- *
- * Usage: npx tsx tools/i18n-codegen/codegen.ts
- */
-
-import { createProjectGraphAsync } from '@nx/devkit';
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs';
-import { join, relative, dirname } from 'path';
+import { join, relative } from 'path';
+import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { format, resolveConfig } from 'prettier';
+import { flatten } from '@jsverse/transloco';
+import { createProjectGraphAsync, names, normalizePath, readJsonFile } from '@nx/devkit';
+import { Result } from 'typescript-result';
 
 const OUTPUT_DIR = 'libs/dh/shared/domain/src/generated/i18n';
-const TYPES_OUTPUT = join(OUTPUT_DIR, 'types.ts');
-const PROVIDERS_OUTPUT = join(OUTPUT_DIR, 'providers.ts');
 
-// --- Type generation helpers ---
+// --- Helpers ---
+const isRecord = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
 
-function generateInterfaceType(obj: Record<string, unknown>, indent: string): string {
-  const lines: string[] = ['{'];
+const generateInterfaceType = (obj: Record<string, unknown>): string =>
+  [
+    '{',
+    ...Object.entries(obj).map(([key, value]) =>
+      isRecord(value) ? `'${key}': ${generateInterfaceType(value)};` : `'${key}': string;`
+    ),
+    '}',
+  ].join('\n');
 
-  for (const [key, value] of Object.entries(obj)) {
-    // Keys that aren't valid identifiers need quoting
-    const safeKey = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key) ? key : `'${key}'`;
+const generateScopeProvider = (scope: { name: string; folder: string }): string => {
+  const i18nPath = normalizePath(relative(OUTPUT_DIR, scope.folder));
+  const n = names(scope.name).propertyName;
+  return `
+    export const ${n}TranslocoScope = [
+      provideTranslocoScope({
+        scope: '${scope.name}',
+        loader: {
+          da: () => import('${i18nPath}/da.json'),
+          en: () => import('${i18nPath}/en.json'),
+        },
+      }),
+    ];
+  `;
+};
 
-    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
-      const nested = generateInterfaceType(value as Record<string, unknown>, indent + '  ');
-      lines.push(`${indent}  ${safeKey}: ${nested};`);
-    } else {
-      lines.push(`${indent}  ${safeKey}: string;`);
-    }
-  }
+function generate(scopes: { name: string; folder: string; json: Record<string, unknown> }[]) {
+  const typeDeclarations = scopes
+    .map((scope) => {
+      const typeName = names(scope.name).className + 'Translation';
+      return `export type ${typeName} = ${generateInterfaceType(scope.json)};\n`;
+    })
+    .join('\n');
 
-  lines.push(`${indent}}`);
-  return lines.join('\n');
+  const scopeMapEntries = scopes
+    .map((scope) => `  '${scope.name}': ${names(scope.name).className}Translation;`)
+    .join('\n');
+
+  const types = `${typeDeclarations}\nexport interface TranslationScopeMap {\n${scopeMapEntries}\n}\n`;
+  const providers = [
+    "import { provideTranslocoScope, Translation } from '@jsverse/transloco';",
+    '',
+    ...scopes.map((scope) => generateScopeProvider(scope)),
+    '',
+  ].join('\n');
+
+  return { types, providers };
 }
 
-function toPascalCase(str: string): string {
-  return str
-    .split(/[-_]/)
-    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-    .join('');
+async function saveFile(path: string, content: string) {
+  const config = await resolveConfig(path, { editorconfig: true });
+  writeFileSync(path, await format(content, { ...config, filepath: path }));
 }
 
-// --- Main ---
-
-interface ScopeInfo {
-  projectName: string;
-  projectRoot: string;
-  daJson: Record<string, unknown>;
-}
-
-async function main() {
+export async function main() {
   const graph = await createProjectGraphAsync();
-  const scopes: ScopeInfo[] = [];
+  const translations = Object.values(graph.nodes)
+    .map((n) => ({ project: n.name, folder: join(n.data.root, `src/i18n`) }))
+    .filter(({ folder }) => existsSync(folder))
+    .map(({ project, folder }) => ({
+      project,
+      folder,
+      files: ['da', 'en']
+        .map((lang) => join(folder, `${lang}.json`))
+        .map((f) => (existsSync(f) ? Result.ok(f) : Result.error(`Missing file "${f}"`))),
+    }));
 
-  // 1. Discover all projects with i18n/da.json
-  for (const [projectName, node] of Object.entries(graph.nodes)) {
-    const root = node.data.root;
-    const daJsonPath = join(root, 'src/i18n/da.json');
+  const scopes = translations
+    .filter((s) => s.files.every((r) => r.ok))
+    .sort((a, b) => a.project.localeCompare(b.project))
+    .map((s) => {
+      const [da, en] = s.files.map((f) => readJsonFile<Record<string, unknown>>(f.value));
+      const diff = [da, en]
+        .map((json) => Object.keys(flatten(json)))
+        .map((keys) => new Set(keys))
+        .reduce((da, en) => da.symmetricDifference(en));
 
-    if (!existsSync(daJsonPath)) continue;
+      return diff.size
+        ? Result.error({ name: s.project, keys: [...diff] })
+        : Result.ok({ name: s.project, folder: s.folder, json: da });
+    });
 
-    const daJson = JSON.parse(readFileSync(daJsonPath, 'utf-8'));
-
-    // Validate that en.json also exists
-    const enJsonPath = join(root, 'src/i18n/en.json');
-    if (!existsSync(enJsonPath)) {
-      console.warn(`⚠️  Skipping ${projectName}: src/i18n/en.json not found`);
-      continue;
-    }
-
-    scopes.push({ projectName, projectRoot: root, daJson });
-  }
-
-  if (scopes.length === 0) {
-    console.log('No translation scopes found.');
-    return;
-  }
-
-  // Sort for deterministic output
-  scopes.sort((a, b) => a.projectName.localeCompare(b.projectName));
-
-  // 2. Ensure output directory exists
+  // Generate code
+  const { types, providers } = generate(scopes.filter((s) => s.ok).map((s) => s.value));
   mkdirSync(OUTPUT_DIR, { recursive: true });
+  saveFile(join(OUTPUT_DIR, 'types.ts'), types);
+  saveFile(join(OUTPUT_DIR, 'providers.ts'), providers);
 
-  // 3. Generate types file
-  generateTypes(scopes);
+  // Handle file errors
+  const fileErrors = translations
+    .flatMap((scope) => scope.files)
+    .filter((file) => !file.ok)
+    .map((file) => file.error);
 
-  // 4. Generate providers file
-  generateProviders(scopes);
+  fileErrors.forEach((error) => console.warn(`⚠️ ${error}`));
 
-  console.log(`✅ Generated ${scopes.length} translation scope(s):`);
-  for (const scope of scopes) {
-    console.log(`   - ${scope.projectName}`);
-  }
+  // Handle scope errors
+  const scopeErrors = scopes.filter((s) => !s.ok).map((s) => s.error);
+  scopeErrors.forEach((s) => {
+    console.error(`🚨 Translation key mismatch found in "${s.name}"`);
+    s.keys
+      .map((k) => `Key "${k}" is not in both da.json and en.json`)
+      .forEach((error) => console.error(`  ❌ ${error}`));
+  });
+
+  // process.exit (if strict, then error if any errors)
 }
-
-function generateTypes(scopes: ScopeInfo[]) {
-  let output = '// Auto-generated by tools/i18n-codegen — do not edit\n\n';
-
-  for (const scope of scopes) {
-    const typeName = toPascalCase(scope.projectName) + 'Translation';
-    const interfaceBody = generateInterfaceType(scope.daJson, '');
-
-    output += `export type ${typeName} = ${interfaceBody};\n\n`;
-  }
-
-  // Generate the scope map for i18nResource type inference
-  output += `export interface TranslationScopeMap {\n`;
-  for (const scope of scopes) {
-    const typeName = toPascalCase(scope.projectName) + 'Translation';
-    output += `  '${scope.projectName}': ${typeName};\n`;
-  }
-  output += `}\n`;
-
-  writeFileSync(TYPES_OUTPUT, output);
-  console.log(`   types  → ${TYPES_OUTPUT}`);
-}
-
-function generateProviders(scopes: ScopeInfo[]) {
-  const providersOutputDir = dirname(PROVIDERS_OUTPUT);
-
-  let output = '// Auto-generated by tools/i18n-codegen — do not edit\n';
-  output += "import { provideTranslocoScope, Translation } from '@jsverse/transloco';\n\n";
-
-  for (const scope of scopes) {
-    // Calculate relative path from output dir to the i18n folder
-    const i18nDir = join(scope.projectRoot, 'src/i18n');
-    let relPath = relative(providersOutputDir, i18nDir);
-
-    // Ensure forward slashes and starts with ./
-    relPath = relPath.split('\\').join('/');
-    if (!relPath.startsWith('.')) {
-      relPath = './' + relPath;
-    }
-
-    const loaderName =
-      toPascalCase(scope.projectName).replace(/^./, (c) => c.toLowerCase()) + 'Loader';
-    const exportName =
-      toPascalCase(scope.projectName).replace(/^./, (c) => c.toLowerCase()) + 'TranslocoScope';
-
-    output += `const ${loaderName} = ['da', 'en'].reduce(\n`;
-    output += `  (acc, lang) => {\n`;
-    output += `    acc[lang] = () => import('${relPath}/' + lang + '.json');\n`;
-    output += `    return acc;\n`;
-    output += `  },\n`;
-    output += `  {} as Record<string, () => Promise<Translation>>\n`;
-    output += `);\n\n`;
-
-    output += `export const ${exportName} = [\n`;
-    output += `  provideTranslocoScope({\n`;
-    output += `    scope: '${scope.projectName}',\n`;
-    output += `    loader: ${loaderName},\n`;
-    output += `  }),\n`;
-    output += `];\n\n`;
-  }
-
-  writeFileSync(PROVIDERS_OUTPUT, output.trimEnd() + '\n');
-  console.log(`   providers → ${PROVIDERS_OUTPUT}`);
-}
-
-main().catch((err) => {
-  console.error('i18n codegen failed:', err);
-  process.exit(1);
-});
