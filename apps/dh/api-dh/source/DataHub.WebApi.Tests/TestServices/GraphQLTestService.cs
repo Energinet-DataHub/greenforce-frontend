@@ -109,7 +109,6 @@ public class GraphQLTestService
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(EdiB2CClientMock.Object)
             .AddSingleton(MoveInClientMock.Object)
-            .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(RevisionLogClientMock.Object)
             .AddSingleton(MeasurementsClientMock.Object)
             .AddSingleton(HttpContextAccessorMock.Object)
