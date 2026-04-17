@@ -120,6 +120,10 @@
           "projects": ["api-dh"],
           "target": "serve"
         },
+        {
+          "projects": ["dh-globalization-domain"],
+          "target": "generate"
+        },
         "^watch-generate"
       ],
       "executor": "@nx/angular:dev-server",

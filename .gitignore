@@ -36,6 +36,9 @@ documentation.json
 # GraphQL generated files
 libs/dh/shared/domain/src/generated/graphql
 
+# i18n generated files
+libs/dh/globalization/domain/src/generated/i18n
+
 # nested node_modules
 node_modules
 

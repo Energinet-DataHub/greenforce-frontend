@@ -3,7 +3,7 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { ResourceRef } from '@angular/core';
 import { map } from 'rxjs';
 import { TranslocoService, TRANSLOCO_SCOPE, toCamelCase } from '@jsverse/transloco';
-import { TranslationScopeMap } from '@energinet-datahub/dh/shared/domain/i18n/types';
+import { TranslationScopeMap } from '@energinet-datahub/dh/globalization/domain';
 
 export function i18nResource<
   S extends keyof TranslationScopeMap,

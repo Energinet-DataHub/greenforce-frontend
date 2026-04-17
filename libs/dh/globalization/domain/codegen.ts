@@ -1,32 +1,31 @@
 import { join, relative } from 'path';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { format, resolveConfig } from 'prettier';
-import { flatten } from '@jsverse/transloco';
+
 import { createProjectGraphAsync, names, normalizePath, readJsonFile } from '@nx/devkit';
 import { Result } from 'typescript-result';
 
-const OUTPUT_DIR = 'libs/dh/shared/domain/src/generated/i18n';
+const OUTPUT_DIR = 'libs/dh/globalization/domain/src/generated/i18n';
 
-// --- Helpers ---
-const isRecord = (v: unknown): v is Record<string, unknown> =>
-  typeof v === 'object' && v !== null && !Array.isArray(v);
+function flattenKeys(obj: unknown, path = ''): string[] {
+  if (typeof obj !== 'object') return [path];
+  if (obj === null) return [];
+  return Object.entries(obj).flatMap(([k, v]) => flattenKeys(v, path ? `${path}.${k}` : k));
+}
 
-const generateInterfaceType = (obj: Record<string, unknown>): string =>
-  [
-    '{',
-    ...Object.entries(obj).map(([key, value]) =>
-      isRecord(value) ? `'${key}': ${generateInterfaceType(value)};` : `'${key}': string;`
-    ),
-    '}',
-  ].join('\n');
+function generateType(obj: unknown): string {
+  if (typeof obj !== 'object') return typeof obj;
+  if (obj === null) return 'null';
+  const types = Object.entries(obj).map(([k, v]) => `'${k}': ${generateType(v)};`);
+  return `{ ${types.join('')} }`;
+}
 
-const generateScopeProvider = (scope: { name: string; folder: string }): string => {
-  const i18nPath = normalizePath(relative(OUTPUT_DIR, scope.folder));
-  const n = names(scope.name).propertyName;
+function generateProvider(name: string, folder: string) {
+  const i18nPath = normalizePath(relative(OUTPUT_DIR, folder));
   return `
-    export const ${n}TranslocoScope = [
+    export const ${names(name).propertyName}TranslocoScope = [
       provideTranslocoScope({
-        scope: '${scope.name}',
+        scope: '${name}',
         loader: {
           da: () => import('${i18nPath}/da.json'),
           en: () => import('${i18nPath}/en.json'),
@@ -34,29 +33,6 @@ const generateScopeProvider = (scope: { name: string; folder: string }): string 
       }),
     ];
   `;
-};
-
-function generate(scopes: { name: string; folder: string; json: Record<string, unknown> }[]) {
-  const typeDeclarations = scopes
-    .map((scope) => {
-      const typeName = names(scope.name).className + 'Translation';
-      return `export type ${typeName} = ${generateInterfaceType(scope.json)};\n`;
-    })
-    .join('\n');
-
-  const scopeMapEntries = scopes
-    .map((scope) => `  '${scope.name}': ${names(scope.name).className}Translation;`)
-    .join('\n');
-
-  const types = `${typeDeclarations}\nexport interface TranslationScopeMap {\n${scopeMapEntries}\n}\n`;
-  const providers = [
-    "import { provideTranslocoScope, Translation } from '@jsverse/transloco';",
-    '',
-    ...scopes.map((scope) => generateScopeProvider(scope)),
-    '',
-  ].join('\n');
-
-  return { types, providers };
 }
 
 async function saveFile(path: string, content: string) {
@@ -81,9 +57,9 @@ export async function main() {
     .filter((s) => s.files.every((r) => r.ok))
     .sort((a, b) => a.project.localeCompare(b.project))
     .map((s) => {
-      const [da, en] = s.files.map((f) => readJsonFile<Record<string, unknown>>(f.value));
+      const [da, en] = s.files.map((f) => readJsonFile<Record<string, unknown>>(f.getOrThrow()));
       const diff = [da, en]
-        .map((json) => Object.keys(flatten(json)))
+        .map((json) => flattenKeys(json))
         .map((keys) => new Set(keys))
         .reduce((da, en) => da.symmetricDifference(en));
 
@@ -92,11 +68,32 @@ export async function main() {
         : Result.ok({ name: s.project, folder: s.folder, json: da });
     });
 
-  // Generate code
-  const { types, providers } = generate(scopes.filter((s) => s.ok).map((s) => s.value));
+  const defs = scopes
+    .filter((s) => s.ok)
+    .map((s) => s.value)
+    .map((s) => ({
+      name: s.name,
+      folder: s.folder,
+      typeName: `${names(s.name).className}Translation`,
+      type: generateType(s.json),
+    }));
+
+  const types = `
+    ${defs.map((d) => `export type ${d.typeName} = ${d.type};`).join('')}
+
+    export interface TranslationScopeMap {
+      ${defs.map((d) => `'${d.name}': ${d.typeName};`).join('')}
+    }
+  `;
+
+  const providers = `
+    import { provideTranslocoScope } from '@jsverse/transloco'
+    ${defs.map((d) => generateProvider(d.name, d.folder)).join('')}
+  `;
+
   mkdirSync(OUTPUT_DIR, { recursive: true });
-  saveFile(join(OUTPUT_DIR, 'types.ts'), types);
-  saveFile(join(OUTPUT_DIR, 'providers.ts'), providers);
+  await saveFile(join(OUTPUT_DIR, 'types.ts'), types);
+  await saveFile(join(OUTPUT_DIR, 'providers.ts'), providers);
 
   // Handle file errors
   const fileErrors = translations
@@ -115,5 +112,9 @@ export async function main() {
       .forEach((error) => console.error(`  ❌ ${error}`));
   });
 
-  // process.exit (if strict, then error if any errors)
+  if (fileErrors.length || scopeErrors.length) {
+    process.exit(1);
+  }
 }
+
+main();

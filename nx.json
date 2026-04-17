@@ -104,6 +104,10 @@
         {
           "projects": ["dh-shared-domain"],
           "target": "generate"
+        },
+        {
+          "projects": ["dh-globalization-domain"],
+          "target": "generate"
         }
       ],
       "inputs": ["default", "^production"],
@@ -123,6 +127,10 @@
         {
           "projects": ["dh-shared-domain"],
           "target": "generate"
+        },
+        {
+          "projects": ["dh-globalization-domain"],
+          "target": "generate"
         }
       ],
       "inputs": ["default", "^production"],
@@ -132,6 +140,10 @@
       "dependsOn": [
         {
           "projects": ["dh-shared-domain"],
+          "target": "generate"
+        },
+        {
+          "projects": ["dh-globalization-domain"],
           "target": "generate"
         }
       ],

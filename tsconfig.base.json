@@ -71,6 +71,7 @@
       "@energinet-datahub/dh/feature-market-participant": [
         "./libs/dh/market-participant/feature-market-participant/index.ts",
       ],
+      "@energinet-datahub/dh/globalization/domain": ["./libs/dh/globalization/domain/index.ts"],
       "@energinet-datahub/dh/globalization/assets-localization": [
         "./libs/dh/globalization/assets-localization/index.ts",
       ],
