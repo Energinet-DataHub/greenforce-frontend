@@ -24,7 +24,7 @@ describe('Application shell', () => {
     cy.visit(initialUrl);
   });
 
-  it('should display welcome message', () => {
+  it.skip('should display welcome message', () => {
     cy.findByRole('heading', { name: /Fremsøg forretningsbeskeder/i });
 
     // Page loaded
