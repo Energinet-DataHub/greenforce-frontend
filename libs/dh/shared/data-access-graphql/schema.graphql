@@ -1437,6 +1437,7 @@ type Query {
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
+  projectionsStatus: String! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!

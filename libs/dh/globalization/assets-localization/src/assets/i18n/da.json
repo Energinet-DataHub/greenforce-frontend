@@ -3601,6 +3601,10 @@
           "message": "Er du sikker på, at du vil genopbygge projektionen?"
         }
       },
+      "projectionsStatus": {
+        "title": "Projektionsstatus",
+        "button": "Hent projektionsstatus"
+      },
       "dangerZone": {
         "title": "Farezone"
       },

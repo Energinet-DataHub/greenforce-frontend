@@ -38,6 +38,7 @@ import {
   mockGetMeteringPointNewConversationInfoQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
+  mockGetProjectionsStatusQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
@@ -79,6 +80,7 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
+    getProjectionsStatus(),
     requestConnectionStateChange(),
     changeProductionObligation(),
     requestEndOfSupply(),
@@ -622,6 +624,22 @@ function getMeteringPointsByGridArea() {
       data: {
         __typename: 'Query',
         meteringPointsByGridAreaCode,
+      },
+    });
+  });
+}
+
+function getProjectionsStatus() {
+  return mockGetProjectionsStatusQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        projectionsStatus: JSON.stringify({
+          status: 'ok',
+          projections: [],
+        }),
       },
     });
   });

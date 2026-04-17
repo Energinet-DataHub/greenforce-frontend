@@ -93,6 +93,21 @@ public static class OperationToolsMeteringPointNode
             : result.Data;
     }
 
+    [Query]
+    [Authorize(Roles = ["operation-tools:view"])]
+    [UseRevisionLog]
+    public static Task<string> GetProjectionsStatusAsync(CancellationToken ct)
+    {
+        // TODO: Replace with actual IElectricityMarketClient call once the operation is available
+        var dummyStatus = """
+            {
+              "status": "not_implemented",
+              "message": "GetProjectionsStatus is not yet available in the electricity market client."
+            }
+            """;
+        return Task.FromResult(dummyStatus);
+    }
+
     [Mutation]
     [Authorize(Roles = ["operation-tools:manage"])]
     [UseRevisionLog]

@@ -29,10 +29,11 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WATT_MODAL } from '@energinet/watt/modal';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   RebuildProjectionsDocument,
   ProjectionType,
+  GetProjectionsStatusDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import {
@@ -118,6 +119,30 @@ import {
             </vater-flex>
           </vater-flex>
         </watt-card>
+
+        <watt-card style="grid-column: 1 / -1">
+          <vater-flex direction="column" gap="m">
+            <h3 watt-heading>{{ t('projectionsStatus.title') }}</h3>
+
+            <watt-button
+              variant="secondary"
+              [loading]="projectionsStatusQuery.loading()"
+              (click)="getProjectionsStatus()"
+            >
+              {{ t('projectionsStatus.button') }}
+            </watt-button>
+
+            @if (projectionsStatusQuery.data(); as data) {
+              <pre class="result-box">{{ prettifyJson(data.projectionsStatus) }}</pre>
+            }
+
+            @if (projectionsStatusQuery.error(); as error) {
+              <div class="result-box">
+                <strong>{{ t('error') }}</strong> {{ error.message }}
+              </div>
+            }
+          </vater-flex>
+        </watt-card>
       </vater-grid>
 
       <watt-modal
@@ -144,6 +169,7 @@ export class DhMeteringPointActionsComponent {
   projectionTypeControl = dhMakeFormControl<ProjectionType>();
   timeoutControl = dhMakeFormControl('30');
   projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
+  projectionsStatusQuery = lazyQuery(GetProjectionsStatusDocument);
 
   onConfirmRebuild(confirmed: boolean): void {
     if (!confirmed) return;
@@ -151,5 +177,17 @@ export class DhMeteringPointActionsComponent {
     const timeout = parseInt(this.timeoutControl.value || '5');
     assertIsDefined(projection);
     this.rebuildProjections.mutate({ variables: { input: { projection, timeout } } });
+  }
+
+  getProjectionsStatus(): void {
+    this.projectionsStatusQuery.query({ fetchPolicy: 'network-only' });
+  }
+
+  prettifyJson(json: string): string {
+    try {
+      return JSON.stringify(JSON.parse(json), null, 2);
+    } catch {
+      return json;
+    }
   }
 }
