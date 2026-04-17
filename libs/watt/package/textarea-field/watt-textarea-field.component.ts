@@ -63,8 +63,8 @@ import { VaterStackComponent } from '@energinet/watt/vater';
       </vater-stack>
     </div>
 
-    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
     <ng-content ngProjectAs="watt-field-error" select="watt-field-error" />
+    <ng-content ngProjectAs="watt-field-hint" select="watt-field-hint" />
   </watt-field>`,
   host: {
     '[attr.watt-field-disabled]': 'isDisabled()',
