@@ -60,7 +60,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorConversationMessageForm } from './message-form';
 import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { injectUploadMessageDocument } from './upload-message-document';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
