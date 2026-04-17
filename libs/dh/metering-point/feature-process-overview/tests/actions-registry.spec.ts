@@ -20,10 +20,10 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import {
-  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -52,8 +52,8 @@ describe('DhActionsRegistry', () => {
   function setupRegistry(
     options: {
       featureFlagsEnabled?: boolean;
-      isGridAccessProvider?: boolean;
-      isEnergySupplier?: boolean;
+      hasEndOfSupplyManagePermission?: boolean;
+      hasEndOfSupplyPermission?: boolean;
       isFas?: boolean;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
@@ -61,8 +61,8 @@ describe('DhActionsRegistry', () => {
   ) {
     const {
       featureFlagsEnabled = true,
-      isGridAccessProvider = true,
-      isEnergySupplier = false,
+      hasEndOfSupplyManagePermission = true,
+      hasEndOfSupplyPermission = false,
       isFas = false,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
@@ -86,9 +86,11 @@ describe('DhActionsRegistry', () => {
         {
           provide: PermissionService,
           useValue: {
-            hasMarketRole: (role: EicFunction) => {
-              if (role === EicFunction.GridAccessProvider) return of(isGridAccessProvider);
-              if (role === EicFunction.EnergySupplier) return of(isEnergySupplier);
+            hasPermission: (permission: Permission) => {
+              if (permission === 'metering-point:end-of-supply-manage')
+                return of(hasEndOfSupplyManagePermission);
+              if (permission === 'metering-point:end-of-supply')
+                return of(hasEndOfSupplyPermission);
               return of(false);
             },
             isFas: () => of(isFas),
@@ -172,13 +174,13 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
-    it('should return action when user has required market role', () => {
+    it('should return action when user has required permission', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: true,
+        hasEndOfSupplyManagePermission: true,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply-manage'],
             callback: vi.fn(),
           },
         },
@@ -192,13 +194,13 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([WorkflowAction.RejectRequest]);
     });
 
-    it('should filter out action when user lacks required market role', () => {
+    it('should filter out action when user lacks required permission', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: false,
+        hasEndOfSupplyManagePermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply-manage'],
             callback: vi.fn(),
           },
         },
@@ -212,9 +214,9 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
-    it('should allow action without marketRoles regardless of user role', () => {
+    it('should allow action without permissions regardless of user permission', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: false,
+        hasEndOfSupplyManagePermission: false,
       });
 
       const result = registry.getSupportedActions(
@@ -225,14 +227,14 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([WorkflowAction.CancelWorkflow]);
     });
 
-    it('should return action when user is EnergySupplier and action allows it', () => {
+    it('should return action when user has end-of-supply permission and action allows it', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: false,
-        isEnergySupplier: true,
+        hasEndOfSupplyManagePermission: false,
+        hasEndOfSupplyPermission: true,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
             callback: vi.fn(),
           },
         },
@@ -246,14 +248,14 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([WorkflowAction.SendInformation]);
     });
 
-    it('should return action when user is GridAccessProvider and action allows both roles', () => {
+    it('should return action when user has end-of-supply-manage permission and action allows both', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: true,
-        isEnergySupplier: false,
+        hasEndOfSupplyManagePermission: true,
+        hasEndOfSupplyPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
             callback: vi.fn(),
           },
         },
@@ -267,14 +269,14 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([WorkflowAction.SendInformation]);
     });
 
-    it('should filter out action when user has neither required role', () => {
+    it('should filter out action when user has neither required permission', () => {
       const registry = setupRegistry({
-        isGridAccessProvider: false,
-        isEnergySupplier: false,
+        hasEndOfSupplyManagePermission: false,
+        hasEndOfSupplyPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
             callback: vi.fn(),
           },
         },
@@ -331,14 +333,14 @@ describe('DhActionsRegistry', () => {
       ).not.toThrow();
     });
 
-    it('should not call handler when user lacks required market role', () => {
+    it('should not call handler when user lacks required permission', () => {
       const callback = vi.fn();
       const registry = setupRegistry({
-        isGridAccessProvider: false,
+        hasEndOfSupplyManagePermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            marketRoles: [EicFunction.GridAccessProvider],
+            permissions: ['metering-point:end-of-supply-manage'],
             callback,
           },
         },

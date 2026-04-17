@@ -21,8 +21,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
-  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -33,7 +33,7 @@ import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
-  marketRoles?: EicFunction[];
+  permissions?: Permission[];
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -44,13 +44,13 @@ export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
   private readonly permissionService = inject(PermissionService);
 
-  private readonly isGridAccessProvider = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
+  private readonly hasEndOfSupplyPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply'),
     { initialValue: false }
   );
 
-  private readonly isEnergySupplier = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+  private readonly hasEndOfSupplyManagePermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-manage'),
     { initialValue: false }
   );
 
@@ -61,12 +61,13 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
   };
 
-  private hasRequiredMarketRole(handler: ActionHandler): boolean {
-    if (!handler.marketRoles?.length) return true;
-    return handler.marketRoles.some((role) => {
-      if (role === EicFunction.GridAccessProvider) return this.isGridAccessProvider();
-      if (role === EicFunction.EnergySupplier) return this.isEnergySupplier();
-      console.error('[DhActionsRegistry] Unsupported market role:', role);
+  private hasRequiredPermission(handler: ActionHandler): boolean {
+    if (!handler.permissions?.length) return true;
+    return handler.permissions.some((permission) => {
+      if (permission === 'metering-point:end-of-supply') return this.hasEndOfSupplyPermission();
+      if (permission === 'metering-point:end-of-supply-manage')
+        return this.hasEndOfSupplyManagePermission();
+      console.error('[DhActionsRegistry] Unsupported permission:', permission);
       return false;
     });
   }
@@ -80,9 +81,9 @@ export class DhActionsRegistry {
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
       // FAS users see all supported actions for informational purposes,
       // but cannot execute them (gated by canPerformActions in the template
-      // and hasRequiredMarketRole in execute).
+      // and hasRequiredPermission in execute).
       if (this.isFas()) return true;
-      return this.hasRequiredMarketRole(handler);
+      return this.hasRequiredPermission(handler);
     });
   }
 
@@ -95,7 +96,7 @@ export class DhActionsRegistry {
     if (
       handler &&
       this.featureFlags.isEnabled(handler.featureFlag) &&
-      this.hasRequiredMarketRole(handler)
+      this.hasRequiredPermission(handler)
     ) {
       handler.callback(context);
     }

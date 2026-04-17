@@ -16,14 +16,13 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestService.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestService.V1.Models;
 using HotChocolate.Authorization;
-using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.RequestService;
 
 public static class RequestServiceEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    [Authorize(Roles = ["metering-point:end-of-supply"])]
     public static async Task<bool> RequestServiceEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,
