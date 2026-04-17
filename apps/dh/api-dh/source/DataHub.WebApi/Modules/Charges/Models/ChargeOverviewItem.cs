@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Common.Models;
+using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargesQuery(
-    ChargeType[]? Types,
-    string[]? Owners,
-    ChargeStatus[]? Status,
-    Resolution[]? Resolution,
-    bool? VatInclusive,
-    bool? TransparentInvoicing,
-    bool? SpotDependingPrice,
-    bool? MissingPriceSeries);
+public record ChargeOverviewItem(
+    Charge Charge,
+    Interval Period);

@@ -58,10 +58,12 @@ limitations under the License.
             </vater-stack>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('idLabel')" [value]="conversation.displayId" />
-              <watt-description-list-item
-                [label]="t('internalNoteLabel')"
-                [value]="conversation.internalNote"
-              />
+              @if (conversation.internalNote; as internalNote) {
+                <watt-description-list-item
+                  [label]="t('internalNoteLabel')"
+                  [value]="internalNote"
+                />
+              }
             </watt-description-list>
             @if (meteringPointConversationInfo(); as meteringPointInfo) {
               <watt-description-list variant="inline-flow" *transloco="let tBase">

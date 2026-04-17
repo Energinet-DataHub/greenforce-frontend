@@ -21,12 +21,13 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 public record ChargeType(
     string Name,
     ExternalChargeType Type,
-    bool IsTax)
+    bool IsTax,
+    int SortOrder)
 {
-    public static readonly ChargeType Tariff = new(nameof(Tariff), ExternalChargeType.Tariff, false);
-    public static readonly ChargeType TariffTax = new(nameof(TariffTax), ExternalChargeType.Tariff, true);
-    public static readonly ChargeType Subscription = new(nameof(Subscription), ExternalChargeType.Subscription, false);
-    public static readonly ChargeType Fee = new(nameof(Fee), ExternalChargeType.Fee, false);
+    public static readonly ChargeType Tariff = new(nameof(Tariff), ExternalChargeType.Tariff, false, 1);
+    public static readonly ChargeType TariffTax = new(nameof(TariffTax), ExternalChargeType.Tariff, true, 2);
+    public static readonly ChargeType Fee = new(nameof(Fee), ExternalChargeType.Fee, false, 3);
+    public static readonly ChargeType Subscription = new(nameof(Subscription), ExternalChargeType.Subscription, false, 4);
 
     public override string ToString() => Name;
 
@@ -41,9 +42,9 @@ public record ChargeType(
 
     public RequestChangeOfPriceListChargeType ToRequestChangeOfPriceListChargeType() => Type switch
     {
-        ExternalChargeType.Tariff => RequestChangeOfPriceListChargeType.Tariff,
-        ExternalChargeType.Subscription => RequestChangeOfPriceListChargeType.Subscription,
-        ExternalChargeType.Fee => RequestChangeOfPriceListChargeType.Fee,
+        ExternalChargeType.Subscription => RequestChangeOfPriceListChargeType.D01,
+        ExternalChargeType.Fee => RequestChangeOfPriceListChargeType.D02,
+        ExternalChargeType.Tariff => RequestChangeOfPriceListChargeType.D03,
     };
 
     public RequestChangeBillingMasterDataChargeType ToRequestChangeBillingMasterDataChargeType() => Type switch

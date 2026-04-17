@@ -33,6 +33,9 @@ export const cache = new InMemoryCache({
     MarketParticipantUserRole: {
       keyFields: false,
     },
+    ChargeOverviewItem: {
+      keyFields: false,
+    },
     Calculation: {
       keyFields: (obj) => `Calculation:${obj.id}`,
     },

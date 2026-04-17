@@ -43,7 +43,9 @@ public class MoveInClient(
         var transactionId = instances.FirstOrDefault(i => i.Id == processGuid)?.TransactionId;
 
         if (transactionId is null)
+        {
             return null;
+        }
 
         var query = new TemporaryStorageDataQuery(
             userIdentity,
@@ -52,6 +54,16 @@ public class MoveInClient(
             transactionId);
 
         return await processManagerClient
-            .SearchWorkflowInstanceByCustomQueryAsync<RequestTemporaryStorageResult>(query, ct);
+            .SearchWorkflowInstanceByCustomQueryAsync(query, ct);
+    }
+
+    public async Task<DateTimeOffset?> GetStartDateAsync(
+        string processId,
+        CancellationToken ct = default)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(processId));
+        var instance = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, ct);
+        return instance?.ExpectedValidityDate;
     }
 }

@@ -16,6 +16,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.Ge
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetProjectionsStatus.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
@@ -90,6 +91,20 @@ public static class OperationToolsMeteringPointNode
         var result = await electricityMarketClient.SendAsync(new GetMeteringPointDebugQueryV1(id), ct);
         return !result.IsSuccess
             ? throw new InvalidOperationException($"Failed to get metering point {id}: {result.DiagnosticMessage}.")
+            : result.Data;
+    }
+
+    [Query]
+    [Authorize(Roles = ["operation-tools:view"])]
+    [UseRevisionLog]
+    public static async Task<GetProjectionsStatusResultDtoV1> GetProjectionsStatusAsync(
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        var result = await electricityMarketClient.SendAsync(new GetProjectionsStatusQueryV1(), ct);
+
+        return !result.IsSuccess || !result.HasData
+            ? throw new InvalidOperationException($"Failed to get projections status: {result.DiagnosticMessage}.")
             : result.Data;
     }
 

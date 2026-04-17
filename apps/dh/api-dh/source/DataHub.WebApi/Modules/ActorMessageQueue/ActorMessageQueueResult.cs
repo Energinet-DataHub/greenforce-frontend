@@ -12,20 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using HotChocolate.Data.Sorting;
+namespace Energinet.DataHub.WebApi.Modules.ActorMessageQueue;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
-
-public sealed class ChargeSortType : SortInputType<Charge>
-{
-    protected override void Configure(ISortInputTypeDescriptor<Charge> descriptor)
-    {
-        descriptor.Name("ChargeSortInput");
-        descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Name);
-        descriptor.Field(f => f.Code);
-        descriptor.Field(f => f.Type.Name).Name("type");
-        descriptor.Field(f => f.Status);
-    }
-}
+public record ActorMessageQueueResult(IReadOnlyList<ActorMessageQueue> Queues);

@@ -20,6 +20,7 @@
 export const permissions = [
   'actor-credentials:manage',
   'actor-master-data:manage',
+  'actor-message-queue:view',
   'actors:manage',
   'additional-recipients:manage',
   'additional-recipients:view',
@@ -43,6 +44,8 @@ export const permissions = [
   'metering-point:actor-conversation',
   'metering-point:connection-state-manage',
   'metering-point:create',
+  'metering-point:end-of-supply-request',
+  'metering-point:end-of-supply-respond',
   'metering-point:move-in',
   'metering-point:search',
   'metering-point:prices',

@@ -240,7 +240,8 @@
       "messageArchive": {
         "menuGroupLabel": "Beskeder",
         "messageArchive": "Fremsøg forretningsbeskeder",
-        "requestCalculation": "Anmod om beregnede data"
+        "requestCalculation": "Anmod om beregnede data",
+        "messageQueue": "Beskeder i kø"
       },
       "meteringPoints": "Målepunkter",
       "prices": "Priser",
@@ -408,13 +409,13 @@
           "type": "Type",
           "name": "Navn",
           "owner": "Ejer",
-          "status": "Status",
-          "resolution": "Prisopløsning"
+          "period": "Aktuel periode"
         },
         "filters": {
           "chargeType": "Type",
+          "activePeriodStart": "Aktuel periode start",
+          "activePeriodEnd": "Aktuel periode slut",
           "owners": "Ejer",
-          "status": "Status",
           "resolution": "Prisopløsning",
           "vat": "Moms",
           "moreOptions": "Flere filtre"
@@ -817,6 +818,7 @@
         "GRID_ACCESS_PROVIDER": "Netvirksomhed"
       },
       "reducedElectricityTaxToggle": "Jeg vil ansøge om reduceret elafgift",
+      "numberOfRequiredAttachments": "Du skal vedhæfte mindst {{ count }} fil(er)",
       "internalNoteLabelWithDisclaimer": "Intern note (medsendes ikke)",
       "idLabel": "Sags-ID",
       "internalNoteLabel": "Intern note",
@@ -882,7 +884,8 @@
         "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
         "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
         "yes": "Ja",
-        "no": "Nej"
+        "no": "Nej",
+        "periodEndError": "Slutdato skal være efter startdato"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
       "yes": "Ja",
@@ -1181,7 +1184,20 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
-        "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)"
+        "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
+        "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
+        "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
+        "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_3": "Afvisning af annullering af serviceydelse (RSM-024)",
+        "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_4": "Information om annullering af serviceydelse (RSM-025)",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_1": "Anmodning om serviceydelse (RSM-020)",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
+        "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
+        "BRS_005_REQUESTFORMASTERDATA_V1_STEP_1": "Anmodning om stamdata (RSM-006)",
+        "BRS_005_REQUESTFORMASTERDATA_V1_STEP_2": "Afvisning af anmodning om stamdata (RSM-006)",
+        "BRS_005_REQUESTFORMASTERDATA_V1_STEP_3": "Information om målepunktsstamdata (RSM-022)",
+        "BRS_005_REQUESTFORMASTERDATA_V1_STEP_4": "Information om kundestamdata (RSM-028)"
       },
       "details": {
         "notFound": "Process ikke fundet",
@@ -1654,6 +1670,128 @@
       "startSearchText": "Dine resultater vil fremgå her",
       "createdDate": "Dato og tid",
       "invalidDate": "Ugyldig dato"
+    }
+  },
+  "messageQueue": {
+    "topBarTitle": "Beskeder i kø",
+    "tabs": {
+      "masterdata": "Masterdata",
+      "measureData": "Måledata",
+      "aggregations": "Afregning"
+    },
+    "table": {
+      "messageId": "Besked ID",
+      "documentType": "Dokumenttype",
+      "businessReason": "Forretningskode",
+      "enqueuedAt": "Tidspunkt"
+    },
+    "tableInfo": "Tabellen viser de 10 ældste beskeder i køen.",
+    "selectActor": "Vælg aktør",
+    "emptyState": {
+      "title": "Ingen beskeder i køen",
+      "message": "Der er ingen ventende beskeder for denne kategori."
+    },
+    "documentTypes": {
+      "NOTIFY_AGGREGATED_MEASURE_DATA": "Aggregerede måledata",
+      "REJECT_REQUEST_AGGREGATED_MEASURE_DATA": "Afvis aggregerede måledata",
+      "NOTIFY_WHOLESALE_SERVICES": "Engrosydelser",
+      "REJECT_REQUEST_WHOLESALE_SETTLEMENT": "Afvis engrosafregning",
+      "NOTIFY_VALIDATED_MEASURE_DATA": "Validerede måledata",
+      "ACKNOWLEDGEMENT": "Kvittering",
+      "REMINDER_OF_MISSING_MEASURE_DATA": "Hullerlog",
+      "REJECT_REQUEST_MEASUREMENTS": "Afvis anmodning om måledata",
+      "CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA": "Godkendelse af pristilknytning",
+      "REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA": "Afvisning af pristilknytning",
+      "CONFIRM_REQUEST_END_OF_SUPPLY": "Godkendelse af leveranceophør",
+      "NOTIFY_ACCEPT_MOVE_IN": "Godkendelse af tilflytning",
+      "NOTIFY_CONFIRM_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS": "Godkendelse af kundestamdata",
+      "REJECT_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS": "Afvisning af kundestamdata",
+      "NOTIFY_BILLING_MASTER_DATA": "Pristilknytningsoplysninger",
+      "REJECT_REQUEST_CHANGE_OF_SUPPLIER": "Afvisning af leverandørskift",
+      "CONFIRM_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS": "Godkendelse af målepunktsstamdata",
+      "REJECT_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS": "Afvisning af målepunktsstamdata",
+      "CONFIRM_REQUEST_CANCELLATION": "Godkendelse af annullering",
+      "GENERIC_NOTIFICATION": "Generel notifikation",
+      "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af prisopdatering",
+      "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af prisopdatering",
+      "ACCOUNTING_POINT_CHARACTERISTICS": "Målepunktsstamdata",
+      "NOTIFY_PRICE_LIST": "Prisoplysninger",
+      "REQUEST_SERVICE": "Anmodning om serviceydelse",
+      "CHARACTERISTICS_OF_A_CUSTOMER_AT_AN_AP": "Kundestamdata",
+      "REJECT_REQUEST_END_OF_SUPPLY": "Afvisning af leveranceophør",
+      "REJECT_REQUEST_SERVICE": "Afvisning af serviceydelse",
+      "NOTIFY_CANCELLATION": "Annulleringsnotifikation",
+      "REJECT_REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Afvisning af genallokering",
+      "CONFIRM_REQUEST_SERVICE": "Godkendelse af serviceydelse",
+      "REJECT_REQUEST_CANCELLATION": "Afvisning af annullering",
+      "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Afvisning af målepunktsstamdata",
+      "REJECT_REQUEST_BILLING_MASTER_DATA": "Afvisning af pristilknytningsdata"
+    },
+    "businessReasons": {
+      "CUSTOMER_MOVE_IN": "Tilflytning",
+      "BALANCE_SETTLEMENT": "Balanceafregning",
+      "TEMPORARY": "Foreløbig aggregering",
+      "WHOLE_SETTLEMENT": "Engrosafregning",
+      "CORRECTION_SETTLEMENT": "Korrektionsafregning",
+      "PERIODIC_METERING": "Periodisk aflæsning",
+      "PERIODIC_FLEX_METERING": "Periodisk flex-aflæsning",
+      "MISSING_MEASUREMENTS_LOG": "Hullerlog",
+      "HISTORICAL_DATA": "Historiske data",
+      "UPDATE_CHARGE_LINKS": "Opdatering af pristilknytning",
+      "END_OF_SUPPLY": "Leveranceophør",
+      "UPDATE_CHARGE_INFORMATION": "Opdatering af prisinformation",
+      "UPDATE_CHARGE_PRICES": "Opdatering af prisserie",
+      "ELECTRICAL_HEATING": "Elvarme",
+      "UPDATE_MASTER_DATA_METER": "Opdatering af målerstamdata",
+      "SECONDARY_MOVE_IN": "Sekundær tilflytning",
+      "CHANGE_OF_ENERGY_SUPPLIER": "Leverandørskift",
+      "UPDATE_MASTER_DATA_CONSUMER": "Opdatering af kundestamdata",
+      "NEW_METERING_POINT": "Nyt målepunkt",
+      "MOVE": "Flytning",
+      "CONNECT_METERING_POINT": "Tilslutning af målepunkt",
+      "CHANGE_CONNECTION_STATUS": "Ændring af tilslutningsstatus",
+      "CLOSE_DOWN_METERING_POINT": "Nedlæggelse af målepunkt",
+      "UPDATE_MASTER_DATA_METERING_POINT": "Opdatering af målepunktsstamdata",
+      "PROCESS_CANCELLED_BY_REQUESTING_PARTY": "Annulleret af anmoder",
+      "SERVICE_REQUEST": "Serviceydelse",
+      "CUSTOMER_MOVE_OUT": "Fraflytning",
+      "PRODUCTION_OBLIGATION": "Aftagepligt",
+      "NO_DISCONNECTION_OF_METERING_POINT": "Ingen afbrydelse af målepunkt",
+      "DATA_ALIGNMENT_FOR_MASTER_DATA_METERING_POINT": "Datajustering af stamdata",
+      "REQUEST_FOR_CHARGE_PRICES": "Anmodning om priser",
+      "CANCEL_SERVICE_REQUEST": "Annullering af serviceydelse",
+      "CANCELLATION": "Annullering",
+      "CHANGE_OF_SUPPLY_TO_SUPPLIER_OF_LAST_RESORT": "Skift til forsyningspligtig",
+      "CONTINUE_SUPPLY_DUE_TO_REJECTED_REALLOCATE": "Fortsat leverance grundet afvist genallokering",
+      "DATE_OF_SUPPLIER_CHANGE_CAUSED_BY_END_OF_SUPPLY": "Leverandørskift ved leveranceophør",
+      "END_SUPPLY_DUE_TO_REALLOCATE": "Leveranceophør ved genallokering",
+      "HISTORICAL_INFORMATION_ABOUT_CONSUMPTION": "Historisk forbrugsinformation",
+      "INCORRECT_MOVE": "Fejlagtig flytning",
+      "INCORRECT_PROCESS": "Fejlagtig proces",
+      "MERGE_OF_GRIDS": "Sammenlægning af net",
+      "MISSING_FLEX_TIME_SERIES": "Manglende flex-tidsserie",
+      "MISSING_NON_PROFILED_TIME_SERIES": "Manglende ikke-profilerede tidsserie",
+      "MISSING_PROFILED_READING": "Manglende profilaflæsning",
+      "PREPARATION_FOR_IMBALANCE_SETTLEMENT": "Forberedelse til ubalanceafregning",
+      "PROCESS_CANCELLED_BY_ITX": "Annulleret af ITX",
+      "PROCESS_CANCELLED_BY_I_T_X": "Annulleret af ITX",
+      "PROPOSAL_CONTACT_INFORMATION": "Forslag til kontaktinformation",
+      "REMINDER": "Påmindelse",
+      "REMOVED_PARENT_RELATION_ON_METERING_POINT": "Fjernet overordnet relation",
+      "ROLLBACK_CHANGE_OF_SUPPLIER": "Tilbagerulning af leverandørskift",
+      "TRANSFER_METERING_POINT": "Overdragelse af målepunkt",
+      "UNREQUESTED_CHANGE_OF_ENERGY_SUPPLIER": "Uanmodet leverandørskift",
+      "CHANGE_OF_ESTIMATED_ANNUAL_VOLUME": "Ændring af estimeret årsforbrug",
+      "BALANCE_FIXING": "Balancefiksering",
+      "PRELIMINARY_AGGREGATION": "Foreløbig aggregering",
+      "WHOLESALE_FIXING": "Engrosfiksering",
+      "CORRECTION": "Korrektion",
+      "REMINDER_OF_MISSING_MEASUREMENT_LOG": "Hullerlog",
+      "YEARLY_METERING": "Årlig aflæsning",
+      "UPDATE_CHARGE_SERIES": "Opdatering af prisserie",
+      "MOVE_IN_DUE_TO_OTHER_REASON": "Tilflytning af anden årsag",
+      "UPDATE_METERING_POINT_MASTER_DATA": "Opdatering af målepunktsstamdata",
+      "REQUEST_CHARGE_PRICES": "Anmodning om priser"
     }
   },
   "marketParticipant": {
@@ -3462,6 +3600,10 @@
           "title": "Genopbyg projektion",
           "message": "Er du sikker på, at du vil genopbygge projektionen?"
         }
+      },
+      "projectionsStatus": {
+        "title": "Projektionsstatus",
+        "button": "Hent projektionsstatus"
       },
       "dangerZone": {
         "title": "Farezone"

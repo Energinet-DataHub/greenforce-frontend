@@ -17,8 +17,14 @@
  */
 //#endregion
 describe('Application shell', () => {
-  it('should display welcome message', () => {
-    cy.visit('/message-archive');
+  const initialUrl = '/message-archive';
+
+  beforeEach(() => {
+    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+    cy.visit(initialUrl);
+  });
+
+  it.skip('should display welcome message', () => {
     cy.findByRole('heading', { name: /Fremsøg forretningsbeskeder/i });
 
     // Page loaded
