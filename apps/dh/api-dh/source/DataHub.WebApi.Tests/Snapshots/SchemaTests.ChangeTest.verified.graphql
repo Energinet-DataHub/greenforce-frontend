@@ -1242,9 +1242,9 @@ type Mutation {
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
-  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
