@@ -1,13 +1,13 @@
-query GetCharges(
+query GetChargeOverview(
   $after: String
   $before: String
   $first: Int
   $last: Int
-  $query: ChargesQueryInput
-  $order: [ChargeSortInput!]
+  $query: ChargeOverviewQueryInput
+  $order: [ChargeOverviewItemSortInput!]
   $filter: String
 ) {
-  charges(
+  chargeOverview(
     after: $after
     before: $before
     first: $first
@@ -18,7 +18,10 @@ query GetCharges(
   ) {
     totalCount
     nodes {
-      ...ChargeFields
+      period
+      charge {
+        ...ChargeFields
+      }
     }
     pageInfo {
       startCursor

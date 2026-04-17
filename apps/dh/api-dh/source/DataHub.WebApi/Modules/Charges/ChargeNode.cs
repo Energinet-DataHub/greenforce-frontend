@@ -29,27 +29,6 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeNode
 {
     [Query]
-    [UsePaging]
-    [UseSorting]
-    [Authorize(Roles = ["charges:view"])]
-    public static async Task<IEnumerable<Charge>> GetChargesAsync(
-        string? filter,
-        ChargesQuery? query,
-        IChargesClient client,
-        CancellationToken ct) =>
-            await client.GetChargesAsync(
-                filter,
-                query?.Owners,
-                query?.Types,
-                query?.Status,
-                query?.Resolution,
-                query?.VatInclusive,
-                query?.TransparentInvoicing,
-                query?.SpotDependingPrice,
-                query?.MissingPriceSeries,
-                ct);
-
-    [Query]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
@@ -125,6 +104,7 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Code);
         descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Type);
+        descriptor.Field(f => f.TypeDisplayName);
         descriptor.Field(f => $"{f.Code} - {f.Name}").Name("displayName");
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);

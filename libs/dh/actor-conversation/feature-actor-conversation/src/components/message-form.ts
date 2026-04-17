@@ -48,7 +48,7 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { MessageFormValue } from '../types';
 import { skip } from 'rxjs';
-import { WattFieldHintComponent } from '@energinet/watt/field';
+import { WattFieldHintComponent, WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattInputChipComponent } from '@energinet/watt/chip';
 
 const allowedFileExtensions = ['.bmp', '.csv', '.jpeg', '.jpg', '.pdf', '.png', '.txt'];
@@ -76,6 +76,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     WattTextareaNoticeComponent,
     WattFieldHintComponent,
     WattInputChipComponent,
+    WattFieldErrorComponent,
   ],
   styles: `
     .info-icon-color {
@@ -127,6 +128,12 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
 
         @for (file of selectedFiles(); track file.name) {
           <watt-input-chip [label]="file.name" (removed)="removeFile(file)" />
+        }
+
+        @if (showAttachmentsError()) {
+          <watt-field-error>
+            {{ t('numberOfRequiredAttachments', { count: numberOfRequiredAttachments() }) }}
+          </watt-field-error>
         }
 
         <watt-field-hint class="watt-text-s field-hint">
@@ -187,11 +194,16 @@ export class DhActorConversationMessageForm implements ControlValueAccessor {
   closed = input<boolean>(false);
   disableAnonymous = input<boolean>(false);
   uploadError = input<boolean>(false);
+  numberOfRequiredAttachments = input<number>(0);
 
   form = new FormGroup({
     message: new FormControl<string | null>(null),
     anonymous: new FormControl<boolean>(false),
   });
+
+  showAttachmentsError = computed(
+    () => this.selectedFiles().length < this.numberOfRequiredAttachments()
+  );
 
   selectedFiles = signal<File[]>([]);
   hasInvalidFileType = signal(false);
