@@ -831,6 +831,14 @@ type GetMeteringPointDebugResultDtoV1 {
   events: [ElectricityMarketV2EventDto!]!
 }
 
+type GetProjectionsStatusResultDtoV1 {
+  daemonHighWaterMark: Long!
+  eventCount: Long!
+  eventSequenceNumber: Long!
+  streamCount: Long!
+  projections: [ProjectionStatus!]!
+}
+
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
@@ -1409,6 +1417,18 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionStatus {
+  name: String!
+  assignedNodeNumber: Int!
+  action: String!
+  exception: String
+  previousGoodMark: Long!
+  mode: String!
+  rebuildThreshold: Long!
+  sequence: Long!
+  timestamp: DateTime!
+}
+
 type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
@@ -1437,7 +1457,7 @@ type Query {
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
-  projectionsStatus: String! @authorize(roles: [ "operation-tools:view" ])
+  projectionsStatus: GetProjectionsStatusResultDtoV1! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!

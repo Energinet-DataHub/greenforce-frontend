@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -132,8 +132,8 @@ import {
               {{ t('projectionsStatus.button') }}
             </watt-button>
 
-            @if (projectionsStatusQuery.data(); as data) {
-              <pre class="result-box">{{ prettifyJson(data.projectionsStatus) }}</pre>
+            @if (projectionsStatusJson()) {
+              <pre class="result-box">{{ projectionsStatusJson() }}</pre>
             }
 
             @if (projectionsStatusQuery.error(); as error) {
@@ -170,6 +170,11 @@ export class DhMeteringPointActionsComponent {
   timeoutControl = dhMakeFormControl('30');
   projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
   projectionsStatusQuery = lazyQuery(GetProjectionsStatusDocument);
+  projectionsStatusJson = computed(() => {
+    const data = this.projectionsStatusQuery.data()?.projectionsStatus;
+    if (!data) return null;
+    return JSON.stringify(data, (key, value) => (key === '__typename' ? undefined : value), 2);
+  });
 
   onConfirmRebuild(confirmed: boolean): void {
     if (!confirmed) return;
@@ -181,13 +186,5 @@ export class DhMeteringPointActionsComponent {
 
   getProjectionsStatus(): void {
     this.projectionsStatusQuery.query({ fetchPolicy: 'network-only' });
-  }
-
-  prettifyJson(json: string): string {
-    try {
-      return JSON.stringify(JSON.parse(json), null, 2);
-    } catch {
-      return json;
-    }
   }
 }

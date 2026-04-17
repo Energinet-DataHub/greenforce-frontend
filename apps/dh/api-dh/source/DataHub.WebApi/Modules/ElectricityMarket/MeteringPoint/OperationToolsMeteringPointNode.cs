@@ -31,6 +31,8 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 
 public static class OperationToolsMeteringPointNode
 {
+    private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
+
     [Query]
     [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<string> GetDebugViewAsync(
@@ -98,15 +100,15 @@ public static class OperationToolsMeteringPointNode
     [Query]
     [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
-    public static async Task<string> GetProjectionsStatusAsync(
+    public static async Task<GetProjectionsStatusResultDtoV1> GetProjectionsStatusAsync(
         IElectricityMarketClient electricityMarketClient,
         CancellationToken ct)
     {
         var result = await electricityMarketClient.SendAsync(new GetProjectionsStatusQueryV1(), ct);
 
-        return !result.IsSuccess
+        return !result.IsSuccess || !result.HasData
             ? throw new InvalidOperationException($"Failed to get projections status: {result.DiagnosticMessage}.")
-            : JsonSerializer.Serialize(result.Data, new JsonSerializerOptions() { WriteIndented = true });
+            : result.Data;
     }
 
     [Mutation]
