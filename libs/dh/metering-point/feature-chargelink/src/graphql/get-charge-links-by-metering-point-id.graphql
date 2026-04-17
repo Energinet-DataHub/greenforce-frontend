@@ -14,6 +14,7 @@ query GetChargeLinksByMeteringPointId(
       transparentInvoicing
       name
       type
+      typeDisplayName
       status
       owner {
         id

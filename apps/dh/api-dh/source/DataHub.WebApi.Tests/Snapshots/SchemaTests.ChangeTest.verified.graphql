@@ -307,6 +307,7 @@ type Charge {
   code: String!
   name: String!
   type: ChargeType!
+  typeDisplayName: String!
   displayName: String!
   description: String!
   periods: [ChargePeriod!]!
@@ -336,6 +337,31 @@ type ChargeLinkPeriod {
   amount: Int!
 }
 
+"A connection to a list of items."
+type ChargeOverviewConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ChargeOverviewEdge!]
+  "A flattened list of the nodes."
+  nodes: [ChargeOverviewItem!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+"An edge in a connection."
+type ChargeOverviewEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: ChargeOverviewItem!
+}
+
+type ChargeOverviewItem {
+  charge: Charge!
+  period: DateRange!
+}
+
 type ChargePeriod {
   name: String!
   description: String!
@@ -356,26 +382,6 @@ type ChargeSeriesPointChange {
   price: Decimal!
   isCurrent: Boolean!
   messageId: String
-}
-
-"A connection to a list of items."
-type ChargesConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ChargesEdge!]
-  "A flattened list of the nodes."
-  nodes: [Charge!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-"An edge in a connection."
-type ChargesEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Charge!
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
@@ -1200,7 +1206,7 @@ type Mutation {
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   changeProductionObligation(input: ChangeProductionObligationInput!): ChangeProductionObligationPayload! @authorize(roles: [ "metering-point:production-obligation-manage" ])
-  requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1238,13 +1244,13 @@ type Mutation {
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplierOrGridAccessProvider")
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
-  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
+  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1408,9 +1414,9 @@ type Query {
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   actorMessageQueues(actorNumber: String! actorRole: String!): ActorMessageQueueResult! @authorize(roles: [ "actor-message-queue:view" ])
-  charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
+  chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeOverviewItemSortInput!]): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
   chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
   chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -2072,27 +2078,28 @@ input ChargeLinkDtoSortInput {
   chargeIdentifier: ChargeIdentifierDtoSortInput
 }
 
-input ChargePointV2Input {
-  position: Int!
-  priceAmount: Decimal!
-}
-
-input ChargeSortInput {
+input ChargeOverviewItemSortInput {
   name: SortEnumType
   code: SortEnumType
   type: SortEnumType
-  status: SortEnumType
+  period: SortEnumType
 }
 
-input ChargesQueryInput {
+input ChargeOverviewQueryInput {
   types: [ChargeType!]
   owners: [String!]
-  status: [ChargeStatus!]
   resolution: [ChargeResolution!]
+  activePeriodStart: DateTime
+  activePeriodEnd: DateTime
   vatInclusive: Boolean
   transparentInvoicing: Boolean
   spotDependingPrice: Boolean
   missingPriceSeries: Boolean
+}
+
+input ChargePointV2Input {
+  position: Int!
+  priceAmount: Decimal!
 }
 
 input CloseConversationInput {

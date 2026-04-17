@@ -22,7 +22,6 @@ import { WattModalService } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  EicFunction,
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
   RejectEndOfSupplyDocument,
@@ -45,7 +44,7 @@ export class EndOfSupplyActions {
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.EnergySupplier],
+      permissions: ['metering-point:end-of-supply-request'],
       callback: (ctx) => {
         this.modalService.open({
           component: DhRequestServiceModal,
@@ -61,7 +60,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.GridAccessProvider],
+      permissions: ['metering-point:end-of-supply-respond'],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
@@ -82,7 +81,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+      permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {

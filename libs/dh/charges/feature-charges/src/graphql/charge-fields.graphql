@@ -2,6 +2,7 @@ fragment ChargeFields on Charge {
   id
   code
   type
+  typeDisplayName
   owner {
     id
     name
