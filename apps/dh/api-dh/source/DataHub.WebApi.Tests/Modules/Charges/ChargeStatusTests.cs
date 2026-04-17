@@ -50,6 +50,7 @@ public class ChargeStatusTests
             Resolution.Daily,
             false,
             false,
+            "Subscription",
             [new("Period 1", "Standard Period", VatClassificationDto.NoVat, false, startDate, endDate)]);
 
         charge.Status.Should().Be(expectedStatus);

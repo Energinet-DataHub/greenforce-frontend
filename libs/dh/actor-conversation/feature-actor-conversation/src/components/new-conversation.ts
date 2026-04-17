@@ -17,59 +17,66 @@
  */
 //#endregion
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
+  input,
   effect,
   inject,
-  input,
   output,
   signal,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
 } from '@angular/core';
+
+import { FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+
 import { TranslocoDirective } from '@jsverse/transloco';
-import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { dayjs } from '@energinet/watt/core/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { VATER, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
+
 import {
-  DhDropdownTranslatorDirective,
-  dhEnumToWattDropdownOptions,
-  dhFormControlToSignal,
   dhMakeFormControl,
-  dhMeteringPointIdValidator,
+  dhFormControlToSignal,
   dhSyncControlValidators,
+  dhMeteringPointIdValidator,
+  dhEnumToWattDropdownOptions,
+  DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+
 import {
-  ElectricalHeatingFormValue,
-  internalNoteMaxLength,
-  MessageFormValue,
-  messageMaxLength,
-} from '../types';
-import {
-  ConversationSubject,
-  EicFunction,
-  ElectricityMarketViewMeteringPointType,
-  GetConversationsDocument,
-  GetElectricalHeatingDocument,
-  GetMeteringPointTypeDocument,
   MarketRole,
+  EicFunction,
+  ConversationSubject,
+  GetConversationsDocument,
   StartConversationDocument,
+  GetMeteringPointTypeDocument,
+  GetElectricalHeatingDocument,
+  ElectricityMarketViewMeteringPointType,
   StartElectricalHeatingConversationInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorConversationMessageForm } from './message-form';
-import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { injectUploadMessageDocument } from './upload-message-document';
-import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { DhActorConversationMessageForm } from './message-form';
+import { injectUploadMessageDocument } from './upload-message-document';
+import { DhActorConversationReceiverRadioGroup } from './receiver-radio-group';
 import { DhActorConversationElectricalHeatingForm } from './electrical-heating-form';
 import { DhActorConversationMeteringPointSearch } from './metering-point-search';
-import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { dayjs } from '@energinet/watt/core/date';
 
+import {
+  MessageFormValue,
+  messageMaxLength,
+  internalNoteMaxLength,
+  ElectricalHeatingFormValue,
+} from '../types';
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
@@ -92,7 +99,20 @@ import { dayjs } from '@energinet/watt/core/date';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .header-background {
+      position: sticky;
+      top: var(--watt-space-ml);
+      z-index: 2;
       background-color: var(--bg-card);
+
+      &::before {
+        content: '';
+        position: absolute;
+        top: calc(-1 * var(--watt-space-ml));
+        right: 0;
+        left: 0;
+        height: var(--watt-space-ml);
+        background-color: var(--bg-card);
+      }
     }
   `,
   template: `
@@ -105,7 +125,6 @@ import { dayjs } from '@energinet/watt/core/date';
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
       <vater-stack
-        sticky="top"
         direction="row"
         fill="horizontal"
         align="start"
@@ -177,6 +196,7 @@ import { dayjs } from '@energinet/watt/core/date';
               [uploadError]="uploadError()"
               [formControl]="newConversationForm().controls.message"
               [disableAnonymous]="disableAnonymous()"
+              [numberOfRequiredAttachments]="shouldShowElectricalHeatingForm() ? 2 : 0"
             />
           </vater-stack>
         </vater-grid-area>
@@ -212,6 +232,11 @@ export class DhActorConversationNewConversation {
   private readonly reducedElectricityTaxValue = dhFormControlToSignal(
     () => this.newConversationForm().controls.reducedElectricityTax
   );
+
+  private readonly electricalHeatingAttachmentsValidator: ValidatorFn = (control) =>
+    (control.value?.files?.length ?? 0) >= 2
+      ? null
+      : { electricalHeatingAttachmentsRequired: true };
 
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
@@ -301,6 +326,12 @@ export class DhActorConversationNewConversation {
     Validators.required,
     () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
+  );
+
+  private readonly syncElectricalHeatingMessageValidators = dhSyncControlValidators(
+    () => this.newConversationForm().controls.message,
+    this.electricalHeatingAttachmentsValidator,
+    () => this.shouldShowElectricalHeatingForm()
   );
 
   private readonly reducedElectricityTaxValueEffect = effect(() => {

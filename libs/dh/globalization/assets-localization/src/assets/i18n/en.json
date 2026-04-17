@@ -409,13 +409,13 @@
           "type": "Type",
           "name": "Name",
           "owner": "Owner",
-          "status": "Status",
-          "resolution": "Resolution"
+          "period": "Current period"
         },
         "filters": {
           "chargeType": "Type",
+          "activePeriodStart": "Period start",
+          "activePeriodEnd": "Period end",
           "owners": "Owners",
-          "status": "Status",
           "resolution": "Resolution",
           "vat": "VAT",
           "moreOptions": "More filters"
@@ -818,6 +818,7 @@
         "GRID_ACCESS_PROVIDER": "Grid access provider"
       },
       "reducedElectricityTaxToggle": "I want to apply for reduced electricity tax",
+      "numberOfRequiredAttachments": "You must attach at least {{ count }} file(s)",
       "internalNoteLabelWithDisclaimer": "Internal note (not enclosed)",
       "idLabel": "Case ID",
       "internalNoteLabel": "Internal note",
@@ -883,7 +884,8 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "periodEndError": "End date must be after start date"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "yes": "Yes",
