@@ -61,6 +61,7 @@ async function setup(
     componentInputs: {
       id: processId,
       meteringPointId: 'mp-123',
+      internalMeteringPointId: 'imp-123',
     },
   });
 
