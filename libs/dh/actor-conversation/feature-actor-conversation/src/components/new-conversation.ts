@@ -232,7 +232,7 @@ export class DhActorConversationNewConversation {
   );
 
   private readonly electricalHeatingAttachmentsValidator: ValidatorFn = (control) =>
-    control.value?.files?.length === 2 ? null : { electricalHeatingAttachmentsRequired: true };
+    (control.value?.files?.length ?? 0) >= 2 ? null : { electricalHeatingAttachmentsRequired: true };
 
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
