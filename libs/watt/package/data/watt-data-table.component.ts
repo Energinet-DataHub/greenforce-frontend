@@ -20,8 +20,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
+  afterRenderEffect,
   contentChild,
-  effect,
   inject,
   input,
   output,
@@ -200,7 +200,7 @@ export class WattDataTableComponent {
   protected readonly filteredDataCount = signal(0);
 
   constructor() {
-    effect((onCleanup) => {
+    afterRenderEffect((onCleanup) => {
       const ds = this.table().dataSource();
       const sub = ds.connect({ viewChange: NEVER }).subscribe(() => {
         this.filteredDataCount.set(ds.filteredData.length);
