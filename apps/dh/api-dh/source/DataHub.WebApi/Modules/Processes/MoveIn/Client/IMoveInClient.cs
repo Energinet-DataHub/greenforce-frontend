@@ -28,4 +28,11 @@ public interface IMoveInClient
         string meteringPointId,
         string processId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the start date for a given process.
+    /// </summary>
+    Task<DateTimeOffset?> GetStartDateAsync(
+        string processId,
+        CancellationToken ct = default);
 }
