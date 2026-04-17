@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Text.Json;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetProjectionsStatus.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
@@ -96,16 +98,15 @@ public static class OperationToolsMeteringPointNode
     [Query]
     [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
-    public static Task<string> GetProjectionsStatusAsync(CancellationToken ct)
+    public static async Task<string> GetProjectionsStatusAsync(
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
     {
-        // TODO: Replace with actual IElectricityMarketClient call once the operation is available
-        var dummyStatus = """
-            {
-              "status": "not_implemented",
-              "message": "GetProjectionsStatus is not yet available in the electricity market client."
-            }
-            """;
-        return Task.FromResult(dummyStatus);
+        var result = await electricityMarketClient.SendAsync(new GetProjectionsStatusQueryV1(), ct);
+
+        return !result.IsSuccess
+            ? throw new InvalidOperationException($"Failed to get projections status: {result.DiagnosticMessage}.")
+            : JsonSerializer.Serialize(result.Data, new JsonSerializerOptions() { WriteIndented = true });
     }
 
     [Mutation]
