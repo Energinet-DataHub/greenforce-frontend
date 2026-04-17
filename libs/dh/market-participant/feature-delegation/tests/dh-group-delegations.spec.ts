@@ -23,46 +23,44 @@ import { dhGroupDelegations } from '../src/dh-group-delegations';
 
 describe(dhGroupDelegations, () => {
   it('should group delegations by type', () => {
-    const delegations = Object.values(DelegatedProcess)
-      .sort()
-      .map((messageType) => ({
-        process: messageType as DelegatedProcess,
-      })) as DhDelegations;
+    const delegations = Object.values(DelegatedProcess).map((messageType) => ({
+      process: messageType as DelegatedProcess,
+    })) as DhDelegations;
 
     const result = dhGroupDelegations(delegations);
 
     expect(result).toEqual([
       {
-        type: DelegatedProcess.ReceiveEnergyResults,
-        delegations: [{ process: DelegatedProcess.ReceiveEnergyResults }],
-      },
-      {
-        type: DelegatedProcess.ReceiveGapLog,
-        delegations: [{ process: DelegatedProcess.ReceiveGapLog }],
-      },
-      {
-        type: DelegatedProcess.ReceiveMeteringPointData,
-        delegations: [{ process: DelegatedProcess.ReceiveMeteringPointData }],
-      },
-      {
-        type: DelegatedProcess.ReceiveWholesaleResults,
-        delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
-      },
-      {
         type: DelegatedProcess.RequestEnergyResults,
         delegations: [{ process: DelegatedProcess.RequestEnergyResults }],
       },
       {
-        type: DelegatedProcess.RequestMeteringPointData,
-        delegations: [{ process: DelegatedProcess.RequestMeteringPointData }],
+        type: DelegatedProcess.ReceiveEnergyResults,
+        delegations: [{ process: DelegatedProcess.ReceiveEnergyResults }],
       },
       {
         type: DelegatedProcess.RequestWholesaleResults,
         delegations: [{ process: DelegatedProcess.RequestWholesaleResults }],
       },
       {
+        type: DelegatedProcess.ReceiveWholesaleResults,
+        delegations: [{ process: DelegatedProcess.ReceiveWholesaleResults }],
+      },
+      {
+        type: DelegatedProcess.RequestMeteringPointData,
+        delegations: [{ process: DelegatedProcess.RequestMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.ReceiveMeteringPointData,
+        delegations: [{ process: DelegatedProcess.ReceiveMeteringPointData }],
+      },
+      {
         type: DelegatedProcess.SendMeteringPointData,
         delegations: [{ process: DelegatedProcess.SendMeteringPointData }],
+      },
+      {
+        type: DelegatedProcess.ReceiveGapLog,
+        delegations: [{ process: DelegatedProcess.ReceiveGapLog }],
       },
     ]);
   });
