@@ -359,7 +359,7 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
-    [Authorize(Roles = ["metering-point:end-of-supply"])]
+    [Authorize(Roles = ["metering-point:end-of-supply-request"])]
     public static async Task<bool> RequestEndOfSupplyAsync(
         string meteringPointId,
         DateTimeOffset terminationDate,

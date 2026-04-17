@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.RequestService;
 public static class RequestServiceEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Roles = ["metering-point:end-of-supply"])]
+    [Authorize(Roles = ["metering-point:end-of-supply-request"])]
     public static async Task<bool> RequestServiceEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,

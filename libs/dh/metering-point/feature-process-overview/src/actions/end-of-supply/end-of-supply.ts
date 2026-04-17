@@ -44,7 +44,7 @@ export class EndOfSupplyActions {
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
       featureFlag: 'end-of-supply',
-      permissions: ['metering-point:end-of-supply'],
+      permissions: ['metering-point:end-of-supply-request'],
       callback: (ctx) => {
         this.modalService.open({
           component: DhRequestServiceModal,
@@ -60,7 +60,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
-      permissions: ['metering-point:end-of-supply-manage'],
+      permissions: ['metering-point:end-of-supply-respond'],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
@@ -81,7 +81,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
-      permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
+      permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {

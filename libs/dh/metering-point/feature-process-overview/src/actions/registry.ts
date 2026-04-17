@@ -44,13 +44,13 @@ export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
   private readonly permissionService = inject(PermissionService);
 
-  private readonly hasEndOfSupplyPermission = toSignal(
-    this.permissionService.hasPermission('metering-point:end-of-supply'),
+  private readonly hasEndOfSupplyRequestPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-request'),
     { initialValue: false }
   );
 
-  private readonly hasEndOfSupplyManagePermission = toSignal(
-    this.permissionService.hasPermission('metering-point:end-of-supply-manage'),
+  private readonly hasEndOfSupplyRespondPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-respond'),
     { initialValue: false }
   );
 
@@ -64,9 +64,10 @@ export class DhActionsRegistry {
   private hasRequiredPermission(handler: ActionHandler): boolean {
     if (!handler.permissions?.length) return true;
     return handler.permissions.some((permission) => {
-      if (permission === 'metering-point:end-of-supply') return this.hasEndOfSupplyPermission();
-      if (permission === 'metering-point:end-of-supply-manage')
-        return this.hasEndOfSupplyManagePermission();
+      if (permission === 'metering-point:end-of-supply-request')
+        return this.hasEndOfSupplyRequestPermission();
+      if (permission === 'metering-point:end-of-supply-respond')
+        return this.hasEndOfSupplyRespondPermission();
       console.error('[DhActionsRegistry] Unsupported permission:', permission);
       return false;
     });

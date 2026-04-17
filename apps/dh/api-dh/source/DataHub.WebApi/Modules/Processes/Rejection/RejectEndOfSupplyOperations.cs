@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.Rejection;
 public static class RejectEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Roles = ["metering-point:end-of-supply-manage"])]
+    [Authorize(Roles = ["metering-point:end-of-supply-respond"])]
     public static async Task<bool> RejectEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,

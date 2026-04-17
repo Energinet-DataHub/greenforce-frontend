@@ -52,8 +52,8 @@ describe('DhActionsRegistry', () => {
   function setupRegistry(
     options: {
       featureFlagsEnabled?: boolean;
-      hasEndOfSupplyManagePermission?: boolean;
-      hasEndOfSupplyPermission?: boolean;
+      hasEndOfSupplyRespondPermission?: boolean;
+      hasEndOfSupplyRequestPermission?: boolean;
       isFas?: boolean;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
@@ -61,8 +61,8 @@ describe('DhActionsRegistry', () => {
   ) {
     const {
       featureFlagsEnabled = true,
-      hasEndOfSupplyManagePermission = true,
-      hasEndOfSupplyPermission = false,
+      hasEndOfSupplyRespondPermission = true,
+      hasEndOfSupplyRequestPermission = false,
       isFas = false,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
@@ -87,10 +87,10 @@ describe('DhActionsRegistry', () => {
           provide: PermissionService,
           useValue: {
             hasPermission: (permission: Permission) => {
-              if (permission === 'metering-point:end-of-supply-manage')
-                return of(hasEndOfSupplyManagePermission);
-              if (permission === 'metering-point:end-of-supply')
-                return of(hasEndOfSupplyPermission);
+              if (permission === 'metering-point:end-of-supply-respond')
+                return of(hasEndOfSupplyRespondPermission);
+              if (permission === 'metering-point:end-of-supply-request')
+                return of(hasEndOfSupplyRequestPermission);
               return of(false);
             },
             isFas: () => of(isFas),
@@ -176,11 +176,11 @@ describe('DhActionsRegistry', () => {
 
     it('should return action when user has required permission', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: true,
+        hasEndOfSupplyRespondPermission: true,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
         },
@@ -196,11 +196,11 @@ describe('DhActionsRegistry', () => {
 
     it('should filter out action when user lacks required permission', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: false,
+        hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
         },
@@ -216,7 +216,7 @@ describe('DhActionsRegistry', () => {
 
     it('should allow action without permissions regardless of user permission', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: false,
+        hasEndOfSupplyRespondPermission: false,
       });
 
       const result = registry.getSupportedActions(
@@ -229,12 +229,12 @@ describe('DhActionsRegistry', () => {
 
     it('should return action when user has end-of-supply permission and action allows it', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: false,
-        hasEndOfSupplyPermission: true,
+        hasEndOfSupplyRespondPermission: false,
+        hasEndOfSupplyRequestPermission: true,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
         },
@@ -248,14 +248,14 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([WorkflowAction.SendInformation]);
     });
 
-    it('should return action when user has end-of-supply-manage permission and action allows both', () => {
+    it('should return action when user has end-of-supply-respond permission and action allows both', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: true,
-        hasEndOfSupplyPermission: false,
+        hasEndOfSupplyRespondPermission: true,
+        hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
         },
@@ -271,12 +271,12 @@ describe('DhActionsRegistry', () => {
 
     it('should filter out action when user has neither required permission', () => {
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: false,
-        hasEndOfSupplyPermission: false,
+        hasEndOfSupplyRespondPermission: false,
+        hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply', 'metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
         },
@@ -336,11 +336,11 @@ describe('DhActionsRegistry', () => {
     it('should not call handler when user lacks required permission', () => {
       const callback = vi.fn();
       const registry = setupRegistry({
-        hasEndOfSupplyManagePermission: false,
+        hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
-            permissions: ['metering-point:end-of-supply-manage'],
+            permissions: ['metering-point:end-of-supply-respond'],
             callback,
           },
         },

@@ -184,8 +184,8 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
-  private readonly hasMeteringPointEndOfSupplyPermission = toSignal(
-    this.permissionService.hasPermission('metering-point:end-of-supply'),
+  private readonly hasMeteringPointEndOfSupplyRequestPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-request'),
     { initialValue: false }
   );
 
@@ -229,7 +229,7 @@ export class DhMeteringPointActionsComponent {
 
   showEndOfSupplyButton = computed(
     () =>
-      this.hasMeteringPointEndOfSupplyPermission() &&
+      this.hasMeteringPointEndOfSupplyRequestPermission() &&
       this.isEnergySupplierResponsible() &&
       this.featureFlagsService.isEnabled('end-of-supply')
   );
