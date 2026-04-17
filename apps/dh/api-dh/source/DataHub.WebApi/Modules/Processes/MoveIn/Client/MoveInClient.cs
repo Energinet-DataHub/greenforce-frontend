@@ -57,7 +57,7 @@ public class MoveInClient(
             .SearchWorkflowInstanceByCustomQueryAsync(query, ct);
     }
 
-    public async Task<DateTimeOffset?> GetCutOffDateAsync(
+    public async Task<DateTimeOffset?> GetStartDateAsync(
         string processId,
         CancellationToken ct = default)
     {

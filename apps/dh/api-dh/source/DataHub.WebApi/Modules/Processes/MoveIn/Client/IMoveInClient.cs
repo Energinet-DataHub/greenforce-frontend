@@ -30,9 +30,9 @@ public interface IMoveInClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get the cut-off date for a given process.
+    /// Get the start date for a given process.
     /// </summary>
-    Task<DateTimeOffset?> GetCutOffDateAsync(
+    Task<DateTimeOffset?> GetStartDateAsync(
         string processId,
         CancellationToken ct = default);
 }

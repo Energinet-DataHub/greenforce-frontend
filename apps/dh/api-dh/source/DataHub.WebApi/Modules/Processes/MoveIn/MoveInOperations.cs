@@ -80,17 +80,17 @@ public static class MoveInOperations
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
     {
-        DateTimeOffset? cutOffDate = null;
+        DateTimeOffset? startDate = null;
         if (processId != null)
         {
-            cutOffDate = await moveInClient.GetCutOffDateAsync(processId, ct);
+            startDate = await moveInClient.GetStartDateAsync(processId, ct);
         }
 
         var command = new RequestChangeCustomerCharacteristicsCommandV2(
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
-                StartDate: cutOffDate ?? DateTimeOffset.UtcNow,
+                StartDate: startDate ?? DateTimeOffset.UtcNow,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
