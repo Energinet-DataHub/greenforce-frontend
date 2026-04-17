@@ -194,7 +194,9 @@ import { dayjs } from '@energinet/watt/core/date';
 })
 export class DhActorConversationNewConversation {
   private readonly uploadMessageDocument = injectUploadMessageDocument();
-  private readonly electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument);
+  private readonly electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
+    variables: { meteringPointIdentification: this.meteringPointIdentification() ?? '' },
+  }));
   private readonly meteringPointTypeQuery = query(GetMeteringPointTypeDocument, () => ({
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
@@ -222,10 +224,15 @@ export class DhActorConversationNewConversation {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
+  private readonly electricalHeatingPeriods = computed(
+    () => this.electricalHeatingInformation()?.supplierPeriods ?? []
+  );
+
   showReducedElectricityTaxToggle = computed(
     () =>
       this.isElectricalHeating() &&
       this.isMeteringPointTypeConsumption() &&
+      this.electricalHeatingPeriods().length > 0 &&
       this.currentActorMarketRole === EicFunction.EnergySupplier
   );
 
@@ -288,13 +295,6 @@ export class DhActorConversationNewConversation {
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );
-
-  private readonly fetchElectricalHeatingInformation = effect(() => {
-    if (!this.reducedElectricityTaxValue()) return;
-    const meteringPointIdentification = this.meteringPointIdentification();
-    if (!meteringPointIdentification) return;
-    this.electricHeatingInformationQuery.refetch({ meteringPointIdentification });
-  });
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.electricalHeating,
