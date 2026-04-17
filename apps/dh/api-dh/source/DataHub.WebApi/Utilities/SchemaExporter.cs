@@ -26,7 +26,8 @@ public static class SchemaExporter
     /// <summary>
     /// Parses <paramref name="sdl"/> and returns a new SDL string with all type definitions
     /// sorted alphabetically. The <c>schema</c> block is always emitted first, followed by
-    /// directives and type definitions sorted alphabetically by name.
+    /// directives and type definitions sorted alphabetically by name. Fields, enum values,
+    /// input fields, and arguments within each type are also sorted alphabetically.
     /// </summary>
     /// <param name="sdl">The GraphQL SDL string to sort.</param>
     /// <returns>A sorted SDL string.</returns>
@@ -34,11 +35,12 @@ public static class SchemaExporter
     {
         var document = Utf8GraphQLParser.Parse(sdl);
 
-        var sorted = document.Definitions
+        var sortedDefinitions = document.Definitions
+            .Select(SortDefinitionInternals)
             .OrderBy(GetSortKey, StringComparer.Ordinal)
             .ToList();
 
-        return new DocumentNode(sorted).ToString(true);
+        return new DocumentNode(sortedDefinitions).ToString(true);
     }
 
     /// <summary>
@@ -67,4 +69,61 @@ public static class SchemaExporter
         INamedSyntaxNode named => "1:" + named.Name.Value,
         _ => "2:",
     };
+
+    /// <summary>
+    /// Returns a new version of <paramref name="definition"/> with its internal collections
+    /// (fields, enum values, input fields, arguments) sorted alphabetically.
+    /// </summary>
+    private static IDefinitionNode SortDefinitionInternals(IDefinitionNode definition) =>
+        definition switch
+        {
+            ObjectTypeDefinitionNode obj => obj.WithFields(
+                SortFields(obj.Fields)),
+
+            ObjectTypeExtensionNode ext => ext.WithFields(
+                SortFields(ext.Fields)),
+
+            InterfaceTypeDefinitionNode iface => iface.WithFields(
+                SortFields(iface.Fields)),
+
+            InterfaceTypeExtensionNode ifaceExt => ifaceExt.WithFields(
+                SortFields(ifaceExt.Fields)),
+
+            InputObjectTypeDefinitionNode input => input.WithFields(
+                input.Fields
+                    .OrderBy(f => f.Name.Value, StringComparer.Ordinal)
+                    .ToList()),
+
+            InputObjectTypeExtensionNode inputExt => inputExt.WithFields(
+                inputExt.Fields
+                    .OrderBy(f => f.Name.Value, StringComparer.Ordinal)
+                    .ToList()),
+
+            EnumTypeDefinitionNode @enum => @enum.WithValues(
+                @enum.Values
+                    .OrderBy(v => v.Name.Value, StringComparer.Ordinal)
+                    .ToList()),
+
+            EnumTypeExtensionNode enumExt => enumExt.WithValues(
+                enumExt.Values
+                    .OrderBy(v => v.Name.Value, StringComparer.Ordinal)
+                    .ToList()),
+
+            DirectiveDefinitionNode directive => directive.WithArguments(
+                directive.Arguments
+                    .OrderBy(a => a.Name.Value, StringComparer.Ordinal)
+                    .ToList()),
+
+            _ => definition,
+        };
+
+    private static IReadOnlyList<FieldDefinitionNode> SortFields(
+        IReadOnlyList<FieldDefinitionNode> fields) =>
+        fields
+            .Select(f => f.WithArguments(
+                f.Arguments
+                    .OrderBy(a => a.Name.Value, StringComparer.Ordinal)
+                    .ToList()))
+            .OrderBy(f => f.Name.Value, StringComparer.Ordinal)
+            .ToList();
 }
