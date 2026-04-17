@@ -186,7 +186,7 @@ export class DhChargesSeriesTable {
         series.map((x) => [
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
-          `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
+          `"${this.charge()?.typeDisplayName}"`,
           `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
           `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,

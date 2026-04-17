@@ -20,7 +20,7 @@ import { delay, HttpResponse } from 'msw';
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 
 import {
-  mockGetChargesQuery,
+  mockGetChargeOverviewQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetChargeByTypeQuery,
@@ -59,6 +59,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       displayName: '1234567890123 • Energy Supplier A',
     } as MarketParticipant,
     type: ChargeType.Fee,
+    typeDisplayName: 'Fee',
     code: 'CHARGE001',
     status: ChargeStatus.Awaiting,
     resolution: ChargeResolution.QuarterHourly,
@@ -100,6 +101,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       displayName: '2345678901234 • Energy Supplier B',
     } as MarketParticipant,
     type: ChargeType.Tariff,
+    typeDisplayName: 'Tariff',
     code: 'CHARGE002',
     displayName: 'CHARGE002 • Peak Hours Tariff',
     status: ChargeStatus.Current,
@@ -142,6 +144,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       displayName: '3456789012345 • Energy Supplier C',
     } as MarketParticipant,
     type: ChargeType.Subscription,
+    typeDisplayName: 'Subscription',
     code: 'CHARGE003',
     displayName: 'CHARGE003 • Green Energy Plan',
     status: ChargeStatus.Cancelled,
@@ -184,6 +187,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       displayName: '4567890123456 • Energy Supplier D',
     } as MarketParticipant,
     type: ChargeType.Fee,
+    typeDisplayName: 'Fee',
     code: 'CHARGE004',
     displayName: 'CHARGE004 • Connection Fee',
     status: ChargeStatus.Cancelled,
@@ -226,6 +230,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       displayName: '4567890123456 • Energy Supplier D',
     } as MarketParticipant,
     type: ChargeType.TariffTax,
+    typeDisplayName: 'Tariff, tax',
     code: 'CHARGE005',
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
@@ -444,21 +449,29 @@ const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
 };
 
 function getCharges() {
-  return mockGetChargesQuery(async () => {
+  return mockGetChargeOverviewQuery(async () => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
+    const nodes = charges.flatMap((charge) =>
+      charge.periods.map((p) => ({
+        __typename: 'ChargeOverviewItem' as const,
+        charge,
+        period: p.period,
+      }))
+    );
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        charges: {
-          __typename: 'ChargesConnection',
+        chargeOverview: {
+          __typename: 'ChargeOverviewConnection',
           pageInfo: {
             __typename: 'PageInfo',
             startCursor: null,
             endCursor: null,
           },
-          totalCount: charges.length,
-          nodes: charges,
+          totalCount: nodes.length,
+          nodes,
         },
       },
     });
