@@ -31,8 +31,6 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 
 public static class OperationToolsMeteringPointNode
 {
-    private static readonly JsonSerializerOptions IndentedOptions = new() { WriteIndented = true };
-
     [Query]
     [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<string> GetDebugViewAsync(
