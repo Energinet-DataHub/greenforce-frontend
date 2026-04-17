@@ -3601,6 +3601,10 @@
           "message": "Are you sure you want to rebuild the projection?"
         }
       },
+      "projectionsStatus": {
+        "title": "Projections Status",
+        "button": "Get projections status"
+      },
       "dangerZone": {
         "title": "Danger Zone"
       },

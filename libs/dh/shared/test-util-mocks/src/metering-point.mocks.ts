@@ -38,6 +38,7 @@ import {
   mockGetMeteringPointNewConversationInfoQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
+  mockGetProjectionsStatusQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
@@ -79,6 +80,7 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
+    getProjectionsStatus(),
     requestConnectionStateChange(),
     changeProductionObligation(),
     requestEndOfSupply(),
@@ -622,6 +624,51 @@ function getMeteringPointsByGridArea() {
       data: {
         __typename: 'Query',
         meteringPointsByGridAreaCode,
+      },
+    });
+  });
+}
+
+function getProjectionsStatus() {
+  return mockGetProjectionsStatusQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        projectionsStatus: {
+          __typename: 'GetProjectionsStatusResultDtoV1',
+          daemonHighWaterMark: '9854',
+          eventCount: '2359',
+          eventSequenceNumber: '9854',
+          streamCount: '1109',
+          projections: [
+            {
+              __typename: 'ProjectionStatus',
+              name: 'MeteringPointWithRelations:All',
+              assignedNodeNumber: 0,
+              action: 'Updated',
+              exception: null,
+              previousGoodMark: '0',
+              mode: 'continuous',
+              rebuildThreshold: '0',
+              sequence: '8659',
+              timestamp: new Date('2026-04-17T13:00:00.210217+00:00'),
+            },
+            {
+              __typename: 'ProjectionStatus',
+              name: 'HighWaterMark',
+              assignedNodeNumber: 0,
+              action: 'Updated',
+              exception: null,
+              previousGoodMark: '0',
+              mode: 'continuous',
+              rebuildThreshold: '0',
+              sequence: '9854',
+              timestamp: new Date('2026-04-17T13:00:00.2102256+00:00'),
+            },
+          ],
+        },
       },
     });
   });
