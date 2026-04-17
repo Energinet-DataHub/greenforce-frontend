@@ -86,10 +86,7 @@ public static class MoveInOperations
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
             if (startDate is null)
             {
-                throw new HotChocolate.GraphQLException(
-                    HotChocolate.ErrorBuilder.New()
-                        .SetMessage($"Unable to resolve start date for process '{processId}'.")
-                        .Build());
+                throw new HotChocolate.GraphQLException($"Unable to resolve start date for process '{processId}'.");
             }
 
             resolvedStartDate = startDate.Value;
