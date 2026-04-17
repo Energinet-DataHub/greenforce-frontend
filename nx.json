@@ -203,7 +203,10 @@
       "options": {
         "build": {
           "outputs": [
-            "{projectRoot}/bin/Release/net10.0",
+            "{projectRoot}/bin",
+            "{projectRoot}/obj",
+            "{projectRoot}/bin/Debug/net10.0",
+            "{projectRoot}/obj/Debug/net10.0/ref",
             "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
           ]
         },

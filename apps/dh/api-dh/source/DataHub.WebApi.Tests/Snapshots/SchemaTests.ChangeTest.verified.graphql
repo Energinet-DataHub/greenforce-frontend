@@ -88,6 +88,16 @@ type ActorCredentialsDto {
   clientSecretCredentials: ActorClientSecretCredentialsDto
 }
 
+type ActorMessageQueue {
+  category: MessageCategoryV1!
+  count: Int!
+  messages: [QueuedMessage!]!
+}
+
+type ActorMessageQueueResult {
+  queues: [ActorMessageQueue!]!
+}
+
 type AddChargeSeriesPayload {
   boolean: Boolean
 }
@@ -1128,6 +1138,7 @@ type MeteringPointProcess {
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
+  transactionId: String
   businessReason: ProcessManagerBusinessReason!
   createdAt: DateTime!
   cutoffDate: DateTime
@@ -1227,12 +1238,13 @@ type Mutation {
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplierOrGridAccessProvider")
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1395,6 +1407,7 @@ type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
+  actorMessageQueues(actorNumber: String! actorRole: String!): ActorMessageQueueResult! @authorize(roles: [ "actor-message-queue:view" ])
   charges(filter: String query: ChargesQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeSortInput!]): ChargesConnection @authorize(roles: [ "charges:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
@@ -1469,7 +1482,7 @@ type Query {
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   latestCalculation(calculationType: StartCalculationType! period: PeriodInput!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  temporaryStorageData(meteringPointId: String! transactionId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
+  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
   processes(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   processById(id: UUID!): OrchestrationInstance!
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1478,6 +1491,13 @@ type Query {
   settlementReportById(id: String!): SettlementReport
   settlementReports: [SettlementReport!]!
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
+}
+
+type QueuedMessage {
+  messageId: String!
+  documentType: OutgoingDocumentTypeV1!
+  businessReason: BusinessReasonV1!
+  enqueuedAt: DateTime!
 }
 
 type ReActivateUserPayload {
@@ -1601,6 +1621,10 @@ type RequestPayload {
   boolean: Boolean
 }
 
+type RequestServiceEndOfSupplyPayload {
+  boolean: Boolean
+}
+
 type RequestSettlementReportGridAreaCalculation {
   calculationId: UUID!
   calculationDate: DateTime!
@@ -1614,6 +1638,7 @@ type RequestSettlementReportPayload {
 type RequestTemporaryStorageResult {
   firstCustomerName: String!
   isBusinessCustomer: Boolean!
+  firstCustomerCvr: String
 }
 
 "A connection to a list of items."
@@ -2404,6 +2429,14 @@ input RequestMissingMeasurementsLogInput {
   gridAreaCodes: [String!]!
 }
 
+input RequestServiceEndOfSupplyInput {
+  meteringPointId: String!
+  processId: UUID!
+  serviceKind: ServiceKindV1!
+  startDate: DateTime!
+  description: String
+}
+
 input RequestSettlementReportGridAreaInput {
   calculationId: UUID
   gridAreaCode: String!
@@ -2712,6 +2745,7 @@ enum ArchivedMessageDocumentType {
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
+  REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -2756,6 +2790,62 @@ enum BusinessReason {
   D29
   E34
   E01
+}
+
+enum BusinessReasonV1 {
+  CUSTOMER_MOVE_IN
+  BALANCE_SETTLEMENT
+  TEMPORARY
+  WHOLE_SETTLEMENT
+  CORRECTION_SETTLEMENT
+  PERIODIC_METERING
+  PERIODIC_FLEX_METERING
+  MISSING_MEASUREMENTS_LOG
+  HISTORICAL_DATA
+  UPDATE_CHARGE_LINKS
+  END_OF_SUPPLY
+  UPDATE_CHARGE_INFORMATION
+  UPDATE_CHARGE_PRICES
+  ELECTRICAL_HEATING
+  UPDATE_MASTER_DATA_METER
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
+  UPDATE_MASTER_DATA_CONSUMER
+  NEW_METERING_POINT
+  MOVE
+  CONNECT_METERING_POINT
+  CHANGE_CONNECTION_STATUS
+  CLOSE_DOWN_METERING_POINT
+  UPDATE_MASTER_DATA_METERING_POINT
+  PROCESS_CANCELLED_BY_REQUESTING_PARTY
+  SERVICE_REQUEST
+  CUSTOMER_MOVE_OUT
+  PRODUCTION_OBLIGATION
+  NO_DISCONNECTION_OF_METERING_POINT
+  DATA_ALIGNMENT_FOR_MASTER_DATA_METERING_POINT
+  REQUEST_FOR_CHARGE_PRICES
+  CANCEL_SERVICE_REQUEST
+  CANCELLATION
+  CHANGE_OF_SUPPLY_TO_SUPPLIER_OF_LAST_RESORT
+  CONTINUE_SUPPLY_DUE_TO_REJECTED_REALLOCATE
+  DATE_OF_SUPPLIER_CHANGE_CAUSED_BY_END_OF_SUPPLY
+  END_SUPPLY_DUE_TO_REALLOCATE
+  HISTORICAL_INFORMATION_ABOUT_CONSUMPTION
+  INCORRECT_MOVE
+  INCORRECT_PROCESS
+  MERGE_OF_GRIDS
+  MISSING_FLEX_TIME_SERIES
+  MISSING_NON_PROFILED_TIME_SERIES
+  MISSING_PROFILED_READING
+  PREPARATION_FOR_IMBALANCE_SETTLEMENT
+  PROCESS_CANCELLED_BY_ITX
+  PROPOSAL_CONTACT_INFORMATION
+  REMINDER
+  REMOVED_PARENT_RELATION_ON_METERING_POINT
+  ROLLBACK_CHANGE_OF_SUPPLIER
+  TRANSFER_METERING_POINT
+  UNREQUESTED_CHANGE_OF_ENERGY_SUPPLIER
+  CHANGE_OF_ESTIMATED_ANNUAL_VOLUME
 }
 
 enum CalculationExecutionType {
@@ -2880,6 +2970,7 @@ enum DocumentType {
   REQUEST_WHOLESALE_SETTLEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
   NOTIFY_PRICE_LIST
+  REQUEST_PRICE_LIST
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
@@ -3345,6 +3436,12 @@ enum MeasurementsReportStatusType {
   CANCELED
 }
 
+enum MessageCategoryV1 {
+  AGGREGATIONS
+  MEASURE_DATA
+  PROCESSES
+}
+
 "Message type"
 enum MessageType {
   USER_MESSAGE
@@ -3416,6 +3513,43 @@ enum OrganizationAuditedChange {
   NAME
 }
 
+enum OutgoingDocumentTypeV1 {
+  NOTIFY_AGGREGATED_MEASURE_DATA
+  REJECT_REQUEST_AGGREGATED_MEASURE_DATA
+  NOTIFY_WHOLESALE_SERVICES
+  REJECT_REQUEST_WHOLESALE_SETTLEMENT
+  NOTIFY_VALIDATED_MEASURE_DATA
+  ACKNOWLEDGEMENT
+  REMINDER_OF_MISSING_MEASURE_DATA
+  REJECT_REQUEST_MEASUREMENTS
+  CONFIRM_REQUEST_CHANGE_BILLING_MASTER_DATA
+  REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
+  CONFIRM_REQUEST_END_OF_SUPPLY
+  NOTIFY_ACCEPT_MOVE_IN
+  NOTIFY_CONFIRM_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
+  REJECT_REQUEST_CHANGE_CUSTOMER_CHARACTERISTICS
+  NOTIFY_BILLING_MASTER_DATA
+  REJECT_REQUEST_CHANGE_OF_SUPPLIER
+  CONFIRM_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  REJECT_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS
+  CONFIRM_REQUEST_CANCELLATION
+  GENERIC_NOTIFICATION
+  CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_CHANGE_OF_PRICE_LIST
+  ACCOUNTING_POINT_CHARACTERISTICS
+  NOTIFY_PRICE_LIST
+  REQUEST_SERVICE
+  CHARACTERISTICS_OF_A_CUSTOMER_AT_AN_AP
+  REJECT_REQUEST_END_OF_SUPPLY
+  REJECT_REQUEST_SERVICE
+  NOTIFY_CANCELLATION
+  REJECT_REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
+  CONFIRM_REQUEST_SERVICE
+  REJECT_REQUEST_CANCELLATION
+  REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
+  REJECT_REQUEST_BILLING_MASTER_DATA
+}
+
 enum ParticipantType {
   INITIATOR
   RECEIVER
@@ -3443,17 +3577,10 @@ enum PriceType {
 }
 
 enum ProcessManagerBusinessReason {
-  BalanceFixing
-  PreliminaryAggregation
-  WholesaleFixing
-  Correction
-  PeriodicMetering
-  PeriodicFlexMetering
-  YearlyMetering
   EndOfSupply
   UpdateChargeLinks
+  DataAlignmentForMasterDataMeteringPoint
   UpdateChargeInformation
-  UpdateChargeSeries
   CustomerMoveIn
   SecondaryMoveIn
   CustomerMoveOut
@@ -3463,12 +3590,54 @@ enum ProcessManagerBusinessReason {
   ConnectMeteringPoint
   ChangeConnectionStatus
   CloseDownMeteringPoint
-  UpdateMeteringPointMasterData
   ElectricalHeating
   ChangeOfEnergySupplier
   ProcessCancelledByRequestingParty
   ProductionObligation
   NoDisconnectionOfMeteringPoint
+  ServiceRequest
+  CancelServiceRequest
+  PeriodicMetering
+  PeriodicFlexMetering
+  Cancellation
+  ChangeOfSupplyToSupplierOfLastResort
+  ContinueSupplyDueToRejectedReallocate
+  DateOfSupplierChangeCausedByEndOfSupply
+  EndSupplyDueToReallocate
+  HistoricalInformationAboutConsumption
+  IncorrectMove
+  IncorrectProcess
+  MergeOfGrids
+  MissingFlexTimeSeries
+  MissingMeasurementsLog
+  MissingNonProfiledTimeSeries
+  MissingProfiledReading
+  PreparationForImbalanceSettlement
+  ProcessCancelledByITX
+  ProposalContactInformation
+  Reminder
+  RemovedParentRelationOnMeteringPoint
+  RollbackChangeOfSupplier
+  TransferMeteringPoint
+  UnrequestedChangeOfEnergySupplier
+  UpdateMasterDataMeter
+  ChangeOfEstimatedAnnualVolume
+  BalanceFixing
+  BalanceSettlement
+  PreliminaryAggregation
+  Temporary
+  WholesaleFixing
+  WholeSettlement
+  Correction
+  CorrectionSettlement
+  YearlyMetering
+  HistoricalData
+  UpdateChargeSeries
+  UpdateChargePrices
+  UpdateMeteringPointMasterData
+  UpdateMasterDataMeteringPoint
+  RequestChargePrices
+  RequestForChargePrices
 }
 
 enum ProcessStepState {
@@ -3556,6 +3725,17 @@ enum SendMeasurementsResolution {
   MONTHLY
   HOURLY
   QUARTER_HOURLY
+}
+
+enum ServiceKindV1 {
+  ORDINARY_DISCONNECTION_AGREED_WITH_THE_CUSTOMER
+  THE_POLICE_IS_INVOLVED_IN_THE_DISCONNECTION
+  THE_MUNICIPALITY_IS_INVOLVED_IN_THE_DISCONNECTION
+  THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION
+  OTHER_REASON
+  DISCONNECT
+  CONNECT
+  METER_CHECK
 }
 
 enum SettlementReportMarketRole {

@@ -1,4 +1,4 @@
-﻿﻿// Copyright 2020 Energinet DataHub A/S
+﻿// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -24,8 +24,10 @@ public static class MoveInNode
     [Authorize(Roles = ["metering-point:move-in"])]
     public static async Task<RequestTemporaryStorageResult?> GetTemporaryStorageDataAsync(
         string meteringPointId,
-        string transactionId,
+        string processId,
         CancellationToken ct,
-        [Service] IMoveInClient client) =>
-        await client.GetTemporaryStorageDataAsync(meteringPointId, transactionId, ct);
+        [Service] IMoveInClient client)
+    {
+        return await client.GetTemporaryStorageDataAsync(meteringPointId, processId, ct);
+    }
 }

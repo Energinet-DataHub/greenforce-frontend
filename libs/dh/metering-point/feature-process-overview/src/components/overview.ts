@@ -148,12 +148,12 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
                     (click)="onActionClick($event, process, action)"
                     size="small"
                   >
-                    {{ t(action) }}
+                    {{ t(process.businessReason + '.' + action) }}
                   </watt-button>
                 } @else if (isFas()) {
                   <vater-stack direction="row" gap="xs">
                     <watt-icon name="warning" size="s" />
-                    <span>{{ t('FAS_' + action) }}</span>
+                    <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
                   </vater-stack>
                 }
               }

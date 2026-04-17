@@ -18,7 +18,6 @@
 //#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
-import { vi } from 'vitest';
 
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
@@ -95,7 +94,9 @@ describe('Process overview', () => {
 
     userEvent.click(cancelButtons[0]);
 
-    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
     await waitForAsync(() => {
       const buttons = Array.from(document.querySelectorAll('[role="dialog"] button'));
       expect(buttons.some((b) => /sure/i.test(b.textContent || ''))).toBe(true);
@@ -114,12 +115,14 @@ describe('Process overview', () => {
 
     userEvent.click(sendInfoButtons[0]);
 
-    expect(router.navigate).toHaveBeenCalledWith([
-      'metering-point',
-      'imp-456',
-      'update-customer-details',
-      expect.any(String),
-    ]);
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-456',
+        'update-customer-details',
+        expect.any(String),
+      ])
+    );
   });
 
   it('should not show action buttons when user has no market role', async () => {

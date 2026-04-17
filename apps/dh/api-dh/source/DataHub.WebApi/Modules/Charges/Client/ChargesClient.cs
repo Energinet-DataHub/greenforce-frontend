@@ -126,7 +126,10 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Where(c => c.Periods?.Count > 0)?.Select(MapChargeInformationDtoToCharge) ?? [];
+            : result.Data?
+                .Where(c => c.Periods?.Count > 0)
+                .Where(c => c.TaxIndicator == type.IsTax)
+                .Select(MapChargeInformationDtoToCharge) ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
@@ -257,6 +260,6 @@ public class ChargesClient(
 
     private static PricingCategoryV2 MapToPricingCategoryV2(bool? spotDependingPrice)
         => spotDependingPrice.GetValueOrDefault(false)
-            ? PricingCategoryV2.SpotDependeningPrice
-            : PricingCategoryV2.NotSpotDependingPrice;
+            ? PricingCategoryV2.D01
+            : PricingCategoryV2.D02;
 }

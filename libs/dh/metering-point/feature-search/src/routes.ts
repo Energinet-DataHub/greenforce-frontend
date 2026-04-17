@@ -101,6 +101,9 @@ export const dhMeteringPointRoutes: Routes = [
           searchMigratedMeteringPoints: searchMigratedMeteringPointsResolver(),
         },
         runGuardsAndResolvers: 'always',
+        data: {
+          pageLeaveRedirectUrl: combinePaths('metering-point', 'search'),
+        },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
         canDeactivate: [
           (_component, _currentRoute, _currentState, nextState) => {

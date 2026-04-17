@@ -17,7 +17,6 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { vi } from 'vitest';
 import { of } from 'rxjs';
 
 import {
@@ -54,6 +53,8 @@ describe('DhActionsRegistry', () => {
     options: {
       featureFlagsEnabled?: boolean;
       isGridAccessProvider?: boolean;
+      isEnergySupplier?: boolean;
+      isFas?: boolean;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
     } = {}
@@ -61,6 +62,8 @@ describe('DhActionsRegistry', () => {
     const {
       featureFlagsEnabled = true,
       isGridAccessProvider = true,
+      isEnergySupplier = false,
+      isFas = false,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
@@ -83,8 +86,12 @@ describe('DhActionsRegistry', () => {
         {
           provide: PermissionService,
           useValue: {
-            hasMarketRole: (role: EicFunction) =>
-              of(role === EicFunction.GridAccessProvider ? isGridAccessProvider : false),
+            hasMarketRole: (role: EicFunction) => {
+              if (role === EicFunction.GridAccessProvider) return of(isGridAccessProvider);
+              if (role === EicFunction.EnergySupplier) return of(isEnergySupplier);
+              return of(false);
+            },
+            isFas: () => of(isFas),
           },
         },
         {
@@ -216,6 +223,69 @@ describe('DhActionsRegistry', () => {
       );
 
       expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+    });
+
+    it('should return action when user is EnergySupplier and action allows it', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: false,
+        isEnergySupplier: true,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should return action when user is GridAccessProvider and action allows both roles', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: true,
+        isEnergySupplier: false,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should filter out action when user has neither required role', () => {
+      const registry = setupRegistry({
+        isGridAccessProvider: false,
+        isEnergySupplier: false,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            marketRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
     });
   });
 

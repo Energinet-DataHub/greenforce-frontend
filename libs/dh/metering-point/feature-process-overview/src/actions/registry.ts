@@ -49,6 +49,13 @@ export class DhActionsRegistry {
     { initialValue: false }
   );
 
+  private readonly isEnergySupplier = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
+  private readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
+
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
@@ -58,6 +65,7 @@ export class DhActionsRegistry {
     if (!handler.marketRoles?.length) return true;
     return handler.marketRoles.some((role) => {
       if (role === EicFunction.GridAccessProvider) return this.isGridAccessProvider();
+      if (role === EicFunction.EnergySupplier) return this.isEnergySupplier();
       console.error('[DhActionsRegistry] Unsupported market role:', role);
       return false;
     });
@@ -69,11 +77,12 @@ export class DhActionsRegistry {
   ): WorkflowAction[] {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
-      return (
-        handler &&
-        this.featureFlags.isEnabled(handler.featureFlag) &&
-        this.hasRequiredMarketRole(handler)
-      );
+      if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      // FAS users see all supported actions for informational purposes,
+      // but cannot execute them (gated by canPerformActions in the template
+      // and hasRequiredMarketRole in execute).
+      if (this.isFas()) return true;
+      return this.hasRequiredMarketRole(handler);
     });
   }
 

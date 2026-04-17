@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { vi } from 'vitest';
 import { DhActorTokenService } from '../src/dh-actor-token.service';
 import { TestBed } from '@angular/core/testing';
 import {

@@ -19,9 +19,9 @@
 import { FormControl } from '@angular/forms';
 import { DateRange } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
 import { WattRange } from '@energinet/watt/core/date';
 import { WattDateRangeChipComponent } from './watt-date-range-chip.component';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';
@@ -76,7 +76,7 @@ describe(WattDateRangeChipComponent.name, () => {
   };
 
   it('should render with label content', async () => {
-    // Test using template syntax to verify ng-content projection
+    // Test using template syntax to verify ng-content projection.
     await render(
       `
       <watt-date-range-chip [formControl]="formControl">
@@ -130,7 +130,7 @@ describe(WattDateRangeChipComponent.name, () => {
     const chip = screen.getByRole('button', { pressed: false });
     userEvent.click(chip);
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
     });
   });
@@ -202,7 +202,7 @@ describe(WattDateRangeChipComponent.name, () => {
     const chip = screen.getByRole('button');
     userEvent.click(chip);
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
       expect(screen.getByText('Clear')).toBeInTheDocument();
       expect(screen.getByText('OK')).toBeInTheDocument();
@@ -224,7 +224,7 @@ describe(WattDateRangeChipComponent.name, () => {
     const chip = screen.getByRole('button');
     userEvent.click(chip);
 
-    await waitFor(() => {
+    await waitForAsync(() => {
       const clearButton = screen.getByRole('button', { name: /clear/i });
       expect(clearButton).toBeInTheDocument();
     });

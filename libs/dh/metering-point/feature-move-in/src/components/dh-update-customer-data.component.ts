@@ -18,18 +18,17 @@
 //#endregion
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
-  injectRelativeNavigate,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -55,12 +54,12 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import {
   BasePaths,
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -76,6 +75,7 @@ import { Router } from '@angular/router';
     DhCustomerAddressDetailsComponent,
     DhPrivateCustomerDetailsComponent,
     DhBusinessCustomerDetailsFormComponent,
+    WattSkeletonComponent,
   ],
   styles: `
     .sticky-header {
@@ -110,14 +110,12 @@ import { Router } from '@angular/router';
         <vater-stack class="margin-medium" direction="row" justify="space-between">
           <vater-stack direction="row" gap="m">
             <h3>{{ t('updateCustomerData') }}</h3>
-            @if (getMeteringPointQuery.loading()) {
+            @if (isLoading()) {
               <watt-spinner [diameter]="22" />
             }
           </vater-stack>
           <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary"
-              >{{ t('cancel') }}
-            </watt-button>
+            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
             <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
               >{{ t('updateCustomerData') }}
             </watt-button>
@@ -132,14 +130,29 @@ import { Router } from '@angular/router';
               {{ t('customerDetails.label') }}
             </h3>
           </watt-card-title>
-          @if (isBusinessCustomer()) {
-            <dh-business-customer-details
-              [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
-            />
-          } @else {
-            <dh-private-customer-details
-              [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
-            />
+          @if (isLoading()) {
+            <vater-stack gap="l" align="start">
+              <watt-skeleton width="25%" height="24px" />
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+            </vater-stack>
+          }
+          @if (!isLoading()) {
+            @if (isBusinessCustomer()) {
+              <dh-business-customer-details
+                [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
+              />
+            } @else {
+              <dh-private-customer-details
+                [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+              />
+            }
           }
         </watt-card>
         <!-- Legal -->
@@ -151,6 +164,7 @@ import { Router } from '@angular/router';
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.legalContactDetails"
+            contactType="legalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
@@ -165,6 +179,7 @@ import { Router } from '@angular/router';
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.technicalContactDetails"
+            contactType="technicalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
@@ -177,7 +192,6 @@ import { Router } from '@angular/router';
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
     this.toast(this.requestChangeCustomerCharacteristics.status())
@@ -194,7 +208,7 @@ export class DhUpdateCustomerDataComponent {
     skip: !this.processId(),
     variables: {
       meteringPointId: this.meteringPointId(),
-      transactionId: this.processId() ?? '',
+      processId: this.processId() ?? '',
     },
   }));
   private readonly temporaryStorageCustomer = computed(
@@ -221,9 +235,23 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  navigate = injectRelativeNavigate();
+  private readonly shouldClearContacts = computed(
+    () => !!this.processId() && !!this.temporaryStorageCustomer()
+  );
+
+  private readonly effectiveLegalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.legalContact()
+  );
+
+  private readonly effectiveTechnicalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.technicalContact()
+  );
+
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
+  );
+  isLoading = computed(
+    () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
   meteringPointId = input.required<string>();
   processId = input<string>();
@@ -239,9 +267,7 @@ export class DhUpdateCustomerDataComponent {
           ),
           cvr: dhMakeFormControl<string>(
             this.legalCustomer()?.cvr ?? '',
-            this.isBusinessCustomer()
-              ? [Validators.required, dhMoveInCvrValidator(this.appEnv)]
-              : []
+            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
@@ -264,18 +290,18 @@ export class DhUpdateCustomerDataComponent {
         }),
         legalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.legalContact()
+          this.effectiveLegalContact()
         ),
         legalContactAddressDetails: createContactAddressDetailsForm(
-          this.legalContact(),
+          this.effectiveLegalContact(),
           this.installationAddress()
         ),
         technicalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.technicalContact()
+          this.effectiveTechnicalContact()
         ),
         technicalContactAddressDetails: createContactAddressDetailsForm(
-          this.technicalContact(),
+          this.effectiveTechnicalContact(),
           this.installationAddress()
         ),
       })
@@ -293,6 +319,9 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.businessCustomerDetails.controls.companyName.setValue(
         data.firstCustomerName
       );
+      data.firstCustomerCvr
+        ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr)
+        : null;
     } else {
       this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
         data.firstCustomerName
@@ -312,7 +341,7 @@ export class DhUpdateCustomerDataComponent {
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      technicalNameSameAsContactName ? legalCustomerName : this.technicalContact()?.name,
+      technicalNameSameAsContactName ? legalCustomerName : this.effectiveTechnicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
@@ -324,12 +353,15 @@ export class DhUpdateCustomerDataComponent {
   private readonly syncTechnicalContactAddress = effect(() => {
     const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
     const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
-    const contact = this.technicalContact();
     const installationAddress = this.installationAddress();
 
     sync(
       addressGroup,
-      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : this.effectiveTechnicalContact(),
       technicalAddressSameAsInstallation
     );
   });
@@ -345,7 +377,7 @@ export class DhUpdateCustomerDataComponent {
     const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      legalNameSameAsContactName ? legalCustomerName : this.legalContact()?.name,
+      legalNameSameAsContactName ? legalCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
   });
@@ -357,12 +389,15 @@ export class DhUpdateCustomerDataComponent {
   private readonly syncLegalContactAddress = effect(() => {
     const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
     const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
-    const contact = this.legalContact();
     const installationAddress = this.installationAddress();
 
     sync(
       addressGroup,
-      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : this.effectiveLegalContact(),
       legalAddressSameAsInstallation
     );
   });
@@ -417,5 +452,16 @@ export class DhUpdateCustomerDataComponent {
       'view',
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  cancel() {
+    const previousUrl = this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
+
+    if (previousUrl) {
+      this.router.navigateByUrl(previousUrl.toString(), { replaceUrl: true });
+      return;
+    }
+
+    this.router.navigate([getPath<BasePaths>('metering-point'), this.internalMeteringPointId()]);
   }
 }

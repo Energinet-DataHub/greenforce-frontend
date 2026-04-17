@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.Cancellation;
 public static class CancelEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    [Authorize(Policy = "EnergySupplierOrGridAccessProvider")]
     public static async Task<bool> CancelEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,
