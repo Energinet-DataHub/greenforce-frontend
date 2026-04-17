@@ -29,9 +29,7 @@ test.describe('Language selection', () => {
 
     // Given no language is selected
     // Then Danish translations are displayed
-    await expect(
-      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     // When English is selected
     // Then English translations are displayed
@@ -54,8 +52,6 @@ test.describe('Language selection', () => {
     await page.getByTestId('profileMenu').click();
     await page.getByText('Dansk').click();
 
-    await expect(
-      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
   });
 });
