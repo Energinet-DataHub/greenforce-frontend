@@ -16,14 +16,13 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Models;
 using HotChocolate.Authorization;
-using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Disconnection;
 
 public static class DisconnectMeteringPointOperations
 {
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.GridAccessProvider))]
+    [Authorize(Roles = ["metering-point:connection-state-manage"])]
     public static async Task<bool> DisconnectMeteringPointAsync(
         string meteringPointId,
         Guid processId,
@@ -43,6 +42,7 @@ public static class DisconnectMeteringPointOperations
 
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command DisconnectMeteringPoint failed");
+            : throw new GraphQLException(
+                $"Command DisconnectMeteringPoint failed for metering point '{meteringPointId}' (processId: {processId}). EDI response: {result}");
     }
 }

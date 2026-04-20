@@ -1108,8 +1108,7 @@
         "cancel": "Cancel",
         "confirm": "Request disconnection",
         "successToast": "Request to disconnect metering point submitted",
-        "errorToast": "Request to disconnect metering point failed",
-        "invalidDateError": "The date must be today or yesterday"
+        "errorToast": "Request to disconnect metering point failed"
       },
       "processTypeName": {
         "EndOfSupply": "end of supply"

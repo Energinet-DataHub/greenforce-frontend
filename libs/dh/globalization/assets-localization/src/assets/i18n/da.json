@@ -1108,8 +1108,7 @@
         "cancel": "Annuller",
         "confirm": "Anmod om afbrydelse",
         "successToast": "Anmodning om afbrydelse af målepunkt indsendt",
-        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede",
-        "invalidDateError": "Datoen skal være i dag eller i går"
+        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
         "EndOfSupply": "leveranceophør"

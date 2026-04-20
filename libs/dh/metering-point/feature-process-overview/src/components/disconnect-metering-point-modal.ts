@@ -87,9 +87,16 @@ export class DhDisconnectMeteringPointModal
   });
 
   ngOnInit() {
-    if (this.modalData.cutoffDate) {
-      this.form.controls.validityDate.setValue(this.modalData.cutoffDate);
-    }
+    const { cutoffDate } = this.modalData;
+    if (!cutoffDate) return;
+
+    const clamped = dayjs(cutoffDate).isBefore(this.minDate)
+      ? this.minDate
+      : dayjs(cutoffDate).isAfter(this.maxDate)
+        ? this.maxDate
+        : cutoffDate;
+
+    this.form.controls.validityDate.setValue(clamped);
   }
 
   cancel() {
