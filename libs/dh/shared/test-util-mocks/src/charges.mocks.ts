@@ -450,6 +450,7 @@ function getCharges() {
       charge.periods.map((p) => ({
         __typename: 'ChargeOverviewItem' as const,
         charge,
+        name: p.name,
         period: p.period,
       }))
     );
