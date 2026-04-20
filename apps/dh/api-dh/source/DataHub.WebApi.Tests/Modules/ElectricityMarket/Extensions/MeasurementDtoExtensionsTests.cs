@@ -18,9 +18,9 @@ using System.Linq;
 using Energinet.DataHub.Measurements.Abstractions.Api.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Measurements.Extensions;
-using MeasurementUnit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
 using NodaTime;
 using Xunit;
+using MeasurementUnit = Energinet.DataHub.Measurements.Abstractions.Api.Models.Unit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.ElectricityMarket.Extensions;
 
