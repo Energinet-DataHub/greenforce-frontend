@@ -28,6 +28,7 @@ public record DocumentType : Enumeration<DocumentType>
     public static readonly DocumentType ReminderOfMissingMeasurements = new();
     public static readonly DocumentType NotifyPriceList = new();
     public static readonly DocumentType RequestPriceList = new();
+    public static readonly DocumentType RejectRequestPriceList = new();
     public static readonly DocumentType RequestChangeOfPriceList = new();
     public static readonly DocumentType ConfirmRequestChangeOfPriceList = new();
     public static readonly DocumentType RejectRequestChangeOfPriceList = new();
