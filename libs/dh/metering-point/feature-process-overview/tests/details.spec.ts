@@ -20,8 +20,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 import {
   getTranslocoTestingModule,
@@ -104,6 +106,28 @@ describe('Process overview details', () => {
     await setup('process-cmi-info');
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should navigate with internalMeteringPointId when Send information is clicked', async () => {
+    const fixture = await setup('process-cmi-info');
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+    const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
+
+    userEvent.click(sendInfoButtons[0]);
+
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-123',
+        'update-customer-details',
+        expect.any(String),
+      ])
     );
   });
 
