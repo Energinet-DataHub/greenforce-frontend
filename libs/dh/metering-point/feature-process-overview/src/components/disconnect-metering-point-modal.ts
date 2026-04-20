@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet/watt/core/date';
@@ -25,9 +25,7 @@ import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-export interface DisconnectMeteringPointModalData {
-  cutoffDate?: Date | null;
-}
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface DisconnectMeteringPointResult {
   validityDate: Date;
@@ -59,7 +57,7 @@ export interface DisconnectMeteringPointResult {
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="cancel()">
+        <watt-button variant="secondary" (click)="dialogRef.close()">
           {{ t('cancel') }}
         </watt-button>
 
@@ -71,44 +69,21 @@ export interface DisconnectMeteringPointResult {
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhDisconnectMeteringPointModal
-  extends WattTypedModal<DisconnectMeteringPointModalData>
-  implements OnInit
-{
-  private readonly fb = inject(NonNullableFormBuilder);
-
+export class DhDisconnectMeteringPointModal extends WattTypedModal {
   private readonly today = dayjs().startOf('day').toDate();
 
   readonly minDate = dayjs(this.today).subtract(1, 'day').toDate();
   readonly maxDate = this.today;
 
-  readonly form = this.fb.group({
-    validityDate: this.fb.control<Date | null>(this.today, Validators.required),
+  readonly form = new FormGroup({
+    validityDate: dhMakeFormControl<Date>(this.today, Validators.required),
   });
-
-  ngOnInit() {
-    const { cutoffDate } = this.modalData;
-    if (!cutoffDate) return;
-
-    const clamped = dayjs(cutoffDate).isBefore(this.minDate)
-      ? this.minDate
-      : dayjs(cutoffDate).isAfter(this.maxDate)
-        ? this.maxDate
-        : cutoffDate;
-
-    this.form.controls.validityDate.setValue(clamped);
-  }
-
-  cancel() {
-    this.dialogRef.close();
-  }
 
   submit() {
     if (this.form.invalid) return;
 
-    const { validityDate } = this.form.getRawValue();
-    if (!validityDate) return;
-
-    this.dialogRef.close({ validityDate } satisfies DisconnectMeteringPointResult);
+    this.dialogRef.close({
+      validityDate: this.form.controls.validityDate.value,
+    } satisfies DisconnectMeteringPointResult);
   }
 }

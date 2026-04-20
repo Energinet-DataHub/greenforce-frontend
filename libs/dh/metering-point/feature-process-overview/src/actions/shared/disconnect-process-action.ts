@@ -47,7 +47,6 @@ export function disconnectProcessAction(
   return (ctx) => {
     modalService.open({
       component: DhDisconnectMeteringPointModal,
-      data: { cutoffDate: ctx.cutoffDate },
       onClosed: (result: DisconnectMeteringPointResult | undefined) => {
         if (!result) return;
         executeMutation(
