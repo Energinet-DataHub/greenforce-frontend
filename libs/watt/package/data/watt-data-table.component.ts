@@ -19,12 +19,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
   ViewEncapsulation,
   afterRenderEffect,
   contentChild,
   inject,
   input,
   output,
+  runInInjectionContext,
   signal,
   viewChild,
 } from '@angular/core';
@@ -163,6 +165,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
 })
 export class WattDataTableComponent {
   intl = inject(WattDataIntlService);
+  private readonly injector = inject(Injector);
 
   error = input<unknown>();
   ready = input(true);
@@ -192,17 +195,20 @@ export class WattDataTableComponent {
   /**
    * Reactive count of filtered rows. Required under OnPush because
    * `filteredData` is a plain mutable property on MatTableDataSource —
-   * not tracked by Angular's signal graph. We use an effect (runs after
-   * content init, so contentChild.required is safe to read) to subscribe
-   * to the data source's `connect()` observable, re-reading filteredData.length
-   * on every emission and storing it as a signal.
+   * not tracked by Angular's signal graph.
+   *
+   * Some DataSource implementations (e.g. ApolloDataSource) call
+   * `toObservable()` inside `connect()`, which requires an injection context.
+   * We satisfy that by wrapping the `connect()` call in `runInInjectionContext`.
    */
   protected readonly filteredDataCount = signal(0);
 
   constructor() {
     afterRenderEffect((onCleanup) => {
       const ds = this.table().dataSource();
-      const sub = ds.connect({ viewChange: NEVER }).subscribe(() => {
+      const sub = runInInjectionContext(this.injector, () =>
+        ds.connect({ viewChange: NEVER })
+      ).subscribe(() => {
         this.filteredDataCount.set(ds.filteredData.length);
       });
       onCleanup(() => sub.unsubscribe());
