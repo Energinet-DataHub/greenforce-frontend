@@ -17,10 +17,9 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { take } from 'rxjs';
 import { TranslocoService } from '@jsverse/transloco';
 
+import { WattModalService } from '@energinet/watt/modal';
 import { WattToastService } from '@energinet/watt/toast';
 
 import {
@@ -41,21 +40,15 @@ export function disconnectProcessAction(
     onError: () => void
   ) => void
 ): (ctx: ProcessActionContext) => void {
-  const dialog = inject(MatDialog);
+  const modalService = inject(WattModalService);
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
 
   return (ctx) => {
-    const ref = dialog.open(DhDisconnectMeteringPointModal, {
-      autoFocus: 'dialog',
-      panelClass: ['watt-modal-panel', 'watt-modal-panel--component'],
+    modalService.open({
+      component: DhDisconnectMeteringPointModal,
       data: { cutoffDate: ctx.cutoffDate },
-    });
-
-    ref
-      .afterClosed()
-      .pipe(take(1))
-      .subscribe((result: DisconnectMeteringPointResult | undefined) => {
+      onClosed: (result: DisconnectMeteringPointResult | undefined) => {
         if (!result) return;
         executeMutation(
           ctx,
@@ -78,6 +71,7 @@ export function disconnectProcessAction(
             });
           }
         );
-      });
+      },
+    });
   };
 }
