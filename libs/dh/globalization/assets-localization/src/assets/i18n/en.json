@@ -1034,7 +1034,8 @@
         "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)",
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
-        "CustomerMoveOut": "Move-out (BRS-010)"
+        "CustomerMoveOut": "Move-out (BRS-010)",
+        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1048,7 +1049,8 @@
         "ChangeConnectionStatus": "Change Connection Status (E79)",
         "UpdateMasterDataMeteringPoint": "Update master data metering point (E32)",
         "ElectricalHeating": "Electrical heating (D20)",
-        "CustomerMoveOut": "Move-out (E66)"
+        "CustomerMoveOut": "Move-out (E66)",
+        "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)"
       },
       "filters": {
         "created": "Time",
@@ -1196,6 +1198,9 @@
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028/D20)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Request for charge links (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Rejection of request for charge links (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Notification of charge links (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Rejection of request for service (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Request for cancellation of service (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Confirmation of cancellation of service (RSM-024)",
