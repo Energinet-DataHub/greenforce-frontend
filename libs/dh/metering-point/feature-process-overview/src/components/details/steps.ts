@@ -21,7 +21,7 @@ import { Component, computed, inject, input, ViewEncapsulation } from '@angular/
 import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 import { firstValueFrom } from 'rxjs';
 
-import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattDatePipe } from '@energinet/watt/date';
@@ -75,7 +75,7 @@ type MeteringPointProcessStep = NonNullable<
     >
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         [columns]="columns"
         [displayedColumns]="displayedColumns()"
         [resolveHeader]="resolveHeader"
@@ -132,7 +132,7 @@ export class DhMeteringPointProcessOverviewSteps {
   readonly loading = input(false);
   readonly error = input<unknown>();
 
-  dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
+  dataSource = dataSource(() => this.steps());
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
     documentUrl: { accessor: 'documentUrl', sort: false, header: '' },

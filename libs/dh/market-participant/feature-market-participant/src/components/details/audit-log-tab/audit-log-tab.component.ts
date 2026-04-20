@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { input, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { input, Component, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
+  dataSource,
 } from '@energinet/watt/table';
 
 import { VaterUtilityDirective } from '@energinet/watt/vater';
@@ -58,7 +58,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     >
       <watt-table
         [columns]="columns"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         sortBy="timestamp"
         [loading]="isLoading()"
         sortDirection="desc"
@@ -185,12 +185,10 @@ export class DhMarketParticipantAuditLogTabComponent {
 
   marketParticipant = input.required<DhMarketParticipantDetails>();
 
-  dataSource = computed(
-    () =>
-      new WattTableDataSource<DhMarketParticipantAuditLog>(
-        this.getMarketParticipantAuditLogsQuery.data()?.marketParticipantById.auditLogs || []
-      )
+  dataSource = dataSource(
+    () => this.getMarketParticipantAuditLogsQuery.data()?.marketParticipantById.auditLogs || []
   );
+
   hasError = this.getMarketParticipantAuditLogsQuery.hasError;
   isLoading = this.getMarketParticipantAuditLogsQuery.loading;
   ready = this.getMarketParticipantAuditLogsQuery.called;

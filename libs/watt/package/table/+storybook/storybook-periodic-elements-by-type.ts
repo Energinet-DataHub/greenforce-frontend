@@ -24,7 +24,7 @@ import {
 } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_TABLE, WattTableColumnDef } from '../watt-table.component';
-import { WattTableDataSource } from '../watt-table-data-source';
+import { dataSource } from '../watt-table-data-source';
 import { StorybookPeriodicElements } from './storybook-periodic-elements';
 import { PeriodicElementsByType } from './storybook-periodic-elements-data';
 
@@ -56,7 +56,7 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
         sortBy="position"
         sortDirection="asc"
         variant="zebra"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         [columns]="columns"
         [expanded]="expanded()"
         trackBy="type"
@@ -74,8 +74,8 @@ import { PeriodicElementsByType } from './storybook-periodic-elements-data';
 export class StorybookPeriodicElementsByType {
   expanded = signal<PeriodicElementsByType[]>([]);
   data = input.required<PeriodicElementsByType[]>();
-  dataSource = computed(() => new WattTableDataSource(this.data()));
-  expand = () => this.expanded.set(this.dataSource().data);
+  dataSource = dataSource(() => this.data());
+  expand = () => this.expanded.set(this.dataSource.data);
   collapse = () => this.expanded.set([]);
   columns = {
     type: { accessor: (row) => row.title },

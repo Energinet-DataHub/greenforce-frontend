@@ -22,16 +22,16 @@ limitations under the License.
   [enableSearch]="false"
   [enablePaginator]="false"
   [count]="
-    dataSource().totalCount === 1
-      ? t('changes.singular', { auditLogCount: dataSource().totalCount })
-      : t('changes.plural', { auditLogCount: dataSource().totalCount })
+    dataSource.totalCount === 1
+      ? t('changes.singular', { auditLogCount: dataSource.totalCount })
+      : t('changes.plural', { auditLogCount: dataSource.totalCount })
   "
   [error]="hasError()"
   [ready]="ready()"
 >
   <watt-table
     [columns]="columns"
-    [dataSource]="dataSource()"
+    [dataSource]="dataSource"
     sortBy="timestamp"
     [loading]="isLoading()"
     sortDirection="desc"

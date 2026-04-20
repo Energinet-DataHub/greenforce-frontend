@@ -28,12 +28,12 @@ import {
 } from '@energinet/watt/description-list';
 
 import { WATT_TABS } from '@energinet/watt/tabs';
+import { dataSource } from '@energinet/watt/table';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattToastService } from '@energinet/watt/toast';
 import { WattCodeComponent } from '@energinet/watt/code';
 import { VaterFlexComponent } from '@energinet/watt/vater';
-import { WattTableDataSource } from '@energinet/watt/table';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
@@ -89,17 +89,11 @@ export class DhMeteringGridAreaImbalanceDetails {
   private httpClient = inject(HttpClient);
   query = query(GetMeteringGridAreaImbalanceByIdDocument, () => ({ variables: { id: this.id() } }));
 
-  surplusDataSource = computed(
-    () =>
-      new WattTableDataSource(
-        this.query.data()?.meteringGridAreaImbalanceById?.incomingImbalancePerDay ?? []
-      )
+  surplusDataSource = dataSource(
+    () => this.query.data()?.meteringGridAreaImbalanceById?.incomingImbalancePerDay ?? []
   );
-  deficitDataSource = computed(
-    () =>
-      new WattTableDataSource(
-        this.query.data()?.meteringGridAreaImbalanceById?.outgoingImbalancePerDay ?? []
-      )
+  deficitDataSource = dataSource(
+    () => this.query.data()?.meteringGridAreaImbalanceById?.outgoingImbalancePerDay ?? []
   );
 
   meteringGridAreaImbalance = computed(() => this.query.data()?.meteringGridAreaImbalanceById);
