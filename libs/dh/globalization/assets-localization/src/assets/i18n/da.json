@@ -1061,6 +1061,8 @@
           "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
           "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
+          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
           "REJECT_REQUEST": "Afvis anmodning",
           "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
         },
@@ -1099,6 +1101,14 @@
         "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "disconnectProcess": {
+        "title": "Anmod om afbrydelse",
+        "validityDateLabel": "Gyldighedsdato",
+        "cancel": "Annuller",
+        "confirm": "Anmod om afbrydelse",
+        "successToast": "Anmodning om afbrydelse af målepunkt indsendt",
+        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
         "EndOfSupply": "leveranceophør"

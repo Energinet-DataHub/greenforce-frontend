@@ -24,6 +24,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
+  DisconnectMeteringPointDocument,
   RejectEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
@@ -32,6 +33,7 @@ import {
 
 import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { disconnectProcessAction } from '../shared/disconnect-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
 import { DhRequestServiceModal } from '../../components/request-service-modal';
 
@@ -39,6 +41,7 @@ import { DhRequestServiceModal } from '../../components/request-service-modal';
 export class EndOfSupplyActions {
   private readonly modalService = inject(WattModalService);
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
+  private readonly disconnectMeteringPoint = mutation(DisconnectMeteringPointDocument);
   private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
@@ -57,6 +60,25 @@ export class EndOfSupplyActions {
           },
         });
       },
+    },
+    [WorkflowAction.ConfirmWorkflow]: {
+      featureFlag: 'end-of-supply',
+      permissions: ['metering-point:connection-state-manage'],
+      callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
+        this.disconnectMeteringPoint.mutate({
+          refetchQueries: [
+            GetMeteringPointProcessByIdDocument,
+            GetMeteringPointProcessOverviewDocument,
+          ],
+          variables: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            validityDate: result.validityDate,
+          },
+          onCompleted,
+          onError,
+        });
+      }),
     },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
