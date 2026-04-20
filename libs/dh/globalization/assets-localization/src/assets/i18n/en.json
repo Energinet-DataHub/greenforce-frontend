@@ -1629,7 +1629,7 @@
       "E01": "Move (E01)",
       "E02": "New metering point (E02)",
       "E03": "Change of Energy supplier (E03)",
-      "E0G": "Data alignment for master data metering point (E0G)",
+      "E0G": "Request for charge information (E0G)",
       "E20": "End of supply (E20)",
       "E23": "Periodic metering (E23)",
       "E30": "Historical data (E30)",
