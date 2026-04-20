@@ -153,6 +153,7 @@ export class DhMeteringPointActionsComponent {
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
   isEnergySupplierResponsible = input.required<boolean>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -184,8 +185,8 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
-  private readonly hasEnergySupplierRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+  private readonly hasMeteringPointEndOfSupplyRequestPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-request'),
     { initialValue: false }
   );
 
@@ -203,7 +204,8 @@ export class DhMeteringPointActionsComponent {
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||
-        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Disconnected) &&
       (this.type() === ElectricityMarketMeteringPointType.Consumption ||
         this.type() === ElectricityMarketMeteringPointType.Production)
     );
@@ -224,11 +226,13 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
-  showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
+  showManualCorrectionButtons = computed(
+    () => this.hasDh3SkalpellenPermission() && this.searchMigratedMeteringPoints()
+  );
 
   showEndOfSupplyButton = computed(
     () =>
-      this.hasEnergySupplierRole() &&
+      this.hasMeteringPointEndOfSupplyRequestPermission() &&
       this.isEnergySupplierResponsible() &&
       this.featureFlagsService.isEnabled('end-of-supply')
   );

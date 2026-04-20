@@ -25,6 +25,8 @@ import {
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+export type ContactType = 'legalContact' | 'technicalContact';
+
 export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
   businessReason: FormControl<ChangeOfSupplierBusinessReason>;
@@ -107,12 +109,6 @@ type ActiveEnergySupplyPeriod = NonNullable<CommercialRelation['activeEnergySupp
 type Metadata = NonNullable<MeteringPointDetails['metadata']>;
 
 export type InstallationAddress = Metadata['installationAddress'];
-
-export type EnergySupplier = {
-  gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['displayName'];
-  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
-};
 
 export type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
 export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalContact'>;

@@ -24,4 +24,8 @@ public enum BusinessReason
     D29,  // Sekundær tilflytning
     E34,  // Opdatering af kundestamdata
     E01,  // Flytning
+    E0G,  // Anmod prisinformationer
+    D48,  // Anmod prisserier
+    D18,  // Prisinformationer
+    D08,  // Prisserier
 }

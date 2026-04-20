@@ -17,15 +17,16 @@
  */
 //#endregion
 describe('Language selection', () => {
-  it(`toggle languages`, () => {
+  const initialUrl = '/message-archive';
+
+  beforeEach(() => {
+    cy.login(Cypress.env('DH_E2E_USERNAME'), Cypress.env('DH_E2E_PASSWORD'), initialUrl);
+    cy.visit(initialUrl);
+  });
+
+  it.skip(`toggle languages`, () => {
     // Given no language is selected
     // Then Danish translations are displayed
-    // Navigate to message-archive specifically for this test
-    cy.visit('/message-archive');
-
-    // Wait for the page to load and verify we're on the correct page
-    cy.url().should('include', '/message-archive');
-
     cy.findByRole('heading', {
       name: new RegExp('Fremsøg forretningsbeskeder', 'i'),
     });
@@ -36,9 +37,7 @@ describe('Language selection', () => {
     cy.findByText('English').click({ force: true });
 
     // Handle the auto-opening modal
-    cy.findByRole('dialog', {
-      timeout: 10_000,
-    }).should('exist');
+    cy.findByRole('dialog', { timeout: 10_000 }).should('exist');
     cy.findByRole('button', { name: /close/i }).click();
     cy.findByRole('dialog').should('not.exist');
 

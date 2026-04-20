@@ -22,7 +22,9 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
@@ -35,21 +37,15 @@ public class ChargesClient(
     IHttpContextAccessor httpContext,
     IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
 {
-    public async Task<IEnumerable<Charge>> GetChargesAsync(
+    public async Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        ChargeStatus[]? status,
-        Resolution[]? resolution,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
+        ChargeOverviewQuery? query,
         CancellationToken ct = default)
     {
-        var filterDto = new ChargeInformationFilterDto(string.Empty, owners ?? [], types?.Select(c => c.Type) ?? []);
+        var filterTypes = query?.Types?.Select(c => c.Type) ?? [];
+        var filterOwners = query?.Owners ?? [];
         var result = await client.GetChargeInformationAsync(
-            new(0, 10000, filterDto, ChargeInformationSortProperty.Type, true),
+            new(0, 10000, new(string.Empty, filterOwners, filterTypes), ChargeInformationSortProperty.Type, true),
             ct);
 
         if (!result.IsSuccess)
@@ -57,41 +53,43 @@ public class ChargesClient(
             throw new GraphQLException(result.DiagnosticMessage);
         }
 
-        // Map and apply filters
+        // Map to charges and apply charge-level filters
         var data = result.Data ?? [];
         var charges = data
-            .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+            .Where(c => c.Periods.Count > 0)
             .Select(MapChargeInformationDtoToCharge)
-            .Where(c => owners?.Contains(c.Id.Owner) ?? true)
-            .Where(c => types?.Contains(c.Type) ?? true)
-            .Where(c => status?.Any(s => s == c.Status || s == c.ActivePeriod?.Status) ?? true)
-            .Where(c => resolution?.Contains(c.Resolution) ?? true)
-            .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
-            .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
-            .Where(c => spotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
-            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
-            .OrderBy(c => c.Type.Name)
-            .ThenBy(c => c.Id.Owner)
-            .ThenBy(c => c.LatestPeriod.Period.Start)
-            .ThenBy(c => c.Code)
-            .ToList();
+            .Where(c => query?.Owners?.Contains(c.Id.Owner) ?? true)
+            .Where(c => query?.Types?.Contains(c.Type) ?? true)
+            .Where(c => query?.Resolution?.Contains(c.Resolution) ?? true)
+            .Where(c => query?.SpotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
+            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase));
+
+        // Flatten charge x period and apply period-level filters
+        var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
+        var items = charges.SelectMany(charge => charge.Periods
+            .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
+            .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
+            .Where(p => p.Period.Overlaps(activePeriod))
+            .Select(p => new ChargeOverviewItem(charge, p.Period)));
 
         // This filter is expensive since it has to fetch series for each charge,
         // which is why it is deferred until after applying all other filters.
-        if (missingPriceSeries.HasValue)
+        if (query?.MissingPriceSeries == true)
         {
-            // Cancelled charges does not have price series, but they are also not missing.
-            // This means they can just be removed from the result before fetching series.
-            return await charges
+            var chargesWithSeries = await items
+                .Select(x => x.Charge)
+                .Distinct()
                 .ToAsyncEnumerable()
                 .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, cancellationToken) => (charge, series: await GetChargeSeriesAsync(charge, cancellationToken)))
-                .Where(r => r.series.Any() != missingPriceSeries.Value)
-                .Select(c => c.charge)
+                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
+                .Where(r => r.series.Any() != query?.MissingPriceSeries)
+                .Select(r => r.charge)
                 .ToListAsync(ct);
+
+            return items.Where(x => chargesWithSeries.Contains(x.Charge));
         }
 
-        return charges;
+        return items;
     }
 
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
@@ -102,7 +100,10 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Select(MapChargeInformationDtoToCharge).FirstOrDefault(c => c.Code == id.Code);
+            : result.Data?
+                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+                .Select(MapChargeInformationDtoToCharge)
+                .FirstOrDefault(c => c.Code == id.Code);
     }
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
@@ -126,7 +127,10 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Where(c => c.Periods?.Count > 0)?.Select(MapChargeInformationDtoToCharge) ?? [];
+            : result.Data?
+                .Where(c => c.Periods?.Count > 0)
+                .Where(c => c.TaxIndicator == type.IsTax)
+                .Select(MapChargeInformationDtoToCharge) ?? [];
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
@@ -244,12 +248,15 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    private static Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
+    private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(
             Id: charge.ChargeIdentifierDto,
             Resolution: Resolution.FromName(charge.ResolutionDto),
             TaxIndicator: charge.TaxIndicator,
             SpotDependingPrice: charge.PricingCategoryDto == PricingCategoryDto.SpotDependingPrice,
+            TypeDisplayName: ChargeTypeTranslator.Translate(
+                ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
+                httpContext),
             PeriodDtos: [.. charge.Periods
                 .Where(x => x.StartDate <= x.EndDate)
                 .OrderByDescending(x => x.StartDate)
@@ -257,6 +264,6 @@ public class ChargesClient(
 
     private static PricingCategoryV2 MapToPricingCategoryV2(bool? spotDependingPrice)
         => spotDependingPrice.GetValueOrDefault(false)
-            ? PricingCategoryV2.SpotDependeningPrice
-            : PricingCategoryV2.NotSpotDependingPrice;
+            ? PricingCategoryV2.D01
+            : PricingCategoryV2.D02;
 }

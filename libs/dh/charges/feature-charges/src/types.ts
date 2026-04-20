@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 
-export type Charge = ExtractNodeType<GetChargesDataSource>;
+export type ChargeOverviewItem = ExtractNodeType<GetChargeOverviewDataSource>;

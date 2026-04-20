@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+
+import { WattModalService } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  EicFunction,
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
   DisconnectMeteringPointDocument,
@@ -34,17 +35,35 @@ import type { ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
 import { disconnectProcessAction } from '../shared/disconnect-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
+import { DhRequestServiceModal } from '../../components/request-service-modal';
 
 @Injectable({ providedIn: 'root' })
 export class EndOfSupplyActions {
+  private readonly modalService = inject(WattModalService);
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
   private readonly disconnectMeteringPoint = mutation(DisconnectMeteringPointDocument);
   private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
+    [WorkflowAction.SendInformation]: {
+      featureFlag: 'end-of-supply',
+      permissions: ['metering-point:end-of-supply-request'],
+      callback: (ctx) => {
+        this.modalService.open({
+          component: DhRequestServiceModal,
+          data: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+          },
+          onClosed: (result) => {
+            if (result) ctx.onSuccess?.();
+          },
+        });
+      },
+    },
     [WorkflowAction.ConfirmWorkflow]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.GridAccessProvider],
+      permissions: ['metering-point:connection-state-manage'],
       callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
         this.disconnectMeteringPoint.mutate({
           refetchQueries: [
@@ -62,8 +81,8 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
-      marketRoles: [EicFunction.GridAccessProvider],
-      callback: rejectProcessAction((ctx, result, onCompleted, onError) => {
+      permissions: ['metering-point:end-of-supply-respond'],
+      callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
             GetMeteringPointProcessByIdDocument,
@@ -83,6 +102,7 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
+      permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {

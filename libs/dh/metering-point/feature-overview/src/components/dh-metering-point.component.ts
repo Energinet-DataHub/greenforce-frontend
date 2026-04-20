@@ -152,7 +152,10 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
               *dhCanSee="'energy-supplier-name'; meteringPoint: meteringPoint()"
               [label]="t('shared.energySupplier')"
             >
-              {{ commercialRelation()?.energySupplierName?.displayName | dhEmDashFallback }}
+              {{
+                commercialRelation()?.energySupplierName?.displayNameWithoutMarketRole
+                  | dhEmDashFallback
+              }}
             </watt-description-list-item>
 
             <watt-description-list-item [label]="t('details.meteringPointSubType')">
@@ -183,6 +186,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
           [isEnergySupplierResponsible]="isEnergySupplierResponsible()"
           [installationAddress]="metadata()?.installationAddress"
           [createdDate]="meteringPoint()?.createdDate"
+          [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
         />
       </div>
 

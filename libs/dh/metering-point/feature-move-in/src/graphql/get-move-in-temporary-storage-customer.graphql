@@ -1,6 +1,7 @@
-query GetTemporaryStorageData($meteringPointId: String!, $transactionId: String!) {
-  temporaryStorageData(meteringPointId: $meteringPointId, transactionId: $transactionId) {
+query GetTemporaryStorageData($meteringPointId: String!, $processId: String!) {
+  temporaryStorageData(meteringPointId: $meteringPointId, processId: $processId) {
     firstCustomerName
     isBusinessCustomer
+    firstCustomerCvr
   }
 }

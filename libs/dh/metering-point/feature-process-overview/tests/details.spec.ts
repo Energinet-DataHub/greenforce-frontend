@@ -20,8 +20,10 @@ import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http'
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
 import { render, screen } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 import {
   getTranslocoTestingModule,
@@ -35,7 +37,11 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
-async function setup(processId = 'process-eos-cancel') {
+async function setup(
+  processId = 'process-eos-cancel',
+  permissionOverrides: { isFas?: boolean } = {}
+) {
+  const { isFas = false } = permissionOverrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -47,7 +53,7 @@ async function setup(processId = 'process-eos-cancel') {
       {
         provide: PermissionService,
         useValue: {
-          isFas: () => of(false),
+          isFas: () => of(isFas),
           hasMarketRole: () => of(true),
           hasPermission: () => of(true),
         },
@@ -57,6 +63,7 @@ async function setup(processId = 'process-eos-cancel') {
     componentInputs: {
       id: processId,
       meteringPointId: 'mp-123',
+      internalMeteringPointId: 'imp-123',
     },
   });
 
@@ -102,9 +109,45 @@ describe('Process overview details', () => {
     );
   });
 
+  it('should navigate with internalMeteringPointId when Send information is clicked', async () => {
+    const fixture = await setup('process-cmi-info');
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+    const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
+
+    userEvent.click(sendInfoButtons[0]);
+
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-123',
+        'update-customer-details',
+        expect.any(String),
+      ])
+    );
+  });
+
   it('should show initiator in description list', async () => {
     await setup();
     const terms = screen.getAllByRole('term');
     expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(true);
+  });
+
+  it.each([
+    ['process-eos-cancel', /Cancel|Reject request/i],
+    ['process-eos-request-service', /Request service/i],
+  ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
+    await setup(processId, { isFas: true });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
+    );
+    const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
+    actionButtons.forEach((button) => {
+      expect((button as HTMLButtonElement).disabled).toBe(true);
+    });
   });
 });

@@ -1,7 +1,7 @@
 {
   "type": "module",
   "name": "@energinet/watt",
-  "version": "4.3.64",
+  "version": "4.3.81",
   "license": "Apache-2.0",
   "exports": {
     ".": {
@@ -11,8 +11,12 @@
       "sass": "./core/styles/@energinet/watt/_utils.scss"
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Energinet-DataHub/greenforce-frontend"
+  },
   "peerDependencies": {
-    "@analogjs/vite-plugin-angular": "^2.2.3",
+    "@analogjs/vite-plugin-angular": "^2.4.0",
     "@angular/cdk": "^21.2.3",
     "@angular/common": "^21.2.5",
     "@angular/compiler": "^21.2.5",

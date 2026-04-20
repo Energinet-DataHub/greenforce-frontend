@@ -24,6 +24,7 @@ import {
   input,
   ViewEncapsulation,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
@@ -32,6 +33,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeteringPointProcessByIdDocument,
@@ -114,8 +116,8 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
             | supportedActions: businessReason();
           track action
         ) {
-          <watt-button variant="secondary" (click)="executeAction(action)">
-            {{ t('actions.' + action) }}
+          <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
+            {{ t('actions.' + businessReason() + '.' + action) }}
           </watt-button>
         }
       </watt-drawer-actions>
@@ -133,8 +135,12 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
+  readonly internalMeteringPointId = input.required<string>();
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
+  private readonly permissionService = inject(PermissionService);
+
+  protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
@@ -166,7 +172,7 @@ export class DhMeteringPointProcessOverviewDetails {
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: '',
+      internalMeteringPointId: this.internalMeteringPointId(),
       processId: this.id(),
       cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),

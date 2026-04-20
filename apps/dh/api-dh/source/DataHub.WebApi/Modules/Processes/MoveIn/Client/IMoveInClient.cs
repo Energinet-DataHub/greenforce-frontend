@@ -22,10 +22,17 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 public interface IMoveInClient
 {
     /// <summary>
-    /// Get temporary storage data for a given metering point and transaction.
+    /// Get temporary storage data for a given metering point and process.
     /// </summary>
     Task<RequestTemporaryStorageResult?> GetTemporaryStorageDataAsync(
         string meteringPointId,
-        string transactionId,
+        string processId,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Get the start date for a given process.
+    /// </summary>
+    Task<DateTimeOffset?> GetStartDateAsync(
+        string processId,
         CancellationToken ct = default);
 }

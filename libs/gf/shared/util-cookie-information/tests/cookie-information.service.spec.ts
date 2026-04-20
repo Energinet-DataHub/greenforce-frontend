@@ -18,7 +18,6 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { DOCUMENT } from '@angular/common';
-import { vi } from 'vitest';
 import { CookieInformationService } from '../src/cookie-information.service';
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import { CookieInformationConfig } from '../src/cookie-information.types';

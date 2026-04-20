@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -29,10 +29,11 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WATT_MODAL } from '@energinet/watt/modal';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   RebuildProjectionsDocument,
   ProjectionType,
+  GetProjectionsStatusDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import {
@@ -118,6 +119,30 @@ import {
             </vater-flex>
           </vater-flex>
         </watt-card>
+
+        <watt-card style="grid-column: 1 / -1">
+          <vater-flex direction="column" gap="m">
+            <h3 watt-heading>{{ t('projectionsStatus.title') }}</h3>
+
+            <watt-button
+              variant="secondary"
+              [loading]="projectionsStatusQuery.loading()"
+              (click)="getProjectionsStatus()"
+            >
+              {{ t('projectionsStatus.button') }}
+            </watt-button>
+
+            @if (projectionsStatusJson()) {
+              <pre class="result-box">{{ projectionsStatusJson() }}</pre>
+            }
+
+            @if (projectionsStatusQuery.error(); as error) {
+              <div class="result-box">
+                <strong>{{ t('error') }}</strong> {{ error.message }}
+              </div>
+            }
+          </vater-flex>
+        </watt-card>
       </vater-grid>
 
       <watt-modal
@@ -144,6 +169,12 @@ export class DhMeteringPointActionsComponent {
   projectionTypeControl = dhMakeFormControl<ProjectionType>();
   timeoutControl = dhMakeFormControl('30');
   projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
+  projectionsStatusQuery = lazyQuery(GetProjectionsStatusDocument);
+  projectionsStatusJson = computed(() => {
+    const data = this.projectionsStatusQuery.data()?.projectionsStatus;
+    if (!data) return null;
+    return JSON.stringify(data, (key, value) => (key === '__typename' ? undefined : value), 2);
+  });
 
   onConfirmRebuild(confirmed: boolean): void {
     if (!confirmed) return;
@@ -151,5 +182,9 @@ export class DhMeteringPointActionsComponent {
     const timeout = parseInt(this.timeoutControl.value || '5');
     assertIsDefined(projection);
     this.rebuildProjections.mutate({ variables: { input: { projection, timeout } } });
+  }
+
+  getProjectionsStatus(): void {
+    this.projectionsStatusQuery.query({ fetchPolicy: 'network-only' });
   }
 }

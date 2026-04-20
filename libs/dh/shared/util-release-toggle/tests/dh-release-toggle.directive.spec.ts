@@ -18,7 +18,6 @@
 //#endregion
 import { Component, input } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
-import '@testing-library/jest-dom/vitest';
 
 import { DhReleaseToggleDirective, ToggleExpression } from '../src/dh-release-toggle.directive';
 import { DhReleaseToggleService } from '../src/dh-release-toggle.service';

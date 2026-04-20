@@ -18,7 +18,8 @@
 //#endregion
 import { Component } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { fireEvent, render, screen, waitFor } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 
 // eslint-disable-next-line @nx/enforce-module-boundaries
@@ -173,7 +174,7 @@ describe(WattTimepickerComponent, () => {
       timepickerComponent.onFocusOut(mockFocusEvent);
       fixture.detectChanges();
 
-      await waitFor(() => {
+      await waitForAsync(() => {
         expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
       });
     });

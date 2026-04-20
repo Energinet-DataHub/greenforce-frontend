@@ -47,7 +47,7 @@ query GetMeteringPointById(
       energySupplier
       energySupplierName {
         id
-        displayName
+        displayNameWithoutMarketRole
       }
       activeElectricalHeatingPeriods {
         id

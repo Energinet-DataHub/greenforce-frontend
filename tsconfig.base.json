@@ -13,289 +13,299 @@
     "lib": ["ESNext", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "baseUrl": ".",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
       "@energinet-datahub/dh-shared-data-access-top-bar": [
-        "libs/dh/shared/data-access-top-bar/index.ts"
+        "./libs/dh/shared/data-access-top-bar/index.ts"
       ],
       "@energinet-datahub/dh/actor-conversation/feature-actor-conversation": [
-        "libs/dh/actor-conversation/feature-actor-conversation/index.ts"
+        "./libs/dh/actor-conversation/feature-actor-conversation/index.ts"
       ],
-      "@energinet-datahub/dh/admin/data-access-api": ["libs/dh/admin/data-access-api/index.ts"],
+      "@energinet-datahub/dh/admin/data-access-api": ["./libs/dh/admin/data-access-api/index.ts"],
       "@energinet-datahub/dh/admin/feature-permissions": [
-        "libs/dh/admin/feature-permissions/index.ts"
+        "./libs/dh/admin/feature-permissions/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-user-management": [
-        "libs/dh/admin/feature-user-management/index.ts"
+        "./libs/dh/admin/feature-user-management/index.ts"
       ],
       "@energinet-datahub/dh/admin/feature-user-roles": [
-        "libs/dh/admin/feature-user-roles/index.ts"
+        "./libs/dh/admin/feature-user-roles/index.ts"
       ],
-      "@energinet-datahub/dh/admin/shell": ["libs/dh/admin/shell/index.ts"],
-      "@energinet-datahub/dh/admin/ui-shared": ["libs/dh/admin/ui-shared/index.ts"],
-      "@energinet-datahub/dh/auth/msal": ["libs/dh/auth/feature-msal/index.ts"],
-      "@energinet-datahub/dh/charges/feature-charges": ["libs/dh/charges/feature-charges/index.ts"],
+      "@energinet-datahub/dh/admin/shell": ["./libs/dh/admin/shell/index.ts"],
+      "@energinet-datahub/dh/admin/ui-shared": ["./libs/dh/admin/ui-shared/index.ts"],
+      "@energinet-datahub/dh/auth/msal": ["./libs/dh/auth/feature-msal/index.ts"],
+      "@energinet-datahub/dh/charges/feature-charges": [
+        "./libs/dh/charges/feature-charges/index.ts"
+      ],
       "@energinet-datahub/dh/charges/feature-parse-series": [
-        "libs/dh/charges/feature-parse-series/index.ts"
+        "./libs/dh/charges/feature-parse-series/index.ts"
       ],
       "@energinet-datahub/dh/charges/feature-ui-shared": [
-        "libs/dh/charges/feature-ui-shared/index.ts"
+        "./libs/dh/charges/feature-ui-shared/index.ts"
       ],
       "@energinet-datahub/dh/core/configuration-routing": [
-        "libs/dh/core/configuration-routing/index.ts"
+        "./libs/dh/core/configuration-routing/index.ts"
       ],
       "@energinet-datahub/dh/core/feature-notifications": [
-        "libs/dh/core/feature-notifications/index.ts"
+        "./libs/dh/core/feature-notifications/index.ts"
       ],
-      "@energinet-datahub/dh/core/shell": ["libs/dh/core/shell/index.ts"],
-      "@energinet-datahub/dh/core/ui-toolbar-portal": ["libs/dh/core/ui-toolbar-portal/index.ts"],
+      "@energinet-datahub/dh/core/shell": ["./libs/dh/core/shell/index.ts"],
+      "@energinet-datahub/dh/core/ui-toolbar-portal": ["./libs/dh/core/ui-toolbar-portal/index.ts"],
       "@energinet-datahub/dh/developer/feature-examples": [
-        "libs/dh/developer/feature-examples/index.ts"
+        "./libs/dh/developer/feature-examples/index.ts"
       ],
       "@energinet-datahub/dh/developer/feature-operation": [
-        "libs/dh/developer/feature-operation/index.ts"
+        "./libs/dh/developer/feature-operation/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-balance-responsible": [
-        "libs/dh/esett/feature-balance-responsible/index.ts"
+        "./libs/dh/esett/feature-balance-responsible/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-metering-gridarea-imbalance": [
-        "libs/dh/esett/feature-metering-gridarea-imbalance/index.ts"
+        "./libs/dh/esett/feature-metering-gridarea-imbalance/index.ts"
       ],
       "@energinet-datahub/dh/esett/feature-outgoing-messages": [
-        "libs/dh/esett/feature-outgoing-messages/index.ts"
+        "./libs/dh/esett/feature-outgoing-messages/index.ts"
       ],
-      "@energinet-datahub/dh/esett/shell": ["libs/dh/esett/shell/index.ts"],
+      "@energinet-datahub/dh/esett/shell": ["./libs/dh/esett/shell/index.ts"],
       "@energinet-datahub/dh/feature-market-participant": [
-        "libs/dh/market-participant/feature-market-participant/index.ts"
+        "./libs/dh/market-participant/feature-market-participant/index.ts"
       ],
       "@energinet-datahub/dh/globalization/assets-localization": [
-        "libs/dh/globalization/assets-localization/index.ts"
+        "./libs/dh/globalization/assets-localization/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-localization": [
-        "libs/dh/globalization/configuration-localization/index.ts"
+        "./libs/dh/globalization/configuration-localization/index.ts"
       ],
       "@energinet-datahub/dh/globalization/configuration-watt-translation": [
-        "libs/dh/globalization/configuration-watt-translation/index.ts"
+        "./libs/dh/globalization/configuration-watt-translation/index.ts"
       ],
       "@energinet-datahub/dh/globalization/feature-language-picker": [
-        "libs/dh/globalization/feature-language-picker/index.ts"
+        "./libs/dh/globalization/feature-language-picker/index.ts"
       ],
       "@energinet-datahub/dh/grid-areas": [
-        "libs/dh/market-participant/feature-grid-areas/index.ts"
+        "./libs/dh/market-participant/feature-grid-areas/index.ts"
       ],
       "@energinet-datahub/dh/imbalance-prices": [
-        "libs/dh/imbalance-prices/feature-imbalance-prices/index.ts"
+        "./libs/dh/imbalance-prices/feature-imbalance-prices/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/domain": [
-        "libs/dh/market-participant/domain/index.ts"
+        "./libs/dh/market-participant/domain/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/feature-delegation": [
-        "libs/dh/market-participant/feature-delegation/index.ts"
+        "./libs/dh/market-participant/feature-delegation/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/feature-market-roles": [
-        "libs/dh/market-participant/feature-market-roles/index.ts"
+        "./libs/dh/market-participant/feature-market-roles/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/feature-organizations": [
-        "libs/dh/market-participant/feature-organizations/index.ts"
+        "./libs/dh/market-participant/feature-organizations/index.ts"
       ],
       "@energinet-datahub/dh/market-participant/ui-shared": [
-        "libs/dh/market-participant/ui-shared/index.ts"
+        "./libs/dh/market-participant/ui-shared/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/domain": ["libs/dh/message-archive/domain/index.ts"],
+      "@energinet-datahub/dh/message-archive/domain": ["./libs/dh/message-archive/domain/index.ts"],
       "@energinet-datahub/dh/message-archive/feature-search": [
-        "libs/dh/message-archive/feature-search/index.ts"
+        "./libs/dh/message-archive/feature-search/index.ts"
       ],
-      "@energinet-datahub/dh/message-archive/shell": ["libs/dh/message-archive/shell/index.ts"],
+      "@energinet-datahub/dh/message-archive/shell": ["./libs/dh/message-archive/shell/index.ts"],
+      "@energinet-datahub/dh/message-queue/feature-overview": [
+        "./libs/dh/message-queue/feature-overview/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-chargelink": [
-        "libs/dh/metering-point/feature-chargelink/index.ts"
+        "./libs/dh/metering-point/feature-chargelink/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-debug": [
-        "libs/dh/metering-point/feature-debug/index.ts"
+        "./libs/dh/metering-point/feature-debug/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-end-of-supply": [
-        "libs/dh/metering-point/feature-end-of-supply/index.ts"
+        "./libs/dh/metering-point/feature-end-of-supply/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-measurements": [
-        "libs/dh/metering-point/feature-measurements/index.ts"
+        "./libs/dh/metering-point/feature-measurements/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-move-in": [
-        "libs/dh/metering-point/feature-move-in/index.ts"
+        "./libs/dh/metering-point/feature-move-in/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-overview": [
-        "libs/dh/metering-point/feature-overview/index.ts"
+        "./libs/dh/metering-point/feature-overview/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-process-overview": [
-        "libs/dh/metering-point/feature-process-overview/index.ts"
+        "./libs/dh/metering-point/feature-process-overview/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-search": [
-        "libs/dh/metering-point/feature-search/index.ts"
+        "./libs/dh/metering-point/feature-search/index.ts"
       ],
       "@energinet-datahub/dh/metering-point/feature-upload-measurements": [
-        "libs/dh/metering-point/feature-upload-measurements/index.ts"
+        "./libs/dh/metering-point/feature-upload-measurements/index.ts"
       ],
-      "@energinet-datahub/dh/profile/feature-avatar": ["libs/dh/profile/feature-avatar/index.ts"],
+      "@energinet-datahub/dh/profile/feature-avatar": ["./libs/dh/profile/feature-avatar/index.ts"],
       "@energinet-datahub/dh/profile/feature-profile-modal": [
-        "libs/dh/profile/feature-profile-modal/index.ts"
+        "./libs/dh/profile/feature-profile-modal/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-measurements-reports": [
-        "libs/dh/reports/feature-measurements-reports/index.ts"
+        "./libs/dh/reports/feature-measurements-reports/index.ts"
       ],
       "@energinet-datahub/dh/reports/feature-missing-measurements-log": [
-        "libs/dh/reports/feature-missing-measurements-log/index.ts"
+        "./libs/dh/reports/feature-missing-measurements-log/index.ts"
       ],
-      "@energinet-datahub/dh/reports/feature-reports": ["libs/dh/reports/feature-reports/index.ts"],
+      "@energinet-datahub/dh/reports/feature-reports": [
+        "./libs/dh/reports/feature-reports/index.ts"
+      ],
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
-        "libs/dh/reports/feature-settlement-reports/index.ts"
+        "./libs/dh/reports/feature-settlement-reports/index.ts"
       ],
-      "@energinet-datahub/dh/shared/assets": ["libs/dh/shared/assets/index.ts"],
+      "@energinet-datahub/dh/shared/assets": ["./libs/dh/shared/assets/index.ts"],
       "@energinet-datahub/dh/shared/data-access-graphql": [
-        "libs/dh/shared/data-access-graphql/index.ts"
+        "./libs/dh/shared/data-access-graphql/index.ts"
       ],
-      "@energinet-datahub/dh/shared/domain": ["libs/dh/shared/domain/index.ts"],
+      "@energinet-datahub/dh/shared/domain": ["./libs/dh/shared/domain/index.ts"],
       "@energinet-datahub/dh/shared/domain/graphql": [
-        "libs/dh/shared/domain/src/generated/graphql/types.ts"
+        "./libs/dh/shared/domain/src/generated/graphql/types.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql/data-source": [
-        "libs/dh/shared/domain/src/generated/graphql/data-source.ts"
+        "./libs/dh/shared/domain/src/generated/graphql/data-source.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql/introspection": [
-        "libs/dh/shared/domain/src/generated/graphql/introspection.ts"
+        "./libs/dh/shared/domain/src/generated/graphql/introspection.ts"
       ],
       "@energinet-datahub/dh/shared/domain/graphql/msw": [
-        "libs/dh/shared/domain/src/generated/graphql/msw.ts"
+        "./libs/dh/shared/domain/src/generated/graphql/msw.ts"
       ],
-      "@energinet-datahub/dh/shared/environments": ["libs/dh/shared/environments/index.ts"],
+      "@energinet-datahub/dh/shared/environments": ["./libs/dh/shared/environments/index.ts"],
       "@energinet-datahub/dh/shared/feature-authorization": [
-        "libs/dh/shared/feature-authorization/index.ts"
+        "./libs/dh/shared/feature-authorization/index.ts"
       ],
-      "@energinet-datahub/dh/shared/feature-flags": ["libs/dh/shared/feature-flags/index.ts"],
+      "@energinet-datahub/dh/shared/feature-flags": ["./libs/dh/shared/feature-flags/index.ts"],
       "@energinet-datahub/dh/shared/feature-highlight": [
-        "libs/dh/shared/feature-highlight/index.ts"
+        "./libs/dh/shared/feature-highlight/index.ts"
       ],
       "@energinet-datahub/dh/shared/feature-microsoft-clarity": [
-        "libs/dh/shared/feature-microsoft-clarity/index.ts"
+        "./libs/dh/shared/feature-microsoft-clarity/index.ts"
       ],
-      "@energinet-datahub/dh/shared/test-util": ["libs/dh/shared/test-util/index.ts"],
-      "@energinet-datahub/dh/shared/test-util-mocks": ["libs/dh/shared/test-util-mocks/index.ts"],
-      "@energinet-datahub/dh/shared/ui-util": ["libs/dh/shared/ui-util/index.ts"],
-      "@energinet-datahub/dh/shared/ui-validators": ["libs/dh/shared/ui-validators/index.ts"],
-      "@energinet-datahub/dh/shared/util-apollo": ["libs/dh/shared/util-apollo/index.ts"],
+      "@energinet-datahub/dh/shared/test-util": ["./libs/dh/shared/test-util/index.ts"],
+      "@energinet-datahub/dh/shared/test-util-mocks": ["./libs/dh/shared/test-util-mocks/index.ts"],
+      "@energinet-datahub/dh/shared/ui-util": ["./libs/dh/shared/ui-util/index.ts"],
+      "@energinet-datahub/dh/shared/ui-validators": ["./libs/dh/shared/ui-validators/index.ts"],
+      "@energinet-datahub/dh/shared/util-apollo": ["./libs/dh/shared/util-apollo/index.ts"],
       "@energinet-datahub/dh/shared/util-application-insights": [
-        "libs/dh/shared/util-application-insights/index.ts"
+        "./libs/dh/shared/util-application-insights/index.ts"
       ],
-      "@energinet-datahub/dh/shared/util-assert": ["libs/dh/shared/util-assert/index.ts"],
-      "@energinet-datahub/dh/shared/util-browser": ["libs/dh/shared/util-browser/index.ts"],
-      "@energinet-datahub/dh/shared/util-navigation": ["libs/dh/shared/util-navigation/index.ts"],
+      "@energinet-datahub/dh/shared/util-assert": ["./libs/dh/shared/util-assert/index.ts"],
+      "@energinet-datahub/dh/shared/util-browser": ["./libs/dh/shared/util-browser/index.ts"],
+      "@energinet-datahub/dh/shared/util-navigation": ["./libs/dh/shared/util-navigation/index.ts"],
       "@energinet-datahub/dh/shared/util-new-version-manager": [
-        "libs/dh/shared/util-new-version-manager/index.ts"
+        "./libs/dh/shared/util-new-version-manager/index.ts"
       ],
-      "@energinet-datahub/dh/shared/util-operators": ["libs/dh/shared/util-operators/index.ts"],
+      "@energinet-datahub/dh/shared/util-operators": ["./libs/dh/shared/util-operators/index.ts"],
       "@energinet-datahub/dh/shared/util-release-toggle": [
-        "libs/dh/shared/util-release-toggle/index.ts"
+        "./libs/dh/shared/util-release-toggle/index.ts"
       ],
-      "@energinet-datahub/dh/shared/util-reports": ["libs/dh/shared/util-reports/index.ts"],
-      "@energinet-datahub/dh/shared/util-text": ["libs/dh/shared/util-text/index.ts"],
-      "@energinet-datahub/dh/wholesale/domain": ["libs/dh/wholesale/domain/index.ts"],
+      "@energinet-datahub/dh/shared/util-reports": ["./libs/dh/shared/util-reports/index.ts"],
+      "@energinet-datahub/dh/shared/util-text": ["./libs/dh/shared/util-text/index.ts"],
+      "@energinet-datahub/dh/wholesale/domain": ["./libs/dh/wholesale/domain/index.ts"],
       "@energinet-datahub/dh/wholesale/feature-calculations": [
-        "libs/dh/wholesale/feature-calculations/index.ts"
+        "./libs/dh/wholesale/feature-calculations/index.ts"
       ],
       "@energinet-datahub/dh/wholesale/feature-requests": [
-        "libs/dh/wholesale/feature-requests/index.ts"
+        "./libs/dh/wholesale/feature-requests/index.ts"
       ],
-      "@energinet-datahub/dh/wholesale/shell": ["libs/dh/wholesale/shell/index.ts"],
-      "@energinet-datahub/dh/wholesale/ui-shared": ["libs/dh/wholesale/ui-shared/index.ts"],
+      "@energinet-datahub/dh/wholesale/shell": ["./libs/dh/wholesale/shell/index.ts"],
+      "@energinet-datahub/dh/wholesale/ui-shared": ["./libs/dh/wholesale/ui-shared/index.ts"],
       "@energinet-datahub/gf/globalization/configuration-danish-locale": [
-        "libs/gf/globalization/configuration-danish-locale/index.ts"
+        "./libs/gf/globalization/configuration-danish-locale/index.ts"
       ],
       "@energinet-datahub/gf/globalization/data-access-localization": [
-        "libs/gf/globalization/data-access-localization/index.ts"
+        "./libs/gf/globalization/data-access-localization/index.ts"
       ],
-      "@energinet-datahub/gf/globalization/domain": ["libs/gf/globalization/domain/index.ts"],
-      "@energinet-datahub/gf/msw/test-util-msw-setup": ["libs/gf/msw/test-util-msw-setup/index.ts"],
-      "@energinet-datahub/gf/test-util": ["libs/gf/shared/test-util/index.ts"],
-      "@energinet-datahub/gf/test-util-matchers": ["libs/gf/shared/test-util-matchers/index.ts"],
-      "@energinet-datahub/gf/test-util-msw": ["libs/gf/msw/test-util-msw/index.ts"],
-      "@energinet-datahub/gf/test-util-staging": ["libs/gf/shared/test-util-staging/index.ts"],
-      "@energinet-datahub/gf/test-util-vitest": ["libs/gf/shared/test-util-vitest/index.ts"],
-      "@energinet-datahub/gf/util-browser": ["libs/gf/shared/util-browser/index.ts"],
+      "@energinet-datahub/gf/globalization/domain": ["./libs/gf/globalization/domain/index.ts"],
+      "@energinet-datahub/gf/msw/test-util-msw-setup": [
+        "./libs/gf/msw/test-util-msw-setup/index.ts"
+      ],
+      "@energinet-datahub/gf/test-util": ["./libs/gf/shared/test-util/index.ts"],
+      "@energinet-datahub/gf/test-util-matchers": ["./libs/gf/shared/test-util-matchers/index.ts"],
+      "@energinet-datahub/gf/test-util-msw": ["./libs/gf/msw/test-util-msw/index.ts"],
+      "@energinet-datahub/gf/test-util-staging": ["./libs/gf/shared/test-util-staging/index.ts"],
+      "@energinet-datahub/gf/test-util-vitest": ["./libs/gf/shared/test-util-vitest/index.ts"],
+      "@energinet-datahub/gf/util-browser": ["./libs/gf/shared/util-browser/index.ts"],
       "@energinet-datahub/gf/util-cookie-information": [
-        "libs/gf/shared/util-cookie-information/index.ts"
+        "./libs/gf/shared/util-cookie-information/index.ts"
       ],
-      "@energinet-datahub/tools/github": ["tools/github"],
-      "@energinet-datahub/tools/license": ["tools/license"],
-      "@energinet-datahub/tools/package": ["tools/package"],
-      "@energinet-datahub/tools/workspace": ["tools/workspace"],
-      "@energinet/watt/badge": ["libs/watt/package/badge/index.ts"],
-      "@energinet/watt/breadcrumbs": ["libs/watt/package/breadcrumbs/index.ts"],
-      "@energinet/watt/button": ["libs/watt/package/button/index.ts"],
-      "@energinet/watt/card": ["libs/watt/package/card/index.ts"],
-      "@energinet/watt/checkbox": ["libs/watt/package/checkbox/index.ts"],
-      "@energinet/watt/chip": ["libs/watt/package/chip/index.ts"],
-      "@energinet/watt/clipboard": ["libs/watt/package/clipboard/index.ts"],
-      "@energinet/watt/code": ["libs/watt/package/code/index.ts"],
-      "@energinet/watt/core/breakpoints": ["libs/watt/package/core/breakpoints/index.ts"],
-      "@energinet/watt/core/color": ["libs/watt/package/core/color/index.ts"],
-      "@energinet/watt/core/date": ["libs/watt/package/core/date/index.ts"],
+      "@energinet-datahub/tools/github": ["./tools/github"],
+      "@energinet-datahub/tools/license": ["./tools/license"],
+      "@energinet-datahub/tools/package": ["./tools/package"],
+      "@energinet-datahub/tools/workspace": ["./tools/workspace"],
+      "@energinet/watt/badge": ["./libs/watt/package/badge/index.ts"],
+      "@energinet/watt/breadcrumbs": ["./libs/watt/package/breadcrumbs/index.ts"],
+      "@energinet/watt/button": ["./libs/watt/package/button/index.ts"],
+      "@energinet/watt/card": ["./libs/watt/package/card/index.ts"],
+      "@energinet/watt/checkbox": ["./libs/watt/package/checkbox/index.ts"],
+      "@energinet/watt/chip": ["./libs/watt/package/chip/index.ts"],
+      "@energinet/watt/clipboard": ["./libs/watt/package/clipboard/index.ts"],
+      "@energinet/watt/code": ["./libs/watt/package/code/index.ts"],
+      "@energinet/watt/core/breakpoints": ["./libs/watt/package/core/breakpoints/index.ts"],
+      "@energinet/watt/core/color": ["./libs/watt/package/core/color/index.ts"],
+      "@energinet/watt/core/date": ["./libs/watt/package/core/date/index.ts"],
       "@energinet/watt/danish-date-time": [
-        "libs/watt/package/core/date/watt-danish-datetime.providers.ts"
+        "./libs/watt/package/core/date/watt-danish-datetime.providers.ts"
       ],
-      "@energinet/watt/data": ["libs/watt/package/data/index.ts"],
-      "@energinet/watt/date": ["libs/watt/package/core/date/index.ts"],
-      "@energinet/watt/datepicker": ["libs/watt/package/picker/datepicker/index.ts"],
-      "@energinet/watt/datetime-field": ["libs/watt/package/datetime-field/index.ts"],
-      "@energinet/watt/datetimepicker": ["libs/watt/package/picker/datetimepicker/index.ts"],
-      "@energinet/watt/description-list": ["libs/watt/package/description-list/index.ts"],
-      "@energinet/watt/drawer": ["libs/watt/package/drawer/index.ts"],
-      "@energinet/watt/dropdown": ["libs/watt/package/dropdown/index.ts"],
-      "@energinet/watt/dropzone": ["libs/watt/package/dropzone/index.ts"],
-      "@energinet/watt/empty-state": ["libs/watt/package/empty-state/index.ts"],
-      "@energinet/watt/expandable-card": ["libs/watt/package/expandable-card/index.ts"],
-      "@energinet/watt/expansion": ["libs/watt/package/expansion/index.ts"],
-      "@energinet/watt/field": ["libs/watt/package/field/index.ts"],
-      "@energinet/watt/file-field": ["libs/watt/package/file-field/index.ts"],
-      "@energinet/watt/heading": ["libs/watt/package/heading/index.ts"],
-      "@energinet/watt/icon": ["libs/watt/package/icon/index.ts"],
-      "@energinet/watt/icon/flags": ["libs/watt/package/icon/flags/index.ts"],
+      "@energinet/watt/data": ["./libs/watt/package/data/index.ts"],
+      "@energinet/watt/date": ["./libs/watt/package/core/date/index.ts"],
+      "@energinet/watt/datepicker": ["./libs/watt/package/picker/datepicker/index.ts"],
+      "@energinet/watt/datetime-field": ["./libs/watt/package/datetime-field/index.ts"],
+      "@energinet/watt/datetimepicker": ["./libs/watt/package/picker/datetimepicker/index.ts"],
+      "@energinet/watt/description-list": ["./libs/watt/package/description-list/index.ts"],
+      "@energinet/watt/drawer": ["./libs/watt/package/drawer/index.ts"],
+      "@energinet/watt/dropdown": ["./libs/watt/package/dropdown/index.ts"],
+      "@energinet/watt/dropzone": ["./libs/watt/package/dropzone/index.ts"],
+      "@energinet/watt/empty-state": ["./libs/watt/package/empty-state/index.ts"],
+      "@energinet/watt/expandable-card": ["./libs/watt/package/expandable-card/index.ts"],
+      "@energinet/watt/expansion": ["./libs/watt/package/expansion/index.ts"],
+      "@energinet/watt/field": ["./libs/watt/package/field/index.ts"],
+      "@energinet/watt/file-field": ["./libs/watt/package/file-field/index.ts"],
+      "@energinet/watt/heading": ["./libs/watt/package/heading/index.ts"],
+      "@energinet/watt/icon": ["./libs/watt/package/icon/index.ts"],
+      "@energinet/watt/icon/flags": ["./libs/watt/package/icon/flags/index.ts"],
       "@energinet/watt/intersection-observer": [
-        "libs/watt/package/utils/intersection-observer/index.ts"
+        "./libs/watt/package/utils/intersection-observer/index.ts"
       ],
-      "@energinet/watt/json-viewer": ["libs/watt/package/json-viewer/index.ts"],
-      "@energinet/watt/menu": ["libs/watt/package/menu/index.ts"],
-      "@energinet/watt/modal": ["libs/watt/package/modal/index.ts"],
-      "@energinet/watt/paginator": ["libs/watt/package/paginator/index.ts"],
-      "@energinet/watt/phone-field": ["libs/watt/package/phone-field/index.ts"],
-      "@energinet/watt/picker/__shared": ["libs/watt/package/picker/__shared/index.ts"],
-      "@energinet/watt/picker/datepicker": ["libs/watt/package/picker/datepicker/index.ts"],
-      "@energinet/watt/portal": ["libs/watt/package/portal/index.ts"],
-      "@energinet/watt/progress-tracker": ["libs/watt/package/progress-tracker/index.ts"],
-      "@energinet/watt/query-params": ["libs/watt/package/query-params/index.ts"],
-      "@energinet/watt/radio": ["libs/watt/package/radio/index.ts"],
-      "@energinet/watt/resize-observer": ["libs/watt/package/utils/resize-observer/index.ts"],
-      "@energinet/watt/search": ["libs/watt/package/search/index.ts"],
-      "@energinet/watt/segmented-buttons": ["libs/watt/package/segmented-buttons/index.ts"],
-      "@energinet/watt/separator": ["libs/watt/package/separator/index.ts"],
-      "@energinet/watt/shell": ["libs/watt/package/shell/index.ts"],
-      "@energinet/watt/skeleton": ["libs/watt/package/skeleton/index.ts"],
-      "@energinet/watt/slide-toggle": ["libs/watt/package/slide-toggle/index.ts"],
-      "@energinet/watt/slider": ["libs/watt/package/slider/index.ts"],
-      "@energinet/watt/spinner": ["libs/watt/package/spinner/index.ts"],
-      "@energinet/watt/stepper": ["libs/watt/package/stepper/index.ts"],
-      "@energinet/watt/table": ["libs/watt/package/table/index.ts"],
-      "@energinet/watt/tabs": ["libs/watt/package/tabs/index.ts"],
-      "@energinet/watt/text-field": ["libs/watt/package/text-field/index.ts"],
-      "@energinet/watt/textarea-field": ["libs/watt/package/textarea-field/index.ts"],
-      "@energinet/watt/timepicker": ["libs/watt/package/picker/timepicker/index.ts"],
-      "@energinet/watt/toast": ["libs/watt/package/toast/index.ts"],
-      "@energinet/watt/tooltip": ["libs/watt/package/tooltip/index.ts"],
-      "@energinet/watt/utils/css": ["libs/watt/package/utils/css/index.ts"],
-      "@energinet/watt/utils/resize-observer": ["libs/watt/package/utils/resize-observer/index.ts"],
-      "@energinet/watt/validation-message": ["libs/watt/package/validation-message/index.ts"],
-      "@energinet/watt/validators": ["libs/watt/package/validators/index.ts"],
-      "@energinet/watt/vater": ["libs/watt/package/vater/index.ts"],
-      "@energinet/watt/year-field": ["libs/watt/package/year-field/index.ts"],
-      "@energinet/watt/yearmonth-field": ["libs/watt/package/yearmonth-field/index.ts"],
+      "@energinet/watt/json-viewer": ["./libs/watt/package/json-viewer/index.ts"],
+      "@energinet/watt/menu": ["./libs/watt/package/menu/index.ts"],
+      "@energinet/watt/modal": ["./libs/watt/package/modal/index.ts"],
+      "@energinet/watt/paginator": ["./libs/watt/package/paginator/index.ts"],
+      "@energinet/watt/phone-field": ["./libs/watt/package/phone-field/index.ts"],
+      "@energinet/watt/picker/__shared": ["./libs/watt/package/picker/__shared/index.ts"],
+      "@energinet/watt/picker/datepicker": ["./libs/watt/package/picker/datepicker/index.ts"],
+      "@energinet/watt/portal": ["./libs/watt/package/portal/index.ts"],
+      "@energinet/watt/progress-tracker": ["./libs/watt/package/progress-tracker/index.ts"],
+      "@energinet/watt/query-params": ["./libs/watt/package/query-params/index.ts"],
+      "@energinet/watt/radio": ["./libs/watt/package/radio/index.ts"],
+      "@energinet/watt/resize-observer": ["./libs/watt/package/utils/resize-observer/index.ts"],
+      "@energinet/watt/search": ["./libs/watt/package/search/index.ts"],
+      "@energinet/watt/segmented-buttons": ["./libs/watt/package/segmented-buttons/index.ts"],
+      "@energinet/watt/separator": ["./libs/watt/package/separator/index.ts"],
+      "@energinet/watt/shell": ["./libs/watt/package/shell/index.ts"],
+      "@energinet/watt/skeleton": ["./libs/watt/package/skeleton/index.ts"],
+      "@energinet/watt/slide-toggle": ["./libs/watt/package/slide-toggle/index.ts"],
+      "@energinet/watt/slider": ["./libs/watt/package/slider/index.ts"],
+      "@energinet/watt/spinner": ["./libs/watt/package/spinner/index.ts"],
+      "@energinet/watt/stepper": ["./libs/watt/package/stepper/index.ts"],
+      "@energinet/watt/table": ["./libs/watt/package/table/index.ts"],
+      "@energinet/watt/tabs": ["./libs/watt/package/tabs/index.ts"],
+      "@energinet/watt/text-field": ["./libs/watt/package/text-field/index.ts"],
+      "@energinet/watt/textarea-field": ["./libs/watt/package/textarea-field/index.ts"],
+      "@energinet/watt/timepicker": ["./libs/watt/package/picker/timepicker/index.ts"],
+      "@energinet/watt/toast": ["./libs/watt/package/toast/index.ts"],
+      "@energinet/watt/tooltip": ["./libs/watt/package/tooltip/index.ts"],
+      "@energinet/watt/utils/css": ["./libs/watt/package/utils/css/index.ts"],
+      "@energinet/watt/utils/resize-observer": [
+        "./libs/watt/package/utils/resize-observer/index.ts"
+      ],
+      "@energinet/watt/validation-message": ["./libs/watt/package/validation-message/index.ts"],
+      "@energinet/watt/validators": ["./libs/watt/package/validators/index.ts"],
+      "@energinet/watt/vater": ["./libs/watt/package/vater/index.ts"],
+      "@energinet/watt/year-field": ["./libs/watt/package/year-field/index.ts"],
+      "@energinet/watt/yearmonth-field": ["./libs/watt/package/yearmonth-field/index.ts"],
       "rxjs": ["./node_modules/rxjs"]
     }
   },

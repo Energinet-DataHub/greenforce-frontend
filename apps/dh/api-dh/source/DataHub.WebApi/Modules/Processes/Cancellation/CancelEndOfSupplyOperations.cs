@@ -16,14 +16,13 @@ using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Models;
 using HotChocolate.Authorization;
-using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Cancellation;
 
 public static class CancelEndOfSupplyOperations
 {
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    [Authorize(Roles = ["metering-point:end-of-supply-request", "metering-point:end-of-supply-respond"])]
     public static async Task<bool> CancelEndOfSupplyAsync(
         string meteringPointId,
         Guid processId,
