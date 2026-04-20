@@ -24,16 +24,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
-import { CdkHeaderRowDef } from '@angular/cdk/table';
 
 @Component({
-  imports: [
-    MatDatepickerModule,
-    WattMenuChipComponent,
-    WattFieldComponent,
-    WattDatePipe,
-    CdkHeaderRowDef,
-  ],
+  imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
   selector: 'watt-date-chip',
   encapsulation: ViewEncapsulation.None,
   styles: [
