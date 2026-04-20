@@ -153,6 +153,7 @@ export class DhMeteringPointActionsComponent {
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
   isEnergySupplierResponsible = input.required<boolean>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -225,7 +226,9 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
-  showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
+  showManualCorrectionButtons = computed(
+    () => this.hasDh3SkalpellenPermission() && this.searchMigratedMeteringPoints()
+  );
 
   showEndOfSupplyButton = computed(
     () =>

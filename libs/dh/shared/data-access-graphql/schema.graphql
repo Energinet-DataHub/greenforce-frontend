@@ -831,6 +831,14 @@ type GetMeteringPointDebugResultDtoV1 {
   events: [ElectricityMarketV2EventDto!]!
 }
 
+type GetProjectionsStatusResultDtoV1 {
+  daemonHighWaterMark: Long!
+  eventCount: Long!
+  eventSequenceNumber: Long!
+  streamCount: Long!
+  projections: [ProjectionStatus!]!
+}
+
 type GridAreaAuditedChangeAuditLogDto {
   auditedBy: String
   currentOwner: String
@@ -1409,6 +1417,18 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionStatus {
+  name: String!
+  assignedNodeNumber: Int!
+  action: String!
+  exception: String
+  previousGoodMark: Long!
+  mode: String!
+  rebuildThreshold: Long!
+  sequence: Long!
+  timestamp: DateTime!
+}
+
 type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
@@ -1437,6 +1457,7 @@ type Query {
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
+  projectionsStatus: GetProjectionsStatusResultDtoV1! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -2753,6 +2774,7 @@ enum ArchivedMessageDocumentType {
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -2797,6 +2819,10 @@ enum BusinessReason {
   D29
   E34
   E01
+  E0G
+  D48
+  D18
+  D08
 }
 
 enum BusinessReasonV1 {
@@ -2986,6 +3012,7 @@ enum DocumentType {
   REMINDER_OF_MISSING_MEASUREMENTS
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
@@ -3563,6 +3590,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_CANCELLATION
   REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
   REJECT_REQUEST_BILLING_MASTER_DATA
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum ParticipantType {
