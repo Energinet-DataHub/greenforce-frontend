@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_TABLE, WattTableColumnDef } from '../watt-table.component';
-import { dataSource, WattTableDataSource } from '../watt-table-data-source';
+import { dataSource } from '../watt-table-data-source';
 import { PeriodicElement } from './storybook-periodic-elements-data';
 
 @Component({

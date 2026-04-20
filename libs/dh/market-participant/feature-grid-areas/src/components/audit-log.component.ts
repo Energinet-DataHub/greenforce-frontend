@@ -23,7 +23,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
   dataSource,
 } from '@energinet/watt/table';

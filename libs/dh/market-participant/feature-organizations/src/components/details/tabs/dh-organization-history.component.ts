@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
   dataSource,
 } from '@energinet/watt/table';
