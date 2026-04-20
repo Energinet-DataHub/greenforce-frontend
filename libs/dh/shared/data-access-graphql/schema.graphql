@@ -2819,6 +2819,10 @@ enum BusinessReason {
   D29
   E34
   E01
+  E0G
+  D48
+  D18
+  D08
 }
 
 enum BusinessReasonV1 {
