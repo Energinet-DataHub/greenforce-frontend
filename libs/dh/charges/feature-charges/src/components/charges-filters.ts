@@ -81,11 +81,13 @@ import { WattDateChipComponent, WattFormChipDirective } from '@energinet/watt/ch
       <watt-date-chip
         [formControl]="form().controls.activePeriodStart"
         [placeholder]="t('activePeriodStart')"
+        [max]="form().controls.activePeriodEnd.value"
       />
 
       <watt-date-chip
         [formControl]="form().controls.activePeriodEnd"
         [placeholder]="t('activePeriodEnd')"
+        [min]="form().controls.activePeriodStart.value"
       />
 
       @if (selectedActor.marketRole !== 'SystemOperator') {
