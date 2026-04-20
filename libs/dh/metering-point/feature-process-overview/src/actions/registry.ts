@@ -72,7 +72,9 @@ export class DhActionsRegistry {
 
   private hasRequiredPermission(handler: ActionHandler): boolean {
     if (!handler.permissions?.length) return true;
-    return handler.permissions.some((permission) => this.permissionSignals.get(permission)?.() ?? false);
+    return handler.permissions.some(
+      (permission) => this.permissionSignals.get(permission)?.() ?? false
+    );
   }
 
   getSupportedActions(
