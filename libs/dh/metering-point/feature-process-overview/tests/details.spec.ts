@@ -129,6 +129,28 @@ describe('Process overview details', () => {
     expect(within(dialog).getByText(/Validity date/i)).toBeInTheDocument();
   });
 
+  it('should close disconnect modal after submitting', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+    const [disconnectButton] = screen.getAllByRole('button', {
+      name: /Request disconnection/i,
+    });
+    userEvent.click(disconnectButton);
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+
+    const dialog = screen.getByRole('dialog');
+    const confirmButton = within(dialog).getByRole('button', {
+      name: /Request disconnection/i,
+    });
+    userEvent.click(confirmButton);
+
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
   it('should show send information button for CustomerMoveIn process', async () => {
     await setup('process-cmi-info');
     await waitForAsync(() =>
