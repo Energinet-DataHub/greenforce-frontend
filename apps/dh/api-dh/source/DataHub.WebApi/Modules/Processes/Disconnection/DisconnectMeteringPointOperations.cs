@@ -13,7 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Models;
 using HotChocolate.Authorization;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
 
@@ -25,12 +26,18 @@ public static class DisconnectMeteringPointOperations
     [Authorize(Policy = nameof(EicFunction.GridAccessProvider))]
     public static async Task<bool> DisconnectMeteringPointAsync(
         string meteringPointId,
+        Guid processId,
         DateTimeOffset validityDate,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        var command = new RequestDisconnectMeteringPointCommandV1(
-            new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+        var command = new RequestForChangeOfConnectionStatusCommandV1(
+            new RequestForChangeOfConnectionStatusV1(
+                MeteringPointId: meteringPointId,
+                BusinessReason: BusinessReasonV1.EndOfSupply,
+                ProcessReference: processId,
+                ValidityDate: validityDate,
+                ConnectionState: ConnectionStateV1.Disconnected));
 
         var result = await ediB2CClient.SendAsync(command, ct);
 

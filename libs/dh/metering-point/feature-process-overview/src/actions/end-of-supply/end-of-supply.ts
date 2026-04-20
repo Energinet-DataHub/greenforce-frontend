@@ -72,6 +72,7 @@ export class EndOfSupplyActions {
           ],
           variables: {
             meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
             validityDate: result.validityDate,
           },
           onCompleted,

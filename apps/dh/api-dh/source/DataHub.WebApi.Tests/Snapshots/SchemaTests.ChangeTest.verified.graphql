@@ -2237,6 +2237,7 @@ input DeactivateUserRoleInput {
 
 input DisconnectMeteringPointInput {
   meteringPointId: String!
+  processId: UUID!
   validityDate: DateTime!
 }
 
