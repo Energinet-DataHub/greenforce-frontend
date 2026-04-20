@@ -17,11 +17,12 @@
  */
 //#endregion
 import {
+  AfterContentInit,
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   Injector,
   ViewEncapsulation,
-  afterRenderEffect,
   contentChild,
   inject,
   input,
@@ -30,6 +31,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NEVER } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -163,9 +165,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
     </watt-card>
   `,
 })
-export class WattDataTableComponent {
+export class WattDataTableComponent implements AfterContentInit {
   intl = inject(WattDataIntlService);
   private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
 
   error = input<unknown>();
   ready = input(true);
@@ -197,22 +200,17 @@ export class WattDataTableComponent {
    * `filteredData` is a plain mutable property on MatTableDataSource —
    * not tracked by Angular's signal graph.
    *
-   * Some DataSource implementations (e.g. ApolloDataSource) call
-   * `toObservable()` inside `connect()`, which requires an injection context.
-   * We satisfy that by wrapping the `connect()` call in `runInInjectionContext`.
+   * Set up in `ngAfterContentInit` (a plain lifecycle hook, not a reactive
+   * context) so that DataSource implementations such as ApolloDataSource can
+   * safely call `toObservable()` inside `connect()` via `runInInjectionContext`.
    */
   protected readonly filteredDataCount = signal(0);
 
-  constructor() {
-    afterRenderEffect((onCleanup) => {
-      const ds = this.table().dataSource();
-      const sub = runInInjectionContext(this.injector, () =>
-        ds.connect({ viewChange: NEVER })
-      ).subscribe(() => {
-        this.filteredDataCount.set(ds.filteredData.length);
-      });
-      onCleanup(() => sub.unsubscribe());
-    });
+  ngAfterContentInit(): void {
+    const ds = this.table().dataSource();
+    runInInjectionContext(this.injector, () => ds.connect({ viewChange: NEVER }))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.filteredDataCount.set(ds.filteredData.length));
   }
 
   search = viewChild(WattSimpleSearchComponent);
