@@ -200,8 +200,7 @@ export class WattDataTableComponent implements AfterContentInit {
    * `filteredData` is a plain mutable property on MatTableDataSource —
    * not tracked by Angular's signal graph.
    *
-   * Set up in `ngAfterContentInit` (a plain lifecycle hook, not a reactive
-   * context) so that DataSource implementations such as ApolloDataSource can
+   * Set up in `ngAfterContentInit` so that DataSource implementations such as ApolloDataSource can
    * safely call `toObservable()` inside `connect()` via `runInInjectionContext`.
    */
   protected readonly filteredDataCount = signal(0);
