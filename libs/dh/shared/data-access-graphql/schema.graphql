@@ -151,7 +151,7 @@ input AddressDtoInput {
   zipCode: String
 }
 
-enum AddressTypeV1 {
+enum AddressTypeV2 {
   LEGAL
   TECHNICAL
 }
@@ -207,6 +207,7 @@ enum ArchivedMessageDocumentType {
   NOTIFY_WHOLESALE_SERVICES
   REJECT_REQUEST_AGGREGATED_MEASURE_DATA
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
   REQUEST_AGGREGATED_MEASURE_DATA
@@ -354,9 +355,13 @@ enum BusinessReason {
   D03
   D04
   D05
+  D08
+  D18
   D29
   D32
+  D48
   E01
+  E0G
   E34
   E65
 }
@@ -415,6 +420,14 @@ enum BusinessReasonV1 {
   UPDATE_MASTER_DATA_METER
   UPDATE_MASTER_DATA_METERING_POINT
   WHOLE_SETTLEMENT
+}
+
+enum BusinessReasonV2 {
+  CHANGE_OF_ENERGY_SUPPLIER
+  CUSTOMER_MOVE_IN
+  ELECTRICAL_HEATING
+  SECONDARY_MOVE_IN
+  UPDATE_MASTER_DATA_CONSUMER
 }
 
 type CVROrganizationResult {
@@ -563,7 +576,7 @@ enum ChangeCustomerCharacteristicsBusinessReason {
 }
 
 input ChangeCustomerCharacteristicsInput {
-  businessReason: ChangeCustomerCharacteristicsBusinessReason!
+  businessReason: BusinessReasonV2!
   electricalHeating: Boolean!
   firstCustomerCpr: String
   firstCustomerCvr: String
@@ -573,7 +586,7 @@ input ChangeCustomerCharacteristicsInput {
   protectedName: Boolean
   secondCustomerCpr: String
   secondCustomerName: String
-  usagePointLocations: [UsagePointLocationV1Input!]
+  usagePointLocations: [UsagePointLocationV2Input!]
 }
 
 type ChangeCustomerCharacteristicsPayload {
@@ -1085,6 +1098,7 @@ enum DocumentType {
   REJECT_REQUEST_CHANGE_BILLING_MASTER_DATA
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_MEASUREMENTS
+  REJECT_REQUEST_PRICE_LIST
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
   REMINDER_OF_MISSING_MEASUREMENTS
   REQUEST_AGGREGATED_MEASURE_DATA
@@ -1773,6 +1787,14 @@ input GetMonthlyAggregateByDateQueryInput {
   marketRole: AuthEicFunctionType!
   meteringPointId: String!
   yearMonth: YearMonth!
+}
+
+type GetProjectionsStatusResultDtoV1 {
+  daemonHighWaterMark: Long!
+  eventCount: Long!
+  eventSequenceNumber: Long!
+  projections: [ProjectionStatus!]!
+  streamCount: Long!
 }
 
 input GetYearlyAggregateByMonthQueryInput {
@@ -2594,6 +2616,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_CHANGE_OF_SUPPLIER
   REJECT_REQUEST_END_OF_SUPPLY
   REJECT_REQUEST_MEASUREMENTS
+  REJECT_REQUEST_PRICE_LIST
   REJECT_REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
   REJECT_REQUEST_SERVICE
   REJECT_REQUEST_WHOLESALE_SETTLEMENT
@@ -2819,6 +2842,18 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionStatus {
+  action: String!
+  assignedNodeNumber: Int!
+  exception: String
+  mode: String!
+  name: String!
+  previousGoodMark: Long!
+  rebuildThreshold: Long!
+  sequence: Long!
+  timestamp: DateTime!
+}
+
 enum ProjectionType {
   METERING_POINT
   METERING_POINT_WITH_RELATIONS
@@ -2899,6 +2934,7 @@ type Query {
   permissionsByEicFunction(eicFunction: EicFunction!): [PermissionDetailsDto!]!
   processById(id: UUID!): OrchestrationInstance!
   processes("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: String "Returns the first _n_ elements from the list." first: Int input: CalculationsQueryInput! "Returns the last _n_ elements from the list." last: Int order: [ProcessSortInput!]): ProcessesConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  projectionsStatus: GetProjectionsStatusResultDtoV1! @authorize(roles: [ "operation-tools:view" ])
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   releaseToggles: [String!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
@@ -3501,7 +3537,7 @@ input StopProcessDelegationDtoInput {
   stopsAt: DateTime
 }
 
-input StreetDetailV1Input {
+input StreetDetailV2Input {
   buildingNumber: String
   floor: String
   streetCode: String
@@ -3522,7 +3558,7 @@ type SyncJobSetJobVersionEventStoreExportPayload {
   boolean: Boolean
 }
 
-input TownDetailV1Input {
+input TownDetailV2Input {
   additionalCityName: String
   cityName: String
   country: String
@@ -3668,8 +3704,8 @@ type UpdateUserRolePayload {
   errors: [UpdateUserRoleError!]
 }
 
-input UsagePointLocationV1Input {
-  addressType: AddressTypeV1!
+input UsagePointLocationV2Input {
+  addressType: AddressTypeV2!
   attention: String
   contactName: String
   darReference: String
@@ -3679,8 +3715,8 @@ input UsagePointLocationV1Input {
   poBox: String
   postalCode: String
   protectedAddress: Boolean
-  streetDetail: StreetDetailV1Input
-  townDetail: TownDetailV1Input
+  streetDetail: StreetDetailV2Input
+  townDetail: TownDetailV2Input
 }
 
 type User {
