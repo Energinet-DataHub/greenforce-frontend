@@ -115,7 +115,7 @@ limitations under the License.
                 />
                 <watt-description-list-item
                   [label]="t('tabs.masterData.phoneNumber')"
-                  [value]="loadedMarketParticipant.contact?.phone"
+                  [value]="loadedMarketParticipant.contact?.phone | dhPhoneNumber | dhEmDashFallback"
                 />
               </watt-description-list>
             </watt-card>

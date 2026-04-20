@@ -39,3 +39,4 @@ export * from './src/dh-metering-point.validator';
 export * from './src/generate-csv-file';
 export * from './src/dh-reset-filters-button.component';
 export * from './src/dh-state-badge';
+export * from './src/dh-phone-number.pipe';

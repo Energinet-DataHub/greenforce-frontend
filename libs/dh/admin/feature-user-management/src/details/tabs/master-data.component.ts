@@ -27,7 +27,7 @@ import {
 
 import { WattCardComponent } from '@energinet/watt/card';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhPhoneNumberPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhUserDetails } from '../../types';
 
 @Component({
@@ -41,7 +41,7 @@ import { DhUserDetails } from '../../types';
       <watt-description-list-item [label]="t('email')" [value]="user().email" />
       <watt-description-list-item
         [label]="t('phone')"
-        [value]="user().phoneNumber | dhEmDashFallback"
+        [value]="user().phoneNumber | dhPhoneNumber | dhEmDashFallback"
       />
     </watt-description-list>
   </watt-card>`,
@@ -58,6 +58,7 @@ import { DhUserDetails } from '../../types';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
+    DhPhoneNumberPipe,
   ],
 })
 export class DhUserMasterDataComponent {

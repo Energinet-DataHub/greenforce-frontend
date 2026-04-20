@@ -62,7 +62,7 @@ import { WATT_DRAWER, WattDrawerComponent, WattDrawerSize } from '@energinet/wat
 import { DhDelegationTabComponent } from '@energinet-datahub/dh/market-participant/feature-delegation';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { DhEmDashFallbackPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhPhoneNumberPipe, emDash } from '@energinet-datahub/dh/shared/ui-util';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhMarketParticipantStatusBadgeComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
 
@@ -99,6 +99,7 @@ import { DhBalanceResponsibleRelationTabComponent } from './balance-responsible-
     VaterStackComponent,
 
     DhEmDashFallbackPipe,
+    DhPhoneNumberPipe,
     DhB2bAccessTabComponent,
     DhReleaseToggleDirective,
     DhDelegationTabComponent,

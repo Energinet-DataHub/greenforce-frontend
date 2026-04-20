@@ -20,7 +20,7 @@ import { Component, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhPhoneNumberPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { ElectricityMarketViewCustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import {
@@ -37,6 +37,7 @@ import { DhAddressComponent } from '../address/dh-address.component';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
+    DhPhoneNumberPipe,
     DhCustomerProtectedComponent,
     DhAddressComponent,
   ],
@@ -52,12 +53,12 @@ import { DhAddressComponent } from '../address/dh-address.component';
     >
       <watt-description-list-item [label]="t('name')" [value]="contact().name | dhEmDashFallback" />
       @if (contact().phone) {
-        <watt-description-list-item [label]="t('phone')" [value]="contact().phone" />
+        <watt-description-list-item [label]="t('phone')" [value]="contact().phone | dhPhoneNumber | dhEmDashFallback" />
       }
       @if (contact().mobile) {
         <watt-description-list-item
           [label]="contact().phone ? t('mobile') : t('phone')"
-          [value]="contact().mobile"
+          [value]="contact().mobile | dhPhoneNumber | dhEmDashFallback"
         />
       }
       @if (!contact().phone && !contact().mobile) {

@@ -31,7 +31,7 @@ import {
 
 import { GetUsersQueryVariables, SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhPhoneNumberPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhUserStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -56,6 +56,7 @@ type Variables = Partial<GetUsersQueryVariables>;
     VaterUtilityDirective,
     VaterStackComponent,
     DhEmDashFallbackPipe,
+    DhPhoneNumberPipe,
     DhUserStatusComponent,
     DhUserLatestLoginComponent,
     DhPermissionRequiredDirective,
@@ -108,7 +109,7 @@ type Variables = Partial<GetUsersQueryVariables>;
       </ng-container>
 
       <ng-container *wattTableCell="columns.phoneNumber; let row">
-        {{ row.phoneNumber | dhEmDashFallback }}
+        {{ row.phoneNumber | dhPhoneNumber | dhEmDashFallback }}
       </ng-container>
 
       <ng-container *wattTableCell="columns.latestLoginAt; let row">

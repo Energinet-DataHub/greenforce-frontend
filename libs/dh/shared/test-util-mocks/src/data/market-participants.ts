@@ -81,7 +81,7 @@ const contact: ActorContactDto = {
   __typename: 'ActorContactDto',
   email: 'test@energinet.dk',
   actorId: 'efad0fee-9d7c-49c6-7c16-08da5f28ddb1',
-  phone: '12345678',
+  phone: '4512345678',
   contactId: '1',
   name: 'Test Name',
   category: ContactCategory.MeasurementData,
