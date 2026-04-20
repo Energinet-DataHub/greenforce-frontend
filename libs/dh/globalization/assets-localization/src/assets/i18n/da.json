@@ -1031,7 +1031,7 @@
         "CustomerMoveIn": "Tilflytning (BRS-009)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
         "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)"
@@ -1046,7 +1046,7 @@
         "Move": "Flytning (E01)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)",
         "ElectricalHeating": "Elvarme (D20)",
         "CustomerMoveOut": "Fraflytning (E66)"
       },
@@ -1185,6 +1185,7 @@
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
