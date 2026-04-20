@@ -1599,7 +1599,9 @@
       "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Anmodning om opdatering af priser (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
-      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
+      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)",
+      "REQUEST_PRICE_LIST": "Anmod om priser (RSM-035)",
+      "REJECT_REQUEST_PRICE_LIST": "Afvis anmod om priser (RSM-035)"
     },
     "businessReason": {
       "D03": "Foreløbig aggregering (D03)",
