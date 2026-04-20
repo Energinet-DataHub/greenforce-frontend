@@ -1600,7 +1600,9 @@
       "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
-      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)",
+      "REQUEST_PRICE_LIST": "Request for price list (RSM-035)",
+      "REJECT_REQUEST_PRICE_LIST": "Reject request for price list (RSM-035)"
     },
     "businessReason": {
       "D03": "Temporary (D03)",
@@ -1628,7 +1630,7 @@
       "E01": "Move (E01)",
       "E02": "New metering point (E02)",
       "E03": "Change of Energy supplier (E03)",
-      "E0G": "Data alignment for master data metering point (E0G)",
+      "E0G": "Request for charge information (E0G)",
       "E20": "End of supply (E20)",
       "E23": "Periodic metering (E23)",
       "E30": "Historical data (E30)",
