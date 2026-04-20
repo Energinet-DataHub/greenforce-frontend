@@ -120,6 +120,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
+  readonly internalMeteringPointId = input.required<string>();
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
@@ -156,7 +157,7 @@ export class DhMeteringPointProcessOverviewDetails {
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: '',
+      internalMeteringPointId: this.internalMeteringPointId(),
       processId: this.id(),
       cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),
