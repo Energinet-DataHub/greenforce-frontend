@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Injectable, NgZone, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
   concat,
@@ -43,10 +44,13 @@ enum ActivityState {
   Overdue,
 }
 
+const POST_LOGIN_REDIRECT_KEY = 'dh-post-login-redirect';
+
 @Injectable({
   providedIn: 'root',
 })
 export class DhInactivityDetectionService {
+  private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
@@ -79,6 +83,8 @@ export class DhInactivityDetectionService {
   );
 
   public trackInactivity() {
+    this.restoreRouteAfterLogin();
+
     this.ngZone.runOutsideAngular(() => {
       this.userInactive$.subscribe((activityState) => {
         switch (activityState) {
@@ -112,18 +118,23 @@ export class DhInactivityDetectionService {
   }
 
   private logout(reason: 'automatic_logout' | 'manual_logout') {
-    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
+    const redirectUrl = this.pageLeaveRedirectService.getRedirectUrl() ?? this.location.path();
 
     this.appInsights.trackEvent(`User inactivity: ${reason}`);
     this.appInsights.flush();
 
     // Delay redirect to logout so AppInsights has a chance to flush
-    setTimeout(
-      () =>
-        this.msal.logoutRedirect({
-          postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
-        }),
-      2_000
-    );
+    setTimeout(() => {
+      sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
+      this.msal.logoutRedirect();
+    }, 2_000);
+  }
+
+  private restoreRouteAfterLogin() {
+    const maybeRedirectUrl = sessionStorage.getItem(POST_LOGIN_REDIRECT_KEY);
+    if (!maybeRedirectUrl) return;
+
+    sessionStorage.removeItem(POST_LOGIN_REDIRECT_KEY);
+    this.router.navigateByUrl(maybeRedirectUrl);
   }
 }

@@ -17,3 +17,4 @@
  */
 //#endregion
 export * from './src/dhPaths';
+export { StateLocationStrategy, provideStateLocationStrategy } from './src/state-location-strategy';
