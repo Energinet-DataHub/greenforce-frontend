@@ -80,7 +80,7 @@ public static class MoveInOperations
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
     {
-        var resolvedStartDate = DateTimeOffset.UtcNow;
+        var resolvedStartDate = new DateTimeOffset(DateTimeOffset.UtcNow.Date, TimeSpan.Zero);
         if (processId != null)
         {
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
