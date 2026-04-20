@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet/watt/core/date';
-import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
@@ -29,6 +29,14 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 export interface DisconnectMeteringPointResult {
   validityDate: Date;
+}
+
+export interface DisconnectMeteringPointModalData {
+  executeMutation: (config: {
+    result: DisconnectMeteringPointResult;
+    onCompleted: () => void;
+    onError: () => void;
+  }) => void;
 }
 
 @Component({
@@ -57,11 +65,11 @@ export interface DisconnectMeteringPointResult {
       </form>
 
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="dialogRef.close()">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button type="submit" formId="disconnect-form">
+        <watt-button type="submit" formId="disconnect-form" [loading]="submitting()">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
@@ -69,7 +77,10 @@ export interface DisconnectMeteringPointResult {
   `,
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
-export class DhDisconnectMeteringPointModal extends WattTypedModal {
+export class DhDisconnectMeteringPointModal extends WattTypedModal<DisconnectMeteringPointModalData> {
+  readonly modal = viewChild.required(WattModalComponent);
+  readonly submitting = signal(false);
+
   private readonly today = dayjs().startOf('day').toDate();
 
   readonly minDate = dayjs(this.today).subtract(1, 'day').toDate();
@@ -82,8 +93,17 @@ export class DhDisconnectMeteringPointModal extends WattTypedModal {
   submit() {
     if (this.form.invalid) return;
 
-    this.dialogRef.close({
-      validityDate: this.form.controls.validityDate.value,
-    } satisfies DisconnectMeteringPointResult);
+    this.submitting.set(true);
+    this.modalData.executeMutation({
+      result: { validityDate: this.form.controls.validityDate.value },
+      onCompleted: () => {
+        this.submitting.set(false);
+        this.modal().close(true);
+      },
+      onError: () => {
+        this.submitting.set(false);
+        this.modal().close(false);
+      },
+    });
   }
 }

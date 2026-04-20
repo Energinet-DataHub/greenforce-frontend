@@ -47,29 +47,32 @@ export function disconnectProcessAction(
   return (ctx) => {
     modalService.open({
       component: DhDisconnectMeteringPointModal,
-      onClosed: (result: DisconnectMeteringPointResult | undefined) => {
-        if (!result) return;
-        executeMutation(
-          ctx,
-          result,
-          () => {
-            toast.open({
-              type: 'success',
-              message: transloco.translate(
-                'meteringPoint.processOverview.disconnectProcess.successToast'
-              ),
-            });
-            ctx.onSuccess?.();
-          },
-          () => {
-            toast.open({
-              type: 'danger',
-              message: transloco.translate(
-                'meteringPoint.processOverview.disconnectProcess.errorToast'
-              ),
-            });
-          }
-        );
+      data: {
+        executeMutation: ({ result, onCompleted, onError }) => {
+          executeMutation(
+            ctx,
+            result,
+            () => {
+              toast.open({
+                type: 'success',
+                message: transloco.translate(
+                  'meteringPoint.processOverview.disconnectProcess.successToast'
+                ),
+              });
+              onCompleted();
+              ctx.onSuccess?.();
+            },
+            () => {
+              toast.open({
+                type: 'danger',
+                message: transloco.translate(
+                  'meteringPoint.processOverview.disconnectProcess.errorToast'
+                ),
+              });
+              onError();
+            }
+          );
+        },
       },
     });
   };
