@@ -333,11 +333,11 @@ type ChargeLinkHistory {
 }
 
 type ChargeLinkOverviewItem {
-  chargeLinkId: String!
   period: DateRange!
   closed: Boolean!
   charge: Charge!
   amount: Int!
+  chargeLinkId: String!
 }
 
 type ChargeLinkPeriod {
