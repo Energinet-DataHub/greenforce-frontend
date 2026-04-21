@@ -101,7 +101,6 @@ export class DhManageProductionObligation extends WattTypedModal<{
   private readonly toastService = inject(WattToastService);
 
   private today = dayjs().startOf('day');
-  private yesterday = this.today.subtract(1, 'day');
 
   form = new FormGroup({
     productionObligation: dhMakeFormControl(!this.modalData.currentProductionObligation),
@@ -111,7 +110,7 @@ export class DhManageProductionObligation extends WattTypedModal<{
   loading = this.mutation.loading;
 
   maxDate = this.today.add(95, 'days').toDate();
-  minDate = this.yesterday.toDate();
+  minDate = this.today.toDate();
 
   async save() {
     if (this.form.invalid) {
