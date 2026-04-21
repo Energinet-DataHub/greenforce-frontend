@@ -248,6 +248,22 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
+    public async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+        string meteringPointId,
+        CancellationToken ct = default)
+    {
+        var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
+        var chargeLinks = result.Data ?? [];
+        return await chargeLinks
+            .ToAsyncEnumerable()
+            .Select(async (cl, ct) => (chargeLink: cl, charge: await GetChargeByIdAsync(cl.ChargeIdentifier, ct)))
+            .SelectMany(x =>
+                x.charge is null
+                    ? []
+                    : x.chargeLink.ChargeLinkPeriods.Select(p => new ChargeLinkOverviewItem(meteringPointId, p, x.charge)))
+            .ToListAsync(ct);
+    }
+
     private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(
             Id: charge.ChargeIdentifierDto,
