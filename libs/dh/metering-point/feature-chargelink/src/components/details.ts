@@ -37,6 +37,8 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-charge-link-details',
   imports: [
+    RouterLink,
+    RouterOutlet,
     TranslocoDirective,
     WATT_DRAWER,
     WATT_DESCRIPTION_LIST,
@@ -48,8 +50,6 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     VaterStackComponent,
     VaterUtilityDirective,
     DhPermissionRequiredDirective,
-    RouterLink,
-    RouterOutlet,
   ],
 
   template: `
