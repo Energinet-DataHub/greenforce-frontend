@@ -78,17 +78,6 @@ import {
     WattSkeletonComponent,
   ],
   styles: `
-    .sticky-header {
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .margin-medium {
-      margin: 0 var(--watt-space-m) 0 var(--watt-space-m);
-    }
-
     .form-container {
       margin-top: var(--watt-space-m);
       flex: 1 1 0;
@@ -106,8 +95,7 @@ import {
       (ngSubmit)="updateCustomerData()"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
-      <watt-card class="sticky-header">
-        <vater-stack class="margin-medium" direction="row" justify="space-between">
+        <vater-stack direction="row" justify="space-between">
           <vater-stack direction="row" gap="m">
             <h3>{{ t('updateCustomerData') }}</h3>
             @if (isLoading()) {
@@ -121,8 +109,7 @@ import {
             </watt-button>
           </vater-stack>
         </vater-stack>
-      </watt-card>
-      <vater-flex direction="row" gap="m" class="form-container">
+      <vater-flex direction="row" gap="l" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
