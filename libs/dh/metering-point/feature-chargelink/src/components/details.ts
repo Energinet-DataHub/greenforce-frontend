@@ -16,89 +16,106 @@
  * limitations under the License.
  */
 //#endregion
-import { RouterLink, RouterOutlet } from '@angular/router';
-import { Component, computed, inject, input } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
-import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/core/date';
+import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDataTableComponent } from '@energinet/watt/data';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
-
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { GetChargeLinkHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { History } from '../types';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WattIconComponent } from '@energinet/watt/icon';
+import { WATT_MENU } from '@energinet/watt/menu';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { ChargeLinkOverview } from '../types';
+import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'dh-charge-link-details',
   imports: [
-    RouterLink,
-    RouterOutlet,
     TranslocoDirective,
-
-    WATT_MENU,
-    WATT_TABLE,
     WATT_DRAWER,
-    WattDataTableComponent,
+    WATT_DESCRIPTION_LIST,
+    WATT_MENU,
     WattDatePipe,
     WattButtonComponent,
     WattIconComponent,
-
+    WattHeadingComponent,
     VaterStackComponent,
     VaterUtilityDirective,
-
     DhPermissionRequiredDirective,
+    RouterLink,
+    RouterOutlet,
   ],
+
   template: `
     <watt-drawer
-      autoOpen
-      [loading]="query.loading()"
       size="small"
-      [key]="id()"
+      [autoOpen]="item()"
+      [key]="item()"
+      (closed)="item.set(undefined)"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
-      (closed)="navigation.navigate('list')"
     >
       <watt-drawer-heading>
-        <vater-stack align="start" gap="m">
-          <h1 vater fill="horizontal">{{ chargeLinkWithHistory()?.charge?.displayName }}</h1>
-          <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
-            <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
-              {{ t('actions') }}
-              <watt-icon name="moreVertical" />
-            </watt-button>
-            <watt-menu #actions>
-              @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
-                <watt-menu-item [routerLink]="['edit']">{{ t('edit') }}</watt-menu-item>
-              }
-              <watt-menu-item [routerLink]="['stop']">{{ t('stop') }}</watt-menu-item>
-              @if (!chargeLinkWithHistory()?.period?.interval?.end) {
-                <watt-menu-item [routerLink]="['cancel']">{{ t('cancel') }}</watt-menu-item>
-              }
-            </watt-menu>
-          </ng-container>
+        <vater-stack align="start" gap="s">
+          <h2 watt-heading size="1" fill="horizontal">
+            {{ item()?.charge?.displayName }}
+          </h2>
+          <vater-stack
+            align="end"
+            fill="horizontal"
+            justify="space-between"
+            gap="m"
+            direction="row"
+          >
+            <watt-description-list variant="inline-flow">
+              <watt-description-list-item
+                [label]="t('period')"
+                [value]="item()?.period | wattDate"
+              />
+            </watt-description-list>
+            <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+              <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
+                {{ t('actions') }}
+                <watt-icon name="moreVertical" />
+              </watt-button>
+              <watt-menu #actions>
+                @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
+                  <watt-menu-item [routerLink]="['edit', item()?.chargeLinkId]">
+                    {{ t('edit') }}
+                  </watt-menu-item>
+                }
+                <watt-menu-item [routerLink]="['stop', item()?.chargeLinkId]">
+                  {{ t('stop') }}
+                </watt-menu-item>
+                @if (!item()?.period?.end) {
+                  <watt-menu-item [routerLink]="['cancel', item()?.chargeLinkId]">
+                    {{ t('cancel') }}
+                  </watt-menu-item>
+                }
+              </watt-menu>
+            </ng-container>
+          </vater-stack>
         </vater-stack>
       </watt-drawer-heading>
-
+      <router-outlet />
+      <!-- TODO: Re-enable history
       <watt-drawer-content>
         <watt-data-table [autoSize]="true" [header]="false" [enablePaginator]="false">
           <watt-table
             *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
-            [columns]="columns"
-            [dataSource]="dataSource"
+            [columns]="historyColumns"
+            [dataSource]="historyDataSource"
           >
-            <ng-container *wattTableCell="columns.submittedAt; let history">
+            <ng-container *wattTableCell="historyColumns.submittedAt; let history">
               {{ history.submittedAt | wattDate }}
             </ng-container>
-            <ng-container *wattTableCell="columns.menu">
+            <ng-container *wattTableCell="historyColumns.menu">
               <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
               <watt-menu #menu>
                 <watt-menu-item>{{ t('copyMessage') }}</watt-menu-item>
@@ -108,23 +125,22 @@ import { WattIconComponent } from '@energinet/watt/icon';
           </watt-table>
         </watt-data-table>
       </watt-drawer-content>
+      -->
     </watt-drawer>
-    <router-outlet />
   `,
 })
 export default class DhChargeLinkDetails {
-  query = query(GetChargeLinkHistoryDocument, () => ({
-    variables: { id: this.id() },
-  }));
-  dataSource = dataSource(() => this.chargeLinkWithHistory()?.history || []);
-  chargeLinkWithHistory = computed(() => this.query.data()?.chargeLinkById);
-  chargeType = computed(() => this.chargeLinkWithHistory()?.charge?.type);
-  navigation = inject(DhNavigationService);
-  id = input.required<string>();
+  readonly item = model<ChargeLinkOverview>();
+  readonly chargeType = computed(() => this.item()?.charge?.type);
 
-  columns = {
-    submittedAt: { accessor: (row) => row.submittedAt },
-    // description: { accessor: (row) => row.description },
-    menu: { accessor: null, header: '', size: 'min-content' },
-  } satisfies WattTableColumnDef<History>;
+  // TODO: Re-enable history
+  // historyQuery = query(GetChargeLinkHistoryDocument, () => ({
+  //   variables: { id: this.item()?.charge?.id ?? '' },
+  // }));
+  // historyDataSource = dataSource(() => this.historyQuery.data()?.chargeLinkById?.history || []);
+  // historyColumns = {
+  //   submittedAt: { accessor: (row: History) => row.submittedAt },
+  //   description: { accessor: (row: History) => row.description },
+  //   menu: { accessor: null, header: '', size: 'min-content' },
+  // } satisfies WattTableColumnDef<History>;
 }
