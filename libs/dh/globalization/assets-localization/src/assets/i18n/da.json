@@ -884,8 +884,7 @@
         "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
         "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
         "yes": "Ja",
-        "no": "Nej",
-        "periodEndError": "Slutdato skal være efter startdato"
+        "no": "Nej"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
       "yes": "Ja",
