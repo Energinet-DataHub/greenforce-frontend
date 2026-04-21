@@ -155,6 +155,7 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
+            [disableClearButton]="legalAddressSameAsInstallation()"
             (clearFields)="clearAddressFields('legal')"
           />
         </watt-card>
@@ -171,6 +172,7 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
+            [disableClearButton]="technicalAddressSameAsInstallation()"
             (clearFields)="clearAddressFields('technical')"
           />
         </watt-card>
@@ -340,12 +342,12 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  private readonly technicalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  technicalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncTechnicalContactAddress = effect(() => {
-    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
+    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallation();
     const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
     const installationAddress = this.installationAddress();
 
@@ -376,12 +378,12 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  private readonly legalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncLegalContactAddress = effect(() => {
-    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
+    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallation();
     const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
     const installationAddress = this.installationAddress();
 

@@ -75,7 +75,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
               {{ t('addressSameAsMeteringPoint') }}
             </watt-slide-toggle>
 
-            <watt-button (click)="clearFields.emit()">
+            <watt-button [disabled]="disableClearButton()" (click)="clearFields.emit()">
               {{ t('clearFields') }}
             </watt-button>
           </vater-stack>
@@ -189,6 +189,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 })
 export class DhCustomerAddressDetailsComponent {
   addressDetailsFormGroup = input.required<FormGroup<AddressDetailsFormType>>();
+  disableClearButton = input<boolean>(false);
   clearFields = output();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
