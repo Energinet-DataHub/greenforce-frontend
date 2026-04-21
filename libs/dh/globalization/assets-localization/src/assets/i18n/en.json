@@ -913,6 +913,7 @@
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
     "chargeLinks": {
+      "showClosed": "Show closed",
       "shared": {
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Period",
         "columns": {
           "submittedAt": "Submitted",
           "description": "Description"
