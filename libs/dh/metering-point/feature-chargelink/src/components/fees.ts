@@ -26,6 +26,7 @@ import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
   GetChargeLinkOverviewDocument,
@@ -48,6 +49,7 @@ import { DhChargeLinkDetails } from './details';
     DhChargesStatus,
     DhChargeLinkDetails,
   ],
+  providers: [DhNavigationService],
   template: `
     <watt-data-table
       [header]="false"

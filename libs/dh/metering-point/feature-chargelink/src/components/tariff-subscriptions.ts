@@ -32,6 +32,7 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
   GetChargeLinkOverviewDocument,
@@ -69,6 +70,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
     DhChargesStatus,
     DhDropdownTranslatorDirective,
   ],
+  providers: [DhNavigationService],
   template: `
     <watt-data-table
       [header]="false"
