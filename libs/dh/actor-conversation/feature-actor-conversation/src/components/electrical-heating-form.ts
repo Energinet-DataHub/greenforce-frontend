@@ -16,15 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  inject,
-  input,
-  computed,
-  Component,
-  forwardRef,
-  ChangeDetectorRef,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { input, computed, Component, forwardRef, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   FormGroup,
@@ -152,8 +144,6 @@ import { ElectricalHeatingFormValue } from '../types';
   `,
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
-  private readonly cdr = inject(ChangeDetectorRef);
-
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
@@ -233,10 +223,6 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
         { emitEvent: false }
       );
     }
-
-    this.form.controls.periodStart.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    this.form.controls.periodEnd.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    this.cdr.markForCheck();
   }
 
   registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
