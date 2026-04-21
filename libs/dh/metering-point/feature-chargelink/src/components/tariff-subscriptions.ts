@@ -54,8 +54,8 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterOutlet,
-    TranslocoDirective,
     ReactiveFormsModule,
+    TranslocoDirective,
     VATER,
     WATT_TABLE,
     WattDatePipe,
@@ -65,9 +65,9 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
     WattSlideToggleComponent,
     WattIconComponent,
     WattTooltipDirective,
+    DhChargeLinkDetails,
     DhChargesStatus,
     DhDropdownTranslatorDirective,
-    DhChargeLinkDetails,
   ],
   template: `
     <watt-data-table
