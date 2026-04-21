@@ -38,7 +38,7 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
-  AddressTypeV1,
+  AddressTypeV2,
   ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
   GetTemporaryStorageDataDocument,
@@ -247,6 +247,10 @@ export class DhUpdateCustomerDataComponent {
     this.shouldClearContacts() ? undefined : this.technicalContact()
   );
 
+  private readonly effectiveSecondaryCustomer = computed(() =>
+    this.shouldClearContacts() ? undefined : this.secondaryCustomer()
+  );
+
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
@@ -283,10 +287,10 @@ export class DhUpdateCustomerDataComponent {
             '',
             !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
           ),
-          customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
+          customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
           cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
           nameProtection: dhMakeFormControl<boolean>(
-            this.secondaryCustomer()?.isProtectedName ?? false
+            this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),
         }),
         legalContactDetails: createCustomerContactDetailsForm(
@@ -408,9 +412,21 @@ export class DhUpdateCustomerDataComponent {
 
     const values = this.form().getRawValue();
 
-    const { cpr1, cpr2, customerName1, customerName2, nameProtection } =
-      values.privateCustomerDetails;
-    const { companyName, cvr } = values.businessCustomerDetails;
+    const {
+      cpr1,
+      cpr2,
+      customerName1,
+      customerName2,
+      nameProtection: privateNameProtection,
+    } = values.privateCustomerDetails;
+    const {
+      companyName,
+      cvr,
+      nameProtection: businessNameProtection,
+    } = values.businessCustomerDetails;
+    const nameProtection = this.isBusinessCustomer()
+      ? businessNameProtection
+      : privateNameProtection;
     const legalContactDetails = values.legalContactDetails;
     const legalContactAddressDetails = values.legalContactAddressDetails;
     const technicalContactDetails = values.technicalContactDetails;
@@ -428,7 +444,7 @@ export class DhUpdateCustomerDataComponent {
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
           secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
           firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
+          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : undefined,
           firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
           protectedName: nameProtection,
           processId: this.processId(),
@@ -436,12 +452,12 @@ export class DhUpdateCustomerDataComponent {
             mapUsagePointLocation(
               legalContactDetails,
               legalContactAddressDetails,
-              AddressTypeV1.Legal
+              AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
               technicalContactDetails,
               technicalContactAddressDetails,
-              AddressTypeV1.Technical
+              AddressTypeV2.Technical
             ),
           ],
         },

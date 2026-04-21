@@ -360,6 +360,7 @@ type ChargeOverviewEdge {
 type ChargeOverviewItem {
   charge: Charge!
   period: DateRange!
+  name: String!
 }
 
 type ChargePeriod {
@@ -508,6 +509,10 @@ type DeactivateUserRolePayload {
 }
 
 type DeleteAllEventSourcingDataPayload {
+  boolean: Boolean
+}
+
+type DisconnectMeteringPointPayload {
   boolean: Boolean
 }
 
@@ -829,6 +834,14 @@ type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
   meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
+}
+
+type GetProjectionsStatusResultDtoV1 {
+  daemonHighWaterMark: Long!
+  eventCount: Long!
+  eventSequenceNumber: Long!
+  streamCount: Long!
+  projections: [ProjectionStatus!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -1206,7 +1219,7 @@ type Mutation {
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   changeProductionObligation(input: ChangeProductionObligationInput!): ChangeProductionObligationPayload! @authorize(roles: [ "metering-point:production-obligation-manage" ])
-  requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1244,13 +1257,14 @@ type Mutation {
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(policy: "EnergySupplierOrGridAccessProvider")
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
+  disconnectMeteringPoint(input: DisconnectMeteringPointInput!): DisconnectMeteringPointPayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
-  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(policy: "GridAccessProvider")
+  rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
-  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(policy: "EnergySupplier")
+  requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
 }
@@ -1409,6 +1423,18 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionStatus {
+  name: String!
+  assignedNodeNumber: Int!
+  action: String!
+  exception: String
+  previousGoodMark: Long!
+  mode: String!
+  rebuildThreshold: Long!
+  sequence: Long!
+  timestamp: DateTime!
+}
+
 type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
@@ -1437,6 +1463,7 @@ type Query {
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
+  projectionsStatus: GetProjectionsStatusResultDtoV1! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -2049,7 +2076,7 @@ input CancelSettlementReportInput {
 
 input ChangeCustomerCharacteristicsInput {
   meteringPointId: String!
-  businessReason: ChangeCustomerCharacteristicsBusinessReason!
+  businessReason: BusinessReasonV2!
   firstCustomerCpr: String
   firstCustomerCvr: String
   firstCustomerName: String
@@ -2058,7 +2085,7 @@ input ChangeCustomerCharacteristicsInput {
   processId: String
   protectedName: Boolean
   electricalHeating: Boolean!
-  usagePointLocations: [UsagePointLocationV1Input!]
+  usagePointLocations: [UsagePointLocationV2Input!]
 }
 
 input ChangeProductionObligationInput {
@@ -2207,6 +2234,12 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DisconnectMeteringPointInput {
+  meteringPointId: String!
+  processId: UUID!
+  validityDate: DateTime!
 }
 
 input DismissAllNotificationsInput {
@@ -2562,7 +2595,7 @@ input StopProcessDelegationDtoInput {
   stopsAt: DateTime
 }
 
-input StreetDetailV1Input {
+input StreetDetailV2Input {
   buildingNumber: String
   streetName: String
   streetCode: String
@@ -2574,7 +2607,7 @@ input SyncJobSetJobVersionEventStoreExportInput {
   version: DateTime
 }
 
-input TownDetailV1Input {
+input TownDetailV2Input {
   municipalityCode: String
   additionalCityName: String
   cityName: String
@@ -2649,13 +2682,13 @@ input UpdateUserRoleInput {
   userRole: UpdateUserRoleDtoInput!
 }
 
-input UsagePointLocationV1Input {
-  addressType: AddressTypeV1!
+input UsagePointLocationV2Input {
+  addressType: AddressTypeV2!
   darReference: String
   attention: String
   email: String
-  streetDetail: StreetDetailV1Input
-  townDetail: TownDetailV1Input
+  streetDetail: StreetDetailV2Input
+  townDetail: TownDetailV2Input
   postalCode: String
   contactName: String
   phone: String
@@ -2715,7 +2748,7 @@ enum ActorAuditedChange {
   ADDITIONAL_RECIPIENT_METERING_POINT_REMOVED
 }
 
-enum AddressTypeV1 {
+enum AddressTypeV2 {
   TECHNICAL
   LEGAL
 }
@@ -2753,6 +2786,7 @@ enum ArchivedMessageDocumentType {
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -2797,6 +2831,10 @@ enum BusinessReason {
   D29
   E34
   E01
+  E0G
+  D48
+  D18
+  D08
 }
 
 enum BusinessReasonV1 {
@@ -2853,6 +2891,14 @@ enum BusinessReasonV1 {
   TRANSFER_METERING_POINT
   UNREQUESTED_CHANGE_OF_ENERGY_SUPPLIER
   CHANGE_OF_ESTIMATED_ANNUAL_VOLUME
+}
+
+enum BusinessReasonV2 {
+  ELECTRICAL_HEATING
+  SECONDARY_MOVE_IN
+  CHANGE_OF_ENERGY_SUPPLIER
+  UPDATE_MASTER_DATA_CONSUMER
+  CUSTOMER_MOVE_IN
 }
 
 enum CalculationExecutionType {
@@ -2978,6 +3024,7 @@ enum DocumentType {
   REMINDER_OF_MISSING_MEASUREMENTS
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
@@ -3555,6 +3602,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_CANCELLATION
   REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
   REJECT_REQUEST_BILLING_MASTER_DATA
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum ParticipantType {

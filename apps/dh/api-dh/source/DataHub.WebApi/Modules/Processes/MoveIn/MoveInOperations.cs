@@ -13,13 +13,16 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
-using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
+using NodaTime;
+using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
@@ -74,14 +77,28 @@ public static class MoveInOperations
         string? processId,
         bool? protectedName,
         bool electricalHeating,
-        IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
+        IReadOnlyCollection<UsagePointLocationV2>? usagePointLocations,
         CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        [Service] IB2CClient ediB2CClient,
+        [Service] IMoveInClient moveInClient)
     {
-        var command = new RequestChangeCustomerCharacteristicsCommandV1(
-            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
+        var resolvedStartDate = GetDefaultResolvedStartDate();
+        if (processId != null)
+        {
+            var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
+            if (startDate is null)
+            {
+                throw new HotChocolate.GraphQLException($"Unable to resolve start date for process '{processId}'.");
+            }
+
+            resolvedStartDate = startDate.Value;
+        }
+
+        var command = new RequestChangeCustomerCharacteristicsCommandV2(
+            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
+                StartDate: resolvedStartDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
@@ -96,4 +113,10 @@ public static class MoveInOperations
 
         return result.IsSuccess;
     }
+
+    private static DateTimeOffset GetDefaultResolvedStartDate() =>
+        SystemClock.Instance.GetCurrentInstant()
+            .InZone(LocalDateExtensions.DanishTimeZone)
+            .Date
+            .ToUtcDateTimeOffset();
 }

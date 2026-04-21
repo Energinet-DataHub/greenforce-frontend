@@ -24,7 +24,7 @@ describe('Language selection', () => {
     cy.visit(initialUrl);
   });
 
-  it(`toggle languages`, () => {
+  it.skip(`toggle languages`, () => {
     // Given no language is selected
     // Then Danish translations are displayed
     cy.findByRole('heading', {

@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
-  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -33,26 +33,28 @@ import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
-  marketRoles?: EicFunction[];
+  permissions?: Permission[];
   callback: (context: ProcessActionContext) => void;
 }
 
 export type ActionHandlerMap = Partial<Record<WorkflowAction, ActionHandler>>;
 
+function collectPermissions(
+  registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>>
+): Set<Permission> {
+  const permissions = new Set<Permission>();
+  for (const handlers of Object.values(registry)) {
+    for (const handler of Object.values(handlers ?? {})) {
+      handler?.permissions?.forEach((permission) => permissions.add(permission));
+    }
+  }
+  return permissions;
+}
+
 @Injectable({ providedIn: 'root' })
 export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
   private readonly permissionService = inject(PermissionService);
-
-  private readonly isGridAccessProvider = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
-    { initialValue: false }
-  );
-
-  private readonly isEnergySupplier = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
-    { initialValue: false }
-  );
 
   private readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -61,14 +63,18 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
   };
 
-  private hasRequiredMarketRole(handler: ActionHandler): boolean {
-    if (!handler.marketRoles?.length) return true;
-    return handler.marketRoles.some((role) => {
-      if (role === EicFunction.GridAccessProvider) return this.isGridAccessProvider();
-      if (role === EicFunction.EnergySupplier) return this.isEnergySupplier();
-      console.error('[DhActionsRegistry] Unsupported market role:', role);
-      return false;
-    });
+  private readonly permissionSignals: ReadonlyMap<Permission, Signal<boolean>> = new Map(
+    [...collectPermissions(this.registry)].map((permission) => [
+      permission,
+      toSignal(this.permissionService.hasPermission(permission), { initialValue: false }),
+    ])
+  );
+
+  private hasRequiredPermission(handler: ActionHandler): boolean {
+    if (!handler.permissions?.length) return true;
+    return handler.permissions.some(
+      (permission) => this.permissionSignals.get(permission)?.() ?? false
+    );
   }
 
   getSupportedActions(
@@ -80,9 +86,9 @@ export class DhActionsRegistry {
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
       // FAS users see all supported actions for informational purposes,
       // but cannot execute them (gated by canPerformActions in the template
-      // and hasRequiredMarketRole in execute).
+      // and hasRequiredPermission in execute).
       if (this.isFas()) return true;
-      return this.hasRequiredMarketRole(handler);
+      return this.hasRequiredPermission(handler);
     });
   }
 
@@ -95,7 +101,7 @@ export class DhActionsRegistry {
     if (
       handler &&
       this.featureFlags.isEnabled(handler.featureFlag) &&
-      this.hasRequiredMarketRole(handler)
+      this.hasRequiredPermission(handler)
     ) {
       handler.callback(context);
     }

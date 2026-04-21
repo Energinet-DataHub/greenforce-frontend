@@ -13,32 +13,36 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestCancellation.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Models;
 using HotChocolate.Authorization;
 
-namespace Energinet.DataHub.WebApi.Modules.Processes.Cancellation;
+namespace Energinet.DataHub.WebApi.Modules.Processes.Disconnection;
 
-public static class CancelEndOfSupplyOperations
+public static class DisconnectMeteringPointOperations
 {
     [Mutation]
-    [Authorize(Roles = ["metering-point:end-of-supply-request", "metering-point:end-of-supply-respond"])]
-    public static async Task<bool> CancelEndOfSupplyAsync(
+    [Authorize(Roles = ["metering-point:connection-state-manage"])]
+    public static async Task<bool> DisconnectMeteringPointAsync(
         string meteringPointId,
         Guid processId,
+        DateTimeOffset validityDate,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        var command = new RequestCancellationCommandV1(
-            new RequestCancellationV1(
+        var command = new RequestForChangeOfConnectionStatusCommandV1(
+            new RequestForChangeOfConnectionStatusV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: BusinessReasonV1.EndOfSupply,
-                ProcessReference: processId));
+                ProcessReference: processId,
+                ValidityDate: validityDate,
+                ConnectionState: ConnectionStateV1.Disconnected));
 
         var result = await ediB2CClient.SendAsync(command, ct);
 
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command CancelEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command DisconnectMeteringPoint failed for metering point '{meteringPointId}' (processId: {processId}). EDI response: {result}");
     }
 }

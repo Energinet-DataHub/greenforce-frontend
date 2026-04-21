@@ -38,9 +38,11 @@ import {
   mockGetMeteringPointNewConversationInfoQuery,
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
+  mockGetProjectionsStatusQuery,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
+  mockDisconnectMeteringPointMutation,
   mockRequestConnectionStateChangeMutation,
   mockCancelEndOfSupplyMutation,
   mockRejectEndOfSupplyMutation,
@@ -79,6 +81,8 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
+    disconnectMeteringPoint(),
+    getProjectionsStatus(),
     requestConnectionStateChange(),
     changeProductionObligation(),
     requestEndOfSupply(),
@@ -627,6 +631,51 @@ function getMeteringPointsByGridArea() {
   });
 }
 
+function getProjectionsStatus() {
+  return mockGetProjectionsStatusQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        projectionsStatus: {
+          __typename: 'GetProjectionsStatusResultDtoV1',
+          daemonHighWaterMark: '9854',
+          eventCount: '2359',
+          eventSequenceNumber: '9854',
+          streamCount: '1109',
+          projections: [
+            {
+              __typename: 'ProjectionStatus',
+              name: 'MeteringPointWithRelations:All',
+              assignedNodeNumber: 0,
+              action: 'Updated',
+              exception: null,
+              previousGoodMark: '0',
+              mode: 'continuous',
+              rebuildThreshold: '0',
+              sequence: '8659',
+              timestamp: new Date('2026-04-17T13:00:00.210217+00:00'),
+            },
+            {
+              __typename: 'ProjectionStatus',
+              name: 'HighWaterMark',
+              assignedNodeNumber: 0,
+              action: 'Updated',
+              exception: null,
+              previousGoodMark: '0',
+              mode: 'continuous',
+              rebuildThreshold: '0',
+              sequence: '9854',
+              timestamp: new Date('2026-04-17T13:00:00.2102256+00:00'),
+            },
+          ],
+        },
+      },
+    });
+  });
+}
+
 function getOperationToolsMeteringPoint() {
   return mockGetOperationToolsMeteringPointQuery(async () => {
     await delay(mswConfig.delay);
@@ -946,6 +995,22 @@ function getElectricalHeatingInformation() {
               to: new Date('9999-01-01'),
             },
           ],
+        },
+      },
+    });
+  });
+}
+
+function disconnectMeteringPoint() {
+  return mockDisconnectMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        disconnectMeteringPoint: {
+          __typename: 'DisconnectMeteringPointPayload',
+          boolean: true,
         },
       },
     });

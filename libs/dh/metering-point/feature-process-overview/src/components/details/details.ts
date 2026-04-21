@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -40,6 +47,8 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
@@ -51,6 +60,12 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     WattButtonComponent,
     SupportedActionsPipe,
   ],
+  styles: `
+    dh-metering-point-process-overview-details .watt-drawer header > vater-flex {
+      flex-wrap: wrap;
+      row-gap: var(--watt-space-m);
+    }
+  `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
@@ -120,6 +135,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
+  readonly internalMeteringPointId = input.required<string>();
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
@@ -156,7 +172,7 @@ export class DhMeteringPointProcessOverviewDetails {
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: '',
+      internalMeteringPointId: this.internalMeteringPointId(),
       processId: this.id(),
       cutoffDate: this.cutoffDate(),
       onSuccess: () => this.navigation.navigate('list'),

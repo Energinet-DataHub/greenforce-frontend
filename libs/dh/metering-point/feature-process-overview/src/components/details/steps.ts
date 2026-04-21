@@ -153,11 +153,12 @@ export class DhMeteringPointProcessOverviewSteps {
     }
 
     const isShortLivedProcess =
+      businessReason === ProcessManagerBusinessReason.CustomerMoveIn ||
       businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.ChangeConnectionStatus ||
-      businessReason === ProcessManagerBusinessReason.UpdateMeteringPointMasterData ||
+      businessReason === ProcessManagerBusinessReason.UpdateMasterDataMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.ProductionObligation;
 
     return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));

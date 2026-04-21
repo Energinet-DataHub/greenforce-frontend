@@ -1031,10 +1031,11 @@
         "CustomerMoveIn": "Tilflytning (BRS-009)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (BRS-007)",
         "ChangeConnectionStatus": "Afbrydelse og gentilslutning af målepunkt (BRS-013)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (BRS-006)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
-        "CustomerMoveOut": "Fraflytning (BRS-010)"
+        "CustomerMoveOut": "Fraflytning (BRS-010)",
+        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1046,9 +1047,10 @@
         "Move": "Flytning (E01)",
         "CloseDownMeteringPoint": "Nedlæggelse af målepunkt (D14)",
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
-        "UpdateMeteringPointMasterData": "Opdatering af målepunktsstamdata (E32)",
+        "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)",
         "ElectricalHeating": "Elvarme (D20)",
-        "CustomerMoveOut": "Fraflytning (E66)"
+        "CustomerMoveOut": "Fraflytning (E66)",
+        "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1061,6 +1063,8 @@
           "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
           "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
+          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
           "REJECT_REQUEST": "Afvis anmodning",
           "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
         },
@@ -1099,6 +1103,14 @@
         "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "disconnectProcess": {
+        "title": "Anmod om afbrydelse",
+        "validityDateLabel": "Gyldighedsdato",
+        "cancel": "Annuller",
+        "confirm": "Anmod om afbrydelse",
+        "successToast": "Anmodning om afbrydelse af målepunkt indsendt",
+        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
         "EndOfSupply": "leveranceophør"
@@ -1185,6 +1197,10 @@
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
+        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytning (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
@@ -1599,7 +1615,9 @@
       "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Anmodning om opdatering af priser (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
-      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)"
+      "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)",
+      "REQUEST_PRICE_LIST": "Anmod om priser (RSM-035)",
+      "REJECT_REQUEST_PRICE_LIST": "Afvis anmod om priser (RSM-035)"
     },
     "businessReason": {
       "D03": "Foreløbig aggregering (D03)",
@@ -1623,11 +1641,11 @@
       "D35": "Afvisning af korrektion (D35)",
       "D39": "Aftagepligt (D39)",
       "D47": "Hullerlog (D47)",
-      "D48": "Prisserie (D48)",
+      "D48": "Anmodning om prisserier (D48)",
       "E01": "Flytning (E01)",
       "E02": "Nyt målepunkt (E02)",
       "E03": "Skift af elleverandør (E03)",
-      "E0G": "Stamdata (E0G)",
+      "E0G": "Anmodning om prisinformationer (E0G)",
       "E20": "Leveranceophør (E20)",
       "E23": "Periodisk forbrugsopgørelse (E23)",
       "E30": "Historiske data (E30)",
@@ -3600,6 +3618,10 @@
           "title": "Genopbyg projektion",
           "message": "Er du sikker på, at du vil genopbygge projektionen?"
         }
+      },
+      "projectionsStatus": {
+        "title": "Projektionsstatus",
+        "button": "Hent projektionsstatus"
       },
       "dangerZone": {
         "title": "Farezone"

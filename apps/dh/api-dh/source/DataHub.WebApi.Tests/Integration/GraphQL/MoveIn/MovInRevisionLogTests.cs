@@ -16,8 +16,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
@@ -84,7 +84,7 @@ public class MoveInRevisionLogTests
             $$"""
               mutation (
                 $meteringPointId: String!
-                $businessReason: ChangeCustomerCharacteristicsBusinessReason!
+                $businessReason: BusinessReasonV2!
                 $electricalHeating: Boolean!
               ) {
                 changeCustomerCharacteristics(input: {
@@ -99,8 +99,8 @@ public class MoveInRevisionLogTests
 
         var server = new GraphQLTestService();
         server.EdiB2CClientMock
-            .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV1>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV1>.Success(new RequestChangeCustomerCharacteristicsResponseV1("test")));
+            .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("test")));
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
             server,

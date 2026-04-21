@@ -19,9 +19,11 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 import {
   getTranslocoTestingModule,
@@ -61,6 +63,7 @@ async function setup(
     componentInputs: {
       id: processId,
       meteringPointId: 'mp-123',
+      internalMeteringPointId: 'imp-123',
     },
   });
 
@@ -99,10 +102,81 @@ describe('Process overview details', () => {
     );
   });
 
+  it('should show request disconnection button for EndOfSupply process', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+  });
+
+  it('should open disconnect modal when request disconnection is clicked', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+    const [disconnectButton] = screen.getAllByRole('button', {
+      name: /Request disconnection/i,
+    });
+
+    userEvent.click(disconnectButton);
+
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByText(/Validity date/i)).toBeInTheDocument();
+  });
+
+  it('should close disconnect modal after submitting', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+    const [disconnectButton] = screen.getAllByRole('button', {
+      name: /Request disconnection/i,
+    });
+    userEvent.click(disconnectButton);
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+
+    const dialog = screen.getByRole('dialog');
+    const confirmButton = within(dialog).getByRole('button', {
+      name: /Request disconnection/i,
+    });
+    userEvent.click(confirmButton);
+
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
   it('should show send information button for CustomerMoveIn process', async () => {
     await setup('process-cmi-info');
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should navigate with internalMeteringPointId when Send information is clicked', async () => {
+    const fixture = await setup('process-cmi-info');
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+    const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
+
+    userEvent.click(sendInfoButtons[0]);
+
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-123',
+        'update-customer-details',
+        expect.any(String),
+      ])
     );
   });
 
@@ -113,7 +187,7 @@ describe('Process overview details', () => {
   });
 
   it.each([
-    ['process-eos-cancel', /Cancel|Reject request/i],
+    ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
   ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
     await setup(processId, { isFas: true });

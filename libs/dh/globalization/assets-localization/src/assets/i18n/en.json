@@ -1031,10 +1031,11 @@
         "CustomerMoveIn": "Move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
-        "UpdateMeteringPointMasterData": "Update of metering point master data (BRS-006)",
+        "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)",
         "ProductionObligation": "Change of production obligation (BRS-036)",
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
-        "CustomerMoveOut": "Move-out (BRS-010)"
+        "CustomerMoveOut": "Move-out (BRS-010)",
+        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1046,9 +1047,10 @@
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionStatus": "Change Connection Status (E79)",
-        "UpdateMeteringPointMasterData": "Update master data metering point (E32)",
+        "UpdateMasterDataMeteringPoint": "Update master data metering point (E32)",
         "ElectricalHeating": "Electrical heating (D20)",
-        "CustomerMoveOut": "Move-out (E66)"
+        "CustomerMoveOut": "Move-out (E66)",
+        "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)"
       },
       "filters": {
         "created": "Time",
@@ -1061,6 +1063,8 @@
           "FAS_SEND_INFORMATION": "Electricity supplier can request service",
           "CANCEL_WORKFLOW": "Cancel",
           "FAS_CANCEL_WORKFLOW": "Grid operator and electricity supplier can cancel workflow",
+          "CONFIRM_WORKFLOW": "Request disconnection",
+          "FAS_CONFIRM_WORKFLOW": "Grid operator can request disconnection",
           "REJECT_REQUEST": "Reject request",
           "FAS_REJECT_REQUEST": "Grid operator can reject request"
         },
@@ -1099,6 +1103,14 @@
         "loadingToast": "Submitting cancellation of {{processType}}...",
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
+      },
+      "disconnectProcess": {
+        "title": "Request disconnection",
+        "validityDateLabel": "Validity date",
+        "cancel": "Cancel",
+        "confirm": "Request disconnection",
+        "successToast": "Request to disconnect metering point submitted",
+        "errorToast": "Request to disconnect metering point failed"
       },
       "processTypeName": {
         "EndOfSupply": "end of supply"
@@ -1185,6 +1197,10 @@
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
+        "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028/D20)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Request for charge links (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Rejection of request for charge links (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Notification of charge links (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Rejection of request for service (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Request for cancellation of service (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Confirmation of cancellation of service (RSM-024)",
@@ -1599,7 +1615,9 @@
       "B2C_REQUEST_CHANGE_OF_PRICE_LIST": "UI: Request change of price list (RSM-033)",
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Confirm request change of price list (RSM-033)",
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of price list (RSM-033)",
-      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)"
+      "NOTIFY_PRICE_LIST": "Notify price list (RSM-034)",
+      "REQUEST_PRICE_LIST": "Request for price list (RSM-035)",
+      "REJECT_REQUEST_PRICE_LIST": "Reject request for price list (RSM-035)"
     },
     "businessReason": {
       "D03": "Temporary (D03)",
@@ -1627,7 +1645,7 @@
       "E01": "Move (E01)",
       "E02": "New metering point (E02)",
       "E03": "Change of Energy supplier (E03)",
-      "E0G": "Data alignment for master data metering point (E0G)",
+      "E0G": "Request for charge information (E0G)",
       "E20": "End of supply (E20)",
       "E23": "Periodic metering (E23)",
       "E30": "Historical data (E30)",
@@ -3600,6 +3618,10 @@
           "title": "Rebuild Projection",
           "message": "Are you sure you want to rebuild the projection?"
         }
+      },
+      "projectionsStatus": {
+        "title": "Projections Status",
+        "button": "Get projections status"
       },
       "dangerZone": {
         "title": "Danger Zone"

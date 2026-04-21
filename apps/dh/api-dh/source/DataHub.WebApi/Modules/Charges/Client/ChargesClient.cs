@@ -70,7 +70,7 @@ public class ChargesClient(
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
-            .Select(p => new ChargeOverviewItem(charge, p.Period)));
+            .Select(p => new ChargeOverviewItem(charge, p)));
 
         // This filter is expensive since it has to fetch series for each charge,
         // which is why it is deferred until after applying all other filters.
