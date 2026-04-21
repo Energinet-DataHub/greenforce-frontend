@@ -154,6 +154,7 @@ export class DhMeteringPointProcessOverviewSteps {
 
     const isShortLivedProcess =
       businessReason === ProcessManagerBusinessReason.CustomerMoveIn ||
+      businessReason === ProcessManagerBusinessReason.UpdateMasterDataConsumer ||
       businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
       businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
