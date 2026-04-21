@@ -1388,6 +1388,7 @@
       },
       "addressDetails": {
         "addressSameAsMeteringPoint": "Same as metering point address",
+        "clearFields": "Clear fields",
         "street": "Street",
         "houseNumber": "House number",
         "floor": "Floor",

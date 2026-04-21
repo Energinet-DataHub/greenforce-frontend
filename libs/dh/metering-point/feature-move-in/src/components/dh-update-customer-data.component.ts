@@ -95,20 +95,20 @@ import {
       (ngSubmit)="updateCustomerData()"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
-        <vater-stack direction="row" justify="space-between">
-          <vater-stack direction="row" gap="m">
-            <h3>{{ t('updateCustomerData') }}</h3>
-            @if (isLoading()) {
-              <watt-spinner [diameter]="22" />
-            }
-          </vater-stack>
-          <vater-stack direction="row" gap="m">
-            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
-            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
-              >{{ t('updateCustomerData') }}
-            </watt-button>
-          </vater-stack>
+      <vater-stack direction="row" justify="space-between">
+        <vater-stack direction="row" gap="m">
+          <h3>{{ t('updateCustomerData') }}</h3>
+          @if (isLoading()) {
+            <watt-spinner [diameter]="22" />
+          }
         </vater-stack>
+        <vater-stack direction="row" gap="m">
+          <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
+          <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
+            >{{ t('updateCustomerData') }}
+          </watt-button>
+        </vater-stack>
+      </vater-stack>
       <vater-flex direction="row" gap="l" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
@@ -155,6 +155,7 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
+            (clearFields)="clearAddressFields('legal')"
           />
         </watt-card>
         <!-- Technical -->
@@ -170,6 +171,7 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
+            (clearFields)="clearAddressFields('technical')"
           />
         </watt-card>
       </vater-flex>
@@ -444,6 +446,30 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  clearAddressFields(addressType: 'legal' | 'technical') {
+    const formGroup =
+      addressType === 'legal'
+        ? this.form().controls.legalContactAddressDetails
+        : this.form().controls.technicalContactAddressDetails;
+
+    formGroup.controls.addressSameAsInstallation.setValue(false);
+    formGroup.controls.addressGroup.enable();
+    formGroup.controls.addressGroup.patchValue({
+      streetName: null,
+      buildingNumber: null,
+      floor: null,
+      room: null,
+      postCode: null,
+      cityName: null,
+      countryCode: null,
+      streetCode: null,
+      citySubDivisionName: null,
+      postBox: null,
+      municipalityCode: null,
+      darReference: null,
+    });
   }
 
   cancel() {

@@ -1389,6 +1389,7 @@
       "addressDetails": {
         "label": "Adresseoplysninger",
         "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "clearFields": "Ryd felter",
         "street": "Vejnavn",
         "houseNumber": "Husnummer",
         "floor": "Etage",
