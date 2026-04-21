@@ -36,6 +36,7 @@ import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  EicFunction,
   GetMeteringPointProcessByIdDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -111,14 +112,16 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-        @for (
-          action of process.data()?.meteringPointProcessById?.availableActions
-            | supportedActions: businessReason();
-          track action
-        ) {
-          <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
-            {{ t('actions.' + businessReason() + '.' + action) }}
-          </watt-button>
+        @if (canShowActions()) {
+          @for (
+            action of process.data()?.meteringPointProcessById?.availableActions
+              | supportedActions: businessReason();
+            track action
+          ) {
+            <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
+              {{ t('actions.' + businessReason() + '.' + action) }}
+            </watt-button>
+          }
         }
       </watt-drawer-actions>
       <watt-drawer-content>
@@ -136,11 +139,24 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
+  readonly isEnergySupplierResponsible = input.required<boolean>();
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
+  private readonly hasEnergySupplierRole = toSignal(
+    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+    { initialValue: false }
+  );
+
+  private readonly isNonResponsibleSupplier = computed(
+    () => this.hasEnergySupplierRole() && !this.isEnergySupplierResponsible()
+  );
+
+  // A non-responsible supplier sees no actions at all, not even the disabled
+  // FAS-style buttons, since they have no legitimate relation to this metering point.
+  protected readonly canShowActions = computed(() => !this.isNonResponsibleSupplier());
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
@@ -169,6 +185,7 @@ export class DhMeteringPointProcessOverviewDetails {
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();
     if (!reason) return;
+    if (!this.canShowActions()) return;
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),

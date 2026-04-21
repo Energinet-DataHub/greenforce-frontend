@@ -16,9 +16,37 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { inject } from '@angular/core';
+import { ResolveFn, Routes } from '@angular/router';
+
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import {
+  DhActorStorage,
+  PermissionGuard,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+function isEnergySupplierResponsibleResolver(): ResolveFn<boolean> {
+  return async (route) => {
+    const apollo = inject(DhApollo);
+    const actor = inject(DhActorStorage).getSelectedActor();
+    const meteringPointId = route.data['meteringPointId'] as string;
+    const searchMigratedMeteringPoints = route.data['searchMigratedMeteringPoints'] as boolean;
+
+    const { data } = await apollo.client.query({
+      query: GetMeteringPointByIdDocument,
+      fetchPolicy: 'cache-first',
+      variables: {
+        meteringPointId,
+        actorGln: actor.gln,
+        searchMigratedMeteringPoints,
+      },
+    });
+
+    return !!data?.meteringPoint?.isEnergySupplier;
+  };
+}
 
 export const meteringPointProcessOverviewRoutes: Routes = [
   {
@@ -27,6 +55,9 @@ export const meteringPointProcessOverviewRoutes: Routes = [
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
     path: '',
+    resolve: {
+      isEnergySupplierResponsible: isEnergySupplierResponsibleResolver(),
+    },
     loadComponent: () =>
       import('./components/overview').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [

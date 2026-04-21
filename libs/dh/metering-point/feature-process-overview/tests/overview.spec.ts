@@ -30,18 +30,26 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 
 async function setup(
-  permissionOverrides: Partial<{
+  overrides: Partial<{
     isFas: boolean;
-    hasMarketRole: boolean;
+    hasGridAccessProviderRole: boolean;
+    hasEnergySupplierRole: boolean;
+    isEnergySupplierResponsible: boolean;
   }> = {}
 ) {
-  const { isFas = false, hasMarketRole = true } = permissionOverrides;
+  const {
+    isFas = false,
+    hasGridAccessProviderRole = true,
+    hasEnergySupplierRole = false,
+    isEnergySupplierResponsible = false,
+  } = overrides;
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
     providers: [
@@ -54,7 +62,11 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasMarketRole: () => of(hasMarketRole),
+          hasMarketRole: (role: EicFunction) => {
+            if (role === EicFunction.GridAccessProvider) return of(hasGridAccessProviderRole);
+            if (role === EicFunction.EnergySupplier) return of(hasEnergySupplierRole);
+            return of(false);
+          },
           hasPermission: () => of(true),
         },
       },
@@ -63,6 +75,7 @@ async function setup(
     componentInputs: {
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-456',
+      isEnergySupplierResponsible,
     },
   });
 
@@ -126,16 +139,60 @@ describe('Process overview', () => {
   });
 
   it('should not show action buttons when user has no market role', async () => {
-    await setup({ hasMarketRole: false });
+    await setup({ hasGridAccessProviderRole: false, hasEnergySupplierRole: false });
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show warning text instead of buttons for FAS users', async () => {
-    await setup({ isFas: true, hasMarketRole: false });
+    await setup({ isFas: true, hasGridAccessProviderRole: false, hasEnergySupplierRole: false });
     await waitForAsync(() =>
       expect(screen.getAllByText(/can cancel workflow/i).length).toBeGreaterThan(0)
     );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should show action buttons for responsible EnergySupplier', async () => {
+    await setup({
+      hasGridAccessProviderRole: false,
+      hasEnergySupplierRole: true,
+      isEnergySupplierResponsible: true,
+    });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should hide all actions for non-responsible EnergySupplier', async () => {
+    await setup({
+      hasGridAccessProviderRole: false,
+      hasEnergySupplierRole: true,
+      isEnergySupplierResponsible: false,
+    });
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
+    expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
+  });
+
+  it('should not show FAS warning text for non-responsible EnergySupplier even if FAS', async () => {
+    await setup({
+      isFas: true,
+      hasGridAccessProviderRole: false,
+      hasEnergySupplierRole: true,
+      isEnergySupplierResponsible: false,
+    });
+    expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
+    await setup({
+      hasGridAccessProviderRole: true,
+      hasEnergySupplierRole: false,
+      isEnergySupplierResponsible: false,
+    });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
   });
 });

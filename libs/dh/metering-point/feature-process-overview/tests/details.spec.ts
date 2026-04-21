@@ -34,14 +34,23 @@ import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
 async function setup(
   processId = 'process-eos-cancel',
-  permissionOverrides: { isFas?: boolean } = {}
+  overrides: {
+    isFas?: boolean;
+    hasEnergySupplierRole?: boolean;
+    isEnergySupplierResponsible?: boolean;
+  } = {}
 ) {
-  const { isFas = false } = permissionOverrides;
+  const {
+    isFas = false,
+    hasEnergySupplierRole = false,
+    isEnergySupplierResponsible = false,
+  } = overrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -54,7 +63,10 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasMarketRole: () => of(true),
+          hasMarketRole: (role: EicFunction) => {
+            if (role === EicFunction.EnergySupplier) return of(hasEnergySupplierRole);
+            return of(true);
+          },
           hasPermission: () => of(true),
         },
       },
@@ -64,6 +76,7 @@ async function setup(
       id: processId,
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-123',
+      isEnergySupplierResponsible,
     },
   });
 
@@ -198,5 +211,25 @@ describe('Process overview details', () => {
     actionButtons.forEach((button) => {
       expect((button as HTMLButtonElement).disabled).toBe(true);
     });
+  });
+
+  it('should hide all action buttons for non-responsible EnergySupplier', async () => {
+    await setup('process-eos-cancel', {
+      hasEnergySupplierRole: true,
+      isEnergySupplierResponsible: false,
+    });
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
+  });
+
+  it('should show action buttons for responsible EnergySupplier', async () => {
+    await setup('process-eos-cancel', {
+      hasEnergySupplierRole: true,
+      isEnergySupplierResponsible: true,
+    });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
   });
 });
