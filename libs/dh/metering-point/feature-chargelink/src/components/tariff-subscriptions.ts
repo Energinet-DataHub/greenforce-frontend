@@ -16,19 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
 import { RouterOutlet } from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
 
+import { VATER } from '@energinet/watt/vater';
+import { WATT_TABLE, dataSource, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
-import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -44,8 +45,7 @@ import {
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkOverview } from '../types';
-import DhChargeLinkDetails from './details';
-import { VATER } from '@energinet/watt/vater';
+import { DhChargeLinkDetails } from './details';
 
 const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== ChargeType.Fee);
 

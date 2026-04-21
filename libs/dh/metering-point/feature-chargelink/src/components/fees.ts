@@ -17,24 +17,23 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
 import { RouterOutlet } from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet/watt/core/date';
-import { WattDataTableComponent } from '@energinet/watt/data';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { VATER } from '@energinet/watt/vater';
+import { WATT_TABLE, dataSource, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDatePipe } from '@energinet/watt/core/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   ChargeType,
   GetChargeLinkOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkOverview } from '../types';
-import DhChargeLinkDetails from './details';
+import { DhChargeLinkDetails } from './details';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',

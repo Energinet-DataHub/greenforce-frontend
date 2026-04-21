@@ -17,21 +17,21 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { VATER } from '@energinet/watt/vater';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattIconComponent } from '@energinet/watt/icon';
+import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_MENU } from '@energinet/watt/menu';
-import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
+import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDatePipe } from '@energinet/watt/core/date';
+import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { ChargeLinkOverview } from '../types';
-import { WattHeadingComponent } from '@energinet/watt/heading';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +40,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     RouterLink,
     RouterOutlet,
     TranslocoDirective,
+    VATER,
     WATT_DRAWER,
     WATT_DESCRIPTION_LIST,
     WATT_MENU,
@@ -47,8 +48,6 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     WattButtonComponent,
     WattIconComponent,
     WattHeadingComponent,
-    VaterStackComponent,
-    VaterUtilityDirective,
     DhPermissionRequiredDirective,
   ],
 
@@ -129,7 +128,7 @@ import { WattHeadingComponent } from '@energinet/watt/heading';
     </watt-drawer>
   `,
 })
-export default class DhChargeLinkDetails {
+export class DhChargeLinkDetails {
   readonly item = model<ChargeLinkOverview>();
   readonly chargeType = computed(() => this.item()?.charge?.type);
 
