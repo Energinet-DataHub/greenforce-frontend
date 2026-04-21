@@ -194,8 +194,9 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
   value = toSignal(this.form.valueChanges);
 
   formValueChanged = toObservable(
-    computed<ElectricalHeatingFormValue>(() => {
+    computed<ElectricalHeatingFormValue | null>(() => {
       const value = this.value();
+      if (this.form.invalid) return null;
 
       return {
         addressEligibilityDate: value?.addressEligibilityDate ?? null,

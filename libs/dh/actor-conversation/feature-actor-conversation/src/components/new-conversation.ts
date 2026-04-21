@@ -27,7 +27,13 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { FormGroup, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -47,6 +53,7 @@ import {
   dhMeteringPointIdValidator,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -62,7 +69,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhActorConversationMessageForm } from './message-form';
@@ -233,7 +240,9 @@ export class DhActorConversationNewConversation {
     () => this.newConversationForm().controls.reducedElectricityTax
   );
 
-  private readonly electricalHeatingAttachmentsValidator: ValidatorFn = (control) =>
+  private readonly electricalHeatingAttachmentsValidator: ValidatorFn = (
+    control: AbstractControl<MessageFormValue>
+  ) =>
     (control.value?.files?.length ?? 0) >= 2
       ? null
       : { electricalHeatingAttachmentsRequired: true };
@@ -244,6 +253,11 @@ export class DhActorConversationNewConversation {
   uploading = signal(false);
   uploadError = signal(false);
   startConversationMutation = mutation(StartConversationDocument);
+  toast = injectToast('meteringPoint.actorConversation.newConversation.toast', [
+    MutationStatus.Loading,
+    MutationStatus.Resolved,
+  ]);
+  toastEffect = effect(() => this.toast(this.startConversationMutation.status()));
 
   electricalHeatingInformation = computed(
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
@@ -302,8 +316,7 @@ export class DhActorConversationNewConversation {
         reducedElectricityTax: dhMakeFormControl<boolean>(false),
         electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
         message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
-          (control) =>
-            control.value.content || control.value.files?.length ? null : { required: true },
+          (control) => (control.value.content ? null : { required: true }),
           Validators.maxLength(messageMaxLength),
         ]),
       })
@@ -318,13 +331,6 @@ export class DhActorConversationNewConversation {
     () => this.newConversationForm().controls.energySupplierDate,
     Validators.required,
     () => this.receiverValue() === MarketRole.EnergySupplier,
-    { reset: true }
-  );
-
-  private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
-    () => this.newConversationForm().controls.electricalHeating,
-    Validators.required,
-    () => this.shouldShowElectricalHeatingForm(),
     { reset: true }
   );
 
