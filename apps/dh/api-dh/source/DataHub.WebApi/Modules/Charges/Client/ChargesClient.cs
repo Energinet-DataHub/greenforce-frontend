@@ -253,6 +253,7 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
         var chargeLinks = result.Data ?? [];
         return await chargeLinks
             .ToAsyncEnumerable()
