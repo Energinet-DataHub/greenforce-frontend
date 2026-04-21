@@ -19,7 +19,7 @@ using HotChocolate.Authorization;
 using NodaTime;
 using NodaTime.Extensions;
 
-namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.Charges;
+namespace Energinet.DataHub.WebApi.Modules.Charges;
 
 [ObjectType<ChargeLinkOverviewItem>]
 public static partial class ChargeLinkOverviewItemNode
