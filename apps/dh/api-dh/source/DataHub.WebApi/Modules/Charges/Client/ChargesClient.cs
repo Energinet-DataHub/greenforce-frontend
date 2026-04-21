@@ -255,14 +255,13 @@ public class ChargesClient(
         var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
         if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
         var chargeLinks = result.Data ?? [];
-        return await chargeLinks
-            .ToAsyncEnumerable()
-            .Select(async (cl, ct) => (chargeLink: cl, charge: await GetChargeByIdAsync(cl.ChargeIdentifier, ct)))
-            .SelectMany(x =>
-                x.charge is null
-                    ? []
-                    : x.chargeLink.ChargeLinkPeriods.Select(p => new ChargeLinkOverviewItem(meteringPointId, p, x.charge)))
-            .ToListAsync(ct);
+        var distinctChargeIds = chargeLinks.Select(cl => cl.ChargeIdentifier).Distinct();
+        var charges = await Task.WhenAll(distinctChargeIds.Select(id => GetChargeByIdAsync(id, ct)));
+        var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
+        return chargeLinks
+            .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
+            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
+                new ChargeLinkOverviewItem(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
     }
 
     private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
