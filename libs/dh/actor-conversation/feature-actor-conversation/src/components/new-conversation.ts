@@ -316,7 +316,8 @@ export class DhActorConversationNewConversation {
         reducedElectricityTax: dhMakeFormControl<boolean>(false),
         electricalHeating: dhMakeFormControl<ElectricalHeatingFormValue | null>(null),
         message: dhMakeFormControl<MessageFormValue>({ content: '', anonymous: false, files: [] }, [
-          (control) => (control.value.content ? null : { required: true }),
+          (control) =>
+            control.value.content || control.value.files?.length ? null : { required: true },
           Validators.maxLength(messageMaxLength),
         ]),
       })
