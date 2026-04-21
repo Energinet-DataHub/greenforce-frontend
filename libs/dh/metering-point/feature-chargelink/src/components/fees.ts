@@ -17,7 +17,6 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
@@ -40,7 +39,6 @@ import { DhChargeLinkDetails } from './details';
   selector: 'dh-metering-point-charge-links-fees',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    RouterOutlet,
     TranslocoDirective,
     VATER,
     WATT_TABLE,
