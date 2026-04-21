@@ -151,6 +151,10 @@ import {
             } @else {
               <dh-private-customer-details
                 [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+                [meteringPointId]="meteringPointId()"
+                [contactId1]="legalCustomerId()"
+                [contactId2]="secondaryCustomerId()"
+                [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
               />
             }
           }
@@ -254,6 +258,8 @@ export class DhUpdateCustomerDataComponent {
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
+  legalCustomerId = computed(() => this.legalCustomer()?.id ?? null);
+  secondaryCustomerId = computed(() => this.secondaryCustomer()?.id ?? null);
   isLoading = computed(
     () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
@@ -283,12 +289,12 @@ export class DhUpdateCustomerDataComponent {
             this.legalCustomer()?.name ?? '',
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cpr1: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          cpr1: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer() ? [dhCprValidator()] : []
           ),
           customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
+          cpr2: dhMakeFormControl<string | null>(null, !this.isBusinessCustomer() ? [dhCprValidator()] : []),
           nameProtection: dhMakeFormControl<boolean>(
             this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),

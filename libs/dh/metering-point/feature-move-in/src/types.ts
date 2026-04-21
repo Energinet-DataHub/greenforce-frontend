@@ -78,9 +78,9 @@ export type AddressGroup = {
 
 export type PrivateCustomerFormGroup = {
   customerName1: FormControl<string>;
-  cpr1: FormControl<string>;
+  cpr1: FormControl<string | null>;
   customerName2: FormControl<string>;
-  cpr2: FormControl<string>;
+  cpr2: FormControl<string | null>;
   nameProtection: FormControl<boolean>;
 };
 

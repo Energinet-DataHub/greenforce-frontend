@@ -1385,7 +1385,8 @@
           "allOnes": "Can not be used"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
-        "nameProtection": "Name protection"
+        "nameProtection": "Name protection",
+        "changeCpr": "Change CPR"
       },
       "contactDetails": {
         "label": "Contact details",

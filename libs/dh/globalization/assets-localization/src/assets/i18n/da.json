@@ -1385,7 +1385,8 @@
           "allOnes": "Må ikke bruges"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
-        "nameProtection": "Navnebeskyttelse"
+        "nameProtection": "Navnebeskyttelse",
+        "changeCpr": "Ændr CPR"
       },
       "contactDetails": {
         "label": "Kontakdetaljer",
