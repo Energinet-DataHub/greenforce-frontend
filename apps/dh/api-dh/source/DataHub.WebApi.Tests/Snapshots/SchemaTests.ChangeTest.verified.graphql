@@ -360,6 +360,7 @@ type ChargeOverviewEdge {
 type ChargeOverviewItem {
   charge: Charge!
   period: DateRange!
+  name: String!
 }
 
 type ChargePeriod {

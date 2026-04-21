@@ -117,7 +117,7 @@ export class DhCharges {
   columns: WattTableColumnDef<ChargeOverviewItem> = {
     type: { accessor: (item) => item.charge.type },
     code: { accessor: (item) => item.charge.code },
-    name: { accessor: (item) => item.charge.name },
+    name: { accessor: (item) => item.name },
     owner: { accessor: (item) => item.charge.owner?.displayName, sort: false },
     period: { accessor: 'period' },
   };
