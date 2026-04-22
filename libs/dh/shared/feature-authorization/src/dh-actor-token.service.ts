@@ -28,10 +28,12 @@ import {
 import { tapResponse } from '@ngrx/operators';
 import { MsalService } from '@azure/msal-angular';
 import { map, Observable, ReplaySubject, switchMap, tap } from 'rxjs';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import {
+  DhApplicationInsights,
+  DhSeverityLevel,
+} from '@energinet-datahub/dh/shared/util-application-insights';
 import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 import { DhActorStorage } from './dh-actor-storage';
@@ -118,12 +120,12 @@ export class DhActorTokenService {
                         const errorString = JSON.stringify(error);
                         this.appInsights.trackException(
                           new Error(`Unknown error: ${errorString}`),
-                          SeverityLevel.Error
+                          DhSeverityLevel.Error
                         );
                       } catch {
                         this.appInsights.trackException(
                           new Error('Unknown error: Could not stringify error object'),
-                          SeverityLevel.Error
+                          DhSeverityLevel.Error
                         );
                       }
                     }
@@ -199,7 +201,7 @@ export class DhActorTokenService {
     ) {
       this.appInsights.trackEvent('A non-DataHub user tries to login with MitID Private');
     } else {
-      this.appInsights.trackException(error, SeverityLevel.Error);
+      this.appInsights.trackException(error, DhSeverityLevel.Error);
     }
   }
 }

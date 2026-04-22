@@ -18,8 +18,10 @@
 //#endregion
 import { inject, Injectable } from '@angular/core';
 import { onError } from '@apollo/client/link/error';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import {
+  DhApplicationInsights,
+  DhSeverityLevel,
+} from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Injectable({ providedIn: 'root' })
 export class DhErrorLink {
@@ -30,7 +32,7 @@ export class DhErrorLink {
         graphQLErrors.forEach(({ message, extensions }) => {
           this.appInsights.trackException(
             new Error((extensions?.['details'] as string) ?? message),
-            SeverityLevel.Error
+            DhSeverityLevel.Error
           );
         });
       }
@@ -41,7 +43,7 @@ export class DhErrorLink {
           new Error(
             `GraphQL network error for ${operation.operationName}: ${networkError.message} (status: ${status})`
           ),
-          SeverityLevel.Critical
+          DhSeverityLevel.Critical
         );
       }
     });

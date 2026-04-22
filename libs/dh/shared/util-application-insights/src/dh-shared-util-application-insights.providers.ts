@@ -17,14 +17,12 @@
  */
 //#endregion
 import { ErrorHandler, makeEnvironmentProviders } from '@angular/core';
-import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsInitializer } from './dh-application-insights.initializer';
+import { DhApplicationInsightsErrorHandler } from './dh-application-insights-error-handler';
 
 export const applicationInsightsProviders = makeEnvironmentProviders([
+  DhApplicationInsightsErrorHandler,
+  { provide: ErrorHandler, useExisting: DhApplicationInsightsErrorHandler },
   applicationInsightsInitializer,
-  {
-    provide: ErrorHandler,
-    useClass: ApplicationinsightsAngularpluginErrorService,
-  },
 ]);
