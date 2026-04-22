@@ -96,4 +96,11 @@ public interface IChargesClient
         DateTimeOffset end,
         List<ChargePointV2> points,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Query charge link overview items (charge links flattened by period).
+    /// </summary>
+    Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+        string meteringPointId,
+        CancellationToken ct = default);
 }

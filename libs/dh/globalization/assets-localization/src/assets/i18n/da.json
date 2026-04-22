@@ -913,6 +913,7 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "showClosed": "Vis lukkede",
       "shared": {
         "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Periode",
         "columns": {
           "submittedAt": "Indsendt",
           "description": "Beskrivelse"

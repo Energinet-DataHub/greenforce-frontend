@@ -25,6 +25,7 @@ import {
   mockGetChargeSeriesQuery,
   mockGetChargeByTypeQuery,
   mockGetChargeLinkHistoryQuery,
+  mockGetChargeLinkOverviewQuery,
   mockGetChargeLinksByMeteringPointIdQuery,
   mockStopChargeLinkMutation,
   mockCancelChargeLinkMutation,
@@ -35,6 +36,7 @@ import {
   Charge,
   ChargeType,
   ChargeLink,
+  ChargeLinkOverviewItem,
   ChargeSeriesPoint,
   ChargeStatus,
   ChargeResolution,
@@ -389,6 +391,17 @@ const chargeLinks: ChargeLink[] = [
   },
 ];
 
+const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = chargeLinks
+  .filter((cl): cl is ChargeLink & { charge: Charge } => cl.charge != null)
+  .map((cl) => ({
+    __typename: 'ChargeLinkOverviewItem' as const,
+    chargeLinkId: cl.id,
+    amount: cl.amount,
+    period: cl.period.interval,
+    closed: cl.period.interval.end !== null && cl.period.interval.end < new Date(),
+    charge: cl.charge,
+  }));
+
 const makeChargeSeriesListMock = (
   interval: WattRange<Date>,
   resolution: ChargeResolution
@@ -501,6 +514,19 @@ function getChargeSeries() {
   });
 }
 
+function getChargeLinkOverview() {
+  return mockGetChargeLinkOverviewQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeLinkOverview: chargeLinkOverviewItems,
+      },
+    });
+  });
+}
+
 function getChargesByMeteringPointId() {
   return mockGetChargeLinksByMeteringPointIdQuery(async () => {
     await delay(mswConfig.delay);
@@ -602,6 +628,7 @@ export function chargesMocks() {
     cancelChargeLink(),
     getChargesByType(),
     getChargeLinkById(),
+    getChargeLinkOverview(),
     getChargesByMeteringPointId(),
   ];
 }
