@@ -360,7 +360,6 @@ type ChargeOverviewEdge {
 type ChargeOverviewItem {
   charge: Charge!
   period: DateRange!
-  name: String!
 }
 
 type ChargePeriod {
@@ -509,10 +508,6 @@ type DeactivateUserRolePayload {
 }
 
 type DeleteAllEventSourcingDataPayload {
-  boolean: Boolean
-}
-
-type DisconnectMeteringPointPayload {
   boolean: Boolean
 }
 
@@ -1258,7 +1253,6 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
-  disconnectMeteringPoint(input: DisconnectMeteringPointInput!): DisconnectMeteringPointPayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
@@ -2234,12 +2228,6 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
-}
-
-input DisconnectMeteringPointInput {
-  meteringPointId: String!
-  processId: UUID!
-  validityDate: DateTime!
 }
 
 input DismissAllNotificationsInput {
