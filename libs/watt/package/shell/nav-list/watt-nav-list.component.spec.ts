@@ -19,8 +19,6 @@
 import { render, screen } from '@testing-library/angular';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { MatExpansionPanelHarness } from '@angular/material/expansion/testing';
-import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 
 import { WattNavListComponent } from './watt-nav-list.component';
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
@@ -278,23 +276,22 @@ describe(WattNavListComponent, () => {
         }
       );
 
-      const loader = TestbedHarnessEnvironment.loader(view.fixture);
-      const expansionPanel = await loader.getHarness(MatExpansionPanelHarness);
-
       const activeClass = 'active';
       const topPageLink = await screen.findByRole('link', {
         name: /top page/i,
       });
+      const header = await screen.findByRole('button', { name: /title/i });
       const findSubPageLink = () =>
         screen.findByRole('link', {
           name: /sub page/i,
         });
 
-      expect(await expansionPanel.isExpanded()).toBeFalsy();
+      expect(header.getAttribute('aria-expanded')).toBe('false');
+      expect(screen.queryByRole('link', { name: /sub page/i })).toBeNull();
 
       await view.navigate('/sub-page');
 
-      expect(await expansionPanel.isExpanded()).toBeTruthy();
+      expect(header.getAttribute('aria-expanded')).toBe('true');
 
       const subPageLink = await findSubPageLink();
 
@@ -304,7 +301,7 @@ describe(WattNavListComponent, () => {
       await view.navigate(topPageLink);
 
       expect(subPageLink).not.toHaveClass(activeClass);
-      expect(await expansionPanel.isExpanded()).toBeTruthy();
+      expect(header.getAttribute('aria-expanded')).toBe('true');
     });
   });
 });
