@@ -62,7 +62,7 @@ import { DhChargeLinkDetails } from './details';
         [columns]="columns"
         [loading]="chargeLinks.loading()"
         [resolveHeader]="resolveHeader"
-        [activeRow]="selected() ?? undefined"
+        [activeRow]="selected()"
         (rowClick)="selected.set($event)"
       >
         <ng-container *wattTableCell="columns.type; let element">

@@ -98,7 +98,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
         [columns]="columns"
         [loading]="chargeLinks.loading()"
         [resolveHeader]="resolveHeader"
-        [activeRow]="selected() ?? undefined"
+        [activeRow]="selected()"
         (rowClick)="selected.set($event)"
       >
         <ng-container *wattTableCell="columns.type; let element">
