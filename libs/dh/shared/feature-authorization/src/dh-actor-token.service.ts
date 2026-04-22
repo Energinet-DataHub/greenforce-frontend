@@ -108,7 +108,7 @@ export class DhActorTokenService {
                   }
                 },
                 // Error callback called for every failed request to the token endpoint
-                error: (error) => {
+                error: async (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     if (error instanceof Error) {
@@ -128,10 +128,9 @@ export class DhActorTokenService {
                       }
                     }
 
-                    this.appInsights.flush();
+                    await this.appInsights.flush();
 
-                    // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
+                    this.msalService.instance.logoutRedirect();
 
                     this.logoutInProgress = true;
                   }
