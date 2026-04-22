@@ -69,6 +69,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
           <vater-stack direction="row" justify="space-between" gap="m">
             <watt-slide-toggle
               [formControl]="formGroup.controls.addressSameAsInstallation"
+              size="small"
               class="watt-space-stack-m"
               data-testid="address-same-as-installation"
             >
