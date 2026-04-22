@@ -100,8 +100,8 @@ describe('applicationInsightsProviders', () => {
     const delegate = { handleError: vi.fn() };
     wrapper.adopt(delegate);
 
-    expect((delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length).toBeLessThanOrEqual(
-      50
-    );
+    expect(
+      (delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length
+    ).toBeLessThanOrEqual(50);
   });
 });

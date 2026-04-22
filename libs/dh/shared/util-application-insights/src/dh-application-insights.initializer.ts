@@ -27,9 +27,8 @@ export const applicationInsightsInitializer = provideAppInitializer(async () => 
 
   try {
     await appInsights.init();
-    const { ApplicationinsightsAngularpluginErrorService } = await import(
-      '@microsoft/applicationinsights-angularplugin-js'
-    );
+    const { ApplicationinsightsAngularpluginErrorService } =
+      await import('@microsoft/applicationinsights-angularplugin-js');
     errorHandler.adopt(new ApplicationinsightsAngularpluginErrorService());
   } catch (error) {
     // If loading the SDK fails, fall back to Angular's default ErrorHandler so
