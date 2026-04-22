@@ -62,7 +62,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
       [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.addressDetails'"
     >
-      <vater-flex direction="row" align="center" justify="space-between" gap="xl">
+      <vater-flex direction="row" justify="space-between" gap="xl">
         <vater-flex>
           <h4>{{ t('label') }}</h4>
 
@@ -77,6 +77,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
             <watt-button
               variant="secondary"
+              size="small"
               [disabled]="disableClearButton()"
               (click)="clearFields.emit()"
             >
