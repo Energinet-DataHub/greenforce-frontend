@@ -103,4 +103,38 @@ public interface IChargesClient
     Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
         string meteringPointId,
         CancellationToken ct = default);
+
+    /// <summary>
+    /// Stops a charge link at a given date.
+    /// </summary>
+    Task<bool> StopChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Cancels a charge link by its id.
+    /// </summary>
+    Task<bool> CancelChargeLinkAsync(
+        ChargeLinkId id,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Edits a charge link.
+    /// </summary>
+    Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Creates a charge link.
+    /// </summary>
+    Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
 }
