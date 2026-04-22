@@ -17,7 +17,7 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { afterRenderEffect, Component, computed, input, output, viewChild } from '@angular/core';
+import { afterRenderEffect, Component, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
