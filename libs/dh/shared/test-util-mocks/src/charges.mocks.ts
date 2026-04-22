@@ -260,6 +260,8 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   },
 ];
 
+const charges = makeChargesMock();
+
 const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
   {
     __typename: 'ChargeLinkOverviewItem',
@@ -267,7 +269,7 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     amount: 100,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
-    charge: makeChargesMock()[0],
+    charge: charges[0],
   },
   {
     __typename: 'ChargeLinkOverviewItem',
@@ -275,7 +277,7 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     amount: 75,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
-    charge: makeChargesMock()[1],
+    charge: charges[1],
   },
   {
     __typename: 'ChargeLinkOverviewItem',
@@ -283,7 +285,7 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     amount: 50,
     period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
     closed: true,
-    charge: makeChargesMock()[2],
+    charge: charges[2],
   },
   {
     __typename: 'ChargeLinkOverviewItem',
@@ -291,7 +293,7 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
     closed: true,
-    charge: makeChargesMock()[3],
+    charge: charges[3],
   },
   {
     __typename: 'ChargeLinkOverviewItem',
@@ -299,7 +301,7 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
     closed: false,
-    charge: makeChargesMock()[4],
+    charge: charges[4],
   },
 ];
 
