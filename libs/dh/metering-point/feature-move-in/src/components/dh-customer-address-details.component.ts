@@ -75,7 +75,11 @@ import { WattButtonComponent } from '@energinet/watt/button';
               {{ t('addressSameAsMeteringPoint') }}
             </watt-slide-toggle>
 
-            <watt-button variant="secondary" [disabled]="disableClearButton()" (click)="clearFields.emit()">
+            <watt-button
+              variant="secondary"
+              [disabled]="disableClearButton()"
+              (click)="clearFields.emit()"
+            >
               {{ t('clearFields') }}
             </watt-button>
           </vater-stack>
