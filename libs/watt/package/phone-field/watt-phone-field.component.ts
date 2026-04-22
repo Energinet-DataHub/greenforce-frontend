@@ -41,8 +41,14 @@ import { MaskitoDirective } from '@maskito/angular';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
 import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
-import { isValidPhoneNumber, type CountryCode } from 'libphonenumber-js';
-import phoneMetadata from 'libphonenumber-js/min/metadata';
+import {
+  isValidPhoneNumber,
+  type CountryCode,
+  type MetadataJson,
+} from 'libphonenumber-js/core';
+import phoneMetadataJson from './phone-metadata.json';
+
+const phoneMetadata = phoneMetadataJson as unknown as MetadataJson;
 
 import { WattFlagComponent } from '@energinet/watt/icon/flags';
 import { WattFieldComponent, WattFieldErrorComponent } from '@energinet/watt/field';
@@ -57,7 +63,7 @@ type Contry = {
 function phoneValidator(countryCode: CountryCode): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (!control.value) return null;
-    const valid = isValidPhoneNumber(control.value, countryCode);
+    const valid = isValidPhoneNumber(control.value, countryCode, phoneMetadata);
     return valid ? null : { invalidPhone: true };
   };
 }
