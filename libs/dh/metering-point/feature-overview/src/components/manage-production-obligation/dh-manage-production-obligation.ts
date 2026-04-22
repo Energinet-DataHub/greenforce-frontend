@@ -68,6 +68,7 @@ import {
         <watt-radio-group
           [label]="t('changeToLabel')"
           [formControl]="form.controls.productionObligation"
+          readonly
         >
           <watt-radio [value]="true">{{ 'yes' | transloco }}</watt-radio>
           <watt-radio [value]="false">{{ 'no' | transloco }}</watt-radio>
