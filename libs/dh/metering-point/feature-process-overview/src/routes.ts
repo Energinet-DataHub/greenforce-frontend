@@ -27,11 +27,19 @@ import {
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+// The parent `:internalMeteringPointId` route resolves these values; we inherit
+// them here via `paramsInheritanceStrategy: 'always'`. Typed in one place so a
+// rename in the parent resolver fails type-checking instead of silently producing
+// undefined.
+interface InheritedRouteData {
+  meteringPointId: string;
+  searchMigratedMeteringPoints: boolean;
+}
+
 function isEnergySupplierResponsibleResolver(): ResolveFn<boolean> {
   return async (route) => {
     const actor = inject(DhActorStorage).getSelectedActor();
-    const meteringPointId = route.data['meteringPointId'] as string;
-    const searchMigratedMeteringPoints = route.data['searchMigratedMeteringPoints'] as boolean;
+    const { meteringPointId, searchMigratedMeteringPoints } = route.data as InheritedRouteData;
 
     const { data } = await query(GetMeteringPointByIdDocument, {
       fetchPolicy: 'cache-first',

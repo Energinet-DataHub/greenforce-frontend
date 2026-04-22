@@ -163,6 +163,11 @@ export class DhMeteringPointProcessOverviewDetails {
   // FAS-style buttons, since they have no legitimate relation to this metering point.
   protected readonly canShowActions = computed(() => !this.isNonResponsibleSupplier());
 
+  // FAS admins render the buttons but cannot click them (see `[disabled]`).
+  private readonly canPerformActions = computed(
+    () => this.canShowActions() && !this.isFas()
+  );
+
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
     returnPartialData: true,
@@ -190,7 +195,7 @@ export class DhMeteringPointProcessOverviewDetails {
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();
     if (!reason) return;
-    if (!this.canShowActions()) return;
+    if (!this.canPerformActions()) return;
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),
