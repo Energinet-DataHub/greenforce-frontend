@@ -71,11 +71,23 @@ watt-nav-list {
     }
 
     .watt-nav-list__body {
-      padding: 0;
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 200ms ease;
     }
 
-    .watt-nav-list__body[hidden] {
-      display: none;
+    .watt-nav-list__body--expanded {
+      grid-template-rows: 1fr;
+    }
+
+    .watt-nav-list__body-inner {
+      overflow: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .watt-nav-list__body {
+        transition: none;
+      }
     }
 
     watt-nav-list-item a {
