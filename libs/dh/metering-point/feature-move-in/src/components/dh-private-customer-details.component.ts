@@ -114,7 +114,7 @@ const MASKED_CPR = '●●●●●●●●●●';
           </watt-field-error>
         </watt-text-field>
       } @else {
-        <watt-text-field [label]="t('cpr')" [formControl]="maskedCpr2Control"/>
+        <watt-text-field [label]="t('cpr')" [formControl]="maskedCpr2Control" />
       }
       <ng-container *dhPermissionRequired="['cpr:view']">
         <vater-flex align="center" gap="s" class="watt-space-stack-m">
@@ -160,8 +160,12 @@ export class DhPrivateCustomerDetailsComponent {
   protected readonly maskedCpr1Control = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
   protected readonly maskedCpr2Control = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
-  protected readonly showCpr1 = computed(() => this.cprUnlocked1() && (this.cprLoaded1() || !this.contactId1()));
-  protected readonly showCpr2 = computed(() => this.cprUnlocked2() && (this.cprLoaded2() || !this.contactId2()));
+  protected readonly showCpr1 = computed(
+    () => this.cprUnlocked1() && (this.cprLoaded1() || !this.contactId1())
+  );
+  protected readonly showCpr2 = computed(
+    () => this.cprUnlocked2() && (this.cprLoaded2() || !this.contactId2())
+  );
 
   private readonly fillCpr1 = effect(() => {
     const cpr = this.cpr1Query.data()?.meteringPointContactCpr.result;
