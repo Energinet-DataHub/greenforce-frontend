@@ -39,6 +39,9 @@ libs/dh/shared/domain/src/generated/graphql
 # nested node_modules
 node_modules
 
+# Nx Cloud may drop task terminal output at the workspace root; keep it out of "QA fixes" auto-commits
+/terminalOutput
+
 # Cypress
 cypress.env.json
 

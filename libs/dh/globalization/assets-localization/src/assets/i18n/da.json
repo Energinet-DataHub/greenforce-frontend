@@ -913,6 +913,7 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "showClosed": "Vis lukkede",
       "shared": {
         "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Periode",
         "columns": {
           "submittedAt": "Indsendt",
           "description": "Beskrivelse"
@@ -1035,7 +1037,8 @@
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)"
+        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
+        "ServiceRequest": "Anmodning om serviceydelse (BRS-039)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1050,7 +1053,8 @@
         "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)",
         "ElectricalHeating": "Elvarme (D20)",
         "CustomerMoveOut": "Fraflytning (E66)",
-        "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)"
+        "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
+        "ServiceRequest": "Anmodning om serviceydelse (D22)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1210,6 +1214,8 @@
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_1": "Information om annullering af serviceydelse (RSM-025)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_2": "Information om annullering af serviceydelse (RSM-025)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_1": "Anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_2": "Afvisning af anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_3": "Information om målepunktsstamdata (RSM-022)",
