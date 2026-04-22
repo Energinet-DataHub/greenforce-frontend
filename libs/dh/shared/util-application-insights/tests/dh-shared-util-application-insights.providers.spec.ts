@@ -18,10 +18,10 @@
 //#endregion
 import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
-import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsProviders } from '../src/dh-shared-util-application-insights.providers';
 import { DhApplicationInsights } from '../src/dh-application-insights.service';
+import { DhApplicationInsightsErrorHandler } from '../src/dh-application-insights-error-handler';
 
 describe('applicationInsightsProviders', () => {
   it('Application Insights is not initialized when the Angular module is not imported', () => {
@@ -51,16 +51,29 @@ describe('applicationInsightsProviders', () => {
     expect(applicationInsights.init).toHaveBeenCalled();
   });
 
-  it(`provides ${ApplicationinsightsAngularpluginErrorService.name}`, () => {
+  it('provides a DhApplicationInsightsErrorHandler that delegates to the real handler once adopted', () => {
     // Arrange
     TestBed.configureTestingModule({
-      providers: [applicationInsightsProviders],
+      providers: [
+        applicationInsightsProviders,
+        {
+          provide: DhApplicationInsights,
+          useValue: { init: vi.fn() },
+        },
+      ],
     });
 
     // Act
     const errorHandler = TestBed.inject(ErrorHandler);
+    const wrapper = TestBed.inject(DhApplicationInsightsErrorHandler);
+    const delegate = { handleError: vi.fn() };
+    wrapper.adopt(delegate);
+    const err = new Error('boom');
+    errorHandler.handleError(err);
 
     // Assert
-    expect(errorHandler).toBeInstanceOf(ApplicationinsightsAngularpluginErrorService);
+    expect(errorHandler).toBeInstanceOf(DhApplicationInsightsErrorHandler);
+    expect(errorHandler).toBe(wrapper);
+    expect(delegate.handleError).toHaveBeenCalledWith(err);
   });
 });
