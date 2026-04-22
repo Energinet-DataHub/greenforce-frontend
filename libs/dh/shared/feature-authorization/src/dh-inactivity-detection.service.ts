@@ -112,13 +112,15 @@ export class DhInactivityDetectionService {
   }
 
   private async logout(state: ActivityState) {
-    this.appInsights.trackEvent(`User inactivity: ${ActivityState[state]}`);
-    await this.appInsights.flush();
+    try {
+      this.appInsights.trackEvent(`User inactivity: ${ActivityState[state]}`);
+      await this.appInsights.flush();
+    } finally {
+      const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
 
-    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
-
-    this.msal.logoutRedirect({
-      postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
-    });
+      this.msal.logoutRedirect({
+        postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
+      });
+    }
   }
 }

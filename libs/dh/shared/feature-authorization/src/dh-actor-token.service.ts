@@ -108,7 +108,7 @@ export class DhActorTokenService {
                   }
                 },
                 // Error callback called for every failed request to the token endpoint
-                error: async (error) => {
+                error: (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     if (error instanceof Error) {
@@ -128,11 +128,15 @@ export class DhActorTokenService {
                       }
                     }
 
-                    await this.appInsights.flush();
-
-                    this.msalService.instance.logoutRedirect();
-
                     this.logoutInProgress = true;
+
+                    const logout = () => this.msalService.instance.logoutRedirect();
+
+                    try {
+                      this.appInsights.flush()?.then(logout);
+                    } catch {
+                      logout();
+                    }
                   }
                 },
               }),
