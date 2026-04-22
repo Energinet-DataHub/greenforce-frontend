@@ -41,7 +41,7 @@ import {
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhUserRolesContainerComponent } from '@energinet-datahub/dh/admin/feature-user-roles';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -85,8 +85,11 @@ export class DhEditUserComponent {
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
   private navigation = inject(DhNavigationService);
-  private getUserQuery = lazyQuery(GetUserEditDocument);
   private editUserMutation = mutation(UpdateUserAndRolesDocument);
+  private getUserQuery = query(GetUserEditDocument, () => {
+    const id = this.id();
+    return id ? { variables: { id } } : { skip: true };
+  });
 
   private updateUserRoles: UpdateUserRoles | null = null;
 
@@ -110,10 +113,7 @@ export class DhEditUserComponent {
 
   constructor() {
     afterRenderEffect(() => {
-      const id = this.id();
-      if (!id) return;
-      this.getUserQuery.query({ variables: { id } });
-      this.modal().open();
+      if (this.id()) this.modal().open();
     });
 
     afterRenderEffect(() => {
