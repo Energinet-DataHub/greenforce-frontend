@@ -24,7 +24,6 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WattModalService } from '@energinet/watt/modal';
 
-import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -77,8 +76,12 @@ export class DhProfileAvatarComponent {
     return this.getAccount().username.charAt(0).toUpperCase();
   }
 
-  openProfileModal() {
+  async openProfileModal() {
     this.appInsights.trackEvent('Menu item: Open profile modal');
+
+    const { DhProfileModalComponent } = await import(
+      '@energinet-datahub/dh/profile/feature-profile-modal'
+    );
 
     this.modalService.open({
       component: DhProfileModalComponent,
