@@ -27,6 +27,7 @@ import {
   MsalBroadcastService,
 } from '@azure/msal-angular';
 import { FormGroupDirective } from '@angular/forms';
+import { provideHotToastConfig } from '@ngxpert/hot-toast';
 
 import { translocoProviders } from '@energinet-datahub/dh/globalization/configuration-localization';
 import { dhWattTranslationsProviders } from '@energinet-datahub/dh/globalization/configuration-watt-translation';
@@ -98,5 +99,6 @@ export const dhCoreShellProviders = [
   msalProviders,
   dhLanguageServiceInitializer,
   dhNewVersionManagerInitializer,
+  provideHotToastConfig(),
   highlightWorkerProvider,
 ];

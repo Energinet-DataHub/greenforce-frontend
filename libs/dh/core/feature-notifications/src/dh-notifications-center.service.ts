@@ -16,30 +16,26 @@
  * limitations under the License.
  */
 //#endregion
-import { createEnvironmentInjector, EnvironmentInjector, inject, Injectable } from '@angular/core';
-import type { HotToastService } from '@ngxpert/hot-toast';
+import { inject, Injectable } from '@angular/core';
+import { HotToastService } from '@ngxpert/hot-toast';
 
 import { WattColorHelperService } from '@energinet/watt/core/color';
 
 import { DhNotification } from './dh-notification';
+import { DhNotificationBannerComponent } from './dh-notification-banner.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DhNotificationsCenterService {
-  private readonly injector = inject(EnvironmentInjector);
+  private readonly hotToast = inject(HotToastService);
   private readonly colorService = inject(WattColorHelperService);
 
-  private hotToast: Promise<HotToastService> | null = null;
-
-  async showBanner(notification: DhNotification): Promise<void> {
-    const [hotToast, { DhNotificationBannerComponent }] = await Promise.all([
-      this.loadHotToast(),
-      import('./dh-notification-banner.component'),
-    ]);
-
-    hotToast.show<DhNotification>(DhNotificationBannerComponent, {
-      data: { ...notification },
+  showBanner(notification: DhNotification): void {
+    this.hotToast.show<DhNotification>(DhNotificationBannerComponent, {
+      data: {
+        ...notification,
+      },
       position: 'top-right',
       dismissible: true,
       autoClose: true,
@@ -54,20 +50,5 @@ export class DhNotificationsCenterService {
         top: '-10px',
       },
     });
-  }
-
-  private loadHotToast(): Promise<HotToastService> {
-    if (!this.hotToast) {
-      this.hotToast = (async () => {
-        const { HotToastService, provideHotToastConfig } = await import('@ngxpert/hot-toast');
-        const childInjector = createEnvironmentInjector(
-          [provideHotToastConfig()],
-          this.injector,
-          'HotToast'
-        );
-        return childInjector.get(HotToastService);
-      })();
-    }
-    return this.hotToast;
   }
 }
