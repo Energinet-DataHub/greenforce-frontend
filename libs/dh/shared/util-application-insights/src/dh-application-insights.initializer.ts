@@ -19,11 +19,16 @@
 import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhApplicationInsights } from './dh-application-insights.service';
+import { DhApplicationInsightsErrorHandler } from './dh-application-insights-error-handler';
 
-export const applicationInsightsInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    (applicationInsights: DhApplicationInsights) => async () =>
-      applicationInsights.init()
-  )(inject(DhApplicationInsights));
-  return initializerFn();
+export const applicationInsightsInitializer = provideAppInitializer(async () => {
+  const appInsights = inject(DhApplicationInsights);
+  const errorHandler = inject(DhApplicationInsightsErrorHandler);
+
+  await appInsights.init();
+
+  const { ApplicationinsightsAngularpluginErrorService } = await import(
+    '@microsoft/applicationinsights-angularplugin-js'
+  );
+  errorHandler.adopt(new ApplicationinsightsAngularpluginErrorService());
 });
