@@ -15,7 +15,6 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
@@ -273,7 +272,6 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var period = await GetChargeLinkPeriodAsync(id, ct);
-
         var result = await ediClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
@@ -290,7 +288,6 @@ public class ChargesClient(
     public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
     {
         var period = await GetChargeLinkPeriodAsync(id, ct);
-
         var result = await ediClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
@@ -346,8 +343,10 @@ public class ChargesClient(
     private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkId id, CancellationToken ct)
     {
         var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
-        var chargeLink = (result.Data ?? []).FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
-            ?? throw new InvalidOperationException($"Charge link with id {id} not found.");
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
+        var chargeLink = result.Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
+            ?? throw new GraphQLException($"Charge link with id {id} not found.");
+
         return chargeLink.ChargeLinkPeriods
             .OrderByDescending(p => p.From)
             .First();
