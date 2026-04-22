@@ -31,6 +31,8 @@ import { WattIconComponent } from '@energinet/watt/icon';
 
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
 
+let uniqueId = 0;
+
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -45,7 +47,9 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
         type="button"
         class="watt-nav-list__header"
         [class.watt-nav-list__header--expanded]="isExpanded()"
+        [id]="headerId"
         [attr.aria-expanded]="isExpanded()"
+        [attr.aria-controls]="bodyId"
         (click)="toggle()"
       >
         <span class="watt-text-m">{{ title() }}</span>
@@ -53,6 +57,9 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
       </button>
       <div
         class="watt-nav-list__body"
+        role="region"
+        [id]="bodyId"
+        [attr.aria-labelledby]="headerId"
         [class.watt-nav-list__body--expanded]="isExpanded()"
         [attr.hidden]="isExpanded() ? null : true"
       >
@@ -74,6 +81,11 @@ export class WattNavListComponent {
 
   expandable = input(false);
   title = input('');
+
+  /** @ignore */
+  readonly headerId = `watt-nav-list-header-${uniqueId++}`;
+  /** @ignore */
+  readonly bodyId = `watt-nav-list-body-${uniqueId++}`;
 
   private readonly expanded = signal(false);
 

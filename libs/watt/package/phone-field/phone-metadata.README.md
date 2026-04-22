@@ -50,3 +50,7 @@ A JSON object with three top-level keys:
 - `countries`: per-country validation rules, formatting patterns, and example numbers.
 
 Do not hand-edit this file. Always regenerate.
+
+## Compatibility
+
+The committed file currently uses `"version": 4`, which matches `libphonenumber-js@^1.10.0`. When bumping the `libphonenumber-js` dependency in `package.json`, regenerate the metadata and confirm the version key still matches what the installed `libphonenumber-js` expects. A mismatch will throw at runtime inside `isValidPhoneNumber`.

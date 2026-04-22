@@ -20,7 +20,10 @@ import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
 
 import { applicationInsightsProviders } from '../src/dh-shared-util-application-insights.providers';
-import { DhApplicationInsights } from '../src/dh-application-insights.service';
+import {
+  DhApplicationInsights,
+  DhSeverityLevel,
+} from '../src/dh-application-insights.service';
 import { DhApplicationInsightsErrorHandler } from '../src/dh-application-insights-error-handler';
 
 describe('applicationInsightsProviders', () => {
@@ -103,5 +106,17 @@ describe('applicationInsightsProviders', () => {
     expect(
       (delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length
     ).toBeLessThanOrEqual(50);
+  });
+
+  it('keeps DhSeverityLevel in sync with @microsoft/applicationinsights-web SeverityLevel', async () => {
+    const { SeverityLevel } = await import('@microsoft/applicationinsights-web');
+
+    for (const [key, value] of Object.entries(DhSeverityLevel)) {
+      expect((SeverityLevel as Record<string, number>)[key]).toBe(value);
+    }
+    for (const [key, value] of Object.entries(SeverityLevel)) {
+      if (typeof value !== 'number') continue;
+      expect((DhSeverityLevel as Record<string, number>)[key]).toBe(value);
+    }
   });
 });
