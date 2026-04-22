@@ -41,10 +41,7 @@ import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
 
-import {
-  AggregatedMeasurementsForMonth,
-  AggregatedMeasurementsByMonthQueryVariables,
-} from '../types';
+import { AggregatedMeasurementsForMonth } from '../types';
 
 // import { DhCircleComponent } from './circle.component';
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
