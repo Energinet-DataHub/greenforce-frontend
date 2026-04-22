@@ -76,4 +76,32 @@ describe('applicationInsightsProviders', () => {
     expect(errorHandler).toBe(wrapper);
     expect(delegate.handleError).toHaveBeenCalledWith(err);
   });
+
+  it('replays every buffered error through the adopted delegate, even if one throws', () => {
+    const wrapper = new DhApplicationInsightsErrorHandler();
+    const errors = [new Error('one'), new Error('two'), new Error('three')];
+    for (const err of errors) wrapper.handleError(err);
+
+    const delegate: ErrorHandler = {
+      handleError: vi.fn((e) => {
+        if (e === errors[0]) throw new Error('delegate boom');
+      }),
+    };
+    wrapper.adopt(delegate);
+
+    expect(delegate.handleError).toHaveBeenCalledTimes(3);
+    for (const err of errors) expect(delegate.handleError).toHaveBeenCalledWith(err);
+  });
+
+  it('caps the pre-adopt buffer so it cannot grow unbounded', () => {
+    const wrapper = new DhApplicationInsightsErrorHandler();
+    for (let i = 0; i < 200; i++) wrapper.handleError(new Error(`err-${i}`));
+
+    const delegate = { handleError: vi.fn() };
+    wrapper.adopt(delegate);
+
+    expect((delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length).toBeLessThanOrEqual(
+      50
+    );
+  });
 });

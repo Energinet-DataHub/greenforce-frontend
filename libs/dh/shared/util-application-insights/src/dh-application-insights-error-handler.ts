@@ -18,6 +18,10 @@
 //#endregion
 import { ErrorHandler, Injectable } from '@angular/core';
 
+// Cap prevents an unbounded buffer if adopt() is never called (e.g. the
+// dynamic import of @microsoft/applicationinsights-angularplugin-js fails).
+const MAX_BUFFER_SIZE = 50;
+
 /**
  * Delegates to ApplicationinsightsAngularpluginErrorService once the App Insights SDK
  * has been dynamically loaded. Errors raised before that happens are buffered and
@@ -36,13 +40,21 @@ export class DhApplicationInsightsErrorHandler implements ErrorHandler {
       this.delegate.handleError(error);
       return;
     }
-    this.buffer.push(error);
-    console.error(error);
+    if (this.buffer.length < MAX_BUFFER_SIZE) {
+      this.buffer.push(error);
+    }
   }
 
   adopt(delegate: ErrorHandler): void {
     this.delegate = delegate;
-    for (const err of this.buffer) delegate.handleError(err);
+    const queued = this.buffer;
     this.buffer = [];
+    for (const err of queued) {
+      try {
+        delegate.handleError(err);
+      } catch {
+        // Swallow so one throwing delegate call does not prevent draining the rest.
+      }
+    }
   }
 }
