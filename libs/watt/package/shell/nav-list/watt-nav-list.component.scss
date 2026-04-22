@@ -15,6 +15,7 @@
 
 watt-nav-list {
   background-color: var(--watt-sidenav-background-color);
+  display: block;
 
   watt-nav-list-item {
     display: block;
@@ -31,9 +32,6 @@ watt-nav-list {
 
     a:hover {
       transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
-    }
-
-    a:hover {
       background-color: var(--watt-nav-list-hover-background-color);
     }
 
@@ -43,37 +41,41 @@ watt-nav-list {
   }
 
   &.watt-nav-list--expandable {
-    .mat-expansion-panel {
-      background-color: var(--watt-sidenav-background-color);
-      margin: 0;
-      border-radius: 0;
+    .watt-nav-list__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      height: 40px;
+      padding-left: calc(var(--watt-space-xs) + var(--watt-space-s));
+      padding-right: var(--watt-space-s);
+      background: transparent;
+      border: 0;
+      border-radius: var(--watt-space-s);
+      color: var(--watt-color-neutral-white);
+      cursor: pointer;
+      text-align: left;
     }
 
-    .mat-expansion-panel-header.mat-expanded:hover,
-    .mat-expansion-panel:not(.mat-expanded)
-      .mat-expansion-panel-header:hover:not([aria-disabled="true"]) {
+    .watt-nav-list__header:hover {
       transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
       background-color: var(--watt-nav-list-hover-background-color);
     }
 
-    .mat-expansion-panel-header {
-      border-radius: var(--watt-space-s);
-      padding-left: calc(var(--watt-space-xs) + var(--watt-space-s));
-      height: 40px;
+    .watt-nav-list__chevron {
+      transition: transform 200ms ease;
     }
 
-    .mat-expansion-panel-header-title {
-      color: var(--watt-color-neutral-white);
+    .watt-nav-list__header--expanded .watt-nav-list__chevron {
+      transform: rotate(180deg);
     }
 
-    .mat-expansion-indicator::after {
-      color: var(--watt-color-neutral-white);
-      position: relative;
-      top: -3px;
-    }
-
-    .mat-expansion-panel-body {
+    .watt-nav-list__body {
       padding: 0;
+    }
+
+    .watt-nav-list__body[hidden] {
+      display: none;
     }
 
     watt-nav-list-item a {
