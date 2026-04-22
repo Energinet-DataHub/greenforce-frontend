@@ -27,8 +27,7 @@ export const applicationInsightsInitializer = provideAppInitializer(async () => 
 
   await appInsights.init();
 
-  const { ApplicationinsightsAngularpluginErrorService } = await import(
-    '@microsoft/applicationinsights-angularplugin-js'
-  );
+  const { ApplicationinsightsAngularpluginErrorService } =
+    await import('@microsoft/applicationinsights-angularplugin-js');
   errorHandler.adopt(new ApplicationinsightsAngularpluginErrorService());
 });

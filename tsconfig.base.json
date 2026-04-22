@@ -247,9 +247,7 @@
       ],
       "@energinet/watt/code": ["./libs/watt/package/code/index.ts"],
       "@energinet/watt/code/intl": ["./libs/watt/package/code/watt-code-intl.service.ts"],
-      "@energinet/watt/code/worker-token": [
-        "./libs/watt/package/code/watt-code.worker.token.ts"
-      ],
+      "@energinet/watt/code/worker-token": ["./libs/watt/package/code/watt-code.worker.token.ts"],
       "@energinet/watt/core/breakpoints": ["./libs/watt/package/core/breakpoints/index.ts"],
       "@energinet/watt/core/color": ["./libs/watt/package/core/color/index.ts"],
       "@energinet/watt/core/date": ["./libs/watt/package/core/date/index.ts"],

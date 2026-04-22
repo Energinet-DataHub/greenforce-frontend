@@ -41,11 +41,7 @@ import { MaskitoDirective } from '@maskito/angular';
 import { MatSelectChange, MatSelectModule } from '@angular/material/select';
 import { MASKITO_DEFAULT_OPTIONS, maskitoTransform } from '@maskito/core';
 import { maskitoPhoneOptionsGenerator } from '@maskito/phone';
-import {
-  isValidPhoneNumber,
-  type CountryCode,
-  type MetadataJson,
-} from 'libphonenumber-js/core';
+import { isValidPhoneNumber, type CountryCode, type MetadataJson } from 'libphonenumber-js/core';
 import phoneMetadataJson from './phone-metadata.json';
 
 const phoneMetadata = phoneMetadataJson as unknown as MetadataJson;

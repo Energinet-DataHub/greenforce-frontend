@@ -55,9 +55,8 @@ export class DhApplicationInsights {
       return;
     }
 
-    const { ApplicationInsights, DistributedTracingModes } = await import(
-      '@microsoft/applicationinsights-web'
-    );
+    const { ApplicationInsights, DistributedTracingModes } =
+      await import('@microsoft/applicationinsights-web');
     const { AngularPlugin } = await import('@microsoft/applicationinsights-angularplugin-js');
 
     this.angularPlugin = new AngularPlugin();
