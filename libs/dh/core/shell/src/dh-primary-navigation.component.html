@@ -70,7 +70,9 @@ limitations under the License.
       >{{ transloco("wholesale.calculations") }}</watt-nav-list-item
     >
 
-    <watt-nav-list-item *dhPermissionRequired="['esett-exchange:manage']" [link]="getLink('esett')"
+    <watt-nav-list-item
+      *dhPermissionRequired="['esett-exchange:manage']"
+      [link]="getLink('esett')"
       >{{ transloco("eSett") }}</watt-nav-list-item
     >
   </watt-nav-list>
