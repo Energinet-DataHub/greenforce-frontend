@@ -194,7 +194,7 @@ export class DhMeasurementsYearComponent {
 
   values = toSignal(
     this.form.valueChanges.pipe(
-      debounceTime(500),
+      debounceTime(300),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),
