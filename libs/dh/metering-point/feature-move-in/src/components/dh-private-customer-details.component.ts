@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal, untracked } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterFlexComponent } from '@energinet/watt/vater';
@@ -29,7 +30,7 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { PrivateCustomerFormGroup } from '../types';
 
@@ -42,6 +43,7 @@ const MASKED_CPR = '●●●●●●●●●●';
     WattTextFieldComponent,
     TranslocoDirective,
     WattFieldErrorComponent,
+    WattButtonComponent,
     WattCheckboxComponent,
     WattSpinnerComponent,
     VaterFlexComponent,
@@ -78,10 +80,10 @@ const MASKED_CPR = '●●●●●●●●●●';
         <watt-text-field [label]="t('cpr')" [formControl]="maskedCpr1Control" />
       }
       <ng-container *dhPermissionRequired="['cpr:view']">
-        <vater-flex align="start" gap="s" class="watt-space-stack-m">
-          <watt-checkbox [formControl]="cpr1CheckboxControl">
-            {{ t('changeCpr') }}
-          </watt-checkbox>
+        <vater-flex align="center" gap="s" class="watt-space-stack-m">
+          <watt-button variant="text" type="button" (click)="toggleCpr1()">
+            {{ t(showCpr1() ? 'hideCpr' : 'changeCpr') }}
+          </watt-button>
           @if (cpr1Loading()) {
             <watt-spinner [diameter]="18" />
           }
@@ -115,10 +117,10 @@ const MASKED_CPR = '●●●●●●●●●●';
         <watt-text-field [label]="t('cpr')" [formControl]="maskedCpr2Control"/>
       }
       <ng-container *dhPermissionRequired="['cpr:view']">
-        <vater-flex align="start" gap="s" class="watt-space-stack-m">
-          <watt-checkbox [formControl]="cpr2CheckboxControl">
-            {{ t('changeCpr') }}
-          </watt-checkbox>
+        <vater-flex align="center" gap="s" class="watt-space-stack-m">
+          <watt-button variant="text" type="button" (click)="toggleCpr2()">
+            {{ t(showCpr2() ? 'hideCpr' : 'changeCpr') }}
+          </watt-button>
           @if (cpr2Loading()) {
             <watt-spinner [diameter]="18" />
           }
@@ -142,6 +144,9 @@ export class DhPrivateCustomerDetailsComponent {
   contactId2 = input<string | null>(null);
   searchMigratedMeteringPoints = input.required<boolean>();
 
+  private readonly cprUnlocked1 = signal(false);
+  private readonly cprUnlocked2 = signal(false);
+
   private readonly cprLoaded1 = signal(false);
   private readonly cprLoaded2 = signal(false);
 
@@ -155,16 +160,8 @@ export class DhPrivateCustomerDetailsComponent {
   protected readonly maskedCpr1Control = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
   protected readonly maskedCpr2Control = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
-  /** Checkbox controls for unlocking CPR fields */
-  protected readonly cpr1CheckboxControl = dhMakeFormControl<boolean>({ value: false, disabled: false });
-  protected readonly cpr2CheckboxControl = dhMakeFormControl<boolean>({ value: false, disabled: false });
-
-  private readonly cpr1Checked = dhFormControlToSignal(this.cpr1CheckboxControl);
-  private readonly cpr2Checked = dhFormControlToSignal(this.cpr2CheckboxControl);
-
-  /** Show the real CPR field when the checkbox is checked AND either there is no contactId (new entry) or the CPR was loaded from the API */
-  protected readonly showCpr1 = computed(() => this.cpr1Checked() && (this.cprLoaded1() || !this.contactId1()));
-  protected readonly showCpr2 = computed(() => this.cpr2Checked() && (this.cprLoaded2() || !this.contactId2()));
+  protected readonly showCpr1 = computed(() => this.cprUnlocked1() && (this.cprLoaded1() || !this.contactId1()));
+  protected readonly showCpr2 = computed(() => this.cprUnlocked2() && (this.cprLoaded2() || !this.contactId2()));
 
   private readonly fillCpr1 = effect(() => {
     const cpr = this.cpr1Query.data()?.meteringPointContactCpr.result;
@@ -182,51 +179,43 @@ export class DhPrivateCustomerDetailsComponent {
     }
   });
 
-  private readonly handleCpr1Toggle = effect(() => {
-    const checked = this.cpr1Checked();
-    untracked(() => {
-      if (checked) {
-        this.loadCpr1();
-      } else {
-        this.privateCustomerFormGroup().controls.cpr1.setValue('');
-        this.cprLoaded1.set(false);
+  toggleCpr1(): void {
+    if (this.cprUnlocked1()) {
+      this.privateCustomerFormGroup().controls.cpr1.setValue('');
+      this.cprLoaded1.set(false);
+      this.cprUnlocked1.set(false);
+    } else {
+      this.cprUnlocked1.set(true);
+      const contactId = this.contactId1();
+      if (contactId) {
+        this.cpr1Query.query({
+          variables: {
+            meteringPointId: this.meteringPointId(),
+            contactId,
+            searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+          },
+        });
       }
-    });
-  });
-
-  private readonly handleCpr2Toggle = effect(() => {
-    const checked = this.cpr2Checked();
-    untracked(() => {
-      if (checked) {
-        this.loadCpr2();
-      } else {
-        this.privateCustomerFormGroup().controls.cpr2.setValue('');
-        this.cprLoaded2.set(false);
-      }
-    });
-  });
-
-  private loadCpr1(): void {
-    const contactId = this.contactId1();
-    if (!contactId) return; // showCpr1 computed handles the no-contactId case automatically
-    this.cpr1Query.query({
-      variables: {
-        meteringPointId: this.meteringPointId(),
-        contactId,
-        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      },
-    });
+    }
   }
 
-  private loadCpr2(): void {
-    const contactId = this.contactId2();
-    if (!contactId) return; // showCpr2 computed handles the no-contactId case automatically
-    this.cpr2Query.query({
-      variables: {
-        meteringPointId: this.meteringPointId(),
-        contactId,
-        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      },
-    });
+  toggleCpr2(): void {
+    if (this.cprUnlocked2()) {
+      this.privateCustomerFormGroup().controls.cpr2.setValue('');
+      this.cprLoaded2.set(false);
+      this.cprUnlocked2.set(false);
+    } else {
+      this.cprUnlocked2.set(true);
+      const contactId = this.contactId2();
+      if (contactId) {
+        this.cpr2Query.query({
+          variables: {
+            meteringPointId: this.meteringPointId(),
+            contactId,
+            searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+          },
+        });
+      }
+    }
   }
 }
