@@ -404,9 +404,21 @@ export class DhUpdateCustomerDataComponent {
 
     const values = this.form().getRawValue();
 
-    const { cpr1, cpr2, customerName1, customerName2, nameProtection } =
-      values.privateCustomerDetails;
-    const { companyName, cvr } = values.businessCustomerDetails;
+    const {
+      cpr1,
+      cpr2,
+      customerName1,
+      customerName2,
+      nameProtection: privateNameProtection,
+    } = values.privateCustomerDetails;
+    const {
+      companyName,
+      cvr,
+      nameProtection: businessNameProtection,
+    } = values.businessCustomerDetails;
+    const nameProtection = this.isBusinessCustomer()
+      ? businessNameProtection
+      : privateNameProtection;
     const legalContactDetails = values.legalContactDetails;
     const legalContactAddressDetails = values.legalContactAddressDetails;
     const technicalContactDetails = values.technicalContactDetails;
@@ -424,7 +436,7 @@ export class DhUpdateCustomerDataComponent {
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
           secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
           firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
+          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : undefined,
           firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
           protectedName: nameProtection,
           processId: this.processId(),
