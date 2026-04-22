@@ -19,7 +19,10 @@
 import { effect, EffectRef, Signal } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
-/** Creates an effect that resets a target control whenever a source signal changes. */
+/**
+ * Creates an effect that resets a target control on the initial effect run
+ * and whenever the source signal changes afterwards.
+ */
 export function dhResetControlOnChange<T>(
   source: Signal<T>,
   target: () => AbstractControl
