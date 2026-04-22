@@ -19,14 +19,14 @@
 import { Injectable, makeEnvironmentProviders, inject } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 
-import { WattDataIntlService } from '@energinet/watt/data';
-import { WattDropZoneIntlService } from '@energinet/watt/dropzone';
-import { WattFieldIntlService } from '@energinet/watt/field';
-import { WattPaginatorIntlService } from '@energinet/watt/paginator';
-import { WattClipboardIntlService } from '@energinet/watt/clipboard';
-import { WattPhoneFieldIntlService } from '@energinet/watt/phone-field';
-import { WattDatepickerIntlService } from '@energinet/watt/datepicker';
-import { WattCodeIntlService } from '@energinet/watt/code';
+import { WattDataIntlService } from '@energinet/watt/data/intl';
+import { WattDropZoneIntlService } from '@energinet/watt/dropzone/intl';
+import { WattFieldIntlService } from '@energinet/watt/field/intl';
+import { WattPaginatorIntlService } from '@energinet/watt/paginator/intl';
+import { WattClipboardIntlService } from '@energinet/watt/clipboard/intl';
+import { WattPhoneFieldIntlService } from '@energinet/watt/phone-field/intl';
+import { WattDatepickerIntlService } from '@energinet/watt/datepicker/intl';
+import { WattCodeIntlService } from '@energinet/watt/code/intl';
 
 @Injectable()
 export class DhWattCodeIntlService extends WattCodeIntlService {
