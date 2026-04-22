@@ -29,7 +29,7 @@ import {
   Resolution,
   GetAggregatedMeasurementsForMonthDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -176,7 +176,15 @@ export class DhMeasurementsMonthComponent {
   });
 
   meteringPointId = input.required<string>();
-  query = lazyQuery(GetAggregatedMeasurementsForMonthDocument);
+  query = query(GetAggregatedMeasurementsForMonthDocument, () => ({
+    variables: {
+      ...this.values(),
+      meteringPointId: this.meteringPointId(),
+      actorNumber: this.actor.getSelectedActor().gln,
+      marketRole: this.actor.getSelectedActor().marketRole,
+    },
+  }));
+
   Resolution = Resolution;
   Quality = Quality;
 
@@ -214,29 +222,14 @@ export class DhMeasurementsMonthComponent {
     effect(() => {
       this.dataSource.data = this.query.data()?.aggregatedMeasurementsForMonth ?? [];
     });
-
-    effect(() =>
-      this.query.refetch({
-        ...this.values(),
-        meteringPointId: this.meteringPointId(),
-        actorNumber: this.actor.getSelectedActor().gln,
-        marketRole: this.actor.getSelectedActor().marketRole,
-      })
-    );
   }
 
-  values = toSignal<AggregatedMeasurementsByMonthQueryVariables>(
+  values = toSignal(
     this.form.valueChanges.pipe(
-      debounceTime(500),
+      debounceTime(300),
       startWith(null),
       map(() => this.form.getRawValue()),
-      exists(),
-      map(
-        ({ yearMonth, showOnlyChangedValues }): AggregatedMeasurementsByMonthQueryVariables => ({
-          yearMonth,
-          showOnlyChangedValues,
-        })
-      )
+      exists()
     ),
     { requireSync: true }
   );
