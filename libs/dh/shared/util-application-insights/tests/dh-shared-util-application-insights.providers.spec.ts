@@ -20,10 +20,7 @@ import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
 
 import { applicationInsightsProviders } from '../src/dh-shared-util-application-insights.providers';
-import {
-  DhApplicationInsights,
-  DhSeverityLevel,
-} from '../src/dh-application-insights.service';
+import { DhApplicationInsights, DhSeverityLevel } from '../src/dh-application-insights.service';
 import { DhApplicationInsightsErrorHandler } from '../src/dh-application-insights-error-handler';
 
 describe('applicationInsightsProviders', () => {
