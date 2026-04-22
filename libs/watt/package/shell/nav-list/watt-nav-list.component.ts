@@ -61,9 +61,11 @@ let uniqueId = 0;
         [id]="bodyId"
         [attr.aria-labelledby]="headerId"
         [class.watt-nav-list__body--expanded]="isExpanded()"
-        [attr.hidden]="isExpanded() ? null : true"
+        [attr.inert]="isExpanded() ? null : true"
       >
-        <ng-container *ngTemplateOutlet="navListTemplate" />
+        <div class="watt-nav-list__body-inner">
+          <ng-container *ngTemplateOutlet="navListTemplate" />
+        </div>
       </div>
     } @else {
       <ng-container *ngTemplateOutlet="navListTemplate" />

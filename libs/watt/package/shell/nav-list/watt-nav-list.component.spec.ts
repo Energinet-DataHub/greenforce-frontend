@@ -286,12 +286,18 @@ describe(WattNavListComponent, () => {
           name: /sub page/i,
         });
 
+      const bodyId = header.getAttribute('aria-controls');
+      expect(bodyId).toBeTruthy();
+      const body = view.container.querySelector(`#${bodyId}`);
+      expect(body).not.toBeNull();
+
       expect(header.getAttribute('aria-expanded')).toBe('false');
-      expect(screen.queryByRole('link', { name: /sub page/i })).toBeNull();
+      expect(body?.hasAttribute('inert')).toBe(true);
 
       await view.navigate('/sub-page');
 
       expect(header.getAttribute('aria-expanded')).toBe('true');
+      expect(body?.hasAttribute('inert')).toBe(false);
 
       const subPageLink = await findSubPageLink();
 
