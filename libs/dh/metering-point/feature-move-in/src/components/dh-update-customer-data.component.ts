@@ -46,6 +46,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
@@ -342,7 +343,7 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  technicalAddressSameAsInstallation = dhFormControlToSignal(
+  readonly technicalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
   );
 
@@ -378,7 +379,7 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  legalAddressSameAsInstallation = dhFormControlToSignal(
+  readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
   );
 
@@ -456,22 +457,7 @@ export class DhUpdateCustomerDataComponent {
         ? this.form().controls.legalContactAddressDetails
         : this.form().controls.technicalContactAddressDetails;
 
-    formGroup.controls.addressSameAsInstallation.setValue(false);
-    formGroup.controls.addressGroup.enable();
-    formGroup.controls.addressGroup.patchValue({
-      streetName: null,
-      buildingNumber: null,
-      floor: null,
-      room: null,
-      postCode: null,
-      cityName: null,
-      countryCode: null,
-      streetCode: null,
-      citySubDivisionName: null,
-      postBox: null,
-      municipalityCode: null,
-      darReference: null,
-    });
+    clearAddressFields(formGroup);
   }
 
   cancel() {

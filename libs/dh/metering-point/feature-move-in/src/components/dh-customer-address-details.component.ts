@@ -196,7 +196,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 export class DhCustomerAddressDetailsComponent {
   addressDetailsFormGroup = input.required<FormGroup<AddressDetailsFormType>>();
   disableClearButton = input<boolean>(false);
-  clearFields = output();
+  clearFields = output<void>();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },
