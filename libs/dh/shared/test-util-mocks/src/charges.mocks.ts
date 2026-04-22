@@ -391,14 +391,16 @@ const chargeLinks: ChargeLink[] = [
   },
 ];
 
-const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = chargeLinks.map((cl) => ({
-  __typename: 'ChargeLinkOverviewItem' as const,
-  chargeLinkId: cl.id,
-  amount: cl.amount,
-  period: cl.period.interval,
-  closed: cl.period.interval.end !== null && cl.period.interval.end < new Date(),
-  charge: cl.charge!,
-}));
+const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = chargeLinks
+  .filter((cl): cl is ChargeLink & { charge: Charge } => cl.charge != null)
+  .map((cl) => ({
+    __typename: 'ChargeLinkOverviewItem' as const,
+    chargeLinkId: cl.id,
+    amount: cl.amount,
+    period: cl.period.interval,
+    closed: cl.period.interval.end !== null && cl.period.interval.end < new Date(),
+    charge: cl.charge,
+  }));
 
 const makeChargeSeriesListMock = (
   interval: WattRange<Date>,
