@@ -19,7 +19,7 @@
 import { inject } from '@angular/core';
 import { ResolveFn, Routes } from '@angular/router';
 
-import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DhActorStorage,
   PermissionGuard,
@@ -29,20 +29,18 @@ import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domai
 
 function isEnergySupplierResponsibleResolver(): ResolveFn<boolean> {
   return async (route) => {
-    const apollo = inject(DhApollo);
     const actor = inject(DhActorStorage).getSelectedActor();
     const meteringPointId = route.data['meteringPointId'] as string;
     const searchMigratedMeteringPoints = route.data['searchMigratedMeteringPoints'] as boolean;
 
-    const { data } = await apollo.client.query({
-      query: GetMeteringPointByIdDocument,
+    const { data } = await query(GetMeteringPointByIdDocument, {
       fetchPolicy: 'cache-first',
       variables: {
         meteringPointId,
         actorGln: actor.gln,
         searchMigratedMeteringPoints,
       },
-    });
+    }).result();
 
     return !!data?.meteringPoint?.isEnergySupplier;
   };

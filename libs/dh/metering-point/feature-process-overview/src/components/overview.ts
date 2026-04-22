@@ -38,7 +38,10 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
@@ -170,6 +173,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -177,22 +181,21 @@ export class DhMeteringPointProcessOverviewTable {
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
-  private readonly hasGridAccessProviderRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
-    { initialValue: false }
-  );
-  private readonly hasEnergySupplierRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
-    { initialValue: false }
-  );
+  // Market role comes from the currently selected actor, not from token claims,
+  // so it is known synchronously at component creation. This avoids a brief
+  // flicker where a non-responsible supplier would see action buttons before
+  // the token-based role signal resolves.
+  private readonly hasGridAccessProviderRole =
+    this.actor.marketRole === EicFunction.GridAccessProvider;
+  private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
   private readonly isNonResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole() && !this.isEnergySupplierResponsible()
+    () => this.hasEnergySupplierRole && !this.isEnergySupplierResponsible()
   );
 
   protected readonly canPerformActions = computed(() => {
     if (this.isNonResponsibleSupplier()) return false;
-    return this.hasGridAccessProviderRole() || this.hasEnergySupplierRole();
+    return this.hasGridAccessProviderRole || this.hasEnergySupplierRole;
   });
 
   // A non-responsible supplier sees nothing at all (not even the FAS-style

@@ -33,7 +33,10 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
@@ -42,13 +45,13 @@ async function setup(
   processId = 'process-eos-cancel',
   overrides: {
     isFas?: boolean;
-    hasEnergySupplierRole?: boolean;
+    actorMarketRole?: EicFunction;
     isEnergySupplierResponsible?: boolean;
   } = {}
 ) {
   const {
     isFas = false,
-    hasEnergySupplierRole = false,
+    actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
   } = overrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
@@ -63,11 +66,20 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasMarketRole: (role: EicFunction) => {
-            if (role === EicFunction.EnergySupplier) return of(hasEnergySupplierRole);
-            return of(true);
-          },
           hasPermission: () => of(true),
+        },
+      },
+      {
+        provide: DhActorStorage,
+        useValue: {
+          getSelectedActor: () => ({
+            id: 'actor-1',
+            gln: '1234567890123',
+            marketRole: actorMarketRole,
+            actorName: 'Test Actor',
+            organizationName: 'Test Org',
+            displayName: 'Test Actor Display',
+          }),
         },
       },
     ],
@@ -215,7 +227,7 @@ describe('Process overview details', () => {
 
   it('should hide all action buttons for non-responsible EnergySupplier', async () => {
     await setup('process-eos-cancel', {
-      hasEnergySupplierRole: true,
+      actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
@@ -225,7 +237,7 @@ describe('Process overview details', () => {
 
   it('should show action buttons for responsible EnergySupplier', async () => {
     await setup('process-eos-cancel', {
-      hasEnergySupplierRole: true,
+      actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
     });
     await waitForAsync(() =>

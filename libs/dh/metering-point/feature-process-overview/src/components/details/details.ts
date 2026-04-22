@@ -33,7 +33,10 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
@@ -143,15 +146,17 @@ export class DhMeteringPointProcessOverviewDetails {
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
-  private readonly hasEnergySupplierRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
-    { initialValue: false }
-  );
+  // Market role comes from the currently selected actor, not from token claims,
+  // so it is known synchronously at component creation. This avoids a brief
+  // flicker where a non-responsible supplier would see action buttons before
+  // the token-based role signal resolves.
+  private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
   private readonly isNonResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole() && !this.isEnergySupplierResponsible()
+    () => this.hasEnergySupplierRole && !this.isEnergySupplierResponsible()
   );
 
   // A non-responsible supplier sees no actions at all, not even the disabled
