@@ -156,7 +156,7 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
   });
 
   form = new FormGroup({
-    addressEligibilityDate: dhMakeFormControl<Date>(undefined, Validators.required),
+    addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
     periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
     periodEnd: dhMakeFormControl<Date | null>(null),
     attachedBbrNotification: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
