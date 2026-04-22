@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
   contentChildren,
@@ -42,6 +43,7 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgTemplateOutlet, MatStepperModule, WattIconComponent, WattButtonComponent],
   providers: [
     {

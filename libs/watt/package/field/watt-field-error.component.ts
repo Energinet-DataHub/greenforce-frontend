@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field-error',
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       watt-field-error {

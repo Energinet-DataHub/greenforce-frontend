@@ -60,7 +60,6 @@ import { WattIconComponent } from '@energinet/watt/icon';
   template: `
     <watt-drawer
       autoOpen
-      [loading]="query.loading()"
       size="small"
       [key]="id()"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
@@ -93,6 +92,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
             *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="columns"
+            [loading]="query.loading()"
             [dataSource]="dataSource"
           >
             <ng-container *wattTableCell="columns.submittedAt; let history">

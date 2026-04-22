@@ -16,7 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, contentChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  contentChildren,
+} from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -26,6 +31,7 @@ import { WattLinkTabComponent } from './watt-link-tab.component';
 @Component({
   selector: 'watt-link-tabs',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatTabsModule, RouterOutlet, RouterLink, RouterLinkActive, VaterFlexComponent],
   styles: `
     @use '@energinet/watt/utils' as watt;

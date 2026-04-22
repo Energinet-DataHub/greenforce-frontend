@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation, input, model, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ViewEncapsulation,
+  input,
+  model,
+  output,
+} from '@angular/core';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattFieldComponent } from '@energinet/watt/field';
 
@@ -24,6 +31,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
   selector: 'watt-file-field',
   imports: [WattButtonComponent, WattFieldComponent],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .watt-file-field-text {
       color: var(--watt-color-primary);

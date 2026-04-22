@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { input, model, output, Component, ViewEncapsulation } from '@angular/core';
+import {
+  input,
+  model,
+  output,
+  Component,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -29,6 +36,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
   selector: 'watt-date-chip',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       watt-date-chip {

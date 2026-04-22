@@ -17,7 +17,7 @@
  */
 //#endregion
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, input, viewChild } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
@@ -26,6 +26,7 @@ import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 @Component({
   imports: [WattIconComponent],
   selector: 'watt-search',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./watt-search.component.scss'],
   template: `
     <label>

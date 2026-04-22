@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-heading',
   encapsulation: ViewEncapsulation.None,
   template: `<ng-content />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       watt-drawer-heading {

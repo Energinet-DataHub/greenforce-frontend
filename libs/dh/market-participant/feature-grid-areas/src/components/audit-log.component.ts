@@ -23,8 +23,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
+  dataSource,
 } from '@energinet/watt/table';
 
 import { WattDatePipe } from '@energinet/watt/date';
@@ -60,7 +60,7 @@ type AuditLog = NonNullable<GridArea['auditLog']>[0];
     >
       <watt-table
         [columns]="columns"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         sortBy="timestamp"
         sortDirection="desc"
         [sortClear]="false"
@@ -120,11 +120,8 @@ export class DhGridAreaAuditLogComponent {
 
   auditLogs = computed(() => this.gridArea()?.auditLog ?? []);
 
-  dataSource = computed(
-    () =>
-      new WattTableDataSource<AuditLog>(
-        this.auditLogs().filter((x) => x.change !== GridAreaAuditedChange.Name)
-      )
+  dataSource = dataSource(() =>
+    this.auditLogs().filter((x) => x.change !== GridAreaAuditedChange.Name)
   );
 
   columns: WattTableColumnDef<AuditLog> = {

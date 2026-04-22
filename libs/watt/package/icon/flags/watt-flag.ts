@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { CountryCode } from 'libphonenumber-js';
 
 import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
@@ -33,6 +33,7 @@ import { WattFlagUnitedKingdomComponent } from './watt-flag-gb';
 
 @Component({
   selector: 'watt-flag',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     WattFlagDenmarkComponent,
     WattFlagFinlandComponent,

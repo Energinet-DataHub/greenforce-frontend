@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'watt-flag-de',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <svg viewBox="0 0 640 480">
       <path fill="#ffce00" d="M0 320h640v160H0z" />

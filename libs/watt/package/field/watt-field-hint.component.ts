@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'watt-field-hint',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {

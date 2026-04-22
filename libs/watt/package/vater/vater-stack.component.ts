@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import { VaterFlexboxDirective } from './vater-flexbox.directive';
 import { VaterLayoutDirective } from './vater-layout.directive';
 import { VaterUtilityDirective } from './vater-utility.directive';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'vater-stack, [vater-stack]',
   encapsulation: ViewEncapsulation.None,
   hostDirectives: [

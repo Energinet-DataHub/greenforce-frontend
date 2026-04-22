@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { WattIcon, WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 
 export type WattBadgeType =
@@ -35,6 +35,7 @@ export type WattBadgeSize = 'normal' | 'large';
  * `import { WattBadgeComponent } from '@energinet/watt/badge';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-badge',
   styleUrls: ['./watt-badge.component.scss'],
   imports: [WattIconComponent],

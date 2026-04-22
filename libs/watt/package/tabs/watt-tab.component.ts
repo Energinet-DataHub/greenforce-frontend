@@ -16,10 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, TemplateRef, input, output, viewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  TemplateRef,
+  input,
+  output,
+  viewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'watt-tab',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-template>
     <ng-content />
   </ng-template>`,

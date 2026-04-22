@@ -24,6 +24,7 @@ import {
   ElementRef,
   forwardRef,
   ViewEncapsulation,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
@@ -31,6 +32,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 @Component({
   selector: 'watt-checkbox',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./watt-checkbox.component.scss'],
   providers: [
     {
@@ -47,7 +49,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
   template: `
     <label class="watt-text-s">
       <input
-        [ngModel]="checked"
+        [ngModel]="checked()"
         [disabled]="isdisabled()"
         [indeterminate]="indeterminate()"
         [required]="required()"
@@ -61,7 +63,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/f
 export class WattCheckboxComponent implements ControlValueAccessor {
   private element = inject(ElementRef);
 
-  checked: boolean | null = null;
+  checked = signal<boolean | null>(null);
 
   isdisabled = signal(false);
   indeterminate = signal(false);
@@ -81,12 +83,12 @@ export class WattCheckboxComponent implements ControlValueAccessor {
 
   writeValue(checked: boolean | null) {
     this.indeterminate.set(checked === null ? true : false);
-    this.checked = checked;
+    this.checked.set(checked);
   }
 
   onModelChange(e: boolean) {
     this.indeterminate.set(false);
-    this.checked = e;
+    this.checked.set(e);
     this.onChange(e);
   }
 

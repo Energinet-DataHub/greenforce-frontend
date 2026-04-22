@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'watt-drawer-content',
   template: `<ng-content />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {

@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'vater-spacer, [vater-spacer]',
   encapsulation: ViewEncapsulation.None,
   styles: `

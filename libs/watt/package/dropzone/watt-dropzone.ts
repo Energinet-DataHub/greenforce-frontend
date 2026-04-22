@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   booleanAttribute,
   forwardRef,
@@ -48,6 +49,7 @@ export type MimeType = `${string}/${string}`;
   ],
   selector: 'watt-dropzone',
   hostDirectives: [FileTypeValidator, MultipleFilesValidator],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

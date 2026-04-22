@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
+  dataSource,
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
 } from '@energinet/watt/table';
 
@@ -57,11 +57,8 @@ export class DhRoleAuditLogsComponent {
 
   id = input.required<string>();
 
-  dataSource = computed(
-    () =>
-      new WattTableDataSource<UserRoleAuditedChangeAuditLogDto>(
-        this.getUserRoleAuditLogsQuery.data()?.userRoleById.auditLogs || []
-      )
+  dataSource = dataSource(
+    () => this.getUserRoleAuditLogsQuery.data()?.userRoleById.auditLogs || []
   );
   hasError = this.getUserRoleAuditLogsQuery.hasError;
   isLoading = this.getUserRoleAuditLogsQuery.loading;

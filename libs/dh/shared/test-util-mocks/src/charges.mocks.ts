@@ -39,6 +39,7 @@ import {
   ChargeStatus,
   ChargeResolution,
   MarketParticipant,
+  ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dayjs, WattRange } from '@energinet/watt/core/date';
@@ -421,7 +422,7 @@ const makeChargeSeriesMock = (period: {
 }): ChargeSeriesPoint => {
   const changes = makeChargeSeriesPointChangesMock(period.end);
   return {
-    __typename: 'ChargeSeriesPoint' as const,
+    __typename: 'ChargeSeriesPoint',
     price: changes[0].price,
     period: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
     hasChanged: changes.length > 1,
@@ -431,15 +432,20 @@ const makeChargeSeriesMock = (period: {
 
 const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
   const randomInt = ({ max = 5, min = 0 }) => Math.round(Math.random() * (max - min)) + min;
-  return Array.from({ length: randomInt({ min: 1 }) })
+  return Array.from<ChargeSeriesPointChange>({ length: randomInt({ min: 1 }) })
     .map((_, index) => index)
-    .map((i) => ({
-      __typename: 'ChargeSeriesPointChange' as const,
-      fromDateTime: new Date(end.year() - i - 1, randomInt({ max: 11 })),
-      toDateTime: i === 0 ? new Date(9999, 0) : new Date(end.year() - i, randomInt({ max: 11 })),
-      isCurrent: i === 0,
-      price: randomInt({ max: 50 * 100 }) / 100,
-    }));
+    .map(
+      (i) =>
+        ({
+          __typename: 'ChargeSeriesPointChange',
+          fromDateTime: new Date(end.year() - i - 1, randomInt({ max: 11 })),
+          toDateTime:
+            i === 0 ? new Date(9999, 0) : new Date(end.year() - i, randomInt({ max: 11 })),
+          isCurrent: i === 0,
+          price: randomInt({ max: 50 * 100 }) / 100,
+          messageId: `msg-${i + 1}`,
+        }) as ChargeSeriesPointChange
+    );
 };
 
 function getCharges() {

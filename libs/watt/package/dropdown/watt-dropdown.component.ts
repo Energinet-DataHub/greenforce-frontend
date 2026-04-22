@@ -29,6 +29,7 @@ import {
   ViewEncapsulation,
   computed,
   untracked,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 
 import {
@@ -65,6 +66,7 @@ import type {
   templateUrl: './watt-dropdown.component.html',
   styleUrls: ['./watt-dropdown.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatSelectModule,
     MatOptionModule,
@@ -87,7 +89,7 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   private validateParentAsync?: AsyncValidatorFn;
   private _options: WattDropdownOptions = [];
   private _groupedOptions: WattDropdownGroupedOptions = [];
-  parentControl: FormControl | null = null;
+  parentControl = signal<FormControl | null>(null);
   matSelectControl = new FormControl<string | string[] | undefined | null>(null);
 
   /**
@@ -115,8 +117,8 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   });
 
   emDash = '—';
-  isToggleAllChecked = false;
-  isToggleAllIndeterminate = false;
+  isToggleAllChecked = signal(false);
+  isToggleAllIndeterminate = signal(false);
   isDisabled = signal(false);
 
   get showTriggerValue(): boolean {
@@ -313,16 +315,13 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
    * of this component.
    */
   private initializePropertiesFromParent() {
-    this.parentControl = this.parentControlDirective.control as UntypedFormControl;
+    const ctrl = this.parentControlDirective.control as UntypedFormControl;
+    this.parentControl.set(ctrl);
 
-    this.validateParent =
-      (this.parentControl.validator && this.parentControl.validator.bind(this.parentControl)) ||
-      (() => null);
+    this.validateParent = (ctrl.validator && ctrl.validator.bind(ctrl)) || (() => null);
 
     this.validateParentAsync =
-      (this.parentControl.asyncValidator &&
-        this.parentControl.asyncValidator.bind(this.parentControl)) ||
-      (() => of(null));
+      (ctrl.asyncValidator && ctrl.asyncValidator.bind(ctrl)) || (() => of(null));
   }
 
   /**
@@ -362,12 +361,12 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
   }
 
   private handleStatusChange() {
-    this.parentControl?.statusChanges
-      .pipe(
+    this.parentControl()
+      ?.statusChanges.pipe(
         map(
           () =>
             ({
-              ...this.parentControl?.errors,
+              ...this.parentControl()?.errors,
             }) as ValidationErrors
         ),
         map((errors) => (Object.keys(errors).length > 0 ? errors : null)),
@@ -454,13 +453,15 @@ export class WattDropdownComponent<T = string> implements ControlValueAccessor, 
         selectedOptions.includes(option)
       );
 
-      this.isToggleAllIndeterminate =
+      this.isToggleAllIndeterminate.set(
         selectedFilteredOptions.length > 0 &&
-        selectedFilteredOptions.length < filteredOptions.length;
+          selectedFilteredOptions.length < filteredOptions.length
+      );
 
-      this.isToggleAllChecked =
+      this.isToggleAllChecked.set(
         selectedFilteredOptions.length > 0 &&
-        selectedFilteredOptions.length === filteredOptions.length;
+          selectedFilteredOptions.length === filteredOptions.length
+      );
     }
   }
 }

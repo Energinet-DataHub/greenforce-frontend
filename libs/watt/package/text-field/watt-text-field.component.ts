@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   ViewEncapsulation,
   ElementRef,
@@ -47,6 +48,7 @@ export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[attr.watt-field-disabled]': 'isDisabled()',
   },

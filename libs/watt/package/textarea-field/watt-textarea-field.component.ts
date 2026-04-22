@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   forwardRef,
   ViewEncapsulation,
@@ -42,6 +43,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     },
   ],
   selector: 'watt-textarea-field',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./watt-textarea-field.component.scss'],
   encapsulation: ViewEncapsulation.None,
   template: `<watt-field [label]="label()" [control]="formControl()">

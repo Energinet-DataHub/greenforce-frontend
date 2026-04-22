@@ -16,15 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
+  dataSource,
 } from '@energinet/watt/table';
 
 import { WattDatePipe } from '@energinet/watt/date';
@@ -50,16 +50,16 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
       [enableSearch]="false"
       [enablePaginator]="false"
       [count]="
-        dataSource().totalCount === 1
-          ? t('changesSingular', { auditLogCount: dataSource().totalCount })
-          : t('changesPlural', { auditLogCount: dataSource().totalCount })
+        dataSource.totalCount === 1
+          ? t('changesSingular', { auditLogCount: dataSource.totalCount })
+          : t('changesPlural', { auditLogCount: dataSource.totalCount })
       "
       [error]="hasError()"
       [ready]="ready()"
     >
       <watt-table
         [columns]="columns"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         sortBy="timestamp"
         [loading]="isLoading()"
         sortDirection="desc"
@@ -94,11 +94,8 @@ export class DhPermissionAuditLogsComponent {
 
   selectedPermission = input.required<PermissionDto>();
 
-  dataSource = computed(
-    () =>
-      new WattTableDataSource<PermissionAuditedChangeAuditLogDto>(
-        this.getPermissionAuditLogsQuery.data()?.permissionById.auditLogs || []
-      )
+  dataSource = dataSource(
+    () => this.getPermissionAuditLogsQuery.data()?.permissionById.auditLogs || []
   );
   hasError = this.getPermissionAuditLogsQuery.hasError;
   isLoading = this.getPermissionAuditLogsQuery.loading;

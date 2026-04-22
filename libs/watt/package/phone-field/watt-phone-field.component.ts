@@ -17,6 +17,7 @@
  */
 //#endregion
 import {
+  ChangeDetectionStrategy,
   Component,
   OnInit,
   ViewEncapsulation,
@@ -65,6 +66,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
 @Component({
   selector: 'watt-phone-field',
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     MatSelectModule,
@@ -104,7 +106,7 @@ function phoneValidator(countryCode: CountryCode): ValidatorFn {
           [attr.aria-label]="label()"
           autocomplete="tel"
           inputmode="tel"
-          [value]="value"
+          [value]="value()"
           [formControl]="formControl()"
           (blur)="onTouched()"
           (input)="onChanged($event)"
@@ -154,7 +156,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
   isDisabled = signal(false);
 
   /** @ignore */
-  value: string | null = null;
+  value = signal<string | null>(null);
 
   /** @ignore */
   phoneNumberInput = viewChild.required<ElementRef<HTMLInputElement>>('phoneNumberInput');
@@ -182,7 +184,7 @@ export class WattPhoneFieldComponent implements ControlValueAccessor, OnInit {
       }
     }
 
-    this.value = value;
+    this.value.set(value);
   }
 
   /** @ignore */

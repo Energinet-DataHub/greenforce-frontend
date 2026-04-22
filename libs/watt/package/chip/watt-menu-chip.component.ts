@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattChipComponent } from './watt-chip.component';
@@ -26,6 +26,7 @@ export type WattMenuChipHasPopup = 'menu' | 'listbox' | 'tree' | 'grid' | 'dialo
 @Component({
   imports: [WattChipComponent, WattIconComponent],
   selector: 'watt-menu-chip',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [
     `
       :host {

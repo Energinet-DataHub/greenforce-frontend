@@ -18,6 +18,7 @@
 //#endregion
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   TemplateRef,
   ViewEncapsulation,
@@ -29,6 +30,7 @@ import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { WattIconComponent } from '@energinet/watt/icon';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-breadcrumb',
   encapsulation: ViewEncapsulation.None,
   template: `<ng-template #templateRef><ng-content /></ng-template>`,
@@ -45,6 +47,7 @@ export class WattBreadcrumbComponent {
  * `import { WATT_BREADCRUMBS } from '@energinet/watt/breadcrumbs';`
  */
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   imports: [NgTemplateOutlet, WattIconComponent],
   selector: 'watt-breadcrumbs',

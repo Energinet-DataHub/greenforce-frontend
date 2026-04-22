@@ -17,14 +17,22 @@
  */
 //#endregion
 import {
+  AfterContentInit,
+  ChangeDetectionStrategy,
   Component,
+  DestroyRef,
+  Injector,
   ViewEncapsulation,
   contentChild,
   inject,
   input,
   output,
+  runInInjectionContext,
+  signal,
   viewChild,
 } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NEVER } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
 
 import {
@@ -44,6 +52,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
 
 @Component({
   selector: 'watt-data-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     VaterFlexComponent,
     VaterStackComponent,
@@ -124,11 +133,7 @@ import { WattDataIntlService } from './watt-data-intl.service';
         <ng-content select="watt-data-filters" />
         <vater-flex [autoSize]="autoSize()" fill="vertical">
           <ng-content select="watt-table" />
-          @if (
-            enableEmptyState() &&
-            !table().loading() &&
-            table().dataSource().filteredData.length === 0
-          ) {
+          @if (enableEmptyState() && !table().loading() && filteredDataCount() === 0) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
                 <watt-empty-state
@@ -160,8 +165,10 @@ import { WattDataIntlService } from './watt-data-intl.service';
     </watt-card>
   `,
 })
-export class WattDataTableComponent {
+export class WattDataTableComponent implements AfterContentInit {
   intl = inject(WattDataIntlService);
+  private readonly injector = inject(Injector);
+  private readonly destroyRef = inject(DestroyRef);
 
   error = input<unknown>();
   ready = input(true);
@@ -187,6 +194,23 @@ export class WattDataTableComponent {
   retry = output();
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
+
+  /**
+   * Reactive count of filtered rows. Required under OnPush because
+   * `filteredData` is a plain mutable property on MatTableDataSource —
+   * not tracked by Angular's signal graph.
+   *
+   * Set up in `ngAfterContentInit` so that DataSource implementations such as ApolloDataSource can
+   * safely call `toObservable()` inside `connect()` via `runInInjectionContext`.
+   */
+  protected readonly filteredDataCount = signal(0);
+
+  ngAfterContentInit(): void {
+    const ds = this.table().dataSource();
+    runInInjectionContext(this.injector, () => ds.connect({ viewChange: NEVER }))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => this.filteredDataCount.set(ds.filteredData.length));
+  }
 
   search = viewChild(WattSimpleSearchComponent);
   reset = () => this.search()?.clear();

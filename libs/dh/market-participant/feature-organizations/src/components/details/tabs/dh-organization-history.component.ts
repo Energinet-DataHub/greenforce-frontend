@@ -16,14 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, ChangeDetectionStrategy } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
+  dataSource,
 } from '@energinet/watt/table';
 
 import { WattDatePipe } from '@energinet/watt/date';
@@ -53,7 +53,7 @@ import {
     >
       <watt-table
         [columns]="columns"
-        [dataSource]="dataSource()"
+        [dataSource]="dataSource"
         sortBy="timestamp"
         [loading]="isLoading()"
         sortDirection="desc"
@@ -99,12 +99,7 @@ export class DhOrganizationHistoryComponent {
 
   organizationId = input.required<string>();
 
-  dataSource = computed(
-    () =>
-      new WattTableDataSource<OrganizationAuditedChangeAuditLogDto>(
-        this.query.data()?.organizationById.auditLogs || []
-      )
-  );
+  dataSource = dataSource(() => this.query.data()?.organizationById.auditLogs || []);
   hasError = this.query.hasError;
   isLoading = this.query.loading;
   ready = this.query.called;

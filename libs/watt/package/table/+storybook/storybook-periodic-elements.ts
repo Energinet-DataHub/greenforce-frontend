@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_TABLE, WattTableColumnDef } from '../watt-table.component';
-import { WattTableDataSource } from '../watt-table-data-source';
+import { dataSource } from '../watt-table-data-source';
 import { PeriodicElement } from './storybook-periodic-elements-data';
 
 @Component({
@@ -37,7 +37,7 @@ import { PeriodicElement } from './storybook-periodic-elements-data';
       description="Atomic Elements"
       sortBy="position"
       sortDirection="asc"
-      [dataSource]="dataSource()"
+      [dataSource]="dataSource"
       [columns]="columns"
       [selectable]="selectable()"
       [selection]="selection()"
@@ -79,7 +79,7 @@ export class StorybookPeriodicElements {
   hideColumnHeaders = input(false);
   selection = input<PeriodicElement[]>([]);
   data = input.required<PeriodicElement[]>();
-  dataSource = computed(() => new WattTableDataSource(this.data()));
+  dataSource = dataSource(() => this.data());
   columns = {
     position: { accessor: (row) => row.position, size: 'min-content' },
     name: { accessor: (row) => row.name },

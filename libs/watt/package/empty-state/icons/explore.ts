@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-empty-state-explore',
   template: `
     <svg viewBox="0 0 96 98" fill="none">

@@ -18,6 +18,7 @@
 //#endregion
 import { NgTemplateOutlet } from '@angular/common';
 import {
+  ChangeDetectionStrategy,
   Component,
   Directive,
   TemplateRef,
@@ -42,6 +43,7 @@ export class WattExpandableCardContentDirective {
 @Component({
   imports: [NgTemplateOutlet, MatExpansionModule],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'watt-expandable-card',
   styleUrl: './watt-expandable-card.component.scss',
   template: `
@@ -93,6 +95,7 @@ export class WattExpandableCardComponent {
 
 @Component({
   selector: 'watt-expandable-card-title',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `<ng-content />`,
 })
 export class WattExpandableCardTitleComponent {}
