@@ -16,22 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  GetChargeLinkHistoryDocument,
-  GetChargeLinksByMeteringPointIdDocument,
-  GetChargeLinkOverviewDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargeLinkOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
-
-export type Charge = ResultOf<
-  typeof GetChargeLinksByMeteringPointIdDocument
->['chargeLinksByMeteringPointId'][0];
 
 export type ChargeLinkOverview = ResultOf<
   typeof GetChargeLinkOverviewDocument
 >['chargeLinkOverview'][0];
-
-export type History = NonNullable<
-  ResultOf<typeof GetChargeLinkHistoryDocument>['chargeLinkById']
->['history'][0];
