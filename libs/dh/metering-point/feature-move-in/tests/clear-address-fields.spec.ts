@@ -91,4 +91,3 @@ describe('clearAddressFields', () => {
     expect(formGroup.controls.addressGroup.controls.cityName.value).toBeNull();
   });
 });
-
