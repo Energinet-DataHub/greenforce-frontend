@@ -29,4 +29,3 @@ export function clearAddressFields(formGroup: FormGroup<AddressDetailsFormType>)
   );
   formGroup.controls.addressGroup.reset(nullValues);
 }
-
