@@ -128,12 +128,15 @@ export class DhActorTokenService {
                       }
                     }
 
-                    this.appInsights.flush();
-
-                    // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
-
                     this.logoutInProgress = true;
+
+                    const logout = () => this.msalService.instance.logoutRedirect();
+
+                    try {
+                      this.appInsights.flush()?.then(logout);
+                    } catch {
+                      logout();
+                    }
                   }
                 },
               }),

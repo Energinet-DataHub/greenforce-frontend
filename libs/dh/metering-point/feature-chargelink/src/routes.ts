@@ -21,24 +21,18 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/configu
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 
-const detailsRoutes = [
+const actionRoutes = [
   {
-    path: 'details/:id',
-    loadComponent: () => import('./components/details'),
-    children: [
-      {
-        path: 'edit',
-        loadComponent: () => import('./components/actions/edit'),
-      },
-      {
-        path: 'stop',
-        loadComponent: () => import('./components/actions/stop'),
-      },
-      {
-        path: 'cancel',
-        loadComponent: () => import('./components/actions/cancel'),
-      },
-    ],
+    path: 'edit/:id',
+    loadComponent: () => import('./components/actions/edit'),
+  },
+  {
+    path: 'stop/:id',
+    loadComponent: () => import('./components/actions/stop'),
+  },
+  {
+    path: 'cancel/:id',
+    loadComponent: () => import('./components/actions/cancel'),
   },
 ];
 
@@ -59,12 +53,12 @@ export const meteringPointPricesRoutes: Routes = [
       {
         path: getPath<ChargeLinksSubPaths>('tariff-and-subscription'),
         loadComponent: () => import('./components/tariff-subscriptions'),
-        children: detailsRoutes,
+        children: actionRoutes,
       },
       {
         path: getPath<ChargeLinksSubPaths>('fees'),
         loadComponent: () => import('./components/fees'),
-        children: detailsRoutes,
+        children: actionRoutes,
       },
       {
         outlet: 'create',

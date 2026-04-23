@@ -913,6 +913,7 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "showClosed": "Vis lukkede",
       "shared": {
         "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Periode",
         "columns": {
           "submittedAt": "Indsendt",
           "description": "Beskrivelse"
@@ -1034,7 +1036,9 @@
         "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
-        "CustomerMoveOut": "Fraflytning (BRS-010)"
+        "CustomerMoveOut": "Fraflytning (BRS-010)",
+        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
+        "ServiceRequest": "Anmodning om serviceydelse (BRS-039)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1048,7 +1052,9 @@
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
         "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)",
         "ElectricalHeating": "Elvarme (D20)",
-        "CustomerMoveOut": "Fraflytning (E66)"
+        "CustomerMoveOut": "Fraflytning (E66)",
+        "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
+        "ServiceRequest": "Anmodning om serviceydelse (D22)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1061,6 +1067,8 @@
           "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
           "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
+          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
           "REJECT_REQUEST": "Afvis anmodning",
           "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
         },
@@ -1099,6 +1107,14 @@
         "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "disconnectProcess": {
+        "title": "Anmod om afbrydelse",
+        "validityDateLabel": "Gyldighedsdato",
+        "cancel": "Annuller",
+        "confirm": "Anmod om afbrydelse",
+        "successToast": "Anmodning om afbrydelse af målepunkt indsendt",
+        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
         "EndOfSupply": "leveranceophør"
@@ -1186,6 +1202,9 @@
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytning (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
@@ -1195,6 +1214,8 @@
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_1": "Information om annullering af serviceydelse (RSM-025)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_2": "Information om annullering af serviceydelse (RSM-025)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_1": "Anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_2": "Afvisning af anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_3": "Information om målepunktsstamdata (RSM-022)",

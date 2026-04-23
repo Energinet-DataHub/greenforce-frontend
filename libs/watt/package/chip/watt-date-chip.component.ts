@@ -61,6 +61,8 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
           type="text"
           [value]="value()"
           [matDatepicker]="picker"
+          [min]="min()"
+          [max]="max()"
           (dateChange)="value.set($event.value)"
           (dateChange)="selectionChange.emit($event.value)"
         />
@@ -86,4 +88,6 @@ export class WattDateChipComponent {
   formControl = input.required<FormControl>();
   value = model<string | null>(null);
   selectionChange = output<Date>();
+  min = input<Date | null>();
+  max = input<Date | null>();
 }

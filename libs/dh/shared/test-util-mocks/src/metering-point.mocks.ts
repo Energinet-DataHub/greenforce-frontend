@@ -42,6 +42,7 @@ import {
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
+  mockDisconnectMeteringPointMutation,
   mockRequestConnectionStateChangeMutation,
   mockCancelEndOfSupplyMutation,
   mockRejectEndOfSupplyMutation,
@@ -80,6 +81,7 @@ export function meteringPointMocks(apiBase: string) {
     getAggreatedMeasurementsForAllYears(),
     getRelatedMeteringPoints(),
     getOperationToolsMeteringPoint(),
+    disconnectMeteringPoint(),
     getProjectionsStatus(),
     requestConnectionStateChange(),
     changeProductionObligation(),
@@ -993,6 +995,22 @@ function getElectricalHeatingInformation() {
               to: new Date('9999-01-01'),
             },
           ],
+        },
+      },
+    });
+  });
+}
+
+function disconnectMeteringPoint() {
+  return mockDisconnectMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        disconnectMeteringPoint: {
+          __typename: 'DisconnectMeteringPointPayload',
+          boolean: true,
         },
       },
     });
