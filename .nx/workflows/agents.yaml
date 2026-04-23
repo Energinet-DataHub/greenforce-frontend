@@ -9,6 +9,10 @@ common-init-steps: &common-init-steps
     script: |
       bun install --frozen-lockfile
 
+  - name: Install Playwright browsers
+    script: |
+      bunx playwright install --with-deps chromium
+
 launch-templates:
   linux-large:
     resource-class: 'docker_linux_amd64/large'
