@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
+import { input, inject, computed, Component, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
