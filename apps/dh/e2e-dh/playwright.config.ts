@@ -28,9 +28,7 @@ export default defineConfig({
   testIgnore: ['**/b2c-healthchecks.spec.ts'],
   fullyParallel: true,
   retries: process.env['CI'] ? 2 : 0,
-  reporter: process.env['CI']
-    ? [['blob'], ['html', { open: 'never' }]]
-    : [['html']],
+  reporter: process.env['CI'] ? [['blob'], ['html', { open: 'never' }]] : [['html']],
   use: {
     baseURL,
     ignoreHTTPSErrors: true,

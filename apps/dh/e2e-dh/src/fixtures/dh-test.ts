@@ -33,9 +33,7 @@ async function removeCookieBanner(context: BrowserContext, baseURL: string) {
 }
 
 async function loginViaB2C(page: Page, email: string, password: string, initialUrl: string) {
-  await page
-    .getByRole('button', { name: /login.*(brugernavn|username)/i })
-    .click();
+  await page.getByRole('button', { name: /login.*(brugernavn|username)/i }).click();
 
   // B2C-controlled DOM below: we do not own these selectors, so CSS IDs are a pragmatic fallback.
   await page.locator('#email').fill(email);
