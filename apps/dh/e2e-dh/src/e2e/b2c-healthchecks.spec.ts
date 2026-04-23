@@ -56,7 +56,7 @@ for (const env of environments) {
 
     await page.goto(env.url);
 
-    await page.locator('watt-button').click();
+    await page.getByRole('button', { name: /login.*(brugernavn|username)/i }).click();
 
     // Should have correct redirect_uri
     await expect(page).toHaveURL(new RegExp(`redirect_uri=${encodeURIComponent(env.url)}`), {

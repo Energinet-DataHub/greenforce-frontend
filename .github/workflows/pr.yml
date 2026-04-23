@@ -25,7 +25,6 @@ env:
   # DH E2E
   DH_E2E_USERNAME: ${{ vars.DH_E2E_U1_USERNAME }}
   DH_E2E_PASSWORD: ${{ secrets.DH_E2E_U1_PASSWORD }}
-  DH_E2E_B2C_URL: https://b2cshresdevwe002.b2clogin.com
 
 jobs:
   main:
@@ -48,7 +47,7 @@ jobs:
       - name: Setup toolchains with mise
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
-      - run: bunx nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="DH_E2E_USERNAME,DH_E2E_PASSWORD,DH_E2E_B2C_URL"
+      - run: bun nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="DH_E2E_USERNAME,DH_E2E_PASSWORD"
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
@@ -61,8 +60,6 @@ jobs:
             ${{ runner.os }}-bun-
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      - name: Install Playwright browsers
-        run: bunx playwright install --with-deps chromium
       - uses: nrwl/nx-set-shas@afb73a62d26e41464e9254689e1fd6122ee683c1 # v5.0.1
         id: nx_set_shas
       - name: "Lint and fix affected projects"
@@ -121,6 +118,19 @@ jobs:
       - run: bun nx affected --parallel -t test build package --base="$NX_BASE" --head="$NX_HEAD"
       - name: "End-to-end test affected products"
         run: bun nx affected --parallel -t e2e --base="$NX_BASE" --head="$NX_HEAD"
+      - name: Merge Playwright blob reports (best effort)
+        if: failure()
+        continue-on-error: true
+        run: |
+          BLOB_DIRS=$(find . -type d -name "blob-report" 2>/dev/null)
+          if [ -n "$BLOB_DIRS" ]; then
+            echo "Merging blob reports from: $BLOB_DIRS"
+            for dir in $BLOB_DIRS; do
+              bun playwright merge-reports --reporter html "$dir" 2>&1 || true
+            done
+          else
+            echo "No blob-report directories found, skipping merge"
+          fi
       - name: Upload artifact
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
@@ -129,6 +139,7 @@ jobs:
           path: |
             dist/.playwright/
             apps/dh/e2e-dh/test-output/
+            playwright-report/
       # Nx Cloud recommends fixes for failures to help you get CI green faster. Learn more: https://nx.dev/ci/features/self-healing-ci
       - run: bun nx fix-ci
         if: always()

@@ -21,9 +21,13 @@ runs:
     - name: Check if project is affected
       id: check
       shell: bash
+      env:
+        BASE: ${{ inputs.base }}
+        HEAD: ${{ inputs.head }}
+        PROJECT: ${{ inputs.project }}
       run: |
-        if bunx nx show projects --affected --base="${{ inputs.base }}" --head="${{ inputs.head }}" --json 2>/dev/null \
-          | node -e "process.exit(JSON.parse(require('fs').readFileSync(0,'utf8')).includes('${{ inputs.project }}') ? 0 : 1)"; then
+        if bun nx show projects --affected --base="$BASE" --head="$HEAD" --json 2>/dev/null \
+          | node -e "process.exit(JSON.parse(require('fs').readFileSync(0,'utf8')).includes(process.env.PROJECT) ? 0 : 1)"; then
           echo "affected=true" >> "$GITHUB_OUTPUT"
         else
           echo "affected=false" >> "$GITHUB_OUTPUT"

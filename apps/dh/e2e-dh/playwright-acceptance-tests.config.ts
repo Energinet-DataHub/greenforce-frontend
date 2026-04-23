@@ -21,10 +21,12 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
+  fullyParallel: true,
+  retries: process.env['CI'] ? 2 : 0,
   use: {
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
-    video: 'on',
+    video: 'retain-on-failure',
   },
   timeout: 30_000,
   projects: [

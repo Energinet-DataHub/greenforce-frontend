@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { test, expect } from './dh-test';
+import { test, expect } from '../fixtures/dh-test';
 
 test.describe('Language selection', () => {
   test.skip();

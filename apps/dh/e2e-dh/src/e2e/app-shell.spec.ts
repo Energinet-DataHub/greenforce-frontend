@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { test, expect } from './dh-test';
+import { test, expect } from '../fixtures/dh-test';
 
 test.describe('Application shell', () => {
   test.skip();
@@ -33,19 +33,15 @@ test.describe('Application shell', () => {
 
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
-    // Page loaded
-    await expect(page.locator('.selected-organization-name-label')).toBeVisible({
-      timeout: 10_000,
-    });
+    const selectedActor = page.getByTestId('selectedMarketParticipant');
+    await expect(selectedActor).toBeVisible({ timeout: 10_000 });
 
-    // Handle the auto-opening modal
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await page.getByRole('button', { name: /close/i }).click();
     await expect(dialog).toBeHidden();
 
-    // Make sure correct organization is selected
-    await page.locator('.selected-organization-name-label').click();
+    await selectedActor.click();
     await expect(page.getByText('Energinet DataHub A/S').first()).toBeVisible();
   });
 });

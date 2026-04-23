@@ -96,13 +96,12 @@ For UI-based debugging, the Vitest extension provides an integrated test explore
 
 E2E tests use [Playwright](https://playwright.dev/). Before running locally, ensure Playwright browsers are installed:
 
-`bunx playwright install --with-deps chromium`
+`bun playwright install --with-deps chromium`
 
 Set the following environment variables for B2C authentication tests (optional):
 
-- `DH_E2E_USERNAME` – B2C test user email
-- `DH_E2E_PASSWORD` – B2C test user password
-- `DH_E2E_B2C_URL` – B2C authority URL (optional, can be set from `libs/dh/shared/assets/src/assets/configuration/dh-b2c-environment.json`)
+- `DH_E2E_USERNAME` - B2C test user email
+- `DH_E2E_PASSWORD` - B2C test user password
 
 To run the tests:
 

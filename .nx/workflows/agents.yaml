@@ -11,7 +11,7 @@ common-init-steps: &common-init-steps
 
   - name: Install Playwright browsers
     script: |
-      bunx playwright install --with-deps chromium
+      bun playwright install --with-deps chromium
 
 launch-templates:
   linux-large:

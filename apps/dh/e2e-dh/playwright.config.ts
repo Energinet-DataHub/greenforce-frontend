@@ -26,11 +26,16 @@ const baseURL = process.env['BASE_URL'] || 'https://localhost:4200';
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
   testIgnore: ['**/b2c-healthchecks.spec.ts'],
+  fullyParallel: true,
+  retries: process.env['CI'] ? 2 : 0,
+  reporter: process.env['CI']
+    ? [['blob'], ['html', { open: 'never' }]]
+    : [['html']],
   use: {
     baseURL,
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
-    video: 'on',
+    video: 'retain-on-failure',
   },
   timeout: 30_000,
   expect: {

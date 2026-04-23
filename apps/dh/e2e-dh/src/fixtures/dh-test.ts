@@ -18,10 +18,6 @@
 //#endregion
 import { test as base, expect, type Page, type BrowserContext } from '@playwright/test';
 
-/**
- * Removes the cookie consent banner by setting the `CookieInformationConsent` cookie.
- * This is the Playwright equivalent of the old Cypress `removeCookieBanner` command.
- */
 async function removeCookieBanner(context: BrowserContext, baseURL: string) {
   const url = new URL(baseURL);
   await context.addCookies([
@@ -36,22 +32,18 @@ async function removeCookieBanner(context: BrowserContext, baseURL: string) {
   ]);
 }
 
-/**
- * Logs in via the Azure AD B2C login page.
- * This is the Playwright equivalent of the old Cypress `login` command.
- */
 async function loginViaB2C(page: Page, email: string, password: string, initialUrl: string) {
-  // Click the login button on the app's login page
-  await page.locator('watt-button').click();
+  await page
+    .getByRole('button', { name: /login.*(brugernavn|username)/i })
+    .click();
 
-  // Fill in the B2C login form
+  // B2C-controlled DOM below: we do not own these selectors, so CSS IDs are a pragmatic fallback.
   await page.locator('#email').fill(email);
   await page.locator('#password').fill(password);
   await page.locator('#next').click();
 
-  // Wait for redirect back to the app
   if (initialUrl === '/') {
-    // User might be redirected to either metering-point/search or message-archive based on permissions
+    // Permissions may land the user on either metering-point/search or message-archive.
     await expect(page).toHaveURL(/\/(metering-point\/search|message-archive)/, { timeout: 30_000 });
   } else {
     await expect(page).toHaveURL(new RegExp(initialUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), {
@@ -61,22 +53,19 @@ async function loginViaB2C(page: Page, email: string, password: string, initialU
 }
 
 /**
- * Extended Playwright test fixture that provides `login` and `removeCookieBanner` helpers.
+ * Extended Playwright test with `login` and `removeCookieBanner` helpers.
  *
  * Usage:
  * ```ts
- * import { test, expect } from './dh-test';
+ * import { test, expect } from '../fixtures/dh-test';
  *
  * test('my test', async ({ login, page }) => {
  *   await login('/some-page');
- *   // page is now authenticated
  * });
  * ```
  */
 export const test = base.extend<{
-  /** Removes the cookie consent banner before the test. */
   removeCookieBanner: () => Promise<void>;
-  /** Logs in via B2C with the test user credentials. */
   login: (initialUrl?: string) => Promise<void>;
 }>({
   removeCookieBanner: async ({ context, baseURL }, use) => {
@@ -96,11 +85,8 @@ export const test = base.extend<{
         );
       }
 
-      // Remove cookie banner before visiting
       await removeCookieBanner(context, baseURL ?? 'https://localhost:4200');
-
       await page.goto(initialUrl);
-
       await loginViaB2C(page, email, password, initialUrl);
     });
   },
