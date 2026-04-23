@@ -65,6 +65,8 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
     @let userRole = userRoleWithPermissions();
 
     <watt-drawer
+      autoOpen
+      [key]="id()"
       *transloco="let t; prefix: 'admin.userManagement.drawer'"
       size="large"
       (closed)="onClose()"
@@ -158,11 +160,5 @@ export class DhUserRoleDetailsComponent {
 
   edit() {
     this.navigationService.navigate('edit', this.id());
-  }
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.drawer().open();
-    });
   }
 }
