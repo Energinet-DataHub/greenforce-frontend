@@ -24,7 +24,6 @@ import {
   RedirectFunction,
   ActivatedRouteSnapshot,
 } from '@angular/router';
-
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';
 
@@ -95,16 +94,29 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
-        path: `:${dhInternalMeteringPointIdParam}`,
+        path: 'view',
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
           meteringPointId: meteringPointIdResolver(),
           searchMigratedMeteringPoints: searchMigratedMeteringPointsResolver(),
         },
+        runGuardsAndResolvers: 'always',
         data: {
           pageLeaveRedirectUrl: combinePaths('metering-point', 'search'),
         },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
+        canDeactivate: [
+          (_component, _currentRoute, _currentState, nextState) => {
+            const nextRoute = nextState.url;
+
+            // Remove metering point ID from session storage when leaving metering point routes
+            if (nextRoute.includes('/metering-point/view') === false) {
+              sessionStorage.removeItem(dhInternalMeteringPointIdParam);
+            }
+
+            return true;
+          },
+        ],
         children: [
           {
             path: '',
@@ -232,39 +244,26 @@ export const dhMeteringPointRoutes: Routes = [
 ];
 
 /**
- * Determines the landing page after navigating to '/metering-point/<external-or-internal-id>' URL.
+ * Determines the landing page after navigating to '/metering-point/view' URL.
  *
  * If the user has the market role to access 'master-data' they are redirected to '/master-data'.
  * Otherwise, the user is redirected to '/messages'.
  */
 function redirectToLandingPage(): RedirectFunction {
-  return ({ params }) => {
-    const router = inject(Router);
+  return () => {
     const permissionService = inject(PermissionService);
 
     const hasMarketRoles$ = forkJoin(
       marketRolesWithDataAccess.map((role) => permissionService.hasMarketRole(role))
     );
 
-    const internalMeteringPointId = params[dhInternalMeteringPointIdParam];
-
     return hasMarketRoles$.pipe(
       map((hasMarketRoles) => {
         if (hasMarketRoles.includes(true)) {
-          return router.createUrlTree([
-            '/',
-            getPath<BasePaths>('metering-point'),
-            internalMeteringPointId,
-            getPath<MeteringPointSubPaths>('master-data'),
-          ]);
+          return 'master-data';
         }
 
-        return router.createUrlTree([
-          '/',
-          getPath<BasePaths>('metering-point'),
-          internalMeteringPointId,
-          getPath<MeteringPointSubPaths>('messages'),
-        ]);
+        return 'messages';
       })
     );
   };
@@ -293,8 +292,9 @@ function meteringPointCreateGuard(): CanActivateFn {
  * Resolves the external metering point ID from internal metering point ID.
  */
 function meteringPointIdResolver(): ResolveFn<string> {
-  return (route: ActivatedRouteSnapshot) => {
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  return () => {
+    const idParam: string = findIdParam();
+
     const isEM1Id = dhIsEM1InternalId(idParam);
 
     return query(DoesInternalMeteringPointIdExistDocument, {
@@ -309,13 +309,13 @@ function meteringPointIdResolver(): ResolveFn<string> {
 }
 
 /**
- * Figures out whether the intention is to search a migrated metering point by looking at a route param.
+ * Figures out whether the intention is to search a migrated metering point by looking at a `sessionStorage` param.
  * If the param is a valid EM1 internal ID, we assume a migrated metering point.
  */
 function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
-  return (route: ActivatedRouteSnapshot) => {
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  return () => dhIsEM1InternalId(findIdParam());
+}
 
-    return dhIsEM1InternalId(idParam);
-  };
+function findIdParam(): string {
+  return sessionStorage.getItem(dhInternalMeteringPointIdParam) ?? '';
 }

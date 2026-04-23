@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
+import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
 
 import {
@@ -26,17 +26,13 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { DoesInternalMeteringPointIdExistDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import {
-  dhIsValidMeteringPointId,
-  dhIsEM1InternalId,
-  dhIsEM2EncodedId,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhIsEM1InternalId, dhIsEM2EncodedId } from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhInternalMeteringPointIdParam } from './dh-metering-point-params';
 
-export const dhCanActivateMeteringPointOverview: CanActivateFn = (
-  route: ActivatedRouteSnapshot
-): Promise<UrlTree | boolean> | UrlTree => {
+export const dhCanActivateMeteringPointOverview: CanActivateFn = ():
+  | Promise<UrlTree | boolean>
+  | UrlTree => {
   const router = inject(Router);
 
   const searchRoute = router.createUrlTree([
@@ -44,21 +40,20 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
     getPath<MeteringPointSubPaths>('search'),
   ]);
 
-  const idParam: string = route.params[dhInternalMeteringPointIdParam];
+  const maybeIdParam = findIdParam();
 
-  if (dhIsValidMeteringPointId(idParam)) {
-    // Only internal IDs are allowed in the URL
+  if (maybeIdParam === null) {
     return searchRoute;
   }
 
-  const isEM1Id = dhIsEM1InternalId(idParam);
-  const isEM2Id = dhIsEM2EncodedId(idParam);
+  const isEM1Id = dhIsEM1InternalId(maybeIdParam);
+  const isEM2Id = dhIsEM2EncodedId(maybeIdParam);
 
   if (isEM1Id || isEM2Id) {
     return query(DoesInternalMeteringPointIdExistDocument, {
       fetchPolicy: 'cache-and-network',
       variables: {
-        internalMeteringPointId: idParam,
+        internalMeteringPointId: maybeIdParam,
         searchMigratedMeteringPoints: isEM1Id,
       },
     })
@@ -74,3 +69,7 @@ export const dhCanActivateMeteringPointOverview: CanActivateFn = (
 
   return searchRoute;
 };
+
+function findIdParam(): string | null {
+  return sessionStorage.getItem(dhInternalMeteringPointIdParam);
+}

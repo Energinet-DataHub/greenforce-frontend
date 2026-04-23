@@ -123,7 +123,11 @@ import { GetRelatedMeteringPointsByIdDocument } from '@energinet-datahub/dh/shar
             meteringPoint of relatedMeteringPointsList();
             track meteringPoint.meteringPointIdentification
           ) {
-            <div class="grid-row" [routerLink]="getLink('master-data', meteringPoint.id)">
+            <div
+              class="grid-row"
+              [routerLink]="getLink('master-data')"
+              (click)="onClick(meteringPoint.id)"
+            >
               <div class="grid-cell">
                 <span class="watt-text-m watt-on-light--high-emphasis">
                   {{ 'meteringPointType.' + meteringPoint.type | transloco }}
@@ -222,6 +226,9 @@ export class DhRelatedMeteringPointsComponent {
     this.showHistorical.update((value) => !value);
   }
 
-  getLink = (path: MeteringPointSubPaths, id: string) =>
-    combineWithIdPaths('metering-point', id, path);
+  onClick(meteringPointId: string) {
+    sessionStorage.setItem('internalMeteringPointId', meteringPointId);
+  }
+
+  getLink = (path: MeteringPointSubPaths) => combineWithIdPaths('metering-point', 'view', path);
 }

@@ -146,7 +146,6 @@ export class DhMeteringPointActionsComponent {
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
 
   meteringPointId = input.required<string>();
-  internalMeteringPointId = input.required<string>();
   type = input<ElectricityMarketMeteringPointType | null>();
   subType = input<ElectricityMarketViewMeteringPointSubType | null>();
   connectionState = input<ElectricityMarketViewConnectionState | null>();
@@ -264,7 +263,6 @@ export class DhMeteringPointActionsComponent {
       component: DhEndOfSupplyComponent,
       data: {
         meteringPointId: this.meteringPointId(),
-        internalMeteringPointId: this.internalMeteringPointId(),
       },
     });
   }
