@@ -33,7 +33,6 @@ import {
 } from '@angular/forms';
 
 import { GraphQLFormattedError } from 'graphql';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -62,9 +61,10 @@ import {
 import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  dhFormControlToSignal,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
@@ -186,7 +186,9 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
 
   initialEicFunction = EicFunction.BalanceResponsibleParty;
 
-  permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
+  permissionsQuery = query(GetPermissionByEicFunctionDocument, () => ({
+    variables: { eicFunction: this.eicFunction() },
+  }));
 
   loading = this.permissionsQuery.loading;
   hasError = this.permissionsQuery.hasError;
@@ -204,16 +206,14 @@ export class DhCreateUserRoleComponent extends WattTypedModal {
     nonNullable: true,
   });
 
-  eicFunction = toSignal(this.userRoleForm.controls.eicFunction.valueChanges, {
-    initialValue: this.initialEicFunction,
-  });
+  eicFunction = dhFormControlToSignal(this.userRoleForm.controls.eicFunction);
 
   eicFunctionOptions = dhEnumToWattDropdownOptions(EicFunction);
 
   constructor() {
     super();
     effect(() => {
-      this.permissionsQuery.query({ variables: { eicFunction: this.eicFunction() } });
+      this.eicFunction();
       this.selectedPermissions.setValue([]);
       this.selectedPermissions.markAsPristine();
     });
