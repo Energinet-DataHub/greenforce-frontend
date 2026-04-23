@@ -627,34 +627,12 @@ type Charge {
   vatInclusive: Boolean!
 }
 
-input ChargeIdentifierDtoSortInput {
-  code: SortEnumType
-  owner: SortEnumType
-  typeDto: SortEnumType
-}
-
-type ChargeLink {
+type ChargeLinkOverviewItem {
   amount: Int!
-  charge: Charge
-  history: [ChargeLinkHistory!]!
-  id: String!
-  period: ChargeLinkPeriod!
-}
-
-input ChargeLinkDtoSortInput {
-  chargeIdentifier: ChargeIdentifierDtoSortInput
-  meteringPointId: SortEnumType
-}
-
-type ChargeLinkHistory {
-  description: String!
-  messageId: String!
-  submittedAt: DateTime!
-}
-
-type ChargeLinkPeriod {
-  amount: Int!
-  interval: DateRange!
+  charge: Charge!
+  chargeLinkId: String!
+  closed: Boolean!
+  period: DateRange!
 }
 
 "A connection to a list of items."
@@ -679,6 +657,7 @@ type ChargeOverviewEdge {
 
 type ChargeOverviewItem {
   charge: Charge!
+  name: String!
   period: DateRange!
 }
 
@@ -1043,6 +1022,16 @@ enum DelegatedProcess {
 }
 
 type DeleteAllEventSourcingDataPayload {
+  boolean: Boolean
+}
+
+input DisconnectMeteringPointInput {
+  meteringPointId: String!
+  processId: UUID!
+  validityDate: DateTime!
+}
+
+type DisconnectMeteringPointPayload {
   boolean: Boolean
 }
 
@@ -2440,6 +2429,7 @@ type Mutation {
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
   deactivateUserRole(input: DeactivateUserRoleInput!): DeactivateUserRolePayload!
   deleteAllEventSourcingData: DeleteAllEventSourcingDataPayload! @authorize(roles: [ "operation-tools:manage" ])
+  disconnectMeteringPoint(input: DisconnectMeteringPointInput!): DisconnectMeteringPointPayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   dismissAllNotifications(input: DismissAllNotificationsInput!): DismissAllNotificationsPayload!
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
@@ -2879,8 +2869,7 @@ type Query {
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: String "Returns the first _n_ elements from the list." first: Int input: CalculationsQueryInput! "Returns the last _n_ elements from the list." last: Int order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
-  chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
-  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkOverview(meteringPointId: String!): [ChargeLinkOverviewItem!]! @authorize(roles: [ "metering-point:prices" ])
   chargeOverview("Returns the elements in the list that come after the specified cursor." after: String "Returns the elements in the list that come before the specified cursor." before: String filter: String "Returns the first _n_ elements from the list." first: Int "Returns the last _n_ elements from the list." last: Int order: [ChargeOverviewItemSortInput!] query: ChargeOverviewQueryInput): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
