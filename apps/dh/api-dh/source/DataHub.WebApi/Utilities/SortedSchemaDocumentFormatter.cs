@@ -22,7 +22,7 @@ namespace Energinet.DataHub.WebApi.Utilities;
 /// </summary>
 public class SortedSchemaDocumentFormatter : ISchemaDocumentFormatter
 {
-    private static readonly HashSet<string> _operationTypes = ["Query", "Mutation", "Subscription"];
+    private static readonly HashSet<string> OperationTypes = ["Query", "Mutation", "Subscription"];
 
     public DocumentNode Format(DocumentNode schemaDocument)
     {
@@ -35,12 +35,8 @@ public class SortedSchemaDocumentFormatter : ISchemaDocumentFormatter
 
     private static IDefinitionNode SortOperationFields(IDefinitionNode def) => def switch
     {
-        ObjectTypeDefinitionNode obj when _operationTypes.Contains(obj.Name.Value) =>
-            obj.WithFields(
-                obj.Fields
-                    .OrderBy(f => f.Name.Value, StringComparer.Ordinal)
-                    .ToList()),
-
+        ObjectTypeDefinitionNode obj when OperationTypes.Contains(obj.Name.Value) =>
+            obj.WithFields([.. obj.Fields.OrderBy(f => f.Name.Value, StringComparer.Ordinal)]),
         _ => def,
     };
 }
