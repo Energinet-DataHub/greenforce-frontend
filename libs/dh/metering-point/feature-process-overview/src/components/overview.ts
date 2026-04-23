@@ -18,7 +18,7 @@
 //#endregion
 import { Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, filter, map } from 'rxjs';
+import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
@@ -38,12 +38,16 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
   GetMeteringPointProcessOverviewDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
@@ -132,7 +136,7 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
           {{ process.initiator?.displayName | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actions; let process">
-          @if (canPerformActions() || isFas()) {
+          @if (canShowActions()) {
             <vater-stack
               direction="row"
               gap="s"
@@ -169,19 +173,37 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
+  readonly isEnergySupplierResponsible = input.required<boolean>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
-  protected canPerformActions = toSignal(
-    combineLatest([
-      this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
-      this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
-    ]).pipe(map(([isNet, isEl]) => isNet || isEl)),
-    { initialValue: false }
+  // Market role comes from the currently selected actor, not from token claims,
+  // so it is known synchronously at component creation. This avoids a brief
+  // flicker where a non-responsible supplier would see action buttons before
+  // the token-based role signal resolves.
+  private readonly hasGridAccessProviderRole =
+    this.actor.marketRole === EicFunction.GridAccessProvider;
+  private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
+
+  private readonly isNonResponsibleSupplier = computed(
+    () => this.hasEnergySupplierRole && !this.isEnergySupplierResponsible()
   );
+
+  protected readonly canPerformActions = computed(() => {
+    if (this.isNonResponsibleSupplier()) return false;
+    return this.hasGridAccessProviderRole || this.hasEnergySupplierRole;
+  });
+
+  // A non-responsible supplier sees nothing at all (not even the FAS-style
+  // informational text), since they have no legitimate relation to this metering point.
+  protected readonly canShowActions = computed(() => {
+    if (this.isNonResponsibleSupplier()) return false;
+    return this.canPerformActions() || this.isFas();
+  });
 
   initialDateRange = {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),
@@ -218,6 +240,7 @@ export class DhMeteringPointProcessOverviewTable {
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
+    if (!this.canPerformActions()) return;
     this.actionService.execute(action, process.businessReason, {
       meteringPointId: this.meteringPointId(),
       internalMeteringPointId: this.internalMeteringPointId(),
