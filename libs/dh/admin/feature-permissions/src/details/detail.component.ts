@@ -23,7 +23,6 @@ import {
   viewChild,
   Component,
   ChangeDetectionStrategy,
-  afterRenderEffect,
 } from '@angular/core';
 
 import { RouterOutlet } from '@angular/router';
@@ -88,12 +87,6 @@ export class DhPermissionDetailComponent {
 
   loading = this.query.loading;
   hasError = this.query.hasError;
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.drawer().open();
-    });
-  }
 
   onClose(): void {
     this.navigationService.navigate('list');
