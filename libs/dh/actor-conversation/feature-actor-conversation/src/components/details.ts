@@ -54,9 +54,14 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  lazyQuery,
+  mutation,
+  MutationStatus,
+  query,
+} from '@energinet-datahub/dh/shared/util-apollo';
 
 import {
   MarketRole,
@@ -130,6 +135,11 @@ export class DhActorConversationDetails {
 
   isPartOfConversation = computed(() => this.conversation()?.partOfConversations);
   sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
+  toast = injectToast('meteringPoint.actorConversation.sendMessage.toast', [
+    MutationStatus.Loading,
+    MutationStatus.Resolved,
+  ]);
+  toastEffect = effect(() => this.toast(this.sendActorConversationMessageMutation.status()));
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
   meteringPointId = input<string | undefined>();

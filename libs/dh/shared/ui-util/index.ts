@@ -26,6 +26,7 @@ export * from './src/dh-form-errors-warnings-only';
 export * from './src/dh-make-form-control';
 export * from './src/dh-set-control-validators';
 export * from './src/dh-sync-control-validators';
+export * from './src/dh-reset-control-on-change';
 export * from './src/dh-dropdown-translator.directive';
 export * from './src/dh-enum-to-dropdown-options';
 export * from './src/stream-to-file';
