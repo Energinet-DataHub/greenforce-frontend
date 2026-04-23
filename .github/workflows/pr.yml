@@ -47,7 +47,6 @@ jobs:
       - name: Setup toolchains with mise
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
 
-      - run: bun nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="DH_E2E_USERNAME,DH_E2E_PASSWORD"
       - name: Get Bun cache directory
         id: bun_cache
         run: echo "dir=$(bun pm cache)" >> "$GITHUB_OUTPUT"
@@ -60,6 +59,7 @@ jobs:
             ${{ runner.os }}-bun-
       - name: Install dependencies
         run: bun install --frozen-lockfile
+      - run: bun nx start-ci-run --distribute-on="3 linux-large" --stop-agents-after="e2e" --with-env-vars="DH_E2E_USERNAME,DH_E2E_PASSWORD"
       - uses: nrwl/nx-set-shas@afb73a62d26e41464e9254689e1fd6122ee683c1 # v5.0.1
         id: nx_set_shas
       - name: "Lint and fix affected projects"
