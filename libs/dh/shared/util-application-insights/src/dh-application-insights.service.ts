@@ -19,16 +19,23 @@
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import type { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
-import {
-  type ApplicationInsights,
-  DistributedTracingModes,
-  SeverityLevel,
-} from '@microsoft/applicationinsights-web';
+import type { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 import {
   DhAppEnvironmentConfig,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+
+// Mirrors @microsoft/applicationinsights-web SeverityLevel to avoid eager-loading the
+// package just for the enum values. Keep in sync with the upstream enum.
+export const DhSeverityLevel = {
+  Verbose: 0,
+  Information: 1,
+  Warning: 2,
+  Error: 3,
+  Critical: 4,
+} as const;
+export type DhSeverityLevel = (typeof DhSeverityLevel)[keyof typeof DhSeverityLevel];
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +55,8 @@ export class DhApplicationInsights {
       return;
     }
 
-    const { ApplicationInsights } = await import('@microsoft/applicationinsights-web');
+    const { ApplicationInsights, DistributedTracingModes } =
+      await import('@microsoft/applicationinsights-web');
     const { AngularPlugin } = await import('@microsoft/applicationinsights-angularplugin-js');
 
     this.angularPlugin = new AngularPlugin();
@@ -110,7 +118,7 @@ export class DhApplicationInsights {
    * Log an exception that you have caught.
    * @param exception
    */
-  trackException(exception: Error, severityLevel: SeverityLevel): void {
+  trackException(exception: Error, severityLevel: DhSeverityLevel): void {
     this.appInsights?.trackException({ exception, severityLevel });
   }
 

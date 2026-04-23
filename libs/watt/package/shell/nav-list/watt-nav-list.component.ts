@@ -22,12 +22,16 @@ import {
   Component,
   ViewEncapsulation,
   contentChildren,
+  effect,
   input,
+  signal,
 } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
 
-import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
+import { WattIconComponent } from '@energinet/watt/icon';
+
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
+
+let uniqueId = 0;
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,16 +43,30 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
   },
   template: `
     @if (expandable()) {
-      <mat-expansion-panel
-        wattExpandOnActiveLink
-        [wattNavListItemComponents]="navListItemComponents()"
-        class="mat-elevation-z0"
+      <button
+        type="button"
+        class="watt-nav-list__header"
+        [class.watt-nav-list__header--expanded]="isExpanded()"
+        [id]="headerId"
+        [attr.aria-expanded]="isExpanded()"
+        [attr.aria-controls]="bodyId"
+        (click)="toggle()"
       >
-        <mat-expansion-panel-header>
-          <mat-panel-title class="watt-text-m">{{ title() }}</mat-panel-title>
-        </mat-expansion-panel-header>
-        <ng-container *ngTemplateOutlet="navListTemplate" />
-      </mat-expansion-panel>
+        <span class="watt-text-m">{{ title() }}</span>
+        <watt-icon name="down" class="watt-nav-list__chevron" />
+      </button>
+      <div
+        class="watt-nav-list__body"
+        role="region"
+        [id]="bodyId"
+        [attr.aria-labelledby]="headerId"
+        [class.watt-nav-list__body--expanded]="isExpanded()"
+        [attr.inert]="isExpanded() ? null : true"
+      >
+        <div class="watt-nav-list__body-inner">
+          <ng-container *ngTemplateOutlet="navListTemplate" />
+        </div>
+      </div>
     } @else {
       <ng-container *ngTemplateOutlet="navListTemplate" />
     }
@@ -57,14 +75,38 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
       <ng-content />
     </ng-template>
   `,
-  imports: [NgTemplateOutlet, MatExpansionModule, WattExpandOnActiveLinkDirective],
+  imports: [NgTemplateOutlet, WattIconComponent],
 })
 export class WattNavListComponent {
-  /**
-   * @ignore
-   */
-  navListItemComponents = contentChildren(WattNavListItemComponent);
+  /** @ignore */
+  navListItems = contentChildren(WattNavListItemComponent);
 
   expandable = input(false);
   title = input('');
+
+  /** @ignore */
+  readonly headerId = `watt-nav-list-header-${uniqueId++}`;
+  /** @ignore */
+  readonly bodyId = `watt-nav-list-body-${uniqueId++}`;
+
+  private readonly expanded = signal(false);
+
+  /** @ignore */
+  readonly isExpanded = this.expanded.asReadonly();
+
+  constructor() {
+    effect((cleanup) => {
+      const subs = this.navListItems().map((item) =>
+        item.isActive.subscribe((active) => {
+          if (active) this.expanded.set(true);
+        })
+      );
+      cleanup(() => subs.forEach((sub) => sub.unsubscribe()));
+    });
+  }
+
+  /** @ignore */
+  toggle() {
+    this.expanded.update((v) => !v);
+  }
 }

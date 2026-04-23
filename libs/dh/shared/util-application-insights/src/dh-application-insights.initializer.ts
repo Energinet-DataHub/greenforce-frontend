@@ -16,14 +16,24 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, provideAppInitializer } from '@angular/core';
+import { ErrorHandler, inject, provideAppInitializer } from '@angular/core';
 
 import { DhApplicationInsights } from './dh-application-insights.service';
+import { DhApplicationInsightsErrorHandler } from './dh-application-insights-error-handler';
 
-export const applicationInsightsInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    (applicationInsights: DhApplicationInsights) => async () =>
-      applicationInsights.init()
-  )(inject(DhApplicationInsights));
-  return initializerFn();
+export const applicationInsightsInitializer = provideAppInitializer(async () => {
+  const appInsights = inject(DhApplicationInsights);
+  const errorHandler = inject(DhApplicationInsightsErrorHandler);
+
+  try {
+    await appInsights.init();
+    const { ApplicationinsightsAngularpluginErrorService } =
+      await import('@microsoft/applicationinsights-angularplugin-js');
+    errorHandler.adopt(new ApplicationinsightsAngularpluginErrorService());
+  } catch (error) {
+    // If loading the SDK fails, fall back to Angular's default ErrorHandler so
+    // buffered bootstrap errors still reach the console instead of getting lost.
+    console.error('Failed to initialize Application Insights', error);
+    errorHandler.adopt(new ErrorHandler());
+  }
 });

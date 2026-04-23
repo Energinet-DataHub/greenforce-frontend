@@ -242,7 +242,12 @@
       "@energinet/watt/checkbox": ["./libs/watt/package/checkbox/index.ts"],
       "@energinet/watt/chip": ["./libs/watt/package/chip/index.ts"],
       "@energinet/watt/clipboard": ["./libs/watt/package/clipboard/index.ts"],
+      "@energinet/watt/clipboard/intl": [
+        "./libs/watt/package/clipboard/watt-clipboard-intl.service.ts"
+      ],
       "@energinet/watt/code": ["./libs/watt/package/code/index.ts"],
+      "@energinet/watt/code/intl": ["./libs/watt/package/code/watt-code-intl.service.ts"],
+      "@energinet/watt/code/worker-token": ["./libs/watt/package/code/watt-code.worker.token.ts"],
       "@energinet/watt/core/breakpoints": ["./libs/watt/package/core/breakpoints/index.ts"],
       "@energinet/watt/core/color": ["./libs/watt/package/core/color/index.ts"],
       "@energinet/watt/core/date": ["./libs/watt/package/core/date/index.ts"],
@@ -250,18 +255,24 @@
         "./libs/watt/package/core/date/watt-danish-datetime.providers.ts"
       ],
       "@energinet/watt/data": ["./libs/watt/package/data/index.ts"],
+      "@energinet/watt/data/intl": ["./libs/watt/package/data/watt-data-intl.service.ts"],
       "@energinet/watt/date": ["./libs/watt/package/core/date/index.ts"],
       "@energinet/watt/datepicker": ["./libs/watt/package/picker/datepicker/index.ts"],
+      "@energinet/watt/datepicker/intl": [
+        "./libs/watt/package/picker/datepicker/watt-datepicker-intl.service.ts"
+      ],
       "@energinet/watt/datetime-field": ["./libs/watt/package/datetime-field/index.ts"],
       "@energinet/watt/datetimepicker": ["./libs/watt/package/picker/datetimepicker/index.ts"],
       "@energinet/watt/description-list": ["./libs/watt/package/description-list/index.ts"],
       "@energinet/watt/drawer": ["./libs/watt/package/drawer/index.ts"],
       "@energinet/watt/dropdown": ["./libs/watt/package/dropdown/index.ts"],
       "@energinet/watt/dropzone": ["./libs/watt/package/dropzone/index.ts"],
+      "@energinet/watt/dropzone/intl": ["./libs/watt/package/dropzone/watt-dropzone-intl.ts"],
       "@energinet/watt/empty-state": ["./libs/watt/package/empty-state/index.ts"],
       "@energinet/watt/expandable-card": ["./libs/watt/package/expandable-card/index.ts"],
       "@energinet/watt/expansion": ["./libs/watt/package/expansion/index.ts"],
       "@energinet/watt/field": ["./libs/watt/package/field/index.ts"],
+      "@energinet/watt/field/intl": ["./libs/watt/package/field/watt-field-intl.service.ts"],
       "@energinet/watt/file-field": ["./libs/watt/package/file-field/index.ts"],
       "@energinet/watt/heading": ["./libs/watt/package/heading/index.ts"],
       "@energinet/watt/icon": ["./libs/watt/package/icon/index.ts"],
@@ -273,7 +284,13 @@
       "@energinet/watt/menu": ["./libs/watt/package/menu/index.ts"],
       "@energinet/watt/modal": ["./libs/watt/package/modal/index.ts"],
       "@energinet/watt/paginator": ["./libs/watt/package/paginator/index.ts"],
+      "@energinet/watt/paginator/intl": [
+        "./libs/watt/package/paginator/watt-paginator-intl.service.ts"
+      ],
       "@energinet/watt/phone-field": ["./libs/watt/package/phone-field/index.ts"],
+      "@energinet/watt/phone-field/intl": [
+        "./libs/watt/package/phone-field/watt-phone-field-intl.service.ts"
+      ],
       "@energinet/watt/picker/__shared": ["./libs/watt/package/picker/__shared/index.ts"],
       "@energinet/watt/picker/datepicker": ["./libs/watt/package/picker/datepicker/index.ts"],
       "@energinet/watt/portal": ["./libs/watt/package/portal/index.ts"],

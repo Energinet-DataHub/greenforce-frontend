@@ -24,10 +24,12 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WattModalService } from '@energinet/watt/modal';
 
-import { DhProfileModalComponent } from '@energinet-datahub/dh/profile/feature-profile-modal';
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import {
+  DhApplicationInsights,
+  DhSeverityLevel,
+} from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-profile-avatar',
@@ -77,13 +79,25 @@ export class DhProfileAvatarComponent {
     return this.getAccount().username.charAt(0).toUpperCase();
   }
 
-  openProfileModal() {
+  async openProfileModal() {
     this.appInsights.trackEvent('Menu item: Open profile modal');
 
-    this.modalService.open({
-      component: DhProfileModalComponent,
-      data: { email: this.getAccount().email },
-    });
+    try {
+      const { DhProfileModalComponent } =
+        await import('@energinet-datahub/dh/profile/feature-profile-modal');
+
+      this.modalService.open({
+        component: DhProfileModalComponent,
+        data: { email: this.getAccount().email },
+      });
+    } catch (error) {
+      // Chunk load failure (offline, CDN timeout, stale cache after deploy).
+      // Surface via telemetry so we can see it happening; the user can retry.
+      this.appInsights.trackException(
+        error instanceof Error ? error : new Error(String(error)),
+        DhSeverityLevel.Error
+      );
+    }
   }
 
   changeLaguage(): void {
