@@ -34,6 +34,7 @@ export default defineConfig({
   reporter: process.env['CI'] ? [['blob'], ['html', { open: 'never' }]] : [['html']],
   use: {
     baseURL,
+    locale: 'da-DK',
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
     video: 'retain-on-failure',

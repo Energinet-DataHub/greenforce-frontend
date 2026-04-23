@@ -47,9 +47,10 @@ setup('authenticate', async ({ page, context }) => {
   await page.goto('/');
   await page.getByRole('button', { name: /login.*(brugernavn|username)/i }).click();
 
-  // B2C exposes accessible labels (Danish locale on dev/test tenants).
-  await page.getByLabel(/mailadresse|email/i).fill(email);
-  await page.getByLabel(/adgangskode|password/i).fill(password);
+  // B2C exposes accessible labels. Scope to textbox role so the form's own
+  // aria-label ("Sign in with your email address") does not match the email regex.
+  await page.getByRole('textbox', { name: /email address|mailadresse/i }).fill(email);
+  await page.getByRole('textbox', { name: /password|adgangskode/i }).fill(password);
   await page.getByRole('button', { name: /log på|sign in/i }).click();
 
   // Login is complete when the authenticated shell renders. The profile menu only exists
