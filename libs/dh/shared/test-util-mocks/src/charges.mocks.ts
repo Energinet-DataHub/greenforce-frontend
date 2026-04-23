@@ -24,8 +24,7 @@ import {
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetChargeByTypeQuery,
-  mockGetChargeLinkHistoryQuery,
-  mockGetChargeLinksByMeteringPointIdQuery,
+  mockGetChargeLinkOverviewQuery,
   mockStopChargeLinkMutation,
   mockCancelChargeLinkMutation,
   mockEditChargeLinkMutation,
@@ -34,7 +33,7 @@ import {
 import {
   Charge,
   ChargeType,
-  ChargeLink,
+  ChargeLinkOverviewItem,
   ChargeSeriesPoint,
   ChargeStatus,
   ChargeResolution,
@@ -261,131 +260,48 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
   },
 ];
 
-const chargeLinks: ChargeLink[] = [
+const charges = makeChargesMock();
+
+const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
   {
-    __typename: 'ChargeLink',
-    id: '1000',
-    amount: 100.0,
-    period: {
-      __typename: 'ChargeLinkPeriod',
-      amount: 100.0,
-      interval: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-    },
-    history: [
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-01-15T10:00:00Z'),
-        description: 'Initial link creation',
-        messageId: 'msg-001',
-      },
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-06-20T14:30:00Z'),
-        description: 'Updated charge amount',
-        messageId: 'msg-002',
-      },
-    ],
-    charge: makeChargesMock()[0],
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1000',
+    amount: 100,
+    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    closed: true,
+    charge: charges[0],
   },
   {
-    __typename: 'ChargeLink',
-    id: '1001',
-    amount: 75.5,
-    period: {
-      __typename: 'ChargeLinkPeriod',
-      amount: 75.5,
-      interval: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
-    },
-    history: [
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-02-10T09:00:00Z'),
-        description: 'Initial link creation',
-        messageId: 'msg-003',
-      },
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-03-15T11:00:00Z'),
-        description: 'Changed owner',
-        messageId: 'msg-004',
-      },
-    ],
-    charge: makeChargesMock()[1],
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1001',
+    amount: 75,
+    period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
+    closed: true,
+    charge: charges[1],
   },
   {
-    __typename: 'ChargeLink',
-    id: '1002',
-    amount: 50.0,
-    period: {
-      __typename: 'ChargeLinkPeriod',
-      amount: 50.0,
-      interval: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
-    },
-    history: [
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-03-05T08:30:00Z'),
-        description: 'Initial link creation',
-        messageId: 'msg-005',
-      },
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-04-10T10:45:00Z'),
-        description: 'Changed period',
-        messageId: 'msg-006',
-      },
-    ],
-    charge: makeChargesMock()[2],
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1002',
+    amount: 50,
+    period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
+    closed: true,
+    charge: charges[2],
   },
   {
-    __typename: 'ChargeLink',
-    id: '1003',
-    amount: 120.0,
-    period: {
-      __typename: 'ChargeLinkPeriod',
-      amount: 120.0,
-      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-    },
-    history: [
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-04-12T12:00:00Z'),
-        description: 'Initial link creation',
-        messageId: 'msg-007',
-      },
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-05-20T15:00:00Z'),
-        description: 'Changed amount',
-        messageId: 'msg-008',
-      },
-    ],
-    charge: makeChargesMock()[3],
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1003',
+    amount: 120,
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
+    closed: true,
+    charge: charges[3],
   },
   {
-    __typename: 'ChargeLink',
-    id: '1004',
-    amount: 120.0,
-    period: {
-      __typename: 'ChargeLinkPeriod',
-      amount: 120.0,
-      interval: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-    },
-    history: [
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-04-12T12:00:00Z'),
-        description: 'Initial link creation',
-        messageId: 'msg-007',
-      },
-      {
-        __typename: 'ChargeLinkHistory',
-        submittedAt: new Date('2023-05-20T15:00:00Z'),
-        description: 'Changed amount',
-        messageId: 'msg-008',
-      },
-    ],
-    charge: makeChargesMock()[4],
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1004',
+    amount: 120,
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
+    closed: false,
+    charge: charges[4],
   },
 ];
 
@@ -450,6 +366,7 @@ function getCharges() {
       charge.periods.map((p) => ({
         __typename: 'ChargeOverviewItem' as const,
         charge,
+        name: p.name,
         period: p.period,
       }))
     );
@@ -500,27 +417,14 @@ function getChargeSeries() {
   });
 }
 
-function getChargesByMeteringPointId() {
-  return mockGetChargeLinksByMeteringPointIdQuery(async () => {
+function getChargeLinkOverview() {
+  return mockGetChargeLinkOverviewQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargeLinksByMeteringPointId: chargeLinks,
-      },
-    });
-  });
-}
-
-function getChargeLinkById() {
-  return mockGetChargeLinkHistoryQuery(async ({ variables: { id } }) => {
-    await delay(mswConfig.delay);
-    const chargeLink = chargeLinks.find((cl) => cl.id === id) || null;
-    return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        chargeLinkById: chargeLink,
+        chargeLinkOverview: chargeLinkOverviewItems,
       },
     });
   });
@@ -600,7 +504,6 @@ export function chargesMocks() {
     getChargeSeries(),
     cancelChargeLink(),
     getChargesByType(),
-    getChargeLinkById(),
-    getChargesByMeteringPointId(),
+    getChargeLinkOverview(),
   ];
 }

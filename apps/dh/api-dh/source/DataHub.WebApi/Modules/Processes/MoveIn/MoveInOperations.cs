@@ -17,9 +17,11 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using NodaTime;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
@@ -80,7 +82,7 @@ public static class MoveInOperations
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
     {
-        var resolvedStartDate = DateTimeOffset.UtcNow;
+        var resolvedStartDate = GetDefaultResolvedStartDate();
         if (processId != null)
         {
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
@@ -111,4 +113,10 @@ public static class MoveInOperations
 
         return result.IsSuccess;
     }
+
+    private static DateTimeOffset GetDefaultResolvedStartDate() =>
+        SystemClock.Instance.GetCurrentInstant()
+            .InZone(LocalDateExtensions.DanishTimeZone)
+            .Date
+            .ToUtcDateTimeOffset();
 }

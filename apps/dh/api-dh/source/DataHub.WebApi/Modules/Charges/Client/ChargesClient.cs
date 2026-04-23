@@ -13,10 +13,12 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -70,7 +72,7 @@ public class ChargesClient(
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
-            .Select(p => new ChargeOverviewItem(charge, p.Period)));
+            .Select(p => new ChargeOverviewItem(charge, p)));
 
         // This filter is expensive since it has to fetch series for each charge,
         // which is why it is deferred until after applying all other filters.
@@ -247,6 +249,115 @@ public class ChargesClient(
 
         return result.IsSuccess;
     }
+
+    public async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+        string meteringPointId,
+        CancellationToken ct = default)
+    {
+        var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
+        var chargeLinks = result.Data ?? [];
+        var distinctChargeIds = chargeLinks.Select(cl => cl.ChargeIdentifier).Distinct();
+        var charges = await Task.WhenAll(distinctChargeIds.Select(id => GetChargeByIdAsync(id, ct)));
+        var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
+        return chargeLinks
+            .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
+            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
+                new ChargeLinkOverviewItem(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
+    }
+
+    public async Task<bool> StopChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default)
+    {
+        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                stopDate,
+                period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
+    {
+        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                period.From.ToDateTimeOffset(),
+                period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                chargeId.Code,
+                chargeId.Owner,
+                ToChargeLinkChargeType(chargeId.TypeDto),
+                meteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkId id, CancellationToken ct)
+    {
+        var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
+        var chargeLink = result.Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
+            ?? throw new GraphQLException($"Charge link with id {id} not found.");
+
+        return chargeLink.ChargeLinkPeriods
+            .OrderByDescending(p => p.From)
+            .First();
+    }
+
+    private static ChargeTypeV1 ToChargeLinkChargeType(ChargeTypeDto type) => type switch
+    {
+        ChargeTypeDto.Tariff => ChargeTypeV1.Tariff,
+        ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
+        ChargeTypeDto.Fee => ChargeTypeV1.Fee,
+    };
 
     private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(

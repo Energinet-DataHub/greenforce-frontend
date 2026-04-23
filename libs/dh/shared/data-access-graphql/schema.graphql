@@ -318,23 +318,12 @@ type Charge {
   spotDependingPrice: Boolean!
 }
 
-type ChargeLink {
-  history: [ChargeLinkHistory!]!
-  charge: Charge
+type ChargeLinkOverviewItem {
+  period: DateRange!
+  closed: Boolean!
+  charge: Charge!
   amount: Int!
-  period: ChargeLinkPeriod!
-  id: String!
-}
-
-type ChargeLinkHistory {
-  submittedAt: DateTime!
-  description: String!
-  messageId: String!
-}
-
-type ChargeLinkPeriod {
-  interval: DateRange!
-  amount: Int!
+  chargeLinkId: String!
 }
 
 "A connection to a list of items."
@@ -360,6 +349,7 @@ type ChargeOverviewEdge {
 type ChargeOverviewItem {
   charge: Charge!
   period: DateRange!
+  name: String!
 }
 
 type ChargePeriod {
@@ -508,6 +498,10 @@ type DeactivateUserRolePayload {
 }
 
 type DeleteAllEventSourcingDataPayload {
+  boolean: Boolean
+}
+
+type DisconnectMeteringPointPayload {
   boolean: Boolean
 }
 
@@ -829,6 +823,14 @@ type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
   meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
+}
+
+type GetProjectionsStatusResultDtoV1 {
+  daemonHighWaterMark: Long!
+  eventCount: Long!
+  eventSequenceNumber: Long!
+  streamCount: Long!
+  projections: [ProjectionStatus!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -1193,14 +1195,14 @@ type Mutation {
   markConversationRead(input: MarkConversationReadInput!): MarkConversationReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   markConversationUnRead(input: MarkConversationUnReadInput!): MarkConversationUnReadPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
-  createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
-  updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
-  stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
-  addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   stopChargeLink(input: StopChargeLinkInput!): StopChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
+  updateCharge(input: UpdateChargeInput!): UpdateChargePayload! @authorize(roles: [ "charges:manage" ])
+  stopCharge(input: StopChargeInput!): StopChargePayload! @authorize(roles: [ "charges:manage" ])
+  addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1245,6 +1247,7 @@ type Mutation {
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
+  disconnectMeteringPoint(input: DisconnectMeteringPointInput!): DisconnectMeteringPointPayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
@@ -1409,16 +1412,27 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionStatus {
+  name: String!
+  assignedNodeNumber: Int!
+  action: String!
+  exception: String
+  previousGoodMark: Long!
+  mode: String!
+  rebuildThreshold: Long!
+  sequence: Long!
+  timestamp: DateTime!
+}
+
 type Query {
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
   conversationsForMeteringPoint(meteringPointIdentification: String searchTerm: String ownConversations: Boolean unread: Boolean opened: Boolean closed: Boolean subjects: [ConversationSubject!]): Conversations! @authorize(roles: [ "metering-point:actor-conversation" ])
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   actorMessageQueues(actorNumber: String! actorRole: String!): ActorMessageQueueResult! @authorize(roles: [ "actor-message-queue:view" ])
+  chargeLinkOverview(meteringPointId: String!): [ChargeLinkOverviewItem!]! @authorize(roles: [ "metering-point:prices" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeOverviewItemSortInput!]): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
-  chargeLinksByMeteringPointId(meteringPointId: String! order: [ChargeLinkDtoSortInput!]): [ChargeLink!]! @authorize(roles: [ "metering-point:prices" ])
-  chargeLinkById(id: String!): ChargeLink @authorize(roles: [ "metering-point:prices" ])
   aggregatedMeasurementsForMonth(showOnlyChangedValues: Boolean! query: GetMonthlyAggregateByDateQueryInput!): [MeasurementAggregationByDateDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForYear(query: GetYearlyAggregateByMonthQueryInput!): [MeasurementAggregationByMonthDto!]! @authorize(roles: [ "metering-point:search" ])
   aggregatedMeasurementsForAllYears(query: GetAggregateByYearQueryInput!): [MeasurementAggregationByYearDto!]! @authorize(roles: [ "metering-point:search" ])
@@ -1437,6 +1451,7 @@ type Query {
   meteringPointCount: MeteringPointCountDto! @authorize(roles: [ "operation-tools:view" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
+  projectionsStatus: GetProjectionsStatusResultDtoV1! @authorize(roles: [ "operation-tools:view" ])
   balanceResponsible(skip: Int take: Int order: BalanceResponsibleSortInput): BalanceResponsibleCollectionSegment
   balanceResponsibleById(documentId: String!): BalanceResponsible!
   esettServiceStatus: [ReadinessStatusDto!]!
@@ -2067,17 +2082,6 @@ input ChangeProductionObligationInput {
   newProductionObligationState: Boolean!
 }
 
-input ChargeIdentifierDtoSortInput {
-  code: SortEnumType
-  owner: SortEnumType
-  typeDto: SortEnumType
-}
-
-input ChargeLinkDtoSortInput {
-  meteringPointId: SortEnumType
-  chargeIdentifier: ChargeIdentifierDtoSortInput
-}
-
 input ChargeOverviewItemSortInput {
   name: SortEnumType
   code: SortEnumType
@@ -2207,6 +2211,12 @@ input DeactivateUserInput {
 
 input DeactivateUserRoleInput {
   roleId: UUID!
+}
+
+input DisconnectMeteringPointInput {
+  meteringPointId: String!
+  processId: UUID!
+  validityDate: DateTime!
 }
 
 input DismissAllNotificationsInput {
@@ -2753,6 +2763,7 @@ enum ArchivedMessageDocumentType {
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum AuthEicFunctionType {
@@ -2797,6 +2808,10 @@ enum BusinessReason {
   D29
   E34
   E01
+  E0G
+  D48
+  D18
+  D08
 }
 
 enum BusinessReasonV1 {
@@ -2986,6 +3001,7 @@ enum DocumentType {
   REMINDER_OF_MISSING_MEASUREMENTS
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
+  REJECT_REQUEST_PRICE_LIST
   REQUEST_CHANGE_OF_PRICE_LIST
   CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST
   REJECT_REQUEST_CHANGE_OF_PRICE_LIST
@@ -3563,6 +3579,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_CANCELLATION
   REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
   REJECT_REQUEST_BILLING_MASTER_DATA
+  REJECT_REQUEST_PRICE_LIST
 }
 
 enum ParticipantType {

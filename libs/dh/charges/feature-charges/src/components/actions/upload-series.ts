@@ -128,7 +128,7 @@ export default class DhChargesUploadSeries {
     if (!this.file.valid) return;
 
     const start = this.chargeSeries()?.first;
-    const end = this.chargeSeries()?.last;
+    const end = this.chargeSeries()?.maybeGetEnd();
     const points = this.chargeSeries()?.points;
     assertIsDefined(start);
     assertIsDefined(end);
