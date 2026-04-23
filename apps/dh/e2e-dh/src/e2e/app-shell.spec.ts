@@ -17,29 +17,25 @@
  */
 //#endregion
 
-import { test, expect } from '../fixtures/dh-test';
+import { test, expect } from '@playwright/test';
 
 test.describe('Application shell', () => {
-  test.skip();
-
   const initialUrl = '/message-archive';
 
-  test.beforeEach(async ({ login }) => {
-    await login(initialUrl);
-  });
-
-  test('should display welcome message', async ({ page }) => {
+  test('shows the selected actor and reveals organization name on click', async ({ page }) => {
     await page.goto(initialUrl);
 
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
-    const selectedActor = page.getByTestId('selectedMarketParticipant');
-    await expect(selectedActor).toBeVisible({ timeout: 10_000 });
-
+    // The "New search" dialog auto-opens on /message-archive; close it before interacting
+    // with elements behind the backdrop.
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
     await page.getByRole('button', { name: /close/i }).click();
     await expect(dialog).toBeHidden();
+
+    const selectedActor = page.getByTestId('selectedMarketParticipant');
+    await expect(selectedActor).toBeVisible({ timeout: 10_000 });
 
     await selectedActor.click();
     await expect(page.getByText('Energinet DataHub A/S').first()).toBeVisible();

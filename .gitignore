@@ -43,6 +43,7 @@ node_modules
 test-output/
 playwright-report/
 blob-report/
+.auth/
 
 # Nx Cloud may drop task terminal output at the workspace root; keep it out of "QA fixes" auto-commits
 /terminalOutput

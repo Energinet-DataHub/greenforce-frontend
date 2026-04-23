@@ -17,52 +17,42 @@
  */
 //#endregion
 
-import { test, expect } from '../fixtures/dh-test';
+import { test, expect } from '@playwright/test';
 
 test.describe('Redirect to initial URL', () => {
   const initialUrl = '/market-participant/actors';
 
-  test('should have correct redirectTo value before login', async ({ page }) => {
-    await page.goto(initialUrl);
+  test.describe('Before login', () => {
+    // Opt out of the authenticated storageState for this scenario.
+    test.use({ storageState: { cookies: [], origins: [] } });
 
-    await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
-    const url = page.url();
-    expect(url).toContain(`dhRedirectTo=${encodeURIComponent(initialUrl)}`);
+    test('redirects to /login with dhRedirectTo preserved', async ({ page }) => {
+      await page.goto(initialUrl);
+
+      await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
+      expect(page.url()).toContain(`dhRedirectTo=${encodeURIComponent(initialUrl)}`);
+    });
   });
 
   test.describe('After login', () => {
-    test.skip();
-
-    test.beforeEach(async ({ login }) => {
-      await login(initialUrl);
-    });
-
-    test('should display correct page title after login', async ({ page }) => {
+    test('shows the actors page heading', async ({ page }) => {
       await page.goto(initialUrl);
 
-      const heading = page.getByRole('heading', { name: /Aktører/i, level: 2 });
-      await expect(heading).toBeVisible();
+      await expect(page.getByRole('heading', { name: /Aktører/i, level: 2 })).toBeVisible();
     });
   });
 
   test.describe('After logout', () => {
-    test.skip();
-
     const logoutInitialUrl = '/grid-areas';
 
-    test.beforeEach(async ({ login }) => {
-      await login(logoutInitialUrl);
-    });
-
-    test('should redirect back to login page after manual logout', async ({ page }) => {
+    test('redirects back to the login page', async ({ page }) => {
       await page.goto(logoutInitialUrl);
 
       await page.getByTestId('profileMenu').click();
-      await page.getByText('Log ud').click();
+      await page.getByRole('menuitem', { name: /log ud|sign out/i }).click();
 
       await expect(page).toHaveURL(/\/login/, { timeout: 10_000 });
-      const url = page.url();
-      expect(url).toContain(`dhRedirectTo=${encodeURIComponent('/')}`);
+      expect(page.url()).toContain(`dhRedirectTo=${encodeURIComponent('/')}`);
     });
   });
 });

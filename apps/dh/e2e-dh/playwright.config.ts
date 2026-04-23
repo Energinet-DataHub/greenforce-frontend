@@ -20,8 +20,11 @@ import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
 
 import { workspaceRoot } from '@nx/devkit';
+import * as path from 'node:path';
 
 const baseURL = process.env['BASE_URL'] || 'https://localhost:4200';
+
+const STORAGE_STATE = path.resolve(__dirname, '.auth/user.json');
 
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
@@ -41,8 +44,18 @@ export default defineConfig({
   },
   projects: [
     {
-      name: 'chromium',
+      name: 'setup',
+      testMatch: /auth\.setup\.ts$/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
+    },
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        storageState: STORAGE_STATE,
+      },
+      dependencies: ['setup'],
     },
   ],
   webServer: {

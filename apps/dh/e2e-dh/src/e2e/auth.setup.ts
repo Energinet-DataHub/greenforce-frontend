@@ -1,0 +1,61 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { test as setup, expect } from '@playwright/test';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+
+const STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'user.json');
+
+setup('authenticate', async ({ page, context }) => {
+  const email = process.env['DH_E2E_USERNAME'] ?? '';
+  const password = process.env['DH_E2E_PASSWORD'] ?? '';
+
+  if (!email || !password) {
+    throw new Error(
+      'DH_E2E_USERNAME and DH_E2E_PASSWORD environment variables must be set for the auth setup project'
+    );
+  }
+
+  // Decline cookie banner ahead of navigation so it does not intercept clicks.
+  await context.addCookies([
+    {
+      name: 'CookieInformationConsent',
+      value: encodeURIComponent('{"consents_approved":[]}'),
+      domain: 'localhost',
+      path: '/',
+      sameSite: 'Lax',
+      secure: true,
+    },
+  ]);
+
+  await page.goto('/');
+  await page.getByRole('button', { name: /login.*(brugernavn|username)/i }).click();
+
+  // B2C exposes accessible labels (Danish locale on dev/test tenants).
+  await page.getByLabel(/mailadresse|email/i).fill(email);
+  await page.getByLabel(/adgangskode|password/i).fill(password);
+  await page.getByRole('button', { name: /log på|sign in/i }).click();
+
+  // Login is complete when the authenticated shell renders. The profile menu only exists
+  // on authenticated pages, so this works regardless of the user's default landing route.
+  await expect(page.getByTestId('profileMenu')).toBeVisible({ timeout: 30_000 });
+
+  fs.mkdirSync(path.dirname(STORAGE_STATE), { recursive: true });
+  await page.context().storageState({ path: STORAGE_STATE });
+});

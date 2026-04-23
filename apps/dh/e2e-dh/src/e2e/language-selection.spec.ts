@@ -17,45 +17,33 @@
  */
 //#endregion
 
-import { test, expect } from '../fixtures/dh-test';
+import { test, expect } from '@playwright/test';
 
 test.describe('Language selection', () => {
-  test.skip();
-
   const initialUrl = '/message-archive';
 
-  test.beforeEach(async ({ login }) => {
-    await login(initialUrl);
-  });
-
-  test('toggle languages', async ({ page }) => {
+  test('toggles between Danish and English', async ({ page }) => {
     await page.goto(initialUrl);
 
-    // Given no language is selected
-    // Then Danish translations are displayed
+    // Default locale is Danish
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
-    // When English is selected
-    // Then English translations are displayed
-    await page.getByTestId('profileMenu').click();
-    await page.getByText('English').click();
-
-    // Handle the auto-opening modal
+    // Close the auto-opening "New search" dialog so it does not block the profile menu.
     const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible({ timeout: 10_000 });
+    await expect(dialog).toBeVisible();
     await page.getByRole('button', { name: /close/i }).click();
     await expect(dialog).toBeHidden();
 
+    // Switch to English via the profile menu. The menu item shows the OTHER language name.
+    await page.getByTestId('profileMenu').click();
+    await page.getByRole('menuitem', { name: 'English' }).click();
     await expect(
       page.getByRole('heading', { name: /Search in request and response messages/i })
     ).toBeVisible();
 
-    // Given English is selected
-    // When Danish is selected
-    // Then Danish translations are displayed
+    // Switch back to Danish
     await page.getByTestId('profileMenu').click();
-    await page.getByText('Dansk').click();
-
+    await page.getByRole('menuitem', { name: 'Dansk' }).click();
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
   });
 });
