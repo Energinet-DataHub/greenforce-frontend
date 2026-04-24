@@ -316,6 +316,14 @@ export class DhUpdateCustomerDataComponent {
     () => this.form().controls.privateCustomerDetails.controls.customerName1
   );
 
+  private readonly businessCustomerNameChanged = dhFormControlToSignal(
+    () => this.form().controls.businessCustomerDetails.controls.companyName
+  );
+
+  private readonly primaryCustomerName = computed(() =>
+    this.isBusinessCustomer() ? this.businessCustomerNameChanged() : this.legalCustomerNameChanged()
+  );
+
   private readonly prefillCustomerNameFromTemporaryStorage = effect(() => {
     const data = this.temporaryStorageCustomer();
     if (!data) return;
@@ -341,12 +349,12 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncTechnicalContactName = effect(() => {
     const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control =
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      technicalNameSameAsContactName ? legalCustomerName : this.effectiveTechnicalContact()?.name,
+      technicalNameSameAsContactName ? primaryCustomerName : this.effectiveTechnicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
@@ -378,11 +386,11 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncLegalContactName = effect(() => {
     const legalNameSameAsContactName = this.legalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      legalNameSameAsContactName ? legalCustomerName : this.effectiveLegalContact()?.name,
+      legalNameSameAsContactName ? primaryCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
   });
