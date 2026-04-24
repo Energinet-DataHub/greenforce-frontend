@@ -5,7 +5,7 @@
     "generate": {
       "executor": "nx:run-commands",
       "cache": true,
-      "inputs": ["{workspaceRoot}/libs/**/src/i18n/*.json", "{projectRoot}/codegen.ts"],
+      "inputs": ["{workspaceRoot}/libs/dh/*/i18n/*.json", "{projectRoot}/codegen.ts"],
       "outputs": [
         "{projectRoot}/src/generated/i18n/types.ts",
         "{projectRoot}/src/generated/i18n/providers.ts"

@@ -1,8 +1,8 @@
 import { join, relative } from 'path';
-import { writeFileSync, mkdirSync, existsSync } from 'fs';
+import { mkdirSync, globSync, readFileSync, writeFileSync } from 'fs';
 import { format, resolveConfig } from 'prettier';
 
-import { createProjectGraphAsync, names, normalizePath, readJsonFile } from '@nx/devkit';
+import { names, normalizePath } from '@nx/devkit';
 import { Result } from 'typescript-result';
 
 const OUTPUT_DIR = 'libs/dh/globalization/domain/src/generated/i18n';
@@ -23,7 +23,7 @@ function generateType(obj: unknown): string {
 function generateProvider(name: string, folder: string) {
   const i18nPath = normalizePath(relative(OUTPUT_DIR, folder));
   return `
-    export const ${names(name).propertyName}TranslocoScope = [
+    export const ${name}TranslocoScope = [
       provideTranslocoScope({
         scope: '${name}',
         loader: {
@@ -41,31 +41,38 @@ async function saveFile(path: string, content: string) {
 }
 
 export async function main() {
-  const graph = await createProjectGraphAsync();
-  const translations = Object.values(graph.nodes)
-    .map((n) => ({ project: n.name, folder: join(n.data.root, `src/i18n`) }))
-    .filter(({ folder }) => existsSync(folder))
-    .map(({ project, folder }) => ({
-      project,
+  const translations = globSync('libs/dh/*/i18n/da.json').map((daPath) => {
+    const parts = daPath.split('/');
+    const domain = parts[2];
+    const folder = parts.slice(0, -1).join('/');
+    const enPath = join(folder, 'en.json');
+
+    return {
+      domain,
       folder,
-      files: ['da', 'en']
-        .map((lang) => join(folder, `${lang}.json`))
-        .map((f) => (existsSync(f) ? Result.ok(f) : Result.error(`Missing file "${f}"`))),
-    }));
+      files: [daPath, enPath].map((f) => {
+        try {
+          return Result.ok({ path: f, json: JSON.parse(readFileSync(f, 'utf-8')) });
+        } catch {
+          return Result.error(`Missing file "${f}"`);
+        }
+      }),
+    };
+  });
 
   const scopes = translations
     .filter((s) => s.files.every((r) => r.ok))
-    .sort((a, b) => a.project.localeCompare(b.project))
+    .sort((a, b) => a.domain.localeCompare(b.domain))
     .map((s) => {
-      const [da, en] = s.files.map((f) => readJsonFile<Record<string, unknown>>(f.getOrThrow()));
+      const [da, en] = s.files.map((f) => f.value.json as Record<string, unknown>);
       const diff = [da, en]
         .map((json) => flattenKeys(json))
         .map((keys) => new Set(keys))
-        .reduce((da, en) => da.symmetricDifference(en));
+        .reduce((a, b) => a.symmetricDifference(b));
 
       return diff.size
-        ? Result.error({ name: s.project, keys: [...diff] })
-        : Result.ok({ name: s.project, folder: s.folder, json: da });
+        ? Result.error({ name: s.domain, keys: [...diff] })
+        : Result.ok({ name: s.domain, folder: s.folder, json: da });
     });
 
   const defs = scopes
