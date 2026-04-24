@@ -17,12 +17,12 @@
  */
 //#endregion
 import { FormsModule } from '@angular/forms';
-import { afterRenderEffect, Component, effect, input, output, viewChild } from '@angular/core';
+import { afterRenderEffect, Component, input, output, viewChild } from '@angular/core';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
@@ -101,7 +101,10 @@ export class DhAssignableUserRolesComponent {
 
   actorId = input<string | null>();
 
-  assignableUserRolesQuery = lazyQuery(GetUserRolesByActorIdDocument);
+  assignableUserRolesQuery = query(GetUserRolesByActorIdDocument, () => {
+    const actorId = this.actorId();
+    return actorId ? { variables: { actorId } } : { skip: true };
+  });
 
   isLoading = this.assignableUserRolesQuery.loading;
   hasError = this.assignableUserRolesQuery.hasError;
@@ -111,11 +114,6 @@ export class DhAssignableUserRolesComponent {
   selectedUserRoles = output<UserRoleItem[]>();
 
   constructor() {
-    effect(() => {
-      const actorId = this.actorId();
-      if (actorId === undefined || actorId === null) return;
-      this.assignableUserRolesQuery.query({ variables: { actorId } });
-    });
     afterRenderEffect(() => {
       this.dataSource.data = this.assignableUserRolesQuery.data()?.userRolesByActorId ?? [];
       this.clearSelection();

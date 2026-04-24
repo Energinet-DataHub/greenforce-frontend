@@ -28,7 +28,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
@@ -99,7 +99,9 @@ export class DhPermissionEditComponent {
   private navigationService = inject(DhNavigationService);
 
   private updatePermission = mutation(UpdatePermissionDocument);
-  private permissionQuery = lazyQuery(GetPermissionEditDocument);
+  private permissionQuery = query(GetPermissionEditDocument, () => ({
+    variables: { id: parseInt(this.id()) },
+  }));
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -118,10 +120,6 @@ export class DhPermissionEditComponent {
   });
 
   constructor() {
-    effect(() => {
-      this.permissionQuery.query({ variables: { id: parseInt(this.id()) } });
-    });
-
     effect(() => {
       const permission = this.permission();
       if (permission) {
