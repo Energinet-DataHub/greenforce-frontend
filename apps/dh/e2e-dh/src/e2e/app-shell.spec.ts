@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/dh-test';
 
 test.describe('Application shell', () => {
   const initialUrl = '/message-archive';

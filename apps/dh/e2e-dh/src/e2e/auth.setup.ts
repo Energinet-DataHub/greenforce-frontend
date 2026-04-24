@@ -21,6 +21,7 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 const STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'user.json');
+const SESSION_STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'session.json');
 
 setup('authenticate', async ({ page, context }) => {
   const email = process.env['DH_E2E_USERNAME'] ?? '';
@@ -59,4 +60,19 @@ setup('authenticate', async ({ page, context }) => {
 
   fs.mkdirSync(path.dirname(STORAGE_STATE), { recursive: true });
   await page.context().storageState({ path: STORAGE_STATE });
+
+  // MSAL caches tokens in sessionStorage (see dh-b2c-config.ts). Playwright's storageState
+  // only serializes cookies + localStorage, so we have to capture sessionStorage ourselves
+  // and replay it via an addInitScript fixture in fixtures/dh-test.ts.
+  const serialized = await page.evaluate(() => {
+    const entries: Record<string, string> = {};
+    for (let i = 0; i < window.sessionStorage.length; i++) {
+      const key = window.sessionStorage.key(i);
+      if (key !== null) {
+        entries[key] = window.sessionStorage.getItem(key) ?? '';
+      }
+    }
+    return JSON.stringify(entries);
+  });
+  fs.writeFileSync(SESSION_STORAGE_STATE, serialized);
 });

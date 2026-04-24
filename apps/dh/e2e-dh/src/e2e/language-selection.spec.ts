@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/dh-test';
 
 test.describe('Language selection', () => {
   const initialUrl = '/message-archive';

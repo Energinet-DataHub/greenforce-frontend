@@ -17,14 +17,15 @@
  */
 //#endregion
 
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures/dh-test';
 
 test.describe('Redirect to initial URL', () => {
   const initialUrl = '/market-participant/actors';
 
   test.describe('Before login', () => {
-    // Opt out of the authenticated storageState for this scenario.
-    test.use({ storageState: { cookies: [], origins: [] } });
+    // Opt out of the authenticated state: clear cookies/localStorage via storageState and
+    // disable the sessionStorage replay fixture.
+    test.use({ storageState: { cookies: [], origins: [] }, authenticated: false });
 
     test('redirects to /login with dhRedirectTo preserved', async ({ page }) => {
       await page.goto(initialUrl);
