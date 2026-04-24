@@ -24,9 +24,10 @@ const SESSION_STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'sess
 
 type DhFixtures = {
   /**
-   * When true (default), the fixture replays the MSAL session captured by auth.setup.ts into
-   * sessionStorage for every new page in the context. Set to false for specs that intentionally
-   * exercise the unauthenticated state.
+   * When true (default), the fixture seeds the MSAL session captured by auth.setup.ts into
+   * sessionStorage once at the start of the test. Subsequent navigations (including logout)
+   * then behave naturally: the browser does NOT re-inject the tokens on every page load.
+   * Set to false for specs that intentionally exercise the unauthenticated state.
    */
   authenticated: boolean;
 };
@@ -34,19 +35,24 @@ type DhFixtures = {
 export const test = base.extend<DhFixtures>({
   authenticated: [true, { option: true }],
 
-  context: async ({ context, authenticated }, use) => {
+  page: async ({ page, authenticated }, use) => {
     if (authenticated && fs.existsSync(SESSION_STORAGE_STATE)) {
       const serialized = fs.readFileSync(SESSION_STORAGE_STATE, 'utf-8');
-      await context.addInitScript((storage) => {
-        if (window.location.hostname === 'localhost') {
-          const entries = JSON.parse(storage) as Record<string, string>;
-          for (const [key, value] of Object.entries(entries)) {
-            window.sessionStorage.setItem(key, value);
-          }
+      // page.evaluate needs an active document at the target origin, so visit '/' first.
+      // The app will redirect to /login because no tokens are present yet; that's fine,
+      // we are about to plant them.
+      await page.goto('/');
+      await page.evaluate((storage) => {
+        const entries = JSON.parse(storage) as Record<string, string>;
+        for (const [key, value] of Object.entries(entries)) {
+          window.sessionStorage.setItem(key, value);
         }
       }, serialized);
+      // When the test's next page.goto fires, the bundle re-boots and MSAL reads the
+      // freshly-seeded tokens from sessionStorage. Logout later clears them and is NOT
+      // overwritten on the post-logout redirect, so the unauthenticated state sticks.
     }
-    await use(context);
+    await use(page);
   },
 });
 
