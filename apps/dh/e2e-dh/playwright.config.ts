@@ -36,6 +36,13 @@ export default defineConfig({
     baseURL,
     locale: 'da-DK',
     ignoreHTTPSErrors: true,
+    // The Angular dev server uses a self-signed cert. `ignoreHTTPSErrors` lets the browser
+    // navigate, but Chrome applies stricter rules to service worker registration and refuses
+    // to fetch mockServiceWorker.js over HTTPS with a cert it does not trust. Without this
+    // flag MSW never starts, and API calls fall through to the dead BFF port.
+    launchOptions: {
+      args: ['--ignore-certificate-errors'],
+    },
     trace: 'on-first-retry',
     video: 'retain-on-failure',
   },
