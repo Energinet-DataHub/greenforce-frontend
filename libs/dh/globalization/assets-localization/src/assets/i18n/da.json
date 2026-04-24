@@ -1198,6 +1198,7 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_036_EXECUTIONDATE_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
