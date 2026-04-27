@@ -101,12 +101,15 @@ export class DhSelectedActorComponent {
 
       // If no selected market participant is set in the storage, set the selected market participant.
       if (marketParticipant && !hasSelectedMarketParticipantInStorage) {
-        this.selectMarketParticipant(marketParticipant);
+        this.selectMarketParticipant(marketParticipant, 'effect');
       }
     });
   }
 
-  selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
+  selectMarketParticipant = async (
+    marketParticipant: SelectionMarketParticipant,
+    source: 'effect' | 'template'
+  ) => {
     this.actorStorage.setSelectedActor(marketParticipant);
 
     const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
@@ -115,7 +118,9 @@ export class DhSelectedActorComponent {
       await this.router.navigate([maybeRedirectUrl]);
     }
 
-    this.location.reload();
+    if (source === 'template') {
+      this.location.reload();
+    }
   };
 
   isMarketParticipantSelected = (marketParticipant: SelectionMarketParticipant) =>
