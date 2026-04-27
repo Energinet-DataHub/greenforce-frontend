@@ -25,13 +25,11 @@ test.describe('Application shell', () => {
   test('shows the selected actor and reveals organization name on click', async ({ page }) => {
     await page.goto(initialUrl);
 
-    // Close the auto-opening "New search" dialog first; it is rendered on top of the page
-    // shell and its backdrop blocks visibility checks on elements underneath. Escape works
-    // reliably; the Watt modal close button's aria-label sits on the <watt-button> wrapper,
-    // so a role query for the inner native button does not match.
+    // Close the auto-opening "New search" dialog before interacting with the page shell;
+    // its backdrop blocks visibility checks on elements underneath.
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible({ timeout: 15_000 });
-    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: /close/i }).click();
     await expect(dialog).toBeHidden();
 
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
