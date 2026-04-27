@@ -10,4 +10,20 @@
     -->
     <AdditionalFiles Include="$(MSBuildThisFileDirectory)\stylecop.json" />
   </ItemGroup>
+
+  <!--
+  Pin OpenTelemetry packages to 1.15.3, which patches three GHSAs published
+  after main was last built green:
+    - GHSA-g94r-2vxg-569j (OpenTelemetry.Api, OpenTelemetry.Extensions.Propagators)
+    - GHSA-mr8r-92fq-pj8p (OpenTelemetry.Exporter.OpenTelemetryProtocol)
+    - GHSA-q834-8qmm-v933 (OpenTelemetry.Exporter.OpenTelemetryProtocol)
+  Without these explicit references, Azure.Monitor.OpenTelemetry.AspNetCore pulls in
+  the older vulnerable versions transitively and TreatWarningsAsErrors=true turns
+  NU1902 into a build failure.
+  -->
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Api" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Extensions.Propagators" Version="1.15.3" />
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.3" />
+  </ItemGroup>
 </Project>
