@@ -27,11 +27,12 @@ const baseURL = process.env['BASE_URL'] || 'https://localhost:4200';
 const STORAGE_STATE = path.resolve(__dirname, '.auth/user.json');
 
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
+  // The preset already configures fullyParallel, retries, and the html + (CI-only) blob
+  // reporters with output paths under dist/.playwright/<project>/. Those paths are declared
+  // outputs of the e2e target, so Nx Cloud syncs them back from distributed agents to the
+  // orchestrator where the merge-reports step runs.
+  ...nxE2EPreset(__filename, { testDir: './src/e2e', openHtmlReport: 'never' }),
   testIgnore: ['**/b2c-healthchecks.spec.ts'],
-  fullyParallel: true,
-  retries: process.env['CI'] ? 2 : 0,
-  reporter: process.env['CI'] ? [['blob'], ['html', { open: 'never' }]] : [['html']],
   use: {
     baseURL,
     locale: 'da-DK',
