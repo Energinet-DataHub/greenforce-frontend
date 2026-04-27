@@ -151,12 +151,15 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     type: { accessor: (item) => item.charge.type },
     id: { accessor: (item) => item.charge.code },
     name: { accessor: (item) => item.charge.name ?? '' },
-    owner: { accessor: (item) => item.charge.owner?.displayName ?? '' },
     transparentInvoicing: {
       header: '',
       accessor: (item) => item.charge.transparentInvoicing ?? false,
+      size: 'min-content',
     },
-    amount: { accessor: 'amount' },
-    period: { accessor: (item) => item.period },
+    owner: { accessor: (item) => item.charge.owner?.displayName ?? '' },
+    amount: {
+      accessor: (item) => (item.charge.type === ChargeType.Subscription ? item.amount : null),
+    },
+    period: { accessor: (item) => item.period.start },
   };
 }
