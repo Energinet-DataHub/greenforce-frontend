@@ -99,10 +99,10 @@ public static class MoveInOperations
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
                 StartDate: resolvedStartDate,
-                FirstCustomerCpr: firstCustomerCpr,
+                FirstCustomerCpr: firstCustomerCpr ?? FakeCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
-                SecondCustomerCpr: secondCustomerCpr,
+                SecondCustomerCpr: secondCustomerCpr ?? (secondCustomerName is not null ? FakeCpr : null),
                 SecondCustomerName: secondCustomerName,
                 ProtectedName: protectedName,
                 ElectricalHeating: electricalHeating,
@@ -119,4 +119,10 @@ public static class MoveInOperations
             .InZone(LocalDateExtensions.DanishTimeZone)
             .Date
             .ToUtcDateTimeOffset();
+
+    /// <summary>
+    /// Placeholder CPR used when the CPR is not provided by the user.
+    /// EDI B2C does not support null for CPR fields; this value signals "unchanged".
+    /// </summary>
+    private const string FakeCpr = "0000000000";
 }

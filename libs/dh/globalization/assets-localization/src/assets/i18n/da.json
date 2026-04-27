@@ -1392,7 +1392,9 @@
           "allOnes": "Må ikke bruges"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
-        "nameProtection": "Navnebeskyttelse"
+        "nameProtection": "Navnebeskyttelse",
+        "changeCpr": "Ændr CPR",
+        "hideCpr": "Skjul CPR"
       },
       "contactDetails": {
         "label": "Kontakdetaljer",
@@ -2314,7 +2316,7 @@
         "nameMaxLength": "{{ marketParticipant.actor.create.nameMaxLength }}",
         "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
-        "save": "Gem ændringer",
+        "save": "Gem",
         "updateRequest": {
           "success": "Ændringer gemt",
           "error": "Der opstod desværre en fejl, da vi skulle gemme aktøren."
@@ -2376,13 +2378,7 @@
             "tabLabel": "Aktører"
           },
           "history": {
-            "tabLabel": "Historik",
-            "changeTypes": {
-              "NAME": "<b>{{ auditedBy }}</b> ændrede navnet til <b>{{ currentValue }}</b>",
-              "DOMAIN": "<b>{{ auditedBy }}</b> ændrede domænet til <b>{{ currentValue }}</b>",
-              "DOMAIN_ADDED": "<b>{{ auditedBy }}</b> tilføjede domænet <b>{{ currentValue }}</b>",
-              "DOMAIN_REMOVED": "<b>{{ auditedBy }}</b> fjernede domænet <b>{{ previousValue }}</b>"
-            }
+            "tabLabel": "Historik"
           }
         }
       },
@@ -2428,7 +2424,7 @@
       "BalanceResponsibleParty": "Er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
       "BillingAgent": "Ansvarlig for at fakturere en anden part (TSO)",
       "EnergySupplier": "Afregner elektricitet til eller fra et målepunkt",
-      "GridAccessProvider": "Ansvarlig for håndtering af målepunktpunkter",
+      "GridAccessProvider": "Ansvarlig for håndteringen af målepunktpunkter",
       "ImbalanceSettlementResponsible": "Ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de balanceansvarlige i et planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
       "MeteredDataAdministrator": "Ansvarlig for lagring og distribution af aggregerede data",
       "MeteredDataResponsible": "Ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
@@ -3287,8 +3283,8 @@
                   "Inactive": "Deaktiveret"
                 },
                 "roles": {
-                  "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>",
-                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelse til <b>{{ currentValue }}</b>",
+                  "NAME": "<b>{{ auditedBy }}</b> ændrede navnet på brugerrollen til <b>{{ currentValue }}</b>",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelsen til <b>{{ currentValue }}</b>",
                   "STATUS": "<b>{{ auditedBy }}</b> ændrede status til <b>{{ status }}</b>",
                   "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ affectedPermissionName }}</b>",
                   "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> fjernede rettigheden <b>{{ affectedPermissionName }}</b>"
