@@ -35,7 +35,10 @@ test.describe('Application shell', () => {
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     const selectedActor = page.getByTestId('selectedMarketParticipant');
-    await expect(selectedActor).toBeVisible({ timeout: 10_000 });
+    // Wait for the actor query to resolve. While loading, the trigger renders only a spinner
+    // and the click handler short-circuits (`isOpen = !isOpen && !isLoading()` evaluates to
+    // false), so clicking before any text is rendered is a silent no-op.
+    await expect(selectedActor).toContainText(/\S/, { timeout: 10_000 });
 
     // Clicking the trigger opens the dropup that lists every market participant the user has
     // access to. The actual entries differ between the mocked backend and live envs, so we
