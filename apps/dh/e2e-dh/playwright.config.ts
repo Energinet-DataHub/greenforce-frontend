@@ -37,7 +37,6 @@ export const baseE2EConfig = {
   // outputs of the e2e target, so Nx Cloud syncs them back from distributed agents to the
   // orchestrator where the merge-reports step runs.
   ...nxE2EPreset(__filename, { testDir: './src/e2e', openHtmlReport: 'never' }),
-  testIgnore: ['**/b2c-healthchecks.spec.ts'],
   use: {
     locale: 'da-DK',
     // Honour prefers-reduced-motion in CSS and disable mat / cdk animations. Watt and CDK
