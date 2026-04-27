@@ -67,14 +67,18 @@ setup('authenticate', async ({ page, context }) => {
   // Wait until MSAL has actually written its keys before reading; otherwise page.evaluate can
   // race with a follow-up navigation triggered by MSAL's token refresh and throw
   // "Execution context was destroyed".
-  await page.waitForFunction(() => {
-    for (let i = 0; i < window.sessionStorage.length; i++) {
-      if (window.sessionStorage.key(i)?.startsWith('msal.')) {
-        return true;
+  await page.waitForFunction(
+    () => {
+      for (let i = 0; i < window.sessionStorage.length; i++) {
+        if (window.sessionStorage.key(i)?.startsWith('msal.')) {
+          return true;
+        }
       }
-    }
-    return false;
-  }, null, { timeout: 30_000 });
+      return false;
+    },
+    null,
+    { timeout: 30_000 }
+  );
 
   const serialized = await page.evaluate(() => {
     const entries: Record<string, string> = {};

@@ -26,9 +26,9 @@ test.describe('Language selection', () => {
     await page.goto(initialUrl);
 
     // Default locale is Danish
-    await expect(
-      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
-    ).toBeVisible({ timeout: 15_000 });
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible({
+      timeout: 15_000,
+    });
 
     // Close the auto-opening "New search" dialog via Escape so it does not block the profile
     // menu. The Watt modal close button's aria-label sits on the <watt-button> wrapper, not
