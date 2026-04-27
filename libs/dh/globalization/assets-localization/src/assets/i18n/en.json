@@ -1056,7 +1056,7 @@
         "CustomerMoveOut": "Move-out (E66)",
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
         "ServiceRequest": "Service request (D22)",
-        "UpdateChargeLinks": "Update chargelinks (D17)"
+        "UpdateChargeLinks": "Update charge links (D17)"
       },
       "filters": {
         "created": "Time",
