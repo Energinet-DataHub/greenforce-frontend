@@ -134,6 +134,7 @@ export default class DhMeteringPointEditChargeLink {
       })
   );
 
+  // eslint-disable-next-line @angular-eslint/no-input-rename
   chargeLinkId = input.required<string>({ alias: 'id' });
 
   save = async () => {
