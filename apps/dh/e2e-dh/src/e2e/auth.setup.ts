@@ -23,7 +23,7 @@ import * as path from 'node:path';
 const STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'user.json');
 const SESSION_STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'session.json');
 
-setup('authenticate', async ({ page, context }) => {
+setup('authenticate', async ({ page, context, baseURL }) => {
   const email = process.env['DH_E2E_USERNAME'] ?? '';
   const password = process.env['DH_E2E_PASSWORD'] ?? '';
 
@@ -33,12 +33,15 @@ setup('authenticate', async ({ page, context }) => {
     );
   }
 
-  // Decline cookie banner ahead of navigation so it does not intercept clicks.
+  // Decline cookie banner ahead of navigation so it does not intercept clicks. Derive the
+  // domain from baseURL so the cookie applies whether tests run against localhost (mocked
+  // dev server) or a deployed env (acceptance tests against dev_xxx / preprod).
+  const cookieDomain = baseURL ? new URL(baseURL).hostname : 'localhost';
   await context.addCookies([
     {
       name: 'CookieInformationConsent',
       value: encodeURIComponent('{"consents_approved":[]}'),
-      domain: 'localhost',
+      domain: cookieDomain,
       path: '/',
       sameSite: 'Lax',
       secure: true,

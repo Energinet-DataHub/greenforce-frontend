@@ -25,18 +25,19 @@ test.describe('Language selection', () => {
   test('toggles between Danish and English', async ({ page }) => {
     await page.goto(initialUrl);
 
-    // Default locale is Danish
-    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible({
-      timeout: 15_000,
-    });
-
-    // Close the auto-opening "New search" dialog via Escape so it does not block the profile
-    // menu. The Watt modal close button's aria-label sits on the <watt-button> wrapper, not
-    // the inner button, so role queries cannot reach it directly.
+    // Close the auto-opening "New search" dialog first; its backdrop blocks visibility checks
+    // on the page shell (heading, profile menu) underneath. Escape avoids depending on the
+    // close button's accessible name (Watt modal puts the aria-label on the <watt-button>
+    // wrapper, not on the inner native button).
     const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible();
+    await expect(dialog).toBeVisible({ timeout: 15_000 });
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
+
+    // Default locale is Danish
+    await expect(
+      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
+    ).toBeVisible();
 
     // Switch to English via the profile menu. The menu item shows the OTHER language name.
     await page.getByTestId('profileMenu').click();

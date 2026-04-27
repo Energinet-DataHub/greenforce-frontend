@@ -25,21 +25,26 @@ test.describe('Application shell', () => {
   test('shows the selected actor and reveals organization name on click', async ({ page }) => {
     await page.goto(initialUrl);
 
-    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
-
-    // The "New search" dialog auto-opens on /message-archive; close it via Escape before
-    // interacting with elements behind the backdrop. Watt's modal close button has its
-    // aria-label on the <watt-button> wrapper instead of the inner native button, so role
-    // queries with name=/close/i do not match. Escape avoids the brittleness entirely.
+    // Close the auto-opening "New search" dialog first; it is rendered on top of the page
+    // shell and its backdrop blocks visibility checks on elements underneath. Escape works
+    // reliably; the Watt modal close button's aria-label sits on the <watt-button> wrapper,
+    // so a role query for the inner native button does not match.
     const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible();
+    await expect(dialog).toBeVisible({ timeout: 15_000 });
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
+
+    await expect(
+      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
+    ).toBeVisible();
 
     const selectedActor = page.getByTestId('selectedMarketParticipant');
     await expect(selectedActor).toBeVisible({ timeout: 10_000 });
 
+    // Clicking the trigger opens the dropup that lists every market participant the user has
+    // access to. The actual entries differ between the mocked backend and live envs, so we
+    // assert on the container surfacing rather than a specific organization name.
     await selectedActor.click();
-    await expect(page.getByText('Energinet DataHub A/S').first()).toBeVisible();
+    await expect(page.getByTestId('marketParticipantsDropup')).toBeVisible();
   });
 });

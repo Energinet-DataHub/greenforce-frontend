@@ -18,22 +18,46 @@
 //#endregion
 import { defineConfig, devices } from '@playwright/test';
 import { nxE2EPreset } from '@nx/playwright/preset';
+import * as path from 'node:path';
+
+// Acceptance tests run against a deployed environment. dh3-environments sets BASE_URL to the
+// frontend URL of the target stage (dev_002, preprod, etc.). Tests authenticate via the same
+// B2C tenant, then navigate inside the deployed app.
+const baseURL = process.env['BASE_URL'] ?? 'https://dev002.datahub3.dk';
+
+const STORAGE_STATE = path.resolve(__dirname, '.auth/user.json');
 
 export default defineConfig({
-  ...nxE2EPreset(__filename, { testDir: './src/e2e' }),
-  fullyParallel: true,
-  retries: process.env['CI'] ? 2 : 0,
+  // The preset configures fullyParallel, retries, and the html + (CI-only) blob reporter
+  // pair with output paths under dist/.playwright/<project>/.
+  ...nxE2EPreset(__filename, { testDir: './src/e2e', openHtmlReport: 'never' }),
+  testIgnore: ['**/b2c-healthchecks.spec.ts'],
   use: {
+    baseURL,
+    locale: 'da-DK',
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
     video: 'retain-on-failure',
   },
   timeout: 30_000,
+  expect: {
+    timeout: 6_000,
+  },
   projects: [
     {
-      name: 'chromium',
+      name: 'setup',
+      testMatch: /auth\.setup\.ts$/,
       use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
     },
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+        storageState: STORAGE_STATE,
+      },
+      dependencies: ['setup'],
+    },
   ],
-  testIgnore: ['**/b2c-healthchecks.spec.ts'],
+  // No webServer: tests run against the deployed BASE_URL.
 });
