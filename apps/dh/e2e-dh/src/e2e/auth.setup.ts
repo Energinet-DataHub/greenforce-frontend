@@ -63,7 +63,19 @@ setup('authenticate', async ({ page, context }) => {
 
   // MSAL caches tokens in sessionStorage (see dh-b2c-config.ts). Playwright's storageState
   // only serializes cookies + localStorage, so we have to capture sessionStorage ourselves
-  // and replay it via an addInitScript fixture in fixtures/dh-test.ts.
+  // and replay it via fixtures/dh-test.ts.
+  // Wait until MSAL has actually written its keys before reading; otherwise page.evaluate can
+  // race with a follow-up navigation triggered by MSAL's token refresh and throw
+  // "Execution context was destroyed".
+  await page.waitForFunction(() => {
+    for (let i = 0; i < window.sessionStorage.length; i++) {
+      if (window.sessionStorage.key(i)?.startsWith('msal.')) {
+        return true;
+      }
+    }
+    return false;
+  }, null, { timeout: 30_000 });
+
   const serialized = await page.evaluate(() => {
     const entries: Record<string, string> = {};
     for (let i = 0; i < window.sessionStorage.length; i++) {

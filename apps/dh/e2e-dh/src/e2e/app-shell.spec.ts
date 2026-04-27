@@ -27,11 +27,13 @@ test.describe('Application shell', () => {
 
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
-    // The "New search" dialog auto-opens on /message-archive; close it before interacting
-    // with elements behind the backdrop.
+    // The "New search" dialog auto-opens on /message-archive; close it via Escape before
+    // interacting with elements behind the backdrop. Watt's modal close button has its
+    // aria-label on the <watt-button> wrapper instead of the inner native button, so role
+    // queries with name=/close/i do not match. Escape avoids the brittleness entirely.
     const dialog = page.getByRole('dialog');
     await expect(dialog).toBeVisible();
-    await page.getByRole('button', { name: /close/i }).click();
+    await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
 
     const selectedActor = page.getByTestId('selectedMarketParticipant');
