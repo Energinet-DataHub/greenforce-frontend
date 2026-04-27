@@ -52,6 +52,7 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
       [type]="type()"
       [color]="variant()"
       [attr.form]="type() === 'submit' ? formId() : null"
+      [attr.aria-label]="ariaLabel()"
     >
       @if (loading()) {
         <watt-spinner [diameter]="18" />
@@ -76,6 +77,12 @@ export class WattButtonComponent {
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
+  /**
+   * Forwards an accessible label to the inner native `<button>`. Required when the button has
+   * no visible text content (e.g. icon-only variants), so screen readers and role-based
+   * locators can identify it.
+   */
+  ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
 

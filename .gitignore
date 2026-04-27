@@ -39,11 +39,14 @@ libs/dh/shared/domain/src/generated/graphql
 # nested node_modules
 node_modules
 
+# Playwright
+test-output/
+playwright-report/
+blob-report/
+.auth/
+
 # Nx Cloud may drop task terminal output at the workspace root; keep it out of "QA fixes" auto-commits
 /terminalOutput
-
-# Cypress
-cypress.env.json
 
 # Design tokens
 style-dictionary-tokens
