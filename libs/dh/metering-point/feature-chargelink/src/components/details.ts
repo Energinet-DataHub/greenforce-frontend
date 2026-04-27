@@ -31,7 +31,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { ChargeLinkOverview } from '../types';
+import { ChargeLinkOverview, FeeOrSubscription } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,14 +83,18 @@ import { ChargeLinkOverview } from '../types';
                 <watt-icon name="moreVertical" />
               </watt-button>
               <watt-menu #actions>
-                @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
+                @if (feeOrSubscription()) {
                   <watt-menu-item [routerLink]="['edit', item()?.chargeLinkId]">
                     {{ t('edit') }}
                   </watt-menu-item>
                 }
-                <watt-menu-item [routerLink]="['stop', item()?.chargeLinkId]">
-                  {{ t('stop') }}
-                </watt-menu-item>
+
+                @if (chargeType() !== 'FEE') {
+                  <watt-menu-item [routerLink]="['stop', item()?.chargeLinkId]">
+                    {{ t('stop') }}
+                  </watt-menu-item>
+                }
+
                 @if (!item()?.period?.end) {
                   <watt-menu-item [routerLink]="['cancel', item()?.chargeLinkId]">
                     {{ t('cancel') }}
@@ -130,7 +134,17 @@ import { ChargeLinkOverview } from '../types';
 })
 export class DhChargeLinkDetails {
   readonly item = model<ChargeLinkOverview>();
+
   readonly chargeType = computed(() => this.item()?.charge?.type);
+  readonly feeOrSubscription = computed((): FeeOrSubscription | undefined => {
+    const chargeType = this.chargeType();
+
+    if (chargeType === 'FEE' || chargeType === 'SUBSCRIPTION') {
+      return chargeType;
+    }
+
+    return undefined;
+  });
 
   // TODO: Re-enable history
   // historyQuery = query(GetChargeLinkHistoryDocument, () => ({
