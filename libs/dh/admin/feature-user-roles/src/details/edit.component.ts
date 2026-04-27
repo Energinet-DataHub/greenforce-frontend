@@ -31,7 +31,7 @@ import { WattModalComponent, WATT_MODAL } from '@energinet/watt/modal';
 import { WattTabComponent, WattTabsComponent } from '@energinet/watt/tabs';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionsTableComponent } from '@energinet-datahub/dh/admin/ui-shared';
 
 import {
@@ -84,7 +84,10 @@ export class DhUserRoleEditComponent {
   private navigationService = inject(DhNavigationService);
 
   private userRoleEditMutation = mutation(UpdateUserRoleDocument);
-  private userRoleWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
+  private userRoleWithPermissionsQuery = query(GetUserRoleWithPermissionsDocument, () => {
+    const id = this.id();
+    return id ? { variables: { id } } : { skip: true };
+  });
 
   // Router param
   id = input<string>();
@@ -92,7 +95,10 @@ export class DhUserRoleEditComponent {
   userRole = computed(() => this.userRoleWithPermissionsQuery.data()?.userRoleById);
   roleName = computed(() => this.userRole()?.name ?? '');
 
-  permissionsQuery = lazyQuery(GetPermissionByEicFunctionDocument);
+  permissionsQuery = query(GetPermissionByEicFunctionDocument, () => {
+    const userRole = this.userRole();
+    return userRole ? { variables: { eicFunction: userRole.eicFunction } } : { skip: true };
+  });
 
   permissions = computed<PermissionDetailsDto[]>(
     () => this.permissionsQuery.data()?.permissionsByEicFunction ?? []
@@ -130,11 +136,7 @@ export class DhUserRoleEditComponent {
 
   constructor() {
     afterRenderEffect(() => {
-      const id = this.id();
-
-      if (id) {
-        this.userRoleWithPermissionsQuery.query({ variables: { id } });
-      }
+      this.id();
       this.modal().open();
     });
 
@@ -148,8 +150,6 @@ export class DhUserRoleEditComponent {
           description: userRole.description,
           permissionIds,
         });
-
-        this.permissionsQuery.query({ variables: { eicFunction: userRole.eicFunction } });
       }
     });
   }

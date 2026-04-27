@@ -46,6 +46,7 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
   DhResetFiltersButtonComponent,
+  dhFormControlToSignal,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
@@ -115,7 +116,9 @@ import { exists } from '@energinet-datahub/dh/shared/util-operators';
 export class DhUsersOverviewFiltersComponent {
   private fb = inject(NonNullableFormBuilder);
   private marketParticipants = query(GetFilteredMarketParticipantsDocument);
-  private userRoles = query(GetUserRolesDocument);
+  private userRoles = query(GetUserRolesDocument, () => ({
+    variables: { actorId: this.actorId() },
+  }));
 
   form = this.fb.group({
     status: new FormControl<UserStatus[]>([
@@ -164,10 +167,9 @@ export class DhUsersOverviewFiltersComponent {
     { requireSync: true }
   );
 
-  actorId = toSignal<string | null>(this.form.controls.actorId.valueChanges);
+  actorId = dhFormControlToSignal(this.form.controls.actorId);
 
   constructor() {
     effect(() => this.filter.emit(this.values()));
-    effect(() => this.userRoles.refetch({ actorId: this.actorId() }));
   }
 }

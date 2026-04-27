@@ -16,18 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { VaterFlexComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetMeteringPointDebugViewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhIsValidMeteringPointId, DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhFormControlToSignal,
+  dhIsValidMeteringPointId,
+  DhResultComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-metering-points-master-data-uploader.component';
 
@@ -98,23 +101,14 @@ import { DhMeteringPointsMasterDataUploaderComponent } from './file-uploader/dh-
   `,
 })
 export class DhMeteringPointComponent {
-  query = lazyQuery(GetMeteringPointDebugViewDocument);
+  meteringPointIdFormControl = new FormControl();
+  meteringPointId = dhFormControlToSignal(this.meteringPointIdFormControl);
+  query = query(GetMeteringPointDebugViewDocument, () => {
+    const meteringPointId = this.meteringPointId();
+    return dhIsValidMeteringPointId(meteringPointId)
+      ? { variables: { meteringPointId } }
+      : { skip: true };
+  });
 
   debugView = computed(() => this.query.data()?.debugView);
-
-  meteringPointIdFormControl = new FormControl();
-
-  meteringPointId = toSignal(this.meteringPointIdFormControl.valueChanges);
-
-  constructor() {
-    effect(() => {
-      const meteringPointId = this.meteringPointId();
-
-      if (!dhIsValidMeteringPointId(meteringPointId)) return;
-
-      this.query.query({
-        variables: { meteringPointId },
-      });
-    });
-  }
 }
