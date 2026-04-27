@@ -35,6 +35,9 @@ export default defineConfig({
   use: {
     baseURL,
     locale: 'da-DK',
+    // Honour prefers-reduced-motion: turns CDK / Watt animations into instant transitions so
+    // "element is not stable" errors from in-flight animations cannot appear.
+    reducedMotion: 'reduce',
     ignoreHTTPSErrors: true,
     trace: 'on-first-retry',
     video: 'retain-on-failure',

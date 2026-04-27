@@ -39,8 +39,9 @@ test.describe('Application shell', () => {
 
     // Clicking the trigger opens the dropup that lists every market participant the user has
     // access to. The actual entries differ between the mocked backend and live envs, so we
-    // assert on the container surfacing rather than a specific organization name.
+    // assert on the container surfacing rather than a specific organization name. The dropup
+    // is portalled via CDK overlay, so first render can take a moment.
     await selectedActor.click();
-    await expect(page.getByTestId('marketParticipantsDropup')).toBeVisible();
+    await expect(page.getByTestId('marketParticipantsDropup')).toBeVisible({ timeout: 10_000 });
   });
 });

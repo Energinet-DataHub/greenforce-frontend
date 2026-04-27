@@ -36,6 +36,10 @@ export default defineConfig({
   use: {
     baseURL,
     locale: 'da-DK',
+    // Honour prefers-reduced-motion in CSS and disable mat / cdk animations. Watt and CDK
+    // both respect the media query, so transitions become instant and "element is not
+    // stable" errors from in-flight animations disappear.
+    reducedMotion: 'reduce',
     ignoreHTTPSErrors: true,
     // The Angular dev server uses a self-signed cert. `ignoreHTTPSErrors` lets the browser
     // navigate, but Chrome applies stricter rules to service worker registration and refuses
