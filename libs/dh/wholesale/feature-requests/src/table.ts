@@ -69,10 +69,7 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
     >
       <watt-data-actions>
         <watt-button
-          *dhPermissionRequired="[
-            'request-aggregated-measured-data:view',
-            'request-wholesale-settlement:view',
-          ]"
+          *dhPermissionRequired="['request-aggregated-measured-data:view']"
           variant="secondary"
           icon="plus"
           data-testid="newRequest"
