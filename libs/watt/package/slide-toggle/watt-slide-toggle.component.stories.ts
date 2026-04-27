@@ -41,6 +41,10 @@ const SlideToggleStory: StoryFn<WattSlideToggleComponent> = (args) => ({
 export const SlideToggle = SlideToggleStory.bind({});
 SlideToggle.args = {};
 
+export const Small: StoryFn<WattSlideToggleComponent> = () => ({
+  template: `<watt-slide-toggle size="small">Toggle me</watt-slide-toggle>`,
+});
+
 export const WithFormControl: StoryFn<WattSlideToggleComponent> = () => ({
   props: {
     exampleFormControl: new FormControl(false),
