@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-
-import { Component, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -31,11 +30,15 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ChargeType,
+  EditChargeLinkDocument,
+  GetChargeByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -78,16 +81,18 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
         direction="column"
         gap="s"
         tabindex="-1"
-        [formGroup]="form"
+        [formGroup]="form()"
       >
-        <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')">
-          @if (form.controls.factor.errors?.min) {
+        <watt-text-field [formControl]="form().controls.factor" [label]="t('factor')">
+          @if (form().controls.factor.errors?.min) {
             <watt-field-error>
-              {{ t('errors.factorMin', { min: form.controls.factor.errors?.min.min }) }}
+              {{ t('errors.factorMin', { min: form().controls.factor.errors?.min.min }) }}
             </watt-field-error>
           }
         </watt-text-field>
-        <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
+        @if (chargeType() === 'SUBSCRIPTION') {
+          <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
+        }
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="edit.close(false)">
@@ -102,27 +107,48 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
 })
 export default class DhMeteringPointEditChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
-  private readonly edit = mutation(EditChargeLinkDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
-  navigate = inject(DhNavigationService);
-  form = new FormGroup({
-    factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
-    startDate: dhMakeFormControl<Date>(null, [Validators.required]),
+
+  query = query(GetChargeByIdDocument, () => ({ variables: { id: this.chargeLinkId() } }));
+
+  chargeType = computed<ChargeType | undefined>(() => this.query.data()?.chargeById?.type);
+  periodStart = computed<Date | null>(() => {
+    if (this.chargeType() === 'FEE') {
+      const firstPeriodStart = this.query.data()?.chargeById?.periods?.[0]?.period.start;
+
+      return firstPeriodStart ?? null;
+    }
+
+    return null;
   });
 
-  id = input.required<string>();
+  private readonly edit = mutation(EditChargeLinkDocument);
+  private readonly modal = viewChild.required(WattModalComponent);
+
+  navigate = inject(DhNavigationService);
+
+  form = computed(
+    () =>
+      new FormGroup({
+        factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
+        startDate: dhMakeFormControl<Date>(this.periodStart(), [Validators.required]),
+      })
+  );
+
+  chargeLinkId = input.required<string>({ alias: 'id' });
 
   save = async () => {
-    if (this.form.invalid) return;
+    const form = this.form();
 
-    assertIsDefined(this.form.value.startDate);
-    assertIsDefined(this.form.value.factor);
+    if (form.invalid) return;
+
+    assertIsDefined(form.value.startDate);
+    assertIsDefined(form.value.factor);
 
     await this.edit.mutate({
       variables: {
-        id: this.id(),
-        newStartDate: this.form.value.startDate,
-        factor: parseInt(this.form.value.factor),
+        id: this.chargeLinkId(),
+        newStartDate: form.value.startDate,
+        factor: parseInt(form.value.factor),
       },
     });
 

@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargeLinkOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ChargeType,
+  GetChargeLinkOverviewDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 export type ChargeLinkOverview = ResultOf<
   typeof GetChargeLinkOverviewDocument
 >['chargeLinkOverview'][0];
+
+export type FeeOrSubscription = Extract<ChargeType, 'FEE' | 'SUBSCRIPTION'>;
