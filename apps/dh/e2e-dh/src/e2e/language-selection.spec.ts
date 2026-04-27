@@ -35,9 +35,7 @@ test.describe('Language selection', () => {
     await expect(dialog).toBeHidden();
 
     // Default locale is Danish
-    await expect(
-      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     // Switch to English via the profile menu. The menu item shows the OTHER language name.
     await page.getByTestId('profileMenu').click();

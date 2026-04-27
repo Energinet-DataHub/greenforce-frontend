@@ -34,9 +34,7 @@ test.describe('Application shell', () => {
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
 
-    await expect(
-      page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })
-    ).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     const selectedActor = page.getByTestId('selectedMarketParticipant');
     await expect(selectedActor).toBeVisible({ timeout: 10_000 });
