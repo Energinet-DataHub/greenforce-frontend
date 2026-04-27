@@ -64,7 +64,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      (closed)="navigate.navigate('details', this.id())"
+      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
