@@ -51,6 +51,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <vater-flex align="stretch">
             <watt-slide-toggle
               [formControl]="formGroup.controls.contactSameAsCustomer"
+              size="small"
               class="slide-toggle-margin-bottom"
               data-testid="legal-contact-same-as-customer"
             >

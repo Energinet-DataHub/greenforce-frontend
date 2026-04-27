@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Setup worktree",
+    "command": "bun install && dotnet restore apps/dh/api-dh/DataHub.WebApi.sln",
+    "hooks": ["create_worktree"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "no_focus",
+    "hide": "on_success"
+  }
+]

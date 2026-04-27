@@ -1420,6 +1420,7 @@
       "addressDetails": {
         "label": "Adresseoplysninger",
         "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "clearFields": "Ryd felter",
         "street": "Vejnavn",
         "houseNumber": "Husnummer",
         "floor": "Etage",
@@ -1449,7 +1450,7 @@
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
-      "cancel": "Annuller"
+      "cancel": "Afbryd"
     },
     "create": {
       "modal": {
