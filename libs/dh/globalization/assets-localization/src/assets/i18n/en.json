@@ -913,6 +913,7 @@
     "showHistoricalButton": "Show historical",
     "hideHistoricalButton": "Hide historical",
     "chargeLinks": {
+      "showClosed": "Show closed",
       "shared": {
         "tooltip": "The process takes a few minutes. Results are displayed here,\n and rejection reasons can be found in business messages."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Period",
         "columns": {
           "submittedAt": "Submitted",
           "description": "Description"
@@ -1035,7 +1037,8 @@
         "ProductionObligation": "Change of production obligation (BRS-036)",
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
         "CustomerMoveOut": "Move-out (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)"
+        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)",
+        "ServiceRequest": "Service request (BRS-039)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1050,7 +1053,8 @@
         "UpdateMasterDataMeteringPoint": "Update master data metering point (E32)",
         "ElectricalHeating": "Electrical heating (D20)",
         "CustomerMoveOut": "Move-out (E66)",
-        "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)"
+        "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
+        "ServiceRequest": "Service request (D22)"
       },
       "filters": {
         "created": "Time",
@@ -1194,6 +1198,7 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
+        "BRS_036_EXECUTIONDATE_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
@@ -1210,6 +1215,8 @@
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Request for service (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Confirmation of request for service (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Confirmation of request for service (RSM-020)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_1": "Notification of cancellation of service (RSM-025)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_2": "Notification of cancellation of service (RSM-025)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_1": "Request for metering point master data (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_2": "Rejection of request for metering point master data (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_3": "Notification of metering point master data (RSM-022)",

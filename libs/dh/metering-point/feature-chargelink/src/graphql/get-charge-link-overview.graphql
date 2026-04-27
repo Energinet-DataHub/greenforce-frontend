@@ -1,0 +1,21 @@
+query GetChargeLinkOverview($meteringPointId: String!) {
+  chargeLinkOverview(meteringPointId: $meteringPointId) {
+    chargeLinkId
+    amount
+    period
+    closed
+    charge {
+      id
+      code
+      name
+      type
+      typeDisplayName
+      displayName
+      transparentInvoicing
+      owner {
+        id
+        displayName
+      }
+    }
+  }
+}

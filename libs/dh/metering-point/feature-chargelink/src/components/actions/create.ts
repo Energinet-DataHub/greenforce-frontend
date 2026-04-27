@@ -44,7 +44,7 @@ import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/drop
 import { dhFormControlToSignal, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import {
@@ -143,7 +143,11 @@ export default class DhMeteringPointCreateChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
-  private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
+  private readonly chargesQuery = query(GetChargeByTypeDocument, () => {
+    const type = this.selectedType();
+    return type ? { variables: { type } } : { skip: true };
+  });
+
   private readonly modal = viewChild.required(WattModalComponent);
 
   navigate = inject(DhNavigationService);
@@ -195,11 +199,6 @@ export default class DhMeteringPointCreateChargeLink {
   }
 
   constructor() {
-    effect(() => {
-      const type = this.selectedType();
-      if (type) this.chargesQuery.refetch({ type });
-    });
-
     effect(() => {
       this.selectedDate();
       this.form().controls.chargeId.reset();

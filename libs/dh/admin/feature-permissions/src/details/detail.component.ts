@@ -23,7 +23,6 @@ import {
   viewChild,
   Component,
   ChangeDetectionStrategy,
-  afterRenderEffect,
 } from '@angular/core';
 
 import { RouterOutlet } from '@angular/router';
@@ -40,7 +39,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDrawerComponent, WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattTabsComponent, WattTabComponent } from '@energinet/watt/tabs';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetPermissionDetailsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -75,7 +74,9 @@ import { DhAdminPermissionMarketRolesComponent } from './tabs/market-roles.compo
 })
 export class DhPermissionDetailComponent {
   private navigationService = inject(DhNavigationService);
-  private query = lazyQuery(GetPermissionDetailsDocument);
+  private query = query(GetPermissionDetailsDocument, () => ({
+    variables: { id: parseInt(this.id()) },
+  }));
 
   drawer = viewChild.required(WattDrawerComponent);
 
@@ -86,13 +87,6 @@ export class DhPermissionDetailComponent {
 
   loading = this.query.loading;
   hasError = this.query.hasError;
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.query.query({ variables: { id: parseInt(this.id()) } });
-      this.drawer().open();
-    });
-  }
 
   onClose(): void {
     this.navigationService.navigate('list');

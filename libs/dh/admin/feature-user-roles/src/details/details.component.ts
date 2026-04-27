@@ -17,7 +17,7 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
+import { input, inject, computed, Component, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -31,7 +31,7 @@ import {
   GetUserRoleWithPermissionsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhRoleStatusComponent } from '@energinet-datahub/dh/admin/ui-shared';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -65,6 +65,8 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
     @let userRole = userRoleWithPermissions();
 
     <watt-drawer
+      autoOpen
+      [key]="id()"
       *transloco="let t; prefix: 'admin.userManagement.drawer'"
       size="large"
       (closed)="onClose()"
@@ -129,7 +131,9 @@ import { DhRolePermissionsComponent } from './tabs/permissions.component';
 })
 export class DhUserRoleDetailsComponent {
   private navigationService = inject(DhNavigationService);
-  private userRolesWithPermissionsQuery = lazyQuery(GetUserRoleWithPermissionsDocument);
+  private userRolesWithPermissionsQuery = query(GetUserRoleWithPermissionsDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
   UserRoleStatus = UserRoleStatus;
 
@@ -156,17 +160,5 @@ export class DhUserRoleDetailsComponent {
 
   edit() {
     this.navigationService.navigate('edit', this.id());
-  }
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.drawer().open();
-
-      this.userRolesWithPermissionsQuery.query({
-        variables: {
-          id: this.id(),
-        },
-      });
-    });
   }
 }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { combineLatest, filter, map } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -190,8 +190,9 @@ export class DhMeteringPointProcessOverviewTable {
 
   query = query(GetMeteringPointProcessOverviewDocument, () => ({
     variables: {
+      ...this.filters(),
       meteringPointId: this.meteringPointId(),
-      created: this.initialDateRange,
+      created: this.filters()?.created ?? this.initialDateRange,
     },
   }));
 
@@ -214,8 +215,6 @@ export class DhMeteringPointProcessOverviewTable {
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
-  variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
-  refetch = effect(() => this.query.refetch(this.variables()));
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
