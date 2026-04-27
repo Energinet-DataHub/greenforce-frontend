@@ -26,7 +26,12 @@ const baseURL = process.env['BASE_URL'] || 'https://localhost:4200';
 
 const STORAGE_STATE = path.resolve(__dirname, '.auth/user.json');
 
-export default defineConfig({
+/**
+ * Shared base for both the local mocked-dev-server config (this file) and the acceptance
+ * config (`playwright-acceptance-tests.config.ts`). The acceptance config spreads this and
+ * overrides only what differs (baseURL, no webServer).
+ */
+export const baseE2EConfig = {
   // The preset already configures fullyParallel, retries, and the html + (CI-only) blob
   // reporters with output paths under dist/.playwright/<project>/. Those paths are declared
   // outputs of the e2e target, so Nx Cloud syncs them back from distributed agents to the
@@ -34,22 +39,22 @@ export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src/e2e', openHtmlReport: 'never' }),
   testIgnore: ['**/b2c-healthchecks.spec.ts'],
   use: {
-    baseURL,
     locale: 'da-DK',
     // Honour prefers-reduced-motion in CSS and disable mat / cdk animations. Watt and CDK
     // both respect the media query, so transitions become instant and "element is not
     // stable" errors from in-flight animations disappear.
-    reducedMotion: 'reduce',
+    reducedMotion: 'reduce' as const,
     ignoreHTTPSErrors: true,
     // The Angular dev server uses a self-signed cert. `ignoreHTTPSErrors` lets the browser
     // navigate, but Chrome applies stricter rules to service worker registration and refuses
     // to fetch mockServiceWorker.js over HTTPS with a cert it does not trust. Without this
-    // flag MSW never starts, and API calls fall through to the dead BFF port.
+    // flag MSW never starts, and API calls fall through to the dead BFF port. Harmless on
+    // deployed envs where the cert is already trusted.
     launchOptions: {
       args: ['--ignore-certificate-errors'],
     },
-    trace: 'on-first-retry',
-    video: 'retain-on-failure',
+    trace: 'on-first-retry' as const,
+    video: 'retain-on-failure' as const,
   },
   timeout: 30_000,
   expect: {
@@ -71,6 +76,11 @@ export default defineConfig({
       dependencies: ['setup'],
     },
   ],
+};
+
+export default defineConfig({
+  ...baseE2EConfig,
+  use: { ...baseE2EConfig.use, baseURL },
   webServer: {
     command: 'bun nx run app-dh:serve:mocked',
     url: baseURL,

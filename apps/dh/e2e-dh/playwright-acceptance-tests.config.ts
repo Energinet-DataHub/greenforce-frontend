@@ -16,51 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { defineConfig, devices } from '@playwright/test';
-import { nxE2EPreset } from '@nx/playwright/preset';
-import * as path from 'node:path';
+import { defineConfig } from '@playwright/test';
+
+import { baseE2EConfig } from './playwright.config';
 
 // Acceptance tests run against a deployed environment. dh3-environments sets BASE_URL to the
 // frontend URL of the target stage (dev_002, preprod, etc.). Tests authenticate via the same
-// B2C tenant, then navigate inside the deployed app.
+// B2C tenant, then navigate inside the deployed app. No webServer here, since there is
+// nothing to start locally.
 const baseURL = process.env['BASE_URL'] ?? 'https://dev002.datahub3.dk';
 
-const STORAGE_STATE = path.resolve(__dirname, '.auth/user.json');
-
 export default defineConfig({
-  // The preset configures fullyParallel, retries, and the html + (CI-only) blob reporter
-  // pair with output paths under dist/.playwright/<project>/.
-  ...nxE2EPreset(__filename, { testDir: './src/e2e', openHtmlReport: 'never' }),
-  testIgnore: ['**/b2c-healthchecks.spec.ts'],
-  use: {
-    baseURL,
-    locale: 'da-DK',
-    // Honour prefers-reduced-motion: turns CDK / Watt animations into instant transitions so
-    // "element is not stable" errors from in-flight animations cannot appear.
-    reducedMotion: 'reduce',
-    ignoreHTTPSErrors: true,
-    trace: 'on-first-retry',
-    video: 'retain-on-failure',
-  },
-  timeout: 30_000,
-  expect: {
-    timeout: 6_000,
-  },
-  projects: [
-    {
-      name: 'setup',
-      testMatch: /auth\.setup\.ts$/,
-      use: { ...devices['Desktop Chrome'], viewport: { width: 1280, height: 720 } },
-    },
-    {
-      name: 'chromium',
-      use: {
-        ...devices['Desktop Chrome'],
-        viewport: { width: 1280, height: 720 },
-        storageState: STORAGE_STATE,
-      },
-      dependencies: ['setup'],
-    },
-  ],
-  // No webServer: tests run against the deployed BASE_URL.
+  ...baseE2EConfig,
+  use: { ...baseE2EConfig.use, baseURL },
 });
