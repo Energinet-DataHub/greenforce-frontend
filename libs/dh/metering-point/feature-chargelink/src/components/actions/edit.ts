@@ -109,31 +109,27 @@ export default class DhMeteringPointEditChargeLink {
 
   chargeType = history.state?.['chargeType'] as string | undefined;
 
-  private periodStart = this.getPeriodStart();
-
   navigate = inject(DhNavigationService);
 
   form = new FormGroup({
     factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
-    startDate: dhMakeFormControl<Date>(this.periodStart, [Validators.required]),
+    startDate: dhMakeFormControl<Date>(this.getPeriodStart(), [Validators.required]),
   });
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   chargeLinkId = input.required<string>({ alias: 'id' });
 
   save = async () => {
-    const form = this.form;
+    if (this.form.invalid) return;
 
-    if (form.invalid) return;
-
-    assertIsDefined(form.value.startDate);
-    assertIsDefined(form.value.factor);
+    assertIsDefined(this.form.value.startDate);
+    assertIsDefined(this.form.value.factor);
 
     await this.edit.mutate({
       variables: {
         id: this.chargeLinkId(),
-        newStartDate: form.value.startDate,
-        factor: parseInt(form.value.factor),
+        newStartDate: this.form.value.startDate,
+        factor: parseInt(this.form.value.factor),
       },
     });
 
