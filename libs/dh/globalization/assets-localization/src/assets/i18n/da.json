@@ -2423,7 +2423,7 @@
       "BalanceResponsibleParty": "Er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
       "BillingAgent": "Ansvarlig for at fakturere en anden part (TSO)",
       "EnergySupplier": "Afregner elektricitet til eller fra et målepunkt",
-      "GridAccessProvider": "Ansvarlig for håndteringen af målepunktpunkter",
+      "GridAccessProvider": "Ansvarlig for håndteringen af målepunkter",
       "ImbalanceSettlementResponsible": "Ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de balanceansvarlige i et planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
       "MeteredDataAdministrator": "Ansvarlig for lagring og distribution af aggregerede data",
       "MeteredDataResponsible": "Ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
