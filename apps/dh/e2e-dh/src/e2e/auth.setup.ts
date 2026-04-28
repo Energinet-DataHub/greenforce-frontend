@@ -81,8 +81,7 @@ setup('authenticate', async ({ page, context, baseURL }) => {
       const hashParams = new URLSearchParams(
         url.hash.startsWith('#') ? url.hash.slice(1) : url.hash
       );
-      const hasAuthParamsInSearch =
-        url.searchParams.has('code') || url.searchParams.has('state');
+      const hasAuthParamsInSearch = url.searchParams.has('code') || url.searchParams.has('state');
       const hasAuthParamsInHash = hashParams.has('code') || hashParams.has('state');
       return url.hostname === appHost && !hasAuthParamsInSearch && !hasAuthParamsInHash;
     },
