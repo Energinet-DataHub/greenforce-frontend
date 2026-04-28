@@ -122,12 +122,10 @@ jobs:
         if: failure()
         continue-on-error: true
         run: |
-          BLOB_DIRS=$(find . -type d -name "blob-report" 2>/dev/null)
-          if [ -n "$BLOB_DIRS" ]; then
-            echo "Merging blob reports from: $BLOB_DIRS"
-            for dir in $BLOB_DIRS; do
-              bun playwright merge-reports --reporter html "$dir" 2>&1 || true
-            done
+          mapfile -d '' -t blob_dirs < <(find . -type d -name "blob-report" -print0 2>/dev/null)
+          if [ ${#blob_dirs[@]} -gt 0 ]; then
+            echo "Merging blob reports from: ${blob_dirs[*]}"
+            bun playwright merge-reports --reporter html "${blob_dirs[@]}" 2>&1 || true
           else
             echo "No blob-report directories found, skipping merge"
           fi
