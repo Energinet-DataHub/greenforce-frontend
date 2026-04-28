@@ -232,7 +232,9 @@ export class DhUpdateCustomerDataComponent {
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
   private readonly shouldClearContacts = computed(
-    () => !!this.processId() && !!this.temporaryStorageCustomer()
+    () =>
+      !!this.processId() &&
+      (this.temporaryStorageCustomerQuery.loading() || !!this.temporaryStorageCustomer())
   );
 
   private readonly effectiveLegalContact = computed(() =>
@@ -260,16 +262,33 @@ export class DhUpdateCustomerDataComponent {
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
+  /**
+   * When in a move-in flow (processId is set), block the metering point's
+   * existing customer data from reaching the form while the temporary storage
+   * query is still in-flight. Once it completes — whether it returns data or
+   * null — the gate opens and we either use temporary storage or fall back
+   * to the metering point customer.
+   */
+  private readonly effectiveCustomerName = computed(() => {
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
+  });
+
+  private readonly effectiveCustomerCvr = computed(() => {
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
+  });
+
   form = computed(
     () =>
       new FormGroup({
         businessCustomerDetails: new FormGroup({
           companyName: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cvr: dhMakeFormControl<string>(
-            this.legalCustomer()?.cvr ?? '',
+            this.effectiveCustomerCvr(),
             this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
@@ -278,7 +297,7 @@ export class DhUpdateCustomerDataComponent {
         }),
         privateCustomerDetails: new FormGroup({
           customerName1: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cpr1: dhMakeFormControl<string | null>(
@@ -317,23 +336,13 @@ export class DhUpdateCustomerDataComponent {
     () => this.form().controls.privateCustomerDetails.controls.customerName1
   );
 
-  private readonly prefillCustomerNameFromTemporaryStorage = effect(() => {
-    const data = this.temporaryStorageCustomer();
-    if (!data) return;
+  private readonly businessCustomerNameChanged = dhFormControlToSignal(
+    () => this.form().controls.businessCustomerDetails.controls.companyName
+  );
 
-    if (data.isBusinessCustomer) {
-      this.form().controls.businessCustomerDetails.controls.companyName.setValue(
-        data.firstCustomerName
-      );
-      data.firstCustomerCvr
-        ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr)
-        : null;
-    } else {
-      this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
-        data.firstCustomerName
-      );
-    }
-  });
+  private readonly primaryCustomerName = computed(() =>
+    this.isBusinessCustomer() ? this.businessCustomerNameChanged() : this.legalCustomerNameChanged()
+  );
 
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
@@ -342,12 +351,12 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncTechnicalContactName = effect(() => {
     const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control =
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      technicalNameSameAsContactName ? legalCustomerName : this.effectiveTechnicalContact()?.name,
+      technicalNameSameAsContactName ? primaryCustomerName : this.effectiveTechnicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
@@ -379,11 +388,11 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncLegalContactName = effect(() => {
     const legalNameSameAsContactName = this.legalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      legalNameSameAsContactName ? legalCustomerName : this.effectiveLegalContact()?.name,
+      legalNameSameAsContactName ? primaryCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
   });
