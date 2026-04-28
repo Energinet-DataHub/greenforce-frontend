@@ -364,7 +364,7 @@ type ChargePeriod {
 type ChargeSeriesPoint {
   price: Decimal!
   hasChanged: Boolean!
-  period: DateRange!
+  interval: DateRange!
   changes: [ChargeSeriesPointChange!]!
 }
 
