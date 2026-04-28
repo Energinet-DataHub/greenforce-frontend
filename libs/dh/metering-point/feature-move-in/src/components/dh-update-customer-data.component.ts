@@ -228,7 +228,9 @@ export class DhUpdateCustomerDataComponent {
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
   private readonly shouldClearContacts = computed(
-    () => !!this.processId() && !!this.temporaryStorageCustomer()
+    () =>
+      !!this.processId() &&
+      (this.temporaryStorageCustomerQuery.loading() || !!this.temporaryStorageCustomer())
   );
 
   private readonly effectiveLegalContact = computed(() =>
@@ -255,21 +257,19 @@ export class DhUpdateCustomerDataComponent {
   searchMigratedMeteringPoints = input.required<boolean>();
 
   /**
-   * When in a move-in flow (processId is set), we must wait for temporary storage
-   * data before populating any customer fields. Using the metering point's existing
-   * customer name would briefly flash the old CPR name before temporary storage loads.
+   * When in a move-in flow (processId is set), block the metering point's
+   * existing customer data from reaching the form while the temporary storage
+   * query is still in-flight. Once it completes — whether it returns data or
+   * null — the gate opens and we either use temporary storage or fall back
+   * to the metering point customer.
    */
-  private readonly awaitingTemporaryStorage = computed(
-    () => !!this.processId() && !this.temporaryStorageCustomer()
-  );
-
   private readonly effectiveCustomerName = computed(() => {
-    if (this.awaitingTemporaryStorage()) return '';
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
   });
 
   private readonly effectiveCustomerCvr = computed(() => {
-    if (this.awaitingTemporaryStorage()) return '';
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
   });
 
