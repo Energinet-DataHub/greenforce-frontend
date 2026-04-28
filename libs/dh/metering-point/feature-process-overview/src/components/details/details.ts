@@ -161,9 +161,7 @@ export class DhMeteringPointProcessOverviewDetails {
   );
 
   // FAS admins render the buttons but cannot click them (see `[disabled]`).
-  protected readonly canShowActions = computed(
-    () => this.hasMeteringPointAccess() || this.isFas()
-  );
+  protected readonly canShowActions = computed(() => this.hasMeteringPointAccess() || this.isFas());
 
   private readonly canPerformActions = computed(() => this.canShowActions() && !this.isFas());
 

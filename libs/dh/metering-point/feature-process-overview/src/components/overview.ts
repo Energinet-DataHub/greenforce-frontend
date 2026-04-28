@@ -194,9 +194,7 @@ export class DhMeteringPointProcessOverviewTable {
 
   protected readonly canPerformActions = this.hasMeteringPointAccess;
 
-  protected readonly canShowActions = computed(
-    () => this.hasMeteringPointAccess() || this.isFas()
-  );
+  protected readonly canShowActions = computed(() => this.hasMeteringPointAccess() || this.isFas());
 
   initialDateRange = {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),
