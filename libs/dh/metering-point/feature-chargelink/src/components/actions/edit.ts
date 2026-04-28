@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
+import { Component, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -30,15 +30,11 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import {
-  ChargeType,
-  EditChargeLinkDocument,
-  GetChargeByIdDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -81,17 +77,17 @@ import {
         direction="column"
         gap="s"
         tabindex="-1"
-        [formGroup]="form()"
+        [formGroup]="form"
       >
-        <watt-text-field [formControl]="form().controls.factor" [label]="t('factor')">
-          @if (form().controls.factor.errors?.min) {
+        <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')">
+          @if (form.controls.factor.errors?.min) {
             <watt-field-error>
-              {{ t('errors.factorMin', { min: form().controls.factor.errors?.min.min }) }}
+              {{ t('errors.factorMin', { min: form.controls.factor.errors?.min.min }) }}
             </watt-field-error>
           }
         </watt-text-field>
-        @if (chargeType() === 'SUBSCRIPTION') {
-          <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
+        @if (chargeType === 'SUBSCRIPTION') {
+          <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
         }
       </form>
       <watt-modal-actions>
@@ -108,37 +104,25 @@ import {
 export default class DhMeteringPointEditChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
 
-  query = query(GetChargeByIdDocument, () => ({ variables: { id: this.chargeLinkId() } }));
-
-  chargeType = computed<ChargeType | undefined>(() => this.query.data()?.chargeById?.type);
-  periodStart = computed<Date | null>(() => {
-    if (this.chargeType() === 'FEE') {
-      const firstPeriodStart = this.query.data()?.chargeById?.periods?.[0]?.period.start;
-
-      return firstPeriodStart ?? null;
-    }
-
-    return null;
-  });
-
   private readonly edit = mutation(EditChargeLinkDocument);
   private readonly modal = viewChild.required(WattModalComponent);
 
+  chargeType = history.state?.['chargeType'] as string | undefined;
+
+  private periodStart = this.getPeriodStart();
+
   navigate = inject(DhNavigationService);
 
-  form = computed(
-    () =>
-      new FormGroup({
-        factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
-        startDate: dhMakeFormControl<Date>(this.periodStart(), [Validators.required]),
-      })
-  );
+  form = new FormGroup({
+    factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
+    startDate: dhMakeFormControl<Date>(this.periodStart, [Validators.required]),
+  });
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
   chargeLinkId = input.required<string>({ alias: 'id' });
 
   save = async () => {
-    const form = this.form();
+    const form = this.form;
 
     if (form.invalid) return;
 
@@ -157,4 +141,14 @@ export default class DhMeteringPointEditChargeLink {
   };
 
   effect = effect(() => this.toast(this.edit.status()));
+
+  private getPeriodStart(): Date | null {
+    const maybePeriodStart = history.state?.['periodStart'] as Date | undefined;
+
+    if (this.chargeType === 'FEE') {
+      return maybePeriodStart ?? null;
+    }
+
+    return null;
+  }
 }

@@ -84,7 +84,10 @@ import { ChargeLinkOverview, FeeOrSubscription } from '../types';
               </watt-button>
               <watt-menu #actions>
                 @if (feeOrSubscription()) {
-                  <watt-menu-item [routerLink]="['edit', item()?.chargeLinkId]">
+                  <watt-menu-item
+                    [routerLink]="['edit', item()?.chargeLinkId]"
+                    [state]="{ chargeType: chargeType(), periodStart: item()?.period?.start }"
+                  >
                     {{ t('edit') }}
                   </watt-menu-item>
                 }
