@@ -70,9 +70,8 @@ function getTemporaryStorageData() {
         __typename: 'Query',
         temporaryStorageData: {
           __typename: 'RequestTemporaryStorageResult',
-          firstCustomerName: 'Temporary A/S',
-          isBusinessCustomer: true,
-          firstCustomerCvr: '22222222',
+          firstCustomerName: 'Test Testesen',
+          isBusinessCustomer: false
         },
       },
     });

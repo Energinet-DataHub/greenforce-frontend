@@ -1399,8 +1399,12 @@
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
         "nameProtection": "Navnebeskyttelse",
-        "changeCpr": "Ændr CPR",
-        "hideCpr": "Skjul CPR"
+        "editCprModal": {
+          "title": "Rediger CPR?",
+          "description": "Fremsøgning af CPR-numre logges i henhold til gældende lovgivning. Du må kun tilgå CPR-data, når der foreligger et sagligt og lovligt formål. Vil du fortsætte?",
+          "yes": "Ja",
+          "no": "Nej"
+        }
       },
       "contactDetails": {
         "label": "Kontakdetaljer",

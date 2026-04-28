@@ -1399,8 +1399,12 @@
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
         "nameProtection": "Name protection",
-        "changeCpr": "Change CPR",
-        "hideCpr": "Hide CPR"
+        "editCprModal": {
+          "title": "Edit CPR?",
+          "description": "Retrieval of CPR numbers is logged in accordance with applicable legislation. You may only access CPR data when there is a legitimate and lawful purpose. Do you want to continue?",
+          "yes": "Yes",
+          "no": "No"
+        }
       },
       "contactDetails": {
         "label": "Contact details",
