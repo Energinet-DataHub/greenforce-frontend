@@ -254,16 +254,35 @@ export class DhUpdateCustomerDataComponent {
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
+  /**
+   * When in a move-in flow (processId is set), we must wait for temporary storage
+   * data before populating any customer fields. Using the metering point's existing
+   * customer name would briefly flash the old CPR name before temporary storage loads.
+   */
+  private readonly awaitingTemporaryStorage = computed(
+    () => !!this.processId() && !this.temporaryStorageCustomer()
+  );
+
+  private readonly effectiveCustomerName = computed(() => {
+    if (this.awaitingTemporaryStorage()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
+  });
+
+  private readonly effectiveCustomerCvr = computed(() => {
+    if (this.awaitingTemporaryStorage()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
+  });
+
   form = computed(
     () =>
       new FormGroup({
         businessCustomerDetails: new FormGroup({
           companyName: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cvr: dhMakeFormControl<string>(
-            this.legalCustomer()?.cvr ?? '',
+            this.effectiveCustomerCvr(),
             this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
@@ -272,7 +291,7 @@ export class DhUpdateCustomerDataComponent {
         }),
         privateCustomerDetails: new FormGroup({
           customerName1: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cpr1: dhMakeFormControl<string>(
@@ -316,23 +335,6 @@ export class DhUpdateCustomerDataComponent {
     this.isBusinessCustomer() ? this.businessCustomerNameChanged() : this.legalCustomerNameChanged()
   );
 
-  private readonly prefillCustomerNameFromTemporaryStorage = effect(() => {
-    const data = this.temporaryStorageCustomer();
-    if (!data) return;
-
-    if (data.isBusinessCustomer) {
-      this.form().controls.businessCustomerDetails.controls.companyName.setValue(
-        data.firstCustomerName
-      );
-      data.firstCustomerCvr
-        ? this.form().controls.businessCustomerDetails.controls.cvr.setValue(data.firstCustomerCvr)
-        : null;
-    } else {
-      this.form().controls.privateCustomerDetails.controls.customerName1.setValue(
-        data.firstCustomerName
-      );
-    }
-  });
 
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
