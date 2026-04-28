@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -25,9 +25,10 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { AddressDetailsFormType } from '../types';
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { VaterFlexComponent } from '@energinet/watt/vater';
+import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
+import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-customer-address-details',
@@ -41,6 +42,8 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
     VaterFlexComponent,
     WattFieldErrorComponent,
     WattSlideToggleComponent,
+    WattButtonComponent,
+    VaterStackComponent,
   ],
   styles: `
     .flex-grow-1 {
@@ -59,17 +62,29 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
       [formGroup]="formGroup"
       *transloco="let t; prefix: 'meteringPoint.moveIn.addressDetails'"
     >
-      <vater-flex direction="row" align="center" justify="space-between" gap="xl">
+      <vater-flex direction="row" justify="space-between" gap="xl">
         <vater-flex>
           <h4>{{ t('label') }}</h4>
 
-          <watt-slide-toggle
-            [formControl]="formGroup.controls.addressSameAsInstallation"
-            class="watt-space-stack-m"
-            data-testid="address-same-as-installation"
-          >
-            {{ t('addressSameAsMeteringPoint') }}
-          </watt-slide-toggle>
+          <vater-stack direction="row" justify="space-between" gap="m">
+            <watt-slide-toggle
+              [formControl]="formGroup.controls.addressSameAsInstallation"
+              size="small"
+              class="watt-space-stack-m"
+              data-testid="address-same-as-installation"
+            >
+              {{ t('addressSameAsMeteringPoint') }}
+            </watt-slide-toggle>
+
+            <watt-button
+              variant="secondary"
+              size="small"
+              [disabled]="disableClearButton()"
+              (click)="clearFields.emit()"
+            >
+              {{ t('clearFields') }}
+            </watt-button>
+          </vater-stack>
 
           <watt-dropdown
             translateKey="shared.countries"
@@ -180,6 +195,8 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 })
 export class DhCustomerAddressDetailsComponent {
   addressDetailsFormGroup = input.required<FormGroup<AddressDetailsFormType>>();
+  disableClearButton = input<boolean>(false);
+  clearFields = output<void>();
   countryOptions: WattDropdownOptions = [
     { value: 'DK', displayValue: 'DK' },
     { value: 'SE', displayValue: 'SE' },

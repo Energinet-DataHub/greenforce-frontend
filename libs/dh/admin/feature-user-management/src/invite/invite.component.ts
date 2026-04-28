@@ -43,7 +43,7 @@ import { WATT_STEPPER } from '@energinet/watt/stepper';
 import { WattValidationMessageComponent } from '@energinet/watt/validation-message';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { parseGraphQLErrorResponse } from '@energinet-datahub/dh/shared/data-access-graphql';
 
 import {
@@ -96,8 +96,12 @@ export class DhInviteUserComponent extends WattTypedModal {
   });
 
   private marketParticipantQuery = query(GetFilteredMarketParticipantsDocument);
-
-  private doesEmailExist = lazyQuery(CheckEmailExistsDocument);
+  private doesEmailExist = query(CheckEmailExistsDocument, () => {
+    const emailChanged = this.emailChanged();
+    return emailChanged && !this.baseInfo.controls.email.invalid
+      ? { variables: { email: emailChanged } }
+      : { skip: true };
+  });
 
   private actors = computed(
     () => this.marketParticipantQuery.data()?.filteredMarketParticipants ?? []
@@ -180,14 +184,6 @@ export class DhInviteUserComponent extends WattTypedModal {
       this.selectedActorId.set(actorId);
       this.baseInfo.updateValueAndValidity();
       this.changeDetectorRef.detectChanges();
-    });
-
-    effect(() => {
-      const emailChanged = this.emailChanged();
-
-      if (this.baseInfo.controls.email.invalid) return;
-
-      this.doesEmailExist.query({ variables: { email: emailChanged } });
     });
   }
 

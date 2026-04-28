@@ -16,40 +16,36 @@
  * limitations under the License.
  */
 //#endregion
-import { RouterOutlet } from '@angular/router';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, inject, input } from '@angular/core';
-
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { VATER } from '@energinet/watt/vater';
+import { WATT_TABLE, dataSource, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataTableComponent } from '@energinet/watt/data';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { WattDatePipe } from '@energinet/watt/core/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
-  GetChargeLinksByMeteringPointIdDocument,
+  GetChargeLinkOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-
-import { Charge } from '../types';
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+
+import { ChargeLinkOverview } from '../types';
+import { DhChargeLinkDetails } from './details';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ReactiveFormsModule,
-    RouterOutlet,
     TranslocoDirective,
-
+    VATER,
     WATT_TABLE,
     WattDatePipe,
     WattDataTableComponent,
-
     DhChargesStatus,
+    DhChargeLinkDetails,
   ],
   providers: [DhNavigationService],
   template: `
@@ -57,63 +53,50 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
       [header]="false"
       [enablePaginator]="false"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks'"
-      [error]="query.error()"
-      [ready]="query.called() && !query.loading()"
+      [error]="chargeLinks.error()"
+      [ready]="chargeLinks.called() && !chargeLinks.loading()"
     >
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
-        [loading]="query.loading()"
+        [loading]="chargeLinks.loading()"
         [resolveHeader]="resolveHeader"
-        [activeRow]="selection()"
-        (rowClick)="navigation.navigate('details', $event.id)"
+        [activeRow]="selected()"
+        (rowClick)="selected.set($event)"
       >
         <ng-container *wattTableCell="columns.type; let element">
-          {{ element.charge?.typeDisplayName }}
+          {{ element.charge.typeDisplayName }}
         </ng-container>
 
-        <ng-container *wattTableCell="columns.date; let element">
-          {{ element.period.interval | wattDate }}
-        </ng-container>
-
-        <ng-container *wattTableCell="columns.status; let element">
-          @let status = element.charge?.status;
-          @if (status && status === 'CANCELLED') {
-            <dh-charges-status [status]="status" />
+        <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
+          {{ element.period | wattDate }}
+          @if (element.period.start.getTime() === element.period.end?.getTime()) {
+            <dh-charges-status [status]="'CANCELLED'" />
           }
-        </ng-container>
+        </vater-stack>
       </watt-table>
     </watt-data-table>
-    <router-outlet />
+    <dh-charge-link-details [(item)]="selected" />
   `,
 })
 export default class DhMeteringPointChargeLinksFees {
-  meteringPointId = input.required<string>();
-  query = query(GetChargeLinksByMeteringPointIdDocument, () => ({
-    variables: { meteringPointId: this.meteringPointId() },
+  readonly meteringPointId = input.required<string>();
+  protected chargeLinks = query(GetChargeLinkOverviewDocument, () => ({
+    variables: {
+      meteringPointId: this.meteringPointId(),
+    },
   }));
-  navigation = inject(DhNavigationService);
-  dataSource = dataSource(() =>
-    (this.query.data()?.chargeLinksByMeteringPointId ?? []).filter(
-      (chargeLink) => chargeLink.charge?.type === ChargeType.Fee
-    )
-  );
 
-  form = new FormGroup({
-    chargeTypes: dhMakeFormControl(),
-  });
-
-  columns: WattTableColumnDef<Charge> = {
-    id: { accessor: (chargeLink) => chargeLink.charge?.code },
-    name: { accessor: (chargeLink) => chargeLink.charge?.name ?? '' },
-    owner: { accessor: (chargeLink) => chargeLink.charge?.owner?.displayName ?? '' },
+  selected = signal<ChargeLinkOverview | undefined>(undefined);
+  items = computed(() => this.chargeLinks.data()?.chargeLinkOverview ?? []);
+  dataSource = dataSource(() => this.items().filter((i) => i.charge.type === ChargeType.Fee));
+  columns: WattTableColumnDef<ChargeLinkOverview> = {
+    type: { accessor: (item) => item.charge.type },
+    id: { accessor: (item) => item.charge?.code },
+    name: { accessor: (item) => item.charge?.name ?? '' },
+    owner: { accessor: (item) => item.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
-    date: { accessor: (chargeLink) => chargeLink.period?.interval },
-    status: { header: '', accessor: (chargeLink) => chargeLink.charge?.status },
-  };
-
-  selection = () => {
-    return this.dataSource.filteredData.find((row) => row.id === this.navigation.id());
+    period: { accessor: (item) => item.period },
   };
 }

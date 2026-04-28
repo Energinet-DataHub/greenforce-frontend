@@ -46,6 +46,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
@@ -78,17 +79,6 @@ import {
     WattSkeletonComponent,
   ],
   styles: `
-    .sticky-header {
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .margin-medium {
-      margin: 0 var(--watt-space-m) 0 var(--watt-space-m);
-    }
-
     .form-container {
       margin-top: var(--watt-space-m);
       flex: 1 1 0;
@@ -106,23 +96,21 @@ import {
       (ngSubmit)="updateCustomerData()"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
-      <watt-card class="sticky-header">
-        <vater-stack class="margin-medium" direction="row" justify="space-between">
-          <vater-stack direction="row" gap="m">
-            <h3>{{ t('updateCustomerData') }}</h3>
-            @if (isLoading()) {
-              <watt-spinner [diameter]="22" />
-            }
-          </vater-stack>
-          <vater-stack direction="row" gap="m">
-            <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
-            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
-              >{{ t('updateCustomerData') }}
-            </watt-button>
-          </vater-stack>
+      <vater-stack direction="row" justify="space-between">
+        <vater-stack direction="row" gap="m">
+          <h3>{{ t('updateCustomerData') }}</h3>
+          @if (isLoading()) {
+            <watt-spinner [diameter]="22" />
+          }
         </vater-stack>
-      </watt-card>
-      <vater-flex direction="row" gap="m" class="form-container">
+        <vater-stack direction="row" gap="m">
+          <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
+          <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
+            >{{ t('updateCustomerData') }}
+          </watt-button>
+        </vater-stack>
+      </vater-stack>
+      <vater-flex direction="row" gap="l" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
@@ -168,6 +156,8 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
+            [disableClearButton]="legalAddressSameAsInstallation()"
+            (clearFields)="clearAddressFields('legal')"
           />
         </watt-card>
         <!-- Technical -->
@@ -183,6 +173,8 @@ import {
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
+            [disableClearButton]="technicalAddressSameAsInstallation()"
+            (clearFields)="clearAddressFields('technical')"
           />
         </watt-card>
       </vater-flex>
@@ -351,12 +343,12 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  private readonly technicalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  readonly technicalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncTechnicalContactAddress = effect(() => {
-    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
+    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallation();
     const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
     const installationAddress = this.installationAddress();
 
@@ -387,12 +379,12 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
-  private readonly legalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncLegalContactAddress = effect(() => {
-    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
+    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallation();
     const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
     const installationAddress = this.installationAddress();
 
@@ -469,6 +461,15 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  clearAddressFields(addressType: 'legal' | 'technical') {
+    const formGroup =
+      addressType === 'legal'
+        ? this.form().controls.legalContactAddressDetails
+        : this.form().controls.technicalContactAddressDetails;
+
+    clearAddressFields(formGroup);
   }
 
   cancel() {

@@ -913,6 +913,7 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "showClosed": "Vis lukkede",
       "shared": {
         "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Periode",
         "columns": {
           "submittedAt": "Indsendt",
           "description": "Beskrivelse"
@@ -1036,7 +1038,8 @@
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
-        "ServiceRequest": "Anmodning om serviceydelse (BRS-039)"
+        "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1052,7 +1055,8 @@
         "ElectricalHeating": "Elvarme (D20)",
         "CustomerMoveOut": "Fraflytning (E66)",
         "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
-        "ServiceRequest": "Anmodning om serviceydelse (D22)"
+        "ServiceRequest": "Anmodning om serviceydelse (D22)",
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1196,6 +1200,11 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_036_EXECUTIONDATE_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_1": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_2": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_3": "Afvisning af opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_4": "Information om pristilknytning (RSM-031)",
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
@@ -1408,6 +1417,7 @@
       "addressDetails": {
         "label": "Adresseoplysninger",
         "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "clearFields": "Ryd felter",
         "street": "Vejnavn",
         "houseNumber": "Husnummer",
         "floor": "Etage",
@@ -1437,7 +1447,7 @@
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
-      "cancel": "Annuller"
+      "cancel": "Afbryd"
     },
     "create": {
       "modal": {

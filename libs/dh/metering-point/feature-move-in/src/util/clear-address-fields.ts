@@ -16,15 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-import { defineConfig } from 'cypress';
-import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
+import { FormGroup } from '@angular/forms';
 
-export default defineConfig({
-  component: {
-    ...nxComponentTestingPreset(__filename, {
-      buildTarget: 'app-dh:build:mocked',
-    }),
-  },
-  video: true,
-  defaultCommandTimeout: 10000,
-});
+import { AddressDetailsFormType } from '../types';
+
+export function clearAddressFields(formGroup: FormGroup<AddressDetailsFormType>): void {
+  formGroup.controls.addressSameAsInstallation.setValue(false);
+  formGroup.controls.addressGroup.enable();
+
+  const nullValues = Object.fromEntries(
+    Object.keys(formGroup.controls.addressGroup.controls).map((key) => [key, null])
+  );
+  formGroup.controls.addressGroup.reset(nullValues);
+}
