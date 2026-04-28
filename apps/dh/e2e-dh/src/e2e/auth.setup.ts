@@ -39,15 +39,17 @@ setup('authenticate', async ({ page, context, baseURL }) => {
     );
   }
 
-  // Decline cookie banner ahead of navigation so it does not intercept clicks. Derive the
-  // domain from baseURL so the cookie applies whether tests run against localhost (mocked
-  // dev server) or a deployed env (acceptance tests against dev_xxx / preprod).
-  const cookieDomain = baseURL ? new URL(baseURL).hostname : 'localhost';
+  // Hostname of the app under test, used both as the cookie domain for the cookie-consent
+  // pre-decline below and as the post-login URL gate further down. Derived from baseURL so
+  // it works against localhost (mocked dev server) and any deployed env.
+  const appHost = baseURL ? new URL(baseURL).hostname : 'localhost';
+
+  // Decline cookie banner ahead of navigation so it does not intercept clicks.
   await context.addCookies([
     {
       name: 'CookieInformationConsent',
       value: encodeURIComponent('{"consents_approved":[]}'),
-      domain: cookieDomain,
+      domain: appHost,
       path: '/',
       sameSite: 'Lax',
       secure: true,
@@ -75,7 +77,6 @@ setup('authenticate', async ({ page, context, baseURL }) => {
   // resolve immediately) AND that the auth params have been cleared. This means a stuck MSAL
   // surfaces here with a clear "URL still contains auth params" failure instead of a
   // downstream "profileMenu not visible".
-  const appHost = baseURL ? new URL(baseURL).hostname : 'localhost';
   await page.waitForURL(
     (url) => {
       const hashParams = new URLSearchParams(
