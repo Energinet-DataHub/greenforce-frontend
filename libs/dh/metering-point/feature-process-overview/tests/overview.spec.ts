@@ -181,16 +181,6 @@ describe('Process overview', () => {
     expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
   });
 
-  it('should not show FAS warning text for non-responsible EnergySupplier even if FAS', async () => {
-    await setup({
-      isFas: true,
-      actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: false,
-    });
-    expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
-    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
-  });
-
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
     await setup({
       actorMarketRole: EicFunction.GridAccessProvider,

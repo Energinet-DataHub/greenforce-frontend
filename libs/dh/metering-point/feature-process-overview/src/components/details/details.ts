@@ -155,16 +155,14 @@ export class DhMeteringPointProcessOverviewDetails {
   // the token-based role signal resolves.
   private readonly hasGridAccessProviderRole =
     this.actor.marketRole === EicFunction.GridAccessProvider;
-  private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
   private readonly hasMeteringPointAccess = computed(
     () => this.hasGridAccessProviderRole || this.isEnergySupplierResponsible()
   );
 
-  // FAS admins render the buttons but cannot click them (see `[disabled]`); they
-  // are only relevant when the user isn't acting as a supplier.
+  // FAS admins render the buttons but cannot click them (see `[disabled]`).
   protected readonly canShowActions = computed(
-    () => this.hasMeteringPointAccess() || (this.isFas() && !this.hasEnergySupplierRole)
+    () => this.hasMeteringPointAccess() || this.isFas()
   );
 
   private readonly canPerformActions = computed(() => this.canShowActions() && !this.isFas());

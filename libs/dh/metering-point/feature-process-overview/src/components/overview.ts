@@ -187,7 +187,6 @@ export class DhMeteringPointProcessOverviewTable {
   // the token-based role signal resolves.
   private readonly hasGridAccessProviderRole =
     this.actor.marketRole === EicFunction.GridAccessProvider;
-  private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
   private readonly hasMeteringPointAccess = computed(
     () => this.hasGridAccessProviderRole || this.isEnergySupplierResponsible()
@@ -195,10 +194,8 @@ export class DhMeteringPointProcessOverviewTable {
 
   protected readonly canPerformActions = this.hasMeteringPointAccess;
 
-  // FAS admins see the informational text only when they aren't acting as a supplier;
-  // a supplier identity without responsibility has no legitimate relation to this metering point.
   protected readonly canShowActions = computed(
-    () => this.hasMeteringPointAccess() || (this.isFas() && !this.hasEnergySupplierRole)
+    () => this.hasMeteringPointAccess() || this.isFas()
   );
 
   initialDateRange = {
