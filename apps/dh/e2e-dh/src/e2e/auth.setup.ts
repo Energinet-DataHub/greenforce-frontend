@@ -63,12 +63,25 @@ setup('authenticate', async ({ page, context, baseURL }) => {
   await page.getByRole('textbox', { name: /password|adgangskode/i }).fill(password);
   await page.getByRole('button', { name: /log på|sign in/i }).click();
 
-  // Wait for MSAL to consume the auth code from the redirect URL. B2C sends the user back to
-  // the app with `#state=...&code=...` in the hash; MSAL parses it, exchanges the code for
-  // tokens, then strips the hash via history.replaceState. Splitting the wait this way means
-  // an MSAL hang surfaces here with a clear "URL still contains #state=" failure rather than
-  // a downstream "profileMenu not visible".
-  await page.waitForURL((url) => !url.hash.includes('state='), { timeout: 60_000 });
+  // Wait for MSAL to consume the auth response after B2C redirects back to the app. MSAL is
+  // configured with the default `fragment` response mode (see dh-b2c-config.ts), so B2C sends
+  // the user back to the app with `#state=...&code=...` in the hash; MSAL parses it, exchanges
+  // the code for tokens, then strips the hash via history.replaceState. We also defensively
+  // check `?code=` in case the response mode is ever flipped to `query`.
+  //
+  // The predicate must require BOTH that we are back on the app's host (not still on B2C's
+  // *.b2clogin.com confirm page, where the hash is empty and the predicate would otherwise
+  // resolve immediately) AND that the auth params have been cleared. This means a stuck MSAL
+  // surfaces here with a clear "URL still contains #state=" failure instead of a downstream
+  // "profileMenu not visible".
+  const appHost = baseURL ? new URL(baseURL).hostname : 'localhost';
+  await page.waitForURL(
+    (url) =>
+      url.hostname === appHost &&
+      !url.hash.includes('state=') &&
+      !url.search.includes('code='),
+    { timeout: 60_000 }
+  );
 
   // Login is complete when the authenticated shell renders. The profile menu only exists
   // on authenticated pages, so this works regardless of the user's default landing route.
