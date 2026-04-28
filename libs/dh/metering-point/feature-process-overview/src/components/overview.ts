@@ -189,21 +189,21 @@ export class DhMeteringPointProcessOverviewTable {
     this.actor.marketRole === EicFunction.GridAccessProvider;
   private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
-  private readonly isNonResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole && !this.isEnergySupplierResponsible()
+  private readonly isResponsibleSupplier = computed(
+    () => this.hasEnergySupplierRole && this.isEnergySupplierResponsible()
   );
 
-  protected readonly canPerformActions = computed(() => {
-    if (this.isNonResponsibleSupplier()) return false;
-    return this.hasGridAccessProviderRole || this.hasEnergySupplierRole;
-  });
+  private readonly hasMeteringPointAccess = computed(
+    () => this.hasGridAccessProviderRole || this.isResponsibleSupplier()
+  );
 
-  // A non-responsible supplier sees nothing at all (not even the FAS-style
-  // informational text), since they have no legitimate relation to this metering point.
-  protected readonly canShowActions = computed(() => {
-    if (this.isNonResponsibleSupplier()) return false;
-    return this.canPerformActions() || this.isFas();
-  });
+  protected readonly canPerformActions = this.hasMeteringPointAccess;
+
+  // FAS admins see the informational text only when they aren't acting as a supplier;
+  // a supplier identity without responsibility has no legitimate relation to this metering point.
+  protected readonly canShowActions = computed(
+    () => this.hasMeteringPointAccess() || (this.isFas() && !this.hasEnergySupplierRole)
+  );
 
   initialDateRange = {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),

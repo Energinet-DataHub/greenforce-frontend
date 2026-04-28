@@ -153,17 +153,24 @@ export class DhMeteringPointProcessOverviewDetails {
   // so it is known synchronously at component creation. This avoids a brief
   // flicker where a non-responsible supplier would see action buttons before
   // the token-based role signal resolves.
+  private readonly hasGridAccessProviderRole =
+    this.actor.marketRole === EicFunction.GridAccessProvider;
   private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
-  private readonly isNonResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole && !this.isEnergySupplierResponsible()
+  private readonly isResponsibleSupplier = computed(
+    () => this.hasEnergySupplierRole && this.isEnergySupplierResponsible()
   );
 
-  // A non-responsible supplier sees no actions at all, not even the disabled
-  // FAS-style buttons, since they have no legitimate relation to this metering point.
-  protected readonly canShowActions = computed(() => !this.isNonResponsibleSupplier());
+  private readonly hasMeteringPointAccess = computed(
+    () => this.hasGridAccessProviderRole || this.isResponsibleSupplier()
+  );
 
-  // FAS admins render the buttons but cannot click them (see `[disabled]`).
+  // FAS admins render the buttons but cannot click them (see `[disabled]`); they
+  // are only relevant when the user isn't acting as a supplier.
+  protected readonly canShowActions = computed(
+    () => this.hasMeteringPointAccess() || (this.isFas() && !this.hasEnergySupplierRole)
+  );
+
   private readonly canPerformActions = computed(() => this.canShowActions() && !this.isFas());
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
