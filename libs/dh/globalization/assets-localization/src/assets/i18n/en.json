@@ -1038,7 +1038,8 @@
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
         "CustomerMoveOut": "Move-out (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)",
-        "ServiceRequest": "Service request (BRS-039)"
+        "ServiceRequest": "Service request (BRS-039)",
+        "UpdateChargeLinks": "Update of charge links (BRS-037)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1054,7 +1055,8 @@
         "ElectricalHeating": "Electrical heating (D20)",
         "CustomerMoveOut": "Move-out (E66)",
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
-        "ServiceRequest": "Service request (D22)"
+        "ServiceRequest": "Service request (D22)",
+        "UpdateChargeLinks": "Update charge links (D17)"
       },
       "filters": {
         "created": "Time",
@@ -1181,8 +1183,8 @@
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Approve change customer characteristics (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_9": "Reject change customer characteristics (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
-        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
-        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_VALIDITYDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
+        "BRS_009_VALIDITYDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Approve request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Reject request for move-out (RSM-005)",
@@ -1198,6 +1200,11 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Confirmation of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Rejection of request for change of production obligation",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
+        "BRS_036_EXECUTIONDATE_V1_STEP_4": "Notification of change of production obligation (RSM-022)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_1": "Request for change of charge links (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_2": "Confirmation of request for change of charge links (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_3": "Rejection of request for change of charge links (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_4": "Notification of charge links (RSM-031)",
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
@@ -1411,6 +1418,7 @@
       },
       "addressDetails": {
         "addressSameAsMeteringPoint": "Same as metering point address",
+        "clearFields": "Clear fields",
         "street": "Street",
         "houseNumber": "House number",
         "floor": "Floor",

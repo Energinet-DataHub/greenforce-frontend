@@ -38,7 +38,7 @@ import {
   Resolution,
   GetAggregatedMeasurementsForYearDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
 import { getPath, MeasurementsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -52,10 +52,7 @@ import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/
 
 import { DhFormatObservationTimePipe } from './format-observation-time.pipe';
 import { dhFormatMeasurementNumber } from '../utils/dh-format-measurement-number';
-import {
-  AggregatedMeasurementsForYear,
-  AggregatedMeasurementsByYearQueryVariables,
-} from '../types';
+import { AggregatedMeasurementsForYear } from '../types';
 import { persistDateFilter } from '../utils/persist-date-filter';
 
 @Component({
@@ -158,7 +155,12 @@ export class DhMeasurementsYearComponent {
   filterEffect = effect(() => this.dateFilter.update((d) => d.year(dayjs(this.year()).year())));
 
   meteringPointId = input.required<string>();
-  query = lazyQuery(GetAggregatedMeasurementsForYearDocument);
+  query = query(GetAggregatedMeasurementsForYearDocument, () => ({
+    variables: {
+      ...this.values(),
+      meteringPointId: this.meteringPointId(),
+    },
+  }));
   Resolution = Resolution;
   Quality = Quality;
 
@@ -188,28 +190,19 @@ export class DhMeasurementsYearComponent {
     effect(() => {
       this.dataSource.data = this.measurements() ?? [];
     });
-
-    effect(() => {
-      this.query.refetch({
-        ...this.values(),
-        meteringPointId: this.meteringPointId(),
-      });
-    });
   }
 
-  values = toSignal<AggregatedMeasurementsByYearQueryVariables>(
+  values = toSignal(
     this.form.valueChanges.pipe(
-      debounceTime(500),
+      debounceTime(300),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),
-      map(
-        ({ year }): AggregatedMeasurementsByYearQueryVariables => ({
-          year: parseInt(year),
-          actorNumber: this.actor.getSelectedActor().gln,
-          marketRole: this.actor.getSelectedActor().marketRole,
-        })
-      )
+      map(({ year }) => ({
+        year: parseInt(year),
+        actorNumber: this.actor.getSelectedActor().gln,
+        marketRole: this.actor.getSelectedActor().marketRole,
+      }))
     ),
     { requireSync: true }
   );

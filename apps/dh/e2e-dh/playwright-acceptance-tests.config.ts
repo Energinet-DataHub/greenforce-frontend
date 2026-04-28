@@ -16,15 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { defineConfig } from 'cypress';
-import { nxComponentTestingPreset } from '@nx/angular/plugins/component-testing';
+import { defineConfig } from '@playwright/test';
+
+import { baseE2EConfig } from './playwright.config';
+
+// Acceptance tests run against a deployed environment. dh3-environments sets BASE_URL to the
+// frontend URL of the target stage (dev_002, preprod, etc.). Tests authenticate via the same
+// B2C tenant, then navigate inside the deployed app. No webServer here, since there is
+// nothing to start locally.
+const baseURL = process.env['BASE_URL'] ?? 'https://dev002.datahub3.dk';
 
 export default defineConfig({
-  component: {
-    ...nxComponentTestingPreset(__filename, {
-      buildTarget: 'app-dh:build:mocked',
-    }),
-  },
-  video: true,
-  defaultCommandTimeout: 10000,
+  ...baseE2EConfig,
+  use: { ...baseE2EConfig.use, baseURL },
 });

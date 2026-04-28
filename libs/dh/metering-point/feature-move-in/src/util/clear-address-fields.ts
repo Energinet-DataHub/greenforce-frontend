@@ -16,10 +16,16 @@
  * limitations under the License.
  */
 //#endregion
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string, initialUrl?: string): void;
-    removeCookieBanner(): void;
-  }
+import { FormGroup } from '@angular/forms';
+
+import { AddressDetailsFormType } from '../types';
+
+export function clearAddressFields(formGroup: FormGroup<AddressDetailsFormType>): void {
+  formGroup.controls.addressSameAsInstallation.setValue(false);
+  formGroup.controls.addressGroup.enable();
+
+  const nullValues = Object.fromEntries(
+    Object.keys(formGroup.controls.addressGroup.controls).map((key) => [key, null])
+  );
+  formGroup.controls.addressGroup.reset(nullValues);
 }

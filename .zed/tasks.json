@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Setup worktree",
+    "command": "bun install && NX_TUI=false bun run domain:generate",
+    "hooks": ["create_worktree"],
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "reveal": "no_focus",
+    "hide": "on_success"
+  }
+]
