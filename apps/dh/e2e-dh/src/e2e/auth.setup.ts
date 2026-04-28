@@ -77,9 +77,7 @@ setup('authenticate', async ({ page, context, baseURL }) => {
   const appHost = baseURL ? new URL(baseURL).hostname : 'localhost';
   await page.waitForURL(
     (url) =>
-      url.hostname === appHost &&
-      !url.hash.includes('state=') &&
-      !url.search.includes('code='),
+      url.hostname === appHost && !url.hash.includes('state=') && !url.search.includes('code='),
     { timeout: 60_000 }
   );
 
