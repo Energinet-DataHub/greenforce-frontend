@@ -335,7 +335,6 @@ export class DhUpdateCustomerDataComponent {
     this.isBusinessCustomer() ? this.businessCustomerNameChanged() : this.legalCustomerNameChanged()
   );
 
-
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
     () => this.form().controls.technicalContactDetails.controls.contactSameAsCustomer
