@@ -18,6 +18,8 @@ limitations under the License.
 @let message = outgoingMessage();
 
 <watt-drawer
+  autoOpen
+  [key]="id()"
   [loading]="loading()"
   *transloco="let t; prefix: 'eSett.outgoingMessages.drawer'"
   #drawer

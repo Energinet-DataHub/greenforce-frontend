@@ -125,6 +125,8 @@ services.AddAuthorizationRequestModule();
 
 services.AddFeatureManagement();
 
+services.AddSingleton<ISchemaDocumentFormatter, Energinet.DataHub.WebApi.Utilities.SortedSchemaDocumentFormatter>();
+
 services
     .AddGraphQLServices()
     .ModifyRequestOptions(options =>

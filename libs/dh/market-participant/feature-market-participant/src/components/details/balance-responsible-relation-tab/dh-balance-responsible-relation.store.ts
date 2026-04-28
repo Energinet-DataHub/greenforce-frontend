@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
@@ -41,7 +41,10 @@ import { dhApplyFilter } from './dh-apply-filter';
 
 @Injectable()
 export class DhBalanceResponsibleRelationsStore {
-  private balanceResponsibleRelationsQuery = lazyQuery(GetBalanceResponsibleRelationDocument);
+  private balanceResponsibleRelationsQuery = query(GetBalanceResponsibleRelationDocument, () => {
+    const actorId = this.actor()?.id;
+    return actorId ? { variables: { id: actorId } } : { skip: true };
+  });
 
   private relations = computed<DhBalanceResponsibleRelations>(
     () =>
@@ -84,18 +87,6 @@ export class DhBalanceResponsibleRelationsStore {
   });
 
   public isEmpty = computed(() => this.filteredRelations().length === 0);
-
-  constructor() {
-    effect(() => {
-      const actorId = this.actor()?.id;
-
-      if (actorId == undefined) {
-        return;
-      }
-
-      this.balanceResponsibleRelationsQuery.refetch({ id: actorId });
-    });
-  }
 
   public updateMarketParticipant(actor: DhMarketParticipantExtended | null) {
     this.actor.set(actor);
