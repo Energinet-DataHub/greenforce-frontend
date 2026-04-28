@@ -83,7 +83,7 @@ import { ChargeLinkOverview, FeeOrSubscription } from '../types';
                 <watt-icon name="moreVertical" />
               </watt-button>
               <watt-menu #actions>
-                @if (feeOrSubscription()) {
+                @if (canEdit()) {
                   <watt-menu-item
                     [routerLink]="['edit', item()?.chargeLinkId]"
                     [state]="{ chargeType: chargeType(), periodStart: item()?.period?.start }"
@@ -92,7 +92,7 @@ import { ChargeLinkOverview, FeeOrSubscription } from '../types';
                   </watt-menu-item>
                 }
 
-                @if (chargeType() !== 'FEE') {
+                @if (canStop()) {
                   <watt-menu-item [routerLink]="['stop', item()?.chargeLinkId]">
                     {{ t('stop') }}
                   </watt-menu-item>
@@ -139,15 +139,14 @@ export class DhChargeLinkDetails {
   readonly item = model<ChargeLinkOverview>();
 
   readonly chargeType = computed(() => this.item()?.charge?.type);
-  readonly feeOrSubscription = computed((): FeeOrSubscription | undefined => {
+
+  readonly canEdit = computed((): boolean => {
     const chargeType = this.chargeType();
 
-    if (chargeType === 'FEE' || chargeType === 'SUBSCRIPTION') {
-      return chargeType;
-    }
-
-    return undefined;
+    return chargeType === 'FEE' || chargeType === 'SUBSCRIPTION';
   });
+
+  readonly canStop = computed((): boolean => this.chargeType() !== 'FEE');
 
   // TODO: Re-enable history
   // historyQuery = query(GetChargeLinkHistoryDocument, () => ({
