@@ -95,7 +95,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        uses: chromaui/action@eea1606238fd97a70b5af723d103953d1f40967b # v15.3.1
+        uses: chromaui/action@7d51ab74dfbe4810b90d01a1b89513b9f2f1a266 # v16.6.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.chromatic_project_token }}
