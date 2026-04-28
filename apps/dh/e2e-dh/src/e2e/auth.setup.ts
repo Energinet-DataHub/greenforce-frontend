@@ -24,6 +24,12 @@ const STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'user.json');
 const SESSION_STORAGE_STATE = path.resolve(__dirname, '..', '..', '.auth', 'session.json');
 
 setup('authenticate', async ({ page, context, baseURL }) => {
+  // Acceptance runs hit a real B2C tenant: redirect chain, token exchange, and the initial
+  // GraphQL roundtrip after sign-in regularly consume 20-40s on slower dev envs. The default
+  // 30s test budget leaves no headroom for the post-login profileMenu wait, so we extend the
+  // whole setup. Login itself is the slow step; subsequent specs reuse the saved storage state.
+  setup.setTimeout(120_000);
+
   const email = process.env['DH_E2E_USERNAME'] ?? '';
   const password = process.env['DH_E2E_PASSWORD'] ?? '';
 
@@ -56,6 +62,13 @@ setup('authenticate', async ({ page, context, baseURL }) => {
   await page.getByRole('textbox', { name: /email address|mailadresse/i }).fill(email);
   await page.getByRole('textbox', { name: /password|adgangskode/i }).fill(password);
   await page.getByRole('button', { name: /log på|sign in/i }).click();
+
+  // Wait for MSAL to consume the auth code from the redirect URL. B2C sends the user back to
+  // the app with `#state=...&code=...` in the hash; MSAL parses it, exchanges the code for
+  // tokens, then strips the hash via history.replaceState. Splitting the wait this way means
+  // an MSAL hang surfaces here with a clear "URL still contains #state=" failure rather than
+  // a downstream "profileMenu not visible".
+  await page.waitForURL((url) => !url.hash.includes('state='), { timeout: 60_000 });
 
   // Login is complete when the authenticated shell renders. The profile menu only exists
   // on authenticated pages, so this works regardless of the user's default landing route.
