@@ -303,6 +303,17 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     closed: false,
     charge: charges[4],
   },
+  {
+    __typename: 'ChargeLinkOverviewItem',
+    chargeLinkId: '1005',
+    amount: 1,
+    period: {
+      start: new Date('2026-03-18T23:00:00.000Z'),
+      end: new Date('2026-03-19T22:59:59.999Z'),
+    },
+    closed: false,
+    charge: charges[0],
+  },
 ];
 
 const makeChargeSeriesListMock = (
@@ -339,7 +350,7 @@ const makeChargeSeriesMock = (period: {
   return {
     __typename: 'ChargeSeriesPoint' as const,
     price: changes[0].price,
-    period: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
+    interval: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
     hasChanged: changes.length > 1,
     changes,
   };
