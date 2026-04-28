@@ -31,7 +31,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { ChargeLinkOverview, FeeOrSubscription } from '../types';
+import { ChargeLinkOverview } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
