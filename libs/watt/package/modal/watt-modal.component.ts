@@ -21,7 +21,7 @@ import {
   Component,
   TemplateRef,
   ViewEncapsulation,
-  afterRenderEffect,
+  afterNextRender,
   booleanAttribute,
   inject,
   input,
@@ -110,7 +110,11 @@ export class WattModalComponent {
   scrollable = signal(false);
 
   constructor() {
-    afterRenderEffect(() => {
+    // afterNextRender (one-shot) instead of afterRenderEffect (reactive). The latter re-fires
+    // on every render cycle and re-opens the modal after the user has dismissed it, which
+    // makes any test that closes an autoOpen modal flake the moment any signal in the parent
+    // re-renders.
+    afterNextRender(() => {
       if (this.autoOpen()) {
         this.open();
       }
