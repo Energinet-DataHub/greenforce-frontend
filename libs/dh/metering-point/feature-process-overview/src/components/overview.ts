@@ -189,12 +189,8 @@ export class DhMeteringPointProcessOverviewTable {
     this.actor.marketRole === EicFunction.GridAccessProvider;
   private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
-  private readonly isResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole && this.isEnergySupplierResponsible()
-  );
-
   private readonly hasMeteringPointAccess = computed(
-    () => this.hasGridAccessProviderRole || this.isResponsibleSupplier()
+    () => this.hasGridAccessProviderRole || this.isEnergySupplierResponsible()
   );
 
   protected readonly canPerformActions = this.hasMeteringPointAccess;

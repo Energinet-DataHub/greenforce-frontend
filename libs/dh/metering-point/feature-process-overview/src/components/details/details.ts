@@ -157,12 +157,8 @@ export class DhMeteringPointProcessOverviewDetails {
     this.actor.marketRole === EicFunction.GridAccessProvider;
   private readonly hasEnergySupplierRole = this.actor.marketRole === EicFunction.EnergySupplier;
 
-  private readonly isResponsibleSupplier = computed(
-    () => this.hasEnergySupplierRole && this.isEnergySupplierResponsible()
-  );
-
   private readonly hasMeteringPointAccess = computed(
-    () => this.hasGridAccessProviderRole || this.isResponsibleSupplier()
+    () => this.hasGridAccessProviderRole || this.isEnergySupplierResponsible()
   );
 
   // FAS admins render the buttons but cannot click them (see `[disabled]`); they
