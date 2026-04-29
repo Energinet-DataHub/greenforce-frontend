@@ -112,6 +112,9 @@
       "@energinet-datahub/dh/message-queue/feature-overview": [
         "./libs/dh/message-queue/feature-overview/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-change-of-supplier": [
+        "./libs/dh/metering-point/feature-change-of-supplier/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-chargelink": [
         "./libs/dh/metering-point/feature-chargelink/index.ts"
       ],

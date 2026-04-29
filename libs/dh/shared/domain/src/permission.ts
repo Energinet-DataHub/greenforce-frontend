@@ -42,6 +42,7 @@ export const permissions = [
   'measurements-reports:manage',
   'measurements:manage',
   'metering-point:actor-conversation',
+  'metering-point:change-of-supplier',
   'metering-point:connection-state-manage',
   'metering-point:create',
   'metering-point:end-of-supply-request',

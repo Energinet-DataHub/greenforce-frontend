@@ -929,6 +929,10 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+type InitiateChangeOfSupplierPayload {
+  boolean: Boolean
+}
+
 type InitiateMitIdSignupPayload {
   boolean: Boolean
   errors: [InitiateMitIdSignupError!]
@@ -1215,6 +1219,7 @@ type Mutation {
   dismissNotification(input: DismissNotificationInput!): DismissNotificationPayload!
   editChargeLink(input: EditChargeLinkInput!): EditChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   executeMeteringPointManualCorrection(input: ExecuteMeteringPointManualCorrectionInput!): ExecuteMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
+  initiateChangeOfSupplier(input: InitiateChangeOfSupplierInput!): InitiateChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   initiateMitIdSignup: InitiateMitIdSignupPayload!
   initiateMoveIn(input: InitiateMoveInInput!): InitiateMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   inviteUser(input: InviteUserInput!): InviteUserPayload!
@@ -2282,6 +2287,15 @@ input GridAreaSortInput {
   priceArea: SortEnumType
   type: SortEnumType
   status: SortEnumType
+}
+
+input InitiateChangeOfSupplierInput {
+  meteringPointId: String!
+  startDate: DateTime!
+  customerType: String!
+  cpr: String
+  cvr: String
+  protectedNameAndAddress: Boolean!
 }
 
 input InitiateMoveInInput {
