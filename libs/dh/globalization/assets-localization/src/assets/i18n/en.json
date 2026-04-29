@@ -1631,7 +1631,7 @@
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Reject request change of prices (RSM-033)",
       "NOTIFY_PRICE_LIST": "Notify prices (RSM-034)",
       "REQUEST_PRICE_LIST": "Request for prices (RSM-035)",
-      "REJECT_REQUEST_PRICE_LIST": "Rejection of request for prices (RSM-035)"
+      "REJECT_REQUEST_PRICE_LIST": "Reject request for prices (RSM-035)"
     },
     "businessReason": {
       "D03": "Temporary (D03)",
