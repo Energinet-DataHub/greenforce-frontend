@@ -19,6 +19,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
@@ -29,6 +30,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeNode
 {
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
@@ -37,6 +39,7 @@ public static partial class ChargeNode
             await client.GetChargeByIdAsync(id, ct);
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
@@ -45,6 +48,7 @@ public static partial class ChargeNode
             await client.GetChargesByTypeAsync(type, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> CreateChargeAsync(
         IChargesClient client,
@@ -53,6 +57,7 @@ public static partial class ChargeNode
             await client.CreateChargeAsync(input, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> UpdateChargeAsync(
         IChargesClient client,
@@ -61,6 +66,7 @@ public static partial class ChargeNode
             await client.UpdateChargeAsync(input, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> StopChargeAsync(
         IChargesClient client,
@@ -70,6 +76,7 @@ public static partial class ChargeNode
             await client.StopChargeAsync(id, terminationDate, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> AddChargeSeriesAsync(
         IChargesClient client,

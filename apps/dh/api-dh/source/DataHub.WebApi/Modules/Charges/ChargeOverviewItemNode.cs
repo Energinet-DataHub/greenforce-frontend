@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
 
@@ -23,6 +24,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeOverviewItemNode
 {
     [Query]
+    [UseRevisionLog]
     [UsePaging]
     [UseSorting]
     [Authorize(Roles = ["charges:view"])]
