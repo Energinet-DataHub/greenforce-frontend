@@ -63,9 +63,7 @@ public static partial class ChargeNode
         bool? transparentInvoicing,
         bool? spotDependingPrice,
         CancellationToken ct) =>
-            await client.CreateChargeAsync(
-                new CreateChargeInput(code, name, description, type, resolution, validFrom, vat, transparentInvoicing, spotDependingPrice),
-                ct);
+            await client.CreateChargeAsync(code, name, description, type, resolution, validFrom, vat, transparentInvoicing, spotDependingPrice, ct);
 
     [Mutation]
     [UseRevisionLog]
@@ -79,9 +77,7 @@ public static partial class ChargeNode
         bool vat,
         bool transparentInvoicing,
         CancellationToken ct) =>
-            await client.UpdateChargeAsync(
-                new UpdateChargeInput(id, name, description, cutoffDate, vat, transparentInvoicing),
-                ct);
+            await client.UpdateChargeAsync(id, name, description, cutoffDate, vat, transparentInvoicing, ct);
 
     [Mutation]
     [UseRevisionLog]

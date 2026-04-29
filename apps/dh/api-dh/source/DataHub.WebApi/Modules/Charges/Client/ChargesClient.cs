@@ -155,42 +155,59 @@ public class ChargesClient(
             : result.Data.Where(p => period.Contains(p.From)).OrderBy(p => p.From); // TODO: Remove `Where`
     }
 
-    public async Task<bool> CreateChargeAsync(CreateChargeInput input, CancellationToken ct = default)
+    public async Task<bool> CreateChargeAsync(
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
+        CancellationToken ct = default)
     {
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV2(new(
-                ChargeId: input.Code,
+                ChargeId: code,
                 ChargeOwnerId: httpContext.CreateUserIdentity().ActorNumber.Value,
-                ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
-                ChargeName: input.Name,
-                ChargeDescription: input.Description,
-                Resolution: input.Resolution.CastDurationTo<ResolutionV2>(),
-                Start: input.ValidFrom,
+                ChargeType: type.ToRequestChangeOfPriceListChargeType(),
+                ChargeName: name,
+                ChargeDescription: description,
+                Resolution: resolution.CastDurationTo<ResolutionV2>(),
+                Start: validFrom,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
-                TransparentInvoicing: input.TransparentInvoicing,
-                TaxIndicator: input.Type.IsTax,
-                PricingCategory: MapToPricingCategoryV2(input.SpotDependingPrice))),
+                VatPayer: vat ? VatPayerV2.D02 : VatPayerV2.D01,
+                TransparentInvoicing: transparentInvoicing,
+                TaxIndicator: type.IsTax,
+                PricingCategory: MapToPricingCategoryV2(spotDependingPrice))),
             ct);
 
         return result.IsSuccess;
     }
 
-    public async Task<bool> UpdateChargeAsync(UpdateChargeInput input, CancellationToken ct = default)
+    public async Task<bool> UpdateChargeAsync(
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
+        CancellationToken ct = default)
     {
-        var charge = await GetChargeByIdAsync(input.Id, ct) ?? throw new GraphQLException("Charge not found");
+        var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV2(new(
-                ChargeId: input.Id.Code,
-                ChargeOwnerId: input.Id.Owner,
+                ChargeId: id.Code,
+                ChargeOwnerId: id.Owner,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
-                ChargeName: input.Name,
-                ChargeDescription: input.Description,
+                ChargeName: name,
+                ChargeDescription: description,
                 Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
-                Start: input.CutoffDate,
+                Start: cutoffDate,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
-                TransparentInvoicing: input.TransparentInvoicing,
+                VatPayer: vat ? VatPayerV2.D02 : VatPayerV2.D01,
+                TransparentInvoicing: transparentInvoicing,
                 TaxIndicator: null,
                 PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);

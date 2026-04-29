@@ -69,14 +69,27 @@ public interface IChargesClient
     /// Create a new charge.
     /// </summary>
     Task<bool> CreateChargeAsync(
-        CreateChargeInput input,
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
         CancellationToken ct = default);
 
     /// <summary>
     /// Update a charge.
     /// </summary>
     Task<bool> UpdateChargeAsync(
-        UpdateChargeInput input,
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
         CancellationToken ct = default);
 
     /// <summary>
