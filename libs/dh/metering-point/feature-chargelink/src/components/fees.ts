@@ -70,7 +70,7 @@ import { DhChargeLinkDetails } from './details';
         </ng-container>
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
+          {{ element.period.start | wattDate }}
           @if (element.period.start.getTime() === element.period.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
