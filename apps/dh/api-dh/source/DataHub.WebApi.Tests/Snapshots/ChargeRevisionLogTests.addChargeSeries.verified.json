@@ -1,0 +1,19 @@
+﻿{
+  "activity": "addChargeSeries",
+  "payload": {
+    "query": "mutation($id: String!, $start: DateTime!, $end: DateTime!, $points: [ChargePointV2Input!]!) { addChargeSeries(input: { id: $id, start: $start, end: $end, points: $points }) { boolean } }",
+    "variables": {
+      "id": "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-01-02T00:00:00Z",
+      "points": [
+        {
+          "position": 1,
+          "priceAmount": 1.5
+        }
+      ]
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": "ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }"
+}
