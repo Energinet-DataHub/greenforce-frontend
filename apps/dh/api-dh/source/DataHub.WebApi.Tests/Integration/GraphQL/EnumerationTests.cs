@@ -19,7 +19,7 @@ using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Xunit;
 using ChargeResolution = Energinet.DataHub.Charges.Abstractions.Shared.ResolutionDto;
-using RequestChangeOfPriceListResolution = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models.ResolutionV1;
+using RequestChangeOfPriceListResolution = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models.ResolutionV2;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
 
