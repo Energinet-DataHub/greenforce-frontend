@@ -60,7 +60,10 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException(
+                $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
     }
 
     [Mutation]
@@ -88,7 +91,7 @@ public static class MoveInOperations
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
             if (startDate is null)
             {
-                throw new HotChocolate.GraphQLException($"Unable to resolve start date for process '{processId}'.");
+                throw new GraphQLException($"Unable to resolve start date for process '{processId}'.");
             }
 
             resolvedStartDate = startDate.Value;
@@ -99,10 +102,10 @@ public static class MoveInOperations
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
                 StartDate: resolvedStartDate,
-                FirstCustomerCpr: firstCustomerCpr ?? FakeCpr,
+                FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
-                SecondCustomerCpr: secondCustomerCpr ?? (secondCustomerName is not null ? FakeCpr : null),
+                SecondCustomerCpr: secondCustomerCpr,
                 SecondCustomerName: secondCustomerName,
                 ProtectedName: protectedName,
                 ElectricalHeating: electricalHeating,
@@ -111,7 +114,10 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException(
+                $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
     }
 
     private static DateTimeOffset GetDefaultResolvedStartDate() =>
@@ -119,10 +125,4 @@ public static class MoveInOperations
             .InZone(LocalDateExtensions.DanishTimeZone)
             .Date
             .ToUtcDateTimeOffset();
-
-    /// <summary>
-    /// Placeholder CPR used when the CPR is not provided by the user.
-    /// EDI B2C does not support null for CPR fields; this value signals "unchanged".
-    /// </summary>
-    private const string FakeCpr = "0000000000";
 }
