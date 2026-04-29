@@ -36,8 +36,8 @@ public static partial class ChargeNode
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
-        CancellationToken ct) =>
-            await client.GetChargeByIdAsync(id, ct);
+        CancellationToken ct)
+        => await client.GetChargeByIdAsync(id, ct);
 
     [Query]
     [UseRevisionLog]
@@ -45,8 +45,8 @@ public static partial class ChargeNode
     public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
-        CancellationToken ct) =>
-            await client.GetChargesByTypeAsync(type, ct);
+        CancellationToken ct)
+        => await client.GetChargesByTypeAsync(type, ct);
 
     [Mutation]
     [UseRevisionLog]
@@ -62,8 +62,18 @@ public static partial class ChargeNode
         bool vat,
         bool? transparentInvoicing,
         bool? spotDependingPrice,
-        CancellationToken ct) =>
-            await client.CreateChargeAsync(code, name, description, type, resolution, validFrom, vat, transparentInvoicing, spotDependingPrice, ct);
+        CancellationToken ct)
+        => await client.CreateChargeAsync(
+            code,
+            name,
+            description,
+            type,
+            resolution,
+            validFrom,
+            vat,
+            transparentInvoicing,
+            spotDependingPrice,
+            ct);
 
     [Mutation]
     [UseRevisionLog]
@@ -76,8 +86,8 @@ public static partial class ChargeNode
         DateTimeOffset cutoffDate,
         bool vat,
         bool transparentInvoicing,
-        CancellationToken ct) =>
-            await client.UpdateChargeAsync(id, name, description, cutoffDate, vat, transparentInvoicing, ct);
+        CancellationToken ct)
+        => await client.UpdateChargeAsync(id, name, description, cutoffDate, vat, transparentInvoicing, ct);
 
     [Mutation]
     [UseRevisionLog]
@@ -86,8 +96,8 @@ public static partial class ChargeNode
         IChargesClient client,
         ChargeIdentifierDto id,
         DateTimeOffset terminationDate,
-        CancellationToken ct) =>
-            await client.StopChargeAsync(id, terminationDate, ct);
+        CancellationToken ct)
+        => await client.StopChargeAsync(id, terminationDate, ct);
 
     [Mutation]
     [UseRevisionLog]
@@ -98,15 +108,15 @@ public static partial class ChargeNode
         DateTimeOffset start,
         DateTimeOffset end,
         List<ChargePointV2> points,
-        CancellationToken ct) =>
-            await client.AddChargeSeriesAsync(id, start, end, points, ct);
+        CancellationToken ct)
+        => await client.AddChargeSeriesAsync(id, start, end, points, ct);
 
     public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
-        CancellationToken ct) =>
-            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
+        CancellationToken ct)
+        => await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
