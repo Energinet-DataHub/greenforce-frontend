@@ -43,4 +43,3 @@ export class DhPhoneNumberPipe implements PipeTransform {
     return `+${countryCode} ${formatted}`;
   }
 }
-

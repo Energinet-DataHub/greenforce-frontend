@@ -53,7 +53,10 @@ import { DhAddressComponent } from '../address/dh-address.component';
     >
       <watt-description-list-item [label]="t('name')" [value]="contact().name | dhEmDashFallback" />
       @if (contact().phone) {
-        <watt-description-list-item [label]="t('phone')" [value]="contact().phone | dhPhoneNumber | dhEmDashFallback" />
+        <watt-description-list-item
+          [label]="t('phone')"
+          [value]="contact().phone | dhPhoneNumber | dhEmDashFallback"
+        />
       }
       @if (contact().mobile) {
         <watt-description-list-item
