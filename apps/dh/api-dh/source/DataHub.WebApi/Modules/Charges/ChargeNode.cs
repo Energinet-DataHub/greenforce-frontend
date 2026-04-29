@@ -18,6 +18,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
@@ -52,18 +53,35 @@ public static partial class ChargeNode
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> CreateChargeAsync(
         IChargesClient client,
-        CreateChargeInput input,
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
         CancellationToken ct) =>
-            await client.CreateChargeAsync(input, ct);
+            await client.CreateChargeAsync(
+                new CreateChargeInput(code, name, description, type, resolution, validFrom, vat, transparentInvoicing, spotDependingPrice),
+                ct);
 
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> UpdateChargeAsync(
         IChargesClient client,
-        UpdateChargeInput input,
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
         CancellationToken ct) =>
-            await client.UpdateChargeAsync(input, ct);
+            await client.UpdateChargeAsync(
+                new UpdateChargeInput(id, name, description, cutoffDate, vat, transparentInvoicing),
+                ct);
 
     [Mutation]
     [UseRevisionLog]

@@ -12,5 +12,5 @@
     }
   },
   "affectedEntityType": "Charge",
-  "affectedEntityKey": null
+  "affectedEntityKey": "ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }"
 }
