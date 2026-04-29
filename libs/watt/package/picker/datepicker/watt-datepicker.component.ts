@@ -96,8 +96,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
   protected override ngControl = inject(NgControl, { optional: true, self: true });
   private localeService = inject(WattLocaleService);
 
-  max = input<Date | null>();
-  min = input<Date | null>();
+  max = input<Date>();
+  min = input<Date>();
   label = input<string>('');
   rangeMonthOnlyMode = input(false);
   startAt = input<Date | null>(null);
@@ -124,8 +124,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     maskitoDateOptionsGenerator({
       mode: 'dd/mm/yyyy',
       separator: '-',
-      max: this.max() ?? undefined,
-      min: this.min() ?? undefined,
+      max: this.max(),
+      min: this.min(),
     })
   );
 
@@ -133,8 +133,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     maskitoDateRangeOptionsGenerator({
       mode: 'dd/mm/yyyy',
       dateSeparator: '-',
-      max: this.max() ?? undefined,
-      min: this.min() ?? undefined,
+      max: this.max(),
+      min: this.min(),
     })
   );
 
@@ -178,18 +178,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
       : { monthOnly: true };
   };
 
-  override writeValue(value: WattPickerValue): void {
-    super.writeValue(value);
-
-    if (!value) {
-      const actualInput = this.actualInput();
-      if (actualInput) {
-        actualInput.nativeElement.value = '';
-        actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
-      }
-    }
-  }
-
   protected initSingleInput() {
     const matDatepickerInput = this.matDatepickerInput();
     if (this.initialValue && matDatepickerInput) {
@@ -202,9 +190,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     const dateString = value.slice(0, this.placeholder().length);
 
     if (dateString.length === 0) {
-      if (this.control?.value != null) {
-        this.control?.setValue(null);
-      }
+      this.control?.setValue(null);
       return;
     }
 
@@ -273,9 +259,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     const startDateString = value.slice(0, this.placeholder().length);
 
     if (startDateString.length === 0) {
-      if (this.control?.value != null) {
-        this.control?.setValue(null);
-      }
+      this.control?.setValue(null);
       return;
     }
 

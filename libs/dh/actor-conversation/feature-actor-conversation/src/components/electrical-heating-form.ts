@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { input, computed, Component, forwardRef, ChangeDetectionStrategy, DestroyRef, inject } from '@angular/core';
+import {
+  input,
+  computed,
+  Component,
+  forwardRef,
+  ChangeDetectionStrategy,
+  DestroyRef,
+  inject,
+} from '@angular/core';
 
 import {
   FormGroup,
@@ -124,12 +132,12 @@ import { ElectricalHeatingFormValue } from '../types';
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
         <watt-datepicker
-          [min]="periodStartMin()"
+          [min]="periodStartMin() ?? undefined"
           [label]="t('periodStart')"
           [formControl]="form.controls.periodStart"
         />
         <watt-datepicker
-          [min]="periodEndMin()"
+          [min]="periodEndMin() ?? undefined"
           [label]="t('periodEnd')"
           [formControl]="form.controls.periodEnd"
         />
