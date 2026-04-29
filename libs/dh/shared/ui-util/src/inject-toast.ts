@@ -31,12 +31,14 @@ export const injectToast = (prefix: string, exclude?: MutationStatus[]) => {
     switch (status) {
       case MutationStatus.Loading:
         return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
+      case MutationStatus.Error: {
         const errorMessage: WattToastConfig = { type: 'danger', message: t('error') };
         return toast.isOpen ? toast.update(errorMessage) : toast.open(errorMessage);
-      case MutationStatus.Resolved:
+      }
+      case MutationStatus.Resolved: {
         const successMessage: WattToastConfig = { type: 'success', message: t('success') };
         return toast.isOpen ? toast.update(successMessage) : toast.open(successMessage);
+      }
     }
   };
 };

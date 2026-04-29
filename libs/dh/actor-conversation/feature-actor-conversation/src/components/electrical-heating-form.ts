@@ -242,6 +242,7 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched = () => {};
 
   registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
