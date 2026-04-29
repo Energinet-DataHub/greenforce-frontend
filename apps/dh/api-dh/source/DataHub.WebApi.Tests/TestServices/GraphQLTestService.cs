@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.ElectricityMarket.Client;
+using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
@@ -31,6 +32,7 @@ using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
+using Energinet.DataHub.WebApi.Options;
 using Energinet.DataHub.WebApi.Registration;
 using HotChocolate;
 using HotChocolate.Execution;
@@ -61,13 +63,17 @@ public class GraphQLTestService
         MeasurementsClientMock = new Mock<IMeasurementsClient>();
         HttpContextAccessorMock = new Mock<IHttpContextAccessor>();
         MeasurementsApiHttpClientFactoryMock = new Mock<IMeasurementsApiHttpClientFactory>();
-        AuthorizedHttpClientFactoryMock = new Mock<AuthorizedHttpClientFactory>();
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
+        AuthorizedHttpClientFactory = new AuthorizedHttpClientFactory(
+            HttpClientFactoryMock.Object,
+            () => string.Empty,
+            Microsoft.Extensions.Options.Options.Create(new SubSystemBaseUrls()));
         ChargesClientMock = new Mock<IChargesClient>();
         ElectricityMarketClientMock = new Mock<IElectricityMarketClient>();
         ElectricityMarketClientV1Mock = new Mock<IElectricityMarketClient_V1>();
+        RequestAuthorizationMock = new Mock<IRequestAuthorization>();
 
         Services = new ServiceCollection()
             .AddLogging()
@@ -113,10 +119,12 @@ public class GraphQLTestService
             .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(AuthorizationServiceMock.Object)
+            .AddSingleton(AuthorizedHttpClientFactory)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
             .AddSingleton(ElectricityMarketClientMock.Object)
             .AddSingleton(ElectricityMarketClientV1Mock.Object)
+            .AddSingleton(RequestAuthorizationMock.Object)
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
@@ -131,7 +139,7 @@ public class GraphQLTestService
 
     public Mock<IRequestsClient> RequestsClientMock { get; set; }
 
-    public Mock<AuthorizedHttpClientFactory> AuthorizedHttpClientFactoryMock { get; set; }
+    public AuthorizedHttpClientFactory AuthorizedHttpClientFactory { get; set; }
 
     public Mock<IHttpClientFactory> HttpClientFactoryMock { get; set; }
 
@@ -162,6 +170,8 @@ public class GraphQLTestService
     public Mock<IElectricityMarketClient> ElectricityMarketClientMock { get; set; }
 
     public Mock<IElectricityMarketClient_V1> ElectricityMarketClientV1Mock { get; set; }
+
+    public Mock<IRequestAuthorization> RequestAuthorizationMock { get; set; }
 
     public IServiceCollection Services { get; set; }
 
