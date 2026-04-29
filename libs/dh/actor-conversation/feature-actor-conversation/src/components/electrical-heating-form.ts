@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { input, computed, Component, forwardRef, ChangeDetectionStrategy } from '@angular/core';
+import { input, computed, Component, forwardRef, ChangeDetectionStrategy, DestroyRef, inject } from '@angular/core';
 
 import {
   FormGroup,
@@ -24,11 +24,14 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   ControlValueAccessor,
+  TouchedChangeEvent,
 } from '@angular/forms';
 
-import { skip } from 'rxjs';
-import { TranslocoDirective } from '@jsverse/transloco';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+
+import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
@@ -121,7 +124,7 @@ import { ElectricalHeatingFormValue } from '../types';
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
         <watt-datepicker
-          [min]="addressEligibilityDateChanged()"
+          [min]="periodStartMin()"
           [label]="t('periodStart')"
           [formControl]="form.controls.periodStart"
         />
@@ -144,6 +147,7 @@ import { ElectricalHeatingFormValue } from '../types';
   `,
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
+  private readonly destroyRef = inject(DestroyRef);
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
@@ -165,6 +169,11 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
 
   addressEligibilityDateChanged = dhFormControlToSignal(this.form.controls.addressEligibilityDate);
   periodStartChanged = dhFormControlToSignal(this.form.controls.periodStart);
+
+  periodStartMin = computed(() => {
+    const date = this.addressEligibilityDateChanged();
+    return date ? dayjs(date).toDate() : null;
+  });
 
   periodEndMin = computed(() => {
     const start = this.periodStartChanged();
@@ -225,8 +234,17 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
     }
   }
 
+  onTouched = () => {};
+
   registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
     this.formValueChanged.subscribe(fn);
-  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  registerOnTouched = (fn: () => void) => {
+    this.onTouched = fn;
+    merge(...Object.values(this.form.controls).map((c) => c.events))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (event instanceof TouchedChangeEvent && event.touched) fn();
+      });
+  };
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
 }

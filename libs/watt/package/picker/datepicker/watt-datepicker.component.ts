@@ -124,6 +124,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     maskitoDateOptionsGenerator({
       mode: 'dd/mm/yyyy',
       separator: '-',
+      max: this.max() ?? undefined,
+      min: this.min() ?? undefined,
     })
   );
 
@@ -131,6 +133,8 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     maskitoDateRangeOptionsGenerator({
       mode: 'dd/mm/yyyy',
       dateSeparator: '-',
+      max: this.max() ?? undefined,
+      min: this.min() ?? undefined,
     })
   );
 
@@ -174,6 +178,18 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
       : { monthOnly: true };
   };
 
+  override writeValue(value: WattPickerValue): void {
+    super.writeValue(value);
+
+    if (!value) {
+      const actualInput = this.actualInput();
+      if (actualInput) {
+        actualInput.nativeElement.value = '';
+        actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
+      }
+    }
+  }
+
   protected initSingleInput() {
     const matDatepickerInput = this.matDatepickerInput();
     if (this.initialValue && matDatepickerInput) {
@@ -186,7 +202,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     const dateString = value.slice(0, this.placeholder().length);
 
     if (dateString.length === 0) {
-      this.control?.setValue(null, { emitModelToViewChange: false });
+      if (this.control?.value != null) {
+        this.control?.setValue(null);
+      }
       return;
     }
 
@@ -195,7 +213,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     }
 
     const date = this.parseDateShortFormat(dateString);
-    this.control?.setValue(this.formatDateFromViewToModel(date), { emitModelToViewChange: false });
+    this.control?.setValue(this.formatDateFromViewToModel(date));
   }
 
   datepickerClosed() {
@@ -255,7 +273,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     const startDateString = value.slice(0, this.placeholder().length);
 
     if (startDateString.length === 0) {
-      this.control?.setValue(null, { emitModelToViewChange: false });
+      if (this.control?.value != null) {
+        this.control?.setValue(null);
+      }
       return;
     }
 
@@ -269,7 +289,7 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
     if (end !== null) {
       end = this.setToEndOfDay(end);
-      this.control?.setValue({ start, end }, { emitModelToViewChange: false });
+      this.control?.setValue({ start, end });
     }
   }
 
@@ -309,12 +329,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     if (matDatepickerInput) {
       this.setValueToInput(value, input, matDatepickerInput);
     }
-
-    const actualInput = this.actualInput();
-    if (actualInput) {
-      actualInput.nativeElement.value = value ? this.formatDateTimeFromModelToView(value) : '';
-      actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
-    }
   }
 
   protected setRangeValue(
@@ -331,17 +345,6 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
 
     this.setValueToInput(start, startInput, matStartDate);
     this.setValueToInput(end, endInput, matEndDate);
-
-    const actualInput = this.actualInput();
-    if (actualInput) {
-      actualInput.nativeElement.value =
-        start && end
-          ? this.formatDateTimeFromModelToView(start) +
-            '-' +
-            this.formatDateTimeFromModelToView(end)
-          : '';
-      actualInput.nativeElement.dispatchEvent(new InputEvent('input'));
-    }
   }
 
   prevDay() {

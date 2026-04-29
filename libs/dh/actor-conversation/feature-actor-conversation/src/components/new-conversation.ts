@@ -335,6 +335,13 @@ export class DhActorConversationNewConversation {
     { reset: true }
   );
 
+  private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
+    () => this.newConversationForm().controls.electricalHeating,
+    Validators.required,
+    () => this.shouldShowElectricalHeatingForm(),
+    { reset: true }
+  );
+
   private readonly syncElectricalHeatingMessageValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.message,
     this.electricalHeatingAttachmentsValidator,
