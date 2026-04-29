@@ -40,7 +40,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigatio
 import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ChargeOverviewQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WattDatePipe } from '@energinet/watt/date';
+import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeOverviewItem } from '../types';
 import { DhChargesFilters } from './charges-filters';
@@ -56,7 +56,7 @@ import { DhChargesFilters } from './charges-filters';
     WattButtonComponent,
     WattDataFiltersComponent,
     WattDataTableComponent,
-    WattDatePipe,
+    DhChargePeriodPipe,
     WattIconComponent,
     WattTableCellDirective,
     WattTableComponent,
@@ -102,7 +102,7 @@ import { DhChargesFilters } from './charges-filters';
           {{ element.charge.typeDisplayName }}
         </ng-container>
         <ng-container *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
+          {{ element.period | dhChargePeriod }}
         </ng-container>
       </watt-table>
     </watt-data-table>

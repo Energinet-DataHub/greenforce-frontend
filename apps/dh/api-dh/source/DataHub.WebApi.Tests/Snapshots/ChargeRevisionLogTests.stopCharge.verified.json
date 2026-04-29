@@ -1,0 +1,12 @@
+﻿{
+  "activity": "stopCharge",
+  "payload": {
+    "query": "mutation($id: String!, $terminationDate: DateTime!) { stopCharge(input: { id: $id, terminationDate: $terminationDate }) { boolean } }",
+    "variables": {
+      "id": "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9",
+      "terminationDate": "2025-06-01T00:00:00Z"
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": "ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }"
+}
