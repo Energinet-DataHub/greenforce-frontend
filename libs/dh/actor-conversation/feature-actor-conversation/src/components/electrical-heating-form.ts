@@ -132,12 +132,12 @@ import { ElectricalHeatingFormValue } from '../types';
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
         <watt-datepicker
-          [min]="periodStartMin() ?? undefined"
+          [min]="periodStartMin()"
           [label]="t('periodStart')"
           [formControl]="form.controls.periodStart"
         />
         <watt-datepicker
-          [min]="periodEndMin() ?? undefined"
+          [min]="periodEndMin()"
           [label]="t('periodEnd')"
           [formControl]="form.controls.periodEnd"
         />
@@ -180,12 +180,12 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
 
   periodStartMin = computed(() => {
     const date = this.addressEligibilityDateChanged();
-    return date ? dayjs(date).toDate() : null;
+    return date ? dayjs(date).toDate() : undefined;
   });
 
   periodEndMin = computed(() => {
     const start = this.periodStartChanged();
-    return start ? dayjs(start).add(1, 'day').toDate() : null;
+    return start ? dayjs(start).add(1, 'day').toDate() : undefined;
   });
 
   resetPeriodStart = dhResetControlOnChange(
