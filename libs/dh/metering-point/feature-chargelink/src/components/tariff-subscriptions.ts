@@ -24,7 +24,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
 import { WATT_TABLE, dataSource, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { WattDatePipe } from '@energinet/watt/core/date';
+
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
@@ -42,7 +42,10 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import {
+  DhChargesStatus,
+  DhChargePeriodPipe,
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkOverview } from '../types';
 import { DhChargeLinkDetails } from './details';
@@ -57,7 +60,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
     TranslocoDirective,
     VATER,
     WATT_TABLE,
-    WattDatePipe,
+    DhChargePeriodPipe,
     WattDropdownComponent,
     WattDataTableComponent,
     WattDataFiltersComponent,
@@ -118,7 +121,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
         </ng-container>
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
-          {{ element.period | wattDate }}
+          {{ element.period | dhChargePeriod }}
           @if (element.period.start.getTime() === element.period.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
@@ -151,12 +154,15 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
     type: { accessor: (item) => item.charge.type },
     id: { accessor: (item) => item.charge.code },
     name: { accessor: (item) => item.charge.name ?? '' },
-    owner: { accessor: (item) => item.charge.owner?.displayName ?? '' },
     transparentInvoicing: {
       header: '',
       accessor: (item) => item.charge.transparentInvoicing ?? false,
+      size: 'min-content',
     },
-    amount: { accessor: 'amount' },
-    period: { accessor: (item) => item.period },
+    owner: { accessor: (item) => item.charge.owner?.displayName ?? '' },
+    amount: {
+      accessor: (item) => (item.charge.type === ChargeType.Subscription ? item.amount : null),
+    },
+    period: { accessor: (item) => item.period.start },
   };
 }

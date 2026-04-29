@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
 using NodaTime.Extensions;
@@ -24,6 +25,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeLinkOverviewItemNode
 {
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices"])]
     public static async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
         string meteringPointId,

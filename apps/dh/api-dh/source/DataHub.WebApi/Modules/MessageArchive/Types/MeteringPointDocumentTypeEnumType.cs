@@ -22,9 +22,5 @@ public class MeteringPointDocumentTypeEnumType : EnumType<MeteringPointDocumentT
     protected override void Configure(IEnumTypeDescriptor<MeteringPointDocumentTypeDtoV1> descriptor)
     {
         descriptor.Name("MeteringPointDocumentType");
-
-        descriptor
-            .Value(MeteringPointDocumentTypeDtoV1.B2CUpdateChargeLinks)
-            .Name(DocumentType.B2CUpdateChargeLinks.GraphQLName);
     }
 }

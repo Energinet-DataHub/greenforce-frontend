@@ -16,10 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string, initialUrl?: string): void;
-    removeCookieBanner(): void;
-  }
-}
+import { defineConfig } from '@playwright/test';
+
+import { baseE2EConfig } from './playwright.config';
+
+// Acceptance tests run against a deployed environment. dh3-environments sets BASE_URL to the
+// frontend URL of the target stage (dev_002, preprod, etc.). Tests authenticate via the same
+// B2C tenant, then navigate inside the deployed app. No webServer here, since there is
+// nothing to start locally.
+const baseURL = process.env['BASE_URL'] ?? 'https://dev002.datahub3.dk';
+
+export default defineConfig({
+  ...baseE2EConfig,
+  use: { ...baseE2EConfig.use, baseURL },
+});
