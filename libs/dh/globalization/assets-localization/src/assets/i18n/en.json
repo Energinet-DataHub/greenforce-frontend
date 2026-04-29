@@ -790,6 +790,16 @@
       }
     },
     "actorConversation": {
+      "newConversation": {
+        "toast": {
+          "error": "An error occurred while creating the case"
+        }
+      },
+      "sendMessage": {
+        "toast": {
+          "error": "An error occurred while sending the message"
+        }
+      },
       "topBarTitle": "Actor Conversation",
       "searchPlaceholder": "Search for case-ID or internal note",
       "searchPlaceholderWithMeteringPointId": "Search for case-ID, metering point ID or internal note",
@@ -884,8 +894,7 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No",
-        "periodEndError": "End date must be after start date"
+        "no": "No"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "yes": "Yes",

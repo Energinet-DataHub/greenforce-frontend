@@ -17,23 +17,28 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { WattToastService } from '@energinet/watt/toast';
+import { WattToastConfig, WattToastService } from '@energinet/watt/toast';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoService } from '@jsverse/transloco';
 
 /** Helper function for displaying a toast message based on MutationStatus. */
-export const injectToast = (prefix: string) => {
+export const injectToast = (prefix: string, exclude?: MutationStatus[]) => {
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
   const t = (key: string) => transloco.translate(`${prefix}.${key}`);
   return (status: MutationStatus) => {
+    if (exclude?.includes(status)) return toast.dismiss();
     switch (status) {
       case MutationStatus.Loading:
         return toast.open({ type: 'loading', message: t('loading') });
-      case MutationStatus.Error:
-        return toast.update({ type: 'danger', message: t('error') });
-      case MutationStatus.Resolved:
-        return toast.update({ type: 'success', message: t('success') });
+      case MutationStatus.Error: {
+        const errorMessage: WattToastConfig = { type: 'danger', message: t('error') };
+        return toast.isOpen ? toast.update(errorMessage) : toast.open(errorMessage);
+      }
+      case MutationStatus.Resolved: {
+        const successMessage: WattToastConfig = { type: 'success', message: t('success') };
+        return toast.isOpen ? toast.update(successMessage) : toast.open(successMessage);
+      }
     }
   };
 };

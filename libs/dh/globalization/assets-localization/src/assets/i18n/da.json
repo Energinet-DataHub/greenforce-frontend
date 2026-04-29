@@ -790,6 +790,16 @@
       }
     },
     "actorConversation": {
+      "newConversation": {
+        "toast": {
+          "error": "Der opstod en fejl under oprettelse af sagen"
+        }
+      },
+      "sendMessage": {
+        "toast": {
+          "error": "Der opstod en fejl under afsendelse af besked"
+        }
+      },
       "topBarTitle": "Aktørdialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
       "searchPlaceholderWithMeteringPointId": "Søg på sags-ID, målepunkts-ID eller intern note",
@@ -884,8 +894,7 @@
         "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
         "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
         "yes": "Ja",
-        "no": "Nej",
-        "periodEndError": "Slutdato skal være efter startdato"
+        "no": "Nej"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
       "yes": "Ja",

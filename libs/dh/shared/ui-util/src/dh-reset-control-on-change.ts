@@ -16,6 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-export { WattToastComponent, WattToastType } from './watt-toast.component';
-export { WattToastService } from './watt-toast.service';
-export type { WattToastRef, WattToastConfig } from './watt-toast.component';
+import { effect, EffectRef, Signal } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
+
+/**
+ * Creates an effect that resets a target control on the initial effect run
+ * and whenever the source signal changes afterwards.
+ */
+export function dhResetControlOnChange<T>(
+  source: Signal<T>,
+  target: () => AbstractControl
+): EffectRef {
+  return effect(() => {
+    source();
+    target().reset();
+  });
+}
