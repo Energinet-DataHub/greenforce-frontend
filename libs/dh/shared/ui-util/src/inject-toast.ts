@@ -17,7 +17,7 @@
  */
 //#endregion
 import { inject } from '@angular/core';
-import { WattToastService } from '@energinet/watt/toast';
+import { WattToastConfig, WattToastService } from '@energinet/watt/toast';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -32,9 +32,11 @@ export const injectToast = (prefix: string, exclude?: MutationStatus[]) => {
       case MutationStatus.Loading:
         return toast.open({ type: 'loading', message: t('loading') });
       case MutationStatus.Error:
-        return toast.open({ type: 'danger', message: t('error') });
+        const errorMessage: WattToastConfig = { type: 'danger', message: t('error') };
+        return toast.isOpen ? toast.update(errorMessage) : toast.open(errorMessage);
       case MutationStatus.Resolved:
-        return toast.open({ type: 'success', message: t('success') });
+        const successMessage: WattToastConfig = { type: 'success', message: t('success') };
+        return toast.isOpen ? toast.update(successMessage) : toast.open(successMessage);
     }
   };
 };

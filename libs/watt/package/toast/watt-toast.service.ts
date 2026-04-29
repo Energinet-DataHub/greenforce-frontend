@@ -29,15 +29,9 @@ export class WattToastService {
   private ref?: MatSnackBarRef<WattToastComponent>;
 
   open(config: WattToastConfig): MatSnackBarRef<WattToastComponent> {
-    if (this.ref) {
-      this.ref.instance.update(config);
-      return this.ref;
-    }
-
     this.ref = this._snackBar.openFromComponent(WattToastComponent, {
       data: config,
     });
-
     return this.ref;
   }
 
@@ -49,5 +43,9 @@ export class WattToastService {
   dismiss() {
     if (!this.ref) return;
     this.ref.dismiss();
+  }
+
+  get isOpen() {
+    return !!this.ref;
   }
 }
