@@ -71,7 +71,7 @@ function getTemporaryStorageData() {
         temporaryStorageData: {
           __typename: 'RequestTemporaryStorageResult',
           firstCustomerName: 'Test Testesen',
-          isBusinessCustomer: false
+          isBusinessCustomer: false,
         },
       },
     });
