@@ -1,0 +1,11 @@
+﻿{
+  "activity": "chargeById",
+  "payload": {
+    "query": "query($id: String!) { chargeById(id: $id) { id } }",
+    "variables": {
+      "id": "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9"
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": "ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }"
+}

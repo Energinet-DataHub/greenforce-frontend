@@ -1,0 +1,16 @@
+﻿{
+  "activity": "updateCharge",
+  "payload": {
+    "query": "mutation($id: String!, $name: String!, $description: String!, $cutoffDate: DateTime!, $vat: Boolean!, $transparentInvoicing: Boolean!) { updateCharge(input: { id: $id, name: $name, description: $description, cutoffDate: $cutoffDate, vat: $vat, transparentInvoicing: $transparentInvoicing }) { boolean } }",
+    "variables": {
+      "id": "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9",
+      "name": "Updated Charge",
+      "description": "Updated Description",
+      "cutoffDate": "2025-01-01T00:00:00Z",
+      "vat": true,
+      "transparentInvoicing": true
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": null
+}
