@@ -16,6 +16,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.Charges.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using HotChocolate.Execution.Configuration;
 
@@ -25,14 +26,17 @@ public class ChargesModule : IModule
 {
     public IServiceCollection RegisterModule(
         IServiceCollection services,
-        IConfiguration configuration) =>
-        services
+        IConfiguration configuration)
+        => services
             .AddScoped<IChargesClient, ChargesClient>()
             .AddChargesClient();
 
-    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder) =>
-        builder
+    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder)
+        => builder
             .BindRuntimeType<ChargeIdentifierDto, StringType>()
             .AddTypeConverter<ChargeIdentifierDto, string>(JsonBase64Converter.Serialize)
-            .AddTypeConverter<string, ChargeIdentifierDto>(JsonBase64Converter.Deserialize<ChargeIdentifierDto>);
+            .AddTypeConverter<string, ChargeIdentifierDto>(JsonBase64Converter.Deserialize<ChargeIdentifierDto>)
+            .BindRuntimeType<ChargeLinkId, StringType>()
+            .AddTypeConverter<ChargeLinkId, string>(JsonBase64Converter.Serialize)
+            .AddTypeConverter<string, ChargeLinkId>(JsonBase64Converter.Deserialize<ChargeLinkId>);
 }

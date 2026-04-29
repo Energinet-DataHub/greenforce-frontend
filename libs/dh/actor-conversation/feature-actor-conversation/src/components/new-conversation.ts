@@ -62,8 +62,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { lazyQuery, mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhActorConversationMessageForm } from './message-form';
 import { injectUploadMessageDocument } from './upload-message-document';
@@ -214,7 +214,9 @@ import {
 })
 export class DhActorConversationNewConversation {
   private readonly uploadMessageDocument = injectUploadMessageDocument();
-  private readonly electricHeatingInformationQuery = lazyQuery(GetElectricalHeatingDocument);
+  private readonly electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
+    variables: { meteringPointIdentification: this.meteringPointIdentification() ?? '' },
+  }));
   private readonly meteringPointTypeQuery = query(GetMeteringPointTypeDocument, () => ({
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
@@ -247,10 +249,15 @@ export class DhActorConversationNewConversation {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
+  private readonly electricalHeatingPeriods = computed(
+    () => this.electricalHeatingInformation()?.supplierPeriods ?? []
+  );
+
   showReducedElectricityTaxToggle = computed(
     () =>
       this.isElectricalHeating() &&
       this.isMeteringPointTypeConsumption() &&
+      this.electricalHeatingPeriods().length > 0 &&
       this.currentActorMarketRole === EicFunction.EnergySupplier
   );
 
@@ -313,13 +320,6 @@ export class DhActorConversationNewConversation {
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );
-
-  private readonly fetchElectricalHeatingInformation = effect(() => {
-    if (!this.reducedElectricityTaxValue()) return;
-    const meteringPointIdentification = this.meteringPointIdentification();
-    if (!meteringPointIdentification) return;
-    this.electricHeatingInformationQuery.refetch({ meteringPointIdentification });
-  });
 
   private readonly syncElectricalHeatingValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.electricalHeating,

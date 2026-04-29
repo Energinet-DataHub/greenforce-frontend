@@ -40,7 +40,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DhChargesIntervalField,
-  DhChargesPeriodPipe,
+  DhChargeIntervalPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesSeriesDetails } from './series-details';
@@ -58,7 +58,7 @@ import { DhChargesSeriesDetails } from './series-details';
     WattSlideToggleComponent,
     // DhCircleComponent,
     DhChargesIntervalField,
-    DhChargesPeriodPipe,
+    DhChargeIntervalPipe,
     DhChargesSeriesDetails,
     DhDownloadButtonComponent,
   ],
@@ -100,7 +100,7 @@ import { DhChargesSeriesDetails } from './series-details';
       >
         @let dateHeader = t('resolution.' + resolution());
         <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
-          {{ series.period | dhChargesPeriod: resolution() }}
+          {{ series.interval | dhChargeInterval: resolution() }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
@@ -189,8 +189,8 @@ export class DhChargesSeriesTable {
           `"${this.charge()?.typeDisplayName}"`,
           `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-          `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
-          `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.interval.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.interval.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
           `"${x.price?.toFixed(6)}"`,
         ])
       )

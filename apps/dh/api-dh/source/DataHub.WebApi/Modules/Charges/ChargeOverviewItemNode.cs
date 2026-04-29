@@ -37,7 +37,7 @@ public static partial class ChargeOverviewItemNode
             .OrderBy(item => item.Charge.Type.SortOrder)
             .ThenBy(item => item.Charge.Id.Owner)
             .ThenBy(item => item.Charge.Code)
-            .ThenByDescending(item => item.Period.HasEnd ? item.Period.End : Instant.MaxValue);
+            .ThenByDescending(item => item.Period.Period.HasEnd ? item.Period.Period.End : Instant.MaxValue);
     }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeOverviewItem> descriptor)
@@ -45,6 +45,7 @@ public static partial class ChargeOverviewItemNode
         descriptor.Name("ChargeOverviewItem");
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Charge);
-        descriptor.Field(f => f.Period);
+        descriptor.Field(f => f.Period.Period).Name("period");
+        descriptor.Field(f => f.Period.Name).Name("name");
     }
 }

@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient } from '@angular/common/http';
 import { rxResource } from '@angular/core/rxjs-interop';
-import { input, inject, computed, Component, viewChild, afterRenderEffect } from '@angular/core';
+import { input, inject, computed, Component, viewChild } from '@angular/core';
 
 import { of } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
@@ -43,7 +43,7 @@ import {
   GetOutgoingMessageByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   DhDownloadButtonComponent,
@@ -98,7 +98,10 @@ export class DhOutgoingMessageDetailsComponent {
   private toastService = inject(WattToastService);
   private modalService = inject(WattModalService);
   private navigation = inject(DhNavigationService);
-  private outgoingMessageByIdDocumentQuery = lazyQuery(GetOutgoingMessageByIdDocument);
+  private outgoingMessageByIdDocumentQuery = query(GetOutgoingMessageByIdDocument, () => {
+    const id = this.id();
+    return id ? { variables: { documentId: id } } : { skip: true };
+  });
 
   outgoingMessage = computed(
     () => this.outgoingMessageByIdDocumentQuery.data()?.esettOutgoingMessageById
@@ -159,17 +162,6 @@ export class DhOutgoingMessageDetailsComponent {
   });
 
   loading = this.outgoingMessageByIdDocumentQuery.loading;
-
-  constructor() {
-    afterRenderEffect(() => {
-      this.drawer().open();
-      const id = this.id();
-
-      if (id) {
-        this.outgoingMessageByIdDocumentQuery.query({ variables: { documentId: id } });
-      }
-    });
-  }
 
   onClose(): void {
     this.navigation.navigate('list');

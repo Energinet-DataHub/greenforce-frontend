@@ -913,6 +913,7 @@
     "showHistoricalButton": "Vis historiske",
     "hideHistoricalButton": "Skjul historiske",
     "chargeLinks": {
+      "showClosed": "Vis lukkede",
       "shared": {
         "tooltip": "Processen tager få minutter. Resultat vises her, \n og afvisningsårsager findes i forretningsbeskeder."
       },
@@ -934,6 +935,7 @@
       },
       "chargeType": "Type",
       "details": {
+        "period": "Periode",
         "columns": {
           "submittedAt": "Indsendt",
           "description": "Beskrivelse"
@@ -1034,7 +1036,10 @@
         "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (BRS-006)",
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
-        "CustomerMoveOut": "Fraflytning (BRS-010)"
+        "CustomerMoveOut": "Fraflytning (BRS-010)",
+        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
+        "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1048,7 +1053,10 @@
         "ChangeConnectionStatus": "Ændring af tilslutningsstatus (E79)",
         "UpdateMasterDataMeteringPoint": "Opdatering af målepunktsstamdata (E32)",
         "ElectricalHeating": "Elvarme (D20)",
-        "CustomerMoveOut": "Fraflytning (E66)"
+        "CustomerMoveOut": "Fraflytning (E66)",
+        "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
+        "ServiceRequest": "Anmodning om serviceydelse (D22)",
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1061,6 +1069,8 @@
           "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
           "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
+          "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
+          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
           "REJECT_REQUEST": "Afvis anmodning",
           "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
         },
@@ -1099,6 +1109,14 @@
         "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "disconnectProcess": {
+        "title": "Anmod om afbrydelse",
+        "validityDateLabel": "Gyldighedsdato",
+        "cancel": "Annuller",
+        "confirm": "Anmod om afbrydelse",
+        "successToast": "Anmodning om afbrydelse af målepunkt indsendt",
+        "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
         "EndOfSupply": "leveranceophør"
@@ -1145,16 +1163,19 @@
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_2": "Godkendelse af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_3": "Afvisning af oprettelse af målepunkt (RSM-021)",
         "BRS_004_CREATEMETERINGPOINT_V1_STEP_4": "Information om nyt målepunkt (RSM-022)",
-        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytning (RSM-031)",
+        "BRS_004_CREATEMETERINGPOINT_V1_STEP_5": "Information om pristilknytninger (RSM-031)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_1": "Anmodning om opdatering af målepunktsstamdata (RSM-021)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_2": "Godkendelse af opdatering af målepunktsstamdata (RSM-021)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_3": "Afvisning af opdatering af målepunktsstamdata (RSM-021)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_5": "Information om pristilknytning (RSM-031)",
+        "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_6": "Information om afkobling af childmålepunkt (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytning (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
         "BRS_009_MOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1165,8 +1186,8 @@
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_11": "Information om kundestamdata (RSM-028)",
-        "BRS_009_EXECUTIONDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
-        "BRS_009_EXECUTIONDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
+        "BRS_009_VALIDITYDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
+        "BRS_009_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Anmod om fraflytning (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Godkend anmod om fraflytning (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Afvis anmod om fraflytning (RSM-005)",
@@ -1182,10 +1203,18 @@
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_2": "Godkendelse af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_3": "Afvisning af ændring af aftagepligt",
         "BRS_036_REQUESTCHANGEPRODUCTIONOBLIGATION_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_036_EXECUTIONDATE_V1_STEP_4": "Information om ændring af aftagepligt (RSM-022)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_1": "Anmodning om opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_2": "Godkendelse af opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_3": "Afvisning af opdatering af pristilknytninger (RSM-030)",
+        "BRS_037_UPDATECHARGELINKS_V3_STEP_4": "Information om pristilknytninger (RSM-031)",
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
+        "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
@@ -1195,6 +1224,8 @@
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_1": "Information om annullering af serviceydelse (RSM-025)",
+        "BRS_039_AUTOCANCELLATION_V1_STEP_2": "Information om annullering af serviceydelse (RSM-025)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_1": "Anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_2": "Afvisning af anmodning om stamdata (RSM-006)",
         "BRS_005_REQUESTFORMASTERDATA_V1_STEP_3": "Information om målepunktsstamdata (RSM-022)",
@@ -1389,6 +1420,7 @@
       "addressDetails": {
         "label": "Adresseoplysninger",
         "addressSameAsMeteringPoint": "Samme som målepunktsadresse",
+        "clearFields": "Ryd felter",
         "street": "Vejnavn",
         "houseNumber": "Husnummer",
         "floor": "Etage",
@@ -1418,7 +1450,7 @@
       "customerDataSuccess": "Kundestamdata opdatering er nu registreret",
       "customerDataFail": "Kundestamdata opdatering fejlede",
       "save": "Tilflyt kunde",
-      "cancel": "Annuller"
+      "cancel": "Afbryd"
     },
     "create": {
       "modal": {
@@ -1601,8 +1633,8 @@
       "CONFIRM_REQUEST_CHANGE_OF_PRICE_LIST": "Godkendelse af opdatering af priser (RSM-033)",
       "REJECT_REQUEST_CHANGE_OF_PRICE_LIST": "Afvisning af opdatering af priser (RSM-033)",
       "NOTIFY_PRICE_LIST": "Information om priser (RSM-034)",
-      "REQUEST_PRICE_LIST": "Anmod om priser (RSM-035)",
-      "REJECT_REQUEST_PRICE_LIST": "Afvis anmod om priser (RSM-035)"
+      "REQUEST_PRICE_LIST": "Anmodning om priser (RSM-035)",
+      "REJECT_REQUEST_PRICE_LIST": "Afvisning af anmodning om priser (RSM-035)"
     },
     "businessReason": {
       "D03": "Foreløbig aggregering (D03)",

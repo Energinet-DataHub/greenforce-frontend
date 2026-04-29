@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  ViewEncapsulation,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -26,9 +33,13 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  EicFunction,
   GetMeteringPointProcessByIdDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -40,6 +51,8 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
@@ -51,6 +64,12 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     WattButtonComponent,
     SupportedActionsPipe,
   ],
+  styles: `
+    dh-metering-point-process-overview-details .watt-drawer header > vater-flex {
+      flex-wrap: wrap;
+      row-gap: var(--watt-space-m);
+    }
+  `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
@@ -96,14 +115,16 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-        @for (
-          action of process.data()?.meteringPointProcessById?.availableActions
-            | supportedActions: businessReason();
-          track action
-        ) {
-          <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
-            {{ t('actions.' + businessReason() + '.' + action) }}
-          </watt-button>
+        @if (canShowActions()) {
+          @for (
+            action of process.data()?.meteringPointProcessById?.availableActions
+              | supportedActions: businessReason();
+            track action
+          ) {
+            <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
+              {{ t('actions.' + businessReason() + '.' + action) }}
+            </watt-button>
+          }
         }
       </watt-drawer-actions>
       <watt-drawer-content>
@@ -121,11 +142,28 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
+  readonly isEnergySupplierResponsible = input.required<boolean>();
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
+  // Market role comes from the currently selected actor, not from token claims,
+  // so it is known synchronously at component creation. This avoids a brief
+  // flicker where a non-responsible supplier would see action buttons before
+  // the token-based role signal resolves.
+  private readonly hasGridAccessProviderRole =
+    this.actor.marketRole === EicFunction.GridAccessProvider;
+
+  private readonly hasMeteringPointAccess = computed(
+    () => this.hasGridAccessProviderRole || this.isEnergySupplierResponsible()
+  );
+
+  // FAS admins render the buttons but cannot click them (see `[disabled]`).
+  protected readonly canShowActions = computed(() => this.hasMeteringPointAccess() || this.isFas());
+
+  private readonly canPerformActions = computed(() => this.canShowActions() && !this.isFas());
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
@@ -154,6 +192,7 @@ export class DhMeteringPointProcessOverviewDetails {
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();
     if (!reason) return;
+    if (!this.canPerformActions()) return;
 
     this.actionService.execute(action, reason, {
       meteringPointId: this.meteringPointId(),

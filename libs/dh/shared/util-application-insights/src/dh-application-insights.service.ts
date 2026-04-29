@@ -117,7 +117,7 @@ export class DhApplicationInsights {
   /**
    * Manually trigger an immediate send of all telemetry still in the buffer.
    */
-  flush(): void {
-    this.appInsights?.flush(false);
+  flush() {
+    return this.appInsights?.flush();
   }
 }

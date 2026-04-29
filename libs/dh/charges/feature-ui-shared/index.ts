@@ -17,6 +17,7 @@
  */
 //#endregion
 export { DhChargesIntervalField } from './src/interval-field';
-export { DhChargesPeriodPipe } from './src/period-pipe';
+export { DhChargeIntervalPipe } from './src/interval-pipe';
+export { DhChargePeriodPipe } from './src/period-pipe';
 export { DhChargesStatus } from './src/status';
 export { DhChargesTypeSelection } from './src/type-selection';

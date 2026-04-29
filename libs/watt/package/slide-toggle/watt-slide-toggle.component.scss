@@ -95,3 +95,28 @@ watt-slide-toggle {
     }
   }
 }
+
+watt-slide-toggle.watt-slide-toggle-size--small {
+  .mat-mdc-slide-toggle {
+    .mdc-switch__track {
+      --mat-slide-toggle-track-height: 24px;
+    }
+
+    .mdc-switch {
+      --mat-slide-toggle-track-width: 40px;
+    }
+
+    .mdc-switch__handle {
+      --mat-slide-toggle-handle-width: 12px;
+      --mat-slide-toggle-handle-height: 12px;
+      --mat-slide-toggle-unselected-handle-size: 12px;
+      --mat-slide-toggle-pressed-handle-size: 12px;
+      --mat-slide-toggle-selected-handle-size: 12px;
+      --mat-slide-toggle-selected-pressed-handle-size: 12px;
+    }
+
+    .mdc-switch__handle-track {
+      --mat-slide-toggle-handle-width: 12px;
+    }
+  }
+}

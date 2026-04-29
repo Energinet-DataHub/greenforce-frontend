@@ -18,6 +18,7 @@ query GetChargeOverview(
   ) {
     totalCount
     nodes {
+      name
       period
       charge {
         ...ChargeFields
