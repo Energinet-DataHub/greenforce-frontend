@@ -53,6 +53,19 @@ function setup(componentProperties?: Properties) {
   });
 }
 
+// MatDialog filters Escape by the deprecated `keyCode === 27`, which neither
+// the KeyboardEvent constructor nor user-event v14 populates. Dispatch a
+// synthetic event with `keyCode` defined explicitly so the filter triggers.
+function dispatchEscape(target: Element) {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Escape',
+    code: 'Escape',
+    bubbles: true,
+  });
+  Object.defineProperty(event, 'keyCode', { get: () => 27 });
+  target.dispatchEvent(event);
+}
+
 describe(WattModalComponent, () => {
   it('starts closed', async () => {
     await setup();
@@ -102,18 +115,7 @@ describe(WattModalComponent, () => {
     await setup({ closed });
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
-    const dialog = await screen.findByRole('dialog');
-    // Dispatch keydown on the dialog so it bubbles up to body where the CDK
-    // OverlayKeyboardDispatcher listener is attached. MatDialog filters Escape
-    // by `keyCode === 27`, which the KeyboardEvent constructor does not set
-    // automatically, so set it explicitly here.
-    const escEvent = new KeyboardEvent('keydown', {
-      key: 'Escape',
-      code: 'Escape',
-      bubbles: true,
-    });
-    Object.defineProperty(escEvent, 'keyCode', { get: () => 27 });
-    dialog.dispatchEvent(escEvent);
+    dispatchEscape(await screen.findByRole('dialog'));
     await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
@@ -150,7 +152,7 @@ describe(WattModalComponent, () => {
     await setup({ closed, disableClose: true });
     const user = userEvent.setup();
     await user.click(screen.getByRole('button'));
-    await user.keyboard('[Escape]');
+    dispatchEscape(await screen.findByRole('dialog'));
     await waitForAsync(() => expect(closed).not.toBeCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
     // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
