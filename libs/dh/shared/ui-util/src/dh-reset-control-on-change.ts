@@ -16,21 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Pipe, PipeTransform } from '@angular/core';
+import { effect, EffectRef, Signal } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
 
-import { WattRange, dayjs, wattFormatDate } from '@energinet/watt/date';
-
-@Pipe({
-  name: 'dhChargePeriod',
-})
-export class DhChargePeriodPipe implements PipeTransform {
-  transform(input?: WattRange<Date> | null): string {
-    if (!input) return '';
-    const start = wattFormatDate(input.start);
-    if (!input.end) return start ?? '';
-    if (dayjs(input.start).toDate().getTime() === dayjs(input.end).toDate().getTime())
-      return start ?? '';
-    const end = wattFormatDate(input.end);
-    return `${start} — ${end}`;
-  }
+/**
+ * Creates an effect that resets a target control on the initial effect run
+ * and whenever the source signal changes afterwards.
+ */
+export function dhResetControlOnChange<T>(
+  source: Signal<T>,
+  target: () => AbstractControl
+): EffectRef {
+  return effect(() => {
+    source();
+    target().reset();
+  });
 }

@@ -92,7 +92,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
   styles: [
     `
       watt-date-range-chip {
-        mat-date-range-input {
+        mat-date-range-input.cdk-visually-hidden {
           top: 0;
           bottom: 0;
           height: auto;
@@ -110,7 +110,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
     `,
   ],
   template: `
-    <mat-date-range-picker #picker>
+    <mat-date-range-picker #picker panelClass="watt-date-range-chip__panel">
       @if (showActions()) {
         <mat-date-range-picker-actions>
           <watt-button variant="text" (click)="clearInput()" icon="remove">{{

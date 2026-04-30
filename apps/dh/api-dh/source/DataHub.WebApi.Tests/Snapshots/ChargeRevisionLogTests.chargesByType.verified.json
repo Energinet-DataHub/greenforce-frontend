@@ -1,0 +1,11 @@
+﻿{
+  "activity": "chargesByType",
+  "payload": {
+    "query": "query($type: ChargeType!) { chargesByType(type: $type) { id } }",
+    "variables": {
+      "type": "TARIFF"
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": null
+}

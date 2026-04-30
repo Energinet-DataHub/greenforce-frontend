@@ -70,6 +70,24 @@ form.ng-submitted watt-field:has(.ng-invalid),
   }
 }
 
+// Suppress error styling when the field's own control is valid,
+// even if an ancestor is touched+invalid (e.g. a composite ControlValueAccessor).
+:not(form).ng-touched.ng-invalid .ng-valid watt-field.watt-field--show-errors .watt-field-wrapper {
+  border-color: var(--watt-border-color);
+}
+
+:not(form).ng-touched.ng-invalid .ng-valid watt-field.watt-field--show-errors .label {
+  color: var(--watt-text-color);
+
+  &.required::after {
+    color: var(--watt-color-state-danger);
+  }
+}
+
+:not(form).ng-touched.ng-invalid .ng-valid watt-field :is(watt-field-error, watt-field-warning) {
+  display: none;
+}
+
 .watt-field-wrapper input {
   width: 100%;
   border: none;

@@ -18,7 +18,9 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
@@ -29,47 +31,76 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeNode
 {
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
-        CancellationToken ct) =>
-            await client.GetChargeByIdAsync(id, ct);
+        CancellationToken ct)
+        => await client.GetChargeByIdAsync(id, ct);
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
-        CancellationToken ct) =>
-            await client.GetChargesByTypeAsync(type, ct);
+        CancellationToken ct)
+        => await client.GetChargesByTypeAsync(type, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> CreateChargeAsync(
         IChargesClient client,
-        CreateChargeInput input,
-        CancellationToken ct) =>
-            await client.CreateChargeAsync(input, ct);
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
+        CancellationToken ct)
+        => await client.CreateChargeAsync(
+            code,
+            name,
+            description,
+            type,
+            resolution,
+            validFrom,
+            vat,
+            transparentInvoicing,
+            spotDependingPrice,
+            ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> UpdateChargeAsync(
         IChargesClient client,
-        UpdateChargeInput input,
-        CancellationToken ct) =>
-            await client.UpdateChargeAsync(input, ct);
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
+        CancellationToken ct)
+        => await client.UpdateChargeAsync(id, name, description, cutoffDate, vat, transparentInvoicing, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> StopChargeAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
         DateTimeOffset terminationDate,
-        CancellationToken ct) =>
-            await client.StopChargeAsync(id, terminationDate, ct);
+        CancellationToken ct)
+        => await client.StopChargeAsync(id, terminationDate, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> AddChargeSeriesAsync(
         IChargesClient client,
@@ -77,15 +108,15 @@ public static partial class ChargeNode
         DateTimeOffset start,
         DateTimeOffset end,
         List<ChargePointV2> points,
-        CancellationToken ct) =>
-            await client.AddChargeSeriesAsync(id, start, end, points, ct);
+        CancellationToken ct)
+        => await client.AddChargeSeriesAsync(id, start, end, points, ct);
 
     public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
-        CancellationToken ct) =>
-            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
+        CancellationToken ct)
+        => await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,

@@ -1,0 +1,11 @@
+﻿{
+  "activity": "cancelChargeLink",
+  "payload": {
+    "query": "mutation($id: String!) { cancelChargeLink(input: { id: $id }) { boolean } }",
+    "variables": {
+      "id": "eyJtZXRlcmluZ1BvaW50SWQiOiI1NzEzMTMxODAwMDAwMDAwMDUiLCJjaGFyZ2VJZCI6eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9fQ=="
+    }
+  },
+  "affectedEntityType": "ChargeLink",
+  "affectedEntityKey": "ChargeLinkId { MeteringPointId = 571313180000000005, ChargeId = ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 } }"
+}
