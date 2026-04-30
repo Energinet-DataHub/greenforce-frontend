@@ -171,10 +171,11 @@ describe(WattDatepickerComponent, () => {
         template,
         initialState: initialDate.toISOString(),
       });
+      const user = userEvent.setup();
 
-      // Do NOT clear first — clearing triggers inputChanged('') which sets value to null.
+      // Do NOT clear first - clearing triggers inputChanged('') which sets value to null.
       // Typing an incomplete date into an already-populated input should leave the value unchanged.
-      userEvent.type(actualInput, '2509');
+      await user.type(actualInput, '2509');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -190,9 +191,10 @@ describe(WattDatepickerComponent, () => {
         template,
         min: minDate,
       });
+      const user = userEvent.setup();
 
-      userEvent.clear(actualInput);
-      userEvent.type(actualInput, '19092023'); // Before min date
+      await user.clear(actualInput);
+      await user.type(actualInput, '19092023'); // Before min date
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -214,9 +216,10 @@ describe(WattDatepickerComponent, () => {
         template,
         max: maxDate,
       });
+      const user = userEvent.setup();
 
-      userEvent.clear(actualInput);
-      userEvent.type(actualInput, '21092023'); // After max date
+      await user.clear(actualInput);
+      await user.type(actualInput, '21092023'); // After max date
 
       fixture.detectChanges();
       await fixture.whenStable();

@@ -120,9 +120,10 @@ describe(DhUserRolesComponent, () => {
     ];
 
     await setup({ mockData: localMockData });
+    const user = userEvent.setup();
 
     const [selectAllCheckbox] = screen.getAllByRole('checkbox');
-    userEvent.click(selectAllCheckbox);
+    await user.click(selectAllCheckbox);
 
     expect(screen.getByText('Select at least one user role')).toBeInTheDocument();
   });
@@ -144,10 +145,11 @@ describe(DhUserRolesComponent, () => {
     const { updateUserRolesOutput } = await setup({
       mockData: localMockData,
     });
+    const user = userEvent.setup();
 
     const [, secondCheckbox, thirdCheckbox] = screen.getAllByRole('checkbox');
     // Select a previously unselected role
-    userEvent.click(thirdCheckbox);
+    await user.click(thirdCheckbox);
 
     let expectedOutput: UpdateUserRoles = {
       actors: [
@@ -172,7 +174,7 @@ describe(DhUserRolesComponent, () => {
     expect(updateUserRolesOutput).toHaveBeenCalledWith(expectedOutput);
 
     // Unselect a previously selected role
-    userEvent.click(secondCheckbox);
+    await user.click(secondCheckbox);
 
     expectedOutput = {
       actors: [

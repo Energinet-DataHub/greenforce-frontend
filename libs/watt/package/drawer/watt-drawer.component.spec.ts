@@ -111,10 +111,11 @@ describe(WattDrawerComponent, () => {
 
   it('should open drawer', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
     expect(getDrawerContent()).not.toBeInTheDocument();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
 
     expect(getDrawerTopBarContent()).toBeInTheDocument();
     expect(getDrawerActions()).toBeInTheDocument();
@@ -123,9 +124,10 @@ describe(WattDrawerComponent, () => {
 
   it('should not add content more than once, when "open" is called multiple times', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
 
     expect(getDrawerTopBarContent()).toBeInTheDocument();
     expect(getDrawerActions()).toBeInTheDocument();
@@ -134,8 +136,9 @@ describe(WattDrawerComponent, () => {
 
   it('should not load content, before the drawer is opened', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
 
     await waitForAsync(() => {
       expect(getInitialTimer()).toBeInTheDocument();
@@ -144,18 +147,20 @@ describe(WattDrawerComponent, () => {
 
   it('should close drawer, triggered externally outside of the drawer', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
-    userEvent.click(getExternalCloseDrawerButton());
+    await user.click(getOpenDrawerButton());
+    await user.click(getExternalCloseDrawerButton());
 
     expect(getDrawerContent()).not.toBeInTheDocument();
   });
 
   it('should close drawer, triggered internally inside of the drawer', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
-    userEvent.click(getInternalCloseDrawerButton());
+    await user.click(getOpenDrawerButton());
+    await user.click(getInternalCloseDrawerButton());
 
     expect(getDrawerContent()).not.toBeInTheDocument();
   });
@@ -168,16 +173,17 @@ describe(WattDrawerComponent, () => {
   it.skip('should destroy content when closing', async () => {
     vi.useFakeTimers();
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(
       () => {
         expect(getStartedTimer()).toBeInTheDocument();
       },
       { timeout: 2000 }
     );
-    userEvent.click(getInternalCloseDrawerButton());
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getInternalCloseDrawerButton());
+    await user.click(getOpenDrawerButton());
 
     await waitForAsync(() => {
       expect(getStartedTimer()).not.toBeInTheDocument();
@@ -188,30 +194,33 @@ describe(WattDrawerComponent, () => {
 
   it('should output `closed` when drawer is closed', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
-    userEvent.click(getInternalCloseDrawerButton());
+    await user.click(getInternalCloseDrawerButton());
 
     await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it('should output `closed` when drawer is closed, from outside the drawer', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
-    userEvent.click(getExternalCloseDrawerButton());
+    await user.click(getExternalCloseDrawerButton());
 
     await waitForAsync(() => expect(closedOutput).toHaveBeenCalled());
   });
 
   it('closes on global Escape', async () => {
     const { container } = await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Find the drawer element and dispatch escape key event on it
@@ -226,8 +235,9 @@ describe(WattDrawerComponent, () => {
 
   it('closes on Escape when focus is in the drawer', async () => {
     const { container } = await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Focus on drawer content and dispatch escape key
@@ -243,8 +253,9 @@ describe(WattDrawerComponent, () => {
 
   it.skip('calls "closed" only once when Escape is pressed multiple times', async () => {
     const { container } = await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
     await waitForAsync(() => expect(getDrawerContent()).toBeInTheDocument());
 
     // Reset the spy
@@ -275,8 +286,9 @@ describe(WattDrawerComponent, () => {
 
   it('does not call "closed" on Escape when drawer is closed', async () => {
     await setup(defaultTemplate);
+    const user = userEvent.setup();
 
-    userEvent.keyboard('{Escape}');
+    await user.keyboard('{Escape}');
 
     expect(closedOutput).not.toHaveBeenCalled();
   });
@@ -304,13 +316,14 @@ describe(WattDrawerComponent, () => {
 
   it('closes drawer when another drawer is opened', async () => {
     await setup(multipleTemplate);
+    const user = userEvent.setup();
     const firstButton = screen.getByRole('button', { name: /^open first/i });
     const secondButton = screen.getByRole('button', { name: /^open second/i });
 
-    userEvent.click(firstButton);
+    await user.click(firstButton);
     await waitForAsync(() => expect(screen.queryByText(/first drawer/i)).toBeInTheDocument());
 
-    userEvent.click(secondButton);
+    await user.click(secondButton);
 
     await waitForAsync(() => {
       expect(closedOutput).toHaveBeenCalled();
@@ -321,8 +334,9 @@ describe(WattDrawerComponent, () => {
 
   it('shows loading state', async () => {
     await setup(defaultTemplate, { loading: true });
+    const user = userEvent.setup();
 
-    userEvent.click(getOpenDrawerButton());
+    await user.click(getOpenDrawerButton());
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
   });
@@ -331,15 +345,16 @@ describe(WattDrawerComponent, () => {
   // It passes when executed individually but fails as part of the complete test suite.
   it.skip('closes drawer when clicking outside', async () => {
     await setup(multipleTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
+    await user.click(screen.getByRole('button', { name: /^open first/i }));
 
     // This is an implementation detail, but it is the only way to test
     // this behavior - otherwise the second click is happening in
     // the same event loop as the button click (synchronous).
     await new Promise((res) => setTimeout(res, 0));
 
-    userEvent.click(document.body);
+    await user.click(document.body);
 
     expect(closedOutput).toHaveBeenCalled();
     expect(getDrawerTopBarContent()).not.toBeInTheDocument();
@@ -347,9 +362,10 @@ describe(WattDrawerComponent, () => {
 
   it('does not call "closed" when click outside triggers an open', async () => {
     await setup(multipleTemplate);
+    const user = userEvent.setup();
 
-    userEvent.click(screen.getByRole('button', { name: /^open first/i }));
-    userEvent.click(screen.getByRole('button', { name: /^open second/i }));
+    await user.click(screen.getByRole('button', { name: /^open first/i }));
+    await user.click(screen.getByRole('button', { name: /^open second/i }));
 
     expect(closedOutput).not.toHaveBeenCalled();
     await waitForAsync(() => expect(screen.queryByText(/second drawer/i)).toBeInTheDocument());

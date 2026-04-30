@@ -108,13 +108,14 @@ describe('Process overview', () => {
 
   it('should show cancel button and open modal when clicked', async () => {
     await setup();
+    const user = userEvent.setup();
 
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
     const cancelButtons = screen.getAllByRole('button', { name: /Cancel/i });
 
-    userEvent.click(cancelButtons[0]);
+    await user.click(cancelButtons[0]);
 
     await waitForAsync(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -127,6 +128,7 @@ describe('Process overview', () => {
 
   it('should show send information button and navigate when clicked', async () => {
     const fixture = await setup();
+    const user = userEvent.setup();
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
@@ -135,7 +137,7 @@ describe('Process overview', () => {
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
-    userEvent.click(sendInfoButtons[0]);
+    await user.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
       expect(router.navigate).toHaveBeenCalledWith([
