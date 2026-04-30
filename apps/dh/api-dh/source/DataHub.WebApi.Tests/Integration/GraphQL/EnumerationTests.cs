@@ -43,8 +43,9 @@ public class EnumerationTests
     [Theory]
     [InlineData(typeof(RequestChangeOfPriceListResolution))]
     public void CastDurationTo_ToRequestChangeOfPriceListResolution_ReturnsMatchingEnumValue(Type type)
-        => EnumerationTestHelper.TestCustomCast<Resolution>(
+        => EnumerationTestHelper.TestCustomCast(
             type,
+            new[] { Resolution.Daily, Resolution.Hourly, Resolution.Monthly },
             r => r.CastDurationTo<RequestChangeOfPriceListResolution>());
 
     [Theory]

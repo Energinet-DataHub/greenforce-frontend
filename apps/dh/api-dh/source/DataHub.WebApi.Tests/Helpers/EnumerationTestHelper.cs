@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using Xunit;
 
@@ -51,9 +52,12 @@ public static class EnumerationTestHelper
         where T : Enumeration<T> => TestCustomCast<T>(type, r => r.Cast(type));
 
     public static void TestCustomCast<T>(Type type, Func<T, object> castOrThrow)
+        where T : Enumeration<T> => TestCustomCast(type, Enumeration<T>.GetAll(), castOrThrow);
+
+    public static void TestCustomCast<T>(Type type, IEnumerable<T> values, Func<T, object> castOrThrow)
         where T : Enumeration<T>
     {
-        foreach (var option in Enumeration<T>.GetAll())
+        foreach (var option in values)
         {
             try
             {
