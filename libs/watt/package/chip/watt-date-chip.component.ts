@@ -32,7 +32,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   styles: [
     `
       watt-date-chip {
-        input {
+        input.cdk-visually-hidden {
           top: 0;
           bottom: 0;
           height: auto;
@@ -46,7 +46,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
     `,
   ],
   template: `
-    <mat-datepicker #picker />
+    <mat-datepicker #picker panelClass="watt-date-chip__panel" />
     <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
