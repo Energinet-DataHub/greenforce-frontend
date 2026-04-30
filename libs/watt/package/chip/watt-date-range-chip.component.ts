@@ -107,11 +107,6 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
           background-color: transparent;
         }
       }
-
-      .cdk-overlay-pane:has(.watt-date-chip__panel),
-      .cdk-overlay-pane:has(.watt-date-range-chip__panel) {
-        margin-top: var(--watt-space-xs);
-      }
     `,
   ],
   template: `
