@@ -285,10 +285,18 @@ describe(WattDrawerComponent, () => {
   });
 
   it('does not call "closed" on Escape when drawer is closed', async () => {
-    await setup(defaultTemplate);
-    const user = userEvent.setup();
+    const { container } = await setup(defaultTemplate);
 
-    await user.keyboard('{Escape}');
+    // Dispatch keydown directly on the drawer host so the (keydown.escape)
+    // listener actually receives it. user.keyboard sends the event to the
+    // focused element (typically body), and the event would bubble upward
+    // away from the drawer rather than into it, so the listener would never
+    // fire and the assertion would pass for the wrong reason.
+    const drawer = container.querySelector(DRAWER_SELECTOR);
+    if (drawer) {
+      const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+      drawer.dispatchEvent(event);
+    }
 
     expect(closedOutput).not.toHaveBeenCalled();
   });
