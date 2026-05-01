@@ -41,7 +41,7 @@ export class WattLocaleService {
       await import('dayjs/locale/en');
     }
 
-    dayjs.locale(locale);
+    dayjs.locale(locale, { weekStart: 1 });
     (this.dateAdapter as WattDateAdapter).setActiveLocale(locale);
     this.locale.set(locale);
   }
