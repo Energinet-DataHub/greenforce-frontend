@@ -39,7 +39,10 @@ public static partial class ChargeLinkOverviewItemNode
     }
 
     public static Interval GetPeriod([Parent] ChargeLinkOverviewItem item)
-        => new(item.Period.From, item.Period.To);
+    {
+        var hideEnd = item.Charge.Type == ChargeType.Fee && item.Period.From != item.Period.To;
+        return new(item.Period.From, hideEnd ? null : item.Period.To);
+    }
 
     public static bool GetClosed([Parent] ChargeLinkOverviewItem item)
     {
