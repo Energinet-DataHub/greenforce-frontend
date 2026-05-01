@@ -19,3 +19,4 @@
 export { WattDatepickerComponent } from './watt-datepicker.component';
 export { danishTimeZoneIdentifier } from './watt-datepicker.component';
 export { WattDatepickerIntlService } from './watt-datepicker-intl.service';
+export { wattProvideOneWeekRangeSelectionStrategy } from './watt-one-week-selection-strategy';
