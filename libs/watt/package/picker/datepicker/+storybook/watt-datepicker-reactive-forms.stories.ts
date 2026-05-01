@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
+import { inject, provideAppInitializer } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
 import { within, fireEvent } from 'storybook/test';
@@ -25,11 +26,12 @@ import { WattFieldErrorComponent } from '../../../field/watt-field-error.compone
 import { WattFormChipDirective } from '../../../chip/watt-chip.directive';
 import { WattRangeValidators } from '../../../validators';
 
-import { dayjs } from '../../../core/date';
+import { dayjs, WattLocaleService } from '../../../core/date';
 import { WattDateChipComponent } from '../../../chip/watt-date-chip.component';
 import { WattDateRangeChipComponent } from '../../../chip/watt-date-range-chip.component';
 import { WattDatepickerComponent } from '../watt-datepicker.component';
 import { startDateCannotBeOlderThan3DaysValidator } from './watt-datepicker-custom-validator';
+import { wattProvideOneWeekRangeSelectionStrategy } from '../watt-one-week-selection-strategy';
 
 export const initialValueSingle = '2022-09-02T22:00:00.000Z';
 export const initialValueRangeStart = initialValueSingle;
@@ -44,7 +46,10 @@ export default {
   title: 'Components/Datepicker',
   decorators: [
     applicationConfig({
-      providers: [localizationProviders],
+      providers: [
+        localizationProviders,
+        provideAppInitializer(() => inject(WattLocaleService).setActiveLocale('da')),
+      ],
     }),
     moduleMetadata({
       imports: [
@@ -67,7 +72,6 @@ export default {
 } as Meta;
 
 const template = `
-
 <watt-datepicker label="Single date" [formControl]="exampleFormControlSingle" [canStepThroughDays]="canStepThroughDays">
   @if (exampleFormControlSingle?.errors?.startDateCannotBeOlderThan3Days) {
     <watt-field-error>Start date cannot be older than 3 days</watt-field-error>
@@ -207,3 +211,19 @@ export const WithFormControlDisabled: StoryFn<WattDatepickerStoryConfig> = (args
   },
   template,
 });
+
+export const WithOneWeekSelectionStrategy: StoryFn<WattDatepickerStoryConfig> = (args) => ({
+  props: {
+    exampleFormControlSingle: new FormControl({ value: null, disabled: true }),
+    exampleFormControlRange: new FormControl(null),
+    exampleChipFormControlSingle: new FormControl({ value: null, disabled: true }),
+    exampleChipFormControlRange: new FormControl({ value: null, disabled: true }),
+    ...args,
+  },
+  template,
+});
+WithOneWeekSelectionStrategy.decorators = [
+  moduleMetadata({
+    providers: [wattProvideOneWeekRangeSelectionStrategy()],
+  }),
+];
