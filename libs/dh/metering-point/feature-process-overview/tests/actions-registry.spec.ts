@@ -599,22 +599,33 @@ describe('DhActionsRegistry', () => {
       expect(callback).not.toHaveBeenCalled();
     });
 
-    it('should not call handler for FAS users even when action is supported', () => {
+    it('should not call handler for FAS users even when action would otherwise be supported', () => {
       const callback = vi.fn();
-      const registry = setupRegistry({
-        isFas: true,
-        endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: { callback },
-        },
-      });
+      const baseSetup = {
+        endOfSupplyHandlers: { [WorkflowAction.CancelWorkflow]: { callback } },
+      };
 
-      registry.execute(
+      // Sanity: without FAS, the same setup DOES invoke the handler.
+      // This proves the trigger is wired up before we assert the FAS-block.
+      const nonFas = setupRegistry(baseSetup);
+      nonFas.execute(
         WorkflowAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
       );
+      expect(callback).toHaveBeenCalledTimes(1);
+      callback.mockClear();
 
+      // With FAS, the same trigger does NOT invoke the handler.
+      TestBed.resetTestingModule();
+      const fas = setupRegistry({ ...baseSetup, isFas: true });
+      fas.execute(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext,
+        false
+      );
       expect(callback).not.toHaveBeenCalled();
     });
 

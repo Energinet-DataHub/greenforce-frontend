@@ -63,7 +63,7 @@ function collectPermissions(
 export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
   private readonly permissionService = inject(PermissionService);
-  private readonly actor = inject(DhActorStorage).getSelectedActor();
+  private readonly actorStorage = inject(DhActorStorage);
 
   private readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -88,10 +88,11 @@ export class DhActionsRegistry {
 
   private matchesRoles(handler: ActionHandler, isResponsible: boolean): boolean {
     if (!handler.roles?.length) return true;
+    const marketRole = this.actorStorage.getSelectedActor().marketRole;
     return handler.roles.some((role) =>
       role === ResponsibleEnergySupplier
-        ? this.actor.marketRole === EicFunction.EnergySupplier && isResponsible
-        : this.actor.marketRole === role
+        ? marketRole === EicFunction.EnergySupplier && isResponsible
+        : marketRole === role
     );
   }
 
