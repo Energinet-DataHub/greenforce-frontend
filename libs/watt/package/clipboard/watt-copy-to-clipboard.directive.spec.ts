@@ -26,8 +26,9 @@ describe(WattCopyToClipboardDirective, () => {
     await render(`<span wattCopyToClipboard>Text</span>`, {
       imports: [WattCopyToClipboardDirective],
     });
+    const user = userEvent.setup();
 
-    userEvent.click(screen.getByText('Text'));
+    await user.click(screen.getByText('Text'));
 
     // Clipboard only works in an actual browser
     expect(screen.getByText('Failed to copy')).toBeInTheDocument();
