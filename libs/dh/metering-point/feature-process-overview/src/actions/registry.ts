@@ -23,6 +23,7 @@ import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flag
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
+  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -31,9 +32,13 @@ import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 
+export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
+export type ActionRole = EicFunction | typeof ResponsibleEnergySupplier;
+
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
   permissions?: Permission[];
+  roles?: ActionRole[];
   callback: (context: ProcessActionContext) => void;
 }
 
