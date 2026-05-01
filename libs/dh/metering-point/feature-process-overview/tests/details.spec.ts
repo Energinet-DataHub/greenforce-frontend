@@ -120,8 +120,11 @@ describe('Process overview details', () => {
     );
   });
 
-  it('should show reject request button for EndOfSupply process', async () => {
-    await setup('process-eos-cancel');
+  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
