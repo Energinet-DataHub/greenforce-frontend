@@ -99,6 +99,6 @@ export default class DhMeteringPointChargeLinksFees {
     name: { accessor: (item) => item.charge?.name ?? '' },
     owner: { accessor: (item) => item.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
-    period: { accessor: (item) => item.period },
+    period: { accessor: (item) => item.period.start },
   };
 }
