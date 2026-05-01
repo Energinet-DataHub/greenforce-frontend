@@ -244,15 +244,25 @@ describe('Process overview details', () => {
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
   });
 
-  it('should show CustomerMoveIn.SendInformation for non-responsible EnergySupplier (no role gate)', async () => {
+  it('should show CustomerMoveIn.SendInformation for responsible EnergySupplier', async () => {
     await setup('process-cmi-info', {
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: false,
+      isEnergySupplierResponsible: true,
     });
 
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
     );
+  });
+
+  it('should hide CustomerMoveIn.SendInformation for non-responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show action buttons for responsible EnergySupplier', async () => {
