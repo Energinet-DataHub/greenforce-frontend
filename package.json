@@ -11,7 +11,7 @@
     "bun": "1.3.10"
   },
   "scripts": {
-    "postinstall": "bun husky install",
+    "postinstall": "node tools/setup-githooks.mjs",
     "affected": "nx affected",
     "affected:apps": "nx print-affected --type=app --select=projects",
     "affected:build": "nx affected:build --configuration=production",
@@ -176,7 +176,6 @@
     "eslint-plugin-storybook": "10.2.17",
     "happy-dom": "20.8.9",
     "html-webpack-plugin": "5.6.5",
-    "husky": "8.0.3",
     "inquirer": "9.2.19",
     "jiti": "2.4.2",
     "jsdom": "29.0.1",

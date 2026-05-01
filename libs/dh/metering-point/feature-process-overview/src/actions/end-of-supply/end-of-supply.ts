@@ -22,6 +22,7 @@ import { WattModalService } from '@energinet/watt/modal';
 
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  EicFunction,
   ProcessManagerBusinessReason,
   CancelEndOfSupplyDocument,
   DisconnectMeteringPointDocument,
@@ -31,7 +32,7 @@ import {
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import type { ActionHandlerMap } from '../registry';
+import { ResponsibleEnergySupplier, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
 import { disconnectProcessAction } from '../shared/disconnect-process-action';
 import { rejectProcessAction } from '../shared/reject-process-action';
@@ -48,6 +49,7 @@ export class EndOfSupplyActions {
     [WorkflowAction.SendInformation]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request'],
+      roles: [ResponsibleEnergySupplier],
       callback: (ctx) => {
         this.modalService.open({
           component: DhRequestServiceModal,
@@ -64,6 +66,7 @@ export class EndOfSupplyActions {
     [WorkflowAction.ConfirmWorkflow]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:connection-state-manage'],
+      roles: [EicFunction.GridAccessProvider],
       callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
         this.disconnectMeteringPoint.mutate({
           refetchQueries: [
@@ -83,6 +86,7 @@ export class EndOfSupplyActions {
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-respond'],
+      roles: [ResponsibleEnergySupplier],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
@@ -104,6 +108,7 @@ export class EndOfSupplyActions {
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
+      roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {
