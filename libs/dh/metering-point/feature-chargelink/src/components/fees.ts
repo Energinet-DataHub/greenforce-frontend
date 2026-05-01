@@ -22,7 +22,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { VATER } from '@energinet/watt/vater';
 import { WATT_TABLE, dataSource, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataTableComponent } from '@energinet/watt/data';
-import { WattDatePipe } from '@energinet/watt/core/date';
 
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -30,7 +29,10 @@ import {
   ChargeType,
   GetChargeLinkOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import {
+  DhChargesStatus,
+  DhChargePeriodPipe,
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkOverview } from '../types';
 import { DhChargeLinkDetails } from './details';
@@ -42,7 +44,7 @@ import { DhChargeLinkDetails } from './details';
     TranslocoDirective,
     VATER,
     WATT_TABLE,
-    WattDatePipe,
+    DhChargePeriodPipe,
     WattDataTableComponent,
     DhChargesStatus,
     DhChargeLinkDetails,
@@ -70,7 +72,7 @@ import { DhChargeLinkDetails } from './details';
         </ng-container>
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
-          {{ element.period.start | wattDate }}
+          {{ element.period | dhChargePeriod }}
           @if (element.period.start.getTime() === element.period.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }

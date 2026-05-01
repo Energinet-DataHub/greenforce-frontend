@@ -25,7 +25,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattIconComponent } from '@energinet/watt/icon';
 
@@ -44,7 +44,7 @@ import { ChargeLinkOverview } from '../types';
     WATT_DRAWER,
     WATT_DESCRIPTION_LIST,
     WATT_MENU,
-    WattDatePipe,
+    DhChargePeriodPipe,
     WattButtonComponent,
     WattIconComponent,
     WattHeadingComponent,
@@ -74,7 +74,7 @@ import { ChargeLinkOverview } from '../types';
             <watt-description-list variant="inline-flow">
               <watt-description-list-item
                 [label]="t('period')"
-                [value]="item()?.period | wattDate"
+                [value]="item()?.period | dhChargePeriod"
               />
             </watt-description-list>
             <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
