@@ -241,6 +241,17 @@ describe('Process overview details', () => {
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
   });
 
+  it('should show CustomerMoveIn.SendInformation for non-responsible EnergySupplier (no role gate)', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
   it('should show action buttons for responsible EnergySupplier', async () => {
     await setup('process-eos-cancel', {
       actorMarketRole: EicFunction.EnergySupplier,
