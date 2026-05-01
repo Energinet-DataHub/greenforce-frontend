@@ -421,27 +421,6 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
-    it('should exclude action for ResponsibleEnergySupplier when actor is not a supplier even if flag is true', () => {
-      const registry = setupRegistry({
-        actorMarketRole: EicFunction.GridAccessProvider,
-        endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
-            roles: [ResponsibleEnergySupplier],
-            callback: vi.fn(),
-          },
-        },
-      });
-
-      const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.EndOfSupply,
-        true
-      );
-
-      expect(result).toEqual([]);
-    });
-
     it('should include action when any role in a mixed roles array matches', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.GridAccessProvider,

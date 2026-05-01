@@ -90,9 +90,7 @@ export class DhActionsRegistry {
     if (!handler.roles?.length) return true;
     const marketRole = this.actorStorage.getSelectedActor().marketRole;
     return handler.roles.some((role) =>
-      role === ResponsibleEnergySupplier
-        ? marketRole === EicFunction.EnergySupplier && isResponsible
-        : marketRole === role
+      role === ResponsibleEnergySupplier ? isResponsible : marketRole === role
     );
   }
 
