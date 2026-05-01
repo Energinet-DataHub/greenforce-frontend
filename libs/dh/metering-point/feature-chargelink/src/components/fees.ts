@@ -94,7 +94,7 @@ export default class DhMeteringPointChargeLinksFees {
   items = computed(() => this.chargeLinks.data()?.chargeLinkOverview ?? []);
   dataSource = dataSource(() => this.items().filter((i) => i.charge.type === ChargeType.Fee));
   columns: WattTableColumnDef<ChargeLinkOverview> = {
-    type: { accessor: (item) => item.charge.type },
+    type: { accessor: (item) => item.charge.type, sort: false },
     id: { accessor: (item) => item.charge?.code },
     name: { accessor: (item) => item.charge?.name ?? '' },
     owner: { accessor: (item) => item.charge?.owner?.displayName ?? '' },
