@@ -149,10 +149,12 @@ describe('Process overview', () => {
     );
   });
 
-  it('should not show action buttons when user has no relevant market role', async () => {
+  it('should hide EndOfSupply actions for unrelated market roles but still show CustomerMoveIn (no role gate)', async () => {
     await setup({ actorMarketRole: EicFunction.DataHubAdministrator });
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
-    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
   });
 
   it('should show warning text instead of buttons for FAS users', async () => {
@@ -173,14 +175,20 @@ describe('Process overview', () => {
     );
   });
 
-  it('should hide all actions for non-responsible EnergySupplier', async () => {
-    await setup({
+  it('should hide EndOfSupply actions for non-responsible EnergySupplier and show CustomerMoveIn', async () => {
+    const fixture = await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
-    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
     expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
