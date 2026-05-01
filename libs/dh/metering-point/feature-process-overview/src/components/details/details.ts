@@ -118,7 +118,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
         @if (canShowActions()) {
           @for (
             action of process.data()?.meteringPointProcessById?.availableActions
-              | supportedActions: businessReason();
+              | supportedActions: businessReason() : isEnergySupplierResponsible();
             track action
           ) {
             <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
@@ -194,12 +194,17 @@ export class DhMeteringPointProcessOverviewDetails {
     if (!reason) return;
     if (!this.canPerformActions()) return;
 
-    this.actionService.execute(action, reason, {
-      meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: this.internalMeteringPointId(),
-      processId: this.id(),
-      cutoffDate: this.cutoffDate(),
-      onSuccess: () => this.navigation.navigate('list'),
-    });
+    this.actionService.execute(
+      action,
+      reason,
+      {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+        processId: this.id(),
+        cutoffDate: this.cutoffDate(),
+        onSuccess: () => this.navigation.navigate('list'),
+      },
+      this.isEnergySupplierResponsible()
+    );
   }
 }

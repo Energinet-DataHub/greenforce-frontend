@@ -52,7 +52,8 @@ async function setup(overrides: Partial<TestHost> = {}) {
         useValue: {
           getSupportedActions: (
             actions: WorkflowAction[],
-            reason: ProcessManagerBusinessReason
+            reason: ProcessManagerBusinessReason,
+            _isEnergySupplierResponsible?: boolean
           ) => {
             const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
               [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],

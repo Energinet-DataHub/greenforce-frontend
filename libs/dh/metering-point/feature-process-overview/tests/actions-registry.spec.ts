@@ -20,14 +20,22 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 
 import {
+  EicFunction,
   ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { DhActionsRegistry, ActionHandlerMap } from '../src/actions/registry';
+import {
+  DhActionsRegistry,
+  ActionHandlerMap,
+  ResponsibleEnergySupplier,
+} from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
 import { ProcessActionContext } from '../src/actions/context';
@@ -55,6 +63,7 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRespondPermission?: boolean;
       hasEndOfSupplyRequestPermission?: boolean;
       isFas?: boolean;
+      actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
     } = {}
@@ -64,6 +73,7 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRespondPermission = true,
       hasEndOfSupplyRequestPermission = false,
       isFas = false,
+      actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
@@ -97,6 +107,19 @@ describe('DhActionsRegistry', () => {
           },
         },
         {
+          provide: DhActorStorage,
+          useValue: {
+            getSelectedActor: () => ({
+              id: 'actor-1',
+              gln: '1234567890123',
+              marketRole: actorMarketRole,
+              actorName: 'Test Actor',
+              organizationName: 'Test Org',
+              displayName: 'Test Actor Display',
+            }),
+          },
+        },
+        {
           provide: EndOfSupplyActions,
           useValue: createMockHandlers(endOfSupplyHandlers),
         },
@@ -116,7 +139,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.CancelWorkflow],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.CancelWorkflow]);
@@ -127,7 +151,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.CustomerMoveIn
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.SendInformation]);
@@ -138,7 +163,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.CancelWorkflow]);
@@ -149,7 +175,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.CancelWorkflow],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([]);
@@ -160,7 +187,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.CancelWorkflow],
-        ProcessManagerBusinessReason.NewMeteringPoint
+        ProcessManagerBusinessReason.NewMeteringPoint,
+        false
       );
 
       expect(result).toEqual([]);
@@ -169,7 +197,11 @@ describe('DhActionsRegistry', () => {
     it('should return empty array when no available actions', () => {
       const registry = setupRegistry();
 
-      const result = registry.getSupportedActions([], ProcessManagerBusinessReason.EndOfSupply);
+      const result = registry.getSupportedActions(
+        [],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
 
       expect(result).toEqual([]);
     });
@@ -188,7 +220,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.RejectRequest],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.RejectRequest]);
@@ -208,7 +241,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.RejectRequest],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([]);
@@ -221,7 +255,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.CancelWorkflow],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.CancelWorkflow]);
@@ -245,7 +280,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.SendInformation]);
@@ -269,7 +305,8 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([WorkflowAction.SendInformation]);
@@ -293,10 +330,159 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getSupportedActions(
         [WorkflowAction.SendInformation],
-        ProcessManagerBusinessReason.EndOfSupply
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
       );
 
       expect(result).toEqual([]);
+    });
+
+    it('should include action for actor whose role matches handler.roles', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.GridAccessProvider,
+        endOfSupplyHandlers: {
+          [WorkflowAction.ConfirmWorkflow]: {
+            featureFlag: 'end-of-supply',
+            roles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.ConfirmWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.ConfirmWorkflow]);
+    });
+
+    it('should exclude action when actor role is not in handler.roles', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.ConfirmWorkflow]: {
+            featureFlag: 'end-of-supply',
+            roles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.ConfirmWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should include action for ResponsibleEnergySupplier when actor is responsible', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        true
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should exclude action for ResponsibleEnergySupplier when actor is supplier but not responsible', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should exclude action for ResponsibleEnergySupplier when actor is not a supplier even if flag is true', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.GridAccessProvider,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        true
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should include action when any role in a mixed roles array matches', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.GridAccessProvider,
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+    });
+
+    it('should include all actions for FAS regardless of roles', () => {
+      const registry = setupRegistry({
+        isFas: true,
+        actorMarketRole: EicFunction.DataHubAdministrator,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
     });
   });
 
@@ -312,7 +498,8 @@ describe('DhActionsRegistry', () => {
       registry.execute(
         WorkflowAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
-        mockContext
+        mockContext,
+        false
       );
 
       expect(callback).toHaveBeenCalledWith(mockContext);
@@ -325,7 +512,8 @@ describe('DhActionsRegistry', () => {
         registry.execute(
           WorkflowAction.CancelWorkflow,
           ProcessManagerBusinessReason.NewMeteringPoint,
-          mockContext
+          mockContext,
+          false
         )
       ).not.toThrow();
     });
@@ -337,7 +525,8 @@ describe('DhActionsRegistry', () => {
         registry.execute(
           WorkflowAction.SendInformation,
           ProcessManagerBusinessReason.EndOfSupply,
-          mockContext
+          mockContext,
+          false
         )
       ).not.toThrow();
     });
@@ -358,7 +547,8 @@ describe('DhActionsRegistry', () => {
       registry.execute(
         WorkflowAction.RejectRequest,
         ProcessManagerBusinessReason.EndOfSupply,
-        mockContext
+        mockContext,
+        false
       );
 
       expect(callback).not.toHaveBeenCalled();
@@ -373,12 +563,82 @@ describe('DhActionsRegistry', () => {
         },
       });
 
-      registry.execute(WorkflowAction.CancelWorkflow, ProcessManagerBusinessReason.EndOfSupply, {
-        ...mockContext,
-        onSuccess,
-      });
+      registry.execute(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply,
+        {
+          ...mockContext,
+          onSuccess,
+        },
+        false
+      );
 
       expect(callback).toHaveBeenCalledWith(expect.objectContaining({ onSuccess }));
+    });
+
+    it('should not call handler when actor role is not allowed', () => {
+      const callback = vi.fn();
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.ConfirmWorkflow]: {
+            featureFlag: 'end-of-supply',
+            roles: [EicFunction.GridAccessProvider],
+            callback,
+          },
+        },
+      });
+
+      registry.execute(
+        WorkflowAction.ConfirmWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext,
+        false
+      );
+
+      expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('should not call handler for FAS users even when action is supported', () => {
+      const callback = vi.fn();
+      const registry = setupRegistry({
+        isFas: true,
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: { callback },
+        },
+      });
+
+      registry.execute(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext,
+        false
+      );
+
+      expect(callback).not.toHaveBeenCalled();
+    });
+
+    it('should call handler when ResponsibleEnergySupplier role matches', () => {
+      const callback = vi.fn();
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.RejectRequest]: {
+            featureFlag: 'end-of-supply',
+            roles: [ResponsibleEnergySupplier],
+            callback,
+          },
+        },
+      });
+
+      registry.execute(
+        WorkflowAction.RejectRequest,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext,
+        true
+      );
+
+      expect(callback).toHaveBeenCalledWith(mockContext);
     });
   });
 });

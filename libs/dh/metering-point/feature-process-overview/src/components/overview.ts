@@ -143,7 +143,8 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
               *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
             >
               @for (
-                action of process.availableActions | supportedActions: process.businessReason;
+                action of process.availableActions
+                  | supportedActions: process.businessReason : isEnergySupplierResponsible();
                 track action
               ) {
                 @if (canPerformActions()) {
@@ -232,11 +233,16 @@ export class DhMeteringPointProcessOverviewTable {
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
     if (!this.canPerformActions()) return;
-    this.actionService.execute(action, process.businessReason, {
-      meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: this.internalMeteringPointId(),
-      processId: process.id,
-      cutoffDate: process.cutoffDate,
-    });
+    this.actionService.execute(
+      action,
+      process.businessReason,
+      {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+        processId: process.id,
+        cutoffDate: process.cutoffDate,
+      },
+      this.isEnergySupplierResponsible()
+    );
   }
 }

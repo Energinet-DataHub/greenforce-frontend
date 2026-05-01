@@ -20,7 +20,10 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
   EicFunction,
@@ -60,6 +63,7 @@ function collectPermissions(
 export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
   private readonly permissionService = inject(PermissionService);
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   private readonly isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -82,33 +86,42 @@ export class DhActionsRegistry {
     );
   }
 
+  private matchesRoles(handler: ActionHandler, isResponsible: boolean): boolean {
+    if (!handler.roles?.length) return true;
+    return handler.roles.some((role) =>
+      role === ResponsibleEnergySupplier
+        ? this.actor.marketRole === EicFunction.EnergySupplier && isResponsible
+        : this.actor.marketRole === role
+    );
+  }
+
   getSupportedActions(
     availableActions: WorkflowAction[],
-    businessReason: ProcessManagerBusinessReason
+    businessReason: ProcessManagerBusinessReason,
+    isEnergySupplierResponsible: boolean
   ): WorkflowAction[] {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
-      // FAS users see all supported actions for informational purposes,
-      // but cannot execute them (gated by canPerformActions in the template
-      // and hasRequiredPermission in execute).
       if (this.isFas()) return true;
-      return this.hasRequiredPermission(handler);
+      if (!this.hasRequiredPermission(handler)) return false;
+      return this.matchesRoles(handler, isEnergySupplierResponsible);
     });
   }
 
   execute(
     action: WorkflowAction,
     businessReason: ProcessManagerBusinessReason,
-    context: ProcessActionContext
+    context: ProcessActionContext,
+    isEnergySupplierResponsible: boolean
   ): void {
-    const handler = this.registry[businessReason]?.[action];
-    if (
-      handler &&
-      this.featureFlags.isEnabled(handler.featureFlag) &&
-      this.hasRequiredPermission(handler)
-    ) {
-      handler.callback(context);
-    }
+    if (this.isFas()) return;
+    const supported = this.getSupportedActions(
+      [action],
+      businessReason,
+      isEnergySupplierResponsible
+    );
+    if (!supported.includes(action)) return;
+    this.registry[businessReason]?.[action]?.callback(context);
   }
 }
