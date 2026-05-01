@@ -120,8 +120,11 @@ describe('Process overview details', () => {
     );
   });
 
-  it('should show reject request button for EndOfSupply process', async () => {
-    await setup('process-eos-cancel');
+  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
@@ -233,9 +236,33 @@ describe('Process overview details', () => {
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
+  });
+
+  it('should show CustomerMoveIn.SendInformation for responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should hide CustomerMoveIn.SendInformation for non-responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show action buttons for responsible EnergySupplier', async () => {
