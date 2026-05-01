@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -50,6 +50,7 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     RouterOutlet,

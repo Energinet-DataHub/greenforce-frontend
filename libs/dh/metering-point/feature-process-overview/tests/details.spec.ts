@@ -236,6 +236,9 @@ describe('Process overview details', () => {
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);

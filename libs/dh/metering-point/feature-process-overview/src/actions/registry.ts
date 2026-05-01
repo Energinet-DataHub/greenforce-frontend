@@ -102,6 +102,8 @@ export class DhActionsRegistry {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      // FAS users see every supported action (info row in the table, disabled
+      // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
       return this.matchesRoles(handler, isEnergySupplierResponsible);

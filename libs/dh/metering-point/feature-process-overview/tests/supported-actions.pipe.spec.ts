@@ -32,7 +32,10 @@ import { SupportedActionsPipe } from '../src/actions/supported-actions.pipe';
 @Component({
   imports: [SupportedActionsPipe],
   template: `
-    @for (action of actions | supportedActions: businessReason; track action) {
+    @for (
+      action of actions | supportedActions: businessReason : isEnergySupplierResponsible;
+      track action
+    ) {
       <span>{{ action }}</span>
     } @empty {
       <span>No actions</span>
@@ -42,31 +45,33 @@ import { SupportedActionsPipe } from '../src/actions/supported-actions.pipe';
 class TestHost {
   actions: WorkflowAction[] | null = null;
   businessReason?: ProcessManagerBusinessReason;
+  isEnergySupplierResponsible?: boolean;
 }
 
 async function setup(overrides: Partial<TestHost> = {}) {
+  const getSupportedActions = vi.fn(
+    (actions: WorkflowAction[], reason: ProcessManagerBusinessReason) => {
+      const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
+        [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],
+        [ProcessManagerBusinessReason.CustomerMoveIn]: [WorkflowAction.SendInformation],
+      };
+      const supported = registered[reason] ?? [];
+      return actions.filter((a) => supported.includes(a));
+    }
+  );
+
   await render(TestHost, {
     providers: [
       {
         provide: DhActionsRegistry,
-        useValue: {
-          getSupportedActions: (
-            actions: WorkflowAction[],
-            reason: ProcessManagerBusinessReason
-          ) => {
-            const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
-              [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],
-              [ProcessManagerBusinessReason.CustomerMoveIn]: [WorkflowAction.SendInformation],
-            };
-            const supported = registered[reason] ?? [];
-            return actions.filter((a) => supported.includes(a));
-          },
-        },
+        useValue: { getSupportedActions },
       },
     ],
     imports: [getTranslocoTestingModule()],
     componentProperties: overrides,
   });
+
+  return { getSupportedActions };
 }
 
 describe('SupportedActionsPipe', () => {
@@ -123,5 +128,32 @@ describe('SupportedActionsPipe', () => {
     });
 
     expect(screen.getByText('No actions')).toBeInTheDocument();
+  });
+
+  it('should forward isEnergySupplierResponsible to the registry', async () => {
+    const { getSupportedActions } = await setup({
+      actions: [WorkflowAction.CancelWorkflow],
+      businessReason: ProcessManagerBusinessReason.EndOfSupply,
+      isEnergySupplierResponsible: true,
+    });
+
+    expect(getSupportedActions).toHaveBeenCalledWith(
+      [WorkflowAction.CancelWorkflow],
+      ProcessManagerBusinessReason.EndOfSupply,
+      true
+    );
+  });
+
+  it('should default isEnergySupplierResponsible to false when not bound', async () => {
+    const { getSupportedActions } = await setup({
+      actions: [WorkflowAction.CancelWorkflow],
+      businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    });
+
+    expect(getSupportedActions).toHaveBeenCalledWith(
+      [WorkflowAction.CancelWorkflow],
+      ProcessManagerBusinessReason.EndOfSupply,
+      false
+    );
   });
 });
