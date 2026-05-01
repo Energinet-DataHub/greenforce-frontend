@@ -16,10 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-declare namespace Cypress {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  interface Chainable<Subject> {
-    login(email: string, password: string, initialUrl?: string): void;
-    removeCookieBanner(): void;
-  }
+import { effect, EffectRef, Signal } from '@angular/core';
+import { AbstractControl } from '@angular/forms';
+
+/**
+ * Creates an effect that resets a target control on the initial effect run
+ * and whenever the source signal changes afterwards.
+ */
+export function dhResetControlOnChange<T>(
+  source: Signal<T>,
+  target: () => AbstractControl
+): EffectRef {
+  return effect(() => {
+    source();
+    target().reset();
+  });
 }

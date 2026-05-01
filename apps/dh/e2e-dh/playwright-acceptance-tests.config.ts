@@ -16,18 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-// ***********************************************************
-// This example support/index.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
-import './commands';
+import { defineConfig } from '@playwright/test';
+
+import { baseE2EConfig } from './playwright.config';
+
+// Acceptance tests run against a deployed environment. dh3-environments sets BASE_URL to the
+// frontend URL of the target stage (dev_002, preprod, etc.). Tests authenticate via the same
+// B2C tenant, then navigate inside the deployed app. No webServer here, since there is
+// nothing to start locally.
+const baseURL = process.env['BASE_URL'] ?? 'https://dev002.datahub3.dk';
+
+export default defineConfig({
+  ...baseE2EConfig,
+  use: { ...baseE2EConfig.use, baseURL },
+});

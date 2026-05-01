@@ -73,3 +73,9 @@
   border-bottom: 1px solid var(--watt-color-secondary);
   border-top: 1px solid var(--watt-color-secondary);
 }
+
+// Visual gap between the chip trigger and the datepicker overlay it opens
+.cdk-overlay-pane:has(.watt-date-chip__panel),
+.cdk-overlay-pane:has(.watt-date-range-chip__panel) {
+  margin-top: var(--watt-space-xs);
+}

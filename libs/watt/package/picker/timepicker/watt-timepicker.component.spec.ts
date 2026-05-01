@@ -78,12 +78,13 @@ describe(WattTimepickerComponent, () => {
       const { fixture, timepickerInput } = await setup({
         template,
       });
+      const user = userEvent.setup();
 
       const startTime = '0123';
       const endTime = '1234';
 
-      userEvent.clear(timepickerInput);
-      userEvent.type(timepickerInput, `${startTime}${endTime}`);
+      await user.clear(timepickerInput);
+      await user.type(timepickerInput, `${startTime}${endTime}`);
 
       const actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       const expectedTimeRange: WattDateRange = { start: '01:23', end: '12:34' };
@@ -98,9 +99,10 @@ describe(WattTimepickerComponent, () => {
         template,
         initialState: timeRange,
       });
+      const user = userEvent.setup();
 
       // Delete one character from the end
-      userEvent.type(timepickerInput, backspace);
+      await user.type(timepickerInput, backspace);
 
       let actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       let expectedTimeRange: WattDateRange = { start: '01:23', end: '' };
@@ -109,7 +111,7 @@ describe(WattTimepickerComponent, () => {
 
       // Current state: `01:23 - 12:3`
       // Delete eight (`3 - 12:3`) characters from the end
-      userEvent.type(timepickerInput, Array(8).fill(backspace).join(''));
+      await user.type(timepickerInput, Array(8).fill(backspace).join(''));
 
       actualTimeRange = fixture.componentInstance.timeRangeControl.value;
       expectedTimeRange = { start: '', end: '' };
@@ -125,33 +127,34 @@ describe(WattTimepickerComponent, () => {
 
     it('shows slider on button click', async () => {
       await setup({ template });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       expect(screen.queryByRole('dialog')).not.toBeEmptyDOMElement();
     });
 
     it('hides slider on second button click', async () => {
       await setup({ template });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
+      await user.click(sliderToggle);
 
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     });
 
     it('disables slider button', async () => {
       await setup({ template, disabled: true });
+      const user = userEvent.setup({ pointerEventsCheck: 0 });
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle, undefined, {
-        skipPointerEventsCheck: true,
-      });
+      await user.click(sliderToggle);
 
       expect(sliderToggle).toBeDisabled();
       expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
@@ -159,9 +162,10 @@ describe(WattTimepickerComponent, () => {
 
     it('hides slider on blur', async () => {
       const { fixture } = await setup({ template });
+      const user = userEvent.setup();
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       // Simulate focus moving outside the component by calling onFocusOut with a relatedTarget outside
       const timepickerComponent = fixture.debugElement.children[0].componentInstance;
@@ -181,9 +185,10 @@ describe(WattTimepickerComponent, () => {
 
     it('shows slider with default values if input is empty', async () => {
       await setup({ template });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -196,9 +201,10 @@ describe(WattTimepickerComponent, () => {
 
     it('shows slider with initial values from state', async () => {
       await setup({ template, initialState: { start: '00:10', end: '23:20' } });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -214,9 +220,10 @@ describe(WattTimepickerComponent, () => {
         template,
         initialState: { start: '00:00', end: '23:59' },
       });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -230,15 +237,16 @@ describe(WattTimepickerComponent, () => {
 
     it('adjusts slider values when input changes', async () => {
       const { timepickerInput } = await setup({ template });
+      const user = userEvent.setup();
 
       const startTime = '0123';
       const endTime = '2345';
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
-      userEvent.clear(timepickerInput);
-      userEvent.type(timepickerInput, `${startTime}${endTime}`);
+      await user.clear(timepickerInput);
+      await user.type(timepickerInput, `${startTime}${endTime}`);
 
       const [leftHandle, rightHandle] = screen.queryAllByRole('slider');
 
@@ -251,10 +259,11 @@ describe(WattTimepickerComponent, () => {
 
     it('displays slider label with value from input', async () => {
       await setup({ template });
+      const user = userEvent.setup();
 
       const sliderToggle = screen.queryByRole('button') as HTMLButtonElement;
 
-      userEvent.click(sliderToggle);
+      await user.click(sliderToggle);
 
       expect(screen.queryByText('Adjust time range')).toBeInTheDocument();
     });

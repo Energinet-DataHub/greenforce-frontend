@@ -125,13 +125,14 @@ describe(WattBreadcrumbsComponent.name, () => {
 
   it('should navigate on click, when routerLink is added', async () => {
     await setup();
+    const user = userEvent.setup();
 
     // Initially should show overview route
     await waitForAsync(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Overview`)).toBeInTheDocument();
     });
 
-    userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
+    await user.click(getBreadcrumbWithRouterLink() as HTMLElement);
 
     // Should navigate to breadcrumbs route
     await waitForAsync(() => {
@@ -145,8 +146,9 @@ describe(WattBreadcrumbsComponent.name, () => {
   it('should trigger click callback, when (click) is added', async () => {
     const mockFn = vi.fn();
     await setup(mockFn);
+    const user = userEvent.setup();
 
-    userEvent.click(getBreadcrumbWithClick() as HTMLElement);
+    await user.click(getBreadcrumbWithClick() as HTMLElement);
 
     expect(mockFn).toHaveBeenCalled();
   });

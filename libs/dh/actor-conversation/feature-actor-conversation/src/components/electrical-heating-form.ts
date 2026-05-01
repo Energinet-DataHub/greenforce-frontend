@@ -17,31 +17,30 @@
  */
 //#endregion
 import {
-  inject,
   input,
   computed,
   Component,
   forwardRef,
-  ChangeDetectorRef,
   ChangeDetectionStrategy,
+  DestroyRef,
+  inject,
 } from '@angular/core';
 
 import {
   FormGroup,
   Validators,
-  ValidatorFn,
-  AbstractControl,
-  ValidationErrors,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
   ControlValueAccessor,
+  TouchedChangeEvent,
 } from '@angular/forms';
 
-import { skip } from 'rxjs';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { takeUntilDestroyed, toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { merge } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TranslocoDirective } from '@jsverse/transloco';
+
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
@@ -52,7 +51,11 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
 
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhFormControlToSignal,
+  dhMakeFormControl,
+  dhResetControlOnChange,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ElectricalHeatingFormValue } from '../types';
@@ -77,7 +80,6 @@ import { ElectricalHeatingFormValue } from '../types';
     WattDescriptionListItemComponent,
     WattDatePipe,
     VaterFlexComponent,
-    WattFieldErrorComponent,
   ],
   styles: `
     h3 {
@@ -129,12 +131,16 @@ import { ElectricalHeatingFormValue } from '../types';
 
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
-        <watt-datepicker [label]="t('periodStart')" [formControl]="form.controls.periodStart" />
-        <watt-datepicker [label]="t('periodEnd')" [formControl]="form.controls.periodEnd">
-          @if (form.controls.periodEnd.errors?.periodEndBeforePeriodStart) {
-            <watt-field-error> {{ t('periodEndError') }}</watt-field-error>
-          }
-        </watt-datepicker>
+        <watt-datepicker
+          [min]="periodStartMin()"
+          [label]="t('periodStart')"
+          [formControl]="form.controls.periodStart"
+        />
+        <watt-datepicker
+          [min]="periodEndMin()"
+          [label]="t('periodEnd')"
+          [formControl]="form.controls.periodEnd"
+        />
       </vater-flex>
 
       <vater-stack gap="s" align="start">
@@ -149,19 +155,7 @@ import { ElectricalHeatingFormValue } from '../types';
   `,
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
-  private readonly cdr = inject(ChangeDetectorRef);
-
-  private readonly periodEndAfterStartValidator: ValidatorFn = (
-    control: AbstractControl<Date | null>
-  ): ValidationErrors | null => {
-    const periodStart = dayjs(control.parent?.get('periodStart')?.value);
-    const periodEnd = dayjs(control.value);
-
-    if (!periodStart.isValid() || !periodEnd.isValid()) return null;
-
-    return periodEnd.isBefore(periodStart) ? { periodEndBeforePeriodStart: true } : null;
-  };
-
+  private readonly destroyRef = inject(DestroyRef);
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
@@ -175,23 +169,41 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
 
   form = new FormGroup({
     addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
-    periodStart: dhMakeFormControl<Date | null>(null, Validators.required),
-    periodEnd: dhMakeFormControl<Date | null>(null, this.periodEndAfterStartValidator),
+    periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
+    periodEnd: dhMakeFormControl<Date | null>(null),
     attachedBbrNotification: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
     attachedBbrDocumentation: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
   });
 
-  constructor() {
-    this.form.controls.periodStart.valueChanges.pipe(takeUntilDestroyed()).subscribe(() => {
-      this.form.controls.periodEnd.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    });
-  }
+  addressEligibilityDateChanged = dhFormControlToSignal(this.form.controls.addressEligibilityDate);
+  periodStartChanged = dhFormControlToSignal(this.form.controls.periodStart);
+
+  periodStartMin = computed(() => {
+    const date = this.addressEligibilityDateChanged();
+    return date ? dayjs(date).toDate() : undefined;
+  });
+
+  periodEndMin = computed(() => {
+    const start = this.periodStartChanged();
+    return start ? dayjs(start).add(1, 'day').toDate() : undefined;
+  });
+
+  resetPeriodStart = dhResetControlOnChange(
+    this.addressEligibilityDateChanged,
+    () => this.form.controls.periodStart
+  );
+
+  resetPeriodEnd = dhResetControlOnChange(
+    this.periodStartChanged,
+    () => this.form.controls.periodEnd
+  );
 
   value = toSignal(this.form.valueChanges);
 
   formValueChanged = toObservable(
-    computed<ElectricalHeatingFormValue>(() => {
+    computed<ElectricalHeatingFormValue | null>(() => {
       const value = this.value();
+      if (this.form.invalid) return null;
 
       return {
         addressEligibilityDate: value?.addressEligibilityDate ?? null,
@@ -228,13 +240,20 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
         { emitEvent: false }
       );
     }
-
-    this.form.controls.periodEnd.updateValueAndValidity({ onlySelf: true, emitEvent: false });
-    this.cdr.markForCheck();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouched = () => {};
 
   registerOnChange = (fn: (value: ElectricalHeatingFormValue | null) => void) =>
     this.formValueChanged.subscribe(fn);
-  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  registerOnTouched = (fn: () => void) => {
+    this.onTouched = fn;
+    merge(...Object.values(this.form.controls).map((c) => c.events))
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((event) => {
+        if (event instanceof TouchedChangeEvent && event.touched) fn();
+      });
+  };
   setDisabledState = (disabled: boolean) => (disabled ? this.form.disable() : this.form.enable());
 }

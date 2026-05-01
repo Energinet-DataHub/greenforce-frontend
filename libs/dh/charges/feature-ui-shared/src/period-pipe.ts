@@ -18,33 +18,19 @@
 //#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { dayjs, WattRange } from '@energinet/watt/date';
-import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { capitalize } from '@energinet-datahub/dh/shared/util-text';
+import { WattRange, dayjs, wattFormatDate } from '@energinet/watt/date';
 
 @Pipe({
-  name: 'dhChargesPeriod',
+  name: 'dhChargePeriod',
 })
-export class DhChargesPeriodPipe implements PipeTransform {
-  transform(input?: WattRange<Date>, resolution?: ChargeResolution) {
+export class DhChargePeriodPipe implements PipeTransform {
+  transform(input?: WattRange<Date> | null): string {
     if (!input) return '';
-    const start = dayjs(input.start);
-    const end = dayjs(input.end).add(1, 'ms');
-    switch (resolution) {
-      case 'QUARTER_HOURLY':
-        return `${start.format('HH:mm')} — ${end.format('HH:mm')}`;
-      case 'HOURLY':
-        return `${start.format('HH')} — ${end.format('HH')}`;
-      case 'DAILY':
-        return start.format('DD');
-      case 'MONTHLY': {
-        const month = capitalize(start.format('MMMM'));
-        return end.diff(start, 'month') > 0
-          ? month
-          : `${month} (${start.format('DD')} — ${end.subtract(1, 'ms').format('DD')})`;
-      }
-      default:
-        return `${start.format('DD-MM-YYYY HH:mm')} — ${end.format('DD-MM-YYYY HH:mm')}`;
-    }
+    const start = wattFormatDate(input.start);
+    if (!input.end) return start ?? '';
+    if (dayjs(input.start).toDate().getTime() === dayjs(input.end).toDate().getTime())
+      return start ?? '';
+    const end = wattFormatDate(input.end);
+    return `${start} — ${end}`;
   }
 }

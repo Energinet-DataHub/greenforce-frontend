@@ -109,8 +109,9 @@ describe(WattSegmentedButtonsComponent, () => {
 
     it('updates the form control when clicking a button', async () => {
       const { host } = await setup('day');
+      const user = userEvent.setup();
 
-      await userEvent.click(screen.getByRole('radio', { name: 'Year' }));
+      await user.click(screen.getByRole('radio', { name: 'Year' }));
 
       expect(host.control.value).toBe('year');
       expect(screen.getByRole('radio', { name: 'Year' })).toHaveAttribute('aria-checked', 'true');
@@ -131,8 +132,9 @@ describe(WattSegmentedButtonsComponent, () => {
       }
 
       const { fixture } = await render(TestHostComponent);
+      const user = userEvent.setup();
 
-      await userEvent.click(screen.getByRole('radio', { name: 'No value' }));
+      await user.click(screen.getByRole('radio', { name: 'No value' }));
 
       expect(fixture.componentInstance.control.value).toBe('keep');
     });
@@ -174,8 +176,9 @@ describe(WattSegmentedButtonsComponent, () => {
       }
 
       const { fixture } = await render(TestHostComponent);
+      const user = userEvent.setup({ pointerEventsCheck: 0 });
 
-      await userEvent.click(screen.getByRole('radio', { name: 'Month' }));
+      await user.click(screen.getByRole('radio', { name: 'Month' }));
 
       expect(fixture.componentInstance.control.value).toBe('day');
     });
@@ -263,54 +266,60 @@ describe(WattSegmentedButtonsComponent, () => {
 
     it('moves selection right with ArrowRight', async () => {
       const { host } = await setup('day');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Day' }).focus();
 
-      await userEvent.keyboard('{ArrowRight}');
+      await user.keyboard('{ArrowRight}');
 
       expect(host.control.value).toBe('month');
     });
 
     it('moves selection left with ArrowLeft', async () => {
       const { host } = await setup('month');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Month' }).focus();
 
-      await userEvent.keyboard('{ArrowLeft}');
+      await user.keyboard('{ArrowLeft}');
 
       expect(host.control.value).toBe('day');
     });
 
     it('wraps from last to first on ArrowRight', async () => {
       const { host } = await setup('year');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Year' }).focus();
 
-      await userEvent.keyboard('{ArrowRight}');
+      await user.keyboard('{ArrowRight}');
 
       expect(host.control.value).toBe('day');
     });
 
     it('wraps from first to last on ArrowLeft', async () => {
       const { host } = await setup('day');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Day' }).focus();
 
-      await userEvent.keyboard('{ArrowLeft}');
+      await user.keyboard('{ArrowLeft}');
 
       expect(host.control.value).toBe('year');
     });
 
     it('jumps to first with Home', async () => {
       const { host } = await setup('year');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Year' }).focus();
 
-      await userEvent.keyboard('{Home}');
+      await user.keyboard('{Home}');
 
       expect(host.control.value).toBe('day');
     });
 
     it('jumps to last with End', async () => {
       const { host } = await setup('day');
+      const user = userEvent.setup();
       screen.getByRole('radio', { name: 'Day' }).focus();
 
-      await userEvent.keyboard('{End}');
+      await user.keyboard('{End}');
 
       expect(host.control.value).toBe('year');
     });
