@@ -25,12 +25,7 @@ const config: CodegenConfig = {
   documents: 'libs/**/*.graphql',
   generates: {
     'libs/dh/shared/domain/src/generated/graphql/types.ts': {
-      plugins: [
-        'typescript',
-        'typescript-operations',
-        'typed-document-node',
-        '@homebound/graphql-typescript-scalar-type-policies',
-      ],
+      plugins: ['typescript', 'typescript-operations', 'typed-document-node'],
       config: {
         enumsAsConst: true,
         nonOptionalTypename: true,
@@ -42,11 +37,6 @@ const config: CodegenConfig = {
           DateRange: '{ start: Date, end: Date | null }',
           DateTime: 'Date',
           YearMonth: 'string',
-        },
-        scalarTypePolicies: {
-          Date: '../../type-policies#dateTypePolicy',
-          DateTime: '../../type-policies#dateTypePolicy',
-          DateRange: '../../type-policies#dateRangeTypePolicy',
         },
       },
     },

@@ -18,6 +18,7 @@
 //#endregion
 import { ApolloLink } from '@apollo/client/core';
 import { dayjs } from '@energinet/watt/date';
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { scalarFieldMap } from '@energinet-datahub/dh/shared/domain/graphql/scalar-field-map';
 import { assertIsRecord } from '@energinet-datahub/dh/shared/util-assert';
 
