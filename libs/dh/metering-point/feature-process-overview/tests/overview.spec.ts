@@ -176,12 +176,10 @@ describe('Process overview', () => {
   });
 
   it('should hide EndOfSupply actions for non-responsible EnergySupplier and show CustomerMoveIn', async () => {
-    const fixture = await setup({
+    await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
-    const router = fixture.debugElement.injector.get(Router);
-    vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);

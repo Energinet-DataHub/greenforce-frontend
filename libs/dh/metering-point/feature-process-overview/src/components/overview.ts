@@ -19,7 +19,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
-
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
