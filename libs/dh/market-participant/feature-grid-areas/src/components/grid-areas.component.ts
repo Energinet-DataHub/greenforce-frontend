@@ -136,6 +136,7 @@ export class DhGridAreasComponent {
       .addVariables({
         ...this.dataSource.query.getOptions().variables,
         first: 10_000,
+        last: null,
       })
       .addHeaders([
         `"${translate(columnsPath + '.code')}"`,

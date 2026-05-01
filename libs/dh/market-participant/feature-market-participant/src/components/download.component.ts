@@ -56,6 +56,7 @@ export class DownloadMarketParticipants {
       .addVariables({
         ...this.variables(),
         first: 10_000,
+        last: null,
       })
       .addHeaders([
         `"ID"`,

@@ -131,6 +131,7 @@ export class DhOrganizationsOverviewComponent {
       .addVariables({
         ...this.variables(),
         first: 10_000,
+        last: null,
       })
       .addHeaders([
         translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
