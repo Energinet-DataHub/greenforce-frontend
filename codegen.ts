@@ -63,6 +63,9 @@ const config: CodegenConfig = {
     'libs/dh/shared/domain/src/generated/graphql/data-source.ts': {
       plugins: ['libs/dh/shared/feature-graphql-codegen/dist/apollo-data-source.js'],
     },
+    'libs/dh/shared/domain/src/generated/graphql/scalar-field-map.ts': {
+      plugins: ['libs/dh/shared/feature-graphql-codegen/dist/scalar-field-map.js'],
+    },
   },
 };
 

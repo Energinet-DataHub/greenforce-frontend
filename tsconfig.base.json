@@ -169,6 +169,9 @@
       "@energinet-datahub/dh/shared/domain/graphql/introspection": [
         "./libs/dh/shared/domain/src/generated/graphql/introspection.ts"
       ],
+      "@energinet-datahub/dh/shared/domain/graphql/scalar-field-map": [
+        "./libs/dh/shared/domain/src/generated/graphql/scalar-field-map.ts"
+      ],
       "@energinet-datahub/dh/shared/domain/graphql/msw": [
         "./libs/dh/shared/domain/src/generated/graphql/msw.ts"
       ],

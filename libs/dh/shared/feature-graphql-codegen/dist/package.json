@@ -1,6 +1,8 @@
 {
   "name": "dh-shared-feature-graphql-codegen",
   "version": "0.0.1",
-  "main": "./index.js",
-  "type": "commonjs"
+  "types": "./index.d.ts",
+  "module": "./index.js",
+  "type": "module",
+  "main": "./index.js"
 }
