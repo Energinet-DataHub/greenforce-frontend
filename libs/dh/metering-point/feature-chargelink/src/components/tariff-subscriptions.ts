@@ -121,7 +121,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
         </ng-container>
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
-          {{ element.displayPeriod | dhChargePeriod }}
+          {{ element.period | dhChargePeriod }}
           @if (element.period.start.getTime() === element.period.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }

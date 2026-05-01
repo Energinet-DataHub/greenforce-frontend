@@ -3,7 +3,6 @@ query GetChargeLinkOverview($meteringPointId: String!) {
     chargeLinkId
     amount
     period
-    displayPeriod
     closed
     charge {
       id

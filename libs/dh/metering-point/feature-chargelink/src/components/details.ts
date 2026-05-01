@@ -74,7 +74,7 @@ import { ChargeLinkOverview } from '../types';
             <watt-description-list variant="inline-flow">
               <watt-description-list-item
                 [label]="t('period')"
-                [value]="item()?.displayPeriod | dhChargePeriod"
+                [value]="item()?.period | dhChargePeriod"
               />
             </watt-description-list>
             <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
