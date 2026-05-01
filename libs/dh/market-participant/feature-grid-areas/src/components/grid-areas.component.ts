@@ -135,6 +135,8 @@ export class DhGridAreasComponent {
     this.generateCSV
       .addVariables({
         ...this.dataSource.query.getOptions().variables,
+        after: null,
+        before: null,
         first: 10_000,
         last: null,
       })
