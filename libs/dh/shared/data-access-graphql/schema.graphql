@@ -320,6 +320,7 @@ type Charge {
 
 type ChargeLinkOverviewItem {
   period: DateRange!
+  displayPeriod: DateRange!
   closed: Boolean!
   charge: Charge!
   amount: Int!

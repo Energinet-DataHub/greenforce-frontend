@@ -72,7 +72,7 @@ import { DhChargeLinkDetails } from './details';
         </ng-container>
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
-          {{ element.period | dhChargePeriod }}
+          {{ element.displayPeriod | dhChargePeriod }}
           @if (element.period.start.getTime() === element.period.end?.getTime()) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
@@ -99,6 +99,6 @@ export default class DhMeteringPointChargeLinksFees {
     name: { accessor: (item) => item.charge?.name ?? '' },
     owner: { accessor: (item) => item.charge?.owner?.displayName ?? '' },
     amount: { accessor: 'amount' },
-    period: { accessor: (item) => item.period },
+    period: { accessor: (item) => item.period.start },
   };
 }
