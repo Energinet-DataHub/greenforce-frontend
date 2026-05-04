@@ -15,6 +15,7 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
@@ -34,7 +35,8 @@ public static class ChangeOfSupplierOperations
         string? cvr,
         bool protectedNameAndAddress,
         CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        [Service] IB2CClient ediB2CClient,
+        [Service] IHttpContextAccessor httpContextAccessor)
     {
         CustomerIdentification customerIdentificationObject = customerType.ToLowerInvariant() switch
         {
@@ -44,12 +46,13 @@ public static class ChangeOfSupplierOperations
         };
 
         var customerIdentificationV1 = new CustomerIdentificationV1(CvrOrCpr: customerIdentificationObject);
+        var energySupplier = httpContextAccessor.GetUserActorNumber();
         var command = new RequestChangeOfSupplierCommandV1(RequestChangeOfSupplierRequest: new RequestChangeOfSupplierRequestV1(
             MeteringPointId: meteringPointId,
             BusinessReason: ChangeOfSupplierBusinessReason.ChangeOfEnergySupplier,
             StartDate: startDate,
             CustomerIdentification: customerIdentificationV1,
-            EnergySupplier: string.Empty,
+            EnergySupplier: energySupplier,
             CustomerName: string.Empty));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
