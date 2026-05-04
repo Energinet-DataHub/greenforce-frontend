@@ -20,10 +20,7 @@ import { TestBed } from '@angular/core/testing';
 import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
 
 import { applicationInsightsProviders } from '../src/dh-shared-util-application-insights.providers';
-import {
-  DhApplicationInsights,
-  DhSeverityLevel,
-} from '../src/dh-application-insights.service';
+import { DhApplicationInsights, DhSeverityLevel } from '../src/dh-application-insights.service';
 import { DhApplicationInsightsErrorHandler } from '../src/dh-application-insights-error-handler';
 
 describe('applicationInsightsProviders', () => {
@@ -103,9 +100,9 @@ describe('applicationInsightsProviders', () => {
     const delegate = { handleError: vi.fn() };
     wrapper.adopt(delegate);
 
-    expect((delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length).toBeLessThanOrEqual(
-      50
-    );
+    expect(
+      (delegate.handleError as ReturnType<typeof vi.fn>).mock.calls.length
+    ).toBeLessThanOrEqual(50);
   });
 
   it('keeps DhSeverityLevel in sync with @microsoft/applicationinsights-web SeverityLevel', async () => {
