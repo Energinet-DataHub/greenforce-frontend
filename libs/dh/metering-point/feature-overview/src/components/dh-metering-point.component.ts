@@ -101,10 +101,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
       padding: var(--watt-space-m) var(--watt-space-ml);
     }
 
-    .page-grid.no-header {
-      grid-template-rows: 1fr;
-    }
-
     .page-tabs {
       position: relative;
       overflow: auto;
@@ -130,7 +126,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         EicFunction.SystemOperator,
       ];
 
-    <div class="page-grid" [class.no-header]="hideHeader()" vater inset="0">
+    <div class="page-grid" vater inset="0">
       @if (!hideHeader()) {
         <div class="page-header" vater-stack direction="row" gap="m" wrap align="end">
           <div *transloco="let t; prefix: 'meteringPoint.overview'">
