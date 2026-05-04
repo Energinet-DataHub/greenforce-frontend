@@ -1,0 +1,1039 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Watt Component Library V2 Plan</title>
+    <style>
+      :root {
+        --page-bg: #f5f7f8;
+        --surface: #ffffff;
+        --surface-alt: #f0f7f7;
+        --text: #1f2933;
+        --muted: #596875;
+        --border: #d8e2e3;
+        --primary: #00847c;
+        --primary-dark: #005d5c;
+        --primary-soft: #ebf5f5;
+        --warning-soft: #fff4de;
+        --danger-soft: #fff1f1;
+        --shadow: 0 24px 60px rgba(31, 41, 51, 0.12);
+        --radius: 18px;
+        --max-width: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top left, rgba(0, 132, 124, 0.16), transparent 34rem),
+          linear-gradient(180deg, #ffffff 0, var(--page-bg) 34rem);
+        color: var(--text);
+        font-family:
+          Inter,
+          "Open Sans",
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.58;
+      }
+
+      a {
+        color: var(--primary-dark);
+      }
+
+      code {
+        border: 1px solid rgba(0, 132, 124, 0.18);
+        border-radius: 0.35rem;
+        background: var(--primary-soft);
+        color: #064f4b;
+        font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+        font-size: 0.92em;
+        padding: 0.08rem 0.28rem;
+      }
+
+      .page {
+        width: min(100% - 2rem, var(--max-width));
+        margin: 0 auto;
+        padding: 2rem 0 4rem;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 2rem;
+        align-items: end;
+        padding: 4rem 0 2rem;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(0, 132, 124, 0.25);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.78);
+        color: var(--primary-dark);
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        padding: 0.4rem 0.7rem;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 999px;
+        background: var(--primary);
+        content: "";
+      }
+
+      h1,
+      h2,
+      h3 {
+        line-height: 1.15;
+      }
+
+      h1 {
+        max-width: 13ch;
+        margin: 0;
+        color: #0f2528;
+        font-size: clamp(2.8rem, 7vw, 5.7rem);
+        letter-spacing: -0.075em;
+      }
+
+      .hero-summary {
+        max-width: 44rem;
+        margin: 1.25rem 0 0;
+        color: var(--muted);
+        font-size: 1.16rem;
+      }
+
+      .hero-card {
+        max-width: 23rem;
+        border: 1px solid rgba(0, 132, 124, 0.18);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.78);
+        box-shadow: 0 18px 48px rgba(0, 93, 92, 0.12);
+        padding: 1.1rem;
+      }
+
+      .hero-card strong {
+        display: block;
+        margin-bottom: 0.25rem;
+        color: #0f2528;
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+      }
+
+      .hero-card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 16rem minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .toc {
+        position: sticky;
+        top: 1rem;
+        max-height: calc(100vh - 2rem);
+        overflow: auto;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 14px 40px rgba(31, 41, 51, 0.08);
+        padding: 1rem;
+      }
+
+      .toc h2 {
+        margin: 0 0 0.8rem;
+        color: #0f2528;
+        font-size: 0.82rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .toc ol {
+        display: grid;
+        gap: 0.2rem;
+        margin: 0;
+        padding-left: 1.2rem;
+      }
+
+      .toc a {
+        color: var(--muted);
+        font-size: 0.92rem;
+        text-decoration: none;
+      }
+
+      .toc a:hover {
+        color: var(--primary-dark);
+        text-decoration: underline;
+      }
+
+      main {
+        display: grid;
+        gap: 1rem;
+      }
+
+      .section {
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 0 14px 42px rgba(31, 41, 51, 0.06);
+        padding: clamp(1.2rem, 3vw, 2rem);
+      }
+
+      .section h2 {
+        display: flex;
+        gap: 0.75rem;
+        align-items: baseline;
+        margin: 0 0 1rem;
+        color: #0f2528;
+        font-size: clamp(1.45rem, 3vw, 2rem);
+        letter-spacing: -0.035em;
+      }
+
+      .section-number {
+        flex: 0 0 auto;
+        color: var(--primary);
+        font-size: 0.72em;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .section h3 {
+        margin: 1.6rem 0 0.6rem;
+        color: #183438;
+        font-size: 1.08rem;
+      }
+
+      .section p {
+        margin: 0.6rem 0;
+      }
+
+      .section ul,
+      .section ol {
+        margin: 0.65rem 0 0.85rem;
+        padding-left: 1.35rem;
+      }
+
+      .section li {
+        margin: 0.26rem 0;
+      }
+
+      .callout {
+        border: 1px solid rgba(0, 132, 124, 0.24);
+        border-radius: 14px;
+        background: var(--primary-soft);
+        padding: 1rem;
+      }
+
+      .callout.warning {
+        border-color: rgba(238, 147, 49, 0.35);
+        background: var(--warning-soft);
+      }
+
+      .callout.danger {
+        border-color: rgba(209, 41, 35, 0.25);
+        background: var(--danger-soft);
+      }
+
+      .grid-two {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .mini-card {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: #fbfdfd;
+        padding: 1rem;
+      }
+
+      .mini-card h3 {
+        margin-top: 0;
+      }
+
+      .badge-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin: 0.85rem 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .badge-list li {
+        margin: 0;
+        border: 1px solid rgba(0, 132, 124, 0.2);
+        border-radius: 999px;
+        background: var(--primary-soft);
+        color: #064f4b;
+        font-size: 0.92rem;
+        padding: 0.28rem 0.58rem;
+      }
+
+      .sequence {
+        display: grid;
+        gap: 0.45rem;
+        margin: 1rem 0;
+      }
+
+      .sequence div {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #fbfdfd;
+        padding: 0.7rem 0.85rem;
+      }
+
+      .footer-note {
+        margin: 2rem 0 0;
+        color: var(--muted);
+        text-align: center;
+      }
+
+      @media (max-width: 960px) {
+        .hero,
+        .layout,
+        .grid-two {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding-top: 2rem;
+        }
+
+        .toc {
+          position: relative;
+          top: auto;
+          max-height: none;
+        }
+      }
+
+      @media print {
+        :root {
+          --page-bg: #ffffff;
+          --surface: #ffffff;
+          --text: #000000;
+          --muted: #333333;
+          --border: #cccccc;
+        }
+
+        body {
+          background: #ffffff;
+        }
+
+        .page {
+          width: auto;
+          margin: 0;
+          padding: 0;
+        }
+
+        .hero {
+          padding: 0 0 1rem;
+        }
+
+        .hero-card,
+        .toc {
+          display: none;
+        }
+
+        .layout {
+          display: block;
+        }
+
+        .section {
+          break-inside: avoid;
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+          padding: 1rem 0;
+        }
+
+        a,
+        code {
+          color: #000000;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <header class="hero">
+        <div>
+          <div class="eyebrow">Implementation plan</div>
+          <h1>Watt Component Library V2</h1>
+          <p class="hero-summary">
+            Build Watt v2 as side-by-side <code>next</code> entrypoints inside the existing
+            <code>@energinet/watt</code> package. V2 uses Angular Signal Forms only, Figma
+            Enterprise Variables as the design token source, browser-native APIs, and Storybook as
+            the feature reference.
+          </p>
+        </div>
+        <aside class="hero-card" aria-label="Plan highlights">
+          <strong>Plan highlights</strong>
+          <p>
+            No Angular Material or CDK runtime, one component per PR, token-only styling, Temporal
+            for date/time, and evergreen browser support.
+          </p>
+        </aside>
+      </header>
+
+      <div class="layout">
+        <nav class="toc" aria-label="Table of contents">
+          <h2>Contents</h2>
+          <ol>
+            <li><a href="#summary">Summary</a></li>
+            <li><a href="#package-strategy">Package Strategy</a></li>
+            <li><a href="#core-decisions">Core Decisions</a></li>
+            <li><a href="#dependency-policy">Dependency Policy</a></li>
+            <li><a href="#design-token-sync">Design Token Sync</a></li>
+            <li><a href="#token-flow">Token Sync Flow</a></li>
+            <li><a href="#token-automation">Token Automation</a></li>
+            <li><a href="#token-rules">Token Sync Rules</a></li>
+            <li><a href="#foundation-prs">Foundation PRs</a></li>
+            <li><a href="#shared-primitives">Shared Primitives</a></li>
+            <li><a href="#signal-forms">Signal Forms Strategy</a></li>
+            <li><a href="#date-time">Date And Time Strategy</a></li>
+            <li><a href="#browser-api">Browser API Replacements</a></li>
+            <li><a href="#implementation-rules">Implementation Rules</a></li>
+            <li><a href="#component-order">Component PR Order</a></li>
+            <li><a href="#pr-requirements">PR Requirements</a></li>
+            <li><a href="#storybook">Storybook Strategy</a></li>
+            <li><a href="#accessibility">Accessibility Baseline</a></li>
+            <li><a href="#verification">Verification Commands</a></li>
+            <li><a href="#migration">Migration Strategy</a></li>
+            <li><a href="#risks">Risks And Mitigations</a></li>
+            <li><a href="#foundation-done">Foundation Done</a></li>
+            <li><a href="#component-done">Component Done</a></li>
+          </ol>
+        </nav>
+
+        <main>
+          <section class="section" id="summary">
+            <h2><span class="section-number">1.</span> Summary</h2>
+            <p>
+              Build Watt v2 as side-by-side <code>next</code> entrypoints inside the existing
+              <code>@energinet/watt</code> package.
+            </p>
+            <p>
+              V2 will use Angular Signal Forms only, design tokens synced from Figma Enterprise
+              Variables API, browser-native APIs instead of Angular Material/CDK, and Storybook as
+              the reference for existing features and visual parity.
+            </p>
+          </section>
+
+          <section class="section" id="package-strategy">
+            <h2><span class="section-number">2.</span> Package Strategy</h2>
+            <p>Use new <code>next</code> entrypoints:</p>
+            <ul>
+              <li><code>@energinet/watt/next/button</code></li>
+              <li><code>@energinet/watt/next/text-field</code></li>
+              <li><code>@energinet/watt/next/dropdown</code></li>
+              <li><code>@energinet/watt/next/date-field</code></li>
+              <li><code>@energinet/watt/next/styles</code></li>
+              <li><code>@energinet/watt/next/tokens</code></li>
+            </ul>
+            <p>Keep current v1 entrypoints untouched:</p>
+            <ul>
+              <li><code>@energinet/watt/button</code></li>
+              <li><code>@energinet/watt/text-field</code></li>
+            </ul>
+            <p>
+              This allows component-by-component migration without breaking existing applications.
+            </p>
+          </section>
+
+          <section class="section" id="core-decisions">
+            <h2><span class="section-number">3.</span> Core Decisions</h2>
+            <ul class="badge-list">
+              <li><code>@energinet/watt/next/*</code></li>
+              <li>One component per PR</li>
+              <li>Signal Forms only</li>
+              <li>Figma source of truth</li>
+              <li>Token-only styling</li>
+              <li>No Material runtime</li>
+              <li>No CDK runtime</li>
+              <li>Temporal date/time</li>
+              <li>Evergreen browsers</li>
+            </ul>
+            <ul>
+              <li>Storybook is the reference for features and design, not implementation code.</li>
+              <li>Safari Temporal support uses an npm polyfill.</li>
+              <li>Angular Router is allowed for routing-aware components.</li>
+              <li>Browser API polyfills are allowed when needed, for example Popover API gaps.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="dependency-policy">
+            <h2><span class="section-number">4.</span> Dependency Policy</h2>
+            <div class="grid-two">
+              <div class="mini-card">
+                <h3>Allowed runtime imports</h3>
+                <ul>
+                  <li><code>@angular/core</code></li>
+                  <li><code>@angular/common</code></li>
+                  <li><code>@angular/forms</code></li>
+                  <li><code>@angular/router</code></li>
+                  <li>Temporal polyfill</li>
+                  <li>Approved browser API polyfills</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <h3>Forbidden in v2 runtime</h3>
+                <ul>
+                  <li><code>@angular/material</code></li>
+                  <li><code>@angular/cdk</code></li>
+                  <li><code>@popperjs/core</code></li>
+                  <li><code>@maskito/*</code></li>
+                  <li><code>ngx-mat-select-search</code></li>
+                  <li>
+                    <code>dayjs</code>, <code>date-fns</code>, <code>luxon</code>,
+                    <code>moment</code>
+                  </li>
+                  <li><code>libphonenumber-js</code></li>
+                  <li>v1 Watt component imports</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="design-token-sync">
+            <h2><span class="section-number">5.</span> Design Token Sync</h2>
+            <p>Figma Enterprise Variables API is the source of truth.</p>
+            <div class="callout">
+              <p><strong>Primary endpoint:</strong></p>
+              <p><code>GET /v1/files/fwEDQkgEcpwfUojXl0EIC5/variables/local</code></p>
+              <p><strong>Required token scope:</strong> <code>file_variables:read</code></p>
+            </div>
+            <p>Optional controlled write/bootstrap endpoint:</p>
+            <ul>
+              <li><code>POST /v1/files/fwEDQkgEcpwfUojXl0EIC5/variables</code></li>
+              <li>Optional write scope: <code>file_variables:write</code></li>
+            </ul>
+          </section>
+
+          <section class="section" id="token-flow">
+            <h2><span class="section-number">6.</span> Token Sync Flow</h2>
+            <div class="sequence" aria-label="Token sync flow">
+              <div>1. Figma Variables</div>
+              <div>2. Normalized token JSON</div>
+              <div>3. Generated CSS custom properties</div>
+              <div>4. Optional SCSS metadata</div>
+              <div>5. Optional TypeScript metadata</div>
+              <div>6. Storybook token documentation</div>
+            </div>
+            <h3>Generated files</h3>
+            <ul>
+              <li><code>libs/watt/package/next/tokens/tokens.json</code></li>
+              <li><code>libs/watt/package/next/core/styles/tokens.css</code></li>
+              <li><code>libs/watt/package/next/core/styles/tokens.scss</code></li>
+              <li><code>libs/watt/package/next/core/tokens/tokens.ts</code></li>
+            </ul>
+            <h3>Recommended token collections</h3>
+            <ul>
+              <li><code>core</code>: raw colors, typography, spacing, radius, shadows, sizing</li>
+              <li>
+                <code>semantic</code>: text, surface, border, focus, disabled, danger, warning,
+                success, info
+              </li>
+              <li>
+                <code>component</code>: button, field, dropdown, card, modal, drawer, toast, etc.
+              </li>
+            </ul>
+            <h3>Recommended naming</h3>
+            <ul>
+              <li><code>color/primary/500</code></li>
+              <li><code>color/neutral/900</code></li>
+              <li><code>text/on-light/high-emphasis</code></li>
+              <li><code>space/m</code></li>
+              <li><code>shadow/drawer</code></li>
+              <li><code>button/primary/background/default</code></li>
+              <li><code>field/border/error</code></li>
+            </ul>
+            <h3>Recommended CSS variables</h3>
+            <ul>
+              <li><code>--watt-next-color-primary-500</code></li>
+              <li><code>--watt-next-text-high-emphasis</code></li>
+              <li><code>--watt-next-space-m</code></li>
+              <li><code>--watt-next-shadow-drawer</code></li>
+              <li><code>--watt-next-button-primary-background</code></li>
+              <li><code>--watt-next-field-border-error</code></li>
+            </ul>
+          </section>
+
+          <section class="section" id="token-automation">
+            <h2><span class="section-number">7.</span> Token Automation</h2>
+            <p>Add Nx targets:</p>
+            <ul>
+              <li><code>nx run watt:tokens:sync</code></li>
+              <li><code>nx run watt:tokens:check</code></li>
+            </ul>
+            <h3><code>tokens:sync</code> should</h3>
+            <ul>
+              <li>Fetch Figma variables.</li>
+              <li>Normalize variable names, modes, aliases, and values.</li>
+              <li>Generate committed token artifacts.</li>
+              <li>Update Storybook token metadata.</li>
+            </ul>
+            <h3><code>tokens:check</code> should</h3>
+            <ul>
+              <li>Fetch Figma variables.</li>
+              <li>Regenerate token artifacts.</li>
+              <li>Fail if generated files differ from committed files.</li>
+            </ul>
+            <h3>GitHub workflow</h3>
+            <ul>
+              <li>Manual trigger.</li>
+              <li>Scheduled trigger.</li>
+              <li>Uses <code>FIGMA_TOKEN</code> secret.</li>
+              <li>Runs token sync.</li>
+              <li>Opens PR if generated files changed.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="token-rules">
+            <h2><span class="section-number">8.</span> Token Sync Rules</h2>
+            <ul>
+              <li>Figma owns token values.</li>
+              <li>Code owns generated artifacts.</li>
+              <li>Do not manually edit generated token files.</li>
+              <li>Use one-way sync from Figma to code for normal work.</li>
+              <li>Avoid routine code-to-Figma sync.</li>
+              <li>Use code-to-Figma only for controlled bootstrap or migration work.</li>
+              <li>Component CSS must consume tokens, not hardcoded Figma values.</li>
+            </ul>
+            <div class="callout">
+              <p>Example component CSS should use token variables such as:</p>
+              <ul>
+                <li><code>background: var(--watt-next-button-primary-background)</code></li>
+                <li><code>color: var(--watt-next-button-primary-foreground)</code></li>
+                <li><code>border-color: var(--watt-next-button-primary-border)</code></li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="foundation-prs">
+            <h2><span class="section-number">9.</span> Foundation PRs</h2>
+            <ol>
+              <li>Add <code>@energinet/watt/next/*</code> package structure.</li>
+              <li>Add Storybook grouping for <code>Watt Next</code>.</li>
+              <li>Add forbidden dependency guard.</li>
+              <li>Add Figma token sync script.</li>
+              <li>Add generated token outputs.</li>
+              <li>Add <code>tokens:sync</code> and <code>tokens:check</code> Nx targets.</li>
+              <li>Add CI token drift check.</li>
+              <li>Add scheduled/manual token update workflow.</li>
+              <li>Add token Storybook docs for colors, typography, spacing, shadows.</li>
+              <li>Add icon, custom icon, and logo asset pipeline.</li>
+              <li>Add shared primitives.</li>
+              <li>Add Temporal utility layer and Safari polyfill setup.</li>
+              <li>Add component PR checklist and v1 Storybook parity template.</li>
+            </ol>
+          </section>
+
+          <section class="section" id="shared-primitives">
+            <h2><span class="section-number">10.</span> Shared Primitives</h2>
+            <p>Add shared internal primitives before complex components:</p>
+            <ul>
+              <li>Field shell: common label, hint, error, disabled, readonly, required layout.</li>
+              <li>Popover utility: shared Popover API behavior and fallback handling.</li>
+              <li>Focus utilities: focus restore, focus containment, roving tabindex helpers.</li>
+              <li>ID utility: stable accessible ID generation.</li>
+              <li>Live-region service: toasts, notifications, validation announcements.</li>
+              <li>Scroll-lock helper: modal and drawer background behavior.</li>
+              <li>Temporal utilities: parsing, formatting, conversion, polyfill loading.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="signal-forms">
+            <h2><span class="section-number">11.</span> Signal Forms Strategy</h2>
+            <p>All v2 form controls use Angular Signal Forms only.</p>
+            <div class="grid-two">
+              <div class="mini-card">
+                <h3>Use <code>FormValueControl&lt;T&gt;</code> for</h3>
+                <ul>
+                  <li>Text field</li>
+                  <li>Textarea</li>
+                  <li>Dropdown</li>
+                  <li>Search field</li>
+                  <li>Date field</li>
+                  <li>Time field</li>
+                  <li>Datetime field</li>
+                  <li>Year field</li>
+                  <li>Year-month field</li>
+                  <li>Input chip</li>
+                  <li>DropZone</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <h3>Use <code>FormCheckboxControl</code> for</h3>
+                <ul>
+                  <li>Checkbox</li>
+                  <li>Slide toggle</li>
+                </ul>
+                <h3>Do not use</h3>
+                <ul>
+                  <li><code>ControlValueAccessor</code></li>
+                  <li><code>ngModel</code></li>
+                  <li>Reactive Forms compatibility wrappers</li>
+                  <li>Template-driven forms</li>
+                </ul>
+              </div>
+            </div>
+            <h3>Recommended control shape</h3>
+            <ul>
+              <li><code>value = model&lt;T | null&gt;(null)</code></li>
+              <li><code>touched = model(false)</code></li>
+              <li><code>disabled = input(false)</code></li>
+              <li><code>readonly = input(false)</code></li>
+              <li><code>required = input(false)</code></li>
+              <li><code>invalid = input(false)</code></li>
+              <li><code>errors = input([])</code></li>
+            </ul>
+            <p>Validation rules stay in the Signal Forms schema.</p>
+            <p>Components display validation state but do not own validation logic.</p>
+          </section>
+
+          <section class="section" id="date-time">
+            <h2><span class="section-number">12.</span> Date And Time Strategy</h2>
+            <p>Use Temporal for all date/time values.</p>
+            <ul>
+              <li>Date field: <code>Temporal.PlainDate</code></li>
+              <li>Time field: <code>Temporal.PlainTime</code></li>
+              <li>Datetime field: <code>Temporal.PlainDateTime</code></li>
+              <li>Year-month field: <code>Temporal.PlainYearMonth</code>, if suitable</li>
+              <li>Absolute timestamp: <code>Temporal.Instant</code></li>
+              <li>Zoned datetime: <code>Temporal.ZonedDateTime</code>, only if needed</li>
+            </ul>
+            <div class="callout warning">
+              <ul>
+                <li>No public <code>Date</code> values unless unavoidable for browser interop.</li>
+                <li>No <code>dayjs</code> or other date library.</li>
+                <li>Use <code>Intl.DateTimeFormat</code> for localized display.</li>
+                <li>
+                  Keep parsing and formatting in <code>@energinet/watt/next/core/temporal</code>.
+                </li>
+                <li>
+                  Load Temporal polyfill only when <code>globalThis.Temporal</code> is missing.
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="section" id="browser-api">
+            <h2><span class="section-number">13.</span> Browser API Replacements</h2>
+            <p>Use browser-native APIs instead of third-party runtime dependencies.</p>
+            <ul>
+              <li>Angular Material button: native <code>button</code>.</li>
+              <li>Angular Material checkbox/radio: native input semantics plus token styling.</li>
+              <li>Angular Material dialog: native <code>dialog</code>.</li>
+              <li>Angular CDK overlay: Popover API and owned fallback.</li>
+              <li>Popper.js: Popover API and owned positioning fallback.</li>
+              <li>Maskito: native input handling and validation.</li>
+              <li><code>dayjs</code>: Temporal and <code>Intl</code>.</li>
+              <li>Material table: semantic <code>table</code>.</li>
+              <li>Material tabs/stepper: native buttons, ARIA patterns, roving tabindex.</li>
+              <li>Toast library: signal service and ARIA live regions.</li>
+              <li>Drag/drop library: Drag and Drop API and File API.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="implementation-rules">
+            <h2><span class="section-number">14.</span> Component Implementation Rules</h2>
+            <div class="grid-two">
+              <div class="mini-card">
+                <h3>Use modern Angular APIs</h3>
+                <ul>
+                  <li><code>input()</code></li>
+                  <li><code>output()</code></li>
+                  <li><code>model()</code></li>
+                  <li><code>computed()</code></li>
+                  <li><code>signal()</code></li>
+                  <li><code>ChangeDetectionStrategy.OnPush</code></li>
+                  <li>Standalone components</li>
+                  <li>Native control flow syntax</li>
+                </ul>
+              </div>
+              <div class="mini-card">
+                <h3>Avoid</h3>
+                <ul>
+                  <li><code>@Input</code></li>
+                  <li><code>@Output</code></li>
+                  <li><code>@HostBinding</code></li>
+                  <li><code>@HostListener</code></li>
+                  <li><code>ngClass</code></li>
+                  <li><code>ngStyle</code></li>
+                  <li><code>ControlValueAccessor</code></li>
+                  <li>Angular Material</li>
+                  <li>Angular CDK</li>
+                </ul>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Use host metadata instead of <code>@HostBinding</code> and
+                <code>@HostListener</code>.
+              </li>
+              <li>Keep components small and focused.</li>
+              <li>Use tokens for all colors, spacing, shadows, radius, typography, and states.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="component-order">
+            <h2><span class="section-number">15.</span> Component PR Order</h2>
+            <ol>
+              <li>Package and foundation setup</li>
+              <li>Token sync and foundation token docs</li>
+              <li>Icons</li>
+              <li>Custom icons</li>
+              <li>Logo</li>
+              <li>Button</li>
+              <li>Spinner</li>
+              <li>Divider</li>
+              <li>Label</li>
+              <li>Badge</li>
+              <li>Avatar</li>
+              <li>Card</li>
+              <li>Breadcrumb</li>
+              <li>Chips</li>
+              <li>Chip label</li>
+              <li>Highlight chip</li>
+              <li>Input chip</li>
+              <li>Validation message</li>
+              <li>Checkbox</li>
+              <li>Radio button</li>
+              <li>Radio button group</li>
+              <li>Slide toggle</li>
+              <li>Text field</li>
+              <li>Text area field</li>
+              <li>Search field</li>
+              <li>Input field with pre-selector</li>
+              <li>Date field</li>
+              <li>Time field</li>
+              <li>Datetime field</li>
+              <li>Year field</li>
+              <li>Year-month field</li>
+              <li>Dropdown</li>
+              <li>Tooltip</li>
+              <li>Menu</li>
+              <li>Toast</li>
+              <li>Notification</li>
+              <li>Empty state</li>
+              <li>Expandable card</li>
+              <li>Tabs</li>
+              <li>Segmented button</li>
+              <li>Stepper</li>
+              <li>Progress tracker</li>
+              <li>DropZone</li>
+              <li>Table toolbar</li>
+              <li>Modal</li>
+              <li>Drawer</li>
+            </ol>
+          </section>
+
+          <section class="section" id="pr-requirements">
+            <h2><span class="section-number">16.</span> Per-Component PR Requirements</h2>
+            <ul>
+              <li>Figma link.</li>
+              <li>Extracted Figma variants and states.</li>
+              <li>v1 Storybook feature checklist.</li>
+              <li>v2 Storybook stories for all relevant states.</li>
+              <li>Signal Forms integration where relevant.</li>
+              <li>Token-only styling.</li>
+              <li>Accessibility notes.</li>
+              <li>Keyboard behavior.</li>
+              <li>Unit tests.</li>
+              <li>Storybook interaction tests for complex components.</li>
+              <li>Storybook a11y checks.</li>
+              <li>Package/build verification.</li>
+              <li>Dependency guard passing.</li>
+              <li>Token drift check passing.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="storybook">
+            <h2><span class="section-number">17.</span> Storybook Strategy</h2>
+            <p>Use Storybook as the reference for:</p>
+            <ul>
+              <li>Existing features.</li>
+              <li>Behavioral parity.</li>
+              <li>Visual states.</li>
+              <li>Edge cases.</li>
+              <li>Documentation examples.</li>
+              <li>Accessibility scenarios.</li>
+            </ul>
+            <p>Do not use v1 implementation code as the implementation basis for v2.</p>
+            <h3>Storybook groups</h3>
+            <ul>
+              <li>Watt v1</li>
+              <li>Watt Next</li>
+              <li>Foundations</li>
+              <li>Components</li>
+              <li>Patterns</li>
+              <li>Migration</li>
+            </ul>
+            <h3>Each v2 component should include stories for</h3>
+            <ul>
+              <li>Default</li>
+              <li>Variants</li>
+              <li>Sizes</li>
+              <li>Disabled</li>
+              <li>Readonly</li>
+              <li>Error</li>
+              <li>Loading</li>
+              <li>Focus</li>
+              <li>Keyboard interaction</li>
+              <li>Responsive behavior</li>
+              <li>Signal Forms integration</li>
+            </ul>
+          </section>
+
+          <section class="section" id="accessibility">
+            <h2><span class="section-number">18.</span> Accessibility Baseline</h2>
+            <ul>
+              <li>WCAG AA contrast.</li>
+              <li>Visible focus state.</li>
+              <li>Keyboard-only operation.</li>
+              <li>Correct role/name/value.</li>
+              <li>Screen reader-compatible validation messages.</li>
+              <li>ARIA only where native semantics are insufficient.</li>
+              <li>Reduced motion support where animation exists.</li>
+              <li>No pointer-only behavior.</li>
+              <li>Storybook a11y checks.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="verification">
+            <h2><span class="section-number">19.</span> Verification Commands</h2>
+            <p>Expected verification commands:</p>
+            <ul>
+              <li><code>nx run watt:tokens:check</code></li>
+              <li><code>nx run watt:test</code></li>
+              <li><code>nx run watt:package</code></li>
+              <li><code>nx run watt:build-storybook</code></li>
+            </ul>
+            <p>If v2 receives dedicated targets, use:</p>
+            <ul>
+              <li><code>nx run watt-next:test</code></li>
+              <li><code>nx run watt-next:package</code></li>
+              <li><code>nx run watt-next:build-storybook</code></li>
+            </ul>
+          </section>
+
+          <section class="section" id="migration">
+            <h2><span class="section-number">20.</span> Migration Strategy</h2>
+            <ul>
+              <li>Keep v1 stable while v2 is developed.</li>
+              <li>Migrate apps component by component.</li>
+              <li>Replace imports from <code>@energinet/watt/button</code>.</li>
+              <li>Use imports from <code>@energinet/watt/next/button</code>.</li>
+              <li>
+                Do not replace <code>@energinet/watt</code> v1 entrypoints until v2 reaches parity.
+              </li>
+              <li>
+                Publish <code>next</code> as alpha/beta while Signal Forms remain experimental.
+              </li>
+            </ul>
+            <h3>Promote v2 to the main package only after</h3>
+            <ul>
+              <li>Required components are complete.</li>
+              <li>Storybook parity is documented.</li>
+              <li>Accessibility checks pass.</li>
+              <li>Applications have migrated key flows.</li>
+              <li>Signal Forms API risk is accepted or stabilized.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="risks">
+            <h2><span class="section-number">21.</span> Risks And Mitigations</h2>
+            <ul>
+              <li>
+                Risk: Angular Signal Forms are experimental. Mitigation: ship <code>next</code> as
+                alpha/beta and isolate form APIs.
+              </li>
+              <li>
+                Risk: removing CDK means owning accessibility behavior. Mitigation: add shared
+                focus, keyboard, overlay, and scroll primitives.
+              </li>
+              <li>
+                Risk: Popover API behavior differs by browser. Mitigation: add browser tests and
+                approved polyfill/fallback.
+              </li>
+              <li>
+                Risk: Temporal is not fully available in Safari. Mitigation: load Temporal polyfill
+                only when missing.
+              </li>
+              <li>
+                Risk: Figma variable naming can drift. Mitigation: use token checks and PR
+                automation.
+              </li>
+              <li>
+                Risk: token aliases and modes can be complex. Mitigation: normalize and snapshot
+                generated token JSON.
+              </li>
+              <li>
+                Risk: one component per PR may be slow. Mitigation: prioritize primitives and
+                high-use form controls first.
+              </li>
+            </ul>
+          </section>
+
+          <section class="section" id="foundation-done">
+            <h2>
+              <span class="section-number">22.</span> Definition Of Done For Watt Next Foundation
+            </h2>
+            <ul>
+              <li><code>@energinet/watt/next/*</code> entrypoints build.</li>
+              <li>Storybook shows Watt Next foundations.</li>
+              <li>Figma token sync works from Enterprise Variables API.</li>
+              <li>Generated token files are committed.</li>
+              <li>Token drift check runs in CI.</li>
+              <li>Temporal polyfill setup is available.</li>
+              <li>Shared primitives are available.</li>
+              <li>First simple component can be implemented without v1 runtime dependencies.</li>
+            </ul>
+          </section>
+
+          <section class="section" id="component-done">
+            <h2><span class="section-number">23.</span> Definition Of Done For A Component</h2>
+            <ul>
+              <li>It uses an <code>@energinet/watt/next/*</code> entrypoint.</li>
+              <li>It does not import v1 Watt, Material, or CDK.</li>
+              <li>It uses generated design tokens only.</li>
+              <li>It matches documented Figma variants and states.</li>
+              <li>It matches required v1 Storybook features.</li>
+              <li>It supports Signal Forms if it is a form component.</li>
+              <li>It passes unit tests.</li>
+              <li>It passes Storybook interaction/a11y checks where relevant.</li>
+              <li>It is documented in Storybook.</li>
+              <li>It has keyboard and screen reader behavior documented.</li>
+              <li>It passes package and Storybook build.</li>
+            </ul>
+          </section>
+        </main>
+      </div>
+
+      <p class="footer-note">Standalone planning document for Watt Component Library V2.</p>
+    </div>
+  </body>
+</html>
