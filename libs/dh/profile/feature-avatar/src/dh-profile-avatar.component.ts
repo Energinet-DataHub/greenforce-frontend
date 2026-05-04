@@ -26,8 +26,6 @@ import { WattModalService } from '@energinet/watt/modal';
 
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import { SeverityLevel } from '@microsoft/applicationinsights-web';
-
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
@@ -81,22 +79,14 @@ export class DhProfileAvatarComponent {
   async openProfileModal() {
     this.appInsights.trackEvent('Menu item: Open profile modal');
 
-    try {
-      const { DhProfileModalComponent } =
-        await import('@energinet-datahub/dh/profile/feature-profile-modal');
+    const { DhProfileModalComponent } = await import(
+      '@energinet-datahub/dh/profile/feature-profile-modal'
+    );
 
-      this.modalService.open({
-        component: DhProfileModalComponent,
-        data: { email: this.getAccount().email },
-      });
-    } catch (error) {
-      // Chunk load failure (offline, CDN timeout, stale cache after deploy).
-      // Surface via telemetry so we can see it happening; the user can retry.
-      this.appInsights.trackException(
-        error instanceof Error ? error : new Error(String(error)),
-        SeverityLevel.Error
-      );
-    }
+    this.modalService.open({
+      component: DhProfileModalComponent,
+      data: { email: this.getAccount().email },
+    });
   }
 
   changeLaguage(): void {
