@@ -43,14 +43,15 @@ Re-run the regeneration command without changing the country list. The tool prin
 
 ## What the file contains
 
-A JSON object with three top-level keys:
+A JSON object with four top-level keys:
 
 - `version`: the `libphonenumber-metadata-generator` format version. Different values indicate a breaking change in the structure; bump `libphonenumber-js` and regenerate if that ever happens.
 - `country_calling_codes`: map of calling code (`45`, `46`, ...) to the list of country codes that share it.
 - `countries`: per-country validation rules, formatting patterns, and example numbers.
+- `nonGeographic`: validation rules for calling codes that are not tied to a single country (`800`, `888`, satellite networks, etc.). The 9 supported countries do not use these, but the generator still emits the key.
 
 Do not hand-edit this file. Always regenerate.
 
 ## Compatibility
 
-The committed file currently uses `"version": 4`, which matches `libphonenumber-js@^1.10.0`. When bumping the `libphonenumber-js` dependency in `package.json`, regenerate the metadata and confirm the version key still matches what the installed `libphonenumber-js` expects. A mismatch will throw at runtime inside `isValidPhoneNumber`.
+The metadata format version (the `version` key) is decided by `libphonenumber-metadata-generator`, which tracks `libphonenumber-js`. When bumping `libphonenumber-js` in `package.json`, regenerate this file and confirm the version key still matches what the installed `libphonenumber-js` expects. A mismatch will throw at runtime inside `isValidPhoneNumber`.
