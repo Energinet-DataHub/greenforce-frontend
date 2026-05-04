@@ -40,8 +40,12 @@ const mockWorkerSource = `
   };
 `;
 
-const createMockHighlightWorker = () =>
-  new Worker(URL.createObjectURL(new Blob([mockWorkerSource], { type: 'application/javascript' })));
+const createMockHighlightWorker = () => {
+  const url = URL.createObjectURL(new Blob([mockWorkerSource], { type: 'application/javascript' }));
+  const worker = new Worker(url);
+  URL.revokeObjectURL(url);
+  return worker;
+};
 
 const meta: Meta<WattCodeComponent> = {
   title: 'Components/Code',
@@ -179,7 +183,6 @@ JsonLongLines.args = {
   "narrative": "This single line is intentionally very long to demonstrate that the watt-code viewer offers horizontal scrolling when a JSON value contains content that exceeds the viewport width, including long URLs such as https://example.energinet.dk/api/v1/messages/aggregated-measure-data/5a8e7c6d-3f2b-4a1e-9c0d-7b8f4d2e1a3c?include=meteringpoints,timeseries,settlement&format=cim&schemaVersion=2.0",
   "meteringPointIds": ["571313180400012882", "571313180400012899", "571313180400012905", "571313180400012912", "571313180400012929", "571313180400012936", "571313180400012943", "571313180400012950"]
 }`,
-  languages: ['json'],
 };
 
 export const XmlLongLines = Template.bind({});
@@ -193,5 +196,4 @@ XmlLongLines.args = {
     <cim:attachment.payload>QmFzZTY0ZW5jb2RlZHBheWxvYWR0aGF0aW50ZW50aW9uYWxseWdvZXNvbmZvcmF3aGlsZXRvZW5zdXJlaG9yaXpvbnRhbHNjcm9sbGluZ2lzZGVtb25zdHJhdGVkY2xlYXJseWluc3Rvcnlib29r</cim:attachment.payload>
   </cim:Series>
 </cim:RequestAggregatedMeasureData_MarketDocument>`,
-  languages: ['xml'],
 };
