@@ -48,18 +48,21 @@ export class DhApplicationInsights {
   private appInsights: ApplicationInsights | undefined = undefined;
 
   /**
-   * Initialize Application Insights
+   * Initialize Application Insights. Returns the loaded angularplugin-js
+   * module so the APP_INITIALIZER can adopt its ErrorService without a
+   * second dynamic import.
    */
   async init() {
     if (this.appInsights?.appInsights.isInitialized()) {
-      return;
+      return undefined;
     }
 
-    const { ApplicationInsights, DistributedTracingModes } =
-      await import('@microsoft/applicationinsights-web');
-    const { AngularPlugin } = await import('@microsoft/applicationinsights-angularplugin-js');
+    const [{ ApplicationInsights, DistributedTracingModes }, angularpluginJs] = await Promise.all([
+      import('@microsoft/applicationinsights-web'),
+      import('@microsoft/applicationinsights-angularplugin-js'),
+    ]);
 
-    this.angularPlugin = new AngularPlugin();
+    this.angularPlugin = new angularpluginJs.AngularPlugin();
     this.appInsights = new ApplicationInsights({
       config: {
         connectionString: this.dhAppConfig.applicationInsights.connectionString,
@@ -77,6 +80,7 @@ export class DhApplicationInsights {
     });
 
     this.appInsights.loadAppInsights();
+    return angularpluginJs;
   }
 
   setCookiesUsage(enabled: boolean) {

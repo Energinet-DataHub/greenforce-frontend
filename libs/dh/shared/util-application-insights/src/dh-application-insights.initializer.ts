@@ -26,10 +26,10 @@ export const applicationInsightsInitializer = provideAppInitializer(async () => 
   const errorHandler = inject(DhApplicationInsightsErrorHandler);
 
   try {
-    await appInsights.init();
-    const { ApplicationinsightsAngularpluginErrorService } =
-      await import('@microsoft/applicationinsights-angularplugin-js');
-    errorHandler.adopt(new ApplicationinsightsAngularpluginErrorService());
+    const angularpluginJs = await appInsights.init();
+    if (angularpluginJs) {
+      errorHandler.adopt(new angularpluginJs.ApplicationinsightsAngularpluginErrorService());
+    }
   } catch (error) {
     // If loading the SDK fails, fall back to Angular's default ErrorHandler so
     // buffered bootstrap errors still reach the console instead of getting lost.
