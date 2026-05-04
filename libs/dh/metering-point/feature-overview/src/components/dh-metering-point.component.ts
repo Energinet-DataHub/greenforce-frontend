@@ -116,7 +116,6 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
         }
       </watt-breadcrumbs>
     </dh-toolbar-portal>
-
     @let rolesWithAccess =
       [
         EicFunction.EnergySupplier,
