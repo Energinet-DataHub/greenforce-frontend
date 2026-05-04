@@ -291,8 +291,8 @@ const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
     __typename: 'ChargeLinkOverviewItem',
     chargeLinkId: '1003',
     amount: 120,
-    period: { start: new Date('2023-04-01T00:00:00Z'), end: new Date('2023-10-31T23:59:59Z') },
-    closed: true,
+    period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
+    closed: false,
     charge: charges[3],
   },
   {
