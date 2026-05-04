@@ -26,10 +26,9 @@ import { WattModalService } from '@energinet/watt/modal';
 
 import { DisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
 import { DhLanguageService } from '@energinet-datahub/dh/globalization/feature-language-picker';
-import {
-  DhApplicationInsights,
-  DhSeverityLevel,
-} from '@energinet-datahub/dh/shared/util-application-insights';
+import { SeverityLevel } from '@microsoft/applicationinsights-web';
+
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 @Component({
   selector: 'dh-profile-avatar',
@@ -95,7 +94,7 @@ export class DhProfileAvatarComponent {
       // Surface via telemetry so we can see it happening; the user can retry.
       this.appInsights.trackException(
         error instanceof Error ? error : new Error(String(error)),
-        DhSeverityLevel.Error
+        SeverityLevel.Error
       );
     }
   }
