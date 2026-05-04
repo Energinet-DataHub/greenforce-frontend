@@ -61,6 +61,18 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     :host {
       display: block;
     }
+
+    .cut-off-date-field {
+      max-width: 150px;
+    }
+
+    .cpr-field {
+      max-width: 110px;
+    }
+
+    .cvr-field {
+      max-width: 90px;
+    }
   `,
   template: `
     <watt-modal
@@ -70,7 +82,11 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
     >
       <form id="change-of-supplier-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" gap="m" align="start">
-          <watt-datepicker [label]="t('cutOffDate')" [formControl]="form.controls.cutOffDate" />
+          <watt-datepicker
+            [label]="t('cutOffDate')"
+            [formControl]="form.controls.cutOffDate"
+            class="cut-off-date-field"
+          />
 
           <vater-stack align="start" gap="s">
             <span class="watt-label">{{ t('customerInformation') }}</span>
@@ -92,9 +108,19 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
           </vater-stack>
 
           @if (form.controls.customerType.value === 'private') {
-            <watt-text-field [label]="t('cpr')" [formControl]="form.controls.cpr" maxLength="10" />
+            <watt-text-field
+              [label]="t('cpr')"
+              [formControl]="form.controls.cpr"
+              maxLength="10"
+              class="cpr-field"
+            />
           } @else {
-            <watt-text-field [label]="t('cvr')" [formControl]="form.controls.cvr" maxLength="8" />
+            <watt-text-field
+              [label]="t('cvr')"
+              [formControl]="form.controls.cvr"
+              maxLength="8"
+              class="cvr-field"
+            />
           }
 
           <watt-checkbox [formControl]="form.controls.protectedNameAndAddress">
