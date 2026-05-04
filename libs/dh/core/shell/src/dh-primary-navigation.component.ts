@@ -17,7 +17,6 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
@@ -50,7 +49,6 @@ import {
   ],
   templateUrl: './dh-primary-navigation.component.html',
   imports: [
-    MatExpansionModule,
     TranslocoDirective,
 
     WattNavListComponent,
