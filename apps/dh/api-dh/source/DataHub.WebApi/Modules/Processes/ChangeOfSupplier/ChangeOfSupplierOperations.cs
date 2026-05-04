@@ -12,7 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.ChangeOfSupplier;
 
@@ -20,15 +25,35 @@ public static class ChangeOfSupplierOperations
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:change-of-supplier"])]
-    public static Task<bool> InitiateChangeOfSupplierAsync(
+    [UseRevisionLog]
+    public static async Task<bool> InitiateChangeOfSupplierAsync(
         string meteringPointId,
         DateTimeOffset startDate,
         string customerType,
         string? cpr,
         string? cvr,
-        bool protectedNameAndAddress)
+        bool protectedNameAndAddress,
+        CancellationToken ct,
+        [Service] IB2CClient ediB2CClient)
     {
-        // Stub: no real B2C call yet
-        return Task.FromResult(true);
+        CustomerIdentification customerIdentificationObject = customerType.ToLowerInvariant() switch
+        {
+            "private" => new CprIdentification(cpr ?? string.Empty),
+            "business" => new CvrIdentification(cvr ?? string.Empty),
+            _ => throw new ArgumentException($"Unknown customer type: {customerType}"),
+        };
+
+        var customerIdentificationV1 = new CustomerIdentificationV1(CvrOrCpr: customerIdentificationObject);
+        var command = new RequestChangeOfSupplierCommandV1(RequestChangeOfSupplierRequest: new RequestChangeOfSupplierRequestV1(
+            MeteringPointId: meteringPointId,
+            BusinessReason: ChangeOfSupplierBusinessReason.ChangeOfEnergySupplier,
+            StartDate: startDate,
+            CustomerIdentification: customerIdentificationV1,
+            EnergySupplier: string.Empty,
+            CustomerName: string.Empty));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess;
     }
 }
