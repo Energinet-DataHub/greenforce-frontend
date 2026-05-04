@@ -130,7 +130,10 @@ export class DhOrganizationsOverviewComponent {
     this.generateCSV
       .addVariables({
         ...this.variables(),
+        after: null,
+        before: null,
         first: 10_000,
+        last: null,
       })
       .addHeaders([
         translate(actorsOverviewPath + '.columns.cvrOrBusinessRegisterId'),
