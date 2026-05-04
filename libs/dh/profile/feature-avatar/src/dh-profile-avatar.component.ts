@@ -83,9 +83,8 @@ export class DhProfileAvatarComponent {
     this.appInsights.trackEvent('Menu item: Open profile modal');
 
     try {
-      const { DhProfileModalComponent } = await import(
-        '@energinet-datahub/dh/profile/feature-profile-modal'
-      );
+      const { DhProfileModalComponent } =
+        await import('@energinet-datahub/dh/profile/feature-profile-modal');
 
       this.modalService.open({
         component: DhProfileModalComponent,
