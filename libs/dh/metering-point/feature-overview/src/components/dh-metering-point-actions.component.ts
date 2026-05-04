@@ -253,7 +253,7 @@ export class DhMeteringPointActionsComponent {
     () =>
       this.hasMeteringPointChangeOfSupplierPermission() &&
       this.isEnergySupplierResponsible() &&
-      this.featureFlagsService.isEnabled('change-of-supplier')
+      this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
   );
 
   showActionsButton = computed(() => {
