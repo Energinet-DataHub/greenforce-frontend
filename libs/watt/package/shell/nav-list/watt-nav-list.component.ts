@@ -53,7 +53,7 @@ let uniqueId = 0;
         (click)="toggle()"
       >
         <span class="watt-text-m">{{ title() }}</span>
-        <watt-icon name="down" class="watt-nav-list__chevron" />
+        <watt-icon name="down" class="watt-nav-list__chevron" aria-hidden="true" />
       </button>
       <div
         class="watt-nav-list__body"
@@ -96,6 +96,7 @@ export class WattNavListComponent {
 
   constructor() {
     effect((cleanup) => {
+      if (!this.expandable()) return;
       const subs = this.navListItems().map((item) =>
         item.isActive.subscribe((active) => {
           if (active) this.expanded.set(true);

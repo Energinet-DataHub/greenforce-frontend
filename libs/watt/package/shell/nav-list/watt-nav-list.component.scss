@@ -55,10 +55,10 @@ watt-nav-list {
       color: var(--watt-color-neutral-white);
       cursor: pointer;
       text-align: left;
+      transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
     }
 
     .watt-nav-list__header:hover {
-      transition: background-color linear var(--watt-faster-than-a-blink-of-an-eye);
       background-color: var(--watt-nav-list-hover-background-color);
     }
 
