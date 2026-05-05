@@ -192,7 +192,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
     if (!cutOffDate) return;
 
     await this.initiateChangeOfSupplier.mutate({
-      refetchQueries: [GetMeteringPointProcessOverviewDocument],
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
