@@ -70,17 +70,18 @@ describe(WattDropdownComponent, () => {
     }
 
     const { fixture } = await render(TestComponent, { providers: [FormGroupDirective] });
-    userEvent.click(screen.getByRole('combobox')); // open dropdown before each test
-    return fixture.componentInstance;
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('combobox')); // open dropdown before each test
+    return { component: fixture.componentInstance, user };
   }
 
   it('can select an option from the dropdown', async () => {
-    const component = await setup();
+    const { component, user } = await setup();
 
     const [firstOption] = dropdownOptions;
     const option = screen.getByRole('option', { name: firstOption.displayValue });
 
-    userEvent.click(option);
+    await user.click(option);
 
     expect(component.control.value).toBe(firstOption.value);
   });
@@ -102,33 +103,33 @@ describe(WattDropdownComponent, () => {
 
     it('can reset the dropdown', async () => {
       const [firstOption] = dropdownOptions;
-      const component = await setup({ initialState: firstOption.value });
+      const { component, user } = await setup({ initialState: firstOption.value });
 
       const resetOption = screen.getByRole('option', { name: '—' });
-      userEvent.click(resetOption);
+      await user.click(resetOption);
 
       expect(component.control.value).toBeNull();
     });
 
     it('cannot reset the dropdown if showResetOption is false', async () => {
       const [firstOption] = dropdownOptions;
-      const component = await setup({
+      const { component, user } = await setup({
         initialState: firstOption.value,
         showResetOption: false,
       });
 
       // for each option, click the option and verify selected is not null
       for (const option of screen.getAllByRole('option')) {
-        userEvent.click(option);
+        await user.click(option);
         expect(component.control.value).not.toBe(null);
       }
     });
 
     it('can filter the available options', async () => {
-      await setup();
+      const { user } = await setup();
 
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-      userEvent.type(filterInput, 'Bat');
+      await user.type(filterInput, 'Bat');
 
       const options = screen.getAllByRole('option').map((option) => option.textContent?.trim());
       expect(options).toContain('Batman');
@@ -139,37 +140,39 @@ describe(WattDropdownComponent, () => {
   describe('multi selection', () => {
     it('can reset the dropdown', async () => {
       const [firstOption, secondOption] = dropdownOptions;
-      const component = await setup({
+      const { component, user } = await setup({
         initialState: [firstOption.value, secondOption.value],
         multiple: true,
       });
 
       expect(component.control.value).toEqual([firstOption.value, secondOption.value]);
 
-      screen.getAllByRole('option', { selected: true }).forEach((o) => userEvent.click(o));
+      for (const o of screen.getAllByRole('option', { selected: true })) {
+        await user.click(o);
+      }
       expect(component.control.value).toBeNull();
     });
 
     it('can select/unselect all options via a toggle all checkbox', async () => {
-      const component = await setup({ multiple: true });
+      const { component, user } = await setup({ multiple: true });
 
       expect(component.control.value).toBeNull();
 
       const checkbox = screen.getByRole('checkbox');
 
-      userEvent.click(checkbox);
+      await user.click(checkbox);
       expect(component.control.value).toStrictEqual(dropdownOptions.map((o) => o.value));
 
-      userEvent.click(checkbox);
+      await user.click(checkbox);
       expect(component.control.value).toBeNull();
     });
 
     it('shows a label when no options can be found after filtering', async () => {
       const noOptionsFoundLabel = 'No options found.';
-      await setup({ multiple: true, noOptionsFoundLabel });
+      const { user } = await setup({ multiple: true, noOptionsFoundLabel });
 
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-      userEvent.type(filterInput, 'non-existent option');
+      await user.type(filterInput, 'non-existent option');
 
       const options = screen.queryAllByRole('option');
       expect(options).toHaveLength(0);
@@ -180,7 +183,7 @@ describe(WattDropdownComponent, () => {
 
     it('emits a value after filter + selection', async () => {
       const [firstOption, secondOption] = dropdownOptions;
-      const component = await setup({
+      const { component, user } = await setup({
         multiple: true,
         initialState: [secondOption.value],
       });
@@ -191,10 +194,10 @@ describe(WattDropdownComponent, () => {
       );
 
       const filterInput = screen.getByRole('textbox', { name: 'dropdown search' });
-      userEvent.type(filterInput, 'outlaws');
+      await user.type(filterInput, 'outlaws');
 
       const options = screen.getAllByRole('option');
-      userEvent.click(options[0]);
+      await user.click(options[0]);
 
       expect(observer).toHaveBeenNthCalledWith(1, [firstOption.value]);
       expect(observer).toHaveBeenNthCalledWith(2, [firstOption.value, secondOption.value]);

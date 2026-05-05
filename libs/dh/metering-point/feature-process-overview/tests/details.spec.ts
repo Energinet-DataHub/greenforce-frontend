@@ -120,8 +120,11 @@ describe('Process overview details', () => {
     );
   });
 
-  it('should show reject request button for EndOfSupply process', async () => {
-    await setup('process-eos-cancel');
+  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
@@ -138,6 +141,7 @@ describe('Process overview details', () => {
 
   it('should open disconnect modal when request disconnection is clicked', async () => {
     await setup('process-eos-cancel');
+    const user = userEvent.setup();
     await waitForAsync(() =>
       expect(
         screen.getAllByRole('button', { name: /Request disconnection/i }).length
@@ -147,7 +151,7 @@ describe('Process overview details', () => {
       name: /Request disconnection/i,
     });
 
-    userEvent.click(disconnectButton);
+    await user.click(disconnectButton);
 
     await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
     const dialog = screen.getByRole('dialog');
@@ -156,6 +160,7 @@ describe('Process overview details', () => {
 
   it('should close disconnect modal after submitting', async () => {
     await setup('process-eos-cancel');
+    const user = userEvent.setup();
     await waitForAsync(() =>
       expect(
         screen.getAllByRole('button', { name: /Request disconnection/i }).length
@@ -164,14 +169,14 @@ describe('Process overview details', () => {
     const [disconnectButton] = screen.getAllByRole('button', {
       name: /Request disconnection/i,
     });
-    userEvent.click(disconnectButton);
+    await user.click(disconnectButton);
     await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
 
     const dialog = screen.getByRole('dialog');
     const confirmButton = within(dialog).getByRole('button', {
       name: /Request disconnection/i,
     });
-    userEvent.click(confirmButton);
+    await user.click(confirmButton);
 
     await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
@@ -185,6 +190,7 @@ describe('Process overview details', () => {
 
   it('should navigate with internalMeteringPointId when Send information is clicked', async () => {
     const fixture = await setup('process-cmi-info');
+    const user = userEvent.setup();
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
@@ -193,7 +199,7 @@ describe('Process overview details', () => {
     );
     const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
 
-    userEvent.click(sendInfoButtons[0]);
+    await user.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
       expect(router.navigate).toHaveBeenCalledWith([
@@ -230,9 +236,33 @@ describe('Process overview details', () => {
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: false,
     });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
+  });
+
+  it('should show CustomerMoveIn.SendInformation for responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should hide CustomerMoveIn.SendInformation for non-responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show action buttons for responsible EnergySupplier', async () => {

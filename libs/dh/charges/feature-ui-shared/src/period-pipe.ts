@@ -18,7 +18,7 @@
 //#endregion
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { WattRange, dayjs, wattFormatDate } from '@energinet/watt/date';
+import { WattRange, wattFormatDate } from '@energinet/watt/date';
 
 @Pipe({
   name: 'dhChargePeriod',
@@ -28,8 +28,7 @@ export class DhChargePeriodPipe implements PipeTransform {
     if (!input) return '';
     const start = wattFormatDate(input.start);
     if (!input.end) return start ?? '';
-    if (dayjs(input.start).toDate().getTime() === dayjs(input.end).toDate().getTime())
-      return start ?? '';
+    if (input.start.getTime() === input.end.getTime()) return start ?? '';
     const end = wattFormatDate(input.end);
     return `${start} — ${end}`;
   }

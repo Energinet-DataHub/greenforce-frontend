@@ -21,17 +21,20 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import duration from 'dayjs/plugin/duration';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import updateLocale from 'dayjs/plugin/updateLocale';
 
 // Force import of plugins in generated .d.ts file by exporting their types
 type __ngPackagrDayjsTypeScriptWorkaround =
   | typeof utc
   | typeof timezone
   | typeof duration
-  | typeof customParseFormat;
+  | typeof customParseFormat
+  | typeof updateLocale;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(duration);
 dayjs.extend(customParseFormat);
+dayjs.extend(updateLocale);
 
 export { dayjs, __ngPackagrDayjsTypeScriptWorkaround };

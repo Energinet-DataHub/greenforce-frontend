@@ -206,9 +206,10 @@ describe(WattTableComponent, () => {
     };
 
     await setup({ dataSource, columns, sortChange });
+    const user = userEvent.setup();
 
     const position = screen.getByRole('columnheader', { name: 'position' });
-    userEvent.click(position.children[0]);
+    await user.click(position.children[0]);
 
     expect(sortChange).toHaveBeenCalledWith({
       active: 'position',
@@ -225,9 +226,10 @@ describe(WattTableComponent, () => {
     };
 
     await setup({ dataSource, columns, rowClick });
+    const user = userEvent.setup();
 
     const [firstCell] = screen.getAllByRole('gridcell');
-    userEvent.click(firstCell);
+    await user.click(firstCell);
 
     expect(rowClick).toHaveBeenCalledWith(data[0]);
   });
@@ -241,10 +243,11 @@ describe(WattTableComponent, () => {
     };
 
     const result = await setup({ dataSource, columns, rowClick });
+    const user = userEvent.setup();
 
     const [, secondRow] = result.getAllByRole('row');
     const [firstCell] = result.getAllByRole('gridcell');
-    userEvent.click(firstCell);
+    await user.click(firstCell);
 
     const lastCall = rowClick.mock.lastCall;
 
@@ -482,9 +485,10 @@ describe(WattTableComponent, () => {
     });
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
+    const user = userEvent.setup();
 
     await waitForAsync(() => expect(firstCheckbox).toBeChecked());
-    userEvent.click(firstCheckbox);
+    await user.click(firstCheckbox);
 
     result.rerender({
       componentProperties: {

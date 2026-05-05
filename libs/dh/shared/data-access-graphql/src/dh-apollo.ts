@@ -27,6 +27,7 @@ import { DhErrorLink } from './dh-error-link';
 import { DhHttpLink } from './dh-http-link';
 import { DhRetryLink } from './dh-retry-link';
 import { DhSseLink } from './dh-sse-link';
+import { createScalarLink } from './dh-scalar-link';
 import { isSubscription } from './util';
 
 declare const ngDevMode: boolean;
@@ -61,6 +62,7 @@ export class DhApollo {
       watchQuery: { notifyOnNetworkStatusChange: true },
     },
     link: ApolloLink.from([
+      createScalarLink(),
       this.retryLink.create(),
       this.errorLink.create(),
       split(

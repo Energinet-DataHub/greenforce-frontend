@@ -3,7 +3,7 @@
     "node": "24.14.0"
   },
   "dependencies": {
-    "@nx/playwright": "22.6.3",
+    "@nx/playwright": "22.7.0",
     "@playwright/test": "1.59.1",
     "typescript": "5.9.3"
   },

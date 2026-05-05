@@ -42,8 +42,14 @@ import { DhDownloadButtonComponent } from '@energinet-datahub/dh/shared/ui-util'
       margin-left: auto;
     }
 
+    watt-expandable-card-title {
+      display: flex;
+      flex-grow: 1;
+      align-items: center;
+    }
+
     .group-status-label {
-      margin-left: 12rem;
+      margin-left: auto;
     }
   `,
   imports: [
