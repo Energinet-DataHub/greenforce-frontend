@@ -348,7 +348,7 @@ const makeChargeSeriesMock = (period: {
   start: dayjs.Dayjs;
   end: dayjs.Dayjs;
 }): ChargeSeriesPoint => {
-  const changes = makeChargeSeriesPointChangesMock(period.end);
+  const changes = makeChargeSeriesPointChangesMock();
 
   return {
     __typename: 'ChargeSeriesPoint',
@@ -359,7 +359,7 @@ const makeChargeSeriesMock = (period: {
   };
 };
 
-const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
+const makeChargeSeriesPointChangesMock = () => {
   const randomInt = ({ max = 5, min = 0 }) => Math.round(Math.random() * (max - min)) + min;
   return Array.from({ length: randomInt({ min: 1 }) })
     .map((_, index) => index)
