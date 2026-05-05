@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
@@ -41,6 +41,7 @@ import {
   GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -145,7 +146,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
   meteringPointId: string;
   internalMeteringPointId: string;
 }> {
-  private readonly fb = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);
   private readonly toastService = inject(WattToastService);
   private readonly initiateChangeOfSupplier = mutation(InitiateChangeOfSupplierDocument);
@@ -153,12 +153,12 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
   readonly modal = viewChild.required(WattModalComponent);
   readonly loading = this.initiateChangeOfSupplier.loading;
 
-  readonly form = this.fb.group({
-    cutOffDate: this.fb.control<Date | null>(null, Validators.required),
-    customerType: this.fb.control<'private' | 'business'>('private'),
-    cpr: this.fb.control<string>('', Validators.required),
-    cvr: this.fb.control<string>(''),
-    protectedNameAndAddress: this.fb.control<boolean>(false),
+  readonly form = new FormGroup({
+    cutOffDate: dhMakeFormControl<Date>(null, Validators.required),
+    customerType: dhMakeFormControl<'private' | 'business'>('private'),
+    cpr: dhMakeFormControl<string>('', Validators.required),
+    cvr: dhMakeFormControl<string>(''),
+    protectedNameAndAddress: dhMakeFormControl<boolean>(false),
   });
 
   private readonly customerTypeChanged = toSignal(this.form.controls.customerType.valueChanges, {
@@ -200,7 +200,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
           customerType,
           cpr: customerType === 'private' ? cpr : null,
           cvr: customerType === 'business' ? cvr : null,
-          protectedNameAndAddress,
+          protectedNameAndAddress: protectedNameAndAddress ?? false,
         },
       },
       onError: () => {
