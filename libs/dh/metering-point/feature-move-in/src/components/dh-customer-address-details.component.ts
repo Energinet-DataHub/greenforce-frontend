@@ -53,6 +53,10 @@ import { WattButtonComponent } from '@energinet/watt/button';
     .flex-grow-2 {
       flex-grow: 2;
     }
+
+    .no-margin {
+      margin: 0;
+    }
   `,
   template: `
     @let formGroup = addressDetailsFormGroup();
@@ -70,7 +74,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
             <watt-slide-toggle
               [formControl]="formGroup.controls.addressSameAsInstallation"
               size="small"
-              class="watt-space-stack-m"
               data-testid="address-same-as-installation"
             >
               {{ t('addressSameAsMeteringPoint') }}
@@ -86,20 +89,22 @@ import { WattButtonComponent } from '@energinet/watt/button';
             </watt-button>
           </vater-stack>
 
-          <watt-dropdown
-            translateKey="shared.countries"
-            dhDropdownTranslator
-            [formControl]="groupControls.countryCode"
-            [options]="countryOptions"
-            [label]="t('country')"
-            data-testid="country-code"
-          />
+          <vater-flex direction="row" gap="m" justify="space-between">
+            <watt-dropdown
+              translateKey="shared.countries"
+              dhDropdownTranslator
+              [formControl]="groupControls.countryCode"
+              [options]="countryOptions"
+              [label]="t('country')"
+              data-testid="country-code"
+            />
 
-          <watt-text-field
-            [formControl]="groupControls.streetName"
-            [label]="t('street')"
-            data-testid="street-name"
-          />
+            <watt-text-field
+              [formControl]="groupControls.streetName"
+              [label]="t('street')"
+              data-testid="street-name"
+            />
+          </vater-flex>
 
           <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
@@ -165,9 +170,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
                 }
               </watt-field-error>
             </watt-text-field>
-          </vater-flex>
-
-          <vater-flex direction="row" gap="m" justify="space-between">
             <watt-text-field
               [formControl]="groupControls.postBox"
               [label]="t('postBox')"
@@ -183,7 +185,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
           <watt-checkbox
             [formControl]="formGroup.controls.addressProtection"
-            class="watt-space-stack-l"
+            class="watt-space-stack-l no-margin"
             data-testid="address-protection"
           >
             {{ t('nameAddressProtection') }}
