@@ -38,7 +38,6 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import {
   InitiateChangeOfSupplierDocument,
-  GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
