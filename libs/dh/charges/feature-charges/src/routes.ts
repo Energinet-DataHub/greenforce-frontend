@@ -16,11 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, Routes } from '@angular/router';
+import { inject } from '@angular/core';
 
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  BasePaths,
+  ChargesSubPaths,
+  ChargeTariffSubPaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { ChargeType, GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+const tariffChargeTypes: ChargeType[] = ['TARIFF', 'TARIFF_TAX'];
 
 export const chargeRoutes: Routes = [
   {
@@ -39,18 +49,24 @@ export const chargeRoutes: Routes = [
   },
   {
     path: ':id',
+    canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () =>
       import('./components/information/information').then((m) => m.DhChargesInformation),
     children: [
       {
         path: `${getPath<ChargesSubPaths>('prices')}`,
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
+        canActivate: [pricesLandingPage()],
+        loadComponent: () =>
+          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+      },
+      {
+        path: `${getPath<ChargesSubPaths>('prices')}/:timeResolution`,
+        canActivate: [onlyTariffChargeTypes(), toSupportedTimeResolution()],
         loadComponent: () =>
           import('./components/series/series').then((m) => m.DhChargesSeriesTable),
       },
       {
         path: getPath<ChargesSubPaths>('information'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
         loadComponent: () =>
           import('./components/information/information-periods').then(
             (m) => m.DhChargesInformationPeriods
@@ -58,7 +74,6 @@ export const chargeRoutes: Routes = [
       },
       {
         path: getPath<ChargesSubPaths>('history'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
         loadComponent: () =>
           import('./components/information/information-history').then(
             (m) => m.DhChargesInformationHistory
@@ -82,3 +97,80 @@ export const chargeRoutes: Routes = [
     ],
   },
 ];
+
+/**
+ * Guard that ensures only supported time resolutions are allowed in the URL, otherwise redirects to day view.
+ */
+function toSupportedTimeResolution() {
+  const supportedTimeResolutions = ['day', 'week'];
+
+  return (route: ActivatedRouteSnapshot) => {
+    const pricesDayViewUrlTree = inject(Router).createUrlTree(dayViewUrlPath(route.params['id']));
+
+    return (
+      supportedTimeResolutions.includes(route.params['timeResolution']) || pricesDayViewUrlTree
+    );
+  };
+}
+
+/**
+ * Guard that ensures only tariff types are allowed to visit the URL, otherwise redirects to charges overview.
+ */
+function onlyTariffChargeTypes() {
+  return (route: ActivatedRouteSnapshot) => {
+    const chargesUrlTree = inject(Router).createUrlTree([getPath<BasePaths>('charges')]);
+    const idParam: string = route.params['id'];
+
+    return query(GetChargeByIdDocument, () => ({
+      variables: { id: idParam },
+    }))
+      .result()
+      .then((result) => {
+        const chargeType = result.data?.chargeById?.type;
+
+        if (!chargeType) {
+          return chargesUrlTree;
+        }
+
+        return tariffChargeTypes.includes(chargeType) || chargesUrlTree;
+      });
+  };
+}
+
+/**
+ * Guard that redirects to the most specific price view based on charge type. If the charge type is a tariff, redirects to day view, otherwise allows navigation to the prices overview.
+ */
+function pricesLandingPage() {
+  return (route: ActivatedRouteSnapshot) => {
+    const router = inject(Router);
+
+    const idParam: string = route.params['id'];
+
+    return query(GetChargeByIdDocument, () => ({
+      variables: { id: idParam },
+    }))
+      .result()
+      .then((result) => {
+        const chargeType = result.data?.chargeById?.type;
+
+        if (!chargeType) {
+          return router.createUrlTree([getPath<BasePaths>('charges')]);
+        }
+
+        if (tariffChargeTypes.includes(chargeType)) {
+          return router.createUrlTree(dayViewUrlPath(idParam));
+        }
+
+        return true;
+      });
+  };
+}
+
+function dayViewUrlPath(chargeId: string): string[] {
+  return [
+    getPath<BasePaths>('charges'),
+    chargeId,
+    getPath<ChargesSubPaths>('prices'),
+    getPath<ChargeTariffSubPaths>('day'),
+  ];
+}
