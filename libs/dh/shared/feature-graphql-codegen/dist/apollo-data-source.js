@@ -1,17 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.plugin = void 0;
-const graphql_1 = require("graphql");
+import { visit, getNamedType, isObjectType, getNullableType, } from 'graphql';
 var PageableType;
 (function (PageableType) {
     PageableType["Connection"] = "Connection";
     PageableType["CollectionSegment"] = "CollectionSegment";
 })(PageableType || (PageableType = {}));
 /** Gets the PageableType for a field or null if the field is not pageable. */
-const getPageableType = (field) => Object.values(PageableType).find((type) => (0, graphql_1.getNamedType)(field.type).name.endsWith(type.toString()));
+const getPageableType = (field) => Object.values(PageableType).find((type) => getNamedType(field.type).name.endsWith(type.toString()));
 /** Returns the first pageable field found by recursively searching the selections. */
 const findPageable = (fields, selections = [], base = []) => {
-    var _a;
     for (const selection of selections) {
         // Skip non-fields, this may not work for inline fragments
         if (selection.kind !== 'Field')
@@ -19,8 +15,8 @@ const findPageable = (fields, selections = [], base = []) => {
         const name = selection.name.value;
         const path = [...base, name];
         const field = fields[name];
-        const type = (0, graphql_1.getNullableType)(field.type);
-        if (!(0, graphql_1.isObjectType)(type))
+        const type = getNullableType(field.type);
+        if (!isObjectType(type))
             continue;
         switch (getPageableType(field)) {
             case PageableType.Connection:
@@ -28,7 +24,7 @@ const findPageable = (fields, selections = [], base = []) => {
             case PageableType.CollectionSegment:
                 return { kind: PageableType.CollectionSegment, path, listName: 'items' };
             default: {
-                const nested = findPageable(type.getFields(), (_a = selection.selectionSet) === null || _a === void 0 ? void 0 : _a.selections, path);
+                const nested = findPageable(type.getFields(), selection.selectionSet?.selections, path);
                 if (nested)
                     return nested;
             }
@@ -40,16 +36,15 @@ const plugin = (schema, documents) => {
     const result = documents
         .map((d) => d.document)
         .filter((d) => d !== undefined)
-        .map((d) => (0, graphql_1.visit)(d, {
+        .map((d) => visit(d, {
         FragmentDefinition: () => null,
         OperationDefinition: {
             leave(node) {
-                var _a;
                 // No need to proces mutations or subscriptions
                 if (node.operation !== 'query')
                     return null;
                 // Must be a named query in order to derive data source name
-                if (!((_a = node.name) === null || _a === void 0 ? void 0 : _a.value))
+                if (!node.name?.value)
                     return null;
                 // Pagination and sorting requires variables
                 if (!node.variableDefinitions)
@@ -94,4 +89,4 @@ const plugin = (schema, documents) => {
             .join('\n'),
     };
 };
-exports.plugin = plugin;
+export { plugin };

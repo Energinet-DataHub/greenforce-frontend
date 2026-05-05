@@ -109,6 +109,7 @@ describe(WattButtonComponent, () => {
     const renderResult = await renderComponent({
       disabled: true,
     });
+    const user = userEvent.setup();
 
     const wattButton = renderResult.container;
 
@@ -118,7 +119,7 @@ describe(WattButtonComponent, () => {
     });
 
     if (wattButton) {
-      expect(() => userEvent.click(wattButton)).toThrow();
+      await expect(user.click(wattButton)).rejects.toThrow();
     }
   });
 

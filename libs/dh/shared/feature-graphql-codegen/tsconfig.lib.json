@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.lib.json",
   "compilerOptions": {
     "sourceMap": false,
-    "inlineSources": false
+    "inlineSources": false,
+    "declaration": false,
+    "declarationMap": false
   },
   "exclude": ["src/**/*.spec.ts", "tests/test-setup.ts", "src/**/*.test.ts"],
   "include": ["src/**/*.ts"]

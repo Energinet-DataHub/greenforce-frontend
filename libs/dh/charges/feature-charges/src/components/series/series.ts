@@ -17,8 +17,8 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { input, signal, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
@@ -27,10 +27,10 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
   ChargeSeriesPointChange,
+  GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -66,8 +66,8 @@ import { DhChargesSeriesDetails } from './series-details';
     <watt-data-table
       vater
       inset="ml"
-      [error]="query.error()"
-      [ready]="query.called()"
+      [error]="chargeSeriesQuery.error()"
+      [ready]="ready()"
       [enablePaginator]="false"
       [header]="false"
       *transloco="let t; prefix: 'charges.series'"
@@ -76,7 +76,7 @@ import { DhChargesSeriesDetails } from './series-details';
         <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
           <dh-charges-interval-field
             [resolution]="resolution()"
-            (intervalChange)="query.refetch({ interval: $event })"
+            (intervalChange)="chargeSeriesQuery.refetch({ interval: $event })"
           />
           @if (enableHistoryToggle()) {
             <watt-slide-toggle [(checked)]="showHistory">
@@ -93,12 +93,12 @@ import { DhChargesSeriesDetails } from './series-details';
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
-        [loading]="query.loading()"
+        [loading]="chargeSeriesQuery.loading()"
         (rowClick)="activeRow.set($event)"
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        @let dateHeader = t('resolution.' + resolution());
+        @let dateHeader = t('resolution.' + (resolution() ?? 'UNKNOWN'));
         <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
           {{ series.interval | dhChargeInterval: resolution() }}
         </ng-container>
@@ -132,18 +132,23 @@ import { DhChargesSeriesDetails } from './series-details';
 })
 export class DhChargesSeriesTable {
   id = input.required<string>();
-  resolution = input.required<ChargeResolution>();
 
-  private transloco = inject(TranslocoService);
-  protected query = query(GetChargeSeriesDocument, () => ({
+  protected chargeByIdQuery = query(GetChargeByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
+
+  protected chargeSeriesQuery = query(GetChargeSeriesDocument, () => ({
     skip: true,
     variables: {
       chargeId: this.id(),
     },
   }));
 
-  charge = computed(() => this.query.data()?.chargeById);
-  series = computed(() => this.charge()?.series ?? []);
+  ready = computed(() => this.chargeByIdQuery.called() && this.chargeSeriesQuery.called());
+
+  charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
+  resolution = computed(() => this.charge()?.resolution);
+  series = computed(() => this.chargeSeriesQuery.data()?.chargeById?.series ?? []);
 
   activeRow = signal<ChargeSeriesPoint | undefined>(undefined);
   enableHistoryToggle = computed(() => this.series().some((point) => point.hasChanged));

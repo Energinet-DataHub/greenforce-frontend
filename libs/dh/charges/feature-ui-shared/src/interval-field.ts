@@ -18,7 +18,8 @@
 //#endregion
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input } from '@angular/core';
+import { skipWhile } from 'rxjs';
 
 import { dayjs, WattRange } from '@energinet/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
@@ -47,14 +48,18 @@ import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/
   `,
 })
 export class DhChargesIntervalField {
-  readonly resolution = input.required<ChargeResolution>();
+  readonly resolution = input<ChargeResolution>();
+
   protected form = new FormGroup({
     date: dhMakeFormControl<string>(dayjs().toISOString()),
     yearMonth: dhMakeFormControl<string>(dayjs().format(YEARMONTH_FORMAT)),
     year: dhMakeFormControl<string>(dayjs().format(YEAR_FORMAT)),
   });
 
+  resolutionEffect = effect(() => (this.resolution() ? this.form.enable() : this.form.disable()));
+
   private value = dhFormToSignal(this.form, true);
+
   private interval = computed<WattRange<Date>>(() => {
     const value = this.value();
     switch (this.resolution()) {
@@ -73,5 +78,7 @@ export class DhChargesIntervalField {
     }
   });
 
-  readonly intervalChange = outputFromObservable(toObservable(this.interval));
+  readonly intervalChange = outputFromObservable(
+    toObservable(this.interval).pipe(skipWhile(() => !this.resolution()))
+  );
 }
