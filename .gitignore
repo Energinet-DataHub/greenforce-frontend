@@ -137,3 +137,6 @@ vitest.config.*.timestamp*
 
 # .NET
 /artifacts/
+
+.nx/polygraph
+.nx/self-healing
