@@ -136,7 +136,7 @@ export class DhCprFieldComponent {
   protected readonly maskedControl = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
   protected readonly showCprField = computed(
-    () => this.unlocked() && (this.loaded() || !this.contactId())
+    () => !this.contactId() || (this.unlocked() && this.loaded())
   );
 
   private readonly fillCpr = effect(() => {

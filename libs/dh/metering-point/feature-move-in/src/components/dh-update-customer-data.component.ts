@@ -253,7 +253,10 @@ export class DhUpdateCustomerDataComponent {
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
   legalCustomerId = computed(() => this.legalCustomer()?.id ?? null);
-  secondaryCustomerId = computed(() => this.secondaryCustomer()?.id ?? null);
+  secondaryCustomerId = computed(() => {
+    const customer = this.effectiveSecondaryCustomer();
+    return customer?.name ? customer.id : null;
+  });
   isLoading = computed(
     () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
@@ -395,6 +398,37 @@ export class DhUpdateCustomerDataComponent {
       legalNameSameAsContactName ? primaryCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
+  });
+
+  /** Sync secondary customer cross-field validators */
+  private readonly customerName2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2
+  );
+
+  private readonly cpr2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2
+  );
+
+  private readonly syncSecondaryCustomerValidators = effect(() => {
+    const name2 = this.customerName2Changed();
+    const cpr2 = this.cpr2Changed();
+
+    if (this.isBusinessCustomer()) return;
+    if (this.secondaryCustomerId()) return;
+
+    const name2Control = this.form().controls.privateCustomerDetails.controls.customerName2;
+    const cpr2Control = this.form().controls.privateCustomerDetails.controls.cpr2;
+
+    if (!!name2 || !!cpr2) {
+      name2Control.setValidators([Validators.required]);
+      cpr2Control.setValidators([Validators.required, dhCprValidator()]);
+    } else {
+      name2Control.clearValidators();
+      cpr2Control.setValidators([dhCprValidator()]);
+    }
+
+    name2Control.updateValueAndValidity({ emitEvent: false });
+    cpr2Control.updateValueAndValidity({ emitEvent: false });
   });
 
   readonly legalAddressSameAsInstallation = dhFormControlToSignal(
