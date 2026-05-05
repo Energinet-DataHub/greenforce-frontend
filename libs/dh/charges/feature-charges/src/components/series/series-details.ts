@@ -112,7 +112,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
   `,
 })
 export class DhChargesSeriesDetails {
-  readonly resolution = input.required<ChargeResolution | undefined>();
+  readonly resolution = input<ChargeResolution>();
   readonly series = model<ChargeSeriesPoint>();
 
   protected changes = computed(() => this.series()?.changes ?? []);

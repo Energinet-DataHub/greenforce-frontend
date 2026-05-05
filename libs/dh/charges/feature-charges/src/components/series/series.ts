@@ -27,7 +27,6 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
   ChargeSeriesPointChange,
@@ -68,7 +67,7 @@ import { DhChargesSeriesDetails } from './series-details';
       vater
       inset="ml"
       [error]="chargeSeriesQuery.error()"
-      [ready]="chargeSeriesQuery.called()"
+      [ready]="ready()"
       [enablePaginator]="false"
       [header]="false"
       *transloco="let t; prefix: 'charges.series'"
@@ -144,6 +143,8 @@ export class DhChargesSeriesTable {
       chargeId: this.id(),
     },
   }));
+
+  ready = computed(() => this.chargeByIdQuery.called() && this.chargeSeriesQuery.called());
 
   charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
   resolution = computed(() => this.charge()?.resolution);
