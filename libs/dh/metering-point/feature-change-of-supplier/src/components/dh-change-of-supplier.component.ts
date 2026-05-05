@@ -36,9 +36,7 @@ import {
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import {
-  InitiateChangeOfSupplierDocument,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { InitiateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
