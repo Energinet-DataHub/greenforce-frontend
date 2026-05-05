@@ -53,10 +53,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
     .flex-grow-2 {
       flex-grow: 2;
     }
-
-    .no-margin {
-      margin: 0;
-    }
   `,
   template: `
     @let formGroup = addressDetailsFormGroup();
@@ -185,7 +181,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
           <watt-checkbox
             [formControl]="formGroup.controls.addressProtection"
-            class="watt-space-stack-l no-margin"
             data-testid="address-protection"
           >
             {{ t('nameAddressProtection') }}
