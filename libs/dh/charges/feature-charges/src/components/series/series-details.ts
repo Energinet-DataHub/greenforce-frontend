@@ -73,7 +73,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
           @default {
             <h1>{{ start() | wattDate }}</h1>
             <watt-description-list variant="inline-flow">
-              <watt-description-list-item [label]="t('resolution.' + resolution())">
+              <watt-description-list-item [label]="t('resolution.' + (resolution() ?? 'UNKNOWN'))">
                 {{ series()?.interval | dhChargeInterval: resolution() }}
               </watt-description-list-item>
             </watt-description-list>
@@ -112,11 +112,13 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
   `,
 })
 export class DhChargesSeriesDetails {
-  readonly resolution = input.required<ChargeResolution>();
+  readonly resolution = input.required<ChargeResolution | undefined>();
   readonly series = model<ChargeSeriesPoint>();
+
   protected changes = computed(() => this.series()?.changes ?? []);
   protected start = computed(() => this.series()?.interval.start);
   protected dataSource = dataSource(() => this.changes());
+
   protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
     price: { accessor: 'price', size: 'min-content' },
     isCurrent: { accessor: null, header: '' },
