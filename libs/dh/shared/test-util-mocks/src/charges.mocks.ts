@@ -38,6 +38,8 @@ import {
   ChargeStatus,
   ChargeResolution,
   MarketParticipant,
+  ChargeSeriesPointChange,
+  ChargeOverviewItem,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { dayjs, WattRange } from '@energinet/watt/core/date';
@@ -347,8 +349,9 @@ const makeChargeSeriesMock = (period: {
   end: dayjs.Dayjs;
 }): ChargeSeriesPoint => {
   const changes = makeChargeSeriesPointChangesMock(period.end);
+
   return {
-    __typename: 'ChargeSeriesPoint' as const,
+    __typename: 'ChargeSeriesPoint',
     price: changes[0].price,
     interval: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
     hasChanged: changes.length > 1,
@@ -360,13 +363,14 @@ const makeChargeSeriesPointChangesMock = (end: dayjs.Dayjs) => {
   const randomInt = ({ max = 5, min = 0 }) => Math.round(Math.random() * (max - min)) + min;
   return Array.from({ length: randomInt({ min: 1 }) })
     .map((_, index) => index)
-    .map((i) => ({
-      __typename: 'ChargeSeriesPointChange' as const,
-      fromDateTime: new Date(end.year() - i - 1, randomInt({ max: 11 })),
-      toDateTime: i === 0 ? new Date(9999, 0) : new Date(end.year() - i, randomInt({ max: 11 })),
-      isCurrent: i === 0,
-      price: randomInt({ max: 50 * 100 }) / 100,
-    }));
+    .map(
+      (i): ChargeSeriesPointChange => ({
+        __typename: 'ChargeSeriesPointChange',
+        isCurrent: i === 0,
+        price: randomInt({ max: 50 * 100 }) / 100,
+        messageId: null,
+      })
+    );
 };
 
 function getCharges() {
@@ -374,12 +378,14 @@ function getCharges() {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     const nodes = charges.flatMap((charge) =>
-      charge.periods.map((p) => ({
-        __typename: 'ChargeOverviewItem' as const,
-        charge,
-        name: p.name,
-        period: p.period,
-      }))
+      charge.periods.map(
+        (p): ChargeOverviewItem => ({
+          __typename: 'ChargeOverviewItem',
+          charge,
+          name: p.name,
+          period: p.period,
+        })
+      )
     );
 
     return HttpResponse.json({
@@ -419,10 +425,24 @@ function getChargeSeries() {
     await delay(mswConfig.delay);
     const charges = makeChargesMock(interval);
     const chargeInformation = charges.find((c) => c.id === chargeId);
+
+    if (chargeInformation === undefined) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          chargeById: null,
+        },
+      });
+    }
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargeById: chargeInformation,
+        chargeById: {
+          __typename: 'Charge',
+          id: chargeInformation.id,
+          series: chargeInformation.series,
+        },
       },
     });
   });
