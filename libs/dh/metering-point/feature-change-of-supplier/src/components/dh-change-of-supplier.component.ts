@@ -189,12 +189,14 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
 
     const { cutOffDate, customerType, cpr, cvr, protectedNameAndAddress } = this.form.getRawValue();
 
+    if (!cutOffDate) return;
+
     await this.initiateChangeOfSupplier.mutate({
       refetchQueries: [GetMeteringPointProcessOverviewDocument],
       variables: {
         input: {
           meteringPointId: this.modalData.meteringPointId,
-          startDate: cutOffDate!,
+          startDate: cutOffDate,
           customerType,
           cpr: customerType === 'private' ? cpr : null,
           cvr: customerType === 'business' ? cvr : null,
