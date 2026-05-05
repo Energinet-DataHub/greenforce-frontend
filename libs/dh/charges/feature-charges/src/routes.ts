@@ -60,8 +60,8 @@ export const chargeRoutes: Routes = [
           import('./components/series/series').then((m) => m.DhChargesSeriesTable),
       },
       {
-        path: `${getPath<ChargesSubPaths>('prices')}/:timeResolution`,
-        canActivate: [onlyTariffChargeTypes(), toSupportedTimeResolution()],
+        path: `${getPath<ChargesSubPaths>('prices')}/day`,
+        canActivate: [onlyTariffChargeTypes()],
         loadComponent: () =>
           import('./components/series/series').then((m) => m.DhChargesSeriesTable),
       },
@@ -97,21 +97,6 @@ export const chargeRoutes: Routes = [
     ],
   },
 ];
-
-/**
- * Guard that ensures only supported time resolutions are allowed in the URL, otherwise redirects to day view.
- */
-function toSupportedTimeResolution() {
-  const supportedTimeResolutions = ['day', 'week'];
-
-  return (route: ActivatedRouteSnapshot) => {
-    const pricesDayViewUrlTree = inject(Router).createUrlTree(dayViewUrlPath(route.params['id']));
-
-    return (
-      supportedTimeResolutions.includes(route.params['timeResolution']) || pricesDayViewUrlTree
-    );
-  };
-}
 
 /**
  * Guard that ensures only tariff types are allowed to visit the URL, otherwise redirects to charges overview.
