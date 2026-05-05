@@ -538,12 +538,13 @@ limitations under the License.
             <p>Figma Enterprise Variables API is the source of truth.</p>
             <div class="callout">
               <p><strong>Primary endpoint:</strong></p>
-              <p><code>GET /v1/files/fwEDQkgEcpwfUojXl0EIC5/variables/local</code></p>
+              <p><code>GET /v1/files/{FIGMA_FILE_KEY}/variables/local</code></p>
               <p><strong>Required token scope:</strong> <code>file_variables:read</code></p>
+              <p><strong>Configure:</strong> Replace <code>{FIGMA_FILE_KEY}</code> with the Figma file key from your project configuration.</p>
             </div>
             <p>Optional controlled write/bootstrap endpoint:</p>
             <ul>
-              <li><code>POST /v1/files/fwEDQkgEcpwfUojXl0EIC5/variables</code></li>
+              <li><code>POST /v1/files/{FIGMA_FILE_KEY}/variables</code></li>
               <li>Optional write scope: <code>file_variables:write</code></li>
             </ul>
           </section>
