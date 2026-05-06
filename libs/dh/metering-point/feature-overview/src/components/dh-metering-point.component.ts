@@ -16,10 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map, startWith } from 'rxjs';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
