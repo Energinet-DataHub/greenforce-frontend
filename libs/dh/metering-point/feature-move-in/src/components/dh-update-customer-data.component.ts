@@ -414,12 +414,16 @@ export class DhUpdateCustomerDataComponent {
     const cpr2 = this.cpr2Changed();
 
     if (this.isBusinessCustomer()) return;
-    if (this.secondaryCustomerId()) return;
 
     const name2Control = this.form().controls.privateCustomerDetails.controls.customerName2;
     const cpr2Control = this.form().controls.privateCustomerDetails.controls.cpr2;
 
-    if (!!name2 || !!cpr2) {
+    const isCprMasked = cpr2 === null && !!this.secondaryCustomerId();
+
+    if (isCprMasked) {
+      name2Control.clearValidators();
+      cpr2Control.setValidators([dhCprValidator()]);
+    } else if (!!name2 || !!cpr2) {
       name2Control.setValidators([Validators.required]);
       cpr2Control.setValidators([Validators.required, dhCprValidator()]);
     } else {
