@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter, map, startWith } from 'rxjs';
 import { translateSignal, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
