@@ -234,7 +234,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     code: 'CHARGE005',
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
-    resolution: ChargeResolution.Monthly,
+    resolution: ChargeResolution.Daily,
     spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
