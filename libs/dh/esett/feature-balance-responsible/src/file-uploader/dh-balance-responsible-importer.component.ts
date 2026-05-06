@@ -54,11 +54,7 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
       #uploadInput
     />
 
-    <watt-button
-      variant="primary"
-      [loading]="uploadInProgress()"
-      (click)="uploadInput.click()"
-    >
+    <watt-button variant="primary" [loading]="uploadInProgress()" (click)="uploadInput.click()">
       {{ 'eSett.balanceResponsible.importButton' | transloco }}
     </watt-button>`,
   imports: [TranslocoPipe, WattButtonComponent],
