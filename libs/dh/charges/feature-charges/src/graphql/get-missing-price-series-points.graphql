@@ -1,0 +1,8 @@
+query GetMissingPriceSeriesPoints($chargeId: String!) {
+  chargeById(id: $chargeId) {
+    missingPriceSeriesPoints {
+      gaps
+      endsAt
+    }
+  }
+}

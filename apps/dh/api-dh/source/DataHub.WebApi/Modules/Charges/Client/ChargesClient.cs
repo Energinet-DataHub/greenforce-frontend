@@ -25,6 +25,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using NodaTime;
 using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
@@ -139,6 +140,28 @@ public class ChargesClient(
         Charge charge,
         CancellationToken ct = default)
         => await GetChargeSeriesAsync(charge.Id, charge.Resolution, charge.LatestPeriod.Period, ct);
+
+    public async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
+        ChargeIdentifierDto id,
+        Resolution resolution,
+        Interval interval,
+        CancellationToken ct = default)
+    {
+        var series = await GetChargeSeriesAsync(id, resolution, interval, ct);
+        var sorted = series.OrderBy(p => p.From).ToList();
+        if (sorted.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
+
+        var existingSlots = sorted.Select(p => p.From).ToHashSet();
+        var lastDataPoint = sorted[^1].From;
+
+        var gaps = GenerateExpectedSlots(interval.Start, StepByResolution(lastDataPoint, resolution, 1), resolution)
+            .Where(slot => !existingSlots.Contains(slot))
+            .Select(slot => new Interval(slot, StepByResolution(slot, resolution, 1)))
+            .GroupBy(gap => CollapseKey(gap.Start.InZone(DanishTimeZone), resolution))
+            .Select(g => g.First());
+
+        return new MissingPriceSeriesResult(Gaps: gaps, EndsAt: lastDataPoint.ToDateTimeOffset());
+    }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
@@ -375,6 +398,46 @@ public class ChargesClient(
         ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
         ChargeTypeDto.Fee => ChargeTypeV1.Fee,
     };
+
+    private static DateTimeZone DanishTimeZone => LocalDateExtensions.DanishTimeZone;
+
+    private static IEnumerable<Instant> GenerateExpectedSlots(Instant from, Instant to, Resolution resolution)
+    {
+        var current = from;
+        while (current < to)
+        {
+            yield return current;
+            current = StepByResolution(current, resolution, 1);
+        }
+    }
+
+    private static Instant StepByResolution(Instant instant, Resolution resolution, int direction)
+    {
+        if (resolution == Resolution.Monthly)
+        {
+            var zoned = instant.InZone(DanishTimeZone);
+            return zoned.LocalDateTime.PlusMonths(direction).InZoneLeniently(DanishTimeZone).ToInstant();
+        }
+
+        if (resolution == Resolution.Daily)
+        {
+            var zoned = instant.InZone(DanishTimeZone);
+            return zoned.LocalDateTime.PlusDays(direction).InZoneLeniently(DanishTimeZone).ToInstant();
+        }
+
+        var duration = resolution == Resolution.Hourly
+            ? Duration.FromHours(1)
+            : Duration.FromMinutes(15);
+
+        return instant.Plus(duration * direction);
+    }
+
+    private static LocalDate CollapseKey(ZonedDateTime zdt, Resolution resolution)
+    {
+        if (resolution == Resolution.Monthly) return new LocalDate(zdt.Year, 1, 1);
+        if (resolution == Resolution.Daily) return new LocalDate(zdt.Year, zdt.Month, 1);
+        return zdt.Date;
+    }
 
     private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(

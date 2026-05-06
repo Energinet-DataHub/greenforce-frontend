@@ -568,6 +568,21 @@
     },
     "series": {
       "showHistory": "History",
+      "gaps": {
+        "noGaps": "No missing prices",
+        "noPrices": "No prices found",
+        "seriesEndsAt": "Series ends at",
+        "seriesExpired": "Serien ended at",
+        "gapsFound": "Gaps found in price series.",
+        "missingPrices": "Missing prices",
+        "of": "of",
+        "unit": {
+          "day": "days",
+          "month": "months",
+          "year": "years"
+        },
+        "goToGaps": "Go to gaps"
+      },
       "resolution": {
         "QUARTER_HOURLY": "Time",
         "HOURLY": "Time",

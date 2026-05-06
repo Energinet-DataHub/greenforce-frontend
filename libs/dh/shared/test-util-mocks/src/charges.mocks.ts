@@ -23,6 +23,7 @@ import {
   mockGetChargeOverviewQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
+  mockGetMissingPriceSeriesPointsQuery,
   mockGetChargeByTypeQuery,
   mockGetChargeLinkOverviewQuery,
   mockStopChargeLinkMutation,
@@ -85,6 +86,15 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.QuarterHourly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [
+        { start: new Date('2022-03-15T00:00:00Z'), end: new Date('2022-03-15T01:00:00Z') },
+        { start: new Date('2022-06-20T00:00:00Z'), end: new Date('2022-06-20T01:00:00Z') },
+        { start: new Date('2022-09-01T00:00:00Z'), end: new Date('2022-09-01T01:00:00Z') },
+      ],
+      endsAt: new Date('2022-09-30T00:00:00Z'),
+    },
   },
   {
     __typename: 'Charge',
@@ -128,6 +138,11 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [{ start: new Date('2022-04-10T00:00:00Z'), end: new Date('2022-04-10T01:00:00Z') }],
+      endsAt: new Date('2022-10-15T00:00:00Z'),
+    },
   },
   {
     __typename: 'Charge',
@@ -171,6 +186,11 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
   {
     __typename: 'Charge',
@@ -214,6 +234,11 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
   {
     __typename: 'Charge',
@@ -257,6 +282,11 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
 ];
 
@@ -428,6 +458,26 @@ function getChargeSeries() {
   });
 }
 
+function getMissingPriceSeriesPoints() {
+  return mockGetMissingPriceSeriesPointsQuery(async ({ variables: { chargeId } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    const charge = charges.find((c) => c.id === chargeId);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeById: charge
+          ? {
+              __typename: 'Charge',
+              missingPriceSeriesPoints: charge.missingPriceSeriesPoints,
+            }
+          : null,
+      },
+    });
+  });
+}
+
 function getChargeLinkOverview() {
   return mockGetChargeLinkOverviewQuery(async () => {
     await delay(mswConfig.delay);
@@ -513,6 +563,7 @@ export function chargesMocks() {
     stopChargeLink(),
     editChargeLink(),
     getChargeSeries(),
+    getMissingPriceSeriesPoints(),
     cancelChargeLink(),
     getChargesByType(),
     getChargeLinkOverview(),

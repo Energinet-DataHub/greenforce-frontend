@@ -568,6 +568,21 @@
     },
     "series": {
       "showHistory": "Historik",
+      "gaps": {
+        "noGaps": "Ingen manglende priser",
+        "noPrices": "Ingen priser fundet",
+        "seriesEndsAt": "Serien slutter",
+        "seriesExpired": "Serien er sluttet",
+        "gapsFound": "Huller fundet i prisserien.",
+        "missingPrices": "Manglende priser",
+        "of": "af",
+        "unit": {
+          "day": "dage",
+          "month": "måneder",
+          "year": "år"
+        },
+        "goToGaps": "Vis huller"
+      },
       "resolution": {
         "QUARTER_HOURLY": "Tidspunkt",
         "HOURLY": "Tidspunkt",

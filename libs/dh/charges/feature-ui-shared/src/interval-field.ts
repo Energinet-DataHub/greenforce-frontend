@@ -17,16 +17,24 @@
  */
 //#endregion
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { outputFromObservable, toObservable } from '@angular/core/rxjs-interop';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  input,
+  model,
+  viewChild,
+} from '@angular/core';
+import { map } from 'rxjs';
 
-import { dayjs, WattRange } from '@energinet/watt/date';
+import { dayjs } from '@energinet/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
 import { WattYearMonthField, YEARMONTH_FORMAT } from '@energinet/watt/yearmonth-field';
 import { WattDatepickerComponent, danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-charges-interval-field',
@@ -35,43 +43,71 @@ import { dhFormToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/
   template: `
     @switch (resolution()) {
       @case ('DAILY') {
-        <watt-yearmonth-field [formControl]="form.controls.yearMonth" canStepThroughMonths />
+        <watt-yearmonth-field [formControl]="formGroup.controls.yearMonth" canStepThroughMonths />
       }
       @case ('MONTHLY') {
-        <watt-year-field [formControl]="form.controls.year" canStepThroughYears />
+        <watt-year-field [formControl]="formGroup.controls.year" canStepThroughYears />
       }
       @default {
-        <watt-datepicker [formControl]="form.controls.date" canStepThroughDays />
+        <watt-datepicker [formControl]="formGroup.controls.date" canStepThroughDays />
       }
     }
   `,
 })
 export class DhChargesIntervalField {
   readonly resolution = input.required<ChargeResolution>();
-  protected form = new FormGroup({
-    date: dhMakeFormControl<string>(dayjs().toISOString()),
-    yearMonth: dhMakeFormControl<string>(dayjs().format(YEARMONTH_FORMAT)),
-    year: dhMakeFormControl<string>(dayjs().format(YEAR_FORMAT)),
-  });
-
-  private value = dhFormToSignal(this.form, true);
-  private interval = computed<WattRange<Date>>(() => {
-    const value = this.value();
+  readonly date = model.required<Date>();
+  private value = computed(() => {
+    const date = this.date();
     switch (this.resolution()) {
-      case 'DAILY': {
-        const date = dayjs.tz(value.yearMonth, YEARMONTH_FORMAT, danishTimeZoneIdentifier);
-        return { start: date.toDate(), end: date.endOf('month').toDate() };
-      }
-      case 'MONTHLY': {
-        const date = dayjs.tz(value.year, YEAR_FORMAT, danishTimeZoneIdentifier);
-        return { start: date.toDate(), end: date.endOf('year').toDate() };
-      }
-      default: {
-        const date = dayjs(value.date);
-        return { start: date.startOf('day').toDate(), end: date.endOf('day').toDate() };
-      }
+      case 'DAILY':
+        return dayjs(date).format(YEARMONTH_FORMAT);
+      case 'MONTHLY':
+        return dayjs(date).format(YEAR_FORMAT);
+      default:
+        return dayjs(date).toISOString();
     }
   });
 
-  readonly intervalChange = outputFromObservable(toObservable(this.interval));
+  private datepicker = viewChild(WattDatepickerComponent);
+  protected formGroup = new FormGroup({
+    date: dhMakeFormControl<string>(),
+    yearMonth: dhMakeFormControl<string>(),
+    year: dhMakeFormControl<string>(),
+  });
+
+  // Two-way binding
+  constructor() {
+    effect(() => {
+      const value = this.value();
+      switch (this.resolution()) {
+        case 'DAILY':
+          this.formGroup.controls.yearMonth.setValue(value);
+          break;
+        case 'MONTHLY':
+          this.formGroup.controls.year.setValue(value);
+          break;
+        default:
+          this.formGroup.controls.date.setValue(value);
+          this.datepicker()?.selectDate(dayjs(value).toDate());
+          break;
+      }
+    });
+
+    this.formGroup.valueChanges
+      .pipe(
+        map((form) => {
+          switch (this.resolution()) {
+            case 'DAILY':
+              return dayjs.tz(form.yearMonth, YEARMONTH_FORMAT, danishTimeZoneIdentifier).toDate();
+            case 'MONTHLY':
+              return dayjs.tz(form.year, YEAR_FORMAT, danishTimeZoneIdentifier).toDate();
+            case 'HOURLY':
+            case 'QUARTER_HOURLY':
+              return dayjs(form.date).startOf('day').toDate();
+          }
+        })
+      )
+      .subscribe((date) => this.date.set(date));
+  }
 }

@@ -23,6 +23,7 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -110,6 +111,26 @@ public static partial class ChargeNode
         List<ChargePointV2> points,
         CancellationToken ct)
         => await client.AddChargeSeriesAsync(id, start, end, points, ct);
+
+    public static async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
+        [Parent] Charge charge,
+        IChargesClient client,
+        CancellationToken ct)
+    {
+        var periods = charge.Periods.Where(p => p.Status != ChargeStatus.Cancelled).ToList();
+        if (periods.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
+
+        var now = DateTimeOffset.Now.ToInstant();
+        var maxEnd = now.InUtc().LocalDateTime.PlusYears(3).InUtc().ToInstant();
+        var start = periods.Min(p => p.Period.Start);
+        var end = periods.Max(p => p.Period.HasEnd ? p.Period.End : maxEnd);
+
+        return await client.GetMissingPriceSeriesPointsAsync(
+            charge.Id,
+            charge.Resolution,
+            new(start, end),
+            ct);
+    }
 
     public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,

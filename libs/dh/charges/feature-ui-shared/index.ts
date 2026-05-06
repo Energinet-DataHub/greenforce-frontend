@@ -21,3 +21,4 @@ export { DhChargeIntervalPipe } from './src/interval-pipe';
 export { DhChargePeriodPipe } from './src/period-pipe';
 export { DhChargesStatus } from './src/status';
 export { DhChargesTypeSelection } from './src/type-selection';
+export { DhChargesWarningBanner } from './src/warning-banner';

@@ -17,8 +17,8 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { input, signal, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
@@ -44,6 +44,7 @@ import {
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesSeriesDetails } from './series-details';
+import { DhChargesSeriesGaps } from './series-gaps';
 
 @Component({
   selector: 'dh-charges-series-table',
@@ -60,6 +61,7 @@ import { DhChargesSeriesDetails } from './series-details';
     DhChargesIntervalField,
     DhChargeIntervalPipe,
     DhChargesSeriesDetails,
+    DhChargesSeriesGaps,
     DhDownloadButtonComponent,
   ],
   template: `
@@ -73,16 +75,12 @@ import { DhChargesSeriesDetails } from './series-details';
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
-          <dh-charges-interval-field
-            [resolution]="resolution()"
-            (intervalChange)="query.refetch({ interval: $event })"
-          />
+        <vater-stack fill="horizontal" wrap direction="row" align="start" gap="m">
+          <dh-charges-interval-field #intervalField [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
-            <watt-slide-toggle [(checked)]="showHistory">
-              {{ t('showHistory') }}
-            </watt-slide-toggle>
+            <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
+          <dh-charges-series-gaps [id]="id()" [resolution]="resolution()" [(date)]="date" />
           <vater-spacer />
           <dh-download-button (click)="download()" />
         </vater-stack>
@@ -134,13 +132,30 @@ export class DhChargesSeriesTable {
   id = input.required<string>();
   resolution = input.required<ChargeResolution>();
 
-  private transloco = inject(TranslocoService);
-  protected query = query(GetChargeSeriesDocument, () => ({
-    skip: true,
-    variables: {
-      chargeId: this.id(),
-    },
-  }));
+  protected date = signal<Date>(new Date());
+  protected interval = computed(() => {
+    const start = this.date();
+    switch (this.resolution()) {
+      case 'DAILY':
+        return { start, end: dayjs(start).endOf('month').toDate() };
+      case 'MONTHLY':
+        return { start, end: dayjs(start).endOf('year').toDate() };
+      case 'HOURLY':
+      case 'QUARTER_HOURLY':
+        return { start, end: dayjs(start).endOf('day').toDate() };
+    }
+  });
+
+  protected query = query(GetChargeSeriesDocument, () => {
+    const interval = this.interval();
+    if (!interval) return { skip: true };
+    return {
+      variables: {
+        interval,
+        chargeId: this.id(),
+      },
+    };
+  });
 
   charge = computed(() => this.query.data()?.chargeById);
   series = computed(() => this.charge()?.series ?? []);
