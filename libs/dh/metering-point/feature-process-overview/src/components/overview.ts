@@ -225,7 +225,7 @@ export class DhMeteringPointProcessOverviewTable {
         cutoffDate: process.cutoffDate,
       },
       this.isEnergySupplierResponsible(),
-      (process.initiator as { glnOrEicNumber?: string } | null)?.glnOrEicNumber
+      process.initiator?.glnOrEicNumber
     );
   }
 }
