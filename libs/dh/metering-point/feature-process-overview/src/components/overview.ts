@@ -224,7 +224,8 @@ export class DhMeteringPointProcessOverviewTable {
         processId: process.id,
         cutoffDate: process.cutoffDate,
       },
-      this.isEnergySupplierResponsible()
+      this.isEnergySupplierResponsible(),
+      (process.initiator as { glnOrEicNumber?: string } | null)?.glnOrEicNumber
     );
   }
 }
