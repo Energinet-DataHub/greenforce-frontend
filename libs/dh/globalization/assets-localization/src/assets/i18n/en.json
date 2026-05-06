@@ -712,7 +712,8 @@
         "createChargeLink": "Attach price",
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
-        "endOfSupply": "End of supply"
+        "endOfSupply": "End of supply",
+        "changeOfSupplier": "Change of supplier"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1566,6 +1567,21 @@
       "submitSuccess": "End of supply submitted.",
       "submitSuccessAction": "See status under processes",
       "submitError": "End of supply could not be submitted"
+    },
+    "changeOfSupplier": {
+      "modalTitle": "Change of Supplier",
+      "cutOffDate": "Cut-off date",
+      "customerInformation": "Customer information",
+      "private": "Private",
+      "business": "Business",
+      "cpr": "CPR",
+      "cvr": "CVR",
+      "protectedNameAndAddress": "Name and address protection",
+      "cancel": "Cancel",
+      "submit": "Submit change of supplier",
+      "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
+      "submitSuccessAction": "See status under processes",
+      "submitError": "Change of supplier could not be submitted"
     }
   },
   "messageArchive": {

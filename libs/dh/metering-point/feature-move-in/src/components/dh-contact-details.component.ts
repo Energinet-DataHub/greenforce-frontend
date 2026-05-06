@@ -58,17 +58,19 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
               {{ t(contactType() + 'SameAsCustomer') }}
             </watt-slide-toggle>
 
-            <watt-text-field
-              [formControl]="controls.name"
-              [label]="t('contactName')"
-              data-testid="legal-contact-name"
-            />
+            <vater-flex direction="row" gap="m" justify="space-between">
+              <watt-text-field
+                [formControl]="controls.name"
+                [label]="t('contactName')"
+                data-testid="legal-contact-name"
+              />
 
-            <watt-text-field
-              [formControl]="controls.attention"
-              [label]="t('attention')"
-              data-testid="legal-contact-attention"
-            />
+              <watt-text-field
+                [formControl]="controls.attention"
+                [label]="t('attention')"
+                data-testid="legal-contact-attention"
+              />
+            </vater-flex>
 
             <vater-flex direction="row" gap="m" justify="space-between">
               <watt-phone-field

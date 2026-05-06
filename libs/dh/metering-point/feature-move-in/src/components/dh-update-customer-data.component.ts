@@ -89,6 +89,10 @@ import {
     .customer-details-card {
       height: fit-content;
     }
+
+    .no-margin {
+      margin: 0;
+    }
   `,
   template: `
     <form
@@ -98,7 +102,7 @@ import {
     >
       <vater-stack direction="row" justify="space-between">
         <vater-stack direction="row" gap="m">
-          <h3>{{ t('updateCustomerData') }}</h3>
+          <h3 class="no-margin">{{ t('updateCustomerData') }}</h3>
           @if (isLoading()) {
             <watt-spinner [diameter]="22" />
           }

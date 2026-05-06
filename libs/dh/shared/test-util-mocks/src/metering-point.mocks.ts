@@ -48,6 +48,7 @@ import {
   mockRejectEndOfSupplyMutation,
   mockRequestEndOfSupplyMutation,
   mockRequestServiceEndOfSupplyMutation,
+  mockInitiateChangeOfSupplierMutation,
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
@@ -89,6 +90,7 @@ export function meteringPointMocks(apiBase: string) {
     cancelEndOfSupply(),
     rejectEndOfSupply(),
     requestServiceEndOfSupply(),
+    initiateChangeOfSupplier(),
     createConversation(),
     getConversations(),
     getConversation(),
@@ -1091,6 +1093,22 @@ function rejectEndOfSupply() {
         rejectEndOfSupply: {
           __typename: 'RejectEndOfSupplyPayload',
           boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function initiateChangeOfSupplier() {
+  return mockInitiateChangeOfSupplierMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        initiateChangeOfSupplier: {
+          __typename: 'InitiateChangeOfSupplierPayload',
+          success: true,
         },
       },
     });
