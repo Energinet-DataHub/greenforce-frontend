@@ -2533,7 +2533,6 @@
     },
     "outgoingMessages": {
       "tabHeading": "Udgående meddelelser",
-      "actionsButton": "Handlinger",
       "status": {
         "INGESTION": "Status bliver rød hvis beskeder ikke kan hentes fra DataHub 3, fordi der enten ikke er forbindelse eller RSM-beskeden ikke kan læses.",
         "CONVERTER": "Status bliver rød hvis NBS-beskeder ikke kan dannes, fordi der enten er en fejl i konverteringen eller netområdet i beskeden ikke har en netvirksomhed tilknyttet.",
