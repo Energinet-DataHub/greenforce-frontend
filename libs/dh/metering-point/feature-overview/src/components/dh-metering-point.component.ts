@@ -250,14 +250,13 @@ export class DhMeteringPointComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
-  hideHeader = toSignal(
-    this.router.events.pipe(
-      filter((e) => e instanceof NavigationEnd),
-      startWith(null),
-      map(() => this.route.firstChild?.snapshot?.data?.['hideHeader'] === true)
-    ),
-    { initialValue: false }
-  );
+  hideHeader = signal(false);
+
+  navigationEffect = effect(() => {
+    this.router.currentNavigation();
+
+    this.hideHeader.set(this.route.firstChild?.snapshot?.data?.['hideHeader'] === true);
+  });
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
