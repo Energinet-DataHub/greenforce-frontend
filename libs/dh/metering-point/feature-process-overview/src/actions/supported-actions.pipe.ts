@@ -32,13 +32,15 @@ export class SupportedActionsPipe implements PipeTransform {
   transform(
     availableActions: WorkflowAction[] | null | undefined,
     businessReason?: ProcessManagerBusinessReason,
-    isEnergySupplierResponsible?: boolean
+    isEnergySupplierResponsible?: boolean,
+    initiatorGln?: string
   ): WorkflowAction[] {
     if (!availableActions || !businessReason) return [];
     return this.registry.getSupportedActions(
       availableActions,
       businessReason,
-      isEnergySupplierResponsible ?? false
+      isEnergySupplierResponsible ?? false,
+      initiatorGln
     );
   }
 }

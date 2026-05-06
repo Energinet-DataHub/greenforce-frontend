@@ -140,7 +140,7 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
           >
             @for (
               action of process.availableActions
-                | supportedActions: process.businessReason : isEnergySupplierResponsible();
+                | supportedActions: process.businessReason : isEnergySupplierResponsible() : process.initiator?.glnOrEicNumber;
               track action
             ) {
               @if (isFas()) {

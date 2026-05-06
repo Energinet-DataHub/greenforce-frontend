@@ -46,12 +46,14 @@ async function setup(
   overrides: {
     isFas?: boolean;
     actorMarketRole?: EicFunction;
+    actorGln?: string;
     isEnergySupplierResponsible?: boolean;
   } = {}
 ) {
   const {
     isFas = false,
     actorMarketRole = EicFunction.GridAccessProvider,
+    actorGln = '1234567890123',
     isEnergySupplierResponsible = false,
   } = overrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
@@ -74,7 +76,7 @@ async function setup(
         useValue: {
           getSelectedActor: () => ({
             id: 'actor-1',
-            gln: '1234567890123',
+            gln: actorGln,
             marketRole: actorMarketRole,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
@@ -244,10 +246,10 @@ describe('Process overview details', () => {
     expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
   });
 
-  it('should show CustomerMoveIn.SendInformation for responsible EnergySupplier', async () => {
+  it('should show CustomerMoveIn.SendInformation for initiating participant', async () => {
     await setup('process-cmi-info', {
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: true,
+      actorGln: '5790000555588',
     });
 
     await waitForAsync(() =>
@@ -255,10 +257,10 @@ describe('Process overview details', () => {
     );
   });
 
-  it('should hide CustomerMoveIn.SendInformation for non-responsible EnergySupplier', async () => {
+  it('should hide CustomerMoveIn.SendInformation when actor is not the initiating participant', async () => {
     await setup('process-cmi-info', {
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: false,
+      actorGln: '1234567890123',
     });
 
     expect(document.querySelector('watt-description-list')).not.toBeNull();

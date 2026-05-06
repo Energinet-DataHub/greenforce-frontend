@@ -8,6 +8,7 @@ query GetMeteringPointProcessOverview($meteringPointId: String!, $created: DateR
     initiator {
       id
       displayName
+      glnOrEicNumber
     }
     availableActions
   }

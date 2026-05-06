@@ -36,7 +36,8 @@ import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
-export type ActionRole = EicFunction | typeof ResponsibleEnergySupplier;
+export const InitiatingParticipant = 'InitiatingParticipant' as const;
+export type ActionRole = EicFunction | typeof ResponsibleEnergySupplier | typeof InitiatingParticipant;
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
@@ -86,18 +87,22 @@ export class DhActionsRegistry {
     );
   }
 
-  private matchesRoles(handler: ActionHandler, isResponsible: boolean): boolean {
+  private matchesRoles(handler: ActionHandler, isResponsible: boolean, initiatorGln?: string): boolean {
     if (!handler.roles?.length) return true;
-    const marketRole = this.actorStorage.getSelectedActor().marketRole;
-    return handler.roles.some((role) =>
-      role === ResponsibleEnergySupplier ? isResponsible : marketRole === role
-    );
+    const actor = this.actorStorage.getSelectedActor();
+    return handler.roles.some((role) => {
+      if (role === ResponsibleEnergySupplier) return isResponsible;
+      if (role === InitiatingParticipant)
+        return !!initiatorGln && actor.gln === initiatorGln;
+      return actor.marketRole === role;
+    });
   }
 
   getSupportedActions(
     availableActions: WorkflowAction[],
     businessReason: ProcessManagerBusinessReason,
-    isEnergySupplierResponsible: boolean
+    isEnergySupplierResponsible: boolean,
+    initiatorGln?: string
   ): WorkflowAction[] {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
@@ -106,7 +111,7 @@ export class DhActionsRegistry {
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
-      return this.matchesRoles(handler, isEnergySupplierResponsible);
+      return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGln);
     });
   }
 
@@ -114,13 +119,15 @@ export class DhActionsRegistry {
     action: WorkflowAction,
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext,
-    isEnergySupplierResponsible: boolean
+    isEnergySupplierResponsible: boolean,
+    initiatorGln?: string
   ): void {
     if (this.isFas()) return;
     const supported = this.getSupportedActions(
       [action],
       businessReason,
-      isEnergySupplierResponsible
+      isEnergySupplierResponsible,
+      initiatorGln
     );
     if (!supported.includes(action)) return;
     this.registry[businessReason]?.[action]?.callback(context);
