@@ -145,6 +145,7 @@ export class DhMeteringPointProcessOverviewDetails {
 
   process = query(GetMeteringPointProcessByIdDocument, () => ({
     fetchPolicy: 'cache-and-network',
+    pollInterval: 5_000,
     returnPartialData: true,
     variables: {
       id: this.id(),

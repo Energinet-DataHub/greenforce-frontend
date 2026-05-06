@@ -1027,6 +1027,7 @@
       }
     },
     "processOverview": {
+      "connectivityWarning": "Unable to refresh process data. Displaying last known information.",
       "columns": {
         "createdAt": "Registered in DataHub",
         "businessReason": "Type",
