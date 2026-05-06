@@ -49,6 +49,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
+import { DhChangeOfSupplierComponent } from '@energinet-datahub/dh/metering-point/feature-change-of-supplier';
 
 import { InstallationAddress } from '../types';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
@@ -122,6 +123,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           </watt-menu-item>
         }
 
+        @if (showChangeOfSupplierButton()) {
+          <watt-menu-item (click)="startChangeOfSupplier()">
+            {{ t('changeOfSupplier') }}
+          </watt-menu-item>
+        }
+
         @if (showConnectionStateManageButton()) {
           <watt-menu-item (click)="connectionStateManage()">
             {{ t('changeConnectionStatus') }}
@@ -190,6 +197,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasMeteringPointChangeOfSupplierPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:change-of-supplier'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -237,6 +249,13 @@ export class DhMeteringPointActionsComponent {
       this.featureFlagsService.isEnabled('end-of-supply')
   );
 
+  showChangeOfSupplierButton = computed(
+    () =>
+      this.hasMeteringPointChangeOfSupplierPermission() &&
+      this.isEnergySupplierResponsible() &&
+      this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
+  );
+
   showActionsButton = computed(() => {
     return (
       this.showMeasurementsUploadButton() ||
@@ -244,7 +263,8 @@ export class DhMeteringPointActionsComponent {
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
-      this.showEndOfSupplyButton()
+      this.showEndOfSupplyButton() ||
+      this.showChangeOfSupplierButton()
     );
   });
 
@@ -262,6 +282,16 @@ export class DhMeteringPointActionsComponent {
   startEndOfSupply() {
     this.modalService.open({
       component: DhEndOfSupplyComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+      },
+    });
+  }
+
+  startChangeOfSupplier() {
+    this.modalService.open({
+      component: DhChangeOfSupplierComponent,
       data: {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),

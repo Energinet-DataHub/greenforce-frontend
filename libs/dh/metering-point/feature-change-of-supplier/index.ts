@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export * from './apollo-data-source';
+export { DhChangeOfSupplierComponent } from './src/components/dh-change-of-supplier.component';

@@ -112,6 +112,9 @@
       "@energinet-datahub/dh/message-queue/feature-overview": [
         "./libs/dh/message-queue/feature-overview/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-change-of-supplier": [
+        "./libs/dh/metering-point/feature-change-of-supplier/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-chargelink": [
         "./libs/dh/metering-point/feature-chargelink/index.ts"
       ],
@@ -171,6 +174,9 @@
       ],
       "@energinet-datahub/dh/shared/domain/graphql/msw": [
         "./libs/dh/shared/domain/src/generated/graphql/msw.ts"
+      ],
+      "@energinet-datahub/dh/shared/domain/graphql/scalar-field-map": [
+        "./libs/dh/shared/domain/src/generated/graphql/scalar-field-map.ts"
       ],
       "@energinet-datahub/dh/shared/environments": ["./libs/dh/shared/environments/index.ts"],
       "@energinet-datahub/dh/shared/feature-authorization": [

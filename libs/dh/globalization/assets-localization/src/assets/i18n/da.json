@@ -711,7 +711,8 @@
         "createChargeLink": "Tilknyt pris",
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
-        "endOfSupply": "Leveranceophør"
+        "endOfSupply": "Leveranceophør",
+        "changeOfSupplier": "Leverandørskifte"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1566,6 +1567,21 @@
       "submitSuccess": "Leveranceophør indsendt.",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leveranceophør kunne ikke indsendes"
+    },
+    "changeOfSupplier": {
+      "modalTitle": "Leverandørskifte",
+      "cutOffDate": "Skæringsdato",
+      "customerInformation": "Kundeoplysninger",
+      "private": "Privat",
+      "business": "Erhverv",
+      "cpr": "CPR",
+      "cvr": "CVR",
+      "protectedNameAndAddress": "Navne- og adressebeskyttelse",
+      "cancel": "Annuller",
+      "submit": "Indsend leverandørskifte",
+      "submitSuccess": "Leverandørskifte indsendt. Du kan følge status under processer",
+      "submitSuccessAction": "Se status under processer",
+      "submitError": "Leverandørskifte kunne ikke indsendes"
     }
   },
   "messageArchive": {
