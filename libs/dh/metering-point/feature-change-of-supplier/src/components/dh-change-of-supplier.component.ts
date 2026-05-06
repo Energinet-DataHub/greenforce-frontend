@@ -39,6 +39,7 @@ import {
 import { InitiateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -153,7 +154,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
   readonly form = new FormGroup({
     cutOffDate: dhMakeFormControl<Date>(null, Validators.required),
     customerType: dhMakeFormControl<'private' | 'business'>('private'),
-    cpr: dhMakeFormControl<string>('', Validators.required),
+    cpr: dhMakeFormControl<string>('', [Validators.required, dhCprValidator()]),
     cvr: dhMakeFormControl<string>(''),
     protectedNameAndAddress: dhMakeFormControl<boolean>(false),
   });
@@ -167,12 +168,12 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
 
     if (customerType === 'private') {
       this.form.controls.cpr.enable();
-      this.form.controls.cpr.setValidators(Validators.required);
+      this.form.controls.cpr.setValidators([Validators.required, dhCprValidator()]);
       this.form.controls.cvr.disable();
       this.form.controls.cvr.clearValidators();
     } else {
       this.form.controls.cvr.enable();
-      this.form.controls.cvr.setValidators(Validators.required);
+      this.form.controls.cvr.setValidators([Validators.required, dhCvrValidator()]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();
     }
