@@ -2532,7 +2532,6 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing Messages",
-      "actionsButton": "Actions",
       "status": {
         "INGESTION": "Ingestion of messages",
         "CONVERTER": "Conversion of messages",
