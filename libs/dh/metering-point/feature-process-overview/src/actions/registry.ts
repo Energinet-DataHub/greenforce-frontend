@@ -37,7 +37,10 @@ import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
-export type ActionRole = EicFunction | typeof ResponsibleEnergySupplier | typeof InitiatingParticipant;
+export type ActionRole =
+  | EicFunction
+  | typeof ResponsibleEnergySupplier
+  | typeof InitiatingParticipant;
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
@@ -87,13 +90,16 @@ export class DhActionsRegistry {
     );
   }
 
-  private matchesRoles(handler: ActionHandler, isResponsible: boolean, initiatorGln?: string): boolean {
+  private matchesRoles(
+    handler: ActionHandler,
+    isResponsible: boolean,
+    initiatorGln?: string
+  ): boolean {
     if (!handler.roles?.length) return true;
     const actor = this.actorStorage.getSelectedActor();
     return handler.roles.some((role) => {
       if (role === ResponsibleEnergySupplier) return isResponsible;
-      if (role === InitiatingParticipant)
-        return !!initiatorGln && actor.gln === initiatorGln;
+      if (role === InitiatingParticipant) return !!initiatorGln && actor.gln === initiatorGln;
       return actor.marketRole === role;
     });
   }

@@ -158,10 +158,26 @@ function getMeteringPointProcessOverview() {
     ];
 
     const initiators = [
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '905495045940594 • Radius', glnOrEicNumber: '905495045940594' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb576', displayName: '5790001330552 • Energinet', glnOrEicNumber: '5790001330552' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb577', displayName: '7080005056076 • Andel', glnOrEicNumber: '7080005056076' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb578', displayName: '5790001687137 • Ørsted', glnOrEicNumber: '5790001687137' },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+        displayName: '905495045940594 • Radius',
+        glnOrEicNumber: '905495045940594',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+        displayName: '5790001330552 • Energinet',
+        glnOrEicNumber: '5790001330552',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb577',
+        displayName: '7080005056076 • Andel',
+        glnOrEicNumber: '7080005056076',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb578',
+        displayName: '5790001687137 • Ørsted',
+        glnOrEicNumber: '5790001687137',
+      },
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
         displayName: '5706552000028 • Clever Energy',
@@ -321,10 +337,26 @@ function getMeteringPointProcessById(apiBase: string) {
     const processId = args.variables.id;
 
     const initiators = [
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb575', displayName: '1234567890123 • Radius', glnOrEicNumber: '1234567890123' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb576', displayName: '5790001330552 • Energinet', glnOrEicNumber: '5790001330552' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb577', displayName: '7080005056076 • Andel', glnOrEicNumber: '7080005056076' },
-      { id: '0199ed3d-f1b2-7180-9546-39b5836fb578', displayName: '5790001687137 • Ørsted', glnOrEicNumber: '5790001687137' },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+        displayName: '1234567890123 • Radius',
+        glnOrEicNumber: '1234567890123',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+        displayName: '5790001330552 • Energinet',
+        glnOrEicNumber: '5790001330552',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb577',
+        displayName: '7080005056076 • Andel',
+        glnOrEicNumber: '7080005056076',
+      },
+      {
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb578',
+        displayName: '5790001687137 • Ørsted',
+        glnOrEicNumber: '5790001687137',
+      },
     ];
 
     // Extract index from process ID (e.g., "process-001" -> 1)
@@ -356,7 +388,11 @@ function getMeteringPointProcessById(apiBase: string) {
 
     const baseInitiator = initiators[processIndex % initiators.length];
     const initiator = known?.initiatorGln
-      ? { ...baseInitiator, glnOrEicNumber: known.initiatorGln, displayName: `${known.initiatorGln} • Test` }
+      ? {
+          ...baseInitiator,
+          glnOrEicNumber: known.initiatorGln,
+          displayName: `${known.initiatorGln} • Test`,
+        }
       : baseInitiator;
 
     return HttpResponse.json({

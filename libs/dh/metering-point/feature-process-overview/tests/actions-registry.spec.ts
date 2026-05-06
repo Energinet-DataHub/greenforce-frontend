@@ -487,7 +487,8 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
-    it('should include action when any role in a mixed roles array matches', () => {      const registry = setupRegistry({
+    it('should include action when any role in a mixed roles array matches', () => {
+      const registry = setupRegistry({
         actorMarketRole: EicFunction.GridAccessProvider,
         endOfSupplyHandlers: {
           [WorkflowAction.CancelWorkflow]: {
