@@ -52,8 +52,7 @@ const csvMimeTypes = ['text/csv', 'application/vnd.ms-excel'];
     />
 
     <watt-button
-      icon="upload"
-      variant="secondary"
+      variant="primary"
       [loading]="uploadInProgress()"
       (click)="uploadInput.click()"
     >

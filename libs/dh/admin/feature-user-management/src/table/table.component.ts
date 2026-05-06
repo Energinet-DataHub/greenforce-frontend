@@ -78,7 +78,7 @@ type Variables = Partial<GetUsersQueryVariables>;
 
         <watt-button
           *dhPermissionRequired="['users:manage']"
-          variant="secondary"
+          variant="primary"
           [title]="t('inviteUser')"
           (click)="invite.emit()"
           >{{ t('inviteUser') }}

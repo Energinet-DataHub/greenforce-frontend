@@ -126,6 +126,8 @@
     },
     "downloadStart": "Starting download...",
     "download": "Download",
+    "exportCsv": "Export CSV",
+    "actions": "Actions",
     "downloadreport": "Download report",
     "downloadFailed": "Download failed",
     "empty": {
@@ -2531,6 +2533,7 @@
     },
     "outgoingMessages": {
       "tabHeading": "Outgoing Messages",
+      "actionsButton": "Actions",
       "status": {
         "INGESTION": "Ingestion of messages",
         "CONVERTER": "Conversion of messages",
