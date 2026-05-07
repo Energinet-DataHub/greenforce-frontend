@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { ChargeTariffSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import { ChargePricesSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
 
-export function correctChargeTypeView(resolution: ChargeResolution): ChargeTariffSubPaths {
+export function correctChargeTypeView(resolution: ChargeResolution): ChargePricesSubPaths {
   switch (resolution) {
     case 'DAILY':
       return 'month';

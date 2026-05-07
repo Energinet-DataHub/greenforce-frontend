@@ -37,6 +37,7 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { ChargeType, GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { correctChargeTypeView } from './components/util/correct-charge-type-view';
 
 const tariffChargeTypes: ChargeType[] = ['TARIFF', 'TARIFF_TAX'];
