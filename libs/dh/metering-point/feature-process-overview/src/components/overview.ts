@@ -250,7 +250,6 @@ export class DhMeteringPointProcessOverviewTable {
     }
   });
 
-
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
     this.actionService.execute(
