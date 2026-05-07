@@ -94,7 +94,7 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
                 {{ t('gaps.showGaps') }}
               </button>
             } @else {
-              {{ t('gaps.missingPrices') }}
+              {{ t('gaps.gapsFound') }}
               <button (click)="prev && date.set(prev)" [disabled]="!prev">
                 <watt-icon size="s" name="left" />
               </button>
