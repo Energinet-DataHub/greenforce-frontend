@@ -68,7 +68,7 @@ export type MissingMeasurementsLogSubPaths = 'request';
 
 export type ChargesSubPaths = 'prices' | 'information' | 'history';
 
-export type ChargeTariffSubPaths = 'day' | 'month';
+export type ChargeTariffSubPaths = 'day' | 'month' | 'year';
 
 export type OperationToolsSubPaths = 'metering-point';
 
