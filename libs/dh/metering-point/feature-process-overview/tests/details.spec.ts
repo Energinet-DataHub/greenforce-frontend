@@ -19,9 +19,11 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
+import userEvent from '@testing-library/user-event';
 
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
 import {
   getTranslocoTestingModule,
@@ -31,15 +33,27 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  DhActorStorage,
+  PermissionService,
+} from '@energinet-datahub/dh/shared/feature-authorization';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
 async function setup(
   processId = 'process-eos-cancel',
-  permissionOverrides: { isFas?: boolean } = {}
+  overrides: {
+    isFas?: boolean;
+    actorMarketRole?: EicFunction;
+    isEnergySupplierResponsible?: boolean;
+  } = {}
 ) {
-  const { isFas = false } = permissionOverrides;
+  const {
+    isFas = false,
+    actorMarketRole = EicFunction.GridAccessProvider,
+    isEnergySupplierResponsible = false,
+  } = overrides;
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -52,8 +66,20 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasMarketRole: () => of(true),
           hasPermission: () => of(true),
+        },
+      },
+      {
+        provide: DhActorStorage,
+        useValue: {
+          getSelectedActor: () => ({
+            id: 'actor-1',
+            gln: '1234567890123',
+            marketRole: actorMarketRole,
+            actorName: 'Test Actor',
+            organizationName: 'Test Org',
+            displayName: 'Test Actor Display',
+          }),
         },
       },
     ],
@@ -61,6 +87,8 @@ async function setup(
     componentInputs: {
       id: processId,
       meteringPointId: 'mp-123',
+      internalMeteringPointId: 'imp-123',
+      isEnergySupplierResponsible,
     },
   });
 
@@ -92,17 +120,94 @@ describe('Process overview details', () => {
     );
   });
 
-  it('should show reject request button for EndOfSupply process', async () => {
-    await setup('process-eos-cancel');
+  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
+  });
+
+  it('should show request disconnection button for EndOfSupply process', async () => {
+    await setup('process-eos-cancel');
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+  });
+
+  it('should open disconnect modal when request disconnection is clicked', async () => {
+    await setup('process-eos-cancel');
+    const user = userEvent.setup();
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+    const [disconnectButton] = screen.getAllByRole('button', {
+      name: /Request disconnection/i,
+    });
+
+    await user.click(disconnectButton);
+
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    const dialog = screen.getByRole('dialog');
+    expect(within(dialog).getByText(/Validity date/i)).toBeInTheDocument();
+  });
+
+  it('should close disconnect modal after submitting', async () => {
+    await setup('process-eos-cancel');
+    const user = userEvent.setup();
+    await waitForAsync(() =>
+      expect(
+        screen.getAllByRole('button', { name: /Request disconnection/i }).length
+      ).toBeGreaterThan(0)
+    );
+    const [disconnectButton] = screen.getAllByRole('button', {
+      name: /Request disconnection/i,
+    });
+    await user.click(disconnectButton);
+    await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+
+    const dialog = screen.getByRole('dialog');
+    const confirmButton = within(dialog).getByRole('button', {
+      name: /Request disconnection/i,
+    });
+    await user.click(confirmButton);
+
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
   });
 
   it('should show send information button for CustomerMoveIn process', async () => {
     await setup('process-cmi-info');
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should navigate with internalMeteringPointId when Send information is clicked', async () => {
+    const fixture = await setup('process-cmi-info');
+    const user = userEvent.setup();
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+    const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
+
+    await user.click(sendInfoButtons[0]);
+
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith([
+        'metering-point',
+        'imp-123',
+        'update-customer-details',
+        expect.any(String),
+      ])
     );
   });
 
@@ -113,7 +218,7 @@ describe('Process overview details', () => {
   });
 
   it.each([
-    ['process-eos-cancel', /Cancel|Reject request/i],
+    ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
   ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
     await setup(processId, { isFas: true });
@@ -124,5 +229,49 @@ describe('Process overview details', () => {
     actionButtons.forEach((button) => {
       expect((button as HTMLButtonElement).disabled).toBe(true);
     });
+  });
+
+  it('should hide all action buttons for non-responsible EnergySupplier', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
+    expect(screen.queryAllByRole('button', { name: /Request disconnection/i })).toHaveLength(0);
+  });
+
+  it('should show CustomerMoveIn.SendInformation for responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should hide CustomerMoveIn.SendInformation for non-responsible EnergySupplier', async () => {
+    await setup('process-cmi-info', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: false,
+    });
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
+  });
+
+  it('should show action buttons for responsible EnergySupplier', async () => {
+    await setup('process-eos-cancel', {
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
   });
 });

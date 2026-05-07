@@ -74,11 +74,11 @@ type Variables = Partial<GetUsersQueryVariables>;
   >
     <watt-data-actions>
       <vater-stack direction="row" gap="m">
-        <dh-download-users-csv *dhPermissionRequired="['fas']" [variables]="variables()" />
+        <dh-download-users-csv *dhPermissionRequired="['users:manage']" [variables]="variables()" />
 
         <watt-button
           *dhPermissionRequired="['users:manage']"
-          variant="secondary"
+          variant="primary"
           [title]="t('inviteUser')"
           (click)="invite.emit()"
           >{{ t('inviteUser') }}

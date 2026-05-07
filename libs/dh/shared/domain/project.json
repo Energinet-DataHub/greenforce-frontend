@@ -23,7 +23,8 @@
         "{projectRoot}/src/generated/graphql/types.ts",
         "{projectRoot}/src/generated/graphql/data-source.ts",
         "{projectRoot}/src/generated/graphql/introspection.ts",
-        "{projectRoot}/src/generated/graphql/msw.ts"
+        "{projectRoot}/src/generated/graphql/msw.ts",
+        "{projectRoot}/src/generated/graphql/scalar-field-map.ts"
       ],
       "options": {
         "commands": ["graphql-codegen"]
@@ -49,7 +50,8 @@
         "{projectRoot}/src/generated/graphql/types.ts",
         "{projectRoot}/src/generated/graphql/data-source.ts",
         "{projectRoot}/src/generated/graphql/introspection.ts",
-        "{projectRoot}/src/generated/graphql/msw.ts"
+        "{projectRoot}/src/generated/graphql/msw.ts",
+        "{projectRoot}/src/generated/graphql/scalar-field-map.ts"
       ],
       "options": {
         "commands": ["graphql-codegen"],

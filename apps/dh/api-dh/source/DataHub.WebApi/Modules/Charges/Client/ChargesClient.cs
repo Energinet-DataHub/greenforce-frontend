@@ -13,16 +13,20 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Abstractions.Api.SearchCriteria;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
@@ -35,21 +39,15 @@ public class ChargesClient(
     IHttpContextAccessor httpContext,
     IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
 {
-    public async Task<IEnumerable<Charge>> GetChargesAsync(
+    public async Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        ChargeStatus[]? status,
-        Resolution[]? resolution,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
+        ChargeOverviewQuery? query,
         CancellationToken ct = default)
     {
-        var filterDto = new ChargeInformationFilterDto(string.Empty, owners ?? [], types?.Select(c => c.Type) ?? []);
+        var filterTypes = query?.Types?.Select(c => c.Type) ?? [];
+        var filterOwners = query?.Owners ?? [];
         var result = await client.GetChargeInformationAsync(
-            new(0, 10000, filterDto, ChargeInformationSortProperty.Type, true),
+            new(0, 10000, new(string.Empty, filterOwners, filterTypes), ChargeInformationSortProperty.Type, true),
             ct);
 
         if (!result.IsSuccess)
@@ -57,41 +55,43 @@ public class ChargesClient(
             throw new GraphQLException(result.DiagnosticMessage);
         }
 
-        // Map and apply filters
+        // Map to charges and apply charge-level filters
         var data = result.Data ?? [];
         var charges = data
-            .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+            .Where(c => c.Periods.Count > 0)
             .Select(MapChargeInformationDtoToCharge)
-            .Where(c => owners?.Contains(c.Id.Owner) ?? true)
-            .Where(c => types?.Contains(c.Type) ?? true)
-            .Where(c => status?.Any(s => s == c.Status || s == c.ActivePeriod?.Status) ?? true)
-            .Where(c => resolution?.Contains(c.Resolution) ?? true)
-            .Where(c => vatInclusive.GetValueOrDefault(c.VatInclusive) == c.VatInclusive)
-            .Where(c => transparentInvoicing.GetValueOrDefault(c.TransparentInvoicing) == c.TransparentInvoicing)
-            .Where(c => spotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
-            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase))
-            .OrderBy(c => c.Type.Name)
-            .ThenBy(c => c.Id.Owner)
-            .ThenBy(c => c.LatestPeriod.Period.Start)
-            .ThenBy(c => c.Code)
-            .ToList();
+            .Where(c => query?.Owners?.Contains(c.Id.Owner) ?? true)
+            .Where(c => query?.Types?.Contains(c.Type) ?? true)
+            .Where(c => query?.Resolution?.Contains(c.Resolution) ?? true)
+            .Where(c => query?.SpotDependingPrice.GetValueOrDefault(c.SpotDependingPrice) == c.SpotDependingPrice)
+            .Where(c => c.FilterText.Contains(filter ?? string.Empty, StringComparison.InvariantCultureIgnoreCase));
+
+        // Flatten charge x period and apply period-level filters
+        var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
+        var items = charges.SelectMany(charge => charge.Periods
+            .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
+            .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
+            .Where(p => p.Period.Overlaps(activePeriod))
+            .Select(p => new ChargeOverviewItem(charge, p)));
 
         // This filter is expensive since it has to fetch series for each charge,
         // which is why it is deferred until after applying all other filters.
-        if (missingPriceSeries.HasValue)
+        if (query?.MissingPriceSeries == true)
         {
-            // Cancelled charges does not have price series, but they are also not missing.
-            // This means they can just be removed from the result before fetching series.
-            return await charges
+            var chargesWithSeries = await items
+                .Select(x => x.Charge)
+                .Distinct()
                 .ToAsyncEnumerable()
                 .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, cancellationToken) => (charge, series: await GetChargeSeriesAsync(charge, cancellationToken)))
-                .Where(r => r.series.Any() != missingPriceSeries.Value)
-                .Select(c => c.charge)
+                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
+                .Where(r => r.series.Any() != query?.MissingPriceSeries)
+                .Select(r => r.charge)
                 .ToListAsync(ct);
+
+            return items.Where(x => chargesWithSeries.Contains(x.Charge));
         }
 
-        return charges;
+        return items;
     }
 
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
@@ -102,7 +102,10 @@ public class ChargesClient(
 
         return !result.IsSuccess
             ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?.Select(MapChargeInformationDtoToCharge).FirstOrDefault(c => c.Code == id.Code);
+            : result.Data?
+                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+                .Select(MapChargeInformationDtoToCharge)
+                .FirstOrDefault(c => c.Code == id.Code);
     }
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
@@ -152,42 +155,59 @@ public class ChargesClient(
             : result.Data.Where(p => period.Contains(p.From)).OrderBy(p => p.From); // TODO: Remove `Where`
     }
 
-    public async Task<bool> CreateChargeAsync(CreateChargeInput input, CancellationToken ct = default)
+    public async Task<bool> CreateChargeAsync(
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
+        CancellationToken ct = default)
     {
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV2(new(
-                ChargeId: input.Code,
+                ChargeId: code,
                 ChargeOwnerId: httpContext.CreateUserIdentity().ActorNumber.Value,
-                ChargeType: input.Type.ToRequestChangeOfPriceListChargeType(),
-                ChargeName: input.Name,
-                ChargeDescription: input.Description,
-                Resolution: input.Resolution.CastDurationTo<ResolutionV2>(),
-                Start: input.ValidFrom,
+                ChargeType: type.ToRequestChangeOfPriceListChargeType(),
+                ChargeName: name,
+                ChargeDescription: description,
+                Resolution: resolution.CastDurationTo<ResolutionV2>(),
+                Start: validFrom,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
-                TransparentInvoicing: input.TransparentInvoicing,
-                TaxIndicator: input.Type.IsTax,
-                PricingCategory: MapToPricingCategoryV2(input.SpotDependingPrice))),
+                VatPayer: vat ? VatPayerV2.D02 : VatPayerV2.D01,
+                TransparentInvoicing: transparentInvoicing,
+                TaxIndicator: type.IsTax,
+                PricingCategory: MapToPricingCategoryV2(spotDependingPrice))),
             ct);
 
         return result.IsSuccess;
     }
 
-    public async Task<bool> UpdateChargeAsync(UpdateChargeInput input, CancellationToken ct = default)
+    public async Task<bool> UpdateChargeAsync(
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
+        CancellationToken ct = default)
     {
-        var charge = await GetChargeByIdAsync(input.Id, ct) ?? throw new GraphQLException("Charge not found");
+        var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
         var result = await ediClient.SendAsync(
             new UpsertChargeInformationCommandV2(new(
-                ChargeId: input.Id.Code,
-                ChargeOwnerId: input.Id.Owner,
+                ChargeId: id.Code,
+                ChargeOwnerId: id.Owner,
                 ChargeType: charge.Type.ToRequestChangeOfPriceListChargeType(),
-                ChargeName: input.Name,
-                ChargeDescription: input.Description,
+                ChargeName: name,
+                ChargeDescription: description,
                 Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
-                Start: input.CutoffDate,
+                Start: cutoffDate,
                 End: null,
-                VatPayer: input.Vat ? VatPayerV2.D02 : VatPayerV2.D01,
-                TransparentInvoicing: input.TransparentInvoicing,
+                VatPayer: vat ? VatPayerV2.D02 : VatPayerV2.D01,
+                TransparentInvoicing: transparentInvoicing,
                 TaxIndicator: null,
                 PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
@@ -247,12 +267,124 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    private static Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
+    public async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+        string meteringPointId,
+        CancellationToken ct = default)
+    {
+        var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
+        var chargeLinks = result.Data ?? [];
+        var distinctChargeIds = chargeLinks.Select(cl => cl.ChargeIdentifier).Distinct();
+        var charges = await Task.WhenAll(distinctChargeIds.Select(id => GetChargeByIdAsync(id, ct)));
+        var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
+        return chargeLinks
+            .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
+            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
+                new ChargeLinkOverviewItem(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
+    }
+
+    public async Task<bool> StopChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default)
+    {
+        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                stopDate,
+                period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
+    {
+        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                period.From.ToDateTimeOffset(),
+                period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    public async Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                chargeId.Code,
+                chargeId.Owner,
+                ToChargeLinkChargeType(chargeId.TypeDto),
+                meteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess;
+    }
+
+    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkId id, CancellationToken ct)
+    {
+        var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
+        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
+        var chargeLink = result.Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
+            ?? throw new GraphQLException($"Charge link with id {id} not found.");
+
+        return chargeLink.ChargeLinkPeriods
+            .OrderByDescending(p => p.From)
+            .First();
+    }
+
+    private static ChargeTypeV1 ToChargeLinkChargeType(ChargeTypeDto type) => type switch
+    {
+        ChargeTypeDto.Tariff => ChargeTypeV1.Tariff,
+        ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
+        ChargeTypeDto.Fee => ChargeTypeV1.Fee,
+    };
+
+    private Charge MapChargeInformationDtoToCharge(ChargeInformationDto charge)
         => new(
             Id: charge.ChargeIdentifierDto,
             Resolution: Resolution.FromName(charge.ResolutionDto),
             TaxIndicator: charge.TaxIndicator,
             SpotDependingPrice: charge.PricingCategoryDto == PricingCategoryDto.SpotDependingPrice,
+            TypeDisplayName: ChargeTypeTranslator.Translate(
+                ChargeType.Make(charge.ChargeIdentifierDto.TypeDto, charge.TaxIndicator),
+                httpContext),
             PeriodDtos: [.. charge.Periods
                 .Where(x => x.StartDate <= x.EndDate)
                 .OrderByDescending(x => x.StartDate)

@@ -16,9 +16,43 @@
  * limitations under the License.
  */
 //#endregion
-import { Routes } from '@angular/router';
-import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
+import { inject } from '@angular/core';
+import { ResolveFn, Routes } from '@angular/router';
+
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  DhActorStorage,
+  PermissionGuard,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+
+// The parent `:internalMeteringPointId` route resolves these values; we inherit
+// them here via `paramsInheritanceStrategy: 'always'`. Typed in one place so a
+// rename in the parent resolver fails type-checking instead of silently producing
+// undefined.
+interface InheritedRouteData {
+  meteringPointId: string;
+  searchMigratedMeteringPoints: boolean;
+}
+
+function isEnergySupplierResponsibleResolver(): ResolveFn<boolean> {
+  return async (route) => {
+    const actor = inject(DhActorStorage).getSelectedActor();
+    const { meteringPointId, searchMigratedMeteringPoints } = route.data as InheritedRouteData;
+
+    const { data } = await query(GetMeteringPointByIdDocument, {
+      fetchPolicy: 'cache-first',
+      variables: {
+        meteringPointId,
+        actorGln: actor.gln,
+        searchMigratedMeteringPoints,
+      },
+    }).result();
+
+    return !!data?.meteringPoint?.isEnergySupplier;
+  };
+}
 
 export const meteringPointProcessOverviewRoutes: Routes = [
   {
@@ -27,6 +61,9 @@ export const meteringPointProcessOverviewRoutes: Routes = [
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
     path: '',
+    resolve: {
+      isEnergySupplierResponsible: isEnergySupplierResponsibleResolver(),
+    },
     loadComponent: () =>
       import('./components/overview').then((m) => m.DhMeteringPointProcessOverviewTable),
     children: [

@@ -14,7 +14,7 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "vitest-analog",
-      "e2eTestRunner": "cypress"
+      "e2eTestRunner": "playwright"
     },
     "@nx/angular:library": {
       "linter": "eslint",
@@ -118,16 +118,6 @@
       ],
       "cache": true
     },
-    "component-test": {
-      "dependsOn": [
-        {
-          "projects": ["dh-shared-domain"],
-          "target": "generate"
-        }
-      ],
-      "inputs": ["default", "^production"],
-      "cache": true
-    },
     "lint": {
       "dependsOn": [
         {
@@ -155,9 +145,7 @@
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-      "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/**/*.cy.[jt]s?(x)",
-      "!{projectRoot}/cypress.config.[jt]s",
+      "!{projectRoot}/playwright.config.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
       "!{projectRoot}/src/test-setup.[jt]s",
       "!{projectRoot}/tests/test-setup.[jt]s",
@@ -185,10 +173,9 @@
       }
     },
     {
-      "plugin": "@nx/cypress/plugin",
+      "plugin": "@nx/playwright/plugin",
       "options": {
-        "targetName": "e2e",
-        "componentTestingTargetName": "component-test"
+        "targetName": "e2e"
       }
     },
     {

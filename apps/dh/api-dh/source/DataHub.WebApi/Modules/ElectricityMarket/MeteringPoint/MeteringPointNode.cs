@@ -31,6 +31,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
@@ -83,6 +84,7 @@ public static partial class MeteringPointNode
     #endregion
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["cpr:view"])]
     public static async Task<ContactCprResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
@@ -359,7 +361,7 @@ public static partial class MeteringPointNode
     }
 
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    [Authorize(Roles = ["metering-point:end-of-supply-request"])]
     public static async Task<bool> RequestEndOfSupplyAsync(
         string meteringPointId,
         DateTimeOffset terminationDate,

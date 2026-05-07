@@ -109,6 +109,9 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         })
       );
 
+      this.isFictitiousCvrFormControl.reset();
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
+
       this.startMoveInForm.removeControl('privateCustomer');
       this.privateCustomerForm.reset();
     }

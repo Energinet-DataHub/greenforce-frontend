@@ -17,11 +17,13 @@
  */
 //#endregion
 import { Component, inject, input } from '@angular/core';
-import { translate, TranslocoPipe } from '@jsverse/transloco';
+import { translate } from '@jsverse/transloco';
 
-import { WattMenuItemComponent } from '@energinet/watt/menu';
-
-import { GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhDownloadButtonMode,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetPaginatedMarketParticipantsDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
@@ -29,13 +31,9 @@ import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-applica
 import { Variables } from '../types';
 
 @Component({
-  imports: [TranslocoPipe, WattMenuItemComponent],
+  imports: [DhDownloadButtonComponent],
   selector: 'dh-download-market-participants',
-  template: `
-    <watt-menu-item (click)="download()">
-      <span>{{ 'shared.download' | transloco }}</span>
-    </watt-menu-item>
-  `,
+  template: ` <dh-download-button [mode]="mode()" (click)="download()" /> `,
 })
 export class DownloadMarketParticipants {
   private readonly appInsights = inject(DhApplicationInsights);
@@ -47,6 +45,7 @@ export class DownloadMarketParticipants {
   );
 
   variables = input<Variables>();
+  mode = input<DhDownloadButtonMode>('button');
 
   async download() {
     this.appInsights.trackEvent('Button: Download market participants');
@@ -56,6 +55,9 @@ export class DownloadMarketParticipants {
       .addVariables({
         ...this.variables(),
         first: 10_000,
+        after: null,
+        before: null,
+        last: null,
       })
       .addHeaders([
         `"ID"`,

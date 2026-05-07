@@ -27,7 +27,7 @@ public static partial class ChargeSeriesPointNode
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Price);
         descriptor.Field("hasChanged").Resolve(() => false);
-        descriptor.Field(f => new Interval(f.From, f.To)).Name("period");
+        descriptor.Field(f => new Interval(f.From, f.To)).Name("interval");
         descriptor
             .Field(f => new[] { new ChargeSeriesPointChange(f.Price, true, null) })
             .Name("changes")

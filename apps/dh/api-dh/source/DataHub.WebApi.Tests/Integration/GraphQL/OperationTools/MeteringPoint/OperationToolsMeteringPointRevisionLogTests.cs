@@ -21,6 +21,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Framework;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetProjectionsStatus.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
@@ -232,6 +233,32 @@ public class OperationToolsMeteringPointRevisionLogTests
         server.ElectricityMarketClientV1Mock.Setup(
                 c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new MeteringPointCountDto { TotalCount = 1000, QuarantinedCount = 5 });
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetProjectionsStatusAsync")]
+    public async Task GetProjectionsStatus()
+    {
+        var operation =
+            """
+                query {
+                  projectionsStatus {
+                    projections {
+                      name
+                    }
+                  }
+                }
+            """;
+
+        var server = new GraphQLTestService();
+        var result = Result<GetProjectionsStatusResultDtoV1>.Success(
+            new GetProjectionsStatusResultDtoV1(100, 50, 10, 5, []));
+
+        server.ElectricityMarketClientMock.Setup(
+                c => c.SendAsync(It.IsAny<GetProjectionsStatusQueryV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(result);
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
     }

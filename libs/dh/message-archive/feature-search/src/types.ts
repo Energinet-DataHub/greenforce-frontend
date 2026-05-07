@@ -50,7 +50,6 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
       return 'RSM-021';
     case DocumentType.B2CRequestChangeCustomerCharacteristics:
       return 'RSM-027';
-    case DocumentType.B2CUpdateChargeLinks:
     case DocumentType.UpdateChargeLinks:
     case DocumentType.ConfirmRequestChangeBillingMasterData:
     case DocumentType.RejectRequestChangeBillingMasterData:
@@ -66,6 +65,7 @@ export const getDocumentTypeIdentifier = (documentType: DocumentType) => {
     case DocumentType.NotifyPriceList:
       return 'RSM-034';
     case DocumentType.RequestPriceList:
+    case DocumentType.RejectRequestPriceList:
       return 'RSM-035';
   }
 };

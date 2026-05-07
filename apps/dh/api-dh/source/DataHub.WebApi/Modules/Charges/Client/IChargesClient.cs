@@ -28,18 +28,11 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
 public interface IChargesClient
 {
     /// <summary>
-    /// Query charge information.
+    /// Query charge overview items (charges flattened by period).
     /// </summary>
-    Task<IEnumerable<Charge>> GetChargesAsync(
+    Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
-        string[]? owners,
-        ChargeType[]? types,
-        ChargeStatus[]? status,
-        Resolution[]? resolution,
-        bool? vatInclusive,
-        bool? transparentInvoicing,
-        bool? spotDependingPrice,
-        bool? missingPriceSeries,
+        ChargeOverviewQuery? query,
         CancellationToken ct = default);
 
     /// <summary>
@@ -76,14 +69,27 @@ public interface IChargesClient
     /// Create a new charge.
     /// </summary>
     Task<bool> CreateChargeAsync(
-        CreateChargeInput input,
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
         CancellationToken ct = default);
 
     /// <summary>
     /// Update a charge.
     /// </summary>
     Task<bool> UpdateChargeAsync(
-        UpdateChargeInput input,
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
         CancellationToken ct = default);
 
     /// <summary>
@@ -102,5 +108,46 @@ public interface IChargesClient
         DateTimeOffset start,
         DateTimeOffset end,
         List<ChargePointV2> points,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Query charge link overview items (charge links flattened by period).
+    /// </summary>
+    Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+        string meteringPointId,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Stops a charge link at a given date.
+    /// </summary>
+    Task<bool> StopChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Cancels a charge link by its id.
+    /// </summary>
+    Task<bool> CancelChargeLinkAsync(
+        ChargeLinkId id,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Edits a charge link.
+    /// </summary>
+    Task<bool> EditChargeLinkAsync(
+        ChargeLinkId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Creates a charge link.
+    /// </summary>
+    Task<bool> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
         CancellationToken ct = default);
 }

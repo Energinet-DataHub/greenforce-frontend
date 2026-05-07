@@ -74,7 +74,7 @@ export const dhFeatureFlagsConfig = {
   },
   'end-of-supply': {
     created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
+    disabledEnvironments: [DhAppEnvironment.prod],
   },
 } satisfies FeatureFlagConfig;
 

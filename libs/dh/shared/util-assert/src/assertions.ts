@@ -16,14 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-/** Asserts that the given condition is true */
+
+/** Asserts that the given condition is true. */
 export function assert(condition: unknown, msg = 'Assertion failed'): asserts condition {
   if (condition === false) throw new Error(msg);
 }
 
-/** Asserts that the given value is defined (not null or undefined) */
+/** Asserts that the given value is defined (not null or undefined). */
 export function assertIsDefined<T>(value: T): asserts value is NonNullable<T> {
   if (value === null || value === undefined) {
     throw new Error(`Expected 'value' to be defined, but received ${value}`);
   }
+}
+
+/** Asserts that the given value is a record. */
+export function assertIsRecord(
+  value: unknown
+): asserts value is Record<string | number | symbol, unknown> {
+  const type = Array.isArray(value) ? 'array' : value === null ? 'null' : typeof value;
+  if (type !== 'object') throw new Error(`Expected 'value' to be a record, but received ${type}`);
 }

@@ -16,9 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { combineLatest, filter, map } from 'rxjs';
+import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
 
@@ -40,16 +40,17 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  EicFunction,
   GetMeteringPointProcessOverviewDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
     RouterOutlet,
@@ -132,33 +133,32 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
           {{ process.initiator?.displayName | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actions; let process">
-          @if (canPerformActions() || isFas()) {
-            <vater-stack
-              direction="row"
-              gap="s"
-              *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
-            >
-              @for (
-                action of process.availableActions | supportedActions: process.businessReason;
-                track action
-              ) {
-                @if (canPerformActions()) {
-                  <watt-button
-                    variant="secondary"
-                    (click)="onActionClick($event, process, action)"
-                    size="small"
-                  >
-                    {{ t(process.businessReason + '.' + action) }}
-                  </watt-button>
-                } @else if (isFas()) {
-                  <vater-stack direction="row" gap="xs">
-                    <watt-icon name="warning" size="s" />
-                    <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
-                  </vater-stack>
-                }
+          <vater-stack
+            direction="row"
+            gap="s"
+            *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
+          >
+            @for (
+              action of process.availableActions
+                | supportedActions: process.businessReason : isEnergySupplierResponsible();
+              track action
+            ) {
+              @if (isFas()) {
+                <vater-stack direction="row" gap="xs">
+                  <watt-icon name="warning" size="s" />
+                  <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
+                </vater-stack>
+              } @else {
+                <watt-button
+                  variant="secondary"
+                  (click)="onActionClick($event, process, action)"
+                  size="small"
+                >
+                  {{ t(process.businessReason + '.' + action) }}
+                </watt-button>
               }
-            </vater-stack>
-          }
+            }
+          </vater-stack>
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -172,16 +172,10 @@ export class DhMeteringPointProcessOverviewTable {
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
+  readonly isEnergySupplierResponsible = input.required<boolean>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
-  protected canPerformActions = toSignal(
-    combineLatest([
-      this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
-      this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
-    ]).pipe(map(([isNet, isEl]) => isNet || isEl)),
-    { initialValue: false }
-  );
 
   initialDateRange = {
     start: dayjs().subtract(3, 'months').startOf('day').toDate(),
@@ -190,8 +184,9 @@ export class DhMeteringPointProcessOverviewTable {
 
   query = query(GetMeteringPointProcessOverviewDocument, () => ({
     variables: {
+      ...this.filters(),
       meteringPointId: this.meteringPointId(),
-      created: this.initialDateRange,
+      created: this.filters()?.created ?? this.initialDateRange,
     },
   }));
 
@@ -214,16 +209,19 @@ export class DhMeteringPointProcessOverviewTable {
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
-  variables = computed(() => ({ ...this.filters(), meteringPointId: this.meteringPointId() }));
-  refetch = effect(() => this.query.refetch(this.variables()));
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
-    this.actionService.execute(action, process.businessReason, {
-      meteringPointId: this.meteringPointId(),
-      internalMeteringPointId: this.internalMeteringPointId(),
-      processId: process.id,
-      cutoffDate: process.cutoffDate,
-    });
+    this.actionService.execute(
+      action,
+      process.businessReason,
+      {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+        processId: process.id,
+        cutoffDate: process.cutoffDate,
+      },
+      this.isEnergySupplierResponsible()
+    );
   }
 }

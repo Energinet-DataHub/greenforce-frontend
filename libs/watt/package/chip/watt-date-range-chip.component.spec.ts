@@ -126,9 +126,10 @@ describe(WattDateRangeChipComponent.name, () => {
 
   it('should open date picker when clicked', async () => {
     await setup();
+    const user = userEvent.setup();
 
     const chip = screen.getByRole('button', { pressed: false });
-    userEvent.click(chip);
+    await user.click(chip);
 
     await waitForAsync(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -198,9 +199,10 @@ describe(WattDateRangeChipComponent.name, () => {
 
   it('should show clear and select buttons when showActions is true', async () => {
     await setup({ showActions: true });
+    const user = userEvent.setup();
 
     const chip = screen.getByRole('button');
-    userEvent.click(chip);
+    await user.click(chip);
 
     await waitForAsync(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -220,9 +222,10 @@ describe(WattDateRangeChipComponent.name, () => {
       formControl: new FormControl(dateRange),
       showActions: true,
     });
+    const user = userEvent.setup();
 
     const chip = screen.getByRole('button');
-    userEvent.click(chip);
+    await user.click(chip);
 
     await waitForAsync(() => {
       const clearButton = screen.getByRole('button', { name: /clear/i });
@@ -230,7 +233,7 @@ describe(WattDateRangeChipComponent.name, () => {
     });
 
     const clearButton = screen.getByRole('button', { name: /clear/i });
-    userEvent.click(clearButton);
+    await user.click(clearButton);
 
     expect(selectionChangeSpy).toHaveBeenCalledWith(null);
   });

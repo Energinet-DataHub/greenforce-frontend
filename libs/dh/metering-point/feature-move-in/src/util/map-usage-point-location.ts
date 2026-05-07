@@ -18,15 +18,15 @@
 //#endregion
 import { AddressDetailsValues, ContactDetailsValues } from '../types';
 import {
-  AddressTypeV1,
-  UsagePointLocationV1Input,
+  AddressTypeV2,
+  UsagePointLocationV2Input,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function mapUsagePointLocation(
   contactDetails: ContactDetailsValues,
   addressDetails: AddressDetailsValues,
-  addressType: AddressTypeV1
-): UsagePointLocationV1Input {
+  addressType: AddressTypeV2
+): UsagePointLocationV2Input {
   const contact = contactDetails.contactGroup;
   const address = addressDetails.addressGroup;
   return {

@@ -16,20 +16,54 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, StoryFn } from '@storybook/angular';
+import { applicationConfig, Meta, StoryFn } from '@storybook/angular';
 
 import { WattCodeComponent } from './watt-code.component';
+import { WATT_CODE_HIGHLIGHT_WORKER_FACTORY } from './watt-code.worker.token';
+
+// Storybook-only mock worker. The real highlight worker (highlight.js based)
+// lives in the consuming app, so without a provider the code component renders
+// blank. This Blob worker echoes the input HTML-escaped and reports the
+// discovered language so the stories actually display content.
+const mockWorkerSource = `
+  const escape = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+  onmessage = (event) => {
+    const { data, language } = event.data;
+    if (!data) {
+      postMessage({ formattedData: '', discoveredLanguage: language === 'auto' ? 'json' : language });
+      return;
+    }
+    const detected = language === 'auto'
+      ? (data.trimStart().startsWith('<') ? 'xml' : 'json')
+      : language;
+    postMessage({ formattedData: escape(data), discoveredLanguage: detected });
+  };
+`;
+
+const createMockHighlightWorker = () => {
+  const url = URL.createObjectURL(new Blob([mockWorkerSource], { type: 'application/javascript' }));
+  const worker = new Worker(url);
+  URL.revokeObjectURL(url);
+  return worker;
+};
 
 const meta: Meta<WattCodeComponent> = {
   title: 'Components/Code',
   component: WattCodeComponent,
+  decorators: [
+    applicationConfig({
+      providers: [
+        { provide: WATT_CODE_HIGHLIGHT_WORKER_FACTORY, useValue: createMockHighlightWorker },
+      ],
+    }),
+  ],
 };
 
 export default meta;
 
 const Template: StoryFn = (args) => ({
   props: args,
-  template: `<watt-code [code]=code />`,
+  template: `<div style="height: 500px;"><watt-code [code]=code /></div>`,
 });
 
 export const Xml = Template.bind({});
@@ -137,4 +171,29 @@ export const Json = Template.bind({});
 
 Json.args = {
   code: `{ "foo": "bar" }`,
+};
+
+export const JsonLongLines = Template.bind({});
+
+JsonLongLines.args = {
+  code: `{
+  "messageId": "5a8e7c6d-3f2b-4a1e-9c0d-7b8f4d2e1a3c",
+  "documentType": "RequestAggregatedMeasureData",
+  "businessReason": "BalanceFixing",
+  "narrative": "This single line is intentionally very long to demonstrate that the watt-code viewer offers horizontal scrolling when a JSON value contains content that exceeds the viewport width, including long URLs such as https://example.energinet.dk/api/v1/messages/aggregated-measure-data/5a8e7c6d-3f2b-4a1e-9c0d-7b8f4d2e1a3c?include=meteringpoints,timeseries,settlement&format=cim&schemaVersion=2.0",
+  "meteringPointIds": ["571313180400012882", "571313180400012899", "571313180400012905", "571313180400012912", "571313180400012929", "571313180400012936", "571313180400012943", "571313180400012950"]
+}`,
+};
+
+export const XmlLongLines = Template.bind({});
+
+XmlLongLines.args = {
+  code: `<?xml version="1.0" encoding="UTF-8"?>
+<cim:RequestAggregatedMeasureData_MarketDocument xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cim="urn:ediel.org:measure:requestaggregatedmeasuredata:0:1" xsi:schemaLocation="urn:ediel.org:measure:requestaggregatedmeasuredata:0:1 urn-ediel-org-measure-requestaggregatedmeasuredata-0-1.xsd">
+  <cim:mRID>5a8e7c6d-3f2b-4a1e-9c0d-7b8f4d2e1a3c</cim:mRID>
+  <cim:Series>
+    <cim:meteringPointLocation.geoInfoReference>POINT(12.5683 55.6761) extended with a long descriptive narrative to ensure the line exceeds the viewport width and triggers horizontal scrolling in the code viewer</cim:meteringPointLocation.geoInfoReference>
+    <cim:attachment.payload>QmFzZTY0ZW5jb2RlZHBheWxvYWR0aGF0aW50ZW50aW9uYWxseWdvZXNvbmZvcmF3aGlsZXRvZW5zdXJlaG9yaXpvbnRhbHNjcm9sbGluZ2lzZGVtb25zdHJhdGVkY2xlYXJseWluc3Rvcnlib29r</cim:attachment.payload>
+  </cim:Series>
+</cim:RequestAggregatedMeasureData_MarketDocument>`,
 };

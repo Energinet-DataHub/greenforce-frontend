@@ -95,7 +95,7 @@ export class DhInactivityDetectionService {
             this.openModal();
             break;
           case ActivityState.Overdue:
-            this.logout('automatic_logout');
+            this.logout(ActivityState.Overdue);
             break;
         }
       });
@@ -108,7 +108,7 @@ export class DhInactivityDetectionService {
 
       this.modalService.open({
         component: DhInactivityLogoutComponent,
-        onClosed: (result) => result && this.logout('manual_logout'),
+        onClosed: (result) => result && this.logout(ActivityState.Inactive),
       });
     });
   }
@@ -117,17 +117,15 @@ export class DhInactivityDetectionService {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 
-  private logout(reason: 'automatic_logout' | 'manual_logout') {
-    const redirectUrl = this.pageLeaveRedirectService.getRedirectUrl() ?? this.location.path();
-
-    this.appInsights.trackEvent(`User inactivity: ${reason}`);
-    this.appInsights.flush();
-
-    // Delay redirect to logout so AppInsights has a chance to flush
-    setTimeout(() => {
+  private async logout(state: ActivityState) {
+    try {
+      this.appInsights.trackEvent(`User inactivity: ${ActivityState[state]}`);
+      await this.appInsights.flush();
+    } finally {
+      const redirectUrl = this.pageLeaveRedirectService.getRedirectUrl() ?? this.location.path();
       sessionStorage.setItem(POST_LOGIN_REDIRECT_KEY, redirectUrl);
       this.msal.logoutRedirect();
-    }, 2_000);
+    }
   }
 
   private restoreRouteAfterLogin() {

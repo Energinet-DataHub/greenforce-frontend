@@ -45,11 +45,11 @@ import {
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
 @Component({
   selector: 'dh-charges-information',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     .page-header {
       background-color: var(--watt-color-neutral-white);
@@ -73,7 +73,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattButtonComponent,
     WattIconComponent,
     DhEmDashFallbackPipe,
-    DhChargesStatus,
     DhToolbarPortalComponent,
     DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
@@ -90,17 +89,17 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         </watt-breadcrumb>
       </watt-breadcrumbs>
     </dh-toolbar-portal>
+
     <vater-flex inset="0" *transloco="let t; prefix: 'charges'">
       <vater-stack class="page-header" direction="row" gap="m" wrap align="end">
         @if (charge(); as charge) {
           <header>
             <vater-stack direction="row" gap="m" class="watt-space-stack-m">
               <h2 [style.margin]="0">{{ charge.displayName }}</h2>
-              <dh-charges-status [status]="charge.status" />
             </vater-stack>
             <watt-description-list variant="inline-flow">
               <watt-description-list-item [label]="t('charge.type')">
-                {{ t('chargeTypes.' + charge.type) }}
+                {{ charge.typeDisplayName }}
               </watt-description-list-item>
               <watt-description-list-item [label]="t('charge.owner')">
                 {{ charge.owner?.displayName | dhEmDashFallback }}
@@ -150,7 +149,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         fill="vertical"
         *transloco="let t; prefix: 'charges.charge.tabs'"
       >
-        <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices', resolution())" />
+        <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
         <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
         <watt-link-tab
           *dhFeatureFlag="'charges-history'"
@@ -159,17 +158,18 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         />
       </watt-link-tabs>
     </vater-flex>
+
     <router-outlet name="actions" />
   `,
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DhChargesInformation {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+
   readonly id = input.required<string>();
+
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
-  resolution = computed(() => this.charge()?.resolution ?? 'unknown');
   getLink = (path: ChargesSubPaths, ...paths: string[]) => [getPath(path), ...paths].join('/');
   parentUrl = this.router.createUrlTree([getPath<BasePaths>('charges')], {
     // Preserve filters when navigating back to list view
