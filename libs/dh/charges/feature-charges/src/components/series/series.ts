@@ -64,8 +64,6 @@ import { DhChargesSeriesDetails } from './series-details';
   ],
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [error]="chargeSeriesQuery.error()"
       [ready]="ready()"
       [enablePaginator]="false"
