@@ -38,10 +38,7 @@ import {
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
-import {
-  ChargeOverviewQueryInput,
-  ChargeResolution,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { ChargeOverviewQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
