@@ -19,6 +19,7 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
@@ -120,9 +121,16 @@ public static partial class ChargeNode
         var periods = charge.Periods.Where(p => p.Status != ChargeStatus.Cancelled).ToList();
         if (periods.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
 
-        var now = DateTimeOffset.Now.ToInstant();
-        var maxEnd = now.InUtc().LocalDateTime.PlusYears(3).InUtc().ToInstant();
-        var start = periods.Min(p => p.Period.Start);
+        var lookback = DateTimeOffset.Now
+            .ToInstant()
+            .InZone(LocalDateExtensions.DanishTimeZone).Date
+            .PlusMonths(-3)
+            .With(DateAdjusters.StartOfMonth)
+            .AtStartOfDayInZone(LocalDateExtensions.DanishTimeZone)
+            .ToInstant();
+
+        var maxEnd = DateTimeOffset.UtcNow.AddYears(10).ToInstant();
+        var start = Instant.Max(lookback, periods.Min(p => p.Period.Start));
         var end = periods.Max(p => p.Period.HasEnd ? p.Period.End : maxEnd);
 
         return await client.GetMissingPriceSeriesPointsAsync(

@@ -152,15 +152,17 @@ public class ChargesClient(
         if (sorted.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
 
         var existingSlots = sorted.Select(p => p.From).ToHashSet();
-        var lastDataPoint = sorted[^1].From;
+        var firstPoint = sorted[0].From;
+        var lastPoint = sorted[^1].From;
+        var gapCutoff = DateTimeOffset.UtcNow.AddYears(2).ToInstant();
 
-        var gaps = GenerateExpectedSlots(interval.Start, StepByResolution(lastDataPoint, resolution, 1), resolution)
-            .Where(slot => !existingSlots.Contains(slot))
+        var gaps = GenerateExpectedSlots(firstPoint, StepByResolution(lastPoint, resolution, 1), resolution)
+            .Where(slot => !existingSlots.Contains(slot) && slot < gapCutoff)
             .Select(slot => new Interval(slot, StepByResolution(slot, resolution, 1)))
             .GroupBy(gap => CollapseKey(gap.Start.InZone(DanishTimeZone), resolution))
             .Select(g => g.First());
 
-        return new MissingPriceSeriesResult(Gaps: gaps, EndsAt: lastDataPoint.ToDateTimeOffset());
+        return new MissingPriceSeriesResult(Gaps: gaps, EndsAt: lastPoint.ToDateTimeOffset());
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
