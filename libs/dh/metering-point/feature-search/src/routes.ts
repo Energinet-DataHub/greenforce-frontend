@@ -202,6 +202,7 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: `${getPath<MeteringPointSubPaths>('update-customer-details')}`,
+            data: { hideHeader: true },
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-move-in').then(
                 (m) => m.DhUpdateCustomerDataComponent
@@ -209,6 +210,7 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: `${getPath<MeteringPointSubPaths>('update-customer-details')}/:processId`,
+            data: { hideHeader: true },
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-move-in').then(
                 (m) => m.DhUpdateCustomerDataComponent

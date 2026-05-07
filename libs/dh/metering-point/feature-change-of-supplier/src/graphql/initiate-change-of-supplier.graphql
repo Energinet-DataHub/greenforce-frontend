@@ -1,0 +1,5 @@
+mutation InitiateChangeOfSupplier($input: InitiateChangeOfSupplierInput!) {
+  initiateChangeOfSupplier(input: $input) {
+    success: boolean
+  }
+}

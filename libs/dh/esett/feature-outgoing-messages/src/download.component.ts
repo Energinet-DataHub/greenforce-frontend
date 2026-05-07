@@ -21,7 +21,11 @@ import { Component, input } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 
 import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhDownloadButtonComponent,
+  DhDownloadButtonMode,
+  GenerateCSV,
+} from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   DownloadEsettExchangeEventsDocument,
@@ -31,7 +35,7 @@ import {
 @Component({
   selector: 'dh-outgoing-message-download',
   imports: [DhDownloadButtonComponent],
-  template: ` <dh-download-button (click)="download()" /> `,
+  template: ` <dh-download-button [mode]="mode()" (click)="download()" /> `,
 })
 export class DhOutgoingMessageDownloadComponent {
   private downloadMessagesQuery = lazyQuery(DownloadEsettExchangeEventsDocument);
@@ -41,6 +45,7 @@ export class DhOutgoingMessageDownloadComponent {
   );
 
   variables = input.required<Partial<DownloadEsettExchangeEventsQueryVariables> | undefined>();
+  mode = input<DhDownloadButtonMode>('button');
 
   async download() {
     await this.generateCSV

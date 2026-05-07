@@ -27,10 +27,10 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
   ChargeSeriesPointChange,
+  GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -70,8 +70,8 @@ import { DhChargesSeriesGaps } from './series-gaps';
     <watt-data-table
       vater
       inset="ml"
-      [error]="query.error()"
-      [ready]="query.called()"
+      [error]="chargeSeriesQuery.error()"
+      [ready]="ready()"
       [enablePaginator]="false"
       [header]="false"
       *transloco="let t; prefix: 'charges.series'"
@@ -98,12 +98,12 @@ import { DhChargesSeriesGaps } from './series-gaps';
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
-        [loading]="query.loading()"
+        [loading]="chargeSeriesQuery.loading()"
         (rowClick)="activeRow.set($event)"
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        @let dateHeader = t('resolution.' + resolution());
+        @let dateHeader = t('resolution.' + (resolution() ?? 'UNKNOWN'));
         <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
           {{ series.interval | dhChargeInterval: resolution() }}
         </ng-container>
@@ -137,7 +137,10 @@ import { DhChargesSeriesGaps } from './series-gaps';
 })
 export class DhChargesSeriesTable {
   id = input.required<string>();
-  resolution = input.required<ChargeResolution>();
+
+  protected chargeByIdQuery = query(GetChargeByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
   protected date = signal<Date>(new Date());
   protected interval = computed(() => {
@@ -153,7 +156,7 @@ export class DhChargesSeriesTable {
     }
   });
 
-  protected query = query(GetChargeSeriesDocument, () => {
+  protected chargeSeriesQuery = query(GetChargeSeriesDocument, () => {
     const interval = this.interval();
     if (!interval) return { skip: true };
     return {
@@ -164,8 +167,11 @@ export class DhChargesSeriesTable {
     };
   });
 
-  charge = computed(() => this.query.data()?.chargeById);
-  series = computed(() => this.charge()?.series ?? []);
+  ready = computed(() => this.chargeByIdQuery.called() && this.chargeSeriesQuery.called());
+
+  charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
+  resolution = computed(() => this.charge()?.resolution);
+  series = computed(() => this.chargeSeriesQuery.data()?.chargeById?.series ?? []);
 
   activeRow = signal<ChargeSeriesPoint | undefined>(undefined);
   enableHistoryToggle = computed(() => this.series().some((point) => point.hasChanged));

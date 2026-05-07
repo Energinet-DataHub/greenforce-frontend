@@ -80,8 +80,7 @@ type Variables = Partial<GetFilteredUserRolesQueryVariables>;
         <dh-user-roles-download [variables]="variables()" />
         <watt-button
           *dhPermissionRequired="['user-roles:manage']"
-          icon="plus"
-          variant="secondary"
+          variant="primary"
           (click)="create()"
           >{{ t('createuserrole') }}
         </watt-button>

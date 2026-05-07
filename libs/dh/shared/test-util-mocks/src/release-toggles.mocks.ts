@@ -44,6 +44,7 @@ function getReleaseTogglesQuery() {
           'PM120-DH3-METERING-POINTS-UI',
           'PM62-ACTOR-CONVERSATION',
           'PM62-ACTOR-CONVERSATION-CENTRAL',
+          'PM50-CHANGE-OF-SUPPLIER-UI',
         ],
       },
     });
