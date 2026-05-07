@@ -16,7 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  linkedSignal,
+  model,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
@@ -81,9 +88,11 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
           @let next = nextGap()?.toDate();
           @let prev = prevGap()?.toDate();
           <dh-charges-warning-banner vater fill="vertical">
-            @if (!position()) {
+            @if (!navigating()) {
               {{ t('gaps.gapsFound') }}
-              <button (click)="first && date.set(first)">{{ t('gaps.goToGaps') }}</button>
+              <button (click)="first && date.set(first); navigating.set(true)">
+                {{ t('gaps.goToGaps') }}
+              </button>
             } @else {
               {{ t('gaps.missingPrices') }}
               <button (click)="prev && date.set(prev)" [disabled]="!prev">
@@ -95,6 +104,9 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
               </span>
               <button (click)="next && date.set(next)" [disabled]="!next">
                 <watt-icon size="s" name="right" />
+              </button>
+              <button (click)="navigating.set(false)">
+                <watt-icon size="s" name="close" />
               </button>
             }
           </dh-charges-warning-banner>
@@ -153,4 +165,8 @@ export class DhChargesSeriesGaps {
   firstGap = computed(() => this.gaps().at(0));
   nextGap = computed(() => this.gaps().find((g) => g.isAfter(this.date(), this.unit())));
   prevGap = computed(() => this.gaps().findLast((g) => g.isBefore(this.date(), this.unit())));
+  navigating = linkedSignal({
+    source: this.position,
+    computation: (pos, previous) => (pos > 0 ? (previous?.value ?? false) : false),
+  });
 }
