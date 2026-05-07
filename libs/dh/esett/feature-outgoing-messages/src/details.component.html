@@ -88,7 +88,10 @@ limitations under the License.
   <watt-tabs>
     <watt-tab [label]="t('tabs.message')">
       <vater-stack align="end">
-        <dh-download-button (click)="downloadXML('message')" />
+        <dh-download-button
+          [alternateText]="'shared.download' | transloco"
+          (click)="downloadXML('message')"
+        />
       </vater-stack>
 
       <watt-code [code]="dispatchDocument.value()" />
@@ -97,7 +100,10 @@ limitations under the License.
     @if (responseDocument.value()) {
       <watt-tab [label]="t('tabs.receipt')">
         <vater-stack align="end">
-          <dh-download-button (click)="downloadXML('receipt')" />
+          <dh-download-button
+            [alternateText]="'shared.download' | transloco"
+            (click)="downloadXML('receipt')"
+          />
         </vater-stack>
 
         <watt-code [code]="responseDocument.value()" language="xml" />
