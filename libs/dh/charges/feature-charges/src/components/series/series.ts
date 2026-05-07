@@ -78,7 +78,7 @@ import { DhChargesSeriesGaps } from './series-gaps';
     >
       <watt-data-filters>
         <vater-stack fill="horizontal" wrap direction="row" align="start" gap="m">
-          <dh-charges-interval-field #intervalField [resolution]="resolution()" [(date)]="date" />
+          <dh-charges-interval-field [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
             <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
@@ -145,7 +145,9 @@ export class DhChargesSeriesTable {
   protected date = signal<Date>(new Date());
   protected interval = computed(() => {
     const start = this.date();
-    switch (this.resolution()) {
+    const resolution = this.resolution();
+    if (!resolution) return undefined;
+    switch (resolution) {
       case 'DAILY':
         return { start, end: dayjs(start).endOf('month').toDate() };
       case 'MONTHLY':
