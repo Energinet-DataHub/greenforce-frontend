@@ -55,7 +55,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export class DhChargesIntervalField {
-  readonly resolution = input.required<ChargeResolution>();
+  readonly resolution = input<ChargeResolution>();
   readonly date = model.required<Date>();
   private value = computed(() => {
     const date = this.date();
@@ -102,8 +102,7 @@ export class DhChargesIntervalField {
               return dayjs.tz(form.yearMonth, YEARMONTH_FORMAT, danishTimeZoneIdentifier).toDate();
             case 'MONTHLY':
               return dayjs.tz(form.year, YEAR_FORMAT, danishTimeZoneIdentifier).toDate();
-            case 'HOURLY':
-            case 'QUARTER_HOURLY':
+            default:
               return dayjs(form.date).startOf('day').toDate();
           }
         })

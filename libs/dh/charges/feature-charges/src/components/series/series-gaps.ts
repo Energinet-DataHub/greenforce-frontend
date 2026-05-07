@@ -133,7 +133,7 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
 })
 export class DhChargesSeriesGaps {
   readonly id = input.required<string>();
-  readonly resolution = input.required<ChargeResolution>();
+  readonly resolution = input<ChargeResolution>();
   readonly date = model.required<Date>();
 
   query = query(GetMissingPriceSeriesPointsDocument, () => ({
@@ -155,8 +155,7 @@ export class DhChargesSeriesGaps {
         return 'year';
       case 'DAILY':
         return 'month';
-      case 'QUARTER_HOURLY':
-      case 'HOURLY':
+      default:
         return 'day';
     }
   });
