@@ -116,7 +116,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
       env: translate(`environmentName.${this.env.current}`),
     });
 
-    const csvData = `${this.headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`;
+    const csvData = `\ufeff${this.headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`;
 
     toFile({ data: csvData, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
@@ -164,7 +164,7 @@ class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends Op
       env: translate(`environmentName.${this.env.current}`),
     });
 
-    toFile({ data: data, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
+    toFile({ data: `\ufeff${data}`, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
     setTimeout(() => this.toastService.dismiss(), 500);
   }
