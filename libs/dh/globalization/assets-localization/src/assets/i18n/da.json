@@ -126,6 +126,7 @@
     },
     "downloadStart": "Starter download...",
     "download": "Download",
+    "exportCsv": "Eksporter CSV",
     "downloadreport": "Download rapport",
     "downloadFailed": "Download fejlede",
     "empty": {

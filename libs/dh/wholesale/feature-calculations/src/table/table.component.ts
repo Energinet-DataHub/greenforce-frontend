@@ -20,7 +20,6 @@ import { RouterLink } from '@angular/router';
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
-import { MatMenuModule } from '@angular/material/menu';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/date';
@@ -34,7 +33,6 @@ import {
   WattDataFiltersComponent,
   WattDataTableComponent,
 } from '@energinet/watt/data';
-import { WATT_MENU } from '@energinet/watt/menu';
 
 import { Calculation } from '@energinet-datahub/dh/wholesale/domain';
 import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
@@ -55,7 +53,6 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
 @Component({
   imports: [
     RouterLink,
-    MatMenuModule,
     TitleCasePipe,
     TranslocoPipe,
     TranslocoDirective,
@@ -63,7 +60,6 @@ import { DhCapacitySettlementsUploaderComponent } from '../file-uploader/dh-capa
     VaterUtilityDirective,
 
     WATT_TABLE,
-    WATT_MENU,
     WattDatePipe,
     WattIconComponent,
     WattButtonComponent,

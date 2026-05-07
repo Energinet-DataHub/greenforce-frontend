@@ -51,7 +51,7 @@ import { Permission } from './types';
     DhDownloadButtonComponent,
   ],
   template: `
-    <vater-stack direction="row" gap="m">
+    <vater-stack direction="row" gap="s">
       <dh-download-button (click)="exportAsCsv()" />
       <dh-download-button
         *dhPermissionRequired="['user-roles:manage']"

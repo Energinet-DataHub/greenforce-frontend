@@ -55,9 +55,6 @@ limitations under the License.
             {{ t("messagesNotSent.plural", { number: waitingForExternalResponse }) }}
           }
         </span>
-        <watt-button variant="secondary" size="small" icon="arrowRightAlt" (click)="resend()">{{
-          t("resendMessages")
-        }}</watt-button>
       </vater-stack>
     }
   </vater-stack>
@@ -67,7 +64,14 @@ limitations under the License.
   </watt-data-filters>
 
   <watt-data-actions>
-    <dh-outgoing-message-download [variables]="variables()" />
+    <vater-stack direction="row" gap="s">
+      <dh-outgoing-message-download [variables]="variables()" />
+      @if (statusReport() > 0) {
+        <watt-button variant="secondary" (click)="resend()">
+          {{ t("resendMessages") }}
+        </watt-button>
+      }
+    </vater-stack>
   </watt-data-actions>
 
   <watt-table
