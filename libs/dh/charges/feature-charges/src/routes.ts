@@ -16,7 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRouteSnapshot, CanActivateFn, Router, Routes } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  CanActivateFn,
+  CanMatchFn,
+  PartialMatchRouteSnapshot,
+  RedirectFunction,
+  Route,
+  Router,
+  Routes,
+  UrlSegment,
+} from '@angular/router';
 import { inject } from '@angular/core';
 
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
@@ -59,21 +69,37 @@ export const chargeRoutes: Routes = [
     children: [
       {
         path: `${getPath<ChargesSubPaths>('prices')}`,
-        canActivate: [pricesLandingPage()],
+        canMatch: [everythingButTariffs()],
         loadComponent: () =>
           import('./components/series/series').then((m) => m.DhChargesSeriesTable),
       },
       {
-        path: `${getPath<ChargesSubPaths>('prices')}/day`,
-        canActivate: [onlyTariffChargeTypes()],
-        loadComponent: () =>
-          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
-      },
-      {
-        path: `${getPath<ChargesSubPaths>('prices')}/month`,
-        canActivate: [onlyTariffChargeTypes()],
-        loadComponent: () =>
-          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+        path: `${getPath<ChargesSubPaths>('prices')}`,
+        canActivate: [onlyTariffs()],
+        children: [
+          {
+            path: '',
+            children: [
+              {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: redirectToCorrectTariffView(),
+              },
+              {
+                path: 'day',
+                canActivate: [ensureCorrectTariffView()],
+                loadComponent: () =>
+                  import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+              },
+            ],
+          },
+          {
+            path: `month`,
+            canActivate: [ensureCorrectTariffView()],
+            loadComponent: () =>
+              import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+          },
+        ],
       },
       {
         path: getPath<ChargesSubPaths>('information'),
@@ -108,10 +134,26 @@ export const chargeRoutes: Routes = [
   },
 ];
 
-/**
- * Guard that ensures only tariff types are allowed to visit the URL, otherwise redirects to charges overview.
- */
-function onlyTariffChargeTypes(): CanActivateFn {
+function everythingButTariffs(): CanMatchFn {
+  return (route: Route, segments: UrlSegment[], snapshot?: PartialMatchRouteSnapshot) => {
+    const router = inject(Router);
+    const idParam: string = snapshot?.params['id'];
+
+    return query(GetChargeByIdDocument, () => ({
+      variables: { id: idParam },
+    }))
+      .result()
+      .then((result) => {
+        if (!result.data.chargeById) {
+          return router.createUrlTree([getPath<BasePaths>('charges')]);
+        }
+
+        return tariffChargeTypes.includes(result.data.chargeById.type) === false;
+      });
+  };
+}
+
+function onlyTariffs(): CanActivateFn {
   return (route: ActivatedRouteSnapshot) => {
     const router = inject(Router);
 
@@ -128,18 +170,33 @@ function onlyTariffChargeTypes(): CanActivateFn {
           return chargesUrlTree;
         }
 
-        const { type, resolution } = result.data.chargeById;
+        return tariffChargeTypes.includes(result.data.chargeById.type) || chargesUrlTree;
+      });
+  };
+}
 
-        if (tariffChargeTypes.includes(type) === false) {
+/**
+ * Guard that redirects to the most specific tariff price view based on resolution.
+ */
+function redirectToCorrectTariffView(): RedirectFunction {
+  return (redirectData: PartialMatchRouteSnapshot) => {
+    const router = inject(Router);
+    const idParam: string = redirectData.params['id'];
+
+    return query(GetChargeByIdDocument, () => ({
+      variables: { id: idParam },
+    }))
+      .result()
+      .then((result) => {
+        const chargesUrlTree = router.createUrlTree([getPath<BasePaths>('charges')]);
+
+        if (!result.data.chargeById) {
           return chargesUrlTree;
         }
 
-        const tariffViewInRoute = route.url.at(-1)?.path as ChargeTariffSubPaths | undefined;
-        const correctTariffViewForResolution = findAppropriateTariffView(resolution);
-
-        if (tariffViewInRoute === correctTariffViewForResolution) {
-          return true;
-        }
+        const correctTariffViewForResolution = findTheCorrectTariffView(
+          result.data.chargeById.resolution
+        );
 
         return router.createUrlTree(tariffViewUrlPath(idParam, correctTariffViewForResolution));
       });
@@ -147,10 +204,9 @@ function onlyTariffChargeTypes(): CanActivateFn {
 }
 
 /**
- * Guard that redirects to the most specific price view based on charge type and resolution.
- * If the charge type is a tariff, redirects to the appropriate view based on resolution, otherwise allows navigation to the prices overview.
+ * Guard that ensures only tariff types are allowed to visit the URL, otherwise redirects to charges overview.
  */
-function pricesLandingPage(): CanActivateFn {
+function ensureCorrectTariffView(): CanActivateFn {
   return (route: ActivatedRouteSnapshot) => {
     const router = inject(Router);
 
@@ -161,24 +217,27 @@ function pricesLandingPage(): CanActivateFn {
     }))
       .result()
       .then((result) => {
+        const chargesUrlTree = router.createUrlTree([getPath<BasePaths>('charges')]);
+
         if (!result.data.chargeById) {
-          return router.createUrlTree([getPath<BasePaths>('charges')]);
+          return chargesUrlTree;
         }
 
-        const { type, resolution } = result.data.chargeById;
+        const tariffViewInRoute = route.url.at(-1)?.path as ChargeTariffSubPaths | undefined;
+        const correctTariffViewForResolution = findTheCorrectTariffView(
+          result.data.chargeById.resolution
+        );
 
-        if (tariffChargeTypes.includes(type)) {
-          return router.createUrlTree(
-            tariffViewUrlPath(idParam, findAppropriateTariffView(resolution))
-          );
+        if (tariffViewInRoute === correctTariffViewForResolution) {
+          return true;
         }
 
-        return true;
+        return router.createUrlTree(tariffViewUrlPath(idParam, correctTariffViewForResolution));
       });
   };
 }
 
-function findAppropriateTariffView(tariffResolution: ChargeResolution): ChargeTariffSubPaths {
+function findTheCorrectTariffView(tariffResolution: ChargeResolution): ChargeTariffSubPaths {
   switch (tariffResolution) {
     case 'DAILY':
       return 'month';
