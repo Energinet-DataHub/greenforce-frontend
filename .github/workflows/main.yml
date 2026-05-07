@@ -81,7 +81,7 @@ jobs:
         uses: peter-evans/repository-dispatch@28959ce8df70de7be546dd1250a005dd32156697 # v4.0.1
         with:
           token: ${{ steps.generate_token.outputs.token }}
-          repository: ${{ vars.environment_repository_path }}
+          repository: Energinet-DataHub/dh3-infrastructure
           event-type: ui-deployment-request-domain
           # yamllint disable-line rule:quoted-strings
           client-payload: '{"pr_number": "${{ steps.find_pull_request.outputs.pull_request_number }}", "dotnet": "true", "frontend": "true"}'

@@ -19,7 +19,7 @@
 import { httpResource } from '@angular/common/http';
 import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
 
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import {
   WattDescriptionListComponent,
@@ -44,6 +44,7 @@ import { ArchivedMessage } from '../types';
   selector: 'dh-message-archive-search-details',
   imports: [
     TranslocoDirective,
+    TranslocoPipe,
     VaterFlexComponent,
     VaterUtilityDirective,
     WATT_DRAWER,
@@ -78,7 +79,11 @@ import { ArchivedMessage } from '../types';
         </watt-description-list>
       </watt-drawer-heading>
       <watt-drawer-actions>
-        <dh-download-button [disabled]="!document.hasValue()" (click)="download()" />
+        <dh-download-button
+          [disabled]="!document.hasValue()"
+          [alternateText]="'shared.download' | transloco"
+          (click)="download()"
+        />
       </watt-drawer-actions>
       <watt-drawer-content>
         @if (document.isLoading()) {

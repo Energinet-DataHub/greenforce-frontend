@@ -126,6 +126,7 @@
     },
     "downloadStart": "Starter download...",
     "download": "Download",
+    "exportCsv": "Eksporter CSV",
     "downloadreport": "Download rapport",
     "downloadFailed": "Download fejlede",
     "empty": {
@@ -1227,6 +1228,7 @@
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
         "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_1": "Afvisning af anmodning om serviceydelse (RSM-020)",
+        "BRS_039_REJECTIONOFREQUESTFORSERVICE_V1_STEP_2": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_1": "Anmodning om annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_2": "Godkendelse af annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_3": "Afvisning af annullering af serviceydelse (RSM-024)",

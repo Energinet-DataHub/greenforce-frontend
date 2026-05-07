@@ -24,10 +24,9 @@ import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WATT_MENU } from '@energinet/watt/menu';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 import {
   WattDataTableComponent,
@@ -72,12 +71,12 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
     WATT_CARD,
     WATT_TABLE,
     WATT_MENU,
-    WattIconComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
+    VaterStackComponent,
     DhEmDashFallbackPipe,
     DownloadMarketParticipants,
     DhPermissionRequiredDirective,
