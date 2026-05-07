@@ -89,9 +89,9 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     missingPriceSeriesPoints: {
       __typename: 'MissingPriceSeriesResult' as const,
       gaps: [
-        { start: new Date('2022-03-15T00:00:00Z'), end: new Date('2022-03-15T01:00:00Z') },
-        { start: new Date('2022-06-20T00:00:00Z'), end: new Date('2022-06-20T01:00:00Z') },
-        { start: new Date('2022-09-01T00:00:00Z'), end: new Date('2022-09-01T01:00:00Z') },
+        new Date('2022-03-15T00:00:00Z'),
+        new Date('2022-06-20T00:00:00Z'),
+        new Date('2022-09-01T00:00:00Z'),
       ],
       endsAt: new Date('2022-09-30T00:00:00Z'),
     },
@@ -140,7 +140,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
     missingPriceSeriesPoints: {
       __typename: 'MissingPriceSeriesResult' as const,
-      gaps: [{ start: new Date('2022-04-10T00:00:00Z'), end: new Date('2022-04-10T01:00:00Z') }],
+      gaps: [new Date('2022-04-10T00:00:00Z')],
       endsAt: new Date('2022-10-15T00:00:00Z'),
     },
   },

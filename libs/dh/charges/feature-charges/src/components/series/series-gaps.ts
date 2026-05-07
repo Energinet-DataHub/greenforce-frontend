@@ -89,9 +89,9 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
           @let prev = prevGap()?.toDate();
           <dh-charges-warning-banner vater fill="vertical">
             @if (!navigating()) {
-              {{ t('gaps.gapsFound') }}
+              {{ t('gaps.gapsFound') }}.
               <button (click)="first && date.set(first); navigating.set(true)">
-                {{ t('gaps.goToGaps') }}
+                {{ t('gaps.showGaps') }}
               </button>
             } @else {
               {{ t('gaps.missingPrices') }}
@@ -99,7 +99,7 @@ import { DhChargesWarningBanner } from '@energinet-datahub/dh/charges/feature-ui
                 <watt-icon size="s" name="left" />
               </button>
               <span class="position">
-                {{ position() }} {{ t('gaps.of') }} {{ gaps().length }}
+                {{ position() }} / {{ gaps().length }}
                 {{ t('gaps.unit.' + unit()) }}
               </span>
               <button (click)="next && date.set(next)" [disabled]="!next">
@@ -143,7 +143,7 @@ export class DhChargesSeriesGaps {
   }));
 
   missingPoints = computed(() => this.query.data()?.chargeById?.missingPriceSeriesPoints);
-  gaps = computed(() => (this.missingPoints()?.gaps ?? []).map((g) => dayjs(g.start)));
+  gaps = computed(() => (this.missingPoints()?.gaps ?? []).map((g) => dayjs(g)));
   endsAt = computed(() => this.missingPoints()?.endsAt);
 
   deadline = dayjs().add(62, 'days');

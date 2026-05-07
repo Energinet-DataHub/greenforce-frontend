@@ -1190,7 +1190,7 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
 }
 
 type MissingPriceSeriesResult {
-  gaps: [DateRange!]!
+  gaps: [DateTime!]!
   endsAt: DateTime
 }
 

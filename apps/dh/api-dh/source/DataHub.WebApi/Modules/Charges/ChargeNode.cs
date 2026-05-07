@@ -121,12 +121,12 @@ public static partial class ChargeNode
         var periods = charge.Periods.Where(p => p.Status != ChargeStatus.Cancelled).ToList();
         if (periods.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
 
-        var lookback = DateTimeOffset.Now
-            .ToInstant()
-            .InZone(LocalDateExtensions.DanishTimeZone).Date
+        var tz = LocalDateExtensions.DanishTimeZone;
+        var today = DateTimeOffset.Now.ToInstant().InZone(tz).Date;
+        var lookback = today
             .PlusMonths(-3)
             .With(DateAdjusters.StartOfMonth)
-            .AtStartOfDayInZone(LocalDateExtensions.DanishTimeZone)
+            .AtStartOfDayInZone(tz)
             .ToInstant();
 
         var maxEnd = DateTimeOffset.UtcNow.AddYears(10).ToInstant();
