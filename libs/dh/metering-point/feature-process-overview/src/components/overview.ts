@@ -16,11 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  signal,
+  untracked,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
+
+import { WattToastService } from '@energinet/watt/toast';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -169,6 +180,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly toastService = inject(WattToastService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -183,6 +195,8 @@ export class DhMeteringPointProcessOverviewTable {
   };
 
   query = query(GetMeteringPointProcessOverviewDocument, () => ({
+    fetchPolicy: 'cache-and-network',
+    pollInterval: 10_000,
     variables: {
       ...this.filters(),
       meteringPointId: this.meteringPointId(),
@@ -209,6 +223,32 @@ export class DhMeteringPointProcessOverviewTable {
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
+
+  private errorSince = signal<number | null>(null);
+  private hasOpenConnectivityToast = false;
+
+  private readonly connectivityEffect = effect((onCleanup) => {
+    const error = this.query.error();
+    if (error && !untracked(() => this.errorSince())) {
+      this.errorSince.set(Date.now());
+      const timeout = setTimeout(() => {
+        if (this.query.error()) {
+          this.toastService.open({
+            type: 'warning',
+            message: translate('meteringPoint.processOverview.connectivityWarning'),
+          });
+          this.hasOpenConnectivityToast = true;
+        }
+      }, 60_000);
+      onCleanup(() => clearTimeout(timeout));
+    } else if (!error) {
+      this.errorSince.set(null);
+      if (this.hasOpenConnectivityToast) {
+        this.toastService.dismiss();
+        this.hasOpenConnectivityToast = false;
+      }
+    }
+  });
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
