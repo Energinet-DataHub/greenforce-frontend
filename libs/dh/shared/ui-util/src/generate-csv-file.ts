@@ -30,6 +30,15 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { HttpClient } from '@angular/common/http';
 
 import { toFile } from './stream-to-file';
+
+// Dear future programmer: You might be wondering why there is a weird unicode
+// character prepended to the data. This is a UTF-8 BOM (which should not normally
+// be required) but since CSV files are often opened in Excel, an application
+// that seems to handle encoding quite poorly, this extra character ensures that
+// the file is correctly recognized as UTF-8.
+function bomify(data: string) {
+  return `\ufeff${data}`;
+}
 export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVariables> {
   private env = inject(dhAppEnvironmentToken);
   private toastService = inject(WattToastService);
@@ -118,7 +127,7 @@ export class GenerateCSV<TResult, TQueryResult, TVariables extends OperationVari
 
     const csvData = `${this.headers.join(';')}\n${lines.map((x) => x.join(';')).join('\n')}`;
 
-    toFile({ data: csvData, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
+    toFile({ data: bomify(csvData), name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
     setTimeout(() => this.toastService.dismiss(), 500);
   }
@@ -164,7 +173,7 @@ class GenrateFromQueryWithRawResult<TResult, TQueryResult, TVariables extends Op
       env: translate(`environmentName.${this.env.current}`),
     });
 
-    toFile({ data: data, name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
+    toFile({ data: bomify(data), name: `${filename}.csv`, type: 'text/csv;charset=utf-8;' });
 
     setTimeout(() => this.toastService.dismiss(), 500);
   }
@@ -201,13 +210,8 @@ class GenerateCSVFromStream {
             env: translate(`environmentName.${this.env.current}`),
           });
 
-          // Dear future programmer: You might be wondering why there is a weird unicode
-          // character prepended to the data. This is a UTF-8 BOM (which should not normally
-          // be required) but since CSV files are often opened in Excel, an application
-          // that seems to handle encoding quite poorly, this extra character ensures that
-          // the file is correctly recognized as UTF-8.
           toFile({
-            data: `\ufeff${data}`,
+            data: bomify(data),
             name: `${this.fileName || filename}.csv`,
             type: 'text/csv;charset=utf-8;',
           });
