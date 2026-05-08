@@ -490,6 +490,7 @@ function getMissingPriceSeriesPoints() {
         chargeById: charge
           ? {
               __typename: 'Charge',
+              id: charge.id,
               missingPriceSeriesPoints: charge.missingPriceSeriesPoints,
             }
           : null,
