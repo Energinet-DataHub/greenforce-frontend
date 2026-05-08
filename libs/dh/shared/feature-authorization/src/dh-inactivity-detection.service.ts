@@ -58,7 +58,7 @@ export class DhInactivityDetectionService {
   private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
   private readonly appInsights = inject(DhApplicationInsights);
 
-  private readonly secondsUntilWarning = 10;
+  private readonly secondsUntilWarning = 115 * 60;
 
   private readonly inputDetection$ = merge(
     fromEvent(document, 'mousedown'),
