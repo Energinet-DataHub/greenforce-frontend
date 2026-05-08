@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
@@ -22,6 +23,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
+using HotChocolate.Subscriptions;
 using NodaTime;
 
 using WorkflowAction = Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction;
@@ -37,20 +39,13 @@ public static partial class MeteringPointProcessNode
         Interval created,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
-        CancellationToken cancellationToken)
-    {
-        var userIdentity = httpContextAccessor.CreateUserIdentity();
-
-        var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
-            userIdentity,
+        CancellationToken cancellationToken) =>
+        await GetMeteringPointProcessesAsync(
             meteringPointId,
-            created.Start.ToDateTimeOffset(),
-            created.End.ToDateTimeOffset());
-
-        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
-
-        return workflowInstances.Select(MapToMeteringPointProcess);
-    }
+            created,
+            processManagerClient,
+            httpContextAccessor,
+            cancellationToken);
 
     [Query]
     public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(
@@ -67,6 +62,13 @@ public static partial class MeteringPointProcessNode
 
         return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
     }
+
+    [Subscription]
+    [Subscribe(With = nameof(OnMeteringPointProcessUpdatedAsync))]
+    public static MeteringPointProcess MeteringPointProcessUpdated(
+        string meteringPointId,
+        Interval created,
+        [EventMessage] MeteringPointProcess process) => process;
 
     public static async Task<ActorDto?> GetInitiatorAsync(
         [Parent] MeteringPointProcess process,
@@ -118,6 +120,45 @@ public static partial class MeteringPointProcessNode
             .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
             .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
     }
+
+    private static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessesAsync(
+        string meteringPointId,
+        Interval created,
+        IProcessManagerClient processManagerClient,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+            userIdentity,
+            meteringPointId,
+            created.Start.ToDateTimeOffset(),
+            created.End.ToDateTimeOffset());
+
+        var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
+
+        return workflowInstances.Select(MapToMeteringPointProcess);
+    }
+
+    private static IObservable<MeteringPointProcess> OnMeteringPointProcessUpdatedAsync(
+        string meteringPointId,
+        Interval created,
+        IProcessManagerClient processManagerClient,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken) =>
+        Observable
+            .Interval(TimeSpan.FromSeconds(10))
+            .StartWith(0)
+            .SelectMany(_ => Observable.FromAsync(() => GetMeteringPointProcessesAsync(
+                meteringPointId,
+                created,
+                processManagerClient,
+                httpContextAccessor,
+                cancellationToken)))
+            .SelectMany(processes => processes)
+            .GroupBy(process => process.Id)
+            .SelectMany(group => group.DistinctUntilChanged(MeteringPointProcessSnapshot.From));
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance) =>
         CreateMeteringPointProcess(
@@ -207,5 +248,27 @@ public static partial class MeteringPointProcessNode
             .ToUpperInvariant();
 
         return $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
+    }
+
+    private sealed record MeteringPointProcessSnapshot(
+        string Id,
+        DateTimeOffset CreatedAt,
+        DateTimeOffset? CutoffDate,
+        string BusinessReason,
+        string ActorNumber,
+        string ActorRole,
+        MeteringPointProcessState State,
+        string Actions)
+    {
+        public static MeteringPointProcessSnapshot From(MeteringPointProcess process) =>
+            new(
+                process.Id,
+                process.CreatedAt,
+                process.CutoffDate,
+                process.BusinessReason.Name,
+                process.ActorNumber,
+                process.ActorRole,
+                process.State,
+                string.Join(",", (process.Actions ?? []).OrderBy(action => action.ToString())));
     }
 }

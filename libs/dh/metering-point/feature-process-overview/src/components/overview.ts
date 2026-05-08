@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -41,6 +41,7 @@ import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   GetMeteringPointProcessOverviewDocument,
+  OnMeteringPointProcessUpdatedDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -209,6 +210,35 @@ export class DhMeteringPointProcessOverviewTable {
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
+
+  constructor() {
+    effect((onCleanup) => {
+      const variables = this.query.variables();
+      const meteringPointId = variables.meteringPointId;
+      const created = variables.created;
+
+      if (!meteringPointId || !created) return;
+
+      const unsubscribe = this.query.subscribeToMore({
+        document: OnMeteringPointProcessUpdatedDocument,
+        variables: { meteringPointId, created },
+        updateQuery: (prev, options) => {
+          const updated = options.subscriptionData.data.meteringPointProcessUpdated;
+          const existing = prev.meteringPointProcessOverview ?? [];
+          const exists = existing.some((p) => p.id === updated.id);
+
+          return {
+            ...prev,
+            meteringPointProcessOverview: exists
+              ? existing.map((p) => (p.id === updated.id ? updated : p))
+              : [updated, ...existing],
+          };
+        },
+      });
+
+      onCleanup(unsubscribe);
+    });
+  }
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
