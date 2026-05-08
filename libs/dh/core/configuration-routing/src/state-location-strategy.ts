@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable, Provider } from '@angular/core';
+import { inject, Injectable, InjectionToken, Provider } from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-
-import {
-  DhAppEnvironment,
-  DhAppEnvironmentConfig,
-  dhAppEnvironmentToken,
-} from '@energinet-datahub/dh/shared/environments';
 
 /** Key used to store the router URL in the history state object. */
 export const ROUTER_URL_KEY = '__dhRouterUrl__';
+
+/**
+ * Marker used in the address bar to indicate a redacted path segment.
+ * Chosen because `~` is RFC 3986 unreserved (never percent-encoded) and
+ * very uncommon in real application URLs.
+ */
+export const REDACTED_SEGMENT = '~';
+export const REDACTION_PATTERNS = new InjectionToken<string[]>('REDACTION_PATTERNS');
 
 const normalizeState = (state: unknown) => (state as Record<string, unknown>) ?? {};
 const normalizeQueryParams = (params: string) =>
@@ -51,23 +53,26 @@ const normalizeQueryParams = (params: string) =>
   providedIn: 'root',
 })
 export class StateLocationStrategy extends PathLocationStrategy {
+  private readonly patterns = inject(REDACTION_PATTERNS);
+
   override path(includeHash = false) {
     const state = normalizeState(this.getState());
     const url = state[ROUTER_URL_KEY];
-    if (typeof url !== 'string') return super.path(includeHash);
-    return !includeHash ? url.split('#')[0] : url;
+    if (typeof url === 'string') return !includeHash ? url.split('#')[0] : url;
+    const path = super.path(includeHash);
+    return path.split(/[/?#]/).includes(REDACTED_SEGMENT) ? '/' : path;
   }
 
-  override prepareExternalUrl() {
-    return this.getBaseHref();
+  override prepareExternalUrl(internal: string): string {
+    return super.prepareExternalUrl(this.redactUrl(internal));
   }
 
   override pushState(state: unknown, title: string, url: string, queryParams: string) {
-    super.pushState(this.withRouterUrl(state, url, queryParams), title, '', '');
+    super.pushState(this.withRouterUrl(state, url, queryParams), title, url, queryParams);
   }
 
   override replaceState(state: unknown, title: string, url: string, queryParams: string) {
-    super.replaceState(this.withRouterUrl(state, url, queryParams), title, '', '');
+    super.replaceState(this.withRouterUrl(state, url, queryParams), title, url, queryParams);
   }
 
   private withRouterUrl(state: unknown, url: string, queryParams: string) {
@@ -76,17 +81,22 @@ export class StateLocationStrategy extends PathLocationStrategy {
       [ROUTER_URL_KEY]: url + normalizeQueryParams(queryParams),
     };
   }
-}
 
-/** Provides the StateLocationStrategy as the LocationStrategy for the application. */
-export const provideStateLocationStrategy = (): Provider => ({
-  provide: LocationStrategy,
-  useFactory: ({ current }: DhAppEnvironmentConfig) => {
-    if (current === DhAppEnvironment.dev_001) {
-      return inject(PathLocationStrategy);
+  private redactUrl(url: string) {
+    for (const pattern of this.patterns) {
+      const regex = new RegExp(pattern);
+      if (!regex.test(url)) continue;
+      return url.replace(regex, (match, group) => match.replace(group, REDACTED_SEGMENT));
     }
 
-    return inject(StateLocationStrategy);
-  },
-  deps: [dhAppEnvironmentToken],
-});
+    return url;
+  }
+}
+
+/**
+ * Provides the StateLocationStrategy as the LocationStrategy for the application.
+ */
+export const provideStateLocationStrategy = (patterns?: string[]): Provider[] => [
+  { provide: REDACTION_PATTERNS, useValue: patterns ?? [] },
+  { provide: LocationStrategy, useClass: StateLocationStrategy },
+];
