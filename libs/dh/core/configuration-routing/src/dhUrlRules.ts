@@ -16,11 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/dhPaths';
-export {
-  REDACTED_SEGMENT,
-  ROUTER_URL_KEY,
-  StateLocationStrategy,
-  provideStateLocationStrategy,
-} from './src/state-location-strategy';
-export { dhRedactionPatterns } from './src/dhUrlRules';
+
+/**
+ * URL redaction patterns for the DataHub application. Each entry
+ * is a regex string whose first capture group marks the sensitive
+ * segment to replace with `~`. URLs that don't match any pattern
+ * are shown as-is (default-show).
+ */
+export const dhRedactionPatterns = [
+  '/admin/users/details/([^/?#]+)',
+  '/metering-point/(\\d+|[a-zA-Z0-9]{10,})',
+];

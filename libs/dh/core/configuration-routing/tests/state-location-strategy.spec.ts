@@ -25,22 +25,28 @@ import {
   StateLocationStrategy,
   provideStateLocationStrategy,
 } from '../src/state-location-strategy';
+import { dhRedactionPatterns } from '../src/dhUrlRules';
 
 describe(StateLocationStrategy, () => {
   let strategy: StateLocationStrategy;
 
-  beforeEach(() => {
+  /** Configures the TestBed with the supplied patterns and returns a fresh strategy. */
+  const setupWith = (patterns: readonly string[] = []): StateLocationStrategy => {
+    TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
         {
           provide: DOCUMENT,
           useValue: { baseURI: '/custom-base-uri' },
         },
-        provideStateLocationStrategy(),
+        provideStateLocationStrategy(patterns),
       ],
     });
+    return TestBed.inject(StateLocationStrategy);
+  };
 
-    strategy = TestBed.inject(StateLocationStrategy);
+  beforeEach(() => {
+    strategy = setupWith();
   });
 
   describe('path', () => {
@@ -112,8 +118,121 @@ describe(StateLocationStrategy, () => {
   });
 
   describe('prepareExternalUrl', () => {
-    it('should return base href regardless of internal URL', () => {
-      expect(strategy.prepareExternalUrl()).toBe(strategy.getBaseHref());
+    it('should show URL as-is when no patterns match (default-show)', () => {
+      strategy = setupWith([]);
+      expect(strategy.prepareExternalUrl('/secret/123')).toBe('/custom-base-uri/secret/123');
+    });
+
+    it('redacts URLs matching a pattern', () => {
+      strategy = setupWith(['/metering-point/(?!search|create)([^/?#]+)']);
+
+      expect(strategy.prepareExternalUrl('/metering-point/abc-123/master-data')).toBe(
+        '/custom-base-uri/metering-point/~/master-data'
+      );
+
+      // The internal router URL is still the real one (preserved in state).
+      strategy.pushState(null, '', '/metering-point/abc-123/master-data', '');
+      expect(strategy.path()).toBe('/metering-point/abc-123/master-data');
+    });
+
+    it('skips safe sub-paths via negative lookahead', () => {
+      strategy = setupWith(['/metering-point/(?!search|create)([^/?#]+)']);
+
+      expect(strategy.prepareExternalUrl('/metering-point/search')).toBe(
+        '/custom-base-uri/metering-point/search'
+      );
+    });
+
+    it('redacts user IDs in admin paths', () => {
+      strategy = setupWith(['/admin/users/details/([^/?#]+)']);
+
+      expect(strategy.prepareExternalUrl('/admin/users/details/abc-user-guid/edit')).toBe(
+        '/custom-base-uri/admin/users/details/~/edit'
+      );
+    });
+  });
+
+  describe('cold-load fallback', () => {
+    it('returns the browser path when no state and no redaction marker', () => {
+      // No prior pushState → state is empty; super.path() returns '/'.
+      expect(strategy.path()).toBe('/');
+    });
+
+    it('falls back to / when the URL bar contains the redaction marker', () => {
+      // Simulate a cold load on a redacted URL by directly invoking the
+      // browser's history API (bypassing the strategy, so no state is stashed).
+      window.history.replaceState(null, '', '/metering-point/~/master-data');
+      strategy = setupWith([]);
+
+      expect(strategy.path()).toBe('/');
+
+      // Restore for other tests.
+      window.history.replaceState(null, '', '/');
+    });
+  });
+
+  describe('url redaction', () => {
+    beforeEach(() => {
+      strategy = setupWith(dhRedactionPatterns);
+    });
+
+    describe('passes through — URLs without sensitive segments', () => {
+      const cases: ReadonlyArray<[string, string]> = [
+        ['landing', '/'],
+        ['grid-areas', '/grid-areas'],
+        ['grid-areas with sub-path', '/grid-areas/some-area'],
+        ['imbalance-prices', '/imbalance-prices'],
+        ['reports', '/reports/overview'],
+        ['wholesale calculations', '/wholesale/calculations'],
+        ['esett outgoing', '/esett/outgoing-messages'],
+        ['message archive', '/message-archive'],
+        ['message queue', '/message-queue'],
+        ['admin roles', '/admin/roles'],
+        ['admin permissions', '/admin/permissions'],
+        ['metering-point search', '/metering-point/search'],
+        ['metering-point create', '/metering-point/create'],
+        ['login', '/login'],
+        ['login with query', '/login?dhRedirectTo=%2Fmetering-point%2Fabc'],
+        ['unknown future route', '/some-future-feature/abc'],
+      ];
+
+      it.each(cases)('passes through %s', (_name, url) => {
+        expect(strategy.prepareExternalUrl(url)).toBe(`/custom-base-uri${url}`);
+      });
+    });
+
+    describe('redacts — sensitive ID segments', () => {
+      const cases: ReadonlyArray<[string, string, string]> = [
+        [
+          'metering-point EM1 ID',
+          '/metering-point/123456/master-data',
+          '/metering-point/~/master-data',
+        ],
+        [
+          'metering-point EM2 ID',
+          '/metering-point/abc1234567/measurements/day',
+          '/metering-point/~/measurements/day',
+        ],
+        [
+          'metering-point with query string',
+          '/metering-point/abc1234567/measurements/day?filter=2024-01-01',
+          '/metering-point/~/measurements/day?filter=2024-01-01',
+        ],
+        [
+          'admin user details',
+          '/admin/users/details/00000000-0000-0000-0000-000000000001',
+          '/admin/users/details/~',
+        ],
+        [
+          'admin user details edit',
+          '/admin/users/details/00000000-0000-0000-0000-000000000001/edit',
+          '/admin/users/details/~/edit',
+        ],
+      ];
+
+      it.each(cases)('redacts %s', (_name, url, expected) => {
+        expect(strategy.prepareExternalUrl(url)).toBe(`/custom-base-uri${expected}`);
+      });
     });
   });
 });
