@@ -1082,7 +1082,7 @@
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
         "ServiceRequest": "Service request (D22)",
         "UpdateChargeLinks": "Update charge links (D17)",
-        "ChangeOfEnergySupplier": "Change of energy supplier (E04)"
+        "ChangeOfEnergySupplier": "Change of energy supplier (E03)"
       },
       "filters": {
         "created": "Time",
