@@ -466,7 +466,7 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
-    it('should exclude action for InitiatingParticipant when initiatorGln is not provided', () => {
+    it('should exclude action for InitiatingParticipant when initiatorGlnOrEic is not provided', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {

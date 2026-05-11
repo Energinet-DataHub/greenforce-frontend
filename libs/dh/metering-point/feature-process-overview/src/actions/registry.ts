@@ -93,13 +93,15 @@ export class DhActionsRegistry {
   private matchesRoles(
     handler: ActionHandler,
     isResponsible: boolean,
-    initiatorGln?: string
+    initiatorGlnOrEic?: string
   ): boolean {
     if (!handler.roles?.length) return true;
     const actor = this.actorStorage.getSelectedActor();
     return handler.roles.some((role) => {
       if (role === ResponsibleEnergySupplier) return isResponsible;
-      if (role === InitiatingParticipant) return !!initiatorGln && actor.gln === initiatorGln;
+      // actor.gln can hold either a GLN or EIC (mirrors GraphQL glnOrEicNumber);
+      // initiatorGlnOrEic is sourced from the same field, so the comparison is semantically correct
+      if (role === InitiatingParticipant) return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
       return actor.marketRole === role;
     });
   }
@@ -108,7 +110,7 @@ export class DhActionsRegistry {
     availableActions: WorkflowAction[],
     businessReason: ProcessManagerBusinessReason,
     isEnergySupplierResponsible: boolean,
-    initiatorGln?: string
+    initiatorGlnOrEic?: string
   ): WorkflowAction[] {
     return availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
@@ -117,7 +119,7 @@ export class DhActionsRegistry {
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
-      return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGln);
+      return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
     });
   }
 
@@ -126,14 +128,14 @@ export class DhActionsRegistry {
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext,
     isEnergySupplierResponsible: boolean,
-    initiatorGln?: string
+    initiatorGlnOrEic?: string
   ): void {
     if (this.isFas()) return;
     const supported = this.getSupportedActions(
       [action],
       businessReason,
       isEnergySupplierResponsible,
-      initiatorGln
+      initiatorGlnOrEic
     );
     if (!supported.includes(action)) return;
     this.registry[businessReason]?.[action]?.callback(context);

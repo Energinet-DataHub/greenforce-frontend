@@ -113,7 +113,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
         @for (
           action of process.data()?.meteringPointProcessById?.availableActions
-            | supportedActions: businessReason() : isEnergySupplierResponsible() : initiatorGln();
+            | supportedActions: businessReason() : isEnergySupplierResponsible() : initiatorGlnOrEic();
           track action
         ) {
           <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
@@ -156,7 +156,7 @@ export class DhMeteringPointProcessOverviewDetails {
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
   initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
-  initiatorGln = computed(
+  initiatorGlnOrEic = computed(
     () => this.process.data()?.meteringPointProcessById?.initiator?.glnOrEicNumber
   );
 
@@ -185,7 +185,7 @@ export class DhMeteringPointProcessOverviewDetails {
         onSuccess: () => this.navigation.navigate('list'),
       },
       this.isEnergySupplierResponsible(),
-      this.initiatorGln()
+      this.initiatorGlnOrEic()
     );
   }
 }
