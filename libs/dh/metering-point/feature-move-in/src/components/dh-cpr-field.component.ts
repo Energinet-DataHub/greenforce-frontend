@@ -96,7 +96,7 @@ const MASKED_CPR = '0000000000';
             @if (cprQuery.loading()) {
               <watt-spinner class="descriptor" [diameter]="18" />
             } @else {
-              <watt-button class="descriptor" variant="icon" icon="edit" (click)="openModal()" />
+              <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal().open()" />
             }
           </ng-container>
         </watt-text-field>
@@ -147,9 +147,6 @@ export class DhCprFieldComponent {
     }
   });
 
-  protected openModal(): void {
-    this.modal().open();
-  }
 
   protected onModalClosed(accepted: boolean): void {
     if (!accepted) return;
