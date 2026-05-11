@@ -60,10 +60,11 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess
-            ? true
-            : throw new GraphQLException(
+        if (!result.IsSuccess)
+            throw new GraphQLException(
                 $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
+
+        return true;
     }
 
     [Mutation]
@@ -114,10 +115,11 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess
-            ? true
-            : throw new GraphQLException(
+        if (!result.IsSuccess)
+            throw new GraphQLException(
                 $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+
+        return true;
     }
 
     private static DateTimeOffset GetDefaultResolvedStartDate() =>
