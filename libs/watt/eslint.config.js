@@ -14,7 +14,7 @@ module.exports = [
     files: ['**/*.ts'],
     plugins: { '@angular-eslint': angular },
     linterOptions: {
-      // TODO: enable after fixing existing inline disables surfaced by the flat config migration.
+      // TODO(watt lint): Audit existing Watt inline disables, then enable this.
       reportUnusedDisableDirectives: 'off',
     },
   },
@@ -49,7 +49,7 @@ module.exports = [
   {
     files: ['package/**/*.ts', 'test/**/*.ts'],
     rules: {
-      // TODO: enable after fixing parent-relative imports surfaced by import-x under flat config.
+      // TODO(watt packaging): Replace existing parent-relative package/test imports, then enable this.
       'import-x/no-relative-parent-imports': 'off',
     },
   },
@@ -57,7 +57,7 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.html'],
     rules: {
-      // TODO: enable after fixing existing template accessibility/content violations surfaced by the flat config migration.
+      // TODO(watt accessibility): Fix Watt clickable-template, label, and content issues, then enable these.
       '@angular-eslint/template/click-events-have-key-events': 'off',
       '@angular-eslint/template/interactive-supports-focus': 'off',
       '@angular-eslint/template/label-has-associated-control': 'off',
@@ -67,14 +67,14 @@ module.exports = [
   {
     files: ['package/table/watt-table.component.ts'],
     rules: {
-      // TODO: enable after fixing template context guard parameters surfaced by typescript-eslint v8.
+      // TODO(watt table): Refactor template context guard signatures, then remove the context ignore.
       '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none', argsIgnorePattern: '^context$' }],
     },
   },
   {
     files: ['**/*.html'],
     rules: {
-      // TODO: enable after fixing existing autofocus usage surfaced by the flat config migration.
+      // TODO(watt accessibility): Replace existing drawer autofocus behavior, then enable this.
       '@angular-eslint/template/no-autofocus': 'off',
     },
   },

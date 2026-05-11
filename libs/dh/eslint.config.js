@@ -9,7 +9,7 @@ module.exports = [
   {
     files: ['**/*.ts', '**/*.html'],
     rules: {
-      // TODO: enable after fixing existing template accessibility violations surfaced by the flat config migration.
+      // TODO(dh accessibility): Fix existing DH clickable-template and label associations, then enable these.
       '@angular-eslint/template/click-events-have-key-events': 'off',
       '@angular-eslint/template/interactive-supports-focus': 'off',
       '@angular-eslint/template/label-has-associated-control': 'off',

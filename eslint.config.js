@@ -7,7 +7,7 @@ const graphqlEslint = require('@graphql-eslint/eslint-plugin');
 module.exports = [
   {
     linterOptions: {
-      // TODO: enable after fixing existing inline disables surfaced by the flat config migration.
+      // TODO(frontend lint): Audit existing inline disables across app, libs, and tools, then enable this.
       reportUnusedDisableDirectives: 'off',
     },
   },
@@ -191,7 +191,7 @@ module.exports = [
     rules: {
       'no-extra-semi': 'off',
       '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],
-      // TODO: enable after fixing existing unused expression violations surfaced by the flat config migration.
+      // TODO(frontend lint): Fix existing app/lib/tool unused expression violations, then enable this.
       '@typescript-eslint/no-unused-expressions': 'off',
     },
   },
