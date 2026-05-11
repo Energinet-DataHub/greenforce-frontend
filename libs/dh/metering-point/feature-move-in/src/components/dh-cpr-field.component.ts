@@ -16,14 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -157,7 +150,6 @@ export class DhCprFieldComponent {
       this.loaded.set(true);
     }
   });
-
 
   protected onModalClosed(accepted: boolean): void {
     if (!accepted) return;
