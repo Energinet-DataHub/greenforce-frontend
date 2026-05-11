@@ -101,7 +101,8 @@ export class DhActionsRegistry {
       if (role === ResponsibleEnergySupplier) return isResponsible;
       // actor.gln can hold either a GLN or EIC (mirrors GraphQL glnOrEicNumber);
       // initiatorGlnOrEic is sourced from the same field, so the comparison is semantically correct
-      if (role === InitiatingParticipant) return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
+      if (role === InitiatingParticipant)
+        return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
       return actor.marketRole === role;
     });
   }

@@ -113,7 +113,10 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
       <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
         @for (
           action of process.data()?.meteringPointProcessById?.availableActions
-            | supportedActions: businessReason() : isEnergySupplierResponsible() : initiatorGlnOrEic();
+            | supportedActions
+              : businessReason()
+              : isEnergySupplierResponsible()
+              : initiatorGlnOrEic();
           track action
         ) {
           <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
