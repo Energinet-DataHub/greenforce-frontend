@@ -1069,7 +1069,7 @@
         "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
         "ServiceRequest": "Anmodning om serviceydelse (D22)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)",
-        "ChangeOfEnergySupplier": "Skift af elleverandør (E04)"
+        "ChangeOfEnergySupplier": "Skift af elleverandør (E03)"
       },
       "filters": {
         "created": "Tidspunkt",

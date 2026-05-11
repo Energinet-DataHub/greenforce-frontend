@@ -1059,7 +1059,7 @@
         "ConnectMeteringPoint": "Connect metering point (D15)",
         "UpdateMasterDataConsumer": "Update master data consumer (E34)",
         "CustomerMoveIn": "Customer move-in (E65)",
-        "SecondaryMoveIn": "Secondary move-in (D29)",
+        "SecondaryMoveIn": "Secondary move-in >(D29)",
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionStatus": "Change Connection Status (E79)",
@@ -1069,7 +1069,7 @@
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
         "ServiceRequest": "Service request (D22)",
         "UpdateChargeLinks": "Update charge links (D17)",
-        "ChangeOfEnergySupplier": "Change of energy supplier (E04)"
+        "ChangeOfEnergySupplier": "Change of energy supplier (E03)"
       },
       "filters": {
         "created": "Time",
