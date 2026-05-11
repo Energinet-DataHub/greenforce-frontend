@@ -1059,7 +1059,7 @@
         "ConnectMeteringPoint": "Connect metering point (D15)",
         "UpdateMasterDataConsumer": "Update master data consumer (E34)",
         "CustomerMoveIn": "Customer move-in (E65)",
-        "SecondaryMoveIn": "Secondary move-in >(D29)",
+        "SecondaryMoveIn": "Secondary move-in (D29)",
         "Move": "Move (E01)",
         "CloseDownMeteringPoint": "Close down metering point (D14)",
         "ChangeConnectionStatus": "Change Connection Status (E79)",
