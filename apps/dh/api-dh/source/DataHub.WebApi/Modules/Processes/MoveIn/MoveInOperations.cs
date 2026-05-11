@@ -61,8 +61,10 @@ public static class MoveInOperations
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
         if (!result.IsSuccess)
+        {
             throw new GraphQLException(
                 $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
 
         return true;
     }
@@ -116,8 +118,10 @@ public static class MoveInOperations
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
         if (!result.IsSuccess)
+        {
             throw new GraphQLException(
                 $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
 
         return true;
     }
