@@ -43,8 +43,9 @@ import {
   ChargesSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
-
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
+import { correctChargeTypeView } from '../util/correct-charge-type-view';
 
 @Component({
   selector: 'dh-charges-information',
@@ -167,7 +168,10 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 
       <div class="page-tabs" *transloco="let t; prefix: 'charges.charge.tabs'">
         <watt-link-tabs vater inset="0">
-          <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
+          <watt-link-tab
+            [label]="t('pricesLabel')"
+            [link]="getLink('prices', correctChargeTypeView(resolution()))"
+          />
           <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
           <watt-link-tab
             *dhFeatureFlag="'charges-history'"
@@ -187,8 +191,11 @@ export class DhChargesInformation {
 
   readonly id = input.required<string>();
 
+  correctChargeTypeView = correctChargeTypeView;
+
   query = query(GetChargeByIdDocument, () => ({ variables: { id: this.id() } }));
   charge = computed(() => this.query.data()?.chargeById);
+  resolution = computed(() => this.charge()?.resolution);
   getLink = (path: ChargesSubPaths, ...paths: string[]) => [getPath(path), ...paths].join('/');
   parentUrl = this.router.createUrlTree([getPath<BasePaths>('charges')], {
     // Preserve filters when navigating back to list view
