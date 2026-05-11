@@ -29,6 +29,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
+  dhSyncControlValidators,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -409,31 +410,25 @@ export class DhUpdateCustomerDataComponent {
     () => this.form().controls.privateCustomerDetails.controls.cpr2
   );
 
-  private readonly syncSecondaryCustomerValidators = effect(() => {
+  private readonly secondaryCustomerRequired = computed(() => {
+    if (this.isBusinessCustomer()) return false;
     const name2 = this.customerName2Changed();
     const cpr2 = this.cpr2Changed();
-
-    if (this.isBusinessCustomer()) return;
-
-    const name2Control = this.form().controls.privateCustomerDetails.controls.customerName2;
-    const cpr2Control = this.form().controls.privateCustomerDetails.controls.cpr2;
-
     const isCprMasked = cpr2 === null && !!this.secondaryCustomerId();
-
-    if (isCprMasked) {
-      name2Control.clearValidators();
-      cpr2Control.setValidators([dhCprValidator()]);
-    } else if (!!name2 || !!cpr2) {
-      name2Control.setValidators([Validators.required]);
-      cpr2Control.setValidators([Validators.required, dhCprValidator()]);
-    } else {
-      name2Control.clearValidators();
-      cpr2Control.setValidators([dhCprValidator()]);
-    }
-
-    name2Control.updateValueAndValidity({ emitEvent: false });
-    cpr2Control.updateValueAndValidity({ emitEvent: false });
+    return !isCprMasked && (!!name2 || !!cpr2);
   });
+
+  private readonly syncName2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
+  private readonly syncCpr2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
 
   readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
