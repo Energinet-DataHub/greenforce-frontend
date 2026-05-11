@@ -569,6 +569,19 @@
     },
     "series": {
       "showHistory": "History",
+
+      "gaps": {
+        "noPrices": "No prices",
+        "seriesEndsAt": "Price ends",
+        "seriesExpired": "Price closed",
+        "gapsFound": "Gaps in prices",
+        "unit": {
+          "day": "days",
+          "month": "months",
+          "year": "years"
+        },
+        "showGaps": "Show gaps"
+      },
       "resolution": {
         "QUARTER_HOURLY": "Time",
         "HOURLY": "Time",

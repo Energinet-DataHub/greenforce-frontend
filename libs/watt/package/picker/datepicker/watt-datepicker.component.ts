@@ -339,15 +339,17 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     this.changeDay(1);
   }
 
+  /** Programmatically navigate to a specific date. */
+  selectDate(date: Date) {
+    const formatted = this.formatDateTimeFromModelToView(dayjs(date).toISOString());
+    this.inputChanged(formatted);
+    this.datepickerClosed();
+  }
+
   private changeDay(value: number) {
     const currentDate = this.matDatepickerInput()?.value;
-
     if (currentDate) {
-      const newDate = dayjs(currentDate).add(value, 'day').toISOString();
-      const newDateFormatted = this.formatDateTimeFromModelToView(newDate);
-
-      this.inputChanged(newDateFormatted);
-      this.datepickerClosed();
+      this.selectDate(dayjs(currentDate).add(value, 'day').toDate());
     }
   }
 

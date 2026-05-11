@@ -569,6 +569,18 @@
     },
     "series": {
       "showHistory": "Historik",
+      "gaps": {
+        "noPrices": "Ingen prisserier",
+        "seriesEndsAt": "Pris slutter",
+        "seriesExpired": "Pris lukket",
+        "gapsFound": "Huller i prisserie",
+        "unit": {
+          "day": "dage",
+          "month": "måneder",
+          "year": "år"
+        },
+        "showGaps": "Vis huller"
+      },
       "resolution": {
         "QUARTER_HOURLY": "Tidspunkt",
         "HOURLY": "Tidspunkt",
