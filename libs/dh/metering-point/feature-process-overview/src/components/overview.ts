@@ -222,20 +222,17 @@ export class DhMeteringPointProcessOverviewTable {
       const unsubscribe = this.query.subscribeToMore({
         document: OnMeteringPointProcessUpdatedDocument,
         variables: { meteringPointId, created },
-        updateQuery: (prev, options) => {
-          const updated = options.subscriptionData.data.meteringPointProcessUpdated;
-          const existing = prev.meteringPointProcessOverview ?? [];
-          const exists = existing.some((p) => p.id === updated.id);
-
-          return {
-            ...prev,
-            meteringPointProcessOverview: exists
-              ? existing.map((p) => (p.id === updated.id ? updated : p))
-              : [updated, ...existing],
-          };
-        },
+        updateQuery: (prev, options) => ({
+          ...prev,
+          meteringPointProcessOverview: prev.meteringPointProcessOverview && {
+            ...prev.meteringPointProcessOverview.map((x) =>
+              x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
+                ? options.subscriptionData.data.meteringPointProcessUpdated
+                : x
+            ),
+          },
+        }),
       });
-
       onCleanup(unsubscribe);
     });
   }
