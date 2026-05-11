@@ -336,6 +336,9 @@ function getMeteringPointProcessById(apiBase: string) {
 
     const processId = args.variables.id;
 
+    // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
+    // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
+    // path against a test actor's default GLN. This is a dev-only override — not a data error.
     const initiators = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
