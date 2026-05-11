@@ -1210,7 +1210,6 @@
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Approve request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Reject request for move-out (RSM-005)",
-        "BRS_010_EXECUTIONDATE_V1_STEP_1": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_010_VALIDITYDATE_V1_STEP_1": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_1": "Request for cancellation of move-out (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_2": "Approve request for cancellation of move-out (RSM-024)",
