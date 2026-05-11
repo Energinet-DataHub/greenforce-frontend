@@ -23,7 +23,6 @@ import {
   effect,
   input,
   signal,
-  viewChild,
 } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -32,10 +31,10 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
+import { WATT_MODAL } from '@energinet/watt/modal';
 
 import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
@@ -96,7 +95,7 @@ const MASKED_CPR = '0000000000';
             @if (cprQuery.loading()) {
               <watt-spinner class="descriptor" [diameter]="18" />
             } @else {
-              <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal().open()" />
+              <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal.open()" />
             }
           </ng-container>
         </watt-text-field>
@@ -127,11 +126,23 @@ export class DhCprFieldComponent {
   meteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
-  private readonly modal = viewChild.required<WattModalComponent>('modal');
   private readonly unlocked = signal(false);
   private readonly loaded = signal(false);
 
-  protected readonly cprQuery = lazyQuery(GetContactCprDocument);
+  protected readonly cprQuery = query(GetContactCprDocument, () => {
+    const contactId = this.contactId();
+    const unlocked = this.unlocked();
+
+    if (!unlocked || !contactId) return { skip: true as const };
+
+    return {
+      variables: {
+        meteringPointId: this.meteringPointId(),
+        contactId,
+        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+      },
+    };
+  });
 
   protected readonly maskedControl = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
@@ -155,16 +166,5 @@ export class DhCprFieldComponent {
     const control = this.cprControl();
     control.setValidators([dhCprValidator()]);
     control.updateValueAndValidity();
-
-    const contactId = this.contactId();
-    if (contactId) {
-      this.cprQuery.query({
-        variables: {
-          meteringPointId: this.meteringPointId(),
-          contactId,
-          searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-        },
-      });
-    }
   }
 }
