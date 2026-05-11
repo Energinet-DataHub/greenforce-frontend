@@ -1050,7 +1050,8 @@
         "CustomerMoveOut": "Fraflytning (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
-        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)"
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
+        "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1158,6 +1159,7 @@
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Information om pristilknytninger til fremtidig elleverandør (RSM-031)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Information om kundestamdata til netvirksomhed (RSM-028)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
