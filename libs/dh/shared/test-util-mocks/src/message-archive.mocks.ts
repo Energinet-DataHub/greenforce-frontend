@@ -283,7 +283,9 @@ function getMeteringPointProcessOverview() {
   });
 }
 
-const knownProcesses: Record<
+export const processCmiInfoInitiatorGln = '5790000555588';
+
+export const knownProcesses: Record<
   string,
   {
     businessReason: ProcessManagerBusinessReason;
@@ -299,7 +301,7 @@ const knownProcesses: Record<
   'process-cmi-info': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Running,
-    initiatorGln: '5790000555588',
+    initiatorGln: processCmiInfoInitiatorGln,
   },
   'process-eos-request-service': {
     businessReason: ProcessManagerBusinessReason.EndOfSupply,

@@ -30,6 +30,7 @@ import {
   provideMsalTesting,
   waitForAsync,
 } from '@energinet-datahub/dh/shared/test-util';
+import { processCmiInfoInitiatorGln } from '@energinet-datahub/dh/shared/test-util-mocks';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -249,7 +250,7 @@ describe('Process overview details', () => {
   it('should show CustomerMoveIn.SendInformation for initiating participant', async () => {
     await setup('process-cmi-info', {
       actorMarketRole: EicFunction.EnergySupplier,
-      actorGln: '5790000555588',
+      actorGln: processCmiInfoInitiatorGln,
     });
 
     await waitForAsync(() =>
