@@ -224,13 +224,11 @@ export class DhMeteringPointProcessOverviewTable {
         variables: { meteringPointId, created },
         updateQuery: (prev, options) => ({
           ...prev,
-          meteringPointProcessOverview: prev.meteringPointProcessOverview && {
-            ...prev.meteringPointProcessOverview.map((x) =>
-              x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
-                ? options.subscriptionData.data.meteringPointProcessUpdated
-                : x
-            ),
-          },
+          meteringPointProcessOverview: prev.meteringPointProcessOverview.map((x) =>
+            x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
+              ? options.subscriptionData.data.meteringPointProcessUpdated
+              : x
+          ),
         }),
       });
       onCleanup(unsubscribe);
