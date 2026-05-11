@@ -142,8 +142,8 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
     missingPriceSeriesPoints: {
       __typename: 'MissingPriceSeriesResult' as const,
-      gaps: [new Date('2022-04-10T00:00:00Z')],
-      endsAt: new Date('2022-10-15T00:00:00Z'),
+      gaps: [new Date('2022-04-09T22:00:00Z')],
+      endsAt: new Date('2022-10-14T22:00:00Z'),
     },
   },
   {
