@@ -57,6 +57,15 @@ public interface IChargesClient
         CancellationToken ct = default);
 
     /// <summary>
+    /// Get missing price series points for a charge within the given search interval.
+    /// </summary>
+    Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
+        ChargeIdentifierDto id,
+        Resolution resolution,
+        Interval interval,
+        CancellationToken ct = default);
+
+    /// <summary>
     /// Get charge series for a charge.
     /// </summary>
     Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(

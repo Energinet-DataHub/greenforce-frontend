@@ -24,6 +24,7 @@ query GetMeteringPointProcessById($id: String!) {
     initiator {
       id
       displayName
+      glnOrEicNumber
     }
   }
 }

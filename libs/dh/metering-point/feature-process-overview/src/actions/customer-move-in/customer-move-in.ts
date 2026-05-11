@@ -26,7 +26,7 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { ResponsibleEnergySupplier, type ActionHandlerMap } from '../registry';
+import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
@@ -34,7 +34,7 @@ export class CustomerMoveInActions {
 
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
-      roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
+      roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate([
           getPath<BasePaths>('metering-point'),

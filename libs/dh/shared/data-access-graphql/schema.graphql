@@ -301,6 +301,7 @@ type ChangeProductionObligationPayload {
 }
 
 type Charge {
+  missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
   id: String!
@@ -1190,6 +1191,11 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
   createdBy: AuditIdentityDto
   state: OrchestrationState!
   steps: [OrchestrationInstanceStep!]!
+}
+
+type MissingPriceSeriesResult {
+  gaps: [DateTime!]!
+  endsAt: DateTime
 }
 
 type Mutation {
