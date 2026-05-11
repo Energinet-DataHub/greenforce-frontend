@@ -1068,7 +1068,8 @@
         "CustomerMoveOut": "Move-out (E66)",
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
         "ServiceRequest": "Service request (D22)",
-        "UpdateChargeLinks": "Update charge links (D17)"
+        "UpdateChargeLinks": "Update charge links (D17)",
+        "ChangeOfEnergySupplier": "Change of energy supplier (E04)"
       },
       "filters": {
         "created": "Time",
@@ -1163,6 +1164,7 @@
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Request change of customer characteristics (RSM-027)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Approve change of customer characteristics (RSM-027)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Reject change of customer characteristics (RSM-027)",
+        "BRS_001_VALIDITYDATE_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
