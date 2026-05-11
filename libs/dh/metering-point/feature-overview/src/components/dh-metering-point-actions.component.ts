@@ -250,6 +250,7 @@ export class DhMeteringPointActionsComponent {
       this.featureFlagsService.isEnabled('end-of-supply')
   );
 
+  // Change-of-supplier is initiated by the incoming (new) supplier, not the current responsible one.
   showChangeOfSupplierButton = computed(
     () =>
       this.hasMeteringPointChangeOfSupplierPermission() &&
