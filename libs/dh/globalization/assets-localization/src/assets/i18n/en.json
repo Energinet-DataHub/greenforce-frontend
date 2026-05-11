@@ -1441,7 +1441,13 @@
           "allOnes": "Can not be used"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
-        "nameProtection": "Name protection"
+        "nameProtection": "Name protection",
+        "editCprModal": {
+          "title": "Edit CPR?",
+          "description": "Retrieval of CPR numbers is logged in accordance with applicable legislation. You may only access CPR data when there is a legitimate and lawful purpose. Do you want to continue?",
+          "yes": "Yes",
+          "no": "No"
+        }
       },
       "contactDetails": {
         "label": "Contact details",
@@ -2379,7 +2385,7 @@
         "departmentNameMaxLength": "Name must be under {{ maxLength }} characters",
         "invalidEmail": "Invalid e-mail",
         "cancel": "Cancel",
-        "save": "Save changes",
+        "save": "Save",
         "updateRequest": {
           "success": "Changes saved",
           "error": "Unfortunately, an error occurred while updating the market participant"

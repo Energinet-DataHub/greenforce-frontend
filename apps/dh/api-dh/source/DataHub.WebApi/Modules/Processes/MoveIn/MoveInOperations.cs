@@ -60,7 +60,13 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 
     [Mutation]
@@ -88,7 +94,7 @@ public static class MoveInOperations
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
             if (startDate is null)
             {
-                throw new HotChocolate.GraphQLException($"Unable to resolve start date for process '{processId}'.");
+                throw new GraphQLException($"Unable to resolve start date for process '{processId}'.");
             }
 
             resolvedStartDate = startDate.Value;
@@ -111,7 +117,13 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 
     private static DateTimeOffset GetDefaultResolvedStartDate() =>

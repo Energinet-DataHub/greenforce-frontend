@@ -29,6 +29,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
+  dhSyncControlValidators,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -143,6 +144,10 @@ import {
             } @else {
               <dh-private-customer-details
                 [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+                [meteringPointId]="meteringPointId()"
+                [contactId1]="legalCustomerId()"
+                [contactId2]="secondaryCustomerId()"
+                [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
               />
             }
           }
@@ -252,6 +257,11 @@ export class DhUpdateCustomerDataComponent {
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
+  legalCustomerId = computed(() => this.legalCustomer()?.id ?? null);
+  secondaryCustomerId = computed(() => {
+    const customer = this.effectiveSecondaryCustomer();
+    return customer?.name ? customer.id : null;
+  });
   isLoading = computed(
     () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
@@ -298,12 +308,15 @@ export class DhUpdateCustomerDataComponent {
             this.effectiveCustomerName(),
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cpr1: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          cpr1: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer() ? [dhCprValidator()] : []
           ),
           customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
+          cpr2: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer() ? [dhCprValidator()] : []
+          ),
           nameProtection: dhMakeFormControl<boolean>(
             this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),
@@ -391,6 +404,35 @@ export class DhUpdateCustomerDataComponent {
       legalNameSameAsContactName
     );
   });
+
+  /** Sync secondary customer cross-field validators */
+  private readonly customerName2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2
+  );
+
+  private readonly cpr2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2
+  );
+
+  private readonly secondaryCustomerRequired = computed(() => {
+    if (this.isBusinessCustomer()) return false;
+    const name2 = this.customerName2Changed();
+    const cpr2 = this.cpr2Changed();
+    const isCprMasked = cpr2 === null && !!this.secondaryCustomerId();
+    return !isCprMasked && (!!name2 || !!cpr2);
+  });
+
+  private readonly syncName2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
+  private readonly syncCpr2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
 
   readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
