@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Tests.Extensions;
 using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -83,6 +85,25 @@ public class MeteringPointProcessSubscriptionTests
         }
 
         await results.MatchSnapshotAsync();
+    }
+
+    [Fact]
+    public void MeteringPointProcessSnapshot_should_cover_all_MeteringPointProcess_properties()
+    {
+        var sourceProperties = typeof(MeteringPointProcess)
+            .GetProperties()
+            .Select(p => p.Name)
+            .ToHashSet();
+
+        var snapshotProperties = typeof(MeteringPointProcessSnapshot)
+            .GetProperties()
+            .Select(p => p.Name)
+            .ToHashSet();
+
+        // if intentional
+        var intentionallyExcluded = new HashSet<string> { "TransactionId", "WorkflowSteps" };
+
+        Assert.True(sourceProperties.SetEquals(snapshotProperties.Union(intentionallyExcluded)));
     }
 
     private static WorkflowInstanceDto CreateWorkflowInstance() =>

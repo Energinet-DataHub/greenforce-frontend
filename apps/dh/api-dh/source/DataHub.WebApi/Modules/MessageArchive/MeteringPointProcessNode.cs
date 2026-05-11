@@ -249,26 +249,4 @@ public static partial class MeteringPointProcessNode
 
         return $"{processName}_V{step.UniqueName.Version}_STEP_{step.Sequence}";
     }
-
-    private sealed record MeteringPointProcessSnapshot(
-        string Id,
-        DateTimeOffset CreatedAt,
-        DateTimeOffset? CutoffDate,
-        string BusinessReason,
-        string ActorNumber,
-        string ActorRole,
-        MeteringPointProcessState State,
-        string Actions)
-    {
-        public static MeteringPointProcessSnapshot From(MeteringPointProcess process) =>
-            new(
-                process.Id,
-                process.CreatedAt,
-                process.CutoffDate,
-                process.BusinessReason.Name,
-                process.ActorNumber,
-                process.ActorRole,
-                process.State,
-                string.Join(",", (process.Actions ?? []).OrderBy(action => action.ToString())));
-    }
 }
