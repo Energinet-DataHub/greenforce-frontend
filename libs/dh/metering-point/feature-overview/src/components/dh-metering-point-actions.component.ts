@@ -96,11 +96,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          @if (isEnergySupplierResponsible()) {
-            <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
-              {{ t('updateCustomerData') }}
-            </watt-menu-item>
-          }
+        }
+
+        @if (isEnergySupplierResponsible()) {
+          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+            {{ t('updateCustomerData') }}
+          </watt-menu-item>
         }
 
         @if (showCreateChargeLinkButton()) {
@@ -249,10 +250,11 @@ export class DhMeteringPointActionsComponent {
       this.featureFlagsService.isEnabled('end-of-supply')
   );
 
+  // Change-of-supplier is initiated by the incoming (new) supplier, not the current responsible one.
   showChangeOfSupplierButton = computed(
     () =>
       this.hasMeteringPointChangeOfSupplierPermission() &&
-      this.isEnergySupplierResponsible() &&
+      !this.isEnergySupplierResponsible() &&
       this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
   );
 
@@ -260,6 +262,7 @@ export class DhMeteringPointActionsComponent {
     return (
       this.showMeasurementsUploadButton() ||
       this.showMoveInButton() ||
+      this.isEnergySupplierResponsible() ||
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
