@@ -21,9 +21,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   effect,
-  inject,
   input,
   model,
   viewChild,
@@ -58,8 +56,6 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export class DhChargesIntervalField {
-  private readonly destroyRef = inject(DestroyRef);
-
   readonly resolution = input<ChargeResolution>();
   readonly date = model.required<Date>();
   private value = computed(() => {
@@ -101,7 +97,7 @@ export class DhChargesIntervalField {
 
     this.formGroup.valueChanges
       .pipe(
-        takeUntilDestroyed(this.destroyRef),
+        takeUntilDestroyed(),
         map((form) => {
           switch (this.resolution()) {
             case 'DAILY':
