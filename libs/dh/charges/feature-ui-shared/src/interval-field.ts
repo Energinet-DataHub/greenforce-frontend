@@ -21,12 +21,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  DestroyRef,
   effect,
+  inject,
   input,
   model,
   viewChild,
 } from '@angular/core';
 import { map } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { dayjs } from '@energinet/watt/date';
 import { WattYearField, YEAR_FORMAT } from '@energinet/watt/year-field';
@@ -55,6 +58,8 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   `,
 })
 export class DhChargesIntervalField {
+  private readonly destroyRef = inject(DestroyRef);
+
   readonly resolution = input<ChargeResolution>();
   readonly date = model.required<Date>();
   private value = computed(() => {
@@ -96,6 +101,7 @@ export class DhChargesIntervalField {
 
     this.formGroup.valueChanges
       .pipe(
+        takeUntilDestroyed(this.destroyRef),
         map((form) => {
           switch (this.resolution()) {
             case 'DAILY':
