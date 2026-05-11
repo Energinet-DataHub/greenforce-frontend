@@ -158,7 +158,7 @@ public class ChargesClient(
         var gaps = GenerateExpectedSlots(firstPoint, gapHorizon, resolution)
             .Where(slot => !points.Contains(slot))
             .GroupBy(slot => CollapseKey(slot.InZone(DanishTimeZone), resolution))
-            .Select(g => g.First().ToDateTimeOffset());
+            .Select(g => g.Key.AtStartOfDayInZone(DanishTimeZone).ToDateTimeOffset());
 
         return new MissingPriceSeriesResult(gaps, lastPoint.ToDateTimeOffset());
     }
