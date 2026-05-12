@@ -231,18 +231,22 @@ describe('Process overview details', () => {
 
       // The "Show possible actions" expandable must be present for FAS users.
       const expander = await screen.findByRole('button', { name: /Show possible actions/i });
+      const regionId = expander.getAttribute('aria-controls');
+      const region = regionId ? document.getElementById(regionId) : null;
+      if (!region) throw new Error('expandable region not found');
 
-      // The collapsed expandable hides the action buttons, so no matching button
-      // should exist yet.
-      expect(screen.queryAllByRole('button', { name: buttonPattern })).toHaveLength(0);
+      // When collapsed, the expandable region carries inert so the action
+      // buttons inside it are removed from the tab order and a11y tree at the
+      // browser level (jsdom does not enforce inert during role queries, so we
+      // assert the structural attribute instead).
+      expect(region).toHaveAttribute('inert');
 
       await user.click(expander);
 
-      // Once expanded, the action buttons appear and are disabled.
-      await waitForAsync(() =>
-        expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
-      );
+      // Once expanded, inert is removed and the action buttons render disabled.
+      await waitForAsync(() => expect(region).not.toHaveAttribute('inert'));
       const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
+      expect(actionButtons.length).toBeGreaterThan(0);
       actionButtons.forEach((button) => {
         expect((button as HTMLButtonElement).disabled).toBe(true);
       });
