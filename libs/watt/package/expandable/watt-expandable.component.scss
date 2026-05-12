@@ -54,6 +54,8 @@
 }
 
 .watt-expandable__body-inner {
+  display: flex;
+  gap: var(--watt-space-sm);
   overflow: hidden;
   padding-top: var(--watt-space-sm);
 }
