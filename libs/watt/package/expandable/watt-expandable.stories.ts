@@ -19,6 +19,7 @@
 import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
 
 import { WattExpandableComponent } from './watt-expandable.component';
+import { WattStorybookExpandableShowcaseComponent } from './+storybook/storybook-expandable-showcase.component';
 
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ' +
@@ -30,7 +31,7 @@ const meta: Meta<WattExpandableComponent> = {
   component: WattExpandableComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattExpandableComponent],
+      imports: [WattExpandableComponent, WattStorybookExpandableShowcaseComponent],
     }),
   ],
   args: {
@@ -57,6 +58,12 @@ const meta: Meta<WattExpandableComponent> = {
 export default meta;
 
 type Story = StoryObj<WattExpandableComponent>;
+
+export const Overview: Story = {
+  render: () => ({
+    template: `<watt-storybook-expandable-showcase />`,
+  }),
+};
 
 export const Collapsed: Story = {
   args: {
