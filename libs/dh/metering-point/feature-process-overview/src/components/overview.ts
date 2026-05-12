@@ -139,20 +139,21 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
             gap="s"
             *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
           >
-            @for (
-              action of process.availableActions
+            @let supportedActions =
+              process.availableActions
                 | supportedActions
                   : process.businessReason
                   : isEnergySupplierResponsible()
                   : process.initiator?.glnOrEicNumber;
-              track action
-            ) {
-              @if (isFas()) {
+            @if (isFas()) {
+              @if (supportedActions.length > 0) {
                 <vater-stack direction="row" gap="xs">
                   <watt-icon name="warning" size="s" />
-                  <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
+                  <span>{{ t('fasGenericActions') }}</span>
                 </vater-stack>
-              } @else {
+              }
+            } @else {
+              @for (action of supportedActions; track action) {
                 <watt-button
                   variant="secondary"
                   (click)="onActionClick($event, process, action)"

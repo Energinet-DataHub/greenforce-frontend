@@ -31,11 +31,13 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattExpandableComponent } from '@energinet/watt/expandable';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  EicFunction,
   GetMeteringPointProcessByIdDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -58,12 +60,37 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
     WattButtonComponent,
+    WattExpandableComponent,
     SupportedActionsPipe,
   ],
   styles: `
     dh-metering-point-process-overview-details .watt-drawer header > vater-flex {
       flex-wrap: wrap;
       row-gap: var(--watt-space-m);
+    }
+
+    dh-metering-point-process-overview-details .fas-action-groups {
+      display: flex;
+      flex-direction: column;
+      gap: var(--watt-space-m);
+      padding-top: var(--watt-space-s);
+    }
+
+    dh-metering-point-process-overview-details .fas-action-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--watt-space-s);
+    }
+
+    dh-metering-point-process-overview-details .fas-action-group__title {
+      margin: 0;
+    }
+
+    dh-metering-point-process-overview-details .fas-action-group__buttons {
+      display: flex;
+      flex-direction: column;
+      gap: var(--watt-space-xs);
+      align-items: flex-start;
     }
   `,
   template: `
@@ -110,21 +137,53 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
           />
         </watt-description-list>
       </watt-drawer-heading>
-      <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-        @for (
-          action of process.data()?.meteringPointProcessById?.availableActions
-            | supportedActions
-              : businessReason()
-              : isEnergySupplierResponsible()
-              : initiatorGlnOrEic();
-          track action
-        ) {
-          <watt-button variant="secondary" [disabled]="isFas()" (click)="executeAction(action)">
-            {{ t('actions.' + businessReason() + '.' + action) }}
-          </watt-button>
-        }
-      </watt-drawer-actions>
+      @if (!isFas()) {
+        <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          @for (
+            action of process.data()?.meteringPointProcessById?.availableActions
+              | supportedActions
+                : businessReason()
+                : isEnergySupplierResponsible()
+                : initiatorGlnOrEic();
+            track action
+          ) {
+            <watt-button variant="secondary" (click)="executeAction(action)">
+              {{ t('actions.' + businessReason() + '.' + action) }}
+            </watt-button>
+          }
+        </watt-drawer-actions>
+      }
       <watt-drawer-content>
+        @if (isFas() && fasActionGroups().length > 0) {
+          <watt-expandable
+            *transloco="let t; prefix: 'meteringPoint.processOverview'"
+            [labelCollapsed]="t('details.showPossibleActions')"
+            [labelExpanded]="t('details.hidePossibleActions')"
+          >
+            <div class="fas-action-groups">
+              @for (group of fasActionGroups(); track group.role) {
+                <div class="fas-action-group">
+                  <h4
+                    class="watt-label fas-action-group__title"
+                    *transloco="let tRole; prefix: 'marketParticipant.marketRoles'"
+                  >
+                    {{ tRole(group.role) }}
+                  </h4>
+                  <div
+                    class="fas-action-group__buttons"
+                    *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
+                  >
+                    @for (action of group.actions; track action) {
+                      <watt-button variant="secondary" [disabled]="true">
+                        {{ t(businessReason() + '.' + action) }}
+                      </watt-button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </watt-expandable>
+        }
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
           [businessReason]="businessReason()"
@@ -171,6 +230,35 @@ export class DhMeteringPointProcessOverviewDetails {
 
   isLoading = computed(() => {
     return !this.process.called() || this.process.loading();
+  });
+
+  /**
+   * For FAS users: actions supported by the current process grouped by actor role.
+   * Rendered in the fixed order [EnergySupplier, GridAccessProvider]. An action that
+   * belongs to multiple roles appears under each role's group (no deduplication).
+   */
+  fasActionGroups = computed<{ role: EicFunction; actions: WorkflowAction[] }[]>(() => {
+    const reason = this.businessReason();
+    if (!reason) return [];
+
+    const availableActions = this.process.data()?.meteringPointProcessById?.availableActions ?? [];
+    const supported = this.actionService.getSupportedActions(
+      availableActions,
+      reason,
+      this.isEnergySupplierResponsible(),
+      this.initiatorGlnOrEic()
+    );
+
+    const fasRoleOrder: EicFunction[] = [EicFunction.EnergySupplier, EicFunction.GridAccessProvider];
+
+    return fasRoleOrder
+      .map((role) => ({
+        role,
+        actions: supported.filter((action) =>
+          this.actionService.getActorRolesForAction(action, reason).includes(role)
+        ),
+      }))
+      .filter((group) => group.actions.length > 0);
   });
 
   executeAction(action: WorkflowAction) {

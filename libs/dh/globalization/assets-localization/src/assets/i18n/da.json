@@ -1089,19 +1089,15 @@
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
       "actions": {
+        "fasGenericActions": "Mulige handlinger for aktører",
         "EndOfSupply": {
           "SEND_INFORMATION": "Anmod om serviceydelse",
-          "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
-          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
           "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
-          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
-          "REJECT_REQUEST": "Afvis anmodning",
-          "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+          "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information",
-          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+          "SEND_INFORMATION": "Send information"
         }
       },
       "rejectProcess": {
@@ -1273,6 +1269,8 @@
       "details": {
         "notFound": "Process ikke fundet",
         "noSteps": "Ingen trin tilgængelige for denne process",
+        "showPossibleActions": "Vis mulige handlinger",
+        "hidePossibleActions": "Skjul mulige handlinger",
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",

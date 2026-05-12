@@ -78,11 +78,13 @@ describe('DhActionsRegistry', () => {
       endOfSupplyHandlers = {
         [WorkflowAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
+          actorRoles: [],
           callback: vi.fn(),
         },
       },
       customerMoveInHandlers = {
         [WorkflowAction.SendInformation]: {
+          actorRoles: [],
           callback: vi.fn(),
         },
       },
@@ -214,6 +216,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
             permissions: ['metering-point:end-of-supply-respond'],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -235,6 +238,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
             permissions: ['metering-point:end-of-supply-respond'],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -274,6 +278,7 @@ describe('DhActionsRegistry', () => {
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
             ],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -299,6 +304,7 @@ describe('DhActionsRegistry', () => {
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
             ],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -324,6 +330,7 @@ describe('DhActionsRegistry', () => {
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
             ],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -345,6 +352,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.ConfirmWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [EicFunction.GridAccessProvider],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -366,6 +374,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.ConfirmWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [EicFunction.GridAccessProvider],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -387,6 +396,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -408,6 +418,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -429,6 +440,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -451,6 +463,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -473,6 +486,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -494,6 +508,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.CancelWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -516,6 +531,7 @@ describe('DhActionsRegistry', () => {
           [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
+            actorRoles: [],
             callback: vi.fn(),
           },
         },
@@ -536,7 +552,7 @@ describe('DhActionsRegistry', () => {
       const callback = vi.fn();
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: { callback },
+          [WorkflowAction.CancelWorkflow]: { actorRoles: [], callback },
         },
       });
 
@@ -604,7 +620,7 @@ describe('DhActionsRegistry', () => {
       const onSuccess = vi.fn();
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: { callback },
+          [WorkflowAction.CancelWorkflow]: { actorRoles: [], callback },
         },
       });
 

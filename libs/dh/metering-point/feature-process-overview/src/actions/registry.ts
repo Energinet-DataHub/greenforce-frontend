@@ -46,6 +46,8 @@ export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
   permissions?: Permission[];
   roles?: ActionRole[];
+  /** Actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action. */
+  actorRoles: EicFunction[];
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -122,6 +124,14 @@ export class DhActionsRegistry {
       if (!this.hasRequiredPermission(handler)) return false;
       return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
     });
+  }
+
+  /** Returns the actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action. */
+  getActorRolesForAction(
+    action: WorkflowAction,
+    businessReason: ProcessManagerBusinessReason
+  ): EicFunction[] {
+    return this.registry[businessReason]?.[action]?.actorRoles ?? [];
   }
 
   execute(

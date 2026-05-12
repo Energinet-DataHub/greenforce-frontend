@@ -223,16 +223,31 @@ describe('Process overview details', () => {
   it.each([
     ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
-  ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
-    await setup(processId, { isFas: true });
-    await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
-    );
-    const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
-    actionButtons.forEach((button) => {
-      expect((button as HTMLButtonElement).disabled).toBe(true);
-    });
-  });
+  ])(
+    'should not render action buttons in the drawer header and instead expose disabled grouped actions for FAS users (%s)',
+    async (processId, buttonPattern) => {
+      await setup(processId, { isFas: true });
+      const user = userEvent.setup();
+
+      // The "Show possible actions" expandable must be present for FAS users.
+      const expander = await screen.findByRole('button', { name: /Show possible actions/i });
+
+      // The collapsed expandable hides the action buttons, so no matching button
+      // should exist yet.
+      expect(screen.queryAllByRole('button', { name: buttonPattern })).toHaveLength(0);
+
+      await user.click(expander);
+
+      // Once expanded, the action buttons appear and are disabled.
+      await waitForAsync(() =>
+        expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
+      );
+      const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
+      actionButtons.forEach((button) => {
+        expect((button as HTMLButtonElement).disabled).toBe(true);
+      });
+    }
+  );
 
   it('should hide all action buttons for non-responsible EnergySupplier', async () => {
     await setup('process-eos-cancel', {
