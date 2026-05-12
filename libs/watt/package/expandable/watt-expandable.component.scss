@@ -20,13 +20,17 @@
   display: inline-flex;
   align-items: center;
   gap: var(--watt-space-xs);
-  padding: var(--watt-space-s) 0;
+  padding: 0;
   background: transparent;
   border: none;
-  color: inherit;
+  color: var(--watt-typography-link-color);
   font: inherit;
   cursor: pointer;
   text-align: left;
+}
+
+.watt-expandable__label {
+  text-decoration: underline;
 }
 
 .watt-expandable__header:focus-visible {
