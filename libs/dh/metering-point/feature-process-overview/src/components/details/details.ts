@@ -112,6 +112,7 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
         </h3>
         <watt-description-list
+          variant="inline-flow"
           [groupsPerRow]="4"
           *transloco="let t; prefix: 'meteringPoint.processOverview'"
         >
