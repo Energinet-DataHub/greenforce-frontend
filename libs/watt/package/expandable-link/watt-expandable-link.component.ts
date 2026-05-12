@@ -21,46 +21,52 @@ import { WattIconComponent } from '@energinet/watt/icon';
 
 /**
  * Usage:
- * `import { WattExpandableComponent } from '@energinet/watt/expandable';`
+ * `import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';`
  *
- * A lightweight inline collapsible/disclosure. Unlike `WattExpandableCardComponent`,
- * this component renders no card chrome, only a clickable label row with a chevron
- * and the projected content below.
+ * A lightweight inline collapsible/disclosure styled as a link. Unlike
+ * `WattExpandableCardComponent`, this component renders no card chrome,
+ * only a clickable link-styled label row with a chevron and the projected
+ * content below.
  */
 @Component({
-  selector: 'watt-expandable',
+  selector: 'watt-expandable-link',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattIconComponent],
-  styleUrl: './watt-expandable.component.scss',
+  styleUrl: './watt-expandable-link.component.scss',
   template: `
     <button
       type="button"
-      class="watt-expandable__header"
+      class="watt-expandable-link__header"
       [attr.aria-expanded]="expanded()"
       [attr.aria-controls]="contentId"
       (click)="toggle()"
     >
-      <watt-icon name="down" size="s" class="watt-expandable__chevron" [attr.aria-hidden]="true" />
-      <span class="watt-expandable__label">{{ currentLabel() }}</span>
+      <watt-icon
+        name="down"
+        size="s"
+        class="watt-expandable-link__chevron"
+        [attr.aria-hidden]="true"
+      />
+      <span class="watt-expandable-link__label">{{ currentLabel() }}</span>
     </button>
 
     <div
       [id]="contentId"
-      class="watt-expandable__body"
-      [class.watt-expandable__body--expanded]="expanded()"
+      class="watt-expandable-link__body"
+      [class.watt-expandable-link__body--expanded]="expanded()"
       [attr.inert]="expanded() ? null : true"
     >
-      <div class="watt-expandable__body-inner">
+      <div class="watt-expandable-link__body-inner">
         <ng-content />
       </div>
     </div>
   `,
   host: {
-    class: 'watt-expandable',
-    '[class.watt-expandable--expanded]': 'expanded()',
+    class: 'watt-expandable-link',
+    '[class.watt-expandable-link--expanded]': 'expanded()',
   },
 })
-export class WattExpandableComponent {
+export class WattExpandableLinkComponent {
   /**
    * @ignore
    * Counter for unique `contentId` generation. Matches the static-counter
@@ -74,11 +80,11 @@ export class WattExpandableComponent {
   /** Whether the expandable is expanded. Supports two-way binding via `[(expanded)]`. */
   expanded = model(false);
 
-  /** Label shown when the content is collapsed (e.g. "Vis mulige handlinger"). */
+  /** Label shown when the content is collapsed (e.g. "Vis indhold"). */
   labelCollapsed = input.required<string>();
 
   /**
-   * Label shown when the content is expanded (e.g. "Skjul mulige handlinger").
+   * Label shown when the content is expanded (e.g. "Skjul indhold").
    * Optional. If omitted, the collapsed label is shown in both states, leaving the
    * chevron rotation as the only visual state cue (screen readers still get
    * `aria-expanded` for state).
@@ -88,7 +94,7 @@ export class WattExpandableComponent {
   /**
    * @ignore
    */
-  readonly contentId = `watt-expandable-content-${WattExpandableComponent.nextId++}`;
+  readonly contentId = `watt-expandable-link-content-${WattExpandableLinkComponent.nextId++}`;
 
   /**
    * @ignore

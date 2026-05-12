@@ -18,20 +18,20 @@
 //#endregion
 import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
 
-import { WattExpandableComponent } from './watt-expandable.component';
-import { WattStorybookExpandableShowcaseComponent } from './+storybook/storybook-expandable-showcase.component';
+import { WattExpandableLinkComponent } from './watt-expandable-link.component';
+import { WattStorybookExpandableLinkShowcaseComponent } from './+storybook/storybook-expandable-link-showcase.component';
 
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ' +
   'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ' +
   'exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat';
 
-const meta: Meta<WattExpandableComponent> = {
-  title: 'Components/Accordion link',
-  component: WattExpandableComponent,
+const meta: Meta<WattExpandableLinkComponent> = {
+  title: 'Components/Expandable link',
+  component: WattExpandableLinkComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattExpandableComponent, WattStorybookExpandableShowcaseComponent],
+      imports: [WattExpandableLinkComponent, WattStorybookExpandableLinkShowcaseComponent],
     }),
   ],
   args: {
@@ -44,24 +44,24 @@ const meta: Meta<WattExpandableComponent> = {
   render: (args) => ({
     props: { ...args, lorem: LOREM },
     template: `
-      <watt-expandable
+      <watt-expandable-link
         [(expanded)]="expanded"
         [labelExpanded]="labelExpanded"
         [labelCollapsed]="labelCollapsed"
       >
         <p>{{ lorem }}</p>
-      </watt-expandable>
+      </watt-expandable-link>
     `,
   }),
 };
 
 export default meta;
 
-type Story = StoryObj<WattExpandableComponent>;
+type Story = StoryObj<WattExpandableLinkComponent>;
 
 export const Overview: Story = {
   render: () => ({
-    template: `<watt-storybook-expandable-showcase />`,
+    template: `<watt-storybook-expandable-link-showcase />`,
   }),
 };
 

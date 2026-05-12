@@ -21,25 +21,25 @@ import { Component, signal } from '@angular/core';
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
-import { WattExpandableComponent } from './watt-expandable.component';
+import { WattExpandableLinkComponent } from './watt-expandable-link.component';
 
 const BODY_TEXT = 'Hidden body content';
-const LABEL_EXPANDED = 'Skjul mulige handlinger';
-const LABEL_COLLAPSED = 'Vis mulige handlinger';
+const LABEL_EXPANDED = 'Skjul indhold';
+const LABEL_COLLAPSED = 'Vis indhold';
 
 const template = `
-  <watt-expandable
+  <watt-expandable-link
     labelExpanded="${LABEL_EXPANDED}"
     labelCollapsed="${LABEL_COLLAPSED}"
   >
     <p>${BODY_TEXT}</p>
-  </watt-expandable>
+  </watt-expandable-link>
 `;
 
-describe(WattExpandableComponent, () => {
+describe(WattExpandableLinkComponent, () => {
   async function setup() {
     return render(template, {
-      imports: [WattExpandableComponent],
+      imports: [WattExpandableLinkComponent],
     });
   }
 
@@ -79,10 +79,10 @@ describe(WattExpandableComponent, () => {
 
   it('falls back to the collapsed label when labelExpanded is omitted', async () => {
     await render(
-      `<watt-expandable labelCollapsed="${LABEL_COLLAPSED}">
+      `<watt-expandable-link labelCollapsed="${LABEL_COLLAPSED}">
         <p>${BODY_TEXT}</p>
-      </watt-expandable>`,
-      { imports: [WattExpandableComponent] }
+      </watt-expandable-link>`,
+      { imports: [WattExpandableLinkComponent] }
     );
     const user = userEvent.setup();
 
@@ -99,15 +99,15 @@ describe(WattExpandableComponent, () => {
 
   it('reflects the toggle in a parent two-way bound signal', async () => {
     @Component({
-      imports: [WattExpandableComponent],
+      imports: [WattExpandableLinkComponent],
       template: `
-        <watt-expandable
+        <watt-expandable-link
           [(expanded)]="expanded"
           labelExpanded="${LABEL_EXPANDED}"
           labelCollapsed="${LABEL_COLLAPSED}"
         >
           <p>${BODY_TEXT}</p>
-        </watt-expandable>
+        </watt-expandable-link>
       `,
     })
     class HostComponent {

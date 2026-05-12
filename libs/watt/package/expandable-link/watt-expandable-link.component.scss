@@ -17,7 +17,7 @@
   display: block;
 }
 
-.watt-expandable__header {
+.watt-expandable-link__header {
   display: inline-flex;
   align-items: center;
   gap: var(--watt-space-xs);
@@ -30,7 +30,7 @@
   text-align: left;
 }
 
-.watt-expandable__label {
+.watt-expandable-link__label {
   @include typography.watt-link-s;
   // watt-link-s sets the link color; inherit from the button so the chevron icon
   // (which uses currentColor) and the label stay in sync if a caller overrides
@@ -38,31 +38,31 @@
   color: inherit;
 }
 
-.watt-expandable__header:focus-visible {
+.watt-expandable-link__header:focus-visible {
   outline: 2px solid var(--watt-color-primary);
   outline-offset: 2px;
 }
 
-.watt-expandable__chevron {
+.watt-expandable-link__chevron {
   display: inline-flex;
   transition: transform var(--watt-time-short) var(--watt-move-inside-screen);
 }
 
-:host(.watt-expandable--expanded) .watt-expandable__chevron {
+:host(.watt-expandable-link--expanded) .watt-expandable-link__chevron {
   transform: rotate(180deg);
 }
 
-.watt-expandable__body {
+.watt-expandable-link__body {
   display: grid;
   grid-template-rows: 0fr;
   transition: grid-template-rows var(--watt-time-short) var(--watt-move-inside-screen);
 }
 
-.watt-expandable__body--expanded {
+.watt-expandable-link__body--expanded {
   grid-template-rows: 1fr;
 }
 
-.watt-expandable__body-inner {
+.watt-expandable-link__body-inner {
   display: flex;
   gap: var(--watt-space-sm);
   // min-height: 0 prevents the descendant from imposing its intrinsic height
@@ -72,8 +72,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .watt-expandable__chevron,
-  .watt-expandable__body {
+  .watt-expandable-link__chevron,
+  .watt-expandable-link__body {
     transition: none;
   }
 }

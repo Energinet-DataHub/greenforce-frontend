@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { WattExpandableComponent } from './watt-expandable.component';
+export { WattExpandableLinkComponent } from './watt-expandable-link.component';

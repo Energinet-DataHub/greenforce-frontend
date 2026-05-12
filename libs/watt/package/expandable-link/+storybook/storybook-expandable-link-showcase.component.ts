@@ -18,7 +18,7 @@
 //#endregion
 import { Component } from '@angular/core';
 
-import { WattExpandableComponent } from '../watt-expandable.component';
+import { WattExpandableLinkComponent } from '../watt-expandable-link.component';
 
 const LOREM =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ' +
@@ -26,8 +26,8 @@ const LOREM =
   'exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat';
 
 @Component({
-  selector: 'watt-storybook-expandable-showcase',
-  imports: [WattExpandableComponent],
+  selector: 'watt-storybook-expandable-link-showcase',
+  imports: [WattExpandableLinkComponent],
   styles: `
     :host {
       display: block;
@@ -52,18 +52,22 @@ const LOREM =
     }
   `,
   template: `
-    <h1 class="title watt-headline-2">Accordion link</h1>
+    <h1 class="title watt-headline-2">Expandable link</h1>
     <hr class="divider" />
     <div class="grid">
-      <watt-expandable labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">
+      <watt-expandable-link labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">
         <p>{{ lorem }}</p>
-      </watt-expandable>
-      <watt-expandable [expanded]="true" labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">
+      </watt-expandable-link>
+      <watt-expandable-link
+        [expanded]="true"
+        labelCollapsed="Vis indhold"
+        labelExpanded="Skjul indhold"
+      >
         <p>{{ lorem }}</p>
-      </watt-expandable>
+      </watt-expandable-link>
     </div>
   `,
 })
-export class WattStorybookExpandableShowcaseComponent {
+export class WattStorybookExpandableLinkShowcaseComponent {
   protected readonly lorem = LOREM;
 }
