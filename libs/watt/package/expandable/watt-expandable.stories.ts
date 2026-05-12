@@ -37,7 +37,7 @@ const meta: Meta<WattExpandableComponent> = {
     props: args,
     template: `
       <watt-expandable
-        [expanded]="expanded"
+        [(expanded)]="expanded"
         [labelExpanded]="labelExpanded"
         [labelCollapsed]="labelCollapsed"
       >
