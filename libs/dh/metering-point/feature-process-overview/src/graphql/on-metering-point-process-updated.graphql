@@ -8,6 +8,7 @@ subscription OnMeteringPointProcessUpdated($meteringPointId: String!, $created: 
     initiator {
       id
       displayName
+      glnOrEicNumber
     }
     availableActions
   }
