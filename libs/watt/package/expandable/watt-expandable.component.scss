@@ -43,12 +43,27 @@
   transform: rotate(180deg);
 }
 
-.watt-expandable__content {
+.watt-expandable__body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--watt-time-short) var(--watt-move-inside-screen);
+}
+
+.watt-expandable__body--expanded {
+  grid-template-rows: 1fr;
+}
+
+.watt-expandable__body-inner {
+  overflow: hidden;
+}
+
+.watt-expandable__body--expanded .watt-expandable__body-inner {
   padding-top: var(--watt-space-s);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .watt-expandable__chevron {
+  .watt-expandable__chevron,
+  .watt-expandable__body {
     transition: none;
   }
 }

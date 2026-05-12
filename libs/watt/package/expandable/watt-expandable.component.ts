@@ -46,11 +46,16 @@ let nextId = 0;
       <span class="watt-expandable__label">{{ currentLabel() }}</span>
     </button>
 
-    @if (expanded()) {
-      <div [id]="contentId" class="watt-expandable__content">
+    <div
+      [id]="contentId"
+      class="watt-expandable__body"
+      [class.watt-expandable__body--expanded]="expanded()"
+      [attr.inert]="expanded() ? null : true"
+    >
+      <div class="watt-expandable__body-inner">
         <ng-content />
       </div>
-    }
+    </div>
   `,
   host: {
     class: 'watt-expandable',

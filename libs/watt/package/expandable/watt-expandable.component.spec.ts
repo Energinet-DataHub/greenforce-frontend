@@ -42,16 +42,26 @@ describe(WattExpandableComponent, () => {
     });
   }
 
-  it('renders collapsed by default with the collapsed label and no projected content', async () => {
+  function getContentRegion(): HTMLElement {
+    const button = screen.getByRole('button');
+    const id = button.getAttribute('aria-controls');
+    if (!id) throw new Error('button is missing aria-controls');
+    const region = document.getElementById(id);
+    if (!region) throw new Error(`no element with id ${id}`);
+    return region;
+  }
+
+  it('renders collapsed by default with the collapsed label and inert content', async () => {
     await setup();
 
     expect(
       screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
     ).toBeInTheDocument();
-    expect(screen.queryByText(BODY_TEXT)).not.toBeInTheDocument();
+    expect(screen.getByText(BODY_TEXT)).toBeInTheDocument();
+    expect(getContentRegion()).toHaveAttribute('inert');
   });
 
-  it('expands on click, swapping the label and rendering projected content', async () => {
+  it('expands on click, swapping the label and making the content interactive', async () => {
     await setup();
     const user = userEvent.setup();
 
@@ -60,7 +70,7 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: true, name: LABEL_EXPANDED })
     ).toBeInTheDocument();
-    expect(screen.getByText(BODY_TEXT)).toBeInTheDocument();
+    expect(getContentRegion()).not.toHaveAttribute('inert');
   });
 
   it('collapses again on a second click', async () => {
@@ -73,6 +83,6 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
     ).toBeInTheDocument();
-    expect(screen.queryByText(BODY_TEXT)).not.toBeInTheDocument();
+    expect(getContentRegion()).toHaveAttribute('inert');
   });
 });
