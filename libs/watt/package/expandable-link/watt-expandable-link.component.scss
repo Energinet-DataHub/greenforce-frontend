@@ -34,9 +34,6 @@
 }
 
 .watt-expandable-link__chevron {
-  display: inline-flex;
-  // The Material Symbols glyph would otherwise inherit the link underline.
-  text-decoration: none;
   transition: transform var(--watt-time-short) var(--watt-move-inside-screen);
 }
 
