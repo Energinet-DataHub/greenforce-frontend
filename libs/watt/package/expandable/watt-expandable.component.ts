@@ -61,6 +61,16 @@ import { WattIconComponent } from '@energinet/watt/icon';
   },
 })
 export class WattExpandableComponent {
+  /**
+   * @ignore
+   * Counter for unique `contentId` generation. Matches the static-counter
+   * pattern used by other Watt form components (see `WattDatepickerComponent`,
+   * `WattTimepickerComponent`). The IDs are not SSR-hydration-safe; if Watt
+   * ever enables SSR this needs to switch to Angular's `_IdGenerator` or
+   * deferred assignment.
+   */
+  private static nextId = 0;
+
   /** Whether the expandable is expanded. Supports two-way binding via `[(expanded)]`. */
   expanded = model(false);
 
@@ -77,10 +87,8 @@ export class WattExpandableComponent {
 
   /**
    * @ignore
-   * SSR-safe unique id (no module-scoped counter so server and client renders
-   * stay aligned during hydration).
    */
-  readonly contentId = `watt-expandable-content-${crypto.randomUUID()}`;
+  readonly contentId = `watt-expandable-content-${WattExpandableComponent.nextId++}`;
 
   /**
    * @ignore
