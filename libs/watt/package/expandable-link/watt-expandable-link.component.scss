@@ -55,8 +55,6 @@
 }
 
 .watt-expandable-link__body-inner {
-  display: flex;
-  gap: var(--watt-space-sm);
   // min-height: 0 prevents the descendant from imposing its intrinsic height
   // on the grid row before the 0fr -> 1fr transition resolves.
   min-height: 0;

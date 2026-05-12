@@ -38,9 +38,8 @@ const meta: Meta<WattExpandableLinkComponent> = {
     labelExpanded: 'Skjul indhold',
     labelCollapsed: 'Vis indhold',
   },
-  // The content slot is laid out as a flex row with a watt-space-sm gap. A
-  // single block child (paragraph, column container) renders fine; for
-  // multiple inline children (buttons, chips) the flex-row gap kicks in.
+  // The content slot does not impose a layout; the caller decides how
+  // projected children stack (block flow, flex, grid, etc.).
   render: (args) => ({
     props: { ...args, lorem: LOREM },
     template: `
