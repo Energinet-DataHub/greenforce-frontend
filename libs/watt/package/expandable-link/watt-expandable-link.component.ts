@@ -47,7 +47,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
         class="watt-expandable-link__chevron"
         [attr.aria-hidden]="true"
       />
-      <span class="watt-expandable-link__label">{{ currentLabel() }}</span>
+      <span>{{ currentLabel() }}</span>
     </button>
 
     <div

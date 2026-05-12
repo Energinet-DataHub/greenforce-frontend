@@ -18,24 +18,14 @@
 }
 
 .watt-expandable-link__header {
+  @include typography.watt-link-s;
   display: inline-flex;
   align-items: center;
   gap: var(--watt-space-xs);
   padding: 0;
   background: transparent;
   border: none;
-  color: var(--watt-typography-link-color);
-  font: inherit;
-  cursor: pointer;
   text-align: left;
-}
-
-.watt-expandable-link__label {
-  @include typography.watt-link-s;
-  // watt-link-s sets the link color; inherit from the button so the chevron icon
-  // (which uses currentColor) and the label stay in sync if a caller overrides
-  // the link color on the host.
-  color: inherit;
 }
 
 .watt-expandable-link__header:focus-visible {
@@ -45,6 +35,8 @@
 
 .watt-expandable-link__chevron {
   display: inline-flex;
+  // The Material Symbols glyph would otherwise inherit the link underline.
+  text-decoration: none;
   transition: transform var(--watt-time-short) var(--watt-move-inside-screen);
 }
 
