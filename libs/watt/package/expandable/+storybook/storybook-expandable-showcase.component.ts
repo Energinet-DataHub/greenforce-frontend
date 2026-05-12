@@ -58,11 +58,7 @@ const LOREM =
       <watt-expandable labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">
         <p>{{ lorem }}</p>
       </watt-expandable>
-      <watt-expandable
-        [expanded]="true"
-        labelCollapsed="Vis indhold"
-        labelExpanded="Skjul indhold"
-      >
+      <watt-expandable [expanded]="true" labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">
         <p>{{ lorem }}</p>
       </watt-expandable>
     </div>
