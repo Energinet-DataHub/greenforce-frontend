@@ -157,9 +157,11 @@ describe('Process overview', () => {
 
   it('should show generic possible-actions text instead of buttons for FAS users', async () => {
     await setup({ isFas: true, actorMarketRole: EicFunction.DataHubAdministrator });
-    await waitForAsync(() =>
-      expect(screen.getAllByText(/Possible actions for actors/i).length).toBeGreaterThan(0)
-    );
+    await waitForAsync(() => {
+      const emphasised = screen.getAllByRole('emphasis');
+      expect(emphasised.length).toBeGreaterThan(0);
+      expect(emphasised[0]).toHaveTextContent(/Possible actions for actors/i);
+    });
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 
