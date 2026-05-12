@@ -43,7 +43,7 @@ let nextId = 0;
       (click)="toggle()"
     >
       <watt-icon name="down" size="s" class="watt-expandable__chevron" [attr.aria-hidden]="true" />
-      <span class="watt-expandable__label watt-text-s">{{ currentLabel() }}</span>
+      <span class="watt-expandable__label watt-label">{{ currentLabel() }}</span>
     </button>
 
     <div
