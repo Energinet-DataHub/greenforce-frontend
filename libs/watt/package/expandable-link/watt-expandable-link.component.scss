@@ -19,6 +19,11 @@
 
 .watt-expandable-link__header {
   @include typography.watt-link-s;
+  // watt-link-s adds the underline on the whole button. Move it to the label
+  // span below so it does not extend across the chevron icon, which is
+  // especially visible while the Material Symbols font is still loading
+  // and the glyph renders as fallback text.
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: var(--watt-space-xs);
@@ -26,6 +31,10 @@
   background: transparent;
   border: none;
   text-align: left;
+}
+
+.watt-expandable-link__label {
+  text-decoration: underline;
 }
 
 .watt-expandable-link__header:focus-visible {
