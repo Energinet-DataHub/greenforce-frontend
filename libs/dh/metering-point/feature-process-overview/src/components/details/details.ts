@@ -195,7 +195,7 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
                 : initiatorGlnOrEic();
             track action
           ) {
-            <watt-button variant="secondary" (click)="executeAction(action)">
+            <watt-button variant="secondary" size="small" (click)="executeAction(action)">
               {{ t('actions.' + businessReason() + '.' + action) }}
             </watt-button>
           }
