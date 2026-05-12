@@ -69,7 +69,6 @@
   // on the grid row before the 0fr -> 1fr transition resolves.
   min-height: 0;
   overflow: hidden;
-  padding-top: var(--watt-space-sm);
 }
 
 @media (prefers-reduced-motion: reduce) {
