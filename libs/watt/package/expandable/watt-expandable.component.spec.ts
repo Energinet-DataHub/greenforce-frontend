@@ -45,7 +45,9 @@ describe(WattExpandableComponent, () => {
   it('renders collapsed by default with the collapsed label and no projected content', async () => {
     await setup();
 
-    expect(screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
+    ).toBeInTheDocument();
     expect(screen.queryByText(BODY_TEXT)).not.toBeInTheDocument();
   });
 
@@ -55,7 +57,9 @@ describe(WattExpandableComponent, () => {
 
     await user.click(screen.getByRole('button'));
 
-    expect(screen.getByRole('button', { expanded: true, name: LABEL_EXPANDED })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { expanded: true, name: LABEL_EXPANDED })
+    ).toBeInTheDocument();
     expect(screen.getByText(BODY_TEXT)).toBeInTheDocument();
   });
 
@@ -66,7 +70,9 @@ describe(WattExpandableComponent, () => {
     await user.click(screen.getByRole('button'));
     await user.click(screen.getByRole('button'));
 
-    expect(screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })).toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
+    ).toBeInTheDocument();
     expect(screen.queryByText(BODY_TEXT)).not.toBeInTheDocument();
   });
 });
