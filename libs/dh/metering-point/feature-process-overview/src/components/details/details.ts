@@ -72,16 +72,19 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     }
 
     dh-metering-point-process-overview-details .fas-action-groups {
-      display: flex;
-      flex-direction: column;
-      gap: var(--watt-space-m);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      column-gap: var(--watt-space-m);
+      row-gap: var(--watt-space-s);
+      align-items: center;
       padding-top: var(--watt-space-s);
     }
 
     dh-metering-point-process-overview-details .fas-action-group {
-      display: flex;
-      flex-direction: column;
-      gap: var(--watt-space-s);
+      // display: contents lets the role title and the buttons row participate
+      // directly in the parent grid, so labels line up in column 1 and button
+      // rows line up in column 2 even when the labels have different widths.
+      display: contents;
     }
 
     dh-metering-point-process-overview-details .fas-action-group__title {
@@ -90,9 +93,9 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
 
     dh-metering-point-process-overview-details .fas-action-group__buttons {
       display: flex;
-      flex-direction: column;
-      gap: var(--watt-space-xs);
-      align-items: flex-start;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--watt-space-s);
     }
   `,
   template: `
