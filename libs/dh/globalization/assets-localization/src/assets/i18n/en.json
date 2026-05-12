@@ -1103,6 +1103,10 @@
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
           "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Grid operator and electricity supplier can send information"
         }
       },
       "rejectProcess": {
@@ -1412,10 +1416,19 @@
       "title": "Customer move-in (reported by energy supplier)",
       "updateCustomerData": "Update customer data",
       "updateCustomer": {
+        "unavailableAction": "Send information is no longer available for this move-in",
         "toast": {
           "loading": "Updating customer data...",
           "success": "Customer data updated",
           "error": "Update failed"
+        },
+        "changeOfSupplier": {
+          "unavailableAction": "Send information is no longer available for this change of supplier",
+          "toast": {
+            "loading": "Sending change of supplier information...",
+            "success": "Change of supplier information sent",
+            "error": "Sending change of supplier information failed"
+          }
         }
       },
       "customerDetails": {

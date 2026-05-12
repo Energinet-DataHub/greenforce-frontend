@@ -17,10 +17,12 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using Microsoft.AspNetCore.Http;
 using NodaTime;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
@@ -29,8 +31,11 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
 public static class MoveInOperations
 {
+    private const string MoveInRole = "metering-point:move-in";
+    private const string ChangeOfSupplierRole = "metering-point:change-of-supplier";
+
     [Mutation]
-    [Authorize(Roles = ["metering-point:move-in"])]
+    [Authorize(Roles = [MoveInRole])]
     [UseRevisionLog]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
@@ -70,7 +75,7 @@ public static class MoveInOperations
     }
 
     [Mutation]
-    [Authorize(Roles = ["metering-point:move-in"])]
+    [Authorize(Roles = [MoveInRole, ChangeOfSupplierRole])]
     [UseRevisionLog]
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
@@ -85,9 +90,12 @@ public static class MoveInOperations
         bool electricalHeating,
         IReadOnlyCollection<UsagePointLocationV2>? usagePointLocations,
         CancellationToken ct,
+        [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IB2CClient ediB2CClient,
         [Service] IMoveInClient moveInClient)
     {
+        EnsureBusinessReasonIsAllowedForUser(businessReason, httpContextAccessor);
+
         var resolvedStartDate = GetDefaultResolvedStartDate();
         if (processId != null)
         {
@@ -131,4 +139,21 @@ public static class MoveInOperations
             .InZone(LocalDateExtensions.DanishTimeZone)
             .Date
             .ToUtcDateTimeOffset();
+
+    private static void EnsureBusinessReasonIsAllowedForUser(
+        ChangeCustomerCharacteristicsBusinessReason businessReason,
+        IHttpContextAccessor httpContextAccessor)
+    {
+        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
+
+        var requiredRole = businessReason == ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier
+            ? ChangeOfSupplierRole
+            : MoveInRole;
+
+        if (!httpContextAccessor.HttpContext.User.HasRole(requiredRole))
+        {
+            throw new UnauthorizedAccessException(
+                $"Business reason '{businessReason}' requires role '{requiredRole}'.");
+        }
+    }
 }

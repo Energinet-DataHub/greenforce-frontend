@@ -20,13 +20,23 @@ import { delay, HttpResponse } from 'msw';
 
 import { mswConfig } from '@energinet-datahub/gf/msw/test-util-msw-setup';
 import {
+  ProcessManagerBusinessReason,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  mockGetMeteringPointProcessSendInformationAvailabilityQuery,
   mockGetTemporaryStorageDataQuery,
   mockInitiateMoveInMutation,
   mockRequestChangeCustomerCharacteristicsMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 export function moveInMocks() {
-  return [initiateMoveInMutation(), changeCustomerCharacteristics(), getTemporaryStorageData()];
+  return [
+    initiateMoveInMutation(),
+    changeCustomerCharacteristics(),
+    getTemporaryStorageData(),
+    getMeteringPointProcessSendInformationAvailability(),
+  ];
 }
 
 function initiateMoveInMutation() {
@@ -72,6 +82,29 @@ function getTemporaryStorageData() {
           __typename: 'RequestTemporaryStorageResult',
           firstCustomerName: 'Test Testesen',
           isBusinessCustomer: false,
+        },
+      },
+    });
+  });
+}
+
+function getMeteringPointProcessSendInformationAvailability() {
+  return mockGetMeteringPointProcessSendInformationAvailabilityQuery(async ({ variables }) => {
+    await delay(mswConfig.delay);
+
+    const isChangeOfSupplier = variables.id.startsWith('process-cos');
+    const isUnavailable = variables.id === 'process-cos-no-info';
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPointProcessById: {
+          __typename: 'MeteringPointProcess',
+          id: variables.id,
+          businessReason: isChangeOfSupplier
+            ? ProcessManagerBusinessReason.ChangeOfEnergySupplier
+            : ProcessManagerBusinessReason.CustomerMoveIn,
+          availableActions: isUnavailable ? [] : [WorkflowAction.SendInformation],
         },
       },
     });

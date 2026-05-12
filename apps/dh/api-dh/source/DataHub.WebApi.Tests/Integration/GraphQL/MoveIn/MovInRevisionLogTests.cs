@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
@@ -21,8 +23,12 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
+using Energinet.DataHub.WebApi.Tests.Mocks;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
+using FluentAssertions;
+using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
 
@@ -98,6 +104,10 @@ public class MoveInRevisionLogTests
             """;
 
         var server = new GraphQLTestService();
+        server.HttpContextAccessorMock
+            .Setup(accessor => accessor.HttpContext)
+            .Returns(new DefaultHttpContext { User = ClaimsPrincipalMocks.CreateAdministrator() });
+
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("test")));
@@ -111,5 +121,138 @@ public class MoveInRevisionLogTests
                 { "businessReason", "ELECTRICAL_HEATING" },
                 { "electricalHeating", true },
             });
+    }
+
+    [Fact]
+    public async Task ChangeCustomerCharacteristicsAsync_WithChangeOfSupplierRole_SendsChangeOfSupplierCommand()
+    {
+        const string processId = "process-change-of-supplier-send-information";
+
+        var operation =
+            $$"""
+              mutation (
+                $meteringPointId: String!
+                $businessReason: BusinessReasonV2!
+                $processId: String!
+                $electricalHeating: Boolean!
+              ) {
+                changeCustomerCharacteristics(input: {
+                  meteringPointId: $meteringPointId,
+                  businessReason: $businessReason,
+                  processId: $processId,
+                  electricalHeating: $electricalHeating
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var user = new ClaimsPrincipal(
+            new ClaimsIdentity(
+                new[]
+                {
+                    new Claim(ClaimTypes.Role, "metering-point:change-of-supplier"),
+                },
+                "MockedAuthenticationType"));
+
+        var server = new GraphQLTestService();
+        server.HttpContextAccessorMock
+            .Setup(accessor => accessor.HttpContext)
+            .Returns(new DefaultHttpContext { User = user });
+
+        server.MoveInClientMock
+            .Setup(x => x.GetStartDateAsync(processId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new DateTimeOffset(2025, 01, 01, 0, 0, 0, TimeSpan.Zero));
+
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(
+                It.Is<RequestChangeCustomerCharacteristicsCommandV2>(command =>
+                    command.RequestChangeCustomerCharacteristicsRequest.BusinessReason == BusinessReasonV2.ChangeOfEnergySupplier &&
+                    command.RequestChangeCustomerCharacteristicsRequest.ProcessId == processId),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("test")));
+
+        var result = await server.ExecuteRequestAsync(
+            request => request
+                .SetDocument(operation)
+                .SetVariableValues(new Dictionary<string, object?>
+                {
+                    { "meteringPointId", "571313180000000005" },
+                    { "businessReason", "CHANGE_OF_ENERGY_SUPPLIER" },
+                    { "processId", processId },
+                    { "electricalHeating", true },
+                })
+                .SetUser(user));
+
+        result.ExpectOperationResult().Errors.Should().BeNullOrEmpty();
+        server.EdiB2CClientMock.Verify(
+            x => x.SendAsync(
+                It.Is<RequestChangeCustomerCharacteristicsCommandV2>(command =>
+                    command.RequestChangeCustomerCharacteristicsRequest.BusinessReason == BusinessReasonV2.ChangeOfEnergySupplier &&
+                    command.RequestChangeCustomerCharacteristicsRequest.ProcessId == processId),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Theory]
+    [InlineData("CUSTOMER_MOVE_IN")]
+    [InlineData("UPDATE_MASTER_DATA_CONSUMER")]
+    public async Task ChangeCustomerCharacteristicsAsync_WithOnlyChangeOfSupplierRole_RejectsMoveInBusinessReasons(
+        string businessReason)
+    {
+        const string processId = "process-not-change-of-supplier-send-information";
+
+        var operation =
+            $$"""
+              mutation (
+                $meteringPointId: String!
+                $businessReason: BusinessReasonV2!
+                $processId: String!
+                $electricalHeating: Boolean!
+              ) {
+                changeCustomerCharacteristics(input: {
+                  meteringPointId: $meteringPointId,
+                  businessReason: $businessReason,
+                  processId: $processId,
+                  electricalHeating: $electricalHeating
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var user = new ClaimsPrincipal(
+            new ClaimsIdentity(
+                new[]
+                {
+                    new Claim(ClaimTypes.Role, "metering-point:change-of-supplier"),
+                },
+                "MockedAuthenticationType"));
+
+        var server = new GraphQLTestService();
+        server.HttpContextAccessorMock
+            .Setup(accessor => accessor.HttpContext)
+            .Returns(new DefaultHttpContext { User = user });
+
+        var result = await server.ExecuteRequestAsync(
+            request => request
+                .SetDocument(operation)
+                .SetVariableValues(new Dictionary<string, object?>
+                {
+                    { "meteringPointId", "571313180000000005" },
+                    { "businessReason", businessReason },
+                    { "processId", processId },
+                    { "electricalHeating", true },
+                })
+                .SetUser(user));
+
+        result.ExpectOperationResult().Errors.Should().ContainSingle(
+            error => error.Exception is UnauthorizedAccessException);
+        server.MoveInClientMock.Verify(
+            x => x.GetStartDateAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+        server.EdiB2CClientMock.Verify(
+            x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 }

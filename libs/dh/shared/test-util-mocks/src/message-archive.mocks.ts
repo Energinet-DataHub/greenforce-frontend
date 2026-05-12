@@ -255,6 +255,34 @@ function getMeteringPointProcessOverview() {
       },
     };
 
+    const changeOfSupplierProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-cos-info',
+      businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+      createdAt: new Date('2025-02-16T11:00:00Z'),
+      cutoffDate: new Date('2025-02-21T11:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [WorkflowAction.SendInformation],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[1],
+      },
+    };
+
+    const changeOfSupplierUnavailableProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-cos-no-info',
+      businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+      createdAt: new Date('2025-02-16T12:00:00Z'),
+      cutoffDate: new Date('2025-02-21T12:00:00Z'),
+      state: MeteringPointProcessState.Running,
+      availableActions: [],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        ...initiators[1],
+      },
+    };
+
     const endOfSupplyRequestServiceProcess = {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-eos-request-service',
@@ -275,6 +303,8 @@ function getMeteringPointProcessOverview() {
         meteringPointProcessOverview: [
           endOfSupplyProcess,
           customerMoveInProcess,
+          changeOfSupplierProcess,
+          changeOfSupplierUnavailableProcess,
           endOfSupplyRequestServiceProcess,
           ...mockProcesses,
         ],
@@ -284,6 +314,7 @@ function getMeteringPointProcessOverview() {
 }
 
 export const processCmiInfoInitiatorGln = '5790000555588';
+export const processCosInfoInitiatorGln = '5790000555599';
 
 export const knownProcesses: Record<
   string,
@@ -302,6 +333,18 @@ export const knownProcesses: Record<
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Running,
     initiatorGln: processCmiInfoInitiatorGln,
+  },
+  'process-cos-info': {
+    businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+    state: MeteringPointProcessState.Running,
+    availableActions: [WorkflowAction.SendInformation],
+    initiatorGln: processCosInfoInitiatorGln,
+  },
+  'process-cos-no-info': {
+    businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+    state: MeteringPointProcessState.Running,
+    availableActions: [],
+    initiatorGln: processCosInfoInitiatorGln,
   },
   'process-eos-request-service': {
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
@@ -328,6 +371,8 @@ function getAvailableActions(
       WorkflowAction.RejectRequest,
     ];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
+    return [WorkflowAction.SendInformation];
+  if (businessReason === ProcessManagerBusinessReason.ChangeOfEnergySupplier)
     return [WorkflowAction.SendInformation];
   return [];
 }

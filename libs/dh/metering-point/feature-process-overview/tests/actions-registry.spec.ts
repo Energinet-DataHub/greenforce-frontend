@@ -47,6 +47,7 @@ const mockContext: ProcessActionContext = {
   meteringPointId: 'mp-1',
   internalMeteringPointId: 'imp-1',
   processId: 'process-1',
+  businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
 };
 
 function createMockHandlers(handlers: ActionHandlerMap) {
@@ -153,6 +154,25 @@ describe('DhActionsRegistry', () => {
       const result = registry.getSupportedActions(
         [WorkflowAction.SendInformation],
         ProcessManagerBusinessReason.CustomerMoveIn,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should return SendInformation for ChangeOfEnergySupplier using the Move-in handler rules', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.ChangeOfEnergySupplier,
         false
       );
 

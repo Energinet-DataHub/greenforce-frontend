@@ -222,6 +222,7 @@ export class DhMeteringPointProcessOverviewTable {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: process.id,
+        businessReason: process.businessReason,
         cutoffDate: process.cutoffDate,
       },
       this.isEnergySupplierResponsible(),

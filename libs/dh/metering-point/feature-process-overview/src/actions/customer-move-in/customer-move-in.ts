@@ -20,13 +20,9 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { EicFunction, WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
-import {
-  BasePaths,
-  getPath,
-  MeteringPointSubPaths,
-} from '@energinet-datahub/dh/core/configuration-routing';
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
+import { navigateToSendInformation } from './send-information-navigation';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
@@ -35,13 +31,7 @@ export class CustomerMoveInActions {
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
-      callback: (ctx) =>
-        this.router.navigate([
-          getPath<BasePaths>('metering-point'),
-          ctx.internalMeteringPointId,
-          getPath<MeteringPointSubPaths>('update-customer-details'),
-          ctx.processId,
-        ]),
+      callback: (ctx) => navigateToSendInformation(this.router, ctx),
     },
   };
 }

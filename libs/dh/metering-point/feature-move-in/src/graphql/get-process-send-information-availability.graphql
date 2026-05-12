@@ -1,0 +1,7 @@
+query GetMeteringPointProcessSendInformationAvailability($id: String!) {
+  meteringPointProcessById(id: $id) {
+    id
+    businessReason
+    availableActions
+  }
+}
