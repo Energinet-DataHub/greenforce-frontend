@@ -36,6 +36,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
   template: `
     <button
       type="button"
+      [id]="triggerId"
       class="watt-expandable-link__header"
       [attr.aria-expanded]="expanded()"
       [attr.aria-controls]="contentId"
@@ -55,6 +56,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
       class="watt-expandable-link__body"
       [class.watt-expandable-link__body--expanded]="expanded()"
       [attr.inert]="expanded() ? null : true"
+      [attr.aria-hidden]="expanded() ? null : true"
+      [attr.aria-labelledby]="triggerId"
+      role="region"
     >
       <div class="watt-expandable-link__body-inner">
         <ng-content />
@@ -94,7 +98,17 @@ export class WattExpandableLinkComponent {
   /**
    * @ignore
    */
-  readonly contentId = `watt-expandable-link-content-${WattExpandableLinkComponent.nextId++}`;
+  private readonly instanceId = WattExpandableLinkComponent.nextId++;
+
+  /**
+   * @ignore
+   */
+  readonly triggerId = `watt-expandable-link-trigger-${this.instanceId}`;
+
+  /**
+   * @ignore
+   */
+  readonly contentId = `watt-expandable-link-content-${this.instanceId}`;
 
   /**
    * @ignore

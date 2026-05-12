@@ -35,6 +35,7 @@ const meta: Meta<WattExpandableLinkComponent> = {
     }),
   ],
   args: {
+    expanded: false,
     labelExpanded: 'Skjul indhold',
     labelCollapsed: 'Vis indhold',
   },
