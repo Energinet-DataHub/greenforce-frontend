@@ -249,7 +249,10 @@ export class DhMeteringPointProcessOverviewDetails {
       this.initiatorGlnOrEic()
     );
 
-    const fasRoleOrder: EicFunction[] = [EicFunction.EnergySupplier, EicFunction.GridAccessProvider];
+    const fasRoleOrder: EicFunction[] = [
+      EicFunction.EnergySupplier,
+      EicFunction.GridAccessProvider,
+    ];
 
     return fasRoleOrder
       .map((role) => ({
