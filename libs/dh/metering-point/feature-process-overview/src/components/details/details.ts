@@ -71,6 +71,12 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       row-gap: var(--watt-space-m);
     }
 
+    dh-metering-point-process-overview-details watt-expandable-link {
+      // Gap from the description list above to the disclosure toggle.
+      // Spec is 10px; watt-space-sm (12px) is the closest available token.
+      margin-top: var(--watt-space-sm);
+    }
+
     dh-metering-point-process-overview-details .fas-action-groups {
       display: grid;
       grid-template-columns: auto 1fr;
@@ -78,6 +84,8 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       row-gap: var(--watt-space-s);
       align-items: center;
       padding-top: var(--watt-space-s);
+      // Gap below the expanded body to the divider/steps table.
+      padding-bottom: var(--watt-space-m);
     }
 
     dh-metering-point-process-overview-details .fas-action-group {
