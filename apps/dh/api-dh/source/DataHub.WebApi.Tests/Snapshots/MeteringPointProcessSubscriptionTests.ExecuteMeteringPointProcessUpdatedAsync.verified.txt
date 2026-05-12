@@ -1,0 +1,14 @@
+[  
+{
+  "data": {
+    "meteringPointProcessUpdated": {
+      "id": "6f1d24c8-8f64-4e9f-85ee-637de6d61512",
+      "businessReason": "EndOfSupply",
+      "state": "pending",
+      "availableActions": [
+        "CANCEL_WORKFLOW"
+      ]
+    }
+  }
+}
+]

@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Collections.Immutable;
+using System.Reactive.Linq;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
@@ -68,6 +70,13 @@ public static partial class MeteringPointProcessNode
         return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
     }
 
+    [Subscription]
+    [Subscribe(With = nameof(OnMeteringPointProcessUpdatedAsync))]
+    public static MeteringPointProcess MeteringPointProcessUpdated(
+        string meteringPointId,
+        Interval created,
+        [EventMessage] MeteringPointProcess process) => process;
+
     public static async Task<ActorDto?> GetInitiatorAsync(
         [Parent] MeteringPointProcess process,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
@@ -118,6 +127,38 @@ public static partial class MeteringPointProcessNode
             .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
             .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
     }
+
+    private static IObservable<MeteringPointProcess> OnMeteringPointProcessUpdatedAsync(
+        string meteringPointId,
+        Interval created,
+        IProcessManagerClient processManagerClient,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken) =>
+        Observable
+            .Interval(TimeSpan.FromSeconds(10))
+            .StartWith(0)
+            .SelectMany(_ => Observable.FromAsync(() => GetMeteringPointProcessOverviewAsync(
+                meteringPointId,
+                created,
+                processManagerClient,
+                httpContextAccessor,
+                cancellationToken)))
+            .Scan(
+                (Snapshots: ImmutableDictionary<string, MeteringPointProcessSnapshot>.Empty,
+                 Changed: Enumerable.Empty<MeteringPointProcess>()),
+                (acc, processes) =>
+                {
+                    var current = processes.ToImmutableDictionary(
+                        process => process.Id,
+                        MeteringPointProcessSnapshot.From);
+
+                    var changed = processes.Where(process =>
+                        !acc.Snapshots.TryGetValue(process.Id, out var previous)
+                        || previous != current[process.Id]);
+
+                    return (current, changed);
+                })
+            .SelectMany(state => state.Changed);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance) =>
         CreateMeteringPointProcess(

@@ -1778,6 +1778,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 
