@@ -55,7 +55,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
       [id]="contentId"
       class="watt-expandable-link__body"
       [class.watt-expandable-link__body--expanded]="expanded()"
-      [attr.inert]="expanded() ? null : true"
+      [attr.inert]="expanded() ? null : ''"
       [attr.aria-hidden]="expanded() ? null : true"
       [attr.aria-labelledby]="triggerId"
       role="region"
