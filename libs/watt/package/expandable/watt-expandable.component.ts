@@ -47,7 +47,7 @@ let nextId = 0;
     </button>
 
     @if (expanded()) {
-      <div [id]="contentId" role="region" class="watt-expandable__content">
+      <div [id]="contentId" class="watt-expandable__content">
         <ng-content />
       </div>
     }
