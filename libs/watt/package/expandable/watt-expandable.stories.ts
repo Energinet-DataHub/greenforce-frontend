@@ -18,36 +18,37 @@
 //#endregion
 import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
 
-import { WattButtonComponent } from '@energinet/watt/button';
-
 import { WattExpandableComponent } from './watt-expandable.component';
 
+const LOREM =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ' +
+  'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud ' +
+  'exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat';
+
 const meta: Meta<WattExpandableComponent> = {
-  title: 'Components/Expandable',
+  title: 'Components/Accordion link',
   component: WattExpandableComponent,
   decorators: [
     moduleMetadata({
-      imports: [WattExpandableComponent, WattButtonComponent],
+      imports: [WattExpandableComponent],
     }),
   ],
   args: {
-    labelExpanded: 'Skjul mulige handlinger',
-    labelCollapsed: 'Vis mulige handlinger',
+    labelExpanded: 'Skjul indhold',
+    labelCollapsed: 'Vis indhold',
   },
-  // The content slot is laid out as a flex row with a watt-space-sm gap.
-  // For paragraph or full-width content, override the inner layout at the
-  // call site (e.g. wrap children in a column container) so text does not
-  // wrap unexpectedly.
+  // The content slot is laid out as a flex row with a watt-space-sm gap. A
+  // single block child (paragraph, column container) renders fine; for
+  // multiple inline children (buttons, chips) the flex-row gap kicks in.
   render: (args) => ({
-    props: args,
+    props: { ...args, lorem: LOREM },
     template: `
       <watt-expandable
         [(expanded)]="expanded"
         [labelExpanded]="labelExpanded"
         [labelCollapsed]="labelCollapsed"
       >
-        <watt-button variant="secondary">Anmod om leveranceophør</watt-button>
-        <watt-button variant="secondary">Annuller</watt-button>
+        <p>{{ lorem }}</p>
       </watt-expandable>
     `,
   }),
