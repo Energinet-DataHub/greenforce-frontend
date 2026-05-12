@@ -16,13 +16,28 @@
  * limitations under the License.
  */
 //#endregion
-import { ProcessManagerBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Router } from '@angular/router';
 
-export interface ProcessActionContext {
-  meteringPointId: string;
-  internalMeteringPointId: string;
-  processId: string;
-  businessReason: ProcessManagerBusinessReason;
-  cutoffDate?: Date | null;
-  onSuccess?: () => void;
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
+
+import { ProcessActionContext } from '../context';
+
+export function navigateToSendInformation(router: Router, ctx: ProcessActionContext) {
+  return router.navigate(
+    [
+      getPath<BasePaths>('metering-point'),
+      ctx.internalMeteringPointId,
+      getPath<MeteringPointSubPaths>('update-customer-details'),
+      ctx.processId,
+    ],
+    {
+      queryParams: {
+        businessReason: ctx.businessReason,
+      },
+    }
+  );
 }

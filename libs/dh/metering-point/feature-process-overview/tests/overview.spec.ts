@@ -19,7 +19,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { fireEvent, render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -33,7 +33,10 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  ProcessManagerBusinessReason,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -95,6 +98,17 @@ async function setup(
   return fixture;
 }
 
+function getSendInformationButtonForProcess(processType: RegExp): HTMLButtonElement {
+  const row = Array.from(document.querySelectorAll<HTMLElement>('[role="row"]')).find(
+    (row) =>
+      processType.test(row.textContent ?? '') && /Send information/i.test(row.textContent ?? '')
+  );
+  const button = row?.querySelector<HTMLButtonElement>('button');
+
+  expect(button).toBeDefined();
+  return button as HTMLButtonElement;
+}
+
 describe('Process overview', () => {
   it('should render the table with process data', async () => {
     await setup();
@@ -126,26 +140,38 @@ describe('Process overview', () => {
     });
   });
 
-  it('should show send information button and navigate when clicked', async () => {
+  it('should show send information button and navigate for CustomerMoveIn when clicked', async () => {
     const fixture = await setup();
-    const user = userEvent.setup();
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
+    fireEvent.click(getSendInformationButtonForProcess(/Move-in \(BRS-009\)/i));
+
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+      expect(router.navigate).toHaveBeenCalledWith(
+        [
+          'metering-point',
+          'imp-456',
+          'update-customer-details',
+          expect.any(String),
+        ],
+        { queryParams: { businessReason: ProcessManagerBusinessReason.CustomerMoveIn } }
+      )
     );
-    const sendInfoButtons = screen.getAllByRole('button', { name: /Send information/i });
+  });
 
-    await user.click(sendInfoButtons[0]);
+  it('should navigate for ChangeOfEnergySupplier send information with process context', async () => {
+    const fixture = await setup();
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    fireEvent.click(getSendInformationButtonForProcess(/Change of energy supplier \(BRS-001\)/i));
 
     await waitForAsync(() =>
-      expect(router.navigate).toHaveBeenCalledWith([
-        'metering-point',
-        'imp-456',
-        'update-customer-details',
-        expect.any(String),
-      ])
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['metering-point', 'imp-456', 'update-customer-details', expect.any(String)],
+        { queryParams: { businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier } }
+      )
     );
   });
 

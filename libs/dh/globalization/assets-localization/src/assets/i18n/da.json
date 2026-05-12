@@ -1102,6 +1102,10 @@
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
           "FAS_SEND_INFORMATION": "Net og el kan sende information"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Net og el kan sende information"
         }
       },
       "rejectProcess": {
@@ -1411,10 +1415,19 @@
       "title": "Tilflyt kunde (meldt af el-leverandør)",
       "updateCustomerData": "Opdater kundestamdata",
       "updateCustomer": {
+        "unavailableAction": "Send information er ikke længere tilgængelig for denne tilflytning",
         "toast": {
           "loading": "Kundestamdata opdateres...",
           "success": "Kundestamdata opdateret",
           "error": "Opdatering mislykkedes"
+        },
+        "changeOfSupplier": {
+          "unavailableAction": "Send information er ikke længere tilgængelig for dette leverandørskifte",
+          "toast": {
+            "loading": "Sender information for leverandørskifte...",
+            "success": "Information for leverandørskifte sendt",
+            "error": "Afsendelse af information for leverandørskifte mislykkedes"
+          }
         }
       },
       "customerDetails": {

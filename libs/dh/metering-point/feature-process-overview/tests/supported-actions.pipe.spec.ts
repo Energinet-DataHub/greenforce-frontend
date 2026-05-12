@@ -54,6 +54,7 @@ async function setup(overrides: Partial<TestHost> = {}) {
       const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
         [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],
         [ProcessManagerBusinessReason.CustomerMoveIn]: [WorkflowAction.SendInformation],
+        [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: [WorkflowAction.SendInformation],
       };
       const supported = registered[reason] ?? [];
       return actions.filter((a) => supported.includes(a));
@@ -98,6 +99,15 @@ describe('SupportedActionsPipe', () => {
     await setup({
       actions: [WorkflowAction.SendInformation],
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    });
+
+    expect(screen.getByText(WorkflowAction.SendInformation)).toBeInTheDocument();
+  });
+
+  it('should show SendInformation for ChangeOfEnergySupplier', async () => {
+    await setup({
+      actions: [WorkflowAction.SendInformation],
+      businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     });
 
     expect(screen.getByText(WorkflowAction.SendInformation)).toBeInTheDocument();

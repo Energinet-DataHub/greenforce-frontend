@@ -38,7 +38,10 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  ProcessManagerBusinessReason,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
@@ -206,12 +209,48 @@ describe('Process overview details', () => {
 
     await waitForAsync(() =>
       expect(router.navigate).toHaveBeenCalledWith([
-        'metering-point',
-        'imp-123',
-        'update-customer-details',
-        expect.any(String),
-      ])
+          'metering-point',
+          'imp-123',
+          'update-customer-details',
+          expect.any(String),
+        ],
+        { queryParams: { businessReason: ProcessManagerBusinessReason.CustomerMoveIn } }
+      )
     );
+  });
+
+  it('should show ChangeOfEnergySupplier.SendInformation when available', async () => {
+    await setup('process-cos-info');
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should navigate with ChangeOfEnergySupplier context when Send information is clicked', async () => {
+    const fixture = await setup('process-cos-info');
+    const user = userEvent.setup();
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Send information/i }).length).toBeGreaterThan(0)
+    );
+
+    await user.click(screen.getAllByRole('button', { name: /Send information/i })[0]);
+
+    await waitForAsync(() =>
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['metering-point', 'imp-123', 'update-customer-details', expect.any(String)],
+        { queryParams: { businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier } }
+      )
+    );
+  });
+
+  it('should hide ChangeOfEnergySupplier.SendInformation when unavailable', async () => {
+    await setup('process-cos-no-info');
+
+    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show initiator in description list', async () => {

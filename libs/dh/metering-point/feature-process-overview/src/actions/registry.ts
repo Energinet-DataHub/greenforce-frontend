@@ -74,6 +74,7 @@ export class DhActionsRegistry {
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
+    [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(CustomerMoveInActions).handlers,
   };
 
   private readonly permissionSignals: ReadonlyMap<Permission, Signal<boolean>> = new Map(

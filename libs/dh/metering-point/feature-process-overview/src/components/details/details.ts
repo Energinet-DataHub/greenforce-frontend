@@ -184,6 +184,7 @@ export class DhMeteringPointProcessOverviewDetails {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: this.id(),
+        businessReason: reason,
         cutoffDate: this.cutoffDate(),
         onSuccess: () => this.navigation.navigate('list'),
       },

@@ -20,7 +20,8 @@ import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { WattToastService } from '@energinet/watt/toast';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
@@ -40,9 +41,10 @@ import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
   AddressTypeV2,
-  ChangeCustomerCharacteristicsBusinessReason,
   GetMeteringPointByIdDocument,
+  GetMeteringPointProcessSendInformationAvailabilityDocument,
   GetTemporaryStorageDataDocument,
+  ProcessManagerBusinessReason,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -62,6 +64,12 @@ import {
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  getProcessContextBusinessReason,
+  isSendInformationAvailable,
+  mapChangeCustomerCharacteristicsBusinessReason,
+  shouldQueryMoveInTemporaryStorage,
+} from '../util/update-customer-process-context';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -193,10 +201,20 @@ import {
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
-  private readonly effectToast = effect(() =>
-    this.toast(this.requestChangeCustomerCharacteristics.status())
+  private readonly transloco = inject(TranslocoService);
+  private readonly toastService = inject(WattToastService);
+  private readonly updateCustomerToast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
+  private readonly changeOfSupplierToast = injectToast(
+    'meteringPoint.moveIn.updateCustomer.changeOfSupplier.toast'
   );
+  private readonly effectToast = effect(() => {
+    const status = this.requestChangeCustomerCharacteristics.status();
+    const toast =
+      this.processContextBusinessReason() === ProcessManagerBusinessReason.ChangeOfEnergySupplier
+        ? this.changeOfSupplierToast
+        : this.updateCustomerToast;
+    toast(status);
+  });
   requestChangeCustomerCharacteristics = mutation(RequestChangeCustomerCharacteristicsDocument);
   getMeteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
@@ -206,10 +224,16 @@ export class DhUpdateCustomerDataComponent {
     },
   }));
   temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
-    skip: !this.processId(),
+    skip: !this.shouldQueryTemporaryStorage(),
     variables: {
       meteringPointId: this.meteringPointId(),
       processId: this.processId() ?? '',
+    },
+  }));
+  latestProcessQuery = query(GetMeteringPointProcessSendInformationAvailabilityDocument, () => ({
+    skip: !this.processId(),
+    variables: {
+      id: this.processId() ?? '',
     },
   }));
   private readonly temporaryStorageCustomer = computed(
@@ -267,8 +291,17 @@ export class DhUpdateCustomerDataComponent {
   );
   meteringPointId = input.required<string>();
   processId = input<string>();
+  businessReason = input<ProcessManagerBusinessReason>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
+
+  private readonly processContextBusinessReason = computed(() =>
+    getProcessContextBusinessReason(this.processId(), this.businessReason())
+  );
+
+  private readonly shouldQueryTemporaryStorage = computed(() =>
+    shouldQueryMoveInTemporaryStorage(this.processId(), this.processContextBusinessReason())
+  );
 
   /**
    * When in a move-in flow (processId is set), block the metering point's
@@ -278,12 +311,12 @@ export class DhUpdateCustomerDataComponent {
    * to the metering point customer.
    */
   private readonly effectiveCustomerName = computed(() => {
-    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    if (this.shouldQueryTemporaryStorage() && this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
   });
 
   private readonly effectiveCustomerCvr = computed(() => {
-    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    if (this.shouldQueryTemporaryStorage() && this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
   });
 
@@ -456,6 +489,7 @@ export class DhUpdateCustomerDataComponent {
 
   async updateCustomerData() {
     if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
+    if (!(await this.canSubmitProcessAction())) return;
 
     const values = this.form().getRawValue();
 
@@ -483,9 +517,10 @@ export class DhUpdateCustomerDataComponent {
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason: this.processId()
-            ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-            : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          businessReason: mapChangeCustomerCharacteristicsBusinessReason(
+            this.processId(),
+            this.processContextBusinessReason()
+          ),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
@@ -516,6 +551,35 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  private async canSubmitProcessAction(): Promise<boolean> {
+    const processId = this.processId();
+    if (!processId) return true;
+
+    const businessReason = this.processContextBusinessReason();
+    if (!businessReason) {
+      this.showUnavailableActionToast();
+      return false;
+    }
+
+    const result = await this.latestProcessQuery.refetch({ id: processId });
+    if (isSendInformationAvailable(result.data?.meteringPointProcessById, businessReason)) {
+      return true;
+    }
+
+    this.showUnavailableActionToast();
+    return false;
+  }
+
+  private showUnavailableActionToast() {
+    const key =
+      this.processContextBusinessReason() === ProcessManagerBusinessReason.ChangeOfEnergySupplier
+        ? 'meteringPoint.moveIn.updateCustomer.changeOfSupplier.unavailableAction'
+        : 'meteringPoint.moveIn.updateCustomer.unavailableAction';
+    const message = this.transloco.translate(key);
+    const config = { type: 'danger' as const, message };
+    this.toastService.isOpen ? this.toastService.update(config) : this.toastService.open(config);
   }
 
   clearAddressFields(addressType: 'legal' | 'technical') {
