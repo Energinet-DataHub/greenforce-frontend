@@ -141,24 +141,6 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
             [value]="initiator() | dhEmDashFallback"
           />
         </watt-description-list>
-      </watt-drawer-heading>
-      @if (!isFas()) {
-        <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          @for (
-            action of process.data()?.meteringPointProcessById?.availableActions
-              | supportedActions
-                : businessReason()
-                : isEnergySupplierResponsible()
-                : initiatorGlnOrEic();
-            track action
-          ) {
-            <watt-button variant="secondary" (click)="executeAction(action)">
-              {{ t('actions.' + businessReason() + '.' + action) }}
-            </watt-button>
-          }
-        </watt-drawer-actions>
-      }
-      <watt-drawer-content>
         @if (isFas() && fasActionGroups().length > 0) {
           <watt-expandable-link
             *transloco="let t; prefix: 'meteringPoint.processOverview'"
@@ -189,6 +171,24 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
             </div>
           </watt-expandable-link>
         }
+      </watt-drawer-heading>
+      @if (!isFas()) {
+        <watt-drawer-actions *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          @for (
+            action of process.data()?.meteringPointProcessById?.availableActions
+              | supportedActions
+                : businessReason()
+                : isEnergySupplierResponsible()
+                : initiatorGlnOrEic();
+            track action
+          ) {
+            <watt-button variant="secondary" (click)="executeAction(action)">
+              {{ t('actions.' + businessReason() + '.' + action) }}
+            </watt-button>
+          }
+        </watt-drawer-actions>
+      }
+      <watt-drawer-content>
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
           [businessReason]="businessReason()"
