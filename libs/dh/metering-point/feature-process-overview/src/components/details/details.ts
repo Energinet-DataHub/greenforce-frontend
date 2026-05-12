@@ -31,7 +31,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattExpandableComponent } from '@energinet/watt/expandable';
+import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -60,7 +60,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
     WattButtonComponent,
-    WattExpandableComponent,
+    WattExpandableLinkComponent,
     SupportedActionsPipe,
   ],
   styles: `
@@ -155,7 +155,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
       }
       <watt-drawer-content>
         @if (isFas() && fasActionGroups().length > 0) {
-          <watt-expandable
+          <watt-expandable-link
             *transloco="let t; prefix: 'meteringPoint.processOverview'"
             [labelCollapsed]="t('details.showPossibleActions')"
             [labelExpanded]="t('details.hidePossibleActions')"
@@ -182,7 +182,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
                 </div>
               }
             </div>
-          </watt-expandable>
+          </watt-expandable-link>
         }
         <dh-metering-point-process-overview-steps
           [steps]="steps()"
