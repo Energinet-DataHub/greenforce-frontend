@@ -85,4 +85,24 @@ describe(WattExpandableComponent, () => {
     ).toBeInTheDocument();
     expect(getContentRegion()).toHaveAttribute('inert');
   });
+
+  it('falls back to the collapsed label when labelExpanded is omitted', async () => {
+    await render(
+      `<watt-expandable labelCollapsed="${LABEL_COLLAPSED}">
+        <p>${BODY_TEXT}</p>
+      </watt-expandable>`,
+      { imports: [WATT_EXPANDABLE] }
+    );
+    const user = userEvent.setup();
+
+    expect(
+      screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
+    ).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button'));
+
+    expect(
+      screen.getByRole('button', { expanded: true, name: LABEL_COLLAPSED })
+    ).toBeInTheDocument();
+  });
 });

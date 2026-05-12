@@ -66,11 +66,14 @@ export class WattExpandableComponent {
   /** Whether the expandable is expanded. Supports two-way binding via `[(expanded)]`. */
   expanded = model(false);
 
-  /** Label shown when the content is expanded (e.g. "Skjul mulige handlinger"). */
-  labelExpanded = input.required<string>();
-
   /** Label shown when the content is collapsed (e.g. "Vis mulige handlinger"). */
   labelCollapsed = input.required<string>();
+
+  /**
+   * Label shown when the content is expanded (e.g. "Skjul mulige handlinger").
+   * Falls back to `labelCollapsed` if not provided.
+   */
+  labelExpanded = input<string>();
 
   /**
    * @ignore
@@ -80,7 +83,9 @@ export class WattExpandableComponent {
   /**
    * @ignore
    */
-  currentLabel = computed(() => (this.expanded() ? this.labelExpanded() : this.labelCollapsed()));
+  currentLabel = computed(() =>
+    this.expanded() ? (this.labelExpanded() ?? this.labelCollapsed()) : this.labelCollapsed()
+  );
 
   /**
    * @ignore
