@@ -170,7 +170,11 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
                     *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
                   >
                     @for (action of group.actions; track action) {
-                      <watt-button variant="secondary" (click)="openFasActionInfoModal()">
+                      <watt-button
+                        variant="secondary"
+                        size="small"
+                        (click)="openFasActionInfoModal()"
+                      >
                         {{ t(businessReason() + '.' + action) }}
                       </watt-button>
                     }
