@@ -23,7 +23,9 @@ public sealed record MeteringPointProcessSnapshot(
         string ActorNumber,
         string ActorRole,
         MeteringPointProcessState State,
-        string Actions)
+        string Actions,
+        string WorkflowSteps,
+        string? TransactionId)
 {
     public static MeteringPointProcessSnapshot From(MeteringPointProcess process) =>
         new(
@@ -34,5 +36,7 @@ public sealed record MeteringPointProcessSnapshot(
             process.ActorNumber,
             process.ActorRole,
             process.State,
-            string.Join(",", (process.Actions ?? []).OrderBy(action => action.ToString())));
+            string.Join(",", (process.Actions ?? []).OrderBy(action => action.ToString())),
+            string.Join(",", (process.WorkflowSteps ?? []).OrderBy(step => step.ToString())),
+            process.TransactionId);
 }

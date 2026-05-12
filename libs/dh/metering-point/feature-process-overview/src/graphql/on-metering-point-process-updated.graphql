@@ -1,15 +1,5 @@
 subscription OnMeteringPointProcessUpdated($meteringPointId: String!, $created: DateRange!) {
   meteringPointProcessUpdated(meteringPointId: $meteringPointId, created: $created) {
-    id
-    createdAt
-    cutoffDate
-    businessReason
-    state
-    initiator {
-      id
-      displayName
-      glnOrEicNumber
-    }
-    availableActions
+    ...MeteringPointProcessItem
   }
 }
