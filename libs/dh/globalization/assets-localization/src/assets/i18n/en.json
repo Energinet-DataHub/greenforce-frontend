@@ -1132,6 +1132,11 @@
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
       },
+      "fasActionInfoModal": {
+        "title": "The action cannot be performed",
+        "body": "Unfortunately only the actor itself can perform this action.",
+        "confirm": "Understood"
+      },
       "disconnectProcess": {
         "title": "Request disconnection",
         "validityDateLabel": "Validity date",

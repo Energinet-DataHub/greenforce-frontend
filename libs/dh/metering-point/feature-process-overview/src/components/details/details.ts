@@ -32,6 +32,7 @@ import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -46,6 +47,7 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigatio
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhActionsRegistry } from '../../actions/registry';
 import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
+import { DhFasActionInfoModal } from '../fas-action-info-modal';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -174,7 +176,7 @@ import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
                     *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
                   >
                     @for (action of group.actions; track action) {
-                      <watt-button variant="secondary" [disabled]="true">
+                      <watt-button variant="secondary" (click)="openFasActionInfoModal()">
                         {{ t(businessReason() + '.' + action) }}
                       </watt-button>
                     }
@@ -202,6 +204,7 @@ export class DhMeteringPointProcessOverviewDetails {
   protected navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly modalService = inject(WattModalService);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -263,6 +266,10 @@ export class DhMeteringPointProcessOverviewDetails {
       }))
       .filter((group) => group.actions.length > 0);
   });
+
+  openFasActionInfoModal() {
+    this.modalService.open({ component: DhFasActionInfoModal });
+  }
 
   executeAction(action: WorkflowAction) {
     const reason = this.businessReason();

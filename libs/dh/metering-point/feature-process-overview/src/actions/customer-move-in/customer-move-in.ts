@@ -35,7 +35,6 @@ export class CustomerMoveInActions {
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
-      actorRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate([
           getPath<BasePaths>('metering-point'),

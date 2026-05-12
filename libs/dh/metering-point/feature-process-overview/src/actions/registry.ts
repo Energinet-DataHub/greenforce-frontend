@@ -46,8 +46,6 @@ export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
   permissions?: Permission[];
   roles?: ActionRole[];
-  /** Actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action. */
-  actorRoles: EicFunction[];
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -126,12 +124,30 @@ export class DhActionsRegistry {
     });
   }
 
-  /** Returns the actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action. */
+  /**
+   * Returns the actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action,
+   * derived from the handler's `roles` field. Sentinel roles are expanded:
+   * `ResponsibleEnergySupplier` -> `EnergySupplier`,
+   * `InitiatingParticipant` -> `EnergySupplier` + `GridAccessProvider`.
+   */
   getActorRolesForAction(
     action: WorkflowAction,
     businessReason: ProcessManagerBusinessReason
   ): EicFunction[] {
-    return this.registry[businessReason]?.[action]?.actorRoles ?? [];
+    const handler = this.registry[businessReason]?.[action];
+    if (!handler?.roles?.length) return [];
+    const actorRoles = new Set<EicFunction>();
+    for (const role of handler.roles) {
+      if (role === ResponsibleEnergySupplier) {
+        actorRoles.add(EicFunction.EnergySupplier);
+      } else if (role === InitiatingParticipant) {
+        actorRoles.add(EicFunction.EnergySupplier);
+        actorRoles.add(EicFunction.GridAccessProvider);
+      } else {
+        actorRoles.add(role);
+      }
+    }
+    return [...actorRoles];
   }
 
   execute(

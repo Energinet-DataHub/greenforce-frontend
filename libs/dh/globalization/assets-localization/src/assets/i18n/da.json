@@ -1131,6 +1131,11 @@
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
+      "fasActionInfoModal": {
+        "title": "Handlingen kan ikke udføres",
+        "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",
+        "confirm": "Forstået"
+      },
       "disconnectProcess": {
         "title": "Anmod om afbrydelse",
         "validityDateLabel": "Gyldighedsdato",

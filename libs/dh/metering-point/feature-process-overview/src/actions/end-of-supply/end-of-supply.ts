@@ -50,7 +50,6 @@ export class EndOfSupplyActions {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request'],
       roles: [ResponsibleEnergySupplier],
-      actorRoles: [EicFunction.EnergySupplier],
       callback: (ctx) => {
         this.modalService.open({
           component: DhRequestServiceModal,
@@ -68,7 +67,6 @@ export class EndOfSupplyActions {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:connection-state-manage'],
       roles: [EicFunction.GridAccessProvider],
-      actorRoles: [EicFunction.GridAccessProvider],
       callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
         this.disconnectMeteringPoint.mutate({
           refetchQueries: [
@@ -89,7 +87,6 @@ export class EndOfSupplyActions {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-respond'],
       roles: [ResponsibleEnergySupplier],
-      actorRoles: [EicFunction.GridAccessProvider],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
@@ -112,7 +109,6 @@ export class EndOfSupplyActions {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
       roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
-      actorRoles: [EicFunction.EnergySupplier, EicFunction.GridAccessProvider],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {

@@ -224,7 +224,7 @@ describe('Process overview details', () => {
     ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
   ])(
-    'should not render action buttons in the drawer header and instead expose disabled grouped actions for FAS users (%s)',
+    'should expose grouped actions that open an info modal when clicked for FAS users (%s)',
     async (processId, buttonPattern) => {
       await setup(processId, { isFas: true });
       const user = userEvent.setup();
@@ -243,13 +243,28 @@ describe('Process overview details', () => {
 
       await user.click(expander);
 
-      // Once expanded, inert is removed and the action buttons render disabled.
+      // Once expanded, inert is removed and the action buttons render as
+      // live (not disabled) buttons. Clicking one opens an informational
+      // modal explaining that only the actor can perform the action.
       await waitForAsync(() => expect(region).not.toHaveAttribute('inert'));
       const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
       expect(actionButtons.length).toBeGreaterThan(0);
       actionButtons.forEach((button) => {
-        expect((button as HTMLButtonElement).disabled).toBe(true);
+        expect((button as HTMLButtonElement).disabled).toBe(false);
       });
+
+      await user.click(actionButtons[0]);
+
+      await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+      const dialog = screen.getByRole('dialog');
+      expect(within(dialog).getByRole('paragraph')).toHaveTextContent(
+        /only the actor itself can perform this action/i
+      );
+
+      const understoodButton = within(dialog).getByRole('button', { name: /Understood/i });
+      await user.click(understoodButton);
+
+      await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     }
   );
 
