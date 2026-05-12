@@ -36,6 +36,11 @@ describe('dhCprValidator', () => {
     expect(dhCprValidator()(control)).toBeNull();
   });
 
+  it('should return null if control value is null', () => {
+    control.setValue(null);
+    expect(dhCprValidator()(control)).toBeNull();
+  });
+
   it('should return null if control value is exactly 10 digits', () => {
     control.setValue(_10Digits);
     expect(dhCprValidator()(control)).toBeNull();

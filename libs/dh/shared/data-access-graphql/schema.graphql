@@ -301,6 +301,7 @@ type ChangeProductionObligationPayload {
 }
 
 type Charge {
+  missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
   id: String!
@@ -1192,6 +1193,11 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
   steps: [OrchestrationInstanceStep!]!
 }
 
+type MissingPriceSeriesResult {
+  gaps: [DateTime!]!
+  endsAt: DateTime
+}
+
 type Mutation {
   addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
@@ -1772,6 +1778,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 

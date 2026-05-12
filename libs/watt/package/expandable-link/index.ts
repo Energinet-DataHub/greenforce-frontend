@@ -16,9 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhChargesIntervalField } from './src/interval-field';
-export { DhChargeIntervalPipe } from './src/interval-pipe';
-export { DhChargePeriodPipe } from './src/period-pipe';
-export { DhChargesStatus } from './src/status';
-export { DhChargesTypeSelection } from './src/type-selection';
-export { DhChargesWarningBanner } from './src/warning-banner';
+export { WattExpandableLinkComponent } from './watt-expandable-link.component';
