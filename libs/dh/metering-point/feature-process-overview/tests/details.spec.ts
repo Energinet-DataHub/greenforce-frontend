@@ -237,9 +237,16 @@ describe('Process overview details', () => {
 
       // When collapsed, the expandable region carries inert so the action
       // buttons inside it are removed from the tab order and a11y tree at the
-      // browser level (jsdom does not enforce inert during role queries, so we
-      // assert the structural attribute instead).
+      // browser level. jsdom does not enforce inert during role queries, so
+      // assert two structural invariants instead: the region has inert, and
+      // every button matching the action pattern lives inside that region
+      // (i.e. cannot be reached outside the inert subtree).
       expect(region).toHaveAttribute('inert');
+      screen
+        .queryAllByRole('button', { name: buttonPattern })
+        .forEach((button) =>
+          expect(region.contains(button)).toBe(true)
+        );
 
       await user.click(expander);
 

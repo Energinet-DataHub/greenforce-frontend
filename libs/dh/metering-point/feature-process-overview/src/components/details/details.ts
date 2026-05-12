@@ -92,6 +92,11 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       // display: contents lets the role title and the buttons row participate
       // directly in the parent grid, so labels line up in column 1 and button
       // rows line up in column 2 even when the labels have different widths.
+      // The wrapper still exists in the DOM but contributes no box of its own,
+      // and modern browsers expose its children in the a11y tree. If we ever
+      // need an ARIA role on this wrapper (e.g. role="group" with aria-labelledby
+      // pointing at the title), swap display: contents for an inner nested
+      // grid so the role is preserved.
       display: contents;
     }
 
