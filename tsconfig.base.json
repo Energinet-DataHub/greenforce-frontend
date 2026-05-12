@@ -266,6 +266,7 @@
       "@energinet/watt/dropzone": ["./libs/watt/package/dropzone/index.ts"],
       "@energinet/watt/empty-state": ["./libs/watt/package/empty-state/index.ts"],
       "@energinet/watt/expandable-card": ["./libs/watt/package/expandable-card/index.ts"],
+      "@energinet/watt/expandable": ["./libs/watt/package/expandable/index.ts"],
       "@energinet/watt/expansion": ["./libs/watt/package/expansion/index.ts"],
       "@energinet/watt/field": ["./libs/watt/package/field/index.ts"],
       "@energinet/watt/file-field": ["./libs/watt/package/file-field/index.ts"],
