@@ -16,8 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-import { WattExpandableComponent } from './watt-expandable.component';
-
-const WATT_EXPANDABLE = [WattExpandableComponent] as const;
-
-export { WattExpandableComponent, WATT_EXPANDABLE };
+export { WattExpandableComponent } from './watt-expandable.component';

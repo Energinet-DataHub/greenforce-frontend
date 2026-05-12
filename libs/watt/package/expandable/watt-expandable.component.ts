@@ -19,8 +19,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
 
-let nextId = 0;
-
 /**
  * Usage:
  * `import { WattExpandableComponent } from '@energinet/watt/expandable';`
@@ -43,7 +41,7 @@ let nextId = 0;
       (click)="toggle()"
     >
       <watt-icon name="down" size="s" class="watt-expandable__chevron" [attr.aria-hidden]="true" />
-      <span class="watt-expandable__label watt-link-s">{{ currentLabel() }}</span>
+      <span class="watt-expandable__label">{{ currentLabel() }}</span>
     </button>
 
     <div
@@ -71,14 +69,18 @@ export class WattExpandableComponent {
 
   /**
    * Label shown when the content is expanded (e.g. "Skjul mulige handlinger").
-   * Falls back to `labelCollapsed` if not provided.
+   * Optional. If omitted, the collapsed label is shown in both states, leaving the
+   * chevron rotation as the only visual state cue (screen readers still get
+   * `aria-expanded` for state).
    */
   labelExpanded = input<string>();
 
   /**
    * @ignore
+   * SSR-safe unique id (no module-scoped counter so server and client renders
+   * stay aligned during hydration).
    */
-  readonly contentId = `watt-expandable-content-${nextId++}`;
+  readonly contentId = `watt-expandable-content-${crypto.randomUUID()}`;
 
   /**
    * @ignore

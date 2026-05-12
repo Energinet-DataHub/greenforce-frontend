@@ -21,20 +21,23 @@ import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { WattExpandableComponent } from './watt-expandable.component';
-import { WATT_EXPANDABLE } from './index';
 
 const meta: Meta<WattExpandableComponent> = {
   title: 'Components/Expandable',
   component: WattExpandableComponent,
   decorators: [
     moduleMetadata({
-      imports: [WATT_EXPANDABLE, WattButtonComponent],
+      imports: [WattExpandableComponent, WattButtonComponent],
     }),
   ],
   args: {
     labelExpanded: 'Skjul mulige handlinger',
     labelCollapsed: 'Vis mulige handlinger',
   },
+  // The content slot is laid out as a flex row with a watt-space-sm gap.
+  // For paragraph or full-width content, override the inner layout at the
+  // call site (e.g. wrap children in a column container) so text does not
+  // wrap unexpectedly.
   render: (args) => ({
     props: args,
     template: `

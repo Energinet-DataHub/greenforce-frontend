@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+@use "../core/styles/typography/typography.import" as typography;
 
 :host {
   display: block;
@@ -27,6 +28,14 @@
   font: inherit;
   cursor: pointer;
   text-align: left;
+}
+
+.watt-expandable__label {
+  @include typography.watt-link-s;
+  // watt-link-s sets the link color; inherit from the button so the chevron icon
+  // (which uses currentColor) and the label stay in sync if a caller overrides
+  // the link color on the host.
+  color: inherit;
 }
 
 .watt-expandable__header:focus-visible {
@@ -56,6 +65,9 @@
 .watt-expandable__body-inner {
   display: flex;
   gap: var(--watt-space-sm);
+  // min-height: 0 prevents the descendant from imposing its intrinsic height
+  // on the grid row before the 0fr -> 1fr transition resolves.
+  min-height: 0;
   overflow: hidden;
   padding-top: var(--watt-space-sm);
 }

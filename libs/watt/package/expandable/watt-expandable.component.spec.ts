@@ -16,11 +16,12 @@
  * limitations under the License.
  */
 //#endregion
+import { Component, signal } from '@angular/core';
+
 import { render, screen } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { WattExpandableComponent } from './watt-expandable.component';
-import { WATT_EXPANDABLE } from './index';
 
 const BODY_TEXT = 'Hidden body content';
 const LABEL_EXPANDED = 'Skjul mulige handlinger';
@@ -38,17 +39,8 @@ const template = `
 describe(WattExpandableComponent, () => {
   async function setup() {
     return render(template, {
-      imports: [WATT_EXPANDABLE],
+      imports: [WattExpandableComponent],
     });
-  }
-
-  function getContentRegion(): HTMLElement {
-    const button = screen.getByRole('button');
-    const id = button.getAttribute('aria-controls');
-    if (!id) throw new Error('button is missing aria-controls');
-    const region = document.getElementById(id);
-    if (!region) throw new Error(`no element with id ${id}`);
-    return region;
   }
 
   it('renders collapsed by default with the collapsed label and inert content', async () => {
@@ -57,8 +49,7 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
     ).toBeInTheDocument();
-    expect(screen.getByText(BODY_TEXT)).toBeInTheDocument();
-    expect(getContentRegion()).toHaveAttribute('inert');
+    expect(screen.getByText(BODY_TEXT).closest('[inert]')).not.toBeNull();
   });
 
   it('expands on click, swapping the label and making the content interactive', async () => {
@@ -70,7 +61,7 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: true, name: LABEL_EXPANDED })
     ).toBeInTheDocument();
-    expect(getContentRegion()).not.toHaveAttribute('inert');
+    expect(screen.getByText(BODY_TEXT).closest('[inert]')).toBeNull();
   });
 
   it('collapses again on a second click', async () => {
@@ -83,7 +74,7 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: false, name: LABEL_COLLAPSED })
     ).toBeInTheDocument();
-    expect(getContentRegion()).toHaveAttribute('inert');
+    expect(screen.getByText(BODY_TEXT).closest('[inert]')).not.toBeNull();
   });
 
   it('falls back to the collapsed label when labelExpanded is omitted', async () => {
@@ -91,7 +82,7 @@ describe(WattExpandableComponent, () => {
       `<watt-expandable labelCollapsed="${LABEL_COLLAPSED}">
         <p>${BODY_TEXT}</p>
       </watt-expandable>`,
-      { imports: [WATT_EXPANDABLE] }
+      { imports: [WattExpandableComponent] }
     );
     const user = userEvent.setup();
 
@@ -104,5 +95,32 @@ describe(WattExpandableComponent, () => {
     expect(
       screen.getByRole('button', { expanded: true, name: LABEL_COLLAPSED })
     ).toBeInTheDocument();
+  });
+
+  it('reflects the toggle in a parent two-way bound signal', async () => {
+    @Component({
+      imports: [WattExpandableComponent],
+      template: `
+        <watt-expandable
+          [(expanded)]="expanded"
+          labelExpanded="${LABEL_EXPANDED}"
+          labelCollapsed="${LABEL_COLLAPSED}"
+        >
+          <p>${BODY_TEXT}</p>
+        </watt-expandable>
+      `,
+    })
+    class HostComponent {
+      readonly expanded = signal(false);
+    }
+
+    const { fixture } = await render(HostComponent);
+    const user = userEvent.setup();
+
+    expect(fixture.componentInstance.expanded()).toBe(false);
+
+    await user.click(screen.getByRole('button'));
+
+    expect(fixture.componentInstance.expanded()).toBe(true);
   });
 });
