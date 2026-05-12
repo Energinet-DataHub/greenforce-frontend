@@ -18,6 +18,8 @@
 //#endregion
 import { moduleMetadata, Meta, StoryObj } from '@storybook/angular';
 
+import { WattButtonComponent } from '@energinet/watt/button';
+
 import { WattExpandableComponent } from './watt-expandable.component';
 import { WATT_EXPANDABLE } from './index';
 
@@ -26,7 +28,7 @@ const meta: Meta<WattExpandableComponent> = {
   component: WattExpandableComponent,
   decorators: [
     moduleMetadata({
-      imports: [WATT_EXPANDABLE],
+      imports: [WATT_EXPANDABLE, WattButtonComponent],
     }),
   ],
   args: {
@@ -41,7 +43,8 @@ const meta: Meta<WattExpandableComponent> = {
         [labelExpanded]="labelExpanded"
         [labelCollapsed]="labelCollapsed"
       >
-        <p>Her er en kort beskrivelse af de mulige handlinger.</p>
+        <watt-button variant="secondary">Anmod om leveranceophør</watt-button>
+        <watt-button variant="secondary">Annuller</watt-button>
       </watt-expandable>
     `,
   }),
