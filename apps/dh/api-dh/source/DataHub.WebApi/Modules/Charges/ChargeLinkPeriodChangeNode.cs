@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
-using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
