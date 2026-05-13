@@ -29,6 +29,7 @@ import {
   mockStopChargeLinkMutation,
   mockCancelChargeLinkMutation,
   mockEditChargeLinkMutation,
+  mockGetChargeWeekSeriesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import {
@@ -499,6 +500,42 @@ function getMissingPriceSeriesPoints() {
   });
 }
 
+function getChargeWeekSeries() {
+  return mockGetChargeWeekSeriesQuery(async ({ variables: { chargeId, interval } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock(interval);
+    const chargeInformation = charges.find((c) => c.id === chargeId);
+
+    if (chargeInformation === undefined) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          chargeById: null,
+        },
+      });
+    }
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeById: {
+          __typename: 'Charge',
+          id: chargeInformation.id,
+          series: chargeInformation.series.map((point) => ({
+            __typename: 'ChargeSeriesPoint',
+            price: point.price,
+            interval: {
+              start: point.interval.start,
+              end: point.interval.end,
+            },
+            hasChanged: point.hasChanged,
+          })),
+        },
+      },
+    });
+  });
+}
+
 function getChargeLinkOverview() {
   return mockGetChargeLinkOverviewQuery(async () => {
     await delay(mswConfig.delay);
@@ -585,6 +622,7 @@ export function chargesMocks() {
     editChargeLink(),
     getChargeSeries(),
     getMissingPriceSeriesPoints(),
+    getChargeWeekSeries(),
     cancelChargeLink(),
     getChargesByType(),
     getChargeLinkOverview(),
