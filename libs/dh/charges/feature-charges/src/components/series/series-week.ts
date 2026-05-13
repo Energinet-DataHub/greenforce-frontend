@@ -18,8 +18,6 @@
 //#endregion
 import { input, computed, Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter, map } from 'rxjs';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
@@ -36,7 +34,7 @@ import {
   GetChargeWeekSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesWeekRow } from '../../types';
@@ -111,7 +109,7 @@ export class DhChargesSeriesWeekTable {
       : {
           variables: {
             chargeId: this.id(),
-            interval: period.interval,
+            interval: period,
           },
         };
   });
@@ -120,17 +118,7 @@ export class DhChargesSeriesWeekTable {
     periodControl: dhMakeFormControl<WattRange<Date>>(this.currentWeek),
   });
 
-  protected selectedPeriod = toSignal(
-    this.form.controls.periodControl.valueChanges.pipe(
-      filter(Boolean),
-      map((interval) => ({
-        interval: {
-          start: dayjs(interval.start).toDate(),
-          end: dayjs(interval.end).toDate(),
-        },
-      }))
-    )
-  );
+  private selectedPeriod = dhFormControlToSignal(this.form.controls.periodControl);
 
   id = input.required<string>();
 
