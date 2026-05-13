@@ -16,6 +16,7 @@ using Energinet.DataHub.Charges.Abstractions.Shared;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeLinkId(
+public record ChargeLinkPeriodId(
     string MeteringPointId,
-    ChargeIdentifierDto ChargeId);
+    ChargeIdentifierDto ChargeId,
+    DateTimeOffset From);

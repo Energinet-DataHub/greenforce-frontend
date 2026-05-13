@@ -16,7 +16,7 @@ using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeLinkOverviewItem(
+public record ChargeLinkPeriod(
     string MeteringPointId,
     ChargeLinkPeriodDto Period,
     Charge Charge);

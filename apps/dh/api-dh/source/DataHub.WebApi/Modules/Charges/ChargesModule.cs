@@ -36,7 +36,7 @@ public class ChargesModule : IModule
             .BindRuntimeType<ChargeIdentifierDto, StringType>()
             .AddTypeConverter<ChargeIdentifierDto, string>(JsonBase64Converter.Serialize)
             .AddTypeConverter<string, ChargeIdentifierDto>(JsonBase64Converter.Deserialize<ChargeIdentifierDto>)
-            .BindRuntimeType<ChargeLinkId, StringType>()
-            .AddTypeConverter<ChargeLinkId, string>(JsonBase64Converter.Serialize)
-            .AddTypeConverter<string, ChargeLinkId>(JsonBase64Converter.Deserialize<ChargeLinkId>);
+            .BindRuntimeType<ChargeLinkPeriodId, StringType>()
+            .AddTypeConverter<ChargeLinkPeriodId, string>(JsonBase64Converter.Serialize)
+            .AddTypeConverter<string, ChargeLinkPeriodId>(JsonBase64Converter.Deserialize<ChargeLinkPeriodId>);
 }

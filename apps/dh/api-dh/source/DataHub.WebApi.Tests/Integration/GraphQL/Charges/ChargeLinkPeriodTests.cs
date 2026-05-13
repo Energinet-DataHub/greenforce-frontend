@@ -38,7 +38,7 @@ public class ChargeLinkPeriodTests
     private static readonly string _query =
     """
     query ($meteringPointId: String!) {
-      chargeLinkOverview(meteringPointId: $meteringPointId) {
+      chargeLinkPeriods(meteringPointId: $meteringPointId) {
         period
       }
     }
@@ -74,14 +74,14 @@ public class ChargeLinkPeriodTests
             TypeDisplayName: "Tariff",
             PeriodDtos: [chargePeriod]);
 
-        var linkPeriod = new ChargeLinkPeriodDto(1, from, to);
+        var linkPeriod = new ChargeLinkPeriodDto(1, from, to, from, string.Empty, true);
 
         var server = new GraphQLTestService();
         server.ChargesClientMock
-            .Setup(x => x.GetChargeLinkOverviewAsync("571313180000000005", It.IsAny<CancellationToken>()))
+            .Setup(x => x.GetChargeLinkPeriodsAsync("571313180000000005", It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new ChargeLinkOverviewItem("571313180000000005", linkPeriod, feeCharge),
-                new ChargeLinkOverviewItem("571313180000000005", linkPeriod, tariffCharge),
+                new ChargeLinkPeriod("571313180000000005", linkPeriod, feeCharge),
+                new ChargeLinkPeriod("571313180000000005", linkPeriod, tariffCharge),
             ]);
 
         var result = await server.ExecuteRequestAsync(
@@ -94,7 +94,7 @@ public class ChargeLinkPeriodTests
         var json = JsonDocument.Parse(result.ToJson());
         var items = json.RootElement
             .GetProperty("data")
-            .GetProperty("chargeLinkOverview")
+            .GetProperty("chargeLinkPeriods")
             .EnumerateArray()
             .ToArray();
 

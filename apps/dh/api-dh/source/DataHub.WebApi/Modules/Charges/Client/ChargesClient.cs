@@ -267,7 +267,7 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    public async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+    public async Task<IEnumerable<ChargeLinkPeriod>> GetChargeLinkPeriodsAsync(
         string meteringPointId,
         CancellationToken ct = default)
     {
@@ -279,12 +279,27 @@ public class ChargesClient(
         var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
         return chargeLinks
             .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
-            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
-                new ChargeLinkOverviewItem(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
+            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p => (ChargeLink: cl, Period: p, Charge: chargeMap[cl.ChargeIdentifier])))
+            .GroupBy(x => (x.Charge.Id, x.Period.From))
+            .Select(g =>
+            {
+                var activePeriod = g.Select(x => x.Period).First(p => p.IsActual);
+                return new ChargeLinkPeriod(meteringPointId, activePeriod, g.First().Charge);
+            });
+    }
+
+    // TODO: Replace with dedicated backend endpoint when available.
+    public async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
+        ChargeLinkPeriodId id,
+        CancellationToken ct = default)
+    {
+        var items = await GetChargeLinkPeriodsAsync(id.MeteringPointId, ct);
+        return items.FirstOrDefault(p =>
+            new ChargeLinkPeriodId(p.MeteringPointId, p.Charge.Id, p.Period.From.ToDateTimeOffset()) == id);
     }
 
     public async Task<bool> StopChargeLinkAsync(
-        ChargeLinkId id,
+        ChargeLinkPeriodId id,
         DateTimeOffset stopDate,
         CancellationToken ct = default)
     {
@@ -302,7 +317,7 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
+    public async Task<bool> CancelChargeLinkAsync(ChargeLinkPeriodId id, CancellationToken ct = default)
     {
         var period = await GetChargeLinkPeriodAsync(id, ct);
         var result = await ediClient.SendAsync(
@@ -319,7 +334,7 @@ public class ChargesClient(
     }
 
     public async Task<bool> EditChargeLinkAsync(
-        ChargeLinkId id,
+        ChargeLinkPeriodId id,
         DateTimeOffset newStartDate,
         int factor,
         CancellationToken ct = default)
@@ -357,7 +372,7 @@ public class ChargesClient(
         return result.IsSuccess;
     }
 
-    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkId id, CancellationToken ct)
+    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkPeriodId id, CancellationToken ct)
     {
         var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
         if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);

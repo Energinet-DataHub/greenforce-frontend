@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -21,18 +22,18 @@ using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-[ObjectType<ChargeLinkOverviewItem>]
-public static partial class ChargeLinkOverviewItemNode
+[ObjectType<ChargeLinkPeriod>]
+public static partial class ChargeLinkPeriodNode
 {
     [Query]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices"])]
-    public static async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+    public static async Task<IEnumerable<ChargeLinkPeriod>> GetChargeLinkPeriodsAsync(
         string meteringPointId,
         IChargesClient client,
         CancellationToken ct)
     {
-        var items = await client.GetChargeLinkOverviewAsync(meteringPointId, ct);
+        var items = await client.GetChargeLinkPeriodsAsync(meteringPointId, ct);
         return items
             .OrderBy(item => item.Charge.Type.SortOrder)
             .ThenBy(item => item.Charge.Id.Owner)
@@ -40,26 +41,44 @@ public static partial class ChargeLinkOverviewItemNode
             .ThenByDescending(item => item.Period.From);
     }
 
-    public static Interval GetPeriod([Parent] ChargeLinkOverviewItem item)
+    [Query]
+    [Authorize(Roles = ["metering-point:prices"])]
+    public static async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
+        ChargeLinkPeriodId id,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.GetChargeLinkPeriodByIdAsync(id, ct);
+
+    public static async Task<IReadOnlyList<ChargeLinkPeriodChange>> GetChangesAsync(
+        [Parent] ChargeLinkPeriod item,
+        IChargeLinkPeriodHistoryByIdDataLoader dataLoader,
+        CancellationToken ct)
+    {
+        var id = new ChargeLinkPeriodId(item.MeteringPointId, item.Charge.Id, item.Period.From.ToDateTimeOffset());
+        var periods = await dataLoader.LoadAsync(id, ct);
+        return periods is not null ? ChargeLinkPeriodChange.FromPeriods(periods) : [];
+    }
+
+    public static Interval GetPeriod([Parent] ChargeLinkPeriod item)
     {
         var hideEnd = item.Charge.Type == ChargeType.Fee && item.Period.From != item.Period.To;
         return new(item.Period.From, hideEnd ? null : item.Period.To);
     }
 
-    public static bool GetClosed([Parent] ChargeLinkOverviewItem item)
+    public static bool GetClosed([Parent] ChargeLinkPeriod item)
     {
         if (item.Period.To == item.Period.From) return true; // Treat cancelled as closed
         return item.Period.To is not null && item.Period.To < DateTimeOffset.Now.ToInstant();
     }
 
-    static partial void Configure(IObjectTypeDescriptor<ChargeLinkOverviewItem> descriptor)
+    static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriod> descriptor)
     {
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Charge);
         descriptor.Field(f => f.Period.Factor).Name("amount");
         descriptor
-            .Field(f => new ChargeLinkId(f.MeteringPointId, f.Charge.Id))
+            .Field(f => new ChargeLinkPeriodId(f.MeteringPointId, f.Charge.Id, f.Period.From.ToDateTimeOffset()))
             .Type<NonNullType<StringType>>()
-            .Name("chargeLinkId");
+            .Name("id");
     }
 }
