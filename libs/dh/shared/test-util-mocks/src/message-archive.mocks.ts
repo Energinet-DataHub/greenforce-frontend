@@ -251,7 +251,9 @@ function getMeteringPointProcessOverview() {
       availableActions: [WorkflowAction.SendInformation],
       initiator: {
         __typename: 'MarketParticipant' as const,
-        ...initiators[1],
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+        displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+        glnOrEicNumber: processCmiInfoInitiatorGln,
       },
     };
 
