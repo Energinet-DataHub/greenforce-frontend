@@ -131,7 +131,6 @@ export class DhChargesSeriesWeekTable {
     )
   );
 
-
   id = input.required<string>();
 
   ready = computed(() => this.chargeByIdQuery.called() && this.chargeWeekSeriesQuery.called());
@@ -145,9 +144,7 @@ export class DhChargesSeriesWeekTable {
 
   dataSource = dataSource(() => this.series());
 
-
   columns: WattTableColumnDef<DhChargesWeekRow> = {
     date: { accessor: null, sort: false },
   };
-
 }
