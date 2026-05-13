@@ -33,6 +33,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
 import { WattModalService } from '@energinet/watt/modal';
+import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
@@ -63,6 +64,8 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     DhMeteringPointProcessOverviewSteps,
     WattButtonComponent,
     WattExpandableLinkComponent,
+    VaterGridComponent,
+    VaterStackComponent,
     SupportedActionsPipe,
   ],
   styles: `
@@ -78,37 +81,17 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     }
 
     dh-metering-point-process-overview-details .fas-action-groups {
-      display: grid;
-      grid-template-columns: auto 1fr;
+      // vater-grid handles display: grid and grid-template-columns; the gaps
+      // and the surrounding inset are asymmetric so they stay as inline rules
+      // rather than going through vater-grid's symmetric gap input.
       column-gap: var(--watt-space-m);
       row-gap: var(--watt-space-s);
-      align-items: center;
       padding-top: var(--watt-space-s);
-      // Gap below the expanded body to the divider/steps table.
       padding-bottom: var(--watt-space-m);
-    }
-
-    dh-metering-point-process-overview-details .fas-action-group {
-      // display: contents lets the role title and the buttons row participate
-      // directly in the parent grid, so labels line up in column 1 and button
-      // rows line up in column 2 even when the labels have different widths.
-      // The wrapper still exists in the DOM but contributes no box of its own,
-      // and modern browsers expose its children in the a11y tree. If we ever
-      // need an ARIA role on this wrapper (e.g. role="group" with aria-labelledby
-      // pointing at the title), swap display: contents for an inner nested
-      // grid so the role is preserved.
-      display: contents;
     }
 
     dh-metering-point-process-overview-details .fas-action-group__title {
       margin: 0;
-    }
-
-    dh-metering-point-process-overview-details .fas-action-group__buttons {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: var(--watt-space-s);
     }
   `,
   template: `
@@ -161,32 +144,31 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
             [labelCollapsed]="t('details.showPossibleActions')"
             [labelExpanded]="t('details.hidePossibleActions')"
           >
-            <div class="fas-action-groups">
+            <vater-grid class="fas-action-groups" columns="auto 1fr" align="center">
               @for (group of fasActionGroups(); track group.role) {
-                <div class="fas-action-group">
-                  <h4
-                    class="watt-label fas-action-group__title"
-                    *transloco="let tRole; prefix: 'marketParticipant.marketRoles'"
-                  >
-                    {{ tRole(group.role) }}
-                  </h4>
-                  <div
-                    class="fas-action-group__buttons"
-                    *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
-                  >
-                    @for (action of group.actions; track action) {
-                      <watt-button
-                        variant="secondary"
-                        size="small"
-                        (click)="openFasActionInfoModal()"
-                      >
-                        {{ t(businessReason() + '.' + action) }}
-                      </watt-button>
-                    }
-                  </div>
-                </div>
+                <h4
+                  class="watt-label fas-action-group__title"
+                  *transloco="let tRole; prefix: 'marketParticipant.marketRoles'"
+                >
+                  {{ tRole(group.role) }}
+                </h4>
+                <vater-stack
+                  direction="row"
+                  gap="s"
+                  *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
+                >
+                  @for (action of group.actions; track action) {
+                    <watt-button
+                      variant="secondary"
+                      size="small"
+                      (click)="openFasActionInfoModal()"
+                    >
+                      {{ t(businessReason() + '.' + action) }}
+                    </watt-button>
+                  }
+                </vater-stack>
               }
-            </div>
+            </vater-grid>
           </watt-expandable-link>
         }
       </watt-drawer-heading>

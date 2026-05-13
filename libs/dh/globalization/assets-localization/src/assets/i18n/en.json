@@ -1090,7 +1090,7 @@
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
       "actions": {
-        "fasGenericActions": "Possible actions for actors",
+        "fasGenericActions": "Possible actions for market participants",
         "EndOfSupply": {
           "SEND_INFORMATION": "Request service",
           "CANCEL_WORKFLOW": "Cancel",
