@@ -16,18 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ChargePricesSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
-import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-export function correctChargeTypeView(resolution?: ChargeResolution): ChargePricesSubPaths {
-  switch (resolution) {
-    case 'DAILY':
-      return 'month';
-    case 'MONTHLY':
-      return 'year';
-    case 'QUARTER_HOURLY':
-    case 'HOURLY':
-    default:
-      return 'day';
-  }
-}
+@Component({
+  selector: 'dh-charges-series-week-table',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: ``,
+})
+export class DhChargesSeriesWeekTable {}

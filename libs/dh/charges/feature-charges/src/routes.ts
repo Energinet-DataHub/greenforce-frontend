@@ -16,31 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ActivatedRouteSnapshot,
-  CanActivateFn,
-  CanMatchFn,
-  PartialMatchRouteSnapshot,
-  Route,
-  Router,
-  Routes,
-  UrlSegment,
-} from '@angular/router';
-import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  BasePaths,
-  ChargesSubPaths,
-  getPath,
-} from '@energinet-datahub/dh/core/configuration-routing';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { ChargeType, GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-
-import { correctChargeTypeView } from './components/util/correct-charge-type-view';
-
-const tariffChargeTypes: ChargeType[] = ['TARIFF', 'TARIFF_TAX'];
+import { ChargesSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
 export const chargeRoutes: Routes = [
   {
@@ -64,31 +44,8 @@ export const chargeRoutes: Routes = [
       import('./components/information/information').then((m) => m.DhChargesInformation),
     children: [
       {
-        path: `${getPath<ChargesSubPaths>('prices')}/:time-resolution`,
-        canMatch: [everythingButQuarterHourlyAndHourlyTariff()],
-        loadComponent: () =>
-          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
-      },
-      {
         path: `${getPath<ChargesSubPaths>('prices')}`,
-        canActivate: [quarterHourlyAndHourlyTariffOnly()],
-        children: [
-          {
-            path: '',
-            children: [
-              {
-                path: '',
-                pathMatch: 'full',
-                redirectTo: 'day',
-              },
-              {
-                path: 'day',
-                loadComponent: () =>
-                  import('./components/series/series').then((m) => m.DhChargesSeriesTable),
-              },
-            ],
-          },
-        ],
+        loadComponent: () => import('./components/series/series-page').then((m) => m.DhSeriesPage),
       },
       {
         path: getPath<ChargesSubPaths>('information'),
@@ -122,74 +79,3 @@ export const chargeRoutes: Routes = [
     ],
   },
 ];
-
-function everythingButQuarterHourlyAndHourlyTariff(): CanMatchFn {
-  return (route: Route, segments: UrlSegment[], snapshot?: PartialMatchRouteSnapshot) => {
-    const router = inject(Router);
-    const idParam: string = snapshot?.params['id'];
-    const timeResolutionParam: string = snapshot?.params['time-resolution'];
-
-    return query(GetChargeByIdDocument, () => ({
-      variables: { id: idParam },
-    }))
-      .result()
-      .then((result) => {
-        if (!result.data.chargeById) {
-          return router.createUrlTree([getPath<BasePaths>('charges')]);
-        }
-
-        const { resolution, type } = result.data.chargeById;
-
-        if (
-          tariffChargeTypes.includes(type) &&
-          (resolution === 'QUARTER_HOURLY' || resolution === 'HOURLY')
-        ) {
-          return false;
-        }
-
-        const correctViewForResolution = correctChargeTypeView(resolution);
-
-        if (timeResolutionParam === correctViewForResolution) {
-          return true;
-        }
-
-        return router.createUrlTree([
-          getPath<BasePaths>('charges'),
-          idParam,
-          getPath<ChargesSubPaths>('prices'),
-          correctViewForResolution,
-        ]);
-      });
-  };
-}
-
-function quarterHourlyAndHourlyTariffOnly(): CanActivateFn {
-  return (route: ActivatedRouteSnapshot) => {
-    const router = inject(Router);
-
-    const idParam: string = route.params['id'];
-
-    return query(GetChargeByIdDocument, () => ({
-      variables: { id: idParam },
-    }))
-      .result()
-      .then((result) => {
-        const chargesUrlTree = router.createUrlTree([getPath<BasePaths>('charges')]);
-
-        if (!result.data.chargeById) {
-          return chargesUrlTree;
-        }
-
-        const { resolution, type } = result.data.chargeById;
-
-        if (
-          tariffChargeTypes.includes(type) &&
-          (resolution === 'QUARTER_HOURLY' || resolution === 'HOURLY')
-        ) {
-          return true;
-        }
-
-        return chargesUrlTree;
-      });
-  };
-}

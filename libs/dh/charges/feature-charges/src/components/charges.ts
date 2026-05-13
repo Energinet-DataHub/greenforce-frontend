@@ -42,7 +42,6 @@ import { ChargeOverviewQueryInput } from '@energinet-datahub/dh/shared/domain/gr
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
-import { correctChargeTypeView } from './util/correct-charge-type-view';
 import { ChargeOverviewItem } from '../types';
 import { DhChargesFilters } from './charges-filters';
 
@@ -97,14 +96,7 @@ import { DhChargesFilters } from './charges-filters';
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
         [loading]="dataSource.loading"
-        (rowClick)="
-          navigation.navigate(
-            'id',
-            $event.charge.id,
-            'prices',
-            correctChargeTypeView($event.charge.resolution)
-          )
-        "
+        (rowClick)="navigation.navigate('id', $event.charge.id, 'prices')"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ element.charge.typeDisplayName }}
@@ -121,8 +113,6 @@ export class DhCharges {
   protected readonly navigation = inject(DhNavigationService);
 
   dataSource = new GetChargeOverviewDataSource();
-
-  correctChargeTypeView = correctChargeTypeView;
 
   columns: WattTableColumnDef<ChargeOverviewItem> = {
     type: { accessor: (item) => item.charge.type },
