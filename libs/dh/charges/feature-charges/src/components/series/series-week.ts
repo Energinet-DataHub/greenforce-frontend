@@ -115,7 +115,7 @@ export class DhChargesSeriesWeekTable {
   });
 
   form = new FormGroup({
-    periodControl: dhMakeFormControl<WattRange<Date>>(this.currentWeek),
+    periodControl: dhMakeFormControl<WattRange<Date> | null>(this.currentWeek),
   });
 
   private selectedPeriod = dhFormControlToSignal(this.form.controls.periodControl);
