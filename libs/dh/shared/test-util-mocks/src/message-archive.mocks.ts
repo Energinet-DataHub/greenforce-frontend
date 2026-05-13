@@ -41,6 +41,8 @@ const translatedBusinessReasons = Object.keys(
   da.meteringPoint.processOverview.processType
 ) as ProcessManagerBusinessReason[];
 
+type Initiator = { id: string; displayName: string; glnOrEicNumber: string };
+
 export function messageArchiveMocks(apiBase: string) {
   return [
     getDocumentById(apiBase),
@@ -157,7 +159,7 @@ function getMeteringPointProcessOverview() {
       MeteringPointProcessState.Rejected,
     ];
 
-    const initiators = [
+    const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
         displayName: '905495045940594 • Radius',
@@ -339,17 +341,24 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
   const actor = {
     __typename: 'MarketParticipant' as const,
     id: initiatorId,
-    displayName: '5706552000028 • RSI 01 (Elleverandør)',
+    displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
   };
 
-  const step = (
-    stepId: string,
-    stepKey: string,
-    completedAt: Date | null,
-    stepState: MeteringPointProcessState,
-    documentUrl: string | null,
-    actorValue: typeof actor | null
-  ) => ({
+  const step = ({
+    stepId,
+    stepKey,
+    completedAt = null,
+    stepState = MeteringPointProcessState.Pending,
+    documentUrl = null,
+    actorValue = null,
+  }: {
+    stepId: string;
+    stepKey: string;
+    completedAt?: Date | null;
+    stepState?: MeteringPointProcessState;
+    documentUrl?: string | null;
+    actorValue?: typeof actor | null;
+  }) => ({
     __typename: 'MeteringPointProcessStep' as const,
     id: `step-${processId}-${stepId}`,
     step: stepKey,
@@ -374,82 +383,44 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
       glnOrEicNumber: processCmiInfoInitiatorGln,
-      displayName: '5706552000028 • RSI 01 (Elleverandør)',
+      displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
     },
     steps: [
-      step(
-        '1',
-        'BRS_009_MOVEIN_V1_STEP_1',
-        new Date('2026-05-13T09:11:00Z'),
-        MeteringPointProcessState.Succeeded,
-        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-1`,
-        actor
-      ),
-      step(
-        '2',
-        'BRS_009_MOVEIN_V1_STEP_2',
-        new Date('2026-05-13T09:11:00Z'),
-        MeteringPointProcessState.Succeeded,
-        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-2`,
-        actor
-      ),
-      step(
-        '4',
-        'BRS_009_MOVEIN_V1_STEP_4',
-        new Date('2026-05-13T09:11:00Z'),
-        MeteringPointProcessState.Succeeded,
-        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-4`,
-        actor
-      ),
-      step(
-        '5',
-        'BRS_009_MOVEIN_V1_STEP_5',
-        new Date('2026-05-13T09:11:00Z'),
-        MeteringPointProcessState.Succeeded,
-        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-5`,
-        actor
-      ),
-      step(
-        '6',
-        'BRS_009_MOVEIN_V1_STEP_6',
-        new Date('2026-05-13T09:11:00Z'),
-        MeteringPointProcessState.Succeeded,
-        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-6`,
-        actor
-      ),
-      step('7', 'BRS_009_MOVEIN_V1_STEP_7', null, MeteringPointProcessState.Pending, null, null),
-      step(
-        '10',
-        'BRS_009_MOVEIN_V1_STEP_10',
-        new Date('2026-05-13T09:12:00Z'),
-        MeteringPointProcessState.Succeeded,
-        null,
-        null
-      ),
-      step(
-        '12',
-        'BRS_009_MOVEIN_V1_STEP_12',
-        new Date('2026-05-13T09:12:00Z'),
-        MeteringPointProcessState.Succeeded,
-        null,
-        null
-      ),
+      step({ stepId: '1',  stepKey: 'BRS_009_MOVEIN_V1_STEP_1',  actorValue: actor }),
+      step({ stepId: '2',  stepKey: 'BRS_009_MOVEIN_V1_STEP_2',  actorValue: actor }),
+      step({ stepId: '4',  stepKey: 'BRS_009_MOVEIN_V1_STEP_4',  actorValue: actor }),
+      step({ stepId: '5',  stepKey: 'BRS_009_MOVEIN_V1_STEP_5',  actorValue: actor }),
+      step({ stepId: '6',  stepKey: 'BRS_009_MOVEIN_V1_STEP_6',  actorValue: actor }),
+      step({ stepId: '7',  stepKey: 'BRS_009_MOVEIN_V1_STEP_7'  }),
+      step({ stepId: '10', stepKey: 'BRS_009_MOVEIN_V1_STEP_10' }),
+      step({ stepId: '12', stepKey: 'BRS_009_MOVEIN_V1_STEP_12' }),
     ],
   };
 }
 
-function buildGenericProcess(
-  processId: string,
-  apiBase: string,
-  processIndex: number,
-  initiators: { id: string; displayName: string; glnOrEicNumber: string }[],
-  createdAt: Date,
-  cutoffDate: Date,
-  businessReason: ProcessManagerBusinessReason,
-  state: MeteringPointProcessState,
-  availableActions: WorkflowAction[],
-  initiator: { id: string; displayName: string; glnOrEicNumber: string }
-) {
+function buildGenericProcess({
+  processId,
+  apiBase,
+  processIndex,
+  initiators,
+  createdAt,
+  cutoffDate,
+  businessReason,
+  state,
+  availableActions,
+  initiator,
+}: {
+  processId: string;
+  apiBase: string;
+  processIndex: number;
+  initiators: Initiator[];
+  createdAt: Date;
+  cutoffDate: Date;
+  businessReason: ProcessManagerBusinessReason;
+  state: MeteringPointProcessState;
+  availableActions: WorkflowAction[];
+  initiator: Initiator;
+}) {
   return {
     __typename: 'MeteringPointProcess' as const,
     id: processId,
@@ -510,7 +481,7 @@ function getMeteringPointProcessById(apiBase: string) {
     // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
     // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
     // path against a test actor's default GLN. This is a dev-only override — not a data error.
-    const initiators = [
+    const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
         displayName: '1234567890123 • Radius',
@@ -572,18 +543,7 @@ function getMeteringPointProcessById(apiBase: string) {
     const meteringPointProcessById =
       processId === 'process-cmi-info'
         ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
-        : buildGenericProcess(
-            processId,
-            apiBase,
-            processIndex,
-            initiators,
-            createdAt,
-            cutoffDate,
-            businessReason,
-            state,
-            availableActions,
-            initiator
-          );
+        : buildGenericProcess({ processId, apiBase, processIndex, initiators, createdAt, cutoffDate, businessReason, state, availableActions, initiator });
 
     return HttpResponse.json({
       data: {
