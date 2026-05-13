@@ -386,12 +386,12 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
       displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
     },
     steps: [
-      step({ stepId: '1',  stepKey: 'BRS_009_MOVEIN_V1_STEP_1',  actorValue: actor }),
-      step({ stepId: '2',  stepKey: 'BRS_009_MOVEIN_V1_STEP_2',  actorValue: actor }),
-      step({ stepId: '4',  stepKey: 'BRS_009_MOVEIN_V1_STEP_4',  actorValue: actor }),
-      step({ stepId: '5',  stepKey: 'BRS_009_MOVEIN_V1_STEP_5',  actorValue: actor }),
-      step({ stepId: '6',  stepKey: 'BRS_009_MOVEIN_V1_STEP_6',  actorValue: actor }),
-      step({ stepId: '7',  stepKey: 'BRS_009_MOVEIN_V1_STEP_7'  }),
+      step({ stepId: '1', stepKey: 'BRS_009_MOVEIN_V1_STEP_1', actorValue: actor }),
+      step({ stepId: '2', stepKey: 'BRS_009_MOVEIN_V1_STEP_2', actorValue: actor }),
+      step({ stepId: '4', stepKey: 'BRS_009_MOVEIN_V1_STEP_4', actorValue: actor }),
+      step({ stepId: '5', stepKey: 'BRS_009_MOVEIN_V1_STEP_5', actorValue: actor }),
+      step({ stepId: '6', stepKey: 'BRS_009_MOVEIN_V1_STEP_6', actorValue: actor }),
+      step({ stepId: '7', stepKey: 'BRS_009_MOVEIN_V1_STEP_7' }),
       step({ stepId: '10', stepKey: 'BRS_009_MOVEIN_V1_STEP_10' }),
       step({ stepId: '12', stepKey: 'BRS_009_MOVEIN_V1_STEP_12' }),
     ],
@@ -543,7 +543,18 @@ function getMeteringPointProcessById(apiBase: string) {
     const meteringPointProcessById =
       processId === 'process-cmi-info'
         ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
-        : buildGenericProcess({ processId, apiBase, processIndex, initiators, createdAt, cutoffDate, businessReason, state, availableActions, initiator });
+        : buildGenericProcess({
+            processId,
+            apiBase,
+            processIndex,
+            initiators,
+            createdAt,
+            cutoffDate,
+            businessReason,
+            state,
+            availableActions,
+            initiator,
+          });
 
     return HttpResponse.json({
       data: {
