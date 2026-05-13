@@ -1102,6 +1102,10 @@
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
           "FAS_SEND_INFORMATION": "Net og el kan sende information"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information",
+          "FAS_SEND_INFORMATION": "Net og el kan sende information"
         }
       },
       "rejectProcess": {

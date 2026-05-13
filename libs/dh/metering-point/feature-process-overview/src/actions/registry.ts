@@ -34,6 +34,7 @@ import {
 import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
+import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
@@ -74,6 +75,7 @@ export class DhActionsRegistry {
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
+    [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions).handlers,
   };
 
   private readonly permissionSignals: ReadonlyMap<Permission, Signal<boolean>> = new Map(
