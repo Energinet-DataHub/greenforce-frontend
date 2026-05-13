@@ -244,9 +244,7 @@ describe('Process overview details', () => {
       expect(region).toHaveAttribute('inert');
       screen
         .queryAllByRole('button', { name: buttonPattern })
-        .forEach((button) =>
-          expect(region.contains(button)).toBe(true)
-        );
+        .forEach((button) => expect(region.contains(button)).toBe(true));
 
       await user.click(expander);
 
