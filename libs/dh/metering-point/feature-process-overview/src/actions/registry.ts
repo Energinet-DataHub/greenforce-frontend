@@ -43,6 +43,17 @@ export type ActionRole =
   | typeof ResponsibleEnergySupplier
   | typeof InitiatingParticipant;
 
+/**
+ * The set of concrete EicFunction roles that the `InitiatingParticipant`
+ * sentinel expands to when deriving actor roles for the FAS display. If a
+ * future process is ever initiated by a role outside this set, add it here
+ * and revisit how the FAS-grouped view labels the action.
+ */
+export const INITIATOR_ROLE_UNIVERSE: readonly EicFunction[] = [
+  EicFunction.EnergySupplier,
+  EicFunction.GridAccessProvider,
+];
+
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
   permissions?: Permission[];
@@ -125,6 +136,37 @@ export class DhActionsRegistry {
       if (!this.hasRequiredPermission(handler)) return false;
       return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
     });
+  }
+
+  /**
+   * Returns the actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action,
+   * derived from the handler's `roles` field. Sentinel roles are expanded:
+   * `ResponsibleEnergySupplier` -> `EnergySupplier`,
+   * `InitiatingParticipant` -> the {@link INITIATOR_ROLE_UNIVERSE} set
+   * (currently `EnergySupplier` + `GridAccessProvider`).
+   *
+   * Concrete `EicFunction` entries declared next to a sentinel are preserved
+   * via the dedupe `Set`, so a handler with
+   * `[InitiatingParticipant, EicFunction.GridAccessProvider]` still returns
+   * both roles even if the universe later narrows.
+   */
+  getActorRolesForAction(
+    action: WorkflowAction,
+    businessReason: ProcessManagerBusinessReason
+  ): EicFunction[] {
+    const handler = this.registry[businessReason]?.[action];
+    if (!handler?.roles?.length) return [];
+    const actorRoles = new Set<EicFunction>();
+    for (const role of handler.roles) {
+      if (role === ResponsibleEnergySupplier) {
+        actorRoles.add(EicFunction.EnergySupplier);
+      } else if (role === InitiatingParticipant) {
+        INITIATOR_ROLE_UNIVERSE.forEach((r) => actorRoles.add(r));
+      } else {
+        actorRoles.add(role);
+      }
+    }
+    return [...actorRoles];
   }
 
   execute(

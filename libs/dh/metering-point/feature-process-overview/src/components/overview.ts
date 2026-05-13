@@ -28,7 +28,6 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -63,7 +62,6 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
-    WattIconComponent,
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
@@ -139,20 +137,18 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
             gap="s"
             *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
           >
-            @for (
-              action of process.availableActions
+            @let visibleActions =
+              process.availableActions
                 | supportedActions
                   : process.businessReason
                   : isEnergySupplierResponsible()
                   : process.initiator?.glnOrEicNumber;
-              track action
-            ) {
-              @if (isFas()) {
-                <vater-stack direction="row" gap="xs">
-                  <watt-icon name="warning" size="s" />
-                  <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
-                </vater-stack>
-              } @else {
+            @if (isFas()) {
+              @if (visibleActions.length > 0) {
+                <em>{{ t('fasGenericActions') }}</em>
+              }
+            } @else {
+              @for (action of visibleActions; track action) {
                 <watt-button
                   variant="secondary"
                   (click)="onActionClick($event, process, action)"

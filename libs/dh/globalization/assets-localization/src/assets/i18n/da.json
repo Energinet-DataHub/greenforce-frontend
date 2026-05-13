@@ -443,6 +443,12 @@
         }
       }
     },
+    "tariff": {
+      "navigation": {
+        "day": "Dag",
+        "week": "Uge"
+      }
+    },
     "actions": {
       "create": {
         "action": {
@@ -1089,23 +1095,18 @@
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
       "actions": {
+        "fasGenericActions": "Mulige handlinger for aktører",
         "EndOfSupply": {
           "SEND_INFORMATION": "Anmod om serviceydelse",
-          "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
-          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
           "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
-          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
-          "REJECT_REQUEST": "Afvis anmodning",
-          "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+          "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information",
-          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+          "SEND_INFORMATION": "Send information"
         },
         "ChangeOfEnergySupplier": {
-          "SEND_INFORMATION": "Send information",
-          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+          "SEND_INFORMATION": "Send information"
         }
       },
       "rejectProcess": {
@@ -1138,6 +1139,11 @@
         "loadingToast": "Indsender annullering af {{processType}}...",
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
+      },
+      "fasActionInfoModal": {
+        "title": "Handlingen kan ikke udføres",
+        "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",
+        "confirm": "Forstået"
       },
       "disconnectProcess": {
         "title": "Anmod om afbrydelse",
@@ -1181,6 +1187,7 @@
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Godkendelse af ændring af kundestamdata (RSM-027)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af ændring af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
+        "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
@@ -1277,6 +1284,8 @@
       "details": {
         "notFound": "Process ikke fundet",
         "noSteps": "Ingen trin tilgængelige for denne process",
+        "showPossibleActions": "Vis mulige handlinger",
+        "hidePossibleActions": "Skjul mulige handlinger",
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
