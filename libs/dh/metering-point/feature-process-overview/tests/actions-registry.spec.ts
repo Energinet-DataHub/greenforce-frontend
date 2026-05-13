@@ -722,4 +722,91 @@ describe('DhActionsRegistry', () => {
       expect(callback).not.toHaveBeenCalled();
     });
   });
+
+  describe('getActorRolesForAction', () => {
+    it('should derive [EnergySupplier] from [ResponsibleEnergySupplier]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.SendInformation,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
+
+    it('should derive [EnergySupplier, GridAccessProvider] from [InitiatingParticipant]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.SendInformation,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier, EicFunction.GridAccessProvider]);
+    });
+
+    it('should deduplicate when concrete and sentinel roles overlap', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            roles: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.GridAccessProvider, EicFunction.EnergySupplier])
+      );
+    });
+
+    it('should return [] when handler has no roles', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return [] for unregistered action', () => {
+      const registry = setupRegistry();
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.RejectRequest,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
+    });
+  });
 });
