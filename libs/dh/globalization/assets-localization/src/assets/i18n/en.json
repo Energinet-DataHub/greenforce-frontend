@@ -443,6 +443,12 @@
         }
       }
     },
+    "tariff": {
+      "navigation": {
+        "day": "Day",
+        "week": "Week"
+      }
+    },
     "actions": {
       "create": {
         "action": {
@@ -1090,7 +1096,7 @@
         "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
       },
       "actions": {
-        "fasGenericActions": "Possible actions for market participants",
+        "fasGenericActions": "Possible actions for actors",
         "EndOfSupply": {
           "SEND_INFORMATION": "Request service",
           "CANCEL_WORKFLOW": "Cancel",
