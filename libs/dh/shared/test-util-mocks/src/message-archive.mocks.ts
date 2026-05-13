@@ -41,6 +41,8 @@ const translatedBusinessReasons = Object.keys(
   da.meteringPoint.processOverview.processType
 ) as ProcessManagerBusinessReason[];
 
+type Initiator = { id: string; displayName: string; glnOrEicNumber: string };
+
 export function messageArchiveMocks(apiBase: string) {
   return [
     getDocumentById(apiBase),
@@ -157,7 +159,7 @@ function getMeteringPointProcessOverview() {
       MeteringPointProcessState.Rejected,
     ];
 
-    const initiators = [
+    const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
         displayName: '905495045940594 • Radius',
@@ -245,13 +247,15 @@ function getMeteringPointProcessOverview() {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-cmi-info',
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-      createdAt: new Date('2025-02-16T10:00:00Z'),
-      cutoffDate: new Date('2025-02-21T10:00:00Z'),
-      state: MeteringPointProcessState.Running,
+      createdAt: new Date('2026-05-13T09:11:00Z'),
+      cutoffDate: new Date('2026-05-13T00:00:00Z'),
+      state: MeteringPointProcessState.Pending,
       availableActions: [WorkflowAction.SendInformation],
       initiator: {
         __typename: 'MarketParticipant' as const,
-        ...initiators[1],
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+        displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+        glnOrEicNumber: processCmiInfoInitiatorGln,
       },
     };
 
@@ -300,7 +304,7 @@ export const knownProcesses: Record<
   },
   'process-cmi-info': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    state: MeteringPointProcessState.Running,
+    state: MeteringPointProcessState.Pending,
     initiatorGln: processCmiInfoInitiatorGln,
   },
   'process-eos-request-service': {
@@ -332,6 +336,142 @@ function getAvailableActions(
   return [];
 }
 
+function buildCustomerMoveInProcess(processId: string, apiBase: string, initiatorId: string) {
+  const createdAt = new Date('2026-05-13T09:11:00Z');
+  const actor = {
+    __typename: 'MarketParticipant' as const,
+    id: initiatorId,
+    displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+  };
+
+  const step = ({
+    stepId,
+    stepKey,
+    completedAt = null,
+    stepState = MeteringPointProcessState.Pending,
+    documentUrl = null,
+    actorValue = null,
+  }: {
+    stepId: string;
+    stepKey: string;
+    completedAt?: Date | null;
+    stepState?: MeteringPointProcessState;
+    documentUrl?: string | null;
+    actorValue?: typeof actor | null;
+  }) => ({
+    __typename: 'MeteringPointProcessStep' as const,
+    id: `step-${processId}-${stepId}`,
+    step: stepKey,
+    comment: null,
+    completedAt,
+    dueDate: null,
+    state: stepState,
+    description: '',
+    documentUrl,
+    actor: actorValue,
+  });
+
+  return {
+    __typename: 'MeteringPointProcess' as const,
+    id: processId,
+    createdAt,
+    cutoffDate: new Date('2026-05-13T00:00:00Z'),
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: initiatorId,
+      glnOrEicNumber: processCmiInfoInitiatorGln,
+      displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+    },
+    steps: [
+      step({ stepId: '1', stepKey: 'BRS_009_MOVEIN_V1_STEP_1', actorValue: actor }),
+      step({ stepId: '2', stepKey: 'BRS_009_MOVEIN_V1_STEP_2', actorValue: actor }),
+      step({ stepId: '4', stepKey: 'BRS_009_MOVEIN_V1_STEP_4', actorValue: actor }),
+      step({ stepId: '5', stepKey: 'BRS_009_MOVEIN_V1_STEP_5', actorValue: actor }),
+      step({ stepId: '6', stepKey: 'BRS_009_MOVEIN_V1_STEP_6', actorValue: actor }),
+      step({ stepId: '7', stepKey: 'BRS_009_MOVEIN_V1_STEP_7' }),
+      step({ stepId: '10', stepKey: 'BRS_009_MOVEIN_V1_STEP_10' }),
+      step({ stepId: '12', stepKey: 'BRS_009_MOVEIN_V1_STEP_12' }),
+    ],
+  };
+}
+
+function buildGenericProcess({
+  processId,
+  apiBase,
+  processIndex,
+  initiators,
+  createdAt,
+  cutoffDate,
+  businessReason,
+  state,
+  availableActions,
+  initiator,
+}: {
+  processId: string;
+  apiBase: string;
+  processIndex: number;
+  initiators: Initiator[];
+  createdAt: Date;
+  cutoffDate: Date;
+  businessReason: ProcessManagerBusinessReason;
+  state: MeteringPointProcessState;
+  availableActions: WorkflowAction[];
+  initiator: Initiator;
+}) {
+  return {
+    __typename: 'MeteringPointProcess' as const,
+    id: processId,
+    createdAt,
+    cutoffDate,
+    businessReason,
+    state,
+    availableActions,
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      ...initiator,
+    },
+    steps: [
+      {
+        __typename: 'MeteringPointProcessStep' as const,
+        id: `step-${processId}-1`,
+        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+        comment: 'OBS: Sendt til foged',
+        completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
+        dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
+        state: MeteringPointProcessState.Succeeded,
+        description:
+          'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
+        actor: {
+          __typename: 'MarketParticipant' as const,
+          id: initiators[processIndex % initiators.length].id,
+          displayName: initiators[processIndex % initiators.length].displayName,
+        },
+      },
+      {
+        __typename: 'MeteringPointProcessStep' as const,
+        id: `step-${processId}-2`,
+        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+        comment: 'Afventer bekræftelse',
+        completedAt: null,
+        dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
+        state: MeteringPointProcessState.Pending,
+        description:
+          'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
+        documentUrl: null,
+        actor: {
+          __typename: 'MarketParticipant' as const,
+          id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+          displayName: '5790001330552 • Energinet',
+        },
+      },
+    ],
+  };
+}
+
 function getMeteringPointProcessById(apiBase: string) {
   return mockGetMeteringPointProcessByIdQuery(async (args) => {
     await delay(mswConfig.delay);
@@ -341,7 +481,7 @@ function getMeteringPointProcessById(apiBase: string) {
     // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
     // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
     // path against a test actor's default GLN. This is a dev-only override — not a data error.
-    const initiators = [
+    const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
         displayName: '1234567890123 • Radius',
@@ -400,58 +540,26 @@ function getMeteringPointProcessById(apiBase: string) {
         }
       : baseInitiator;
 
+    const meteringPointProcessById =
+      processId === 'process-cmi-info'
+        ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
+        : buildGenericProcess({
+            processId,
+            apiBase,
+            processIndex,
+            initiators,
+            createdAt,
+            cutoffDate,
+            businessReason,
+            state,
+            availableActions,
+            initiator,
+          });
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessById: {
-          __typename: 'MeteringPointProcess' as const,
-          id: processId,
-          createdAt,
-          cutoffDate,
-          businessReason,
-          state,
-          availableActions,
-          initiator: {
-            __typename: 'MarketParticipant' as const,
-            ...initiator,
-          },
-          steps: [
-            {
-              __typename: 'MeteringPointProcessStep' as const,
-              id: `step-${processId}-1`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
-              comment: 'OBS: Sendt til foged',
-              completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
-              state: MeteringPointProcessState.Succeeded,
-              description:
-                'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
-              documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
-              actor: {
-                __typename: 'MarketParticipant' as const,
-                id: initiators[processIndex % initiators.length].id,
-                displayName: initiators[processIndex % initiators.length].displayName,
-              },
-            },
-            {
-              __typename: 'MeteringPointProcessStep' as const,
-              id: `step-${processId}-2`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
-              comment: 'Afventer bekræftelse',
-              completedAt: null,
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
-              state: MeteringPointProcessState.Pending,
-              description:
-                'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
-              documentUrl: null,
-              actor: {
-                __typename: 'MarketParticipant' as const,
-                id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-                displayName: '5790001330552 • Energinet',
-              },
-            },
-          ],
-        },
+        meteringPointProcessById,
       },
     });
   });
