@@ -84,13 +84,11 @@ const MASKED_CPR = '0000000000';
         </watt-text-field>
       } @else {
         <watt-text-field [type]="'password'" [label]="t('cpr')" [formControl]="maskedControl">
-          <ng-container *dhPermissionRequired="['cpr:view']">
-            @if (cprQuery.loading()) {
-              <watt-spinner class="descriptor" [diameter]="18" />
-            } @else {
-              <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal.open()" />
-            }
-          </ng-container>
+          @if (cprQuery.loading()) {
+            <watt-spinner class="descriptor" [diameter]="18" />
+          } @else {
+            <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal.open()" />
+          }
         </watt-text-field>
       }
 
