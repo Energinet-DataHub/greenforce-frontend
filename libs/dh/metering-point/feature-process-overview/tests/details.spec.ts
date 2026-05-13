@@ -223,16 +223,55 @@ describe('Process overview details', () => {
   it.each([
     ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
-  ])('should disable action buttons for FAS users (%s)', async (processId, buttonPattern) => {
-    await setup(processId, { isFas: true });
-    await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: buttonPattern }).length).toBeGreaterThan(0)
-    );
-    const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
-    actionButtons.forEach((button) => {
-      expect((button as HTMLButtonElement).disabled).toBe(true);
-    });
-  });
+  ])(
+    'should expose grouped actions that open an info modal when clicked for FAS users (%s)',
+    async (processId, buttonPattern) => {
+      await setup(processId, { isFas: true });
+      const user = userEvent.setup();
+
+      // The "Show possible actions" expandable must be present for FAS users.
+      const expander = await screen.findByRole('button', { name: /Show possible actions/i });
+      const regionId = expander.getAttribute('aria-controls');
+      const region = regionId ? document.getElementById(regionId) : null;
+      if (!region) throw new Error('expandable region not found');
+
+      // When collapsed, the expandable region carries inert so the action
+      // buttons inside it are removed from the tab order and a11y tree at the
+      // browser level. jsdom does not enforce inert during role queries, so
+      // assert two structural invariants instead: the region has inert, and
+      // every button matching the action pattern lives inside that region
+      // (i.e. cannot be reached outside the inert subtree).
+      expect(region).toHaveAttribute('inert');
+      screen
+        .queryAllByRole('button', { name: buttonPattern })
+        .forEach((button) => expect(region.contains(button)).toBe(true));
+
+      await user.click(expander);
+
+      // Once expanded, inert is removed and the action buttons render as
+      // live (not disabled) buttons. Clicking one opens an informational
+      // modal explaining that only the actor can perform the action.
+      await waitForAsync(() => expect(region).not.toHaveAttribute('inert'));
+      const actionButtons = screen.getAllByRole('button', { name: buttonPattern });
+      expect(actionButtons.length).toBeGreaterThan(0);
+      actionButtons.forEach((button) => {
+        expect((button as HTMLButtonElement).disabled).toBe(false);
+      });
+
+      await user.click(actionButtons[0]);
+
+      await waitForAsync(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+      const dialog = screen.getByRole('dialog');
+      expect(within(dialog).getByRole('paragraph')).toHaveTextContent(
+        /only the actor itself can perform this action/i
+      );
+
+      const understoodButton = within(dialog).getByRole('button', { name: /Understood/i });
+      await user.click(understoodButton);
+
+      await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+    }
+  );
 
   it('should hide all action buttons for non-responsible EnergySupplier', async () => {
     await setup('process-eos-cancel', {

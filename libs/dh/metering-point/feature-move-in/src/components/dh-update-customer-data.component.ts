@@ -257,8 +257,9 @@ export class DhUpdateCustomerDataComponent {
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
-  legalCustomerId = computed(() => this.legalCustomer()?.id ?? null);
+  legalCustomerId = computed(() => (this.processId() ? null : (this.legalCustomer()?.id ?? null)));
   secondaryCustomerId = computed(() => {
+    if (this.processId()) return null;
     const customer = this.effectiveSecondaryCustomer();
     return customer?.name ? customer.id : null;
   });

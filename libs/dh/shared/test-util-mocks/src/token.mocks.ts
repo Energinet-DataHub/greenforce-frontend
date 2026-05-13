@@ -22,6 +22,7 @@ import encBase64 from 'crypto-js/enc-base64';
 import encUtf8 from 'crypto-js/enc-utf8';
 
 import { permissions } from '@energinet-datahub/dh/shared/domain';
+import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { marketParticipantQuerySelection } from './data/market-participant-query-selection-actors';
 
 export function tokenMocks(apiBase: string) {
@@ -53,7 +54,7 @@ function postToken(apiBase: string) {
       (x) => x.id === marketParticipantId
     );
 
-    const isFas = marketParticipant?.id === marketParticipantId;
+    const isFas = marketParticipant?.marketRole === EicFunction.DataHubAdministrator;
 
     return HttpResponse.json(
       {
