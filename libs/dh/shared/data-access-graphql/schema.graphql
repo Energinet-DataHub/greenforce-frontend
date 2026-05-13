@@ -318,12 +318,22 @@ type Charge {
   spotDependingPrice: Boolean!
 }
 
-type ChargeLinkOverviewItem {
+type ChargeLinkPeriod {
+  changes: [ChargeLinkPeriodChange!]!
   period: DateRange!
   closed: Boolean!
   charge: Charge!
   amount: Int!
-  chargeLinkId: String!
+  id: String!
+}
+
+type ChargeLinkPeriodChange {
+  created: DateTime!
+  factor: Int!
+  previousFactor: Int
+  orchestrationInstanceId: String!
+  effectiveDate: DateTime!
+  changeType: ChargeLinkPeriodChangeType!
 }
 
 "A connection to a list of items."
@@ -1442,7 +1452,8 @@ type Query {
   calculationById(id: UUID!): Calculation @authorize(roles: [ "calculations:manage", "calculations:view" ])
   calculations(input: CalculationsQueryInput! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [CalculationSortInput!]): CalculationsConnection @authorize(roles: [ "calculations:manage", "calculations:view" ])
   chargeById(id: String!): Charge @authorize(roles: [ "charges:view" ])
-  chargeLinkOverview(meteringPointId: String!): [ChargeLinkOverviewItem!]! @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkPeriodById(id: String!): ChargeLinkPeriod @authorize(roles: [ "metering-point:prices" ])
+  chargeLinkPeriods(meteringPointId: String!): [ChargeLinkPeriod!]! @authorize(roles: [ "metering-point:prices" ])
   chargeOverview(filter: String query: ChargeOverviewQueryInput "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [ChargeOverviewItemSortInput!]): ChargeOverviewConnection @authorize(roles: [ "charges:view" ])
   chargesByType(type: ChargeType!): [Charge!]! @authorize(roles: [ "charges:view" ])
   conversation(conversationId: UUID!): Conversation! @authorize(roles: [ "metering-point:actor-conversation" ])
@@ -2931,6 +2942,13 @@ enum ChangeOfSupplierBusinessReason {
   CUSTOMER_MOVE_IN
   SECONDARY_MOVE_IN
   CHANGE_OF_ENERGY_SUPPLIER
+}
+
+enum ChargeLinkPeriodChangeType {
+  STARTED
+  STOPPED
+  CANCELLED
+  EDITED
 }
 
 enum ChargeResolution {
