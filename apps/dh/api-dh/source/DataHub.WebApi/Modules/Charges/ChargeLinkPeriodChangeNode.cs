@@ -32,12 +32,10 @@ public static partial class ChargeLinkPeriodChangeNode
     public static string GetOrchestrationInstanceId([Parent] ChargeLinkPeriodChange change)
         => change.CurrentPeriod.OrchestrationInstanceId;
 
-    public static DateTimeOffset GetEffectiveDate([Parent] ChargeLinkPeriodChange change)
-        => change.EffectiveDate;
-
     static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriodChange> descriptor)
     {
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.ChangeType);
+        descriptor.Field(f => f.EffectiveDate);
     }
 }
