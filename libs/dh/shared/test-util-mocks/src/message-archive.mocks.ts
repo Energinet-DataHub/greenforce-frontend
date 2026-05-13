@@ -245,9 +245,9 @@ function getMeteringPointProcessOverview() {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-cmi-info',
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-      createdAt: new Date('2025-02-16T10:00:00Z'),
-      cutoffDate: new Date('2025-02-21T10:00:00Z'),
-      state: MeteringPointProcessState.Running,
+      createdAt: new Date('2026-05-13T09:11:00Z'),
+      cutoffDate: new Date('2026-05-13T00:00:00Z'),
+      state: MeteringPointProcessState.Pending,
       availableActions: [WorkflowAction.SendInformation],
       initiator: {
         __typename: 'MarketParticipant' as const,
@@ -300,7 +300,7 @@ export const knownProcesses: Record<
   },
   'process-cmi-info': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    state: MeteringPointProcessState.Running,
+    state: MeteringPointProcessState.Pending,
     initiatorGln: processCmiInfoInitiatorGln,
   },
   'process-eos-request-service': {
@@ -330,6 +330,124 @@ function getAvailableActions(
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
     return [WorkflowAction.SendInformation];
   return [];
+}
+
+function buildCustomerMoveInProcess(processId: string, apiBase: string, initiatorId: string) {
+  const createdAt = new Date('2026-05-13T09:11:00Z');
+  const actor = {
+    __typename: 'MarketParticipant' as const,
+    id: initiatorId,
+    displayName: '5706552000028 • RSI 01 (Elleverandør)',
+  };
+
+  const step = (
+    stepId: string,
+    stepKey: string,
+    completedAt: Date | null,
+    stepState: MeteringPointProcessState,
+    documentUrl: string | null,
+    actorValue: typeof actor | null
+  ) => ({
+    __typename: 'MeteringPointProcessStep' as const,
+    id: `step-${processId}-${stepId}`,
+    step: stepKey,
+    comment: null,
+    completedAt,
+    dueDate: null,
+    state: stepState,
+    description: '',
+    documentUrl,
+    actor: actorValue,
+  });
+
+  return {
+    __typename: 'MeteringPointProcess' as const,
+    id: processId,
+    createdAt,
+    cutoffDate: new Date('2026-05-13T00:00:00Z'),
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: initiatorId,
+      glnOrEicNumber: processCmiInfoInitiatorGln,
+      displayName: '5706552000028 • RSI 01 (Elleverandør)',
+    },
+    steps: [
+      step('1', 'BRS_009_MOVEIN_V1_STEP_1', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-1`, actor),
+      step('2', 'BRS_009_MOVEIN_V1_STEP_2', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-2`, actor),
+      step('4', 'BRS_009_MOVEIN_V1_STEP_4', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-4`, actor),
+      step('5', 'BRS_009_MOVEIN_V1_STEP_5', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-5`, actor),
+      step('6', 'BRS_009_MOVEIN_V1_STEP_6', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-6`, actor),
+      step('7', 'BRS_009_MOVEIN_V1_STEP_7', null, MeteringPointProcessState.Pending, null, null),
+      step('10', 'BRS_009_MOVEIN_V1_STEP_10', new Date('2026-05-13T09:12:00Z'), MeteringPointProcessState.Succeeded, null, null),
+      step('12', 'BRS_009_MOVEIN_V1_STEP_12', new Date('2026-05-13T09:12:00Z'), MeteringPointProcessState.Succeeded, null, null),
+    ],
+  };
+}
+
+function buildGenericProcess(
+  processId: string,
+  apiBase: string,
+  processIndex: number,
+  initiators: { id: string; displayName: string; glnOrEicNumber: string }[],
+  createdAt: Date,
+  cutoffDate: Date,
+  businessReason: ProcessManagerBusinessReason,
+  state: MeteringPointProcessState,
+  availableActions: WorkflowAction[],
+  initiator: { id: string; displayName: string; glnOrEicNumber: string }
+) {
+  return {
+    __typename: 'MeteringPointProcess' as const,
+    id: processId,
+    createdAt,
+    cutoffDate,
+    businessReason,
+    state,
+    availableActions,
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      ...initiator,
+    },
+    steps: [
+      {
+        __typename: 'MeteringPointProcessStep' as const,
+        id: `step-${processId}-1`,
+        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+        comment: 'OBS: Sendt til foged',
+        completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
+        dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
+        state: MeteringPointProcessState.Succeeded,
+        description:
+          'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
+        actor: {
+          __typename: 'MarketParticipant' as const,
+          id: initiators[processIndex % initiators.length].id,
+          displayName: initiators[processIndex % initiators.length].displayName,
+        },
+      },
+      {
+        __typename: 'MeteringPointProcessStep' as const,
+        id: `step-${processId}-2`,
+        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+        comment: 'Afventer bekræftelse',
+        completedAt: null,
+        dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
+        state: MeteringPointProcessState.Pending,
+        description:
+          'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
+        documentUrl: null,
+        actor: {
+          __typename: 'MarketParticipant' as const,
+          id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+          displayName: '5790001330552 • Energinet',
+        },
+      },
+    ],
+  };
 }
 
 function getMeteringPointProcessById(apiBase: string) {
@@ -400,58 +518,15 @@ function getMeteringPointProcessById(apiBase: string) {
         }
       : baseInitiator;
 
+    const meteringPointProcessById =
+      processId === 'process-cmi-info'
+        ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
+        : buildGenericProcess(processId, apiBase, processIndex, initiators, createdAt, cutoffDate, businessReason, state, availableActions, initiator);
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessById: {
-          __typename: 'MeteringPointProcess' as const,
-          id: processId,
-          createdAt,
-          cutoffDate,
-          businessReason,
-          state,
-          availableActions,
-          initiator: {
-            __typename: 'MarketParticipant' as const,
-            ...initiator,
-          },
-          steps: [
-            {
-              __typename: 'MeteringPointProcessStep' as const,
-              id: `step-${processId}-1`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
-              comment: 'OBS: Sendt til foged',
-              completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
-              state: MeteringPointProcessState.Succeeded,
-              description:
-                'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
-              documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
-              actor: {
-                __typename: 'MarketParticipant' as const,
-                id: initiators[processIndex % initiators.length].id,
-                displayName: initiators[processIndex % initiators.length].displayName,
-              },
-            },
-            {
-              __typename: 'MeteringPointProcessStep' as const,
-              id: `step-${processId}-2`,
-              step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
-              comment: 'Afventer bekræftelse',
-              completedAt: null,
-              dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
-              state: MeteringPointProcessState.Pending,
-              description:
-                'Andet step i processen, hvor vi afventer en bekræftelse fra den relevante aktør om modtagelsen af anmodningen.',
-              documentUrl: null,
-              actor: {
-                __typename: 'MarketParticipant' as const,
-                id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-                displayName: '5790001330552 • Energinet',
-              },
-            },
-          ],
-        },
+        meteringPointProcessById,
       },
     });
   });
