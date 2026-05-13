@@ -160,7 +160,7 @@ describe('Process overview', () => {
     await waitForAsync(() => {
       const emphasised = screen.getAllByRole('emphasis');
       const match = emphasised.find((el) =>
-        /Possible actions for market participants/i.test(el.textContent ?? '')
+        /Possible actions for actors/i.test(el.textContent ?? '')
       );
       expect(match).toBeDefined();
     });
@@ -185,7 +185,7 @@ describe('Process overview', () => {
 
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
-    expect(screen.queryAllByText(/Possible actions for market participants/i)).toHaveLength(0);
+    expect(screen.queryAllByText(/Possible actions for actors/i)).toHaveLength(0);
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
