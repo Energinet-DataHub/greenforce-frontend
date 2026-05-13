@@ -33,9 +33,7 @@ public static partial class ChargeLinkPeriodChangeNode
         => change.CurrentPeriod.OrchestrationInstanceId;
 
     public static DateTimeOffset GetEffectiveDate([Parent] ChargeLinkPeriodChange change)
-        => change.CurrentPeriod.To is not null && change.ChangeType == ChargeLinkPeriodChangeType.Stopped
-            ? change.CurrentPeriod.To.Value.ToDateTimeOffset()
-            : change.CurrentPeriod.From.ToDateTimeOffset();
+        => change.EffectiveDate;
 
     static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriodChange> descriptor)
     {

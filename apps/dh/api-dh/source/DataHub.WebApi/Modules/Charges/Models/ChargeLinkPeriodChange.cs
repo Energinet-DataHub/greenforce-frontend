@@ -22,6 +22,13 @@ public record ChargeLinkPeriodChange(
     ChargeLinkPeriodDto CurrentPeriod,
     ChargeLinkPeriodDto? PreviousPeriod)
 {
+    public ChargeLinkPeriodDto Period => CurrentPeriod;
+
+    public DateTimeOffset EffectiveDate =>
+        CurrentPeriod.To is not null && ChangeType == ChargeLinkPeriodChangeType.Stopped
+            ? CurrentPeriod.To.Value.ToDateTimeOffset()
+            : CurrentPeriod.From.ToDateTimeOffset();
+
     public static List<ChargeLinkPeriodChange> FromPeriods(List<ChargeLinkPeriodDto> periods)
     {
         var first = periods

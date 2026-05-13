@@ -8,5 +8,5 @@
     }
   },
   "affectedEntityType": "ChargeLink",
-  "affectedEntityKey": "ChargeLinkId { MeteringPointId = 571313180000000005, ChargeId = ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 } }"
+  "affectedEntityKey": "ChargeLinkPeriodId { MeteringPointId = 571313180000000005, ChargeId = ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }, From = 01/01/0001 00:00:00 \u002B00:00 }"
 }
