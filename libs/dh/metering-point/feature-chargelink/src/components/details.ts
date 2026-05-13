@@ -165,7 +165,7 @@ export class DhChargeLinkDetails {
   changes = computed(() => this.detailsQuery.data()?.chargeLinkPeriodById?.changes ?? []);
   historyDataSource = dataSource(() => this.changes());
   historyColumns: WattTableColumnDef<ReturnType<typeof this.changes>[0]> = {
-    created: { accessor: (row) => row.created, sort: false },
+    created: { accessor: (row) => row.created },
     description: { accessor: (row) => row.changeType, sort: false },
   };
 
