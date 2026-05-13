@@ -443,6 +443,12 @@
         }
       }
     },
+    "tariff": {
+      "navigation": {
+        "day": "Dag",
+        "week": "Uge"
+      }
+    },
     "actions": {
       "create": {
         "action": {

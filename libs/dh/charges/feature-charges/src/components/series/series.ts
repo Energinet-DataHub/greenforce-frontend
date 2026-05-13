@@ -68,8 +68,6 @@ import { DhChargesSeriesGaps } from './series-gaps';
   ],
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [error]="chargeSeriesQuery.error()"
       [ready]="ready()"
       [enablePaginator]="false"
