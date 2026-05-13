@@ -377,14 +377,63 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
       displayName: '5706552000028 • RSI 01 (Elleverandør)',
     },
     steps: [
-      step('1', 'BRS_009_MOVEIN_V1_STEP_1', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-1`, actor),
-      step('2', 'BRS_009_MOVEIN_V1_STEP_2', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-2`, actor),
-      step('4', 'BRS_009_MOVEIN_V1_STEP_4', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-4`, actor),
-      step('5', 'BRS_009_MOVEIN_V1_STEP_5', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-5`, actor),
-      step('6', 'BRS_009_MOVEIN_V1_STEP_6', new Date('2026-05-13T09:11:00Z'), MeteringPointProcessState.Succeeded, `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-6`, actor),
+      step(
+        '1',
+        'BRS_009_MOVEIN_V1_STEP_1',
+        new Date('2026-05-13T09:11:00Z'),
+        MeteringPointProcessState.Succeeded,
+        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-1`,
+        actor
+      ),
+      step(
+        '2',
+        'BRS_009_MOVEIN_V1_STEP_2',
+        new Date('2026-05-13T09:11:00Z'),
+        MeteringPointProcessState.Succeeded,
+        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-2`,
+        actor
+      ),
+      step(
+        '4',
+        'BRS_009_MOVEIN_V1_STEP_4',
+        new Date('2026-05-13T09:11:00Z'),
+        MeteringPointProcessState.Succeeded,
+        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-4`,
+        actor
+      ),
+      step(
+        '5',
+        'BRS_009_MOVEIN_V1_STEP_5',
+        new Date('2026-05-13T09:11:00Z'),
+        MeteringPointProcessState.Succeeded,
+        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-5`,
+        actor
+      ),
+      step(
+        '6',
+        'BRS_009_MOVEIN_V1_STEP_6',
+        new Date('2026-05-13T09:11:00Z'),
+        MeteringPointProcessState.Succeeded,
+        `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cmi-step-6`,
+        actor
+      ),
       step('7', 'BRS_009_MOVEIN_V1_STEP_7', null, MeteringPointProcessState.Pending, null, null),
-      step('10', 'BRS_009_MOVEIN_V1_STEP_10', new Date('2026-05-13T09:12:00Z'), MeteringPointProcessState.Succeeded, null, null),
-      step('12', 'BRS_009_MOVEIN_V1_STEP_12', new Date('2026-05-13T09:12:00Z'), MeteringPointProcessState.Succeeded, null, null),
+      step(
+        '10',
+        'BRS_009_MOVEIN_V1_STEP_10',
+        new Date('2026-05-13T09:12:00Z'),
+        MeteringPointProcessState.Succeeded,
+        null,
+        null
+      ),
+      step(
+        '12',
+        'BRS_009_MOVEIN_V1_STEP_12',
+        new Date('2026-05-13T09:12:00Z'),
+        MeteringPointProcessState.Succeeded,
+        null,
+        null
+      ),
     ],
   };
 }
@@ -523,7 +572,18 @@ function getMeteringPointProcessById(apiBase: string) {
     const meteringPointProcessById =
       processId === 'process-cmi-info'
         ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
-        : buildGenericProcess(processId, apiBase, processIndex, initiators, createdAt, cutoffDate, businessReason, state, availableActions, initiator);
+        : buildGenericProcess(
+            processId,
+            apiBase,
+            processIndex,
+            initiators,
+            createdAt,
+            cutoffDate,
+            businessReason,
+            state,
+            availableActions,
+            initiator
+          );
 
     return HttpResponse.json({
       data: {
