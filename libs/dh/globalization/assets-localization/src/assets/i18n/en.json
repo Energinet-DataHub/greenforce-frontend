@@ -442,6 +442,12 @@
         }
       }
     },
+    "tariff": {
+      "navigation": {
+        "day": "Day",
+        "week": "Week"
+      }
+    },
     "actions": {
       "create": {
         "action": {
