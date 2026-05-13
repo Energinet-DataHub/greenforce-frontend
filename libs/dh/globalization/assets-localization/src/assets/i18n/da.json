@@ -948,8 +948,14 @@
       "details": {
         "period": "Periode",
         "columns": {
-          "submittedAt": "Indsendt",
+          "created": "Indsendt",
           "description": "Beskrivelse"
+        },
+        "changeTypes": {
+          "STARTED": "Pristilknytning startet pr. {{date}}",
+          "STOPPED": "Pristilknytning stoppet pr. {{date}}",
+          "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
+          "EDITED": "Pristilknytningsfaktor ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked",

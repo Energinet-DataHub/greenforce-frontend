@@ -27,14 +27,14 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
-  GetChargeLinkOverviewDocument,
+  GetChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   DhChargesStatus,
   DhChargePeriodPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
-import { ChargeLinkOverview } from '../types';
+import { ChargeLinkPeriod } from '../types';
 import { DhChargeLinkDetails } from './details';
 
 @Component({
@@ -84,16 +84,16 @@ import { DhChargeLinkDetails } from './details';
 })
 export default class DhMeteringPointChargeLinksFees {
   readonly meteringPointId = input.required<string>();
-  protected chargeLinks = query(GetChargeLinkOverviewDocument, () => ({
+  protected chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
     },
   }));
 
-  selected = signal<ChargeLinkOverview | undefined>(undefined);
-  items = computed(() => this.chargeLinks.data()?.chargeLinkOverview ?? []);
+  selected = signal<ChargeLinkPeriod | undefined>(undefined);
+  items = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
   dataSource = dataSource(() => this.items().filter((i) => i.charge.type === ChargeType.Fee));
-  columns: WattTableColumnDef<ChargeLinkOverview> = {
+  columns: WattTableColumnDef<ChargeLinkPeriod> = {
     type: { accessor: (item) => item.charge.type, sort: false },
     id: { accessor: (item) => item.charge?.code },
     name: { accessor: (item) => item.charge?.name ?? '' },

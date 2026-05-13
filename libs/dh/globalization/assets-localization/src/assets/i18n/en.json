@@ -948,8 +948,14 @@
       "details": {
         "period": "Period",
         "columns": {
-          "submittedAt": "Submitted",
+          "created": "Date",
           "description": "Description"
+        },
+        "changeTypes": {
+          "STARTED": "Charge link started per {{date}}",
+          "STOPPED": "Charge link stopped per {{date}}",
+          "CANCELLED": "Charge link cancelled per {{date}}",
+          "EDITED": "Charge link factor changed from {{previousFactor}} to {{factor}}"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message",
