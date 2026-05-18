@@ -567,6 +567,7 @@ type ElectricityMarketV2EventDto {
   id: UUID!
   timestamp: DateTime!
   type: String!
+  orchestrationInstanceId: UUID
   dataJson: String!
 }
 
