@@ -36,7 +36,6 @@ import {
   ActionHandlerMap,
   ResponsibleEnergySupplier,
   InitiatingParticipant,
-  ACTION_DISPLAY_ORDER,
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
