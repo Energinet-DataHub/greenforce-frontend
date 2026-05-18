@@ -447,6 +447,17 @@
       "navigation": {
         "day": "Day",
         "week": "Week"
+      },
+      "weekView": {
+        "columns": {
+          "day1": "Monday {{ date }}",
+          "day2": "Tuesday {{ date }}",
+          "day3": "Wednesday {{ date }}",
+          "day4": "Thursday {{ date }}",
+          "day5": "Friday {{ date }}",
+          "day6": "Saturday {{ date }}",
+          "day7": "Sunday {{ date }}"
+        }
       }
     },
     "actions": {

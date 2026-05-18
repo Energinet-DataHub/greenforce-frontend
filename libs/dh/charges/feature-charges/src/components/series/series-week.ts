@@ -16,14 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { input, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  input,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
 import { dayjs, WattRange } from '@energinet/watt/core/date';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { dataSource, WATT_TABLE, WattTableColumn, WattTableColumnDef } from '@energinet/watt/table';
 import {
   WattDatepickerComponent,
   wattProvideOneWeekRangeSelectionStrategy,
@@ -37,11 +43,13 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
+import { computeRowInterval, isDstEndWeek, isDstStartWeek } from '../util/time-utils';
 import { DhChargesWeekRow } from '../../types';
 
 @Component({
   selector: 'dh-charges-series-week-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -55,8 +63,14 @@ import { DhChargesWeekRow } from '../../types';
     DhChargeIntervalPipe,
   ],
   styles: `
-    watt-datepicker {
-      width: 260px;
+    dh-charges-series-week-table {
+      watt-datepicker {
+        width: 260px;
+      }
+
+      .week-table__weekend-cell {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
     }
   `,
   providers: [wattProvideOneWeekRangeSelectionStrategy()],
@@ -77,16 +91,29 @@ import { DhChargesWeekRow } from '../../types';
       </watt-data-filters>
 
       <watt-table
-        [columns]="columns"
+        [columns]="columns()"
         [dataSource]="dataSource"
         [loading]="chargeWeekSeriesQuery.loading()"
         [stickyFooter]="true"
       >
         @let dateHeader = 'charges.series.resolution.' + (resolution() ?? 'UNKNOWN') | transloco;
 
-        <ng-container *wattTableCell="columns.date; header: dateHeader; let row">
+        <ng-container *wattTableCell="columns().date; header: dateHeader; let row">
           {{ row.interval | dhChargeInterval: resolution() }}
         </ng-container>
+
+        @for (date of datesWithinPeriod(); track $index; let index = $index) {
+          @let _day = 'day' + (index + 1);
+
+          @let dayHeader =
+            t('columns.' + _day, {
+              date: date | wattDate,
+            });
+
+          <ng-container *wattTableCell="columns()[_day]; header: dayHeader; let row" />
+
+          <ng-container *wattTableCell="columns()[_day + 'HasChanged']; header: ''; let row" />
+        }
       </watt-table>
     </watt-data-table>
   `,
@@ -127,13 +154,101 @@ export class DhChargesSeriesWeekTable {
   charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
   resolution = computed(() => this.charge()?.resolution);
 
-  series = computed(() => {
-    return [];
+  series = computed(() => this.chargeWeekSeriesQuery.data()?.chargeById?.series ?? []);
+  dataSource = dataSource(() => {
+    if (this.chargeWeekSeriesQuery.loading()) {
+      return [];
+    }
+
+    return this.generateRows();
   });
 
-  dataSource = dataSource(() => this.series());
+  columns = computed<WattTableColumnDef<DhChargesWeekRow>>(() => {
+    const columns: WattTableColumnDef<DhChargesWeekRow> = {
+      date: { accessor: null, sort: false },
+    };
 
-  columns: WattTableColumnDef<DhChargesWeekRow> = {
-    date: { accessor: null, sort: false },
-  };
+    this.datesWithinPeriod().forEach((_, index) => {
+      const dayIndex = index + 1;
+      const columnKey = 'day' + dayIndex;
+      const isWeekend = dayIndex > 5;
+
+      const dayColumn: WattTableColumn<DhChargesWeekRow> = {
+        accessor: null,
+        align: 'right',
+        size: 'minmax(200px, auto)',
+        sort: false,
+        dataCellClass: isWeekend ? 'week-table__weekend-cell' : '',
+      };
+      const dotColumn: WattTableColumn<DhChargesWeekRow> = {
+        accessor: null,
+        sort: false,
+        dataCellClass: isWeekend ? 'week-table__weekend-cell' : '',
+      };
+
+      columns[columnKey] = dayColumn;
+      columns[columnKey + 'HasChanged'] = dotColumn;
+    });
+
+    return columns;
+  });
+
+  datesWithinPeriod = computed(() => {
+    const period = this.selectedPeriod();
+
+    if (!period) {
+      return [];
+    }
+
+    const periodStart = dayjs(period.start);
+    const periodEnd = dayjs(period.end);
+    const diff = periodEnd.diff(periodStart, 'day');
+
+    return new Array(diff + 1).fill(null).map((_, index) => periodStart.add(index, 'day').toDate());
+  });
+
+  private isDstStartWeek = computed(() => isDstStartWeek(this.selectedPeriod()));
+  private isDstEndWeek = computed(() => isDstEndWeek(this.selectedPeriod()));
+
+  private numberOfRowsDependingOnDst = computed(() => {
+    const isDstStartWeek = this.isDstStartWeek();
+    const isDstEndWeek = this.isDstEndWeek();
+
+    if (isDstStartWeek || isDstEndWeek) {
+      // DST starts -> we lose an hour, or
+      // DST ends -> we gain an hour.
+      //
+      // Return 25 here, because:
+      //   - in the UI we want to show the additional hour as separate rows when DST starts, or
+      //   - in the UI we want to show the repeated hour as a separate row when DST ends
+      return 25;
+    }
+
+    // Just a regular week.
+    return 24;
+  });
+
+  private generateRows(): DhChargesWeekRow[] {
+    const numberOfRows = this.numberOfRowsDependingOnDst();
+    const period = this.selectedPeriod();
+
+    if (!period) {
+      return [];
+    }
+
+    const dstRowIndex = 2;
+
+    return new Array(numberOfRows).fill(null).map((_, rowIndex) => {
+      const interval = computeRowInterval(
+        rowIndex,
+        this.isDstStartWeek(),
+        this.isDstEndWeek(),
+        period.start,
+        period.end,
+        dstRowIndex
+      );
+
+      return { interval, series: [] };
+    });
+  }
 }

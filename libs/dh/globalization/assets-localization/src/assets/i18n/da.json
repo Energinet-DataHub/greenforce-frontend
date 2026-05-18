@@ -447,6 +447,17 @@
       "navigation": {
         "day": "Dag",
         "week": "Uge"
+      },
+      "weekView": {
+        "columns": {
+          "day1": "Mandag {{ date }}",
+          "day2": "Tirsdag {{ date }}",
+          "day3": "Onsdag {{ date }}",
+          "day4": "Torsdag {{ date }}",
+          "day5": "Fredag {{ date }}",
+          "day6": "Lørdag {{ date }}",
+          "day7": "Søndag {{ date }}"
+        }
       }
     },
     "actions": {
