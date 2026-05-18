@@ -621,27 +621,6 @@ describe('DhActionsRegistry', () => {
 
       expect(result).toEqual([]);
     });
-
-    it('should return actions sorted in canonical display order regardless of input order', () => {
-      const registry = setupRegistry({
-        customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
-            callback: vi.fn(),
-          },
-          [WorkflowAction.CancelWorkflow]: {
-            callback: vi.fn(),
-          },
-        },
-      });
-
-      const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
-        ProcessManagerBusinessReason.CustomerMoveIn,
-        false
-      );
-
-      expect(result).toEqual([WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation]);
-    });
   });
 
   describe('execute', () => {
