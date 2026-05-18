@@ -12,35 +12,35 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
-using NodaTime.Extensions;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeLinkPeriodChange(
     ChargeLinkPeriodChangeType ChangeType,
-    ChargeLinkPeriodDto CurrentPeriod,
-    ChargeLinkPeriodDto? PreviousPeriod)
+    HistoricalChargeLinkPeriodDto CurrentPeriod,
+    HistoricalChargeLinkPeriodDto? PreviousPeriod)
 {
-    public ChargeLinkPeriodDto Period => CurrentPeriod;
+    public HistoricalChargeLinkPeriodDto Period => CurrentPeriod;
 
-    public DateTimeOffset EffectiveDate =>
-        CurrentPeriod.To is not null && ChangeType == ChargeLinkPeriodChangeType.Stopped
+    public DateTimeOffset EffectiveDate
+        => CurrentPeriod.To is not null && ChangeType == ChargeLinkPeriodChangeType.Stopped
             ? CurrentPeriod.To.Value.ToDateTimeOffset()
             : CurrentPeriod.From.ToDateTimeOffset();
 
-    public static List<ChargeLinkPeriodChange> FromPeriods(List<ChargeLinkPeriodDto> periods)
+    public static IEnumerable<ChargeLinkPeriodChange> FromPeriods(IEnumerable<HistoricalChargeLinkPeriodDto> periods)
     {
-        var first = periods
+        var sorted = periods.OrderBy(p => p.Created);
+        var first = sorted
             .Take(1)
             .Select(p => new ChargeLinkPeriodChange(ChargeLinkPeriodChangeType.Started, p, null));
 
-        return [.. first, .. periods.Zip(periods.Skip(1), DeriveChange)];
+        return [.. first, .. sorted.Zip(sorted.Skip(1), DeriveChange)];
     }
 
     private static ChargeLinkPeriodChange DeriveChange(
-        ChargeLinkPeriodDto previous,
-        ChargeLinkPeriodDto current)
+        HistoricalChargeLinkPeriodDto previous,
+        HistoricalChargeLinkPeriodDto current)
         => current.From == current.To
             ? new(ChargeLinkPeriodChangeType.Cancelled, current, previous)
             : current.To is not null && (previous.To is null || current.To < previous.To)

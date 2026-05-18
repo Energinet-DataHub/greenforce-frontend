@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
@@ -119,9 +120,15 @@ public interface IChargesClient
 
     /// <summary>
     /// Get a charge link period by its id.
-    /// TODO: Replace with dedicated backend endpoint when available.
     /// </summary>
     Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
+        ChargeLinkPeriodId id,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Get historical charge link period by charge link period id.
+    /// </summary>
+    Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default);
 

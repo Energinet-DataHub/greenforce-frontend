@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -49,14 +48,13 @@ public static partial class ChargeLinkPeriodNode
         CancellationToken ct)
         => await client.GetChargeLinkPeriodByIdAsync(id, ct);
 
-    public static async Task<IReadOnlyList<ChargeLinkPeriodChange>> GetChangesAsync(
+    public static async Task<IEnumerable<ChargeLinkPeriodChange>> GetChangesAsync(
         [Parent] ChargeLinkPeriod item,
-        IChargeLinkPeriodHistoryByIdDataLoader dataLoader,
+        IChargesClient client,
         CancellationToken ct)
     {
-        var id = new ChargeLinkPeriodId(item.MeteringPointId, item.Charge.Id, item.Period.From.ToDateTimeOffset());
-        var periods = await dataLoader.LoadAsync(id, ct);
-        return periods is not null ? ChargeLinkPeriodChange.FromPeriods(periods) : [];
+        var periods = await client.GetHistoricalChargeLinkPeriodsByIdAsync(item.Id, ct);
+        return ChargeLinkPeriodChange.FromPeriods(periods);
     }
 
     public static Interval GetPeriod([Parent] ChargeLinkPeriod item)
@@ -76,9 +74,6 @@ public static partial class ChargeLinkPeriodNode
         descriptor.BindFieldsExplicitly();
         descriptor.Field(f => f.Charge);
         descriptor.Field(f => f.Period.Factor).Name("amount");
-        descriptor
-            .Field(f => new ChargeLinkPeriodId(f.MeteringPointId, f.Charge.Id, f.Period.From.ToDateTimeOffset()))
-            .Type<NonNullType<StringType>>()
-            .Name("id");
+        descriptor.Field(f => f.Id).Type<NonNullType<StringType>>().Name("id");
     }
 }

@@ -15,6 +15,8 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.GetChargeInformationPeriods;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
@@ -279,16 +281,20 @@ public class ChargesClient(
         var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
         return chargeLinks
             .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
-            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p => (ChargeLink: cl, Period: p, Charge: chargeMap[cl.ChargeIdentifier])))
-            .GroupBy(x => (x.Charge.Id, x.Period.From))
-            .Select(g =>
-            {
-                var activePeriod = g.Select(x => x.Period).First(p => p.IsActual);
-                return new ChargeLinkPeriod(meteringPointId, activePeriod, g.First().Charge);
-            });
+            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
+                new ChargeLinkPeriod(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
     }
 
-    // TODO: Replace with dedicated backend endpoint when available.
+    public async Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
+        ChargeLinkPeriodId id,
+        CancellationToken ct = default)
+    {
+        var result = await client.QueryAsync(
+            new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId)), ct);
+
+        return result.Periods.Where(p => p.From == id.From.ToInstant());
+    }
+
     public async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default)

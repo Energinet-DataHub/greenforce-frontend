@@ -19,4 +19,7 @@ namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 public record ChargeLinkPeriod(
     string MeteringPointId,
     ChargeLinkPeriodDto Period,
-    Charge Charge);
+    Charge Charge)
+{
+    public ChargeLinkPeriodId Id => new(MeteringPointId, Charge.Id, Period.From.ToDateTimeOffset());
+}
