@@ -19,7 +19,11 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EicFunction, WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ChangeCustomerCharacteristicsBusinessReason,
+  EicFunction,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
   getPath,
@@ -36,12 +40,19 @@ export class ChangeOfEnergySupplierActions {
     [WorkflowAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
-        this.router.navigate([
-          getPath<BasePaths>('metering-point'),
-          ctx.internalMeteringPointId,
-          getPath<MeteringPointSubPaths>('update-customer-details'),
-          ctx.processId,
-        ]),
+        this.router.navigate(
+          [
+            getPath<BasePaths>('metering-point'),
+            ctx.internalMeteringPointId,
+            getPath<MeteringPointSubPaths>('update-customer-details'),
+            ctx.processId,
+          ],
+          {
+            queryParams: {
+              businessReason: ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier,
+            },
+          }
+        ),
     },
   };
 }

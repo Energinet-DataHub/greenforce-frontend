@@ -23,6 +23,7 @@ import {
   messageArchiveMocks,
   knownProcesses,
   processCmiInfoInitiatorGln,
+  processCosInfoInitiatorGln,
 } from './src/message-archive.mocks';
 import { adminMocks } from './src/admin.mocks';
 import { marketParticipantUserMocks } from './src/market-participant-user.mocks';
@@ -67,4 +68,4 @@ export const mocks = [
   messageQueueMocks,
 ];
 
-export { knownProcesses, processCmiInfoInitiatorGln };
+export { knownProcesses, processCmiInfoInitiatorGln, processCosInfoInitiatorGln };
