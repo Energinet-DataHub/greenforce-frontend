@@ -1104,8 +1104,13 @@
           "REJECT_REQUEST": "Reject request"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "REQUEST_CORRECTION": "Request correction"
         }
+      },
+      "reallocateChangeOfSupplier": {
+        "successToast": "The request has been registered in DataHub",
+        "errorToast": "Something went wrong. The request could not be completed. Please try again."
       },
       "rejectProcess": {
         "title": "End of supply - service request rejected",
@@ -1202,7 +1207,6 @@
         "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_5": "Notification of customer master data (RSM-028)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Confirmation of request for disconnection (RSM-020)",
-        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_3": "Rejection of request for disconnection (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Request for disconnection (RSM-020)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information about cancellation due to lack of change of connection status (RSM-004)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information about cancellation due to lack of change of connection status (RSM-004)",

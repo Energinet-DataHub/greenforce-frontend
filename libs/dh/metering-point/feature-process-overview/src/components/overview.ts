@@ -43,10 +43,13 @@ import {
   OnMeteringPointProcessUpdatedDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
+import { RequestReallocateChangeOfSupplier } from '../actions/customer-move-in/request-reallocate-change-of-supplier';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -66,6 +69,7 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
     WattFormChipDirective,
     DhEmDashFallbackPipe,
     DhStateBadge,
+    DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
@@ -157,6 +161,17 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
                   {{ t(process.businessReason + '.' + action) }}
                 </watt-button>
               }
+
+              <ng-container *dhReleaseToggle="'BRS011-INCOMING-MESSAGES'">
+                @if (isEnergySupplierResponsible() && process.businessReason === 'CustomerMoveIn') {
+                  <watt-button
+                    variant="secondary"
+                    size="small"
+                    (click)="onRequestCorrectionClick($event, process)"
+                    >{{ t('CustomerMoveIn.REQUEST_CORRECTION') }}</watt-button
+                  >
+                }
+              </ng-container>
             }
           </vater-stack>
         </ng-container>
@@ -169,6 +184,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly requestReallocateChangeOfSupplier = inject(RequestReallocateChangeOfSupplier);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -247,6 +263,18 @@ export class DhMeteringPointProcessOverviewTable {
       },
       this.isEnergySupplierResponsible(),
       process.initiator?.glnOrEicNumber
+    );
+  }
+
+  onRequestCorrectionClick(event: Event, process: MeteringPointProcess) {
+    event.stopPropagation();
+
+    assertIsDefined(process.cutoffDate);
+
+    this.requestReallocateChangeOfSupplier.request(
+      process.id,
+      this.internalMeteringPointId(),
+      process.cutoffDate
     );
   }
 }
