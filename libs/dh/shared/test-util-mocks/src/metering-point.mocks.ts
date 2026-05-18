@@ -613,8 +613,7 @@ function getMeteringPoint() {
         ? parentMeteringPoint
         : childMeteringPoint;
 
-    const isEnergySupplier =
-      meteringPoint.commercialRelation?.energySupplier === actorGln;
+    const isEnergySupplier = meteringPoint.commercialRelation?.energySupplier === actorGln;
 
     return HttpResponse.json({
       data: {
