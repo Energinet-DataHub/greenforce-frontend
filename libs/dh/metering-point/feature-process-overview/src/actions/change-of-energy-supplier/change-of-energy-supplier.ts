@@ -33,7 +33,7 @@ import {
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 
 @Injectable({ providedIn: 'root' })
-export class CustomerMoveInActions {
+export class ChangeOfEnergySupplierActions {
   private readonly router = inject(Router);
 
   readonly handlers: ActionHandlerMap = {
@@ -49,7 +49,7 @@ export class CustomerMoveInActions {
           ],
           {
             queryParams: {
-              businessReason: ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn,
+              businessReason: ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier,
             },
           }
         ),

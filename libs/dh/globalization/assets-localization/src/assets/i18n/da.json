@@ -1104,6 +1104,9 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information"
         }
       },
       "rejectProcess": {
