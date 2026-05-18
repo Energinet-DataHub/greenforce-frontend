@@ -137,8 +137,6 @@ export class ChargeSeriesResult {
   maybeGetEnd = () => {
     if (!this.last) return null;
     switch (this.resolution) {
-      case ChargeResolution.QuarterHourly:
-        return this.last.add(15, 'minutes');
       case ChargeResolution.Hourly:
         return this.last.add(1, 'hour');
       case ChargeResolution.Daily:

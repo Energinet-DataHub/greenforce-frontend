@@ -63,7 +63,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     typeDisplayName: 'Fee',
     code: 'CHARGE001',
     status: ChargeStatus.Awaiting,
-    resolution: ChargeResolution.QuarterHourly,
+    resolution: ChargeResolution.Hourly,
     spotDependingPrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
@@ -87,7 +87,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         vatInclusive: false,
       },
     ],
-    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.QuarterHourly) : [],
+    series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
     missingPriceSeriesPoints: {
       __typename: 'MissingPriceSeriesResult' as const,
       gaps: [
@@ -355,10 +355,6 @@ const makeChargeSeriesListMock = (
   const start = dayjs(interval.start);
   const end = dayjs(interval.end).add(1, 'ms');
   switch (resolution) {
-    case ChargeResolution.QuarterHourly:
-      return Array.from({ length: end.diff(interval.start, 'm') / 15 })
-        .map((_, i) => ({ start: start.add(i * 15, 'm'), end: start.add((i + 1) * 15, 'm') }))
-        .map(makeChargeSeriesMock);
     case ChargeResolution.Hourly:
       return Array.from({ length: end.diff(interval.start, 'h') })
         .map((_, i) => ({ start: start.add(i, 'h'), end: start.add(i + 1, 'h') }))

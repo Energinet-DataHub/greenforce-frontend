@@ -134,7 +134,7 @@ export class DhChargesFilters {
 
   filter = model<ChargeOverviewQueryInput>({});
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
+  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution);
   moreOptions = computed(() => this.getMoreOptions());
   owners = computed(() => {
     const options = this.actorOptions();

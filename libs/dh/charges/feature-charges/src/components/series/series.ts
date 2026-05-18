@@ -151,7 +151,6 @@ export class DhChargesSeriesTable {
       case 'MONTHLY':
         return { start, end: dayjs(start).endOf('year').toDate() };
       case 'HOURLY':
-      case 'QUARTER_HOURLY':
         return { start, end: dayjs(start).endOf('day').toDate() };
     }
   });

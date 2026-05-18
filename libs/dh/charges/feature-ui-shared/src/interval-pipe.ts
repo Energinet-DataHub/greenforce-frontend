@@ -31,8 +31,6 @@ export class DhChargeIntervalPipe implements PipeTransform {
     const start = dayjs(input.start);
     const end = dayjs(input.end).add(1, 'ms');
     switch (resolution) {
-      case 'QUARTER_HOURLY':
-        return `${start.format('HH:mm')} — ${end.format('HH:mm')}`;
       case 'HOURLY':
         return `${start.format('HH')} — ${end.format('HH')}`;
       case 'DAILY':
