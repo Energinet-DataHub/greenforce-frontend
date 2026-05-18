@@ -605,16 +605,24 @@ function getContactCPR() {
 }
 
 function getMeteringPoint() {
-  return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId } }) => {
+  return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId, actorGln } }) => {
     await delay(mswConfig.delay);
+
+    const meteringPoint =
+      meteringPointId === parentMeteringPoint.meteringPointId
+        ? parentMeteringPoint
+        : childMeteringPoint;
+
+    const isEnergySupplier =
+      meteringPoint.commercialRelation?.energySupplier === actorGln;
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint:
-          meteringPointId === parentMeteringPoint.meteringPointId
-            ? parentMeteringPoint
-            : childMeteringPoint,
+        meteringPoint: {
+          ...meteringPoint,
+          isEnergySupplier,
+        },
       },
     });
   });
