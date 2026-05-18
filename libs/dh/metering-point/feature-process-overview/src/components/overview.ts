@@ -273,7 +273,7 @@ export class DhMeteringPointProcessOverviewTable {
 
     this.requestReallocateChangeOfSupplier.request(
       process.id,
-      this.internalMeteringPointId(),
+      this.meteringPointId(),
       process.cutoffDate
     );
   }

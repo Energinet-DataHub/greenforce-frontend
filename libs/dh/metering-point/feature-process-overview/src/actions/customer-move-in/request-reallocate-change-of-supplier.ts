@@ -31,7 +31,7 @@ export class RequestReallocateChangeOfSupplier {
     RequestReallocateChangeOfSupplierDocument
   );
 
-  async request(processId: string, meteringPointId: string, cutoffDate: Date) {
+  request(processId: string, meteringPointId: string, cutoffDate: Date) {
     this.requestReallocateChangeOfSupplier.mutate({
       variables: {
         processId,

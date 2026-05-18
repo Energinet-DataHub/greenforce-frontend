@@ -129,6 +129,7 @@ public static class MoveInOperations
     }
 
     [Mutation]
+    [Authorize(Roles = ["metering-point:move-in"])]
     [UseRevisionLog]
     public static async Task<bool> RequestReallocateChangeOfSupplierAsync(
         string processId,

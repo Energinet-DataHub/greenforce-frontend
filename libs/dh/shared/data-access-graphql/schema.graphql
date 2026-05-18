@@ -1246,7 +1246,7 @@ type Mutation {
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
-  requestReallocateChangeOfSupplier(input: RequestReallocateChangeOfSupplierInput!): RequestReallocateChangeOfSupplierPayload!
+  requestReallocateChangeOfSupplier(input: RequestReallocateChangeOfSupplierInput!): RequestReallocateChangeOfSupplierPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
