@@ -952,10 +952,10 @@
           "description": "Beskrivelse"
         },
         "changeTypes": {
-          "STARTED": "Pristilknytning startet pr. {{date}}",
+          "STARTED": "Pris tilknyttet pr. {{date}}",
           "STOPPED": "Pristilknytning stoppet pr. {{date}}",
           "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
-          "EDITED": "Pristilknytningsfaktor ændret fra {{previousFactor}} til {{factor}}"
+          "EDITED": "Antal ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked",

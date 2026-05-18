@@ -952,10 +952,10 @@
           "description": "Description"
         },
         "changeTypes": {
-          "STARTED": "Charge link started per {{date}}",
+          "STARTED": "Charge linked per {{date}}",
           "STOPPED": "Charge link stopped per {{date}}",
           "CANCELLED": "Charge link cancelled per {{date}}",
-          "EDITED": "Charge link factor changed from {{previousFactor}} to {{factor}}"
+          "EDITED": "Amount changed from {{previousFactor}} to {{factor}}"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message",
