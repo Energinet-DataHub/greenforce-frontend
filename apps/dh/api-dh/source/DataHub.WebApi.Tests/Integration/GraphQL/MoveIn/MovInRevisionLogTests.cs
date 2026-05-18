@@ -20,6 +20,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -110,6 +112,43 @@ public class MoveInRevisionLogTests
                 { "meteringPointId", "571313180000000005" },
                 { "businessReason", "ELECTRICAL_HEATING" },
                 { "electricalHeating", true },
+            });
+    }
+
+    [Fact]
+    [RevisionLogTest("MoveInOperations.RequestReallocateChangeOfSupplierAsync")]
+    public async Task RequestReallocateChangeOfSupplierAsync()
+    {
+        var operation =
+            $$"""
+              mutation (
+                $processId: String!
+                $meteringPointId: String!
+                $cutoffDate: DateTime!
+              ) {
+                requestReallocateChangeOfSupplier(input: {
+                  processId: $processId,
+                  meteringPointId: $meteringPointId,
+                  cutoffDate: $cutoffDate
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var server = new GraphQLTestService();
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<RequestReallocateChangeOfSupplierCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestReallocateChangeOfSupplierResponseV1>.Success(new RequestReallocateChangeOfSupplierResponseV1("test")));
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                { "processId", "test-process-id" },
+                { "meteringPointId", "571313180000000005" },
+                { "cutoffDate", "2025-12-31T23:00:00Z" },
             });
     }
 }

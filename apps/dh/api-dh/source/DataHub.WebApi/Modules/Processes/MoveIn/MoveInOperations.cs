@@ -17,6 +17,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -121,6 +123,29 @@ public static class MoveInOperations
         {
             throw new GraphQLException(
                 $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
+    }
+
+    [Mutation]
+    [UseRevisionLog]
+    public static async Task<bool> RequestReallocateChangeOfSupplierAsync(
+        string processId,
+        string meteringPointId,
+        DateTimeOffset cutoffDate,
+        [Service] IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var input = new RequestReallocateChangeOfSupplierRequestV1(processId, meteringPointId, cutoffDate, "some-reason");
+        var command = new RequestReallocateChangeOfSupplierCommandV1(input);
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command RequestReallocateChangeOfSupplierAsync failed for metering point '{meteringPointId}'. EDI response: {result}");
         }
 
         return true;
