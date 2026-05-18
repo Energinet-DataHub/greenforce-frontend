@@ -1,0 +1,7 @@
+mutation CancelChangeOfEnergySupplier($meteringPointId: String!, $processId: UUID!) {
+  cancelChangeOfEnergySupplier(
+    input: { meteringPointId: $meteringPointId, processId: $processId }
+  ) {
+    boolean
+  }
+}

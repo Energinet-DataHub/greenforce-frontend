@@ -258,6 +258,10 @@ type CalculationsEdge {
   node: Calculation!
 }
 
+type CancelChangeOfEnergySupplierPayload {
+  boolean: Boolean
+}
+
 type CancelChargeLinkPayload {
   boolean: Boolean
 }
@@ -1207,6 +1211,7 @@ type Mutation {
   addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
+  cancelChangeOfEnergySupplier(input: CancelChangeOfEnergySupplierInput!): CancelChangeOfEnergySupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelCustomerMoveIn(input: CancelCustomerMoveInInput!): CancelCustomerMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
@@ -2057,6 +2062,11 @@ input CalculationsQueryInput {
   executionType: CalculationExecutionType
   calculationTypes: [CalculationTypeQueryParameterV1!]
   period: DateRange
+}
+
+input CancelChangeOfEnergySupplierInput {
+  meteringPointId: String!
+  processId: UUID!
 }
 
 input CancelChargeLinkInput {
