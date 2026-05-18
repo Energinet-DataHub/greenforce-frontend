@@ -6,5 +6,11 @@
     "cwd": "$ZED_WORKTREE_ROOT",
     "reveal": "no_focus",
     "hide": "on_success"
+  },
+  {
+    "label": "Update NuGet Package (interactive)",
+    "command": "dotnet list apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj package --outdated --format json | jq -r '.projects[].frameworks[].topLevelPackages[] | \"\\(.id) \\(.resolvedVersion) -> \\(.latestVersion)\"' | fzf --header='Select package to update' | awk '{print $1}' | xargs -I {} dotnet add apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj package {}",
+    "cwd": "$ZED_WORKTREE_ROOT",
+    "hide": "on_success"
   }
 ]
