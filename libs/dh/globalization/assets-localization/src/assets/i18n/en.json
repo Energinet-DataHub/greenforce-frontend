@@ -1451,7 +1451,7 @@
           "containsLetters": "Can only contain letters",
           "containsDash": "Can not contain dashes",
           "invalidCprLength": "Must be 10 digits long",
-          "invalidDate": "Invalid date",
+          "invalidDate": "Date of birth in CPR is invalid",
           "allOnes": "Can not be used"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
@@ -1624,6 +1624,13 @@
       "private": "Private",
       "business": "Business",
       "cpr": "CPR",
+      "cprError": {
+        "containsLetters": "{{ meteringPoint.moveIn.customerDetails.cprError.containsLetters }}",
+        "containsDash": "{{ meteringPoint.moveIn.customerDetails.cprError.containsDash }}",
+        "invalidCprLength": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidCprLength }}",
+        "invalidDate": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidDate }}",
+        "allOnes": "{{ meteringPoint.moveIn.customerDetails.cprError.allOnes }}"
+      },
       "cvr": "CVR",
       "protectedNameAndAddress": "Name and address protection",
       "cancel": "Cancel",

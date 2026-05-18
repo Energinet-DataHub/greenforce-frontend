@@ -27,6 +27,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
@@ -53,6 +54,7 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
     WattDatepickerComponent,
     WattCheckboxComponent,
     WattTextFieldComponent,
+    WattFieldErrorComponent,
     WattRadioComponent,
     VaterStackComponent,
   ],
@@ -112,7 +114,21 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
               [formControl]="form.controls.cpr"
               maxLength="10"
               class="cpr-field"
-            />
+            >
+              <watt-field-error>
+                @if (form.controls.cpr.hasError('containsLetters')) {
+                  {{ t('cprError.containsLetters') }}
+                } @else if (form.controls.cpr.hasError('containsDash')) {
+                  {{ t('cprError.containsDash') }}
+                } @else if (form.controls.cpr.hasError('invalidCprLength')) {
+                  {{ t('cprError.invalidCprLength') }}
+                } @else if (form.controls.cpr.hasError('invalidDate')) {
+                  {{ t('cprError.invalidDate') }}
+                } @else if (form.controls.cpr.hasError('allOnes')) {
+                  {{ t('cprError.allOnes') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
           } @else {
             <watt-text-field
               [label]="t('cvr')"
