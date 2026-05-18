@@ -311,7 +311,11 @@ export class DhUpdateCustomerDataComponent {
           ),
           cpr1: dhMakeFormControl<string | null>(
             null,
-            !this.isBusinessCustomer() ? [dhCprValidator()] : []
+            !this.isBusinessCustomer()
+              ? this.legalCustomerId() === null
+                ? [Validators.required, dhCprValidator()]
+                : [dhCprValidator()]
+              : []
           ),
           customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
           cpr2: dhMakeFormControl<string | null>(
