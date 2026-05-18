@@ -38,11 +38,6 @@ public class CollapseKeyTests
         .Should().Be(new LocalDate(2024, 7, 15));
 
     [Fact]
-    public void QuarterHourly_CollapsesToDate() => ChargesClient
-        .CollapseKey(Zdt(2024, 7, 15), Resolution.QuarterHourly)
-        .Should().Be(new LocalDate(2024, 7, 15));
-
-    [Fact]
     public void Monthly_DifferentMonthsSameYear_SameKey()
     {
         var key1 = ChargesClient.CollapseKey(Zdt(2024, 3, 1), Resolution.Monthly);

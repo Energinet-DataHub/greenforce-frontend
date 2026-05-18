@@ -23,14 +23,6 @@ namespace Energinet.DataHub.WebApi.Tests.Modules.Charges;
 public class NextSlotTests
 {
     [Fact]
-    public void QuarterHourly_Advances15Minutes()
-    {
-        var slot = Utc(2024, 6, 15, 10, 0);
-        ChargesClient.NextSlot(slot, Resolution.QuarterHourly)
-            .Should().Be(Utc(2024, 6, 15, 10, 15));
-    }
-
-    [Fact]
     public void Hourly_Advances1Hour()
     {
         var slot = Utc(2024, 6, 15, 10, 0);

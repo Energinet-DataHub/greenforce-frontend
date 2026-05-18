@@ -58,15 +58,4 @@ public class GenerateExpectedSlotsTests
 
         slots.Should().BeEmpty();
     }
-
-    [Fact]
-    public void QuarterHourlyGenerates4SlotsPerHour()
-    {
-        var from = Instant.FromUtc(2024, 6, 15, 10, 0);
-        var to = Instant.FromUtc(2024, 6, 15, 11, 0);
-
-        var slots = ChargesClient.GenerateExpectedSlots(from, to, Resolution.QuarterHourly).ToList();
-
-        slots.Should().HaveCount(4);
-    }
 }

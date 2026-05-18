@@ -74,7 +74,7 @@ public class ChargeLinkPeriodTests
             TypeDisplayName: "Tariff",
             PeriodDtos: [chargePeriod]);
 
-        var linkPeriod = new ChargeLinkPeriodDto(1, from, to);
+        var linkPeriod = new ChargeLinkPeriodDto(1, from, to, from, string.Empty, true);
 
         var server = new GraphQLTestService();
         server.ChargesClientMock
