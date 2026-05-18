@@ -1448,7 +1448,7 @@
         "fictitiousCvr": "Fictitious CVR",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "cprError": {
-          "containsLetters": "Can only contain letters",
+          "containsLetters": "Can not contain letters",
           "containsDash": "Can not contain dashes",
           "invalidCprLength": "Must be 10 digits long",
           "invalidDate": "Date of birth in CPR is invalid",
