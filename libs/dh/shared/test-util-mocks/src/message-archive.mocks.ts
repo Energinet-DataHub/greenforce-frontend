@@ -259,6 +259,22 @@ function getMeteringPointProcessOverview() {
       },
     };
 
+    const changeOfEnergySupplierProcess = {
+      __typename: 'MeteringPointProcess' as const,
+      id: 'process-cos-info',
+      businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+      createdAt: new Date('2026-05-14T08:30:00Z'),
+      cutoffDate: new Date('2026-05-20T00:00:00Z'),
+      state: MeteringPointProcessState.Pending,
+      availableActions: [WorkflowAction.SendInformation],
+      initiator: {
+        __typename: 'MarketParticipant' as const,
+        id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
+        displayName: `${processCosInfoInitiatorGln} • NRGi (Elleverandør)`,
+        glnOrEicNumber: processCosInfoInitiatorGln,
+      },
+    };
+
     const endOfSupplyRequestServiceProcess = {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-eos-request-service',
@@ -279,6 +295,7 @@ function getMeteringPointProcessOverview() {
         meteringPointProcessOverview: [
           endOfSupplyProcess,
           customerMoveInProcess,
+          changeOfEnergySupplierProcess,
           endOfSupplyRequestServiceProcess,
           ...mockProcesses,
         ],
@@ -288,6 +305,7 @@ function getMeteringPointProcessOverview() {
 }
 
 export const processCmiInfoInitiatorGln = '5790000555588';
+export const processCosInfoInitiatorGln = '5790000555588';
 
 export const knownProcesses: Record<
   string,
@@ -306,6 +324,12 @@ export const knownProcesses: Record<
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Pending,
     initiatorGln: processCmiInfoInitiatorGln,
+  },
+  'process-cos-info': {
+    businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation],
+    initiatorGln: processCosInfoInitiatorGln,
   },
   'process-eos-request-service': {
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
@@ -332,6 +356,8 @@ function getAvailableActions(
       WorkflowAction.RejectRequest,
     ];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
+    return [WorkflowAction.SendInformation];
+  if (businessReason === ProcessManagerBusinessReason.ChangeOfEnergySupplier)
     return [WorkflowAction.SendInformation];
   return [];
 }
@@ -394,6 +420,85 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
       step({ stepId: '7', stepKey: 'BRS_009_MOVEIN_V1_STEP_7' }),
       step({ stepId: '10', stepKey: 'BRS_009_MOVEIN_V1_STEP_10' }),
       step({ stepId: '12', stepKey: 'BRS_009_MOVEIN_V1_STEP_12' }),
+    ],
+  };
+}
+
+function buildChangeOfEnergySupplierProcess(
+  processId: string,
+  apiBase: string,
+  initiatorId: string
+) {
+  const createdAt = new Date('2026-05-14T08:30:00Z');
+  const actor = {
+    __typename: 'MarketParticipant' as const,
+    id: initiatorId,
+    displayName: `${processCosInfoInitiatorGln} • NRGi (Elleverandør)`,
+  };
+
+  const step = ({
+    stepId,
+    stepKey,
+    completedAt = null,
+    stepState = MeteringPointProcessState.Pending,
+    documentUrl = null,
+    actorValue = null,
+  }: {
+    stepId: string;
+    stepKey: string;
+    completedAt?: Date | null;
+    stepState?: MeteringPointProcessState;
+    documentUrl?: string | null;
+    actorValue?: typeof actor | null;
+  }) => ({
+    __typename: 'MeteringPointProcessStep' as const,
+    id: `step-${processId}-${stepId}`,
+    step: stepKey,
+    comment: null,
+    completedAt,
+    dueDate: null,
+    state: stepState,
+    description: '',
+    documentUrl,
+    actor: actorValue,
+  });
+
+  return {
+    __typename: 'MeteringPointProcess' as const,
+    id: processId,
+    createdAt,
+    cutoffDate: new Date('2026-05-20T00:00:00Z'),
+    businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: initiatorId,
+      glnOrEicNumber: processCosInfoInitiatorGln,
+      displayName: `${processCosInfoInitiatorGln} • NRGi (Elleverandør)`,
+    },
+    steps: [
+      step({
+        stepId: '1',
+        stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1',
+        completedAt: new Date('2026-05-14T08:31:00Z'),
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-1`,
+      }),
+      step({
+        stepId: '2',
+        stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2',
+        completedAt: new Date('2026-05-14T09:00:00Z'),
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+      }),
+      step({ stepId: '4', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4' }),
+      step({ stepId: '5', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5' }),
+      step({ stepId: '6', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6' }),
+      step({ stepId: '7', stepKey: 'BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7' }),
+      step({ stepId: '11', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11' }),
+      step({ stepId: '12', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12' }),
     ],
   };
 }
@@ -543,18 +648,20 @@ function getMeteringPointProcessById(apiBase: string) {
     const meteringPointProcessById =
       processId === 'process-cmi-info'
         ? buildCustomerMoveInProcess(processId, apiBase, initiator.id)
-        : buildGenericProcess({
-            processId,
-            apiBase,
-            processIndex,
-            initiators,
-            createdAt,
-            cutoffDate,
-            businessReason,
-            state,
-            availableActions,
-            initiator,
-          });
+        : processId === 'process-cos-info'
+          ? buildChangeOfEnergySupplierProcess(processId, apiBase, initiator.id)
+          : buildGenericProcess({
+              processId,
+              apiBase,
+              processIndex,
+              initiators,
+              createdAt,
+              cutoffDate,
+              businessReason,
+              state,
+              availableActions,
+              initiator,
+            });
 
     return HttpResponse.json({
       data: {

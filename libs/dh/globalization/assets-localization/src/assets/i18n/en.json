@@ -1106,6 +1106,9 @@
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
           "REQUEST_CORRECTION": "Request correction"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information"
         }
       },
       "reallocateChangeOfSupplier": {

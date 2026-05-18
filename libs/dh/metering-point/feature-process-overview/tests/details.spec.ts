@@ -205,12 +205,10 @@ describe('Process overview details', () => {
     await user.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
-      expect(router.navigate).toHaveBeenCalledWith([
-        'metering-point',
-        'imp-123',
-        'update-customer-details',
-        expect.any(String),
-      ])
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['metering-point', 'imp-123', 'update-customer-details', expect.any(String)],
+        expect.objectContaining({ queryParams: expect.any(Object) })
+      )
     );
   });
 

@@ -39,6 +39,7 @@ import {
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
+import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { ProcessActionContext } from '../src/actions/context';
 
 // -- Test helpers --
@@ -67,6 +68,7 @@ describe('DhActionsRegistry', () => {
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
+      changeOfEnergySupplierHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
@@ -86,6 +88,11 @@ describe('DhActionsRegistry', () => {
           callback: vi.fn(),
         },
       },
+      changeOfEnergySupplierHandlers = {
+        [WorkflowAction.SendInformation]: {
+          callback: vi.fn(),
+        },
+      } as ActionHandlerMap,
     } = options;
 
     TestBed.configureTestingModule({
@@ -127,6 +134,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: CustomerMoveInActions,
           useValue: createMockHandlers(customerMoveInHandlers),
+        },
+        {
+          provide: ChangeOfEnergySupplierActions,
+          useValue: createMockHandlers(changeOfEnergySupplierHandlers),
         },
       ],
     });
