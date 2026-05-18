@@ -356,7 +356,7 @@ function getAvailableActions(
       WorkflowAction.RejectRequest,
     ];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
-    return [WorkflowAction.SendInformation];
+    return [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
   if (businessReason === ProcessManagerBusinessReason.ChangeOfEnergySupplier)
     return [WorkflowAction.SendInformation];
   return [];

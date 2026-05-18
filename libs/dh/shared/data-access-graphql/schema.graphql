@@ -262,6 +262,10 @@ type CancelChargeLinkPayload {
   boolean: Boolean
 }
 
+type CancelCustomerMoveInPayload {
+  boolean: Boolean
+}
+
 type CancelEndOfSupplyPayload {
   boolean: Boolean
 }
@@ -1204,6 +1208,7 @@ type Mutation {
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
+  cancelCustomerMoveIn(input: CancelCustomerMoveInInput!): CancelCustomerMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
@@ -2056,6 +2061,11 @@ input CalculationsQueryInput {
 
 input CancelChargeLinkInput {
   id: String!
+}
+
+input CancelCustomerMoveInInput {
+  meteringPointId: String!
+  processId: UUID!
 }
 
 input CancelEndOfSupplyInput {

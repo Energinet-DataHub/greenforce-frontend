@@ -36,6 +36,7 @@ import {
   ActionHandlerMap,
   ResponsibleEnergySupplier,
   InitiatingParticipant,
+  ACTION_DISPLAY_ORDER,
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
@@ -64,6 +65,7 @@ describe('DhActionsRegistry', () => {
       featureFlagsEnabled?: boolean;
       hasEndOfSupplyRespondPermission?: boolean;
       hasEndOfSupplyRequestPermission?: boolean;
+      hasMoveInPermission?: boolean;
       isFas?: boolean;
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
@@ -75,6 +77,7 @@ describe('DhActionsRegistry', () => {
       featureFlagsEnabled = true,
       hasEndOfSupplyRespondPermission = true,
       hasEndOfSupplyRequestPermission = false,
+      hasMoveInPermission = false,
       isFas = false,
       actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
@@ -109,6 +112,7 @@ describe('DhActionsRegistry', () => {
                 return of(hasEndOfSupplyRespondPermission);
               if (permission === 'metering-point:end-of-supply-request')
                 return of(hasEndOfSupplyRequestPermission);
+              if (permission === 'metering-point:move-in') return of(hasMoveInPermission);
               return of(false);
             },
             isFas: () => of(isFas),
@@ -539,6 +543,105 @@ describe('DhActionsRegistry', () => {
       );
 
       expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should return CancelWorkflow for CustomerMoveIn when permission and initiator match', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: true,
+        actorMarketRole: EicFunction.EnergySupplier,
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [WorkflowAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false,
+        '1234567890123'
+      );
+
+      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+    });
+
+    it('should exclude CancelWorkflow for CustomerMoveIn when initiator GLN does not match', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: true,
+        actorMarketRole: EicFunction.EnergySupplier,
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [WorkflowAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false,
+        '9999999999999'
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should exclude CancelWorkflow for CustomerMoveIn when permission is missing', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: false,
+        actorMarketRole: EicFunction.EnergySupplier,
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [WorkflowAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false,
+        '1234567890123'
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return actions sorted in canonical display order regardless of input order', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [WorkflowAction.CancelWorkflow]: {
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation]);
     });
   });
 

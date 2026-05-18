@@ -1103,7 +1103,8 @@
           "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Annuller"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information"
@@ -1154,7 +1155,8 @@
         "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
-        "EndOfSupply": "leveranceophør"
+        "EndOfSupply": "leveranceophør",
+        "CustomerMoveIn": "tilflytning"
       },
       "steps": {
         "CloseDownMeteringPoint": {
