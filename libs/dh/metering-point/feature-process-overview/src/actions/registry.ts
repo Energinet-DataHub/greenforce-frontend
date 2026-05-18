@@ -127,7 +127,7 @@ export class DhActionsRegistry {
     isEnergySupplierResponsible: boolean,
     initiatorGlnOrEic?: string
   ): WorkflowAction[] {
-    return availableActions.filter((action) => {
+    const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
       // FAS users see every supported action (info row in the table, disabled
@@ -135,6 +135,15 @@ export class DhActionsRegistry {
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
       return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
+    });
+
+    // Ensure cancellation actions always appear first (leftmost button).
+    return supported.sort((a, b) => {
+      const aIsCancel = a === WorkflowAction.CancelWorkflow || a === WorkflowAction.RejectRequest;
+      const bIsCancel = b === WorkflowAction.CancelWorkflow || b === WorkflowAction.RejectRequest;
+      if (aIsCancel && !bIsCancel) return -1;
+      if (!aIsCancel && bIsCancel) return 1;
+      return 0;
     });
   }
 
