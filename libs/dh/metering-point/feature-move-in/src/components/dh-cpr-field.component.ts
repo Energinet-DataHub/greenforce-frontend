@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
@@ -28,7 +28,6 @@ import { WATT_MODAL } from '@energinet/watt/modal';
 
 import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
@@ -62,7 +61,6 @@ const MASKED_CPR = '0000000000';
     WattButtonComponent,
     WattSpinnerComponent,
     WATT_MODAL,
-    DhPermissionRequiredDirective,
   ],
   template: `
     <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
@@ -154,7 +152,7 @@ export class DhCprFieldComponent {
 
     this.unlocked.set(true);
     const control = this.cprControl();
-    control.setValidators([dhCprValidator()]);
+    control.setValidators([Validators.required, dhCprValidator()]);
     control.updateValueAndValidity();
   }
 }
