@@ -1,0 +1,11 @@
+mutation RequestReallocateChangeOfSupplier(
+  $processId: String!
+  $meteringPointId: String!
+  $cutoffDate: DateTime!
+) {
+  requestReallocateChangeOfSupplier(
+    input: { processId: $processId, meteringPointId: $meteringPointId, cutoffDate: $cutoffDate }
+  ) {
+    success: boolean
+  }
+}

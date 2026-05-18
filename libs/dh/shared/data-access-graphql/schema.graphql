@@ -1246,6 +1246,7 @@ type Mutation {
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
+  requestReallocateChangeOfSupplier(input: RequestReallocateChangeOfSupplierInput!): RequestReallocateChangeOfSupplierPayload!
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
@@ -1651,6 +1652,10 @@ type RequestOptions {
 }
 
 type RequestPayload {
+  boolean: Boolean
+}
+
+type RequestReallocateChangeOfSupplierPayload {
   boolean: Boolean
 }
 
@@ -2466,6 +2471,12 @@ input RequestMeasurementsReportInput {
 input RequestMissingMeasurementsLogInput {
   period: DateRange!
   gridAreaCodes: [String!]!
+}
+
+input RequestReallocateChangeOfSupplierInput {
+  processId: String!
+  meteringPointId: String!
+  cutoffDate: DateTime!
 }
 
 input RequestServiceEndOfSupplyInput {
@@ -3596,6 +3607,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
   REJECT_REQUEST_BILLING_MASTER_DATA
   REJECT_REQUEST_PRICE_LIST
+  REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
 }
 
 enum ParticipantType {
