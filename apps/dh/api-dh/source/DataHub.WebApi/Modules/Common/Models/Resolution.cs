@@ -21,7 +21,6 @@ public record Resolution : Enumeration<Resolution>
 {
     public required string Duration { get; init; }
 
-    public static readonly Resolution QuarterHourly = new() { Duration = "PT15M" };
     public static readonly Resolution Hourly = new() { Duration = "PT1H" };
     public static readonly Resolution Daily = new() { Duration = "P1D" };
     public static readonly Resolution Monthly = new() { Duration = "P1M" };

@@ -413,7 +413,6 @@ public class ChargesClient(
 
     internal static Instant NextSlot(Instant instant, Resolution resolution)
     {
-        if (resolution == Resolution.QuarterHourly) return instant.Plus(Duration.FromMinutes(15));
         if (resolution == Resolution.Hourly) return instant.Plus(Duration.FromHours(1));
         var dateTime = instant.InZone(DanishTimeZone).LocalDateTime;
         var next = resolution == Resolution.Daily ? dateTime.PlusDays(1) : dateTime.PlusMonths(1);

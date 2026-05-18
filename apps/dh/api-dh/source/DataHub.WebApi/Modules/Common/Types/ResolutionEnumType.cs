@@ -24,7 +24,6 @@ public class ResolutionEnumType : EnumType<Resolution>
             .Name("ChargeResolution") // TODO: Rename to "Resolution" by aligning all enums!
             .BindValuesExplicitly();
 
-        descriptor.Value(Resolution.QuarterHourly);
         descriptor.Value(Resolution.Hourly);
         descriptor.Value(Resolution.Daily);
         descriptor.Value(Resolution.Monthly);

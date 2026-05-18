@@ -2953,7 +2953,6 @@ enum ChangeOfSupplierBusinessReason {
 }
 
 enum ChargeResolution {
-  QUARTER_HOURLY
   HOURLY
   DAILY
   MONTHLY
