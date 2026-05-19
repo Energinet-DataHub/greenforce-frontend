@@ -102,24 +102,13 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       margin-top: var(--watt-space-xs);
     }
 
-    dh-metering-point-process-overview-details .dh-copy-process-id {
-      all: unset;
-      cursor: pointer;
+    dh-metering-point-process-overview-details .dh-copy-link {
+      border: 0;
+      background: transparent;
+      padding: 0;
       display: inline-flex;
       align-items: center;
       gap: var(--watt-space-xs);
-      color: var(--watt-color-primary);
-      text-decoration: underline;
-    }
-
-    dh-metering-point-process-overview-details .dh-copy-process-id:hover {
-      color: var(--watt-color-primary-dark);
-    }
-
-    dh-metering-point-process-overview-details .dh-copy-process-id:focus-visible {
-      outline: 2px solid var(--watt-color-primary);
-      outline-offset: 2px;
-      color: var(--watt-color-primary-dark);
     }
   `,
   template: `
@@ -146,7 +135,7 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
               [value]="cutoffDate() | wattDate | dhEmDashFallback"
             />
             <watt-description-list-item [label]="t('details.list.processId')">
-              <button type="button" class="dh-copy-process-id" [wattCopyToClipboard]="id()">
+              <button type="button" class="watt-link-s dh-copy-link" [wattCopyToClipboard]="id()">
                 <watt-icon size="xs" name="contentCopy" />
                 {{ t('details.list.copy') }}
               </button>
