@@ -35,7 +35,7 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Charges;
 
 public class ChargeLinkPeriodTests
 {
-    private static readonly string _query =
+    private static readonly string Query =
     """
     query ($meteringPointId: String!) {
       chargeLinkPeriods(meteringPointId: $meteringPointId) {
@@ -74,7 +74,7 @@ public class ChargeLinkPeriodTests
             TypeDisplayName: "Tariff",
             PeriodDtos: [chargePeriod]);
 
-        var linkPeriod = new ChargeLinkPeriodDto(1, from, to, from, string.Empty, true);
+        var linkPeriod = new ChargeLinkPeriodDto(1, from, to);
 
         var server = new GraphQLTestService();
         server.ChargesClientMock
@@ -86,7 +86,7 @@ public class ChargeLinkPeriodTests
 
         var result = await server.ExecuteRequestAsync(
             b => b
-                .SetDocument(_query)
+                .SetDocument(Query)
                 .SetVariableValues(new Dictionary<string, object?> { { "meteringPointId", "571313180000000005" } })
                 .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
             CancellationToken.None);
