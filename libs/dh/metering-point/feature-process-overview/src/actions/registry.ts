@@ -137,13 +137,18 @@ export class DhActionsRegistry {
       return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
     });
 
-    // Ensure cancellation actions always appear first (leftmost button).
+    // Canonical display order — actions not listed here sort to the end.
+    const ACTION_DISPLAY_ORDER: readonly WorkflowAction[] = [
+      WorkflowAction.CancelWorkflow,
+      WorkflowAction.RejectRequest,
+    ];
+
     return supported.sort((a, b) => {
-      const aIsCancel = a === WorkflowAction.CancelWorkflow || a === WorkflowAction.RejectRequest;
-      const bIsCancel = b === WorkflowAction.CancelWorkflow || b === WorkflowAction.RejectRequest;
-      if (aIsCancel && !bIsCancel) return -1;
-      if (!aIsCancel && bIsCancel) return 1;
-      return 0;
+      const aIndex = ACTION_DISPLAY_ORDER.indexOf(a);
+      const bIndex = ACTION_DISPLAY_ORDER.indexOf(b);
+      const aNorm = aIndex === -1 ? Infinity : aIndex;
+      const bNorm = bIndex === -1 ? Infinity : bIndex;
+      return aNorm - bNorm;
     });
   }
 
