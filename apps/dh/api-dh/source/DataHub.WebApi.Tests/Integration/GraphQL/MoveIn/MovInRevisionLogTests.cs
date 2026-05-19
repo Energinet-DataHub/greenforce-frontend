@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -146,7 +147,7 @@ public class MoveInRevisionLogTests
             operation,
             new()
             {
-                { "processId", "test-process-id" },
+                { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
                 { "meteringPointId", "571313180000000005" },
                 { "cutoffDate", "2025-12-31T23:00:00Z" },
             });
