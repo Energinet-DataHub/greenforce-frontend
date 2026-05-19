@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, model } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
+import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -28,7 +27,7 @@ import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_TABLE, WattTableColumnDef, dataSource } from '@energinet/watt/table';
 import { WattDataTableComponent } from '@energinet/watt/data';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 import {
   DhChargePeriodPipe,
   DhChargesStatus,
@@ -40,7 +39,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-import { ChargeLinkPeriod } from '../types';
+import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -125,15 +124,15 @@ import { ChargeLinkPeriod } from '../types';
           [autoSize]="true"
           [header]="false"
           [enablePaginator]="false"
-          [error]="detailsQuery.error()"
-          [ready]="detailsQuery.called() && !detailsQuery.loading()"
+          [error]="details.error()"
+          [ready]="details.called() && !details.loading()"
         >
           <watt-table
             *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="historyColumns"
             [dataSource]="historyDataSource"
-            [loading]="detailsQuery.loading()"
+            [loading]="details.loading()"
             sortBy="created"
             sortDirection="desc"
           >
@@ -141,7 +140,13 @@ import { ChargeLinkPeriod } from '../types';
               {{ change.created | wattDate: 'long' }}
             </ng-container>
             <ng-container *wattTableCell="historyColumns.description; let change">
-              {{ translateChange(change) }}
+              {{
+                t('meteringPoint.chargeLinks.details.changeTypes.' + change.changeType, {
+                  date: change.effectiveDate | wattDate,
+                  factor: change.factor,
+                  previousFactor: change.previousFactor,
+                })
+              }}
             </ng-container>
           </watt-table>
         </watt-data-table>
@@ -150,33 +155,21 @@ import { ChargeLinkPeriod } from '../types';
   `,
 })
 export class DhChargeLinkDetails {
-  private readonly transloco = inject(TranslocoService);
   readonly item = model<ChargeLinkPeriod>();
   readonly chargeType = computed(() => this.item()?.charge?.type);
   readonly isCancelled = computed(
     () => this.item()?.period?.start?.getTime() === this.item()?.period?.end?.getTime()
   );
 
-  protected readonly detailsQuery = query(GetChargeLinkPeriodByIdDocument, () => {
+  details = query(GetChargeLinkPeriodByIdDocument, () => {
     const id = this.item()?.id;
     return id ? { variables: { id } } : { skip: true };
   });
 
-  changes = computed(() => this.detailsQuery.data()?.chargeLinkPeriodById?.changes ?? []);
+  changes = computed(() => this.details.data()?.chargeLinkPeriodById?.changes ?? []);
   historyDataSource = dataSource(() => this.changes());
-  historyColumns: WattTableColumnDef<ReturnType<typeof this.changes>[0]> = {
+  historyColumns: WattTableColumnDef<ChargeLinkPeriodChange> = {
     created: { accessor: (row) => row.created },
     description: { accessor: (row) => row.changeType, sort: false },
   };
-
-  translateChange(change: ReturnType<typeof this.changes>[0]): string {
-    return this.transloco.translate(
-      `meteringPoint.chargeLinks.details.changeTypes.${change.changeType}`,
-      {
-        date: wattFormatDate(change.effectiveDate),
-        factor: change.factor,
-        previousFactor: change.previousFactor,
-      }
-    );
-  }
 }
