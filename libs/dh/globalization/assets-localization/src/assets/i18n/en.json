@@ -1061,6 +1061,7 @@
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
         "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
         "CustomerMoveIn": "Move-in (BRS-009)",
+        "SecondaryMoveIn": "Secondary move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
         "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)",
@@ -1104,6 +1105,9 @@
           "REJECT_REQUEST": "Reject request"
         },
         "CustomerMoveIn": {
+          "SEND_INFORMATION": "Send information"
+        },
+        "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
         },
         "ChangeOfEnergySupplier": {
@@ -1239,6 +1243,17 @@
         "BRS_009_VALIDITYDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
         "BRS_009_VALIDITYDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
         "BRS_009_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Confirm request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Reject request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_4": "Notification of metering point master data (RSM-022)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_5": "Notification of customer master data (RSM-028)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_6": "Notification of charge links (RSM-031)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_10": "Notification of secondary move-in (RSM-004)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Approve request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Reject request for move-out (RSM-005)",
