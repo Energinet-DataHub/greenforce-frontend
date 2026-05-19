@@ -13,9 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Abstractions.Api.V1.GetChargeInformationPeriods;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
@@ -332,7 +330,9 @@ public class ChargesClient(
         DateTimeOffset stopDate,
         CancellationToken ct = default)
     {
-        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
+
         var result = await ediClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
@@ -340,7 +340,7 @@ public class ChargesClient(
                 ToChargeLinkChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
                 stopDate,
-                period.Factor.ToString())),
+                chargeLink.Period.Factor.ToString())),
             ct);
 
         return result.IsSuccess;
@@ -348,15 +348,17 @@ public class ChargesClient(
 
     public async Task<bool> CancelChargeLinkAsync(ChargeLinkPeriodId id, CancellationToken ct = default)
     {
-        var period = await GetChargeLinkPeriodAsync(id, ct);
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
+
         var result = await ediClient.SendAsync(
             new StopChargeLinkCommandV1(new(
                 id.ChargeId.Code,
                 id.ChargeId.Owner,
                 ToChargeLinkChargeType(id.ChargeId.TypeDto),
                 id.MeteringPointId,
-                period.From.ToDateTimeOffset(),
-                period.Factor.ToString())),
+                id.From,
+                chargeLink.Period.Factor.ToString())),
             ct);
 
         return result.IsSuccess;
@@ -399,18 +401,6 @@ public class ChargesClient(
             ct);
 
         return result.IsSuccess;
-    }
-
-    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkPeriodId id, CancellationToken ct)
-    {
-        var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
-        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
-        var chargeLink = result.Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
-            ?? throw new GraphQLException($"Charge link with id {id} not found.");
-
-        return chargeLink.ChargeLinkPeriods
-            .OrderByDescending(p => p.From)
-            .First();
     }
 
     private static ChargeTypeV1 ToChargeLinkChargeType(ChargeTypeDto type) => type switch
