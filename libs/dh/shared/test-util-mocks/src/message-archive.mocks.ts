@@ -741,17 +741,17 @@ function getMeteringPointProcessById(apiBase: string) {
           : processId === 'process-smi-info'
             ? buildSecondaryMoveInProcess(processId, apiBase, initiator.id)
             : buildGenericProcess({
-              processId,
-              apiBase,
-              processIndex,
-              initiators,
-              createdAt,
-              cutoffDate,
-              businessReason,
-              state,
-              availableActions,
-              initiator,
-            });
+                processId,
+                apiBase,
+                processIndex,
+                initiators,
+                createdAt,
+                cutoffDate,
+                businessReason,
+                state,
+                availableActions,
+                initiator,
+              });
 
     return HttpResponse.json({
       data: {
