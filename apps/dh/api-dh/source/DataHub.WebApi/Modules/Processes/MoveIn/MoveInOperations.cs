@@ -17,6 +17,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -121,6 +123,30 @@ public static class MoveInOperations
         {
             throw new GraphQLException(
                 $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
+    public static async Task<bool> RequestIncorrectMoveInAsync(
+        Guid processId,
+        string meteringPointId,
+        DateTimeOffset cutoffDate,
+        [Service] IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestIncorrectMoveInCommandV1(
+            new RequestIncorrectMoveInRequestV1(processId.ToString(), meteringPointId, cutoffDate, "some-reason"));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command RequestIncorrectMoveInAsync failed for metering point '{meteringPointId}'. EDI response: {result}");
         }
 
         return true;

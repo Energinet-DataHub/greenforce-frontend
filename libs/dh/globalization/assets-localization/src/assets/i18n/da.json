@@ -1104,10 +1104,18 @@
           "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "REQUEST_CORRECTION": "Anmod om korrektion"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information"
+        }
+      },
+      "incorrectMoveIn": {
+        "toast": {
+          "loading": "Opretter anmodning...",
+          "success": "Anmodning er registreret i DataHub",
+          "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
         }
       },
       "rejectProcess": {
