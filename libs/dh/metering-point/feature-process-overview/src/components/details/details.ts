@@ -98,6 +98,10 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       margin: 0;
     }
 
+    dh-metering-point-process-overview-details watt-description-list + watt-description-list {
+      margin-top: var(--watt-space-xs);
+    }
+
     dh-metering-point-process-overview-details .dh-copy-process-id {
       all: unset;
       cursor: pointer;
@@ -105,6 +109,7 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       align-items: center;
       gap: var(--watt-space-xs);
       color: var(--watt-color-primary);
+      text-decoration: underline;
     }
 
     dh-metering-point-process-overview-details .dh-copy-process-id:hover {
@@ -130,45 +135,40 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
         <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
         </h3>
-        <watt-description-list
-          variant="inline-flow"
-          [groupsPerRow]="4"
-          *transloco="let t; prefix: 'meteringPoint.processOverview'"
-        >
-          <watt-description-list-item
-            [label]="t('details.list.createdAt')"
-            [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
-          />
-
-          <watt-description-list-item
-            [label]="t('details.list.cutoff')"
-            [value]="cutoffDate() | wattDate | dhEmDashFallback"
-          />
-
-          <watt-description-list-item [label]="t('details.list.processId')">
-            <button type="button" class="dh-copy-process-id" [wattCopyToClipboard]="id()">
-              <watt-icon size="xs" name="contentCopy" />
-              {{ t('details.list.copy') }}
-            </button>
-          </watt-description-list-item>
-
-          @if (businessReason() !== 'ProductionObligation') {
+        <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          <watt-description-list variant="inline-flow" [groupsPerRow]="4">
             <watt-description-list-item
-              [forceNewRow]="true"
-              [label]="t('details.list.businessReason')"
-              [value]="
-                businessReason()
-                  ? t('businessReason.' + businessReason())
-                  : (null | dhEmDashFallback)
-              "
+              [label]="t('details.list.createdAt')"
+              [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
             />
-          }
-
-          <watt-description-list-item
-            [label]="t('details.list.initiator')"
-            [value]="initiator() | dhEmDashFallback"
-          />
-        </watt-description-list>
+            <watt-description-list-item
+              [label]="t('details.list.cutoff')"
+              [value]="cutoffDate() | wattDate | dhEmDashFallback"
+            />
+            <watt-description-list-item [label]="t('details.list.processId')">
+              <button type="button" class="dh-copy-process-id" [wattCopyToClipboard]="id()">
+                <watt-icon size="xs" name="contentCopy" />
+                {{ t('details.list.copy') }}
+              </button>
+            </watt-description-list-item>
+          </watt-description-list>
+          <watt-description-list variant="inline-flow" [groupsPerRow]="4">
+            @if (businessReason() !== 'ProductionObligation') {
+              <watt-description-list-item
+                [label]="t('details.list.businessReason')"
+                [value]="
+                  businessReason()
+                    ? t('businessReason.' + businessReason())
+                    : (null | dhEmDashFallback)
+                "
+              />
+            }
+            <watt-description-list-item
+              [label]="t('details.list.initiator')"
+              [value]="initiator() | dhEmDashFallback"
+            />
+          </watt-description-list>
+        </ng-container>
         @if (isFas() && fasActionGroups().length > 0) {
           <watt-expandable-link
             *transloco="let t; prefix: 'meteringPoint.processOverview'"
