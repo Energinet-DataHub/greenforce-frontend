@@ -33,6 +33,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
 
@@ -63,6 +64,7 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     WattCopyToClipboardDirective,
     WattDatePipe,
     WattExpandableLinkComponent,
+    WattIconComponent,
     DhEmDashFallbackPipe,
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
@@ -95,6 +97,25 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     dh-metering-point-process-overview-details .fas-action-group__title {
       margin: 0;
     }
+
+    dh-metering-point-process-overview-details .dh-copy-process-id {
+      all: unset;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--watt-space-xs);
+      color: var(--watt-color-primary);
+    }
+
+    dh-metering-point-process-overview-details .dh-copy-process-id:hover {
+      color: var(--watt-color-primary-dark);
+    }
+
+    dh-metering-point-process-overview-details .dh-copy-process-id:focus-visible {
+      outline: 2px solid var(--watt-color-primary);
+      outline-offset: 2px;
+      color: var(--watt-color-primary-dark);
+    }
   `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
@@ -125,13 +146,15 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
           />
 
           <watt-description-list-item [label]="t('details.list.processId')">
-            <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="id()">
+            <button type="button" class="dh-copy-process-id" [wattCopyToClipboard]="id()">
+              <watt-icon size="xs" name="contentCopy" />
               {{ t('details.list.copy') }}
-            </watt-button>
+            </button>
           </watt-description-list-item>
 
           @if (businessReason() !== 'ProductionObligation') {
             <watt-description-list-item
+              [forceNewRow]="true"
               [label]="t('details.list.businessReason')"
               [value]="
                 businessReason()
