@@ -40,6 +40,7 @@ function getReleaseTogglesQuery() {
           'PM116-PROCESSOVERVIEW',
           'PM52-CREATE-METERING-POINT-UI',
           'PM58-PRICES-UI',
+          'PM58-PRICES-WEEK-VIEW-UI',
           'PM60-CHARGE-LINKS-UI',
           'PM120-DH3-METERING-POINTS-UI',
           'PM62-ACTOR-CONVERSATION',

@@ -35,9 +35,11 @@ import {
   DhActionsRegistry,
   ActionHandlerMap,
   ResponsibleEnergySupplier,
+  InitiatingParticipant,
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
+import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { ProcessActionContext } from '../src/actions/context';
 
 // -- Test helpers --
@@ -66,6 +68,7 @@ describe('DhActionsRegistry', () => {
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
+      changeOfEnergySupplierHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
@@ -85,6 +88,11 @@ describe('DhActionsRegistry', () => {
           callback: vi.fn(),
         },
       },
+      changeOfEnergySupplierHandlers = {
+        [WorkflowAction.SendInformation]: {
+          callback: vi.fn(),
+        },
+      } as ActionHandlerMap,
     } = options;
 
     TestBed.configureTestingModule({
@@ -126,6 +134,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: CustomerMoveInActions,
           useValue: createMockHandlers(customerMoveInHandlers),
+        },
+        {
+          provide: ChangeOfEnergySupplierActions,
+          useValue: createMockHandlers(changeOfEnergySupplierHandlers),
         },
       ],
     });
@@ -421,6 +433,71 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
+    it('should include action for InitiatingParticipant when actor GLN matches initiator GLN', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false,
+        '1234567890123'
+      );
+
+      expect(result).toEqual([WorkflowAction.SendInformation]);
+    });
+
+    it('should exclude action for InitiatingParticipant when actor GLN does not match initiator GLN', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false,
+        '9999999999999'
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should exclude action for InitiatingParticipant when initiatorGlnOrEic is not provided', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.SendInformation],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([]);
+    });
+
     it('should include action when any role in a mixed roles array matches', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.GridAccessProvider,
@@ -608,27 +685,139 @@ describe('DhActionsRegistry', () => {
       expect(callback).not.toHaveBeenCalled();
     });
 
-    it('should call handler when ResponsibleEnergySupplier role matches', () => {
+    it('should call handler when InitiatingParticipant role matches (actor GLN equals initiator GLN)', () => {
       const callback = vi.fn();
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.RejectRequest]: {
+          [WorkflowAction.SendInformation]: {
             featureFlag: 'end-of-supply',
-            roles: [ResponsibleEnergySupplier],
+            roles: [InitiatingParticipant],
             callback,
           },
         },
       });
 
       registry.execute(
-        WorkflowAction.RejectRequest,
+        WorkflowAction.SendInformation,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
-        true
+        false,
+        '1234567890123'
       );
 
       expect(callback).toHaveBeenCalledWith(mockContext);
+    });
+
+    it('should not call handler when InitiatingParticipant role does not match (different GLN)', () => {
+      const callback = vi.fn();
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            featureFlag: 'end-of-supply',
+            roles: [InitiatingParticipant],
+            callback,
+          },
+        },
+      });
+
+      registry.execute(
+        WorkflowAction.SendInformation,
+        ProcessManagerBusinessReason.EndOfSupply,
+        mockContext,
+        true,
+        '9999999999999'
+      );
+
+      expect(callback).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('getActorRolesForAction', () => {
+    it('should derive [EnergySupplier] from [ResponsibleEnergySupplier]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.SendInformation]: {
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.SendInformation,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
+
+    it('should derive [EnergySupplier, GridAccessProvider] from [InitiatingParticipant]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [WorkflowAction.SendInformation]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.SendInformation,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier, EicFunction.GridAccessProvider]);
+    });
+
+    it('should deduplicate when concrete and sentinel roles overlap', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            roles: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.GridAccessProvider, EicFunction.EnergySupplier])
+      );
+    });
+
+    it('should return [] when handler has no roles', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.CancelWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return [] for unregistered action', () => {
+      const registry = setupRegistry();
+
+      const result = registry.getActorRolesForAction(
+        WorkflowAction.RejectRequest,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([]);
     });
   });
 });

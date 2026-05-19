@@ -301,6 +301,7 @@ type ChangeProductionObligationPayload {
 }
 
 type Charge {
+  missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
   id: String!
@@ -576,6 +577,7 @@ type ElectricityMarketV2EventDto {
   id: UUID!
   timestamp: DateTime!
   type: String!
+  orchestrationInstanceId: UUID
   dataJson: String!
 }
 
@@ -1202,6 +1204,11 @@ type MissingMeasurementsLogCalculation implements Calculation & OrchestrationIns
   steps: [OrchestrationInstanceStep!]!
 }
 
+type MissingPriceSeriesResult {
+  gaps: [DateTime!]!
+  endsAt: DateTime
+}
+
 type Mutation {
   addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
@@ -1783,6 +1790,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 
@@ -2108,7 +2116,7 @@ input ChargeOverviewItemSortInput {
 input ChargeOverviewQueryInput {
   types: [ChargeType!]
   owners: [String!]
-  resolution: [ChargeResolution!]
+  resolution: [ChargeResolutionInput!]
   activePeriodStart: DateTime
   activePeriodEnd: DateTime
   vatInclusive: Boolean
@@ -2152,7 +2160,7 @@ input CreateChargeInput {
   name: String!
   description: String!
   type: ChargeType!
-  resolution: ChargeResolution!
+  resolution: ChargeResolutionInput!
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
@@ -2953,6 +2961,12 @@ enum ChargeLinkPeriodChangeType {
 
 enum ChargeResolution {
   QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
+}
+
+enum ChargeResolutionInput {
   HOURLY
   DAILY
   MONTHLY

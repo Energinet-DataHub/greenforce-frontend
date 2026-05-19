@@ -18,11 +18,14 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Charges.Types;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -57,7 +60,7 @@ public static partial class ChargeNode
         string name,
         string description,
         ChargeType type,
-        Resolution resolution,
+        [GraphQLType(typeof(NonNullType<ChargeResolutionInputEnumType>))] Resolution resolution,
         DateTimeOffset validFrom,
         bool vat,
         bool? transparentInvoicing,
@@ -110,6 +113,33 @@ public static partial class ChargeNode
         List<ChargePointV2> points,
         CancellationToken ct)
         => await client.AddChargeSeriesAsync(id, start, end, points, ct);
+
+    public static async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
+        [Parent] Charge charge,
+        IChargesClient client,
+        CancellationToken ct)
+    {
+        var periods = charge.Periods.Where(p => p.Status != ChargeStatus.Cancelled).ToList();
+        if (periods.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
+
+        var tz = LocalDateExtensions.DanishTimeZone;
+        var today = DateTimeOffset.Now.ToInstant().InZone(tz).Date;
+        var lookback = today
+            .PlusMonths(-3)
+            .With(DateAdjusters.StartOfMonth)
+            .AtStartOfDayInZone(tz)
+            .ToInstant();
+
+        var maxEnd = DateTimeOffset.UtcNow.AddYears(10).ToInstant();
+        var start = Instant.Max(lookback, periods.Min(p => p.Period.Start));
+        var end = periods.Max(p => p.Period.HasEnd ? p.Period.End : maxEnd);
+
+        return await client.GetMissingPriceSeriesPointsAsync(
+            charge.Id,
+            charge.Resolution,
+            new(start, end),
+            ct);
+    }
 
     public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,

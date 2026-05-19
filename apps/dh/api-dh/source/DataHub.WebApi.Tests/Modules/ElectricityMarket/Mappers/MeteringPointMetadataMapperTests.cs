@@ -46,7 +46,7 @@ public class MeteringPointMetadataMapperTests
             MeterId: MeterNumber,
             SettlementMethod: SettlementMethod.FlexSettled,
             Product: Product.EnergyActive,
-            ProductObligation: true,
+            ProductionObligation: true,
             AssetType: AssetType.WindTurbines,
             AssetCapacity: AssetCapacity,
             PowerLimitKw: PowerLimitKw,

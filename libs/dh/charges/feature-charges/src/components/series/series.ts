@@ -42,8 +42,10 @@ import {
   DhChargesIntervalField,
   DhChargeIntervalPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhChargesSeriesDetails } from './series-details';
+import { DhChargesSeriesGaps } from './series-gaps';
 
 @Component({
   selector: 'dh-charges-series-table',
@@ -60,12 +62,12 @@ import { DhChargesSeriesDetails } from './series-details';
     DhChargesIntervalField,
     DhChargeIntervalPipe,
     DhChargesSeriesDetails,
+    DhChargesSeriesGaps,
     DhDownloadButtonComponent,
+    DhFeatureFlagDirective,
   ],
   template: `
     <watt-data-table
-      vater
-      inset="ml"
       [error]="chargeSeriesQuery.error()"
       [ready]="ready()"
       [enablePaginator]="false"
@@ -73,16 +75,17 @@ import { DhChargesSeriesDetails } from './series-details';
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
-          <dh-charges-interval-field
-            [resolution]="resolution()"
-            (intervalChange)="chargeSeriesQuery.refetch({ interval: $event })"
-          />
+        <vater-stack fill="horizontal" wrap direction="row" align="start" gap="m">
+          <dh-charges-interval-field [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
-            <watt-slide-toggle [(checked)]="showHistory">
-              {{ t('showHistory') }}
-            </watt-slide-toggle>
+            <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
+          <dh-charges-series-gaps
+            *dhFeatureFlag="'charges-missing-prices'"
+            [id]="id()"
+            [resolution]="resolution()"
+            [(date)]="date"
+          />
           <vater-spacer />
           <dh-download-button (click)="download()" />
         </vater-stack>
@@ -137,12 +140,32 @@ export class DhChargesSeriesTable {
     variables: { id: this.id() },
   }));
 
-  protected chargeSeriesQuery = query(GetChargeSeriesDocument, () => ({
-    skip: true,
-    variables: {
-      chargeId: this.id(),
-    },
-  }));
+  protected date = signal<Date>(new Date());
+  protected interval = computed(() => {
+    const start = this.date();
+    const resolution = this.resolution();
+    if (!resolution) return undefined;
+    switch (resolution) {
+      case 'DAILY':
+        return { start, end: dayjs(start).endOf('month').toDate() };
+      case 'MONTHLY':
+        return { start, end: dayjs(start).endOf('year').toDate() };
+      case 'HOURLY':
+      case 'QUARTER_HOURLY':
+        return { start, end: dayjs(start).endOf('day').toDate() };
+    }
+  });
+
+  protected chargeSeriesQuery = query(GetChargeSeriesDocument, () => {
+    const interval = this.interval();
+    if (!interval) return { skip: true };
+    return {
+      variables: {
+        interval,
+        chargeId: this.id(),
+      },
+    };
+  });
 
   ready = computed(() => this.chargeByIdQuery.called() && this.chargeSeriesQuery.called());
 

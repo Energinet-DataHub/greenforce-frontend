@@ -140,12 +140,10 @@ describe('Process overview', () => {
     await user.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
-      expect(router.navigate).toHaveBeenCalledWith([
-        'metering-point',
-        'imp-456',
-        'update-customer-details',
-        expect.any(String),
-      ])
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['metering-point', 'imp-456', 'update-customer-details', expect.any(String)],
+        expect.objectContaining({ queryParams: expect.any(Object) })
+      )
     );
   });
 
@@ -155,11 +153,15 @@ describe('Process overview', () => {
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
-  it('should show warning text instead of buttons for FAS users', async () => {
+  it('should show generic possible-actions text instead of buttons for FAS users', async () => {
     await setup({ isFas: true, actorMarketRole: EicFunction.DataHubAdministrator });
-    await waitForAsync(() =>
-      expect(screen.getAllByText(/can cancel workflow/i).length).toBeGreaterThan(0)
-    );
+    await waitForAsync(() => {
+      const emphasised = screen.getAllByRole('emphasis');
+      const match = emphasised.find((el) =>
+        /Possible actions for actors/i.test(el.textContent ?? '')
+      );
+      expect(match).toBeDefined();
+    });
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 
@@ -181,7 +183,7 @@ describe('Process overview', () => {
 
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
-    expect(screen.queryAllByText(/can cancel workflow/i)).toHaveLength(0);
+    expect(screen.queryAllByText(/Possible actions for actors/i)).toHaveLength(0);
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {

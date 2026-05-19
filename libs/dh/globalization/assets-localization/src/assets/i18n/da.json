@@ -443,6 +443,12 @@
         }
       }
     },
+    "tariff": {
+      "navigation": {
+        "day": "Dag",
+        "week": "Uge"
+      }
+    },
     "actions": {
       "create": {
         "action": {
@@ -569,6 +575,18 @@
     },
     "series": {
       "showHistory": "Historik",
+      "gaps": {
+        "noPrices": "Ingen prisserier",
+        "seriesEndsAt": "Pris slutter",
+        "seriesExpired": "Pris lukket",
+        "gapsFound": "Huller i prisserie",
+        "unit": {
+          "day": "dage",
+          "month": "måneder",
+          "year": "år"
+        },
+        "showGaps": "Vis huller"
+      },
       "resolution": {
         "QUARTER_HOURLY": "Tidspunkt",
         "HOURLY": "Tidspunkt",
@@ -1056,7 +1074,9 @@
         "CustomerMoveOut": "Fraflytning (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
-        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)"
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
+        "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)",
+        "SecondaryMoveIn": "Sekundær tilflytning (BRS-009)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1073,7 +1093,8 @@
         "CustomerMoveOut": "Fraflytning (E66)",
         "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
         "ServiceRequest": "Anmodning om serviceydelse (D22)",
-        "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)"
+        "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)",
+        "ChangeOfEnergySupplier": "Skift af elleverandør (E03)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1081,19 +1102,18 @@
         "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
       },
       "actions": {
+        "fasGenericActions": "Mulige handlinger for aktører",
         "EndOfSupply": {
           "SEND_INFORMATION": "Anmod om serviceydelse",
-          "FAS_SEND_INFORMATION": "El kan anmode om serviceydelse",
           "CANCEL_WORKFLOW": "Annuller",
-          "FAS_CANCEL_WORKFLOW": "Net og el kan annullere workflow",
           "CONFIRM_WORKFLOW": "Anmod om afbrydelse",
-          "FAS_CONFIRM_WORKFLOW": "Netvirksomhed kan anmode om afbrydelse",
-          "REJECT_REQUEST": "Afvis anmodning",
-          "FAS_REJECT_REQUEST": "Net kan afvise anmodning"
+          "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information",
-          "FAS_SEND_INFORMATION": "Net og el kan sende information"
+          "SEND_INFORMATION": "Send information"
+        },
+        "ChangeOfEnergySupplier": {
+          "SEND_INFORMATION": "Send information"
         }
       },
       "rejectProcess": {
@@ -1127,6 +1147,11 @@
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
+      "fasActionInfoModal": {
+        "title": "Handlingen kan ikke udføres",
+        "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",
+        "confirm": "Forstået"
+      },
       "disconnectProcess": {
         "title": "Anmod om afbrydelse",
         "validityDateLabel": "Gyldighedsdato",
@@ -1159,11 +1184,17 @@
         },
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om leverandørskifte (RSM-001)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af anmodning om leverandørskifte (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af anmodning om leverandørskifte (RSM-001)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4": "Information om målepunktsstamdata til fremtidig elleverandør (RSM-022)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5": "Information om kundestamdata til fremtidig elleverandør (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Information om pristilknytninger til fremtidig elleverandør (RSM-031)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Information om kundestamdata til netvirksomhed (RSM-028)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Anmodning om ændring af kundestamdata (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Godkendelse af ændring af kundestamdata (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af ændring af kundestamdata (RSM-027)",
+        "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
+        "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
@@ -1180,6 +1211,7 @@
         "BRS_002_REQUESTFORCHANGEOFCONNECTIONSTATUS_V1_STEP_5": "Information om kundestamdata (RSM-028)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_1": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_2": "Godkendelse af anmodning om afbrydelse (RSM-020)",
+        "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_3": "Afvisning af anmodning om afbrydelse (RSM-020)",
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information om annullering pga. manglende afbrydelse (RSM-004)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information om annullering pga. manglende afbrydelse (RSM-004)",
@@ -1204,7 +1236,7 @@
         "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_10": "Information om tilflytning (RSM-004)",
-        "BRS_009_MOVEIN_V1_STEP_11": "Information om kundestamdata (RSM-028)",
+        "BRS_009_AUTOTERMINATION_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Information om stop af leverance (RSM-004)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
@@ -1213,10 +1245,13 @@
         "BRS_009_VALIDITYDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_009_MOVEINCANCELLATION_V1_STEP_1": "Anmodning om annullering af tilflytning (RSM-024)",
+        "BRS_009_MOVEINCANCELLATION_V1_STEP_2": "Godkendelse af annullering af tilflytning (RSM-024)",
+        "BRS_009_MOVEINCANCELLATION_V1_STEP_3": "Afvisning af annullering af tilflytning (RSM-024)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Anmod om fraflytning (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Godkend anmod om fraflytning (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Afvis anmod om fraflytning (RSM-005)",
-        "BRS_010_EXECUTIONDATE_V1_STEP_1": "Information om kundestamdata til netvirksomhed (RSM-028)",
+        "BRS_010_VALIDITYDATE_V1_STEP_1": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_1": "Anmod om annullering af fraflytning (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_2": "Godkend anmod om annullering af fraflytning (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_3": "Afvis anmod om annullering af fraflytning (RSM-024)",
@@ -1260,11 +1295,15 @@
       "details": {
         "notFound": "Process ikke fundet",
         "noSteps": "Ingen trin tilgængelige for denne process",
+        "showPossibleActions": "Vis mulige handlinger",
+        "hidePossibleActions": "Skjul mulige handlinger",
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
+          "processId": "Proces ID",
           "businessReason": "Årsagskode",
-          "initiator": "Initierende aktør"
+          "initiator": "Initierende aktør",
+          "copy": "Kopier"
         },
         "columns": {
           "step": "Trin",
@@ -1423,11 +1462,17 @@
           "containsLetters": "Må ikke indeholde bogstaver",
           "containsDash": "Må ikke indeholde bindestreg",
           "invalidCprLength": "Skal bestå af 10 cifre",
-          "invalidDate": "Ugyldig dato",
+          "invalidDate": "Fødselsdato i CPR er ugyldig",
           "allOnes": "Må ikke bruges"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
-        "nameProtection": "Navnebeskyttelse"
+        "nameProtection": "Navnebeskyttelse",
+        "editCprModal": {
+          "title": "Rediger CPR?",
+          "description": "Fremsøgning af CPR-numre logges i henhold til gældende lovgivning. Du må kun tilgå CPR-data, når der foreligger et sagligt og lovligt formål. Vil du fortsætte?",
+          "yes": "Ja",
+          "no": "Nej"
+        }
       },
       "contactDetails": {
         "label": "Kontakdetaljer",
@@ -1591,6 +1636,13 @@
       "private": "Privat",
       "business": "Erhverv",
       "cpr": "CPR",
+      "cprError": {
+        "containsLetters": "{{ meteringPoint.moveIn.customerDetails.cprError.containsLetters }}",
+        "containsDash": "{{ meteringPoint.moveIn.customerDetails.cprError.containsDash }}",
+        "invalidCprLength": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidCprLength }}",
+        "invalidDate": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidDate }}",
+        "allOnes": "{{ meteringPoint.moveIn.customerDetails.cprError.allOnes }}"
+      },
       "cvr": "CVR",
       "protectedNameAndAddress": "Navne- og adressebeskyttelse",
       "cancel": "Annuller",
@@ -2365,7 +2417,7 @@
         "nameMaxLength": "{{ marketParticipant.actor.create.nameMaxLength }}",
         "departmentNameMaxLength": "Navn skal være under {{ maxLength }} karakterer",
         "cancel": "Fortryd",
-        "save": "Gem ændringer",
+        "save": "Gem",
         "updateRequest": {
           "success": "Ændringer gemt",
           "error": "Der opstod desværre en fejl, da vi skulle gemme aktøren."
@@ -2479,7 +2531,7 @@
       "BalanceResponsibleParty": "Er ansvarlig for sine ubalancer, dvs. forskellen mellem den energimængde, der fysisk tilføres eller trækkes ud af systemet, og den endelige nominerede energimængde, inklusive enhver ubalancejustering inden for en given ubalanceafviklingsperiode.",
       "BillingAgent": "Ansvarlig for at fakturere en anden part (TSO)",
       "EnergySupplier": "Afregner elektricitet til eller fra et målepunkt",
-      "GridAccessProvider": "Ansvarlig for håndtering af målepunktpunkter",
+      "GridAccessProvider": "Ansvarlig for håndteringen af målepunkter",
       "ImbalanceSettlementResponsible": "Ansvarlig for afregning af forskellen mellem de aftalte mængder med fysisk levering og de fastsatte mængder af energiprodukter for de balanceansvarlige i et planlægningsområde. Bemærk: Den ansvarlige for ubalanceafvikling kan uddelegere faktureringsansvaret til en mere generisk rolle, såsom en faktureringsagent.",
       "MeteredDataAdministrator": "Ansvarlig for lagring og distribution af aggregerede data",
       "MeteredDataResponsible": "Ansvarlig for etablering og validering af målte data baseret på de indsamlede data modtaget fra måledataindsamleren. Parten er ansvarlig for historikken for målte data for et målepunkt.",
@@ -3338,8 +3390,8 @@
                   "Inactive": "Deaktiveret"
                 },
                 "roles": {
-                  "NAME": "<b>{{ auditedBy }}</b> ændrede navn på brugerrollen til <b>{{ currentValue }}</b>",
-                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelse til <b>{{ currentValue }}</b>",
+                  "NAME": "<b>{{ auditedBy }}</b> ændrede navnet på brugerrollen til <b>{{ currentValue }}</b>",
+                  "DESCRIPTION": "<b>{{ auditedBy }}</b> ændrede beskrivelsen til <b>{{ currentValue }}</b>",
                   "STATUS": "<b>{{ auditedBy }}</b> ændrede status til <b>{{ status }}</b>",
                   "PERMISSION_ADDED": "<b>{{ auditedBy }}</b> tilføjede rettigheden <b>{{ affectedPermissionName }}</b>",
                   "PERMISSION_REMOVED": "<b>{{ auditedBy }}</b> fjernede rettigheden <b>{{ affectedPermissionName }}</b>"

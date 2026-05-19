@@ -23,12 +23,14 @@ import {
   mockGetChargeOverviewQuery,
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
+  mockGetMissingPriceSeriesPointsQuery,
   mockGetChargeByTypeQuery,
   mockGetChargeLinkPeriodsQuery,
   mockGetChargeLinkPeriodByIdQuery,
   mockStopChargeLinkMutation,
   mockCancelChargeLinkMutation,
   mockEditChargeLinkMutation,
+  mockGetChargeWeekSeriesQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import {
@@ -72,7 +74,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
@@ -81,13 +83,22 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.QuarterHourly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [
+        new Date('2022-03-14T23:00:00Z'),
+        new Date('2022-06-19T22:00:00Z'),
+        new Date('2022-08-31T22:00:00Z'),
+      ],
+      endsAt: new Date('2022-09-29T22:00:00Z'),
+    },
   },
   {
     __typename: 'Charge',
@@ -115,7 +126,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
@@ -124,13 +135,18 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CURRENT',
         transparentInvoicing: false,
         vatInclusive: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Hourly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [new Date('2022-04-09T22:00:00Z')],
+      endsAt: new Date('2022-10-14T22:00:00Z'),
+    },
   },
   {
     __typename: 'Charge',
@@ -158,7 +174,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
@@ -167,13 +183,18 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Daily) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
   {
     __typename: 'Charge',
@@ -201,7 +222,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
@@ -210,13 +231,18 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
   {
     __typename: 'Charge',
@@ -235,7 +261,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     code: 'CHARGE005',
     displayName: 'CHARGE005 • Connection Fee',
     status: ChargeStatus.Current,
-    resolution: ChargeResolution.Monthly,
+    resolution: ChargeResolution.Daily,
     spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
@@ -244,7 +270,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'Initial period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CLOSED',
         transparentInvoicing: true,
         vatInclusive: false,
@@ -253,13 +279,18 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
         __typename: 'ChargePeriod',
         name: 'Period 2022',
         description: 'current period',
-        period: { start: new Date('2022-01-01T00:00:00Z'), end: new Date('2022-12-31T23:59:59Z') },
+        period: { start: new Date('2021-12-31T23:00:00Z'), end: new Date('2022-12-31T22:59:59Z') },
         status: 'CURRENT',
         transparentInvoicing: true,
         vatInclusive: false,
       },
     ],
     series: interval ? makeChargeSeriesListMock(interval, ChargeResolution.Monthly) : [],
+    missingPriceSeriesPoints: {
+      __typename: 'MissingPriceSeriesResult' as const,
+      gaps: [],
+      endsAt: null,
+    },
   },
 ];
 
@@ -455,6 +486,63 @@ function getChargeSeries() {
   });
 }
 
+function getMissingPriceSeriesPoints() {
+  return mockGetMissingPriceSeriesPointsQuery(async ({ variables: { chargeId } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock();
+    const charge = charges.find((c) => c.id === chargeId);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeById: charge
+          ? {
+              __typename: 'Charge',
+              id: charge.id,
+              missingPriceSeriesPoints: charge.missingPriceSeriesPoints,
+            }
+          : null,
+      },
+    });
+  });
+}
+
+function getChargeWeekSeries() {
+  return mockGetChargeWeekSeriesQuery(async ({ variables: { chargeId, interval } }) => {
+    await delay(mswConfig.delay);
+    const charges = makeChargesMock(interval);
+    const chargeInformation = charges.find((c) => c.id === chargeId);
+
+    if (chargeInformation === undefined) {
+      return HttpResponse.json({
+        data: {
+          __typename: 'Query',
+          chargeById: null,
+        },
+      });
+    }
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        chargeById: {
+          __typename: 'Charge',
+          id: chargeInformation.id,
+          series: chargeInformation.series.map((point) => ({
+            __typename: 'ChargeSeriesPoint',
+            price: point.price,
+            interval: {
+              start: point.interval.start,
+              end: point.interval.end,
+            },
+            hasChanged: point.hasChanged,
+          })),
+        },
+      },
+    });
+  });
+}
+
 function getChargeLinkPeriods() {
   return mockGetChargeLinkPeriodsQuery(async () => {
     await delay(mswConfig.delay);
@@ -553,6 +641,8 @@ export function chargesMocks() {
     stopChargeLink(),
     editChargeLink(),
     getChargeSeries(),
+    getMissingPriceSeriesPoints(),
+    getChargeWeekSeries(),
     cancelChargeLink(),
     getChargesByType(),
     getChargeLinkPeriods(),
