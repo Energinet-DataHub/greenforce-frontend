@@ -28,9 +28,9 @@ public record ChargeLinkPeriodChange(
             ? CurrentPeriod.To.Value.ToDateTimeOffset()
             : CurrentPeriod.From.ToDateTimeOffset();
 
-    public static IEnumerable<ChargeLinkPeriodChange> FromPeriods(IEnumerable<HistoricalChargeLinkPeriodDto> periods)
+    public static List<ChargeLinkPeriodChange> FromPeriods(IEnumerable<HistoricalChargeLinkPeriodDto> periods)
     {
-        var sorted = periods.OrderBy(p => p.Created);
+        var sorted = periods.OrderBy(p => p.Created).ToList();
         var first = sorted
             .Take(1)
             .Select(p => new ChargeLinkPeriodChange(ChargeLinkPeriodChangeType.Started, p, null));
