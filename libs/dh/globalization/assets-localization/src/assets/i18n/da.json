@@ -1104,11 +1104,16 @@
           "REJECT_REQUEST": "Afvis anmodning"
         },
         "CustomerMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "REQUEST_CORRECTION": "Anmod om korrektion"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information"
         }
+      },
+      "incorrectMoveIn": {
+        "successToast": "Anmodning er registreret i DataHub",
+        "errorToast": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
       },
       "rejectProcess": {
         "title": "Leveranceophør - serviceanmodning afvist",
