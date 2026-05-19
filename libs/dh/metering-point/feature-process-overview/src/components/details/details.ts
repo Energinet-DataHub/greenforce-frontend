@@ -29,8 +29,9 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
+import { WattDatePipe } from '@energinet/watt/date';
 import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
@@ -58,12 +59,13 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
+    WattButtonComponent,
+    WattCopyToClipboardDirective,
     WattDatePipe,
+    WattExpandableLinkComponent,
     DhEmDashFallbackPipe,
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
-    WattButtonComponent,
-    WattExpandableLinkComponent,
     VaterGridComponent,
     VaterStackComponent,
     SupportedActionsPipe,
@@ -121,6 +123,12 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
             [label]="t('details.list.cutoff')"
             [value]="cutoffDate() | wattDate | dhEmDashFallback"
           />
+
+          <watt-description-list-item [label]="t('details.list.processId')">
+            <watt-button variant="text" icon="contentCopy" [wattCopyToClipboard]="id()">
+              {{ t('details.list.copy') }}
+            </watt-button>
+          </watt-description-list-item>
 
           @if (businessReason() !== 'ProductionObligation') {
             <watt-description-list-item
