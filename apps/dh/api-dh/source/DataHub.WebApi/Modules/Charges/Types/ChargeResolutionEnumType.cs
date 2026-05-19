@@ -14,14 +14,14 @@
 
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Common.Types;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-public class ResolutionEnumType : EnumType<Resolution>
+public class ChargeResolutionEnumType : EnumType<Resolution>
 {
     protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
     {
         descriptor
-            .Name("ChargeResolution") // TODO: Rename to "Resolution" by aligning all enums!
+            .Name("ChargeResolution")
             .BindValuesExplicitly();
 
         descriptor.Value(Resolution.QuarterHourly);

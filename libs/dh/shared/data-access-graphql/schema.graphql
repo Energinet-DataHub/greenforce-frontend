@@ -2105,7 +2105,7 @@ input ChargeOverviewItemSortInput {
 input ChargeOverviewQueryInput {
   types: [ChargeType!]
   owners: [String!]
-  resolution: [ChargeResolution!]
+  resolution: [ChargeResolutionInput!]
   activePeriodStart: DateTime
   activePeriodEnd: DateTime
   vatInclusive: Boolean
@@ -2149,7 +2149,7 @@ input CreateChargeInput {
   name: String!
   description: String!
   type: ChargeType!
-  resolution: ChargeResolution!
+  resolution: ChargeResolutionInput!
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
@@ -2943,6 +2943,12 @@ enum ChangeOfSupplierBusinessReason {
 
 enum ChargeResolution {
   QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
+}
+
+enum ChargeResolutionInput {
   HOURLY
   DAILY
   MONTHLY

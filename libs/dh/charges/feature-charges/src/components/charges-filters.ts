@@ -25,7 +25,7 @@ import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 import {
   ChargeType,
   EicFunction,
-  ChargeResolution,
+  ChargeResolutionInput,
   ChargeOverviewQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -134,7 +134,7 @@ export class DhChargesFilters {
 
   filter = model<ChargeOverviewQueryInput>({});
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
+  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolutionInput);
   moreOptions = computed(() => this.getMoreOptions());
   owners = computed(() => {
     const options = this.actorOptions();
@@ -162,7 +162,7 @@ export class DhChargesFilters {
       ),
       activePeriodStart: dhMakeFormControl<Date>(),
       activePeriodEnd: dhMakeFormControl<Date>(),
-      resolution: dhMakeFormControl<ChargeResolution[]>(),
+      resolution: dhMakeFormControl<ChargeResolutionInput[]>(),
       moreOptions: dhMakeFormControl<string[] | null>(null),
     });
   });
