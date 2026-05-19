@@ -125,7 +125,7 @@ import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
           [header]="false"
           [enablePaginator]="false"
           [error]="details.error()"
-          [ready]="details.called() && !details.loading()"
+          [ready]="details.called()"
         >
           <watt-table
             *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
