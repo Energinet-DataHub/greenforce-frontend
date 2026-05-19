@@ -1291,8 +1291,10 @@
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",
+          "processId": "Process ID",
           "businessReason": "Reason code",
-          "initiator": "Initiating participant"
+          "initiator": "Initiating participant",
+          "copy": "Copy"
         },
         "columns": {
           "step": "Step",

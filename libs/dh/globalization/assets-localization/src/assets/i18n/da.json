@@ -1290,8 +1290,10 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
+          "processId": "Proces ID",
           "businessReason": "Årsagskode",
-          "initiator": "Initierende aktør"
+          "initiator": "Initierende aktør",
+          "copy": "Kopier"
         },
         "columns": {
           "step": "Trin",
