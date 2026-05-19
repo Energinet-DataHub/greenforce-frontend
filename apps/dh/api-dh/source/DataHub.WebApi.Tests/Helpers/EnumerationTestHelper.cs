@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
 using HotChocolate;
