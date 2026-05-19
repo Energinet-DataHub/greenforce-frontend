@@ -16,18 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable } from '@angular/core';
-import { translate } from '@jsverse/transloco';
-
-import { WattToastService } from '@energinet/watt/toast';
+import { effect, Injectable } from '@angular/core';
 
 import { RequestIncorrectMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 
 @Injectable({ providedIn: 'root' })
 export class RequestIncorrectMoveIn {
-  private readonly toastService = inject(WattToastService);
   private readonly requestIncorrectMoveIn = mutation(RequestIncorrectMoveInDocument);
+
+  private readonly toast = injectToast('meteringPoint.processOverview.incorrectMoveIn.toast');
+  toastEffect = effect(() => this.toast(this.requestIncorrectMoveIn.status()));
 
   request(processId: string, meteringPointId: string, cutoffDate: Date) {
     this.requestIncorrectMoveIn.mutate({
@@ -36,24 +36,6 @@ export class RequestIncorrectMoveIn {
         meteringPointId,
         cutoffDate,
       },
-      onCompleted: (result) => {
-        if (result.requestIncorrectMoveIn.success) {
-          this.toastService.open({
-            type: 'success',
-            message: translate('meteringPoint.processOverview.incorrectMoveIn.successToast'),
-          });
-        } else {
-          this.onError();
-        }
-      },
-      onError: () => this.onError(),
-    });
-  }
-
-  private onError() {
-    this.toastService.open({
-      type: 'danger',
-      message: translate('meteringPoint.processOverview.incorrectMoveIn.errorToast'),
     });
   }
 }

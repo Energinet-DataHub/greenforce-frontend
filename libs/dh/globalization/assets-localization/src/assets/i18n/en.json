@@ -1113,8 +1113,11 @@
         }
       },
       "incorrectMoveIn": {
-        "successToast": "The request has been registered in DataHub",
-        "errorToast": "Something went wrong. The request could not be completed. Please try again."
+        "toast": {
+          "loading": "Submitting the request...",
+          "success": "The request has been registered in DataHub",
+          "error": "Something went wrong. The request could not be completed. Please try again."
+        }
       },
       "rejectProcess": {
         "title": "End of supply - service request rejected",
