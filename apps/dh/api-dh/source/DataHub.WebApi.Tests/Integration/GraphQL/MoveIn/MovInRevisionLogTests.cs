@@ -20,8 +20,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestReallocateChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -116,17 +116,17 @@ public class MoveInRevisionLogTests
     }
 
     [Fact]
-    [RevisionLogTest("MoveInOperations.RequestReallocateChangeOfSupplierAsync")]
-    public async Task RequestReallocateChangeOfSupplierAsync()
+    [RevisionLogTest("MoveInOperations.RequestIncorrectMoveInAsync")]
+    public async Task RequestIncorrectMoveInAsync()
     {
         var operation =
             $$"""
               mutation (
-                $processId: String!
+                $processId: UUID!
                 $meteringPointId: String!
                 $cutoffDate: DateTime!
               ) {
-                requestReallocateChangeOfSupplier(input: {
+                requestIncorrectMoveIn(input: {
                   processId: $processId,
                   meteringPointId: $meteringPointId,
                   cutoffDate: $cutoffDate
@@ -138,8 +138,8 @@ public class MoveInRevisionLogTests
 
         var server = new GraphQLTestService();
         server.EdiB2CClientMock
-            .Setup(x => x.SendAsync(It.IsAny<RequestReallocateChangeOfSupplierCommandV1>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<RequestReallocateChangeOfSupplierResponseV1>.Success(new RequestReallocateChangeOfSupplierResponseV1("test")));
+            .Setup(x => x.SendAsync(It.IsAny<RequestIncorrectMoveInCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestIncorrectMoveInResponseV1>.Success(new RequestIncorrectMoveInResponseV1("test")));
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
             server,

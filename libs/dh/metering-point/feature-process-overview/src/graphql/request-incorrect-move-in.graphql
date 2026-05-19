@@ -1,9 +1,9 @@
-mutation RequestReallocateChangeOfSupplier(
-  $processId: String!
+mutation RequestIncorrectMoveIn(
+  $processId: UUID!
   $meteringPointId: String!
   $cutoffDate: DateTime!
 ) {
-  requestReallocateChangeOfSupplier(
+  requestIncorrectMoveIn(
     input: { processId: $processId, meteringPointId: $meteringPointId, cutoffDate: $cutoffDate }
   ) {
     success: boolean

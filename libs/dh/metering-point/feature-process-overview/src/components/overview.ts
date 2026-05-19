@@ -49,7 +49,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { RequestReallocateChangeOfSupplier } from '../actions/customer-move-in/request-reallocate-change-of-supplier';
+import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -184,7 +184,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly requestReallocateChangeOfSupplier = inject(RequestReallocateChangeOfSupplier);
+  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -271,10 +271,6 @@ export class DhMeteringPointProcessOverviewTable {
 
     assertIsDefined(process.cutoffDate);
 
-    this.requestReallocateChangeOfSupplier.request(
-      process.id,
-      this.meteringPointId(),
-      process.cutoffDate
-    );
+    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
   }
 }

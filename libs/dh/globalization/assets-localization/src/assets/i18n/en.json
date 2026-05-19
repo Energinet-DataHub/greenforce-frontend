@@ -1111,7 +1111,7 @@
           "SEND_INFORMATION": "Send information"
         }
       },
-      "reallocateChangeOfSupplier": {
+      "incorrectMoveIn": {
         "successToast": "The request has been registered in DataHub",
         "errorToast": "Something went wrong. The request could not be completed. Please try again."
       },

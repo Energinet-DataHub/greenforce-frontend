@@ -17,34 +17,30 @@
  */
 //#endregion
 import { inject, Injectable } from '@angular/core';
+import { translate } from '@jsverse/transloco';
 
 import { WattToastService } from '@energinet/watt/toast';
 
-import { RequestReallocateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { RequestIncorrectMoveInDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { translate } from '@jsverse/transloco';
 
 @Injectable({ providedIn: 'root' })
-export class RequestReallocateChangeOfSupplier {
+export class RequestIncorrectMoveIn {
   private readonly toastService = inject(WattToastService);
-  private readonly requestReallocateChangeOfSupplier = mutation(
-    RequestReallocateChangeOfSupplierDocument
-  );
+  private readonly requestIncorrectMoveIn = mutation(RequestIncorrectMoveInDocument);
 
   request(processId: string, meteringPointId: string, cutoffDate: Date) {
-    this.requestReallocateChangeOfSupplier.mutate({
+    this.requestIncorrectMoveIn.mutate({
       variables: {
         processId,
         meteringPointId,
         cutoffDate,
       },
       onCompleted: (result) => {
-        if (result.requestReallocateChangeOfSupplier.success) {
+        if (result.requestIncorrectMoveIn.success) {
           this.toastService.open({
             type: 'success',
-            message: translate(
-              'meteringPoint.processOverview.reallocateChangeOfSupplier.successToast'
-            ),
+            message: translate('meteringPoint.processOverview.incorrectMoveIn.successToast'),
           });
         } else {
           this.onError();
@@ -57,7 +53,7 @@ export class RequestReallocateChangeOfSupplier {
   private onError() {
     this.toastService.open({
       type: 'danger',
-      message: translate('meteringPoint.processOverview.reallocateChangeOfSupplier.errorToast'),
+      message: translate('meteringPoint.processOverview.incorrectMoveIn.errorToast'),
     });
   }
 }

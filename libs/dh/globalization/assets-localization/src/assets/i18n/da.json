@@ -1110,7 +1110,7 @@
           "SEND_INFORMATION": "Send information"
         }
       },
-      "reallocateChangeOfSupplier": {
+      "incorrectMoveIn": {
         "successToast": "Anmodning er registreret i DataHub",
         "errorToast": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
       },

@@ -1244,9 +1244,9 @@ type Mutation {
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
+  requestIncorrectMoveIn(input: RequestIncorrectMoveInInput!): RequestIncorrectMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
-  requestReallocateChangeOfSupplier(input: RequestReallocateChangeOfSupplierInput!): RequestReallocateChangeOfSupplierPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
@@ -1637,6 +1637,10 @@ type RequestEndOfSupplyPayload {
   boolean: Boolean
 }
 
+type RequestIncorrectMoveInPayload {
+  boolean: Boolean
+}
+
 type RequestMeasurementsReportPayload {
   boolean: Boolean
 }
@@ -1652,10 +1656,6 @@ type RequestOptions {
 }
 
 type RequestPayload {
-  boolean: Boolean
-}
-
-type RequestReallocateChangeOfSupplierPayload {
   boolean: Boolean
 }
 
@@ -2451,6 +2451,12 @@ input RequestEndOfSupplyInput {
   terminationDate: DateTime!
 }
 
+input RequestIncorrectMoveInInput {
+  processId: UUID!
+  meteringPointId: String!
+  cutoffDate: DateTime!
+}
+
 input RequestInput @oneOf {
   requestCalculatedEnergyTimeSeries: RequestCalculatedEnergyTimeSeriesInput
   requestCalculatedWholesaleServices: RequestCalculatedWholesaleServicesInput
@@ -2471,12 +2477,6 @@ input RequestMeasurementsReportInput {
 input RequestMissingMeasurementsLogInput {
   period: DateRange!
   gridAreaCodes: [String!]!
-}
-
-input RequestReallocateChangeOfSupplierInput {
-  processId: String!
-  meteringPointId: String!
-  cutoffDate: DateTime!
 }
 
 input RequestServiceEndOfSupplyInput {
