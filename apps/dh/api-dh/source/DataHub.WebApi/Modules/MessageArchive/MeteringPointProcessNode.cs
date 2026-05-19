@@ -98,7 +98,7 @@ public static partial class MeteringPointProcessNode
             Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
-            ActorNumber: step.Actor?.ActorNumber.Value ?? string.Empty,
+            ActorNumber: step.Actor?.ActorNumber?.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
             MessageId: step.ArchivedMessageId?.ToString(),
