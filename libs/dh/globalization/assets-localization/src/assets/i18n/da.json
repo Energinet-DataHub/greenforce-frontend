@@ -1294,8 +1294,10 @@
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
+          "processId": "Proces ID",
           "businessReason": "Årsagskode",
-          "initiator": "Initierende aktør"
+          "initiator": "Initierende aktør",
+          "copy": "Kopier"
         },
         "columns": {
           "step": "Trin",
@@ -1454,7 +1456,7 @@
           "containsLetters": "Må ikke indeholde bogstaver",
           "containsDash": "Må ikke indeholde bindestreg",
           "invalidCprLength": "Skal bestå af 10 cifre",
-          "invalidDate": "Ugyldig dato",
+          "invalidDate": "Fødselsdato i CPR er ugyldig",
           "allOnes": "Må ikke bruges"
         },
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
@@ -1628,6 +1630,13 @@
       "private": "Privat",
       "business": "Erhverv",
       "cpr": "CPR",
+      "cprError": {
+        "containsLetters": "{{ meteringPoint.moveIn.customerDetails.cprError.containsLetters }}",
+        "containsDash": "{{ meteringPoint.moveIn.customerDetails.cprError.containsDash }}",
+        "invalidCprLength": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidCprLength }}",
+        "invalidDate": "{{ meteringPoint.moveIn.customerDetails.cprError.invalidDate }}",
+        "allOnes": "{{ meteringPoint.moveIn.customerDetails.cprError.allOnes }}"
+      },
       "cvr": "CVR",
       "protectedNameAndAddress": "Navne- og adressebeskyttelse",
       "cancel": "Annuller",
