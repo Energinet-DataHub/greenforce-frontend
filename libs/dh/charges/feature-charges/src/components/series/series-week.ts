@@ -28,7 +28,7 @@ import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
-import { dayjs, WattRange } from '@energinet/watt/core/date';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
 import { dataSource, WATT_TABLE, WattTableColumn, WattTableColumnDef } from '@energinet/watt/table';
 import {
   WattDatepickerComponent,
@@ -60,6 +60,7 @@ import { DhChargesWeekRow } from '../../types';
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattDatepickerComponent,
+    WattDatePipe,
     DhChargeIntervalPipe,
   ],
   styles: `
@@ -219,8 +220,8 @@ export class DhChargesSeriesWeekTable {
       // DST ends -> we gain an hour.
       //
       // Return 25 here, because:
-      //   - in the UI we want to show the additional hour as separate rows when DST starts, or
-      //   - in the UI we want to show the repeated hour as a separate row when DST ends
+      //   - when DST starts, the transition hour is represented as a separate row, or
+      //   - when DST ends, the repeated hour is represented as a separate row
       return 25;
     }
 
