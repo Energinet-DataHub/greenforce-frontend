@@ -12,20 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Modules.Charges.Types;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
-using HotChocolate.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-public record ChargeOverviewQuery(
-    ChargeType[]? Types,
-    string[]? Owners,
-    [property: GraphQLType(typeof(ListType<NonNullType<ChargeResolutionInputEnumType>>))]
-    Resolution[]? Resolution,
-    DateTimeOffset? ActivePeriodStart,
-    DateTimeOffset? ActivePeriodEnd,
-    bool? VatInclusive,
-    bool? TransparentInvoicing,
-    bool? SpotDependingPrice,
-    bool? MissingPriceSeries);
+public class ChargeResolutionInputEnumType : EnumType<Resolution>
+{
+    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    {
+        descriptor
+            .Name("ChargeResolutionInput")
+            .BindValuesExplicitly();
+
+        descriptor.Value(Resolution.Hourly);
+        descriptor.Value(Resolution.Daily);
+        descriptor.Value(Resolution.Monthly);
+    }
+}
