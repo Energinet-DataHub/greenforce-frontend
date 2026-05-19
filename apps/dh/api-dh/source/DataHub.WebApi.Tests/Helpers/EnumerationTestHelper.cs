@@ -13,7 +13,11 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Energinet.DataHub.WebApi.Modules.Common.Utilities;
+using HotChocolate;
+using HotChocolate.Types;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Helpers;
@@ -54,6 +58,42 @@ public static class EnumerationTestHelper
         where T : Enumeration<T>
     {
         foreach (var option in Enumeration<T>.GetAll())
+        {
+            try
+            {
+                castOrThrow(option);
+            }
+            catch (Exception)
+            {
+                Assert.Fail($"""
+
+                    Unable to cast "{option.Name}" to "{type.Name}".
+                    Has there been any changes to "{type.Name}"?
+
+                """);
+            }
+        }
+    }
+
+    public static void TestCastFromEnumType<T>(Type enumType, Type type)
+        where T : Enumeration<T> => TestCustomCastFromEnumType<T>(enumType, type, r => r.Cast(type));
+
+    public static void TestCustomCastFromEnumType<T>(Type enumType, Type type, Func<T, object> castOrThrow)
+        where T : Enumeration<T>
+    {
+        var values = SchemaBuilder
+            .New()
+            .AddQueryType(d => d.Name("Query").Field("dummy").Resolve("dummy"))
+            .AddType(enumType)
+            .Create()
+            .Types
+            .OfType<IEnumType>()
+            .First(t => t.GetType() == enumType)
+            .Values
+            .Select(v => v.Value)
+            .Cast<T>();
+
+        foreach (var option in values)
         {
             try
             {
