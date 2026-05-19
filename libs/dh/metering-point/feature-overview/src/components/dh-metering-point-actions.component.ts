@@ -299,6 +299,7 @@ export class DhMeteringPointActionsComponent {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
       },
+      disableClose: true,
     });
   }
 
