@@ -28,7 +28,6 @@
 @mixin focus-ring {
   outline: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
   outline-offset: var(--watt-button-focus-offset);
-  border-radius: 8px;
 }
 
 @mixin primary-hover {
@@ -207,6 +206,7 @@ watt-button {
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
+      border-radius: var(--watt-radius-m);
       --mat-button-text-label-text-tracking: 0;
       --mat-button-text-state-layer-color: var(--watt-ripple-color);
       --mat-button-text-ripple-color: var(--watt-ripple-color);
