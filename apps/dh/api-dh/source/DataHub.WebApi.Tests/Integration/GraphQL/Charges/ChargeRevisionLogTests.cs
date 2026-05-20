@@ -74,7 +74,7 @@ public class ChargeRevisionLogTests
                 $name: String!
                 $description: String!
                 $type: ChargeType!
-                $resolution: ChargeResolution!
+                $resolution: ChargeResolutionInput!
                 $validFrom: DateTime!
                 $vat: Boolean!
               ) {

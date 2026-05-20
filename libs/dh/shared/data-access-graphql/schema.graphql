@@ -1254,6 +1254,7 @@ type Mutation {
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
+  requestIncorrectMoveIn(input: RequestIncorrectMoveInInput!): RequestIncorrectMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
@@ -1643,6 +1644,10 @@ type RequestConnectionStateChangePayload {
 }
 
 type RequestEndOfSupplyPayload {
+  boolean: Boolean
+}
+
+type RequestIncorrectMoveInPayload {
   boolean: Boolean
 }
 
@@ -2125,7 +2130,7 @@ input ChargeOverviewItemSortInput {
 input ChargeOverviewQueryInput {
   types: [ChargeType!]
   owners: [String!]
-  resolution: [ChargeResolution!]
+  resolution: [ChargeResolutionInput!]
   activePeriodStart: DateTime
   activePeriodEnd: DateTime
   vatInclusive: Boolean
@@ -2169,7 +2174,7 @@ input CreateChargeInput {
   name: String!
   description: String!
   type: ChargeType!
-  resolution: ChargeResolution!
+  resolution: ChargeResolutionInput!
   validFrom: DateTime!
   vat: Boolean!
   transparentInvoicing: Boolean
@@ -2464,6 +2469,12 @@ input RequestConnectionStateChangeInput {
 input RequestEndOfSupplyInput {
   meteringPointId: String!
   terminationDate: DateTime!
+}
+
+input RequestIncorrectMoveInInput {
+  processId: UUID!
+  meteringPointId: String!
+  cutoffDate: DateTime!
 }
 
 input RequestInput @oneOf {
@@ -2963,6 +2974,12 @@ enum ChangeOfSupplierBusinessReason {
 
 enum ChargeResolution {
   QUARTER_HOURLY
+  HOURLY
+  DAILY
+  MONTHLY
+}
+
+enum ChargeResolutionInput {
   HOURLY
   DAILY
   MONTHLY
@@ -3616,6 +3633,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS
   REJECT_REQUEST_BILLING_MASTER_DATA
   REJECT_REQUEST_PRICE_LIST
+  REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
 }
 
 enum ParticipantType {

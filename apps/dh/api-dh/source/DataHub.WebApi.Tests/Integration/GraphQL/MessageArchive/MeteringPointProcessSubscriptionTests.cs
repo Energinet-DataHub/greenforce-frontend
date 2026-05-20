@@ -119,7 +119,8 @@ public class MeteringPointProcessSubscriptionTests
                 State: WorkflowInstanceLifecycleState.Sleeping,
                 TerminationState: null,
                 CreatedAt: new DateTimeOffset(2025, 1, 1, 0, 0, 0, TimeSpan.Zero),
-                TerminatedAt: null),
+                TerminatedAt: null,
+                CanceledByWorkflowInstanceId: null),
             Action: WorkflowAction.NoAction,
             Actions: [WorkflowAction.CancelWorkflow]);
 

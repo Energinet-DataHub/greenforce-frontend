@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -110,6 +113,43 @@ public class MoveInRevisionLogTests
                 { "meteringPointId", "571313180000000005" },
                 { "businessReason", "ELECTRICAL_HEATING" },
                 { "electricalHeating", true },
+            });
+    }
+
+    [Fact]
+    [RevisionLogTest("MoveInOperations.RequestIncorrectMoveInAsync")]
+    public async Task RequestIncorrectMoveInAsync()
+    {
+        var operation =
+            $$"""
+              mutation (
+                $processId: UUID!
+                $meteringPointId: String!
+                $cutoffDate: DateTime!
+              ) {
+                requestIncorrectMoveIn(input: {
+                  processId: $processId,
+                  meteringPointId: $meteringPointId,
+                  cutoffDate: $cutoffDate
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var server = new GraphQLTestService();
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<RequestIncorrectMoveInCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestIncorrectMoveInResponseV1>.Success(new RequestIncorrectMoveInResponseV1("test")));
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
+                { "meteringPointId", "571313180000000005" },
+                { "cutoffDate", "2025-12-31T23:00:00Z" },
             });
     }
 }

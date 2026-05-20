@@ -18,6 +18,7 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Charges.Types;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
@@ -59,7 +60,7 @@ public static partial class ChargeNode
         string name,
         string description,
         ChargeType type,
-        Resolution resolution,
+        [GraphQLType(typeof(NonNullType<ChargeResolutionInputEnumType>))] Resolution resolution,
         DateTimeOffset validFrom,
         bool vat,
         bool? transparentInvoicing,

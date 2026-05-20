@@ -38,10 +38,10 @@ import {
 
 const commercialRelation: ElectricityMarketViewCommercialRelationDto = {
   __typename: 'ElectricityMarketViewCommercialRelationDto',
-  energySupplier: '222222222222222222',
+  energySupplier: '5790000555588',
   energySupplierName: {
     __typename: 'MarketParticipant',
-    id: '222222222222222222',
+    id: '5790000555588',
     displayName: 'Test Energy Supplier (Energy Supplier)',
     displayNameWithoutMarketRole: 'Test Energy Supplier',
     gridAreas: [],
