@@ -501,9 +501,7 @@ export class DhUpdateCustomerDataComponent {
           firstCustomerName: !this.isBusinessCustomer()
             ? customerName1 || undefined
             : companyName || undefined,
-          secondCustomerName: !this.isBusinessCustomer()
-            ? customerName2 || undefined
-            : undefined,
+          secondCustomerName: !this.isBusinessCustomer() ? customerName2 || undefined : undefined,
           firstCustomerCvr: this.isBusinessCustomer() ? cvr || undefined : undefined,
           protectedName: nameProtection,
           processId: this.processId(),
