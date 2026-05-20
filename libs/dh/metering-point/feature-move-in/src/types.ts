@@ -118,3 +118,30 @@ export type Contact =
 
 export type UpdateCustomer = ChangeCustomerCharacteristicsInput;
 export type Location = NonNullable<UpdateCustomer['usagePointLocations']>[0];
+
+export interface FormValues {
+  businessCustomerDetails: {
+    companyName: string;
+    cvr: string;
+    nameProtection: boolean;
+  };
+  privateCustomerDetails: {
+    customerName1: string;
+    cpr1: string | null;
+    customerName2: string;
+    cpr2: string | null;
+    nameProtection: boolean;
+  };
+  legalContactDetails: ContactDetailsValues;
+  legalContactAddressDetails: AddressDetailsValues;
+  technicalContactDetails: ContactDetailsValues;
+  technicalContactAddressDetails: AddressDetailsValues;
+}
+
+export interface CustomerIdentity {
+  firstCustomerName: string | undefined;
+  firstCustomerCpr: string | null | undefined;
+  secondCustomerName: string | undefined;
+  secondCustomerCpr: string | null | undefined;
+  firstCustomerCvr: string | undefined;
+}

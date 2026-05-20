@@ -47,6 +47,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { FormValues } from '../types';
+import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
@@ -463,55 +465,27 @@ export class DhUpdateCustomerDataComponent {
   async updateCustomerData() {
     if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
-    const values = this.form().getRawValue();
-
-    const {
-      cpr1,
-      cpr2,
-      customerName1,
-      customerName2,
-      nameProtection: privateNameProtection,
-    } = values.privateCustomerDetails;
-    const {
-      companyName,
-      cvr,
-      nameProtection: businessNameProtection,
-    } = values.businessCustomerDetails;
-    const nameProtection = this.isBusinessCustomer()
-      ? businessNameProtection
-      : privateNameProtection;
-    const legalContactDetails = values.legalContactDetails;
-    const legalContactAddressDetails = values.legalContactAddressDetails;
-    const technicalContactDetails = values.technicalContactDetails;
-    const technicalContactAddressDetails = values.technicalContactAddressDetails;
+    const values: FormValues = this.form().getRawValue();
 
     await this.requestChangeCustomerCharacteristics.mutate({
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason:
-            this.businessReason() ??
-            (this.processId()
-              ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-              : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer),
+          businessReason: this.resolveBusinessReason(),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
-          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
-          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
-          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : undefined,
-          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
-          protectedName: nameProtection,
           processId: this.processId(),
+          protectedName: resolveNameProtection(values, this.isBusinessCustomer()),
+          ...resolveCustomerIdentity(values, this.isBusinessCustomer()),
           usagePointLocations: [
             mapUsagePointLocation(
-              legalContactDetails,
-              legalContactAddressDetails,
+              values.legalContactDetails,
+              values.legalContactAddressDetails,
               AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
-              technicalContactDetails,
-              technicalContactAddressDetails,
+              values.technicalContactDetails,
+              values.technicalContactAddressDetails,
               AddressTypeV2.Technical
             ),
           ],
@@ -524,6 +498,15 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  private resolveBusinessReason(): ChangeCustomerCharacteristicsBusinessReason {
+    return (
+      this.businessReason() ??
+      (this.processId()
+        ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+        : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer)
+    );
   }
 
   clearAddressFields(addressType: 'legal' | 'technical') {
