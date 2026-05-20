@@ -18,85 +18,50 @@
 //#endregion
 import { dayjs, WattRange } from '@energinet/watt/core/date';
 
-/**
- * Determines if the selected week includes the start of daylight saving time (DST). This is done by comparing the UTC offset of the last day of the interval with the UTC offset of the day before. If the day before has a smaller UTC offset, it means that DST starts during that week.
- */
-export function isDstStartWeek(period: WattRange<Date> | null): boolean {
-  if (!period) {
-    return false;
-  }
+import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
-  const dayBeforeEndDateUtcOffset = dayjs(period.end).subtract(1, 'day').utcOffset();
-  const endDateUtcOffset = dayjs(period.end).utcOffset();
+export function computeRowLabels(weekStart: Date, weekEnd: Date): string[] {
+  const pipe = new DhChargeIntervalPipe();
+  const totalHours = dayjs(weekEnd).diff(dayjs(weekStart), 'hour');
 
-  return dayBeforeEndDateUtcOffset < endDateUtcOffset;
-}
+  const labels = Array.from({ length: totalHours }, (_, i) => dayjs(weekStart).add(i, 'hour'))
+    .map((start) => ({ start: start.toDate(), end: start.add(1, 'hour').toDate() }))
+    .map((range) => pipe.transform(range, 'HOURLY'))
+    // Ensure the correct order of labels in case of DST transition
 
-/**
- * Determines if the selected week includes the end of daylight saving time (DST). This is done by comparing the UTC offset of the last day of the interval with the UTC offset of the day before. If the day before has a greater UTC offset, it means that DST ends during that week.
- */
-export function isDstEndWeek(period: WattRange<Date> | null): boolean {
-  if (!period) {
-    return false;
-  }
+    // In case of DST start
+    // 00 - 01
+    // 01 - 02
+    // 01 - 03 (DST start)
+    // 02 - 03
 
-  const dayBeforeEndDateUtcOffset = dayjs(period.end).subtract(1, 'day').utcOffset();
-  const endDateUtcOffset = dayjs(period.end).utcOffset();
+    // In case of DST end
+    // 00 - 01
+    // 01 - 02
+    // 02 - 02 (DST end)
+    // 02 - 03
+    .toSorted((a, b) => {
+      const [aStart, aEnd] = a.split(' — ').map((time) => parseInt(time, 10));
+      const [bStart, bEnd] = b.split(' — ').map((time) => parseInt(time, 10));
 
-  return dayBeforeEndDateUtcOffset > endDateUtcOffset;
-}
+      if (aStart < bStart) {
+        return -1;
+      }
 
-/**
- * Computes the time interval for a given row index in the week table, taking DST into account.
- */
-export function computeRowInterval(
-  currentRowIndex: number,
-  isDstStartWeek: boolean,
-  isDstEndWeek: boolean,
-  periodStart: Date,
-  periodEnd: Date | null,
-  dstRowIndex: number
-): { start: Date; end: Date } {
-  const intervalStart = dayjs(periodStart).startOf('day');
-  const intervalEnd = dayjs(periodEnd).startOf('day');
+      if (aStart > bStart) {
+        return 1;
+      }
 
-  if (isDstStartWeek) {
-    if (currentRowIndex < dstRowIndex) {
-      const start = intervalStart.hour(currentRowIndex);
+      if (aEnd < bEnd) {
+        return -1;
+      }
 
-      return { start: start.toDate(), end: start.hour(currentRowIndex + 1).toDate() };
-    }
+      if (aEnd > bEnd) {
+        return 1;
+      }
 
-    if (currentRowIndex === dstRowIndex) {
-      const hour = intervalEnd.hour(1);
+      return 0;
+    });
 
-      return { start: hour.toDate(), end: hour.add(1, 'hour').toDate() };
-    }
-
-    const start = intervalStart.hour(currentRowIndex - 1);
-
-    return { start: start.toDate(), end: start.hour(currentRowIndex).toDate() };
-  }
-
-  if (isDstEndWeek) {
-    if (currentRowIndex < dstRowIndex) {
-      const start = intervalStart.hour(currentRowIndex);
-
-      return { start: start.toDate(), end: start.hour(currentRowIndex + 1).toDate() };
-    }
-
-    if (currentRowIndex === dstRowIndex) {
-      const hour = intervalEnd.hour(2);
-
-      return { start: hour.toDate(), end: hour.add(1, 'hour').toDate() };
-    }
-
-    const start = intervalStart.hour(currentRowIndex - 1);
-
-    return { start: start.toDate(), end: start.hour(currentRowIndex).toDate() };
-  }
-
-  const start = intervalStart.hour(currentRowIndex);
-
-  return { start: start.toDate(), end: start.hour(currentRowIndex + 1).toDate() };
+  return [...new Set(labels)];
 }

@@ -41,9 +41,9 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
-import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
-import { computeRowInterval, isDstEndWeek, isDstStartWeek } from '../util/time-utils';
+import { computeRowLabels } from '../util/time-utils';
 import { DhChargesWeekRow } from '../../types';
 
 @Component({
@@ -61,7 +61,6 @@ import { DhChargesWeekRow } from '../../types';
     WattDataTableComponent,
     WattDatepickerComponent,
     WattDatePipe,
-    DhChargeIntervalPipe,
   ],
   styles: `
     dh-charges-series-week-table {
@@ -100,7 +99,7 @@ import { DhChargesWeekRow } from '../../types';
         @let dateHeader = 'charges.series.resolution.' + (resolution() ?? 'UNKNOWN') | transloco;
 
         <ng-container *wattTableCell="columns().date; header: dateHeader; let row">
-          {{ row.interval | dhChargeInterval: resolution() }}
+          {{ row.label }}
         </ng-container>
 
         @for (date of datesWithinPeriod(); track $index; let index = $index) {
@@ -156,13 +155,7 @@ export class DhChargesSeriesWeekTable {
   resolution = computed(() => this.charge()?.resolution);
 
   series = computed(() => this.chargeWeekSeriesQuery.data()?.chargeById?.series ?? []);
-  dataSource = dataSource(() => {
-    if (this.chargeWeekSeriesQuery.loading()) {
-      return [];
-    }
-
-    return this.generateRows();
-  });
+  dataSource = dataSource(() => this.generateRows());
 
   columns = computed<WattTableColumnDef<DhChargesWeekRow>>(() => {
     const columns: WattTableColumnDef<DhChargesWeekRow> = {
@@ -208,48 +201,20 @@ export class DhChargesSeriesWeekTable {
     return new Array(diff + 1).fill(null).map((_, index) => periodStart.add(index, 'day').toDate());
   });
 
-  private isDstStartWeek = computed(() => isDstStartWeek(this.selectedPeriod()));
-  private isDstEndWeek = computed(() => isDstEndWeek(this.selectedPeriod()));
-
-  private numberOfRowsDependingOnDst = computed(() => {
-    const isDstStartWeek = this.isDstStartWeek();
-    const isDstEndWeek = this.isDstEndWeek();
-
-    if (isDstStartWeek || isDstEndWeek) {
-      // DST starts -> we lose an hour, or
-      // DST ends -> we gain an hour.
-      //
-      // Return 25 here, because:
-      //   - when DST starts, the transition hour is represented as a separate row, or
-      //   - when DST ends, the repeated hour is represented as a separate row
-      return 25;
-    }
-
-    // Just a regular week.
-    return 24;
-  });
-
   private generateRows(): DhChargesWeekRow[] {
-    const numberOfRows = this.numberOfRowsDependingOnDst();
     const period = this.selectedPeriod();
 
-    if (!period) {
+    if (this.chargeWeekSeriesQuery.loading() || !period) {
       return [];
     }
 
-    const dstRowIndex = 2;
+    assertIsDefined(period.end);
 
-    return new Array(numberOfRows).fill(null).map((_, rowIndex) => {
-      const interval = computeRowInterval(
-        rowIndex,
-        this.isDstStartWeek(),
-        this.isDstEndWeek(),
-        period.start,
-        period.end,
-        dstRowIndex
-      );
+    const rowLabels = computeRowLabels(period.start, period.end);
 
-      return { interval, series: [] };
-    });
+    return rowLabels.map((label) => ({
+      label,
+      series: [],
+    }));
   }
 }
