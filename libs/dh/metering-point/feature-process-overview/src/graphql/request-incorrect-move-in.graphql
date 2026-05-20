@@ -1,0 +1,11 @@
+mutation RequestIncorrectMoveIn(
+  $processId: UUID!
+  $meteringPointId: String!
+  $cutoffDate: DateTime!
+) {
+  requestIncorrectMoveIn(
+    input: { processId: $processId, meteringPointId: $meteringPointId, cutoffDate: $cutoffDate }
+  ) {
+    success: boolean
+  }
+}
