@@ -48,6 +48,7 @@ import {
 
 import { sync } from '../util/sync-controls';
 import { FormValues } from '../types';
+import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
@@ -474,8 +475,8 @@ export class DhUpdateCustomerDataComponent {
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           processId: this.processId(),
-          protectedName: this.resolveNameProtection(values),
-          ...this.resolveCustomerIdentity(values),
+          protectedName: resolveNameProtection(values, this.isBusinessCustomer()),
+          ...resolveCustomerIdentity(values, this.isBusinessCustomer()),
           usagePointLocations: [
             mapUsagePointLocation(
               values.legalContactDetails,
@@ -508,33 +509,6 @@ export class DhUpdateCustomerDataComponent {
     );
   }
 
-  private resolveNameProtection(values: FormValues) {
-    return this.isBusinessCustomer()
-      ? values.businessCustomerDetails.nameProtection
-      : values.privateCustomerDetails.nameProtection;
-  }
-
-  private resolveCustomerIdentity(values: FormValues) {
-    if (this.isBusinessCustomer()) {
-      return {
-        firstCustomerName: values.businessCustomerDetails.companyName || undefined,
-        firstCustomerCvr: values.businessCustomerDetails.cvr || undefined,
-        firstCustomerCpr: undefined,
-        secondCustomerCpr: undefined,
-        secondCustomerName: undefined,
-      };
-    }
-
-    const { cpr1, cpr2, customerName1, customerName2 } = values.privateCustomerDetails;
-
-    return {
-      firstCustomerName: customerName1 || undefined,
-      firstCustomerCpr: cpr1 || undefined,
-      secondCustomerName: customerName2 || undefined,
-      secondCustomerCpr: cpr2 || undefined,
-      firstCustomerCvr: undefined,
-    };
-  }
 
   clearAddressFields(addressType: 'legal' | 'technical') {
     const formGroup =

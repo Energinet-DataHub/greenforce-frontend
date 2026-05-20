@@ -137,3 +137,11 @@ export interface FormValues {
   technicalContactDetails: ContactDetailsValues;
   technicalContactAddressDetails: AddressDetailsValues;
 }
+
+export interface CustomerIdentity {
+  firstCustomerName: string | undefined;
+  firstCustomerCpr: string | null | undefined;
+  secondCustomerName: string | undefined;
+  secondCustomerCpr: string | null | undefined;
+  firstCustomerCvr: string | undefined;
+}
