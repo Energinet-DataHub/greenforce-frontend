@@ -524,8 +524,7 @@ export class DhUpdateCustomerDataComponent {
       };
     }
 
-    const { cpr1, cpr2, customerName1, customerName2 } =
-      values.privateCustomerDetails ?? {};
+    const { cpr1, cpr2, customerName1, customerName2 } = values.privateCustomerDetails ?? {};
 
     return {
       firstCustomerName: customerName1 || undefined,
