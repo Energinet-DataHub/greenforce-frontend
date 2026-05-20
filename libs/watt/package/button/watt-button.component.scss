@@ -16,10 +16,19 @@
 :root {
   --watt-button-color: var(--watt-color-primary);
   --watt-button-text-hover-color: var(--watt-color-primary-dark);
-  --watt-button-text-focus-color: var(--watt-color-primary);
+  --watt-button-text-focus-color: var(--watt-color-primary-darker);
   --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
   --mat-button-text-with-icon-horizontal-padding: var(--watt-space-m);
+  --watt-button-focus-color: var(--watt-color-primary-darker);
+  --watt-button-focus-width: 2px;
+  --watt-button-focus-offset: 2px;
+}
+
+@mixin focus-ring {
+  outline: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
+  outline-offset: var(--watt-button-focus-offset);
+  border-radius: 8px;
 }
 
 @mixin primary-hover {
@@ -28,7 +37,7 @@
 
 @mixin primary-focus {
   @include primary-hover;
-  outline: 2px solid var(--watt-color-secondary);
+  @include focus-ring;
 }
 
 @mixin secondary-hover {
@@ -37,7 +46,7 @@
 
 @mixin secondary-focus {
   @include secondary-hover;
-  outline: 1px solid var(--watt-color-primary);
+  @include focus-ring;
 }
 
 @mixin text-hover {
@@ -46,7 +55,7 @@
 
 @mixin text-focus {
   @include text-hover;
-  outline: 2px solid var(--watt-button-text-focus-color);
+  @include focus-ring;
 }
 
 @mixin icon-hover {
@@ -55,7 +64,7 @@
 
 @mixin icon-focus {
   @include icon-hover;
-  outline: 2px solid var(--watt-color-primary);
+  @include focus-ring;
 }
 
 watt-button {
@@ -119,7 +128,6 @@ watt-button {
     .mat-mdc-button.mat-text {
       color: var(--watt-button-color);
       text-transform: var(--watt-button-text-transform);
-      outline: 2px solid transparent;
 
       &:focus-visible {
         @include text-focus;
