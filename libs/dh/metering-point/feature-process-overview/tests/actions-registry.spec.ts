@@ -654,6 +654,7 @@ describe('DhActionsRegistry', () => {
 
     it('should exclude CancelWorkflow for ChangeOfEnergySupplier when initiator GLN does not match', () => {
       const registry = setupRegistry({
+        hasChangeOfSupplierPermission: true,
         actorMarketRole: EicFunction.EnergySupplier,
         changeOfEnergySupplierHandlers: {
           [WorkflowAction.SendInformation]: {
