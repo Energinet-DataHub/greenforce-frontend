@@ -1070,7 +1070,8 @@
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)",
-        "SecondaryMoveIn": "Sekundær tilflytning (BRS-009)"
+        "SecondaryMoveIn": "Sekundær tilflytning (BRS-009)",
+        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1088,7 +1089,8 @@
         "DataAlignmentForMasterDataMeteringPoint": "Stamdata (E0G)",
         "ServiceRequest": "Anmodning om serviceydelse (D22)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)",
-        "ChangeOfEnergySupplier": "Skift af elleverandør (E03)"
+        "ChangeOfEnergySupplier": "Skift af elleverandør (E03)",
+        "IncorrectMove": "Fejlagtig flytning (D33)"
       },
       "filters": {
         "created": "Tidspunkt",
@@ -1257,6 +1259,9 @@
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_1": "Anmod om annullering af fraflytning (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_2": "Godkend anmod om annullering af fraflytning (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_3": "Afvis anmod om annullering af fraflytning (RSM-024)",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_1": "Indgående anmodning om forkert flytning",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for kompleks håndtering af annullering af flytning",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Anmodning om genoptagelse af leverance (RSM-003)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
