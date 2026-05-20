@@ -25,19 +25,12 @@
   --watt-button-focus-radius: var(--watt-radius-m);
 }
 
-@mixin focus-ring {
-  // Focus ring is rendered on the host (watt-button) via ::after,
-  // because .mat-mdc-button has overflow: hidden (for ripples) which
-  // would clip a ring placed on the inner button.
-}
-
 @mixin primary-hover {
   background: var(--watt-color-primary-dark);
 }
 
 @mixin primary-focus {
   @include primary-hover;
-  @include focus-ring;
 }
 
 @mixin secondary-hover {
@@ -46,7 +39,6 @@
 
 @mixin secondary-focus {
   @include secondary-hover;
-  @include focus-ring;
 }
 
 @mixin text-hover {
@@ -55,7 +47,6 @@
 
 @mixin text-focus {
   @include text-hover;
-  @include focus-ring;
 }
 
 @mixin icon-hover {
@@ -64,7 +55,6 @@
 
 @mixin icon-focus {
   @include icon-hover;
-  @include focus-ring;
 }
 
 watt-button {
