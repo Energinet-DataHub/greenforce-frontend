@@ -165,7 +165,7 @@ export class DhAccessToMeasurementsTab {
   };
 
   dataSource = dataSource(() => this.data());
-  private readonly geneateCSV = GenerateCSV.fromWattTableDataSource(this.dataSource);
+  private readonly generateCSV = GenerateCSV.fromWattTableDataSource(this.dataSource);
 
   isLoading = this.query.loading;
   hasError = this.query.hasError;
@@ -207,7 +207,7 @@ export class DhAccessToMeasurementsTab {
   }
 
   download() {
-    this.geneateCSV
+    this.generateCSV
       .addHeaders([
         `"${translate('marketParticipant.accessToMeasurements.table.columns.meteringPointId')}"`,
       ])
