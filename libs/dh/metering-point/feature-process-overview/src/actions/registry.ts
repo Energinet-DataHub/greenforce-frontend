@@ -146,8 +146,8 @@ export class DhActionsRegistry {
     return supported.sort((a, b) => {
       const aIndex = ACTION_DISPLAY_ORDER.indexOf(a);
       const bIndex = ACTION_DISPLAY_ORDER.indexOf(b);
-      const aNorm = aIndex === -1 ? Infinity : aIndex;
-      const bNorm = bIndex === -1 ? Infinity : bIndex;
+      const aNorm = aIndex === -1 ? ACTION_DISPLAY_ORDER.length : aIndex;
+      const bNorm = bIndex === -1 ? ACTION_DISPLAY_ORDER.length : bIndex;
       return aNorm - bNorm;
     });
   }
