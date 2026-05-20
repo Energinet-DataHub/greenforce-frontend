@@ -34,6 +34,7 @@ import {
 import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
+import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
@@ -86,6 +87,7 @@ export class DhActionsRegistry {
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
+    [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
       .handlers,
   };
@@ -127,7 +129,7 @@ export class DhActionsRegistry {
     isEnergySupplierResponsible: boolean,
     initiatorGlnOrEic?: string
   ): WorkflowAction[] {
-    return availableActions.filter((action) => {
+    const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
       // FAS users see every supported action (info row in the table, disabled
@@ -135,6 +137,20 @@ export class DhActionsRegistry {
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
       return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
+    });
+
+    // Canonical display order — actions not listed here sort to the end.
+    const ACTION_DISPLAY_ORDER: readonly WorkflowAction[] = [
+      WorkflowAction.CancelWorkflow,
+      WorkflowAction.RejectRequest,
+    ];
+
+    return supported.sort((a, b) => {
+      const aIndex = ACTION_DISPLAY_ORDER.indexOf(a);
+      const bIndex = ACTION_DISPLAY_ORDER.indexOf(b);
+      const aNorm = aIndex === -1 ? ACTION_DISPLAY_ORDER.length : aIndex;
+      const bNorm = bIndex === -1 ? ACTION_DISPLAY_ORDER.length : bIndex;
+      return aNorm - bNorm;
     });
   }
 

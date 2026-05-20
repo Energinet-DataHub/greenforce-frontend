@@ -19,14 +19,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  CancelChangeOfEnergySupplierDocument,
   ChangeCustomerCharacteristicsBusinessReason,
   EicFunction,
-  GetMeteringPointProcessByIdDocument,
-  GetMeteringPointProcessOverviewDocument,
-  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
@@ -36,12 +31,10 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
-import { cancelProcessAction } from '../shared/cancel-process-action';
 
 @Injectable({ providedIn: 'root' })
-export class ChangeOfEnergySupplierActions {
+export class SecondaryMoveInActions {
   private readonly router = inject(Router);
-  private readonly cancelChangeOfEnergySupplier = mutation(CancelChangeOfEnergySupplierDocument);
 
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
@@ -56,31 +49,10 @@ export class ChangeOfEnergySupplierActions {
           ],
           {
             queryParams: {
-              businessReason: ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier,
+              businessReason: ChangeCustomerCharacteristicsBusinessReason.SecondaryMoveIn,
             },
           }
         ),
-    },
-    [WorkflowAction.CancelWorkflow]: {
-      permissions: ['metering-point:change-of-supplier'],
-      roles: [InitiatingParticipant],
-      callback: cancelProcessAction(
-        `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.ChangeOfEnergySupplier}`,
-        (ctx, onCompleted, onError) => {
-          this.cancelChangeOfEnergySupplier.mutate({
-            refetchQueries: [
-              GetMeteringPointProcessByIdDocument,
-              GetMeteringPointProcessOverviewDocument,
-            ],
-            variables: {
-              meteringPointId: ctx.meteringPointId,
-              processId: ctx.processId,
-            },
-            onCompleted,
-            onError,
-          });
-        }
-      ),
     },
   };
 }

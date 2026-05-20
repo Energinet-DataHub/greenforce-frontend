@@ -843,6 +843,7 @@
       },
       "receiverLabel": "To",
       "onDate": "On date",
+      "noSupplierPeriodForSelectedDate": "No energy supplier period found for selected date",
       "role": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
@@ -1061,6 +1062,7 @@
         "ConnectMeteringPoint": "Connection of new metering point (BRS-008)",
         "UpdateMasterDataConsumer": "Update of customer master data (BRS-015)",
         "CustomerMoveIn": "Move-in (BRS-009)",
+        "SecondaryMoveIn": "Secondary move-in (BRS-009)",
         "CloseDownMeteringPoint": "Close down metering point (BRS-007)",
         "ChangeConnectionStatus": "Disconnection and reconnection of metering point (BRS-013)",
         "UpdateMasterDataMeteringPoint": "Update of metering point master data (BRS-006)",
@@ -1071,7 +1073,7 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "SecondaryMoveIn": "Secondary move-in (BRS-009)"
+        "IncorrectMove": "Handling of incorrect move (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1089,7 +1091,8 @@
         "DataAlignmentForMasterDataMeteringPoint": "Data alignment for master data metering point (E0G)",
         "ServiceRequest": "Service request (D22)",
         "UpdateChargeLinks": "Update charge links (D17)",
-        "ChangeOfEnergySupplier": "Change of energy supplier (E03)"
+        "ChangeOfEnergySupplier": "Change of energy supplier (E03)",
+        "IncorrectMove": "Incorrect move (D33)"
       },
       "filters": {
         "created": "Time",
@@ -1106,10 +1109,15 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Request correction"
+          "REQUEST_CORRECTION": "Request correction",
+          "CANCEL_WORKFLOW": "Cancel"
+        },
+        "SecondaryMoveIn": {
+          "SEND_INFORMATION": "Send information"
         },
         "ChangeOfEnergySupplier": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Cancel"
         }
       },
       "incorrectMoveIn": {
@@ -1164,7 +1172,9 @@
         "errorToast": "Request to disconnect metering point failed"
       },
       "processTypeName": {
-        "EndOfSupply": "end of supply"
+        "EndOfSupply": "end of supply",
+        "CustomerMoveIn": "move-in",
+        "ChangeOfEnergySupplier": "change of energy supplier"
       },
       "steps": {
         "CloseDownMeteringPoint": {
@@ -1251,6 +1261,17 @@
         "BRS_009_MOVEINCANCELLATION_V1_STEP_1": "Request for cancellation of move-in (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_2": "Confirmation of cancellation of move-in (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_3": "Rejection of cancellation of move-in (RSM-024)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Confirm request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Reject request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_4": "Notification of metering point master data (RSM-022)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_5": "Notification of customer master data (RSM-028)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_6": "Notification of charge links (RSM-031)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_10": "Notification of secondary move-in (RSM-004)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_2": "Approve request for move-out (RSM-005)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_3": "Reject request for move-out (RSM-005)",
@@ -1258,6 +1279,9 @@
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_1": "Request for cancellation of move-out (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_2": "Approve request for cancellation of move-out (RSM-024)",
         "BRS_010_REQUESTFORCANCELLATIONOFMOVEOUT_V1_STEP_3": "Reject request for cancellation of move-out (RSM-024)",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_1": "Incoming request for incorrect move",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for complex handling of move cancellation",
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Request for resumption of supply (RSM-003)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
