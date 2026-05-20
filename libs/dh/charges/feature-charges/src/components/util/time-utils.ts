@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { dayjs, WattRange } from '@energinet/watt/core/date';
+import { dayjs } from '@energinet/watt/core/date';
 
 import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
