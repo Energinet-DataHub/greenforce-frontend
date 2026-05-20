@@ -247,7 +247,7 @@ export class DhActorConversationNewConversation {
       ? null
       : { electricalHeatingAttachmentsRequired: true };
 
-  private readonly haveSupplierPeriodOnSelectedDate: ValidatorFn = (
+  private readonly supplierPeriodOnSelectedDateValidator: ValidatorFn = (
     control: AbstractControl<Date | null>
   ) => {
     const selectedDate = control.value;
