@@ -198,7 +198,7 @@ export class DhChargesSeriesWeekTable {
     const periodEnd = dayjs(period.end);
     const diff = periodEnd.diff(periodStart, 'day');
 
-    return new Array(diff + 1).fill(null).map((_, index) => periodStart.add(index, 'day').toDate());
+    return Array.from({ length: diff + 1 }, (_, index) => periodStart.add(index, 'day').toDate());
   });
 
   private generateRows(): DhChargesWeekRow[] {
