@@ -7,8 +7,7 @@ const graphqlEslint = require('@graphql-eslint/eslint-plugin');
 module.exports = [
   {
     linterOptions: {
-      // TODO(frontend lint): Audit existing inline disables across app, libs, and tools, then enable this.
-      reportUnusedDisableDirectives: 'off',
+      reportUnusedDisableDirectives: 'warn',
     },
   },
   { ignores: ['**/obj/**', '**/bin/**'] },
@@ -190,9 +189,8 @@ module.exports = [
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
       'no-extra-semi': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],
-      // TODO(frontend lint): Fix existing app/lib/tool unused expression violations, then enable this.
-      '@typescript-eslint/no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-unused-expressions': 'error',
     },
   },
 
@@ -215,7 +213,7 @@ module.exports = [
   {
     files: ['**/*.js', '**/*.jsx'],
     rules: {
-      '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none' }],
+      '@typescript-eslint/no-unused-vars': 'warn',
     },
   },
 

@@ -13,10 +13,6 @@ module.exports = [
   {
     files: ['**/*.ts'],
     plugins: { '@angular-eslint': angular },
-    linterOptions: {
-      // TODO(watt lint): Audit existing Watt inline disables, then enable this.
-      reportUnusedDisableDirectives: 'off',
-    },
   },
   ...nx.configs['flat/angular'].map((config) => ({
     ...config,
@@ -68,7 +64,7 @@ module.exports = [
     files: ['package/table/watt-table.component.ts'],
     rules: {
       // TODO(watt table): Refactor template context guard signatures, then remove the context ignore.
-      '@typescript-eslint/no-unused-vars': ['warn', { caughtErrors: 'none', argsIgnorePattern: '^context$' }],
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^context$' }],
     },
   },
   {

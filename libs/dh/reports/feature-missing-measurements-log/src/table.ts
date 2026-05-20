@@ -58,7 +58,6 @@ export class DhReportsMissingMeasurementsLogIntl extends WattDataIntlService {
   }
 }
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-reports-missing-measurements-log-table',
   imports: [
@@ -108,9 +107,11 @@ export class DhReportsMissingMeasurementsLogTable {
   constructor() {
     effect(() => {
       const created = this.created();
-      created
-        ? (this.intl as DhReportsMissingMeasurementsLogIntl).setCreated()
-        : (this.intl as DhReportsMissingMeasurementsLogIntl).setDefault();
+      if (created) {
+        (this.intl as DhReportsMissingMeasurementsLogIntl).setCreated();
+      } else {
+        (this.intl as DhReportsMissingMeasurementsLogIntl).setDefault();
+      }
     });
   }
 }

@@ -101,7 +101,7 @@ import { DhMeteringPointIdsOverview } from './overview/metering-point-ids-overvi
     </vater-flex>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhAccessToMeasurementsTab {
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);

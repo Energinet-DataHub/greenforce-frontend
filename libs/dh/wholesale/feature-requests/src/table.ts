@@ -40,7 +40,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;
 
-/* eslint-disable @angular-eslint/component-class-suffix */
+ 
 @Component({
   selector: 'dh-wholesale-requests-table',
   imports: [

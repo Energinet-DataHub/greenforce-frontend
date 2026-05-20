@@ -24,7 +24,7 @@ import { WattToastService } from '../watt-toast.service';
 import { WattToastConfig } from '../watt-toast.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+   
   selector: 'storybook-toast',
   template: `
     <h1>Toast</h1>

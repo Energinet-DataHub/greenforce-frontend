@@ -38,7 +38,7 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { DhRequestMissingMeasurementLogService } from './request-log-service';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
+ 
 @Component({
   selector: 'dh-reports-missing-measurements-log-request-log',
   imports: [

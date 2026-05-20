@@ -56,7 +56,7 @@ import { DhMeteringPointCellComponent } from './metering-point-cell.component';
   ],
   providers: [DhMeasurementsReportsService],
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhOverview {
   private measurementsReportsService = inject(DhMeasurementsReportsService);
   private permissionService = inject(PermissionService);

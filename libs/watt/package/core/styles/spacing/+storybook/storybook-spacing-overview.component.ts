@@ -64,7 +64,7 @@ const spacingScales: Scale[] = [
 ];
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+   
   selector: 'storybook-spacing-overview',
   templateUrl: './storybook-spacing-overview.component.html',
   styleUrls: ['./storybook-spacing-overview.component.scss'],

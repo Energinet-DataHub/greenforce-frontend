@@ -92,7 +92,7 @@ import {
     </ng-container>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhMeteringPointIdsOverview {
   private readonly toastService = inject(WattToastService);
   private readonly removeAccessMutation = mutation(

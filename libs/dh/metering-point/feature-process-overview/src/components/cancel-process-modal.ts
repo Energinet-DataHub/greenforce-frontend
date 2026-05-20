@@ -57,5 +57,5 @@ import { WattIconComponent } from '@energinet/watt/icon';
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhCancelProcessModal extends WattTypedModal<{ processType: string }> {}
