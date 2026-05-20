@@ -39,6 +39,7 @@ import {
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
+import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { ProcessActionContext } from '../src/actions/context';
 
@@ -68,6 +69,7 @@ describe('DhActionsRegistry', () => {
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
+      secondaryMoveInHandlers?: ActionHandlerMap;
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
     } = {}
   ) {
@@ -88,6 +90,7 @@ describe('DhActionsRegistry', () => {
           callback: vi.fn(),
         },
       },
+      secondaryMoveInHandlers = {} as ActionHandlerMap,
       changeOfEnergySupplierHandlers = {
         [WorkflowAction.SendInformation]: {
           callback: vi.fn(),
@@ -134,6 +137,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: CustomerMoveInActions,
           useValue: createMockHandlers(customerMoveInHandlers),
+        },
+        {
+          provide: SecondaryMoveInActions,
+          useValue: createMockHandlers(secondaryMoveInHandlers),
         },
         {
           provide: ChangeOfEnergySupplierActions,
