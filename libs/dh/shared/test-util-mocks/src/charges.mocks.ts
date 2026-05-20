@@ -25,7 +25,8 @@ import {
   mockGetChargeSeriesQuery,
   mockGetMissingPriceSeriesPointsQuery,
   mockGetChargeByTypeQuery,
-  mockGetChargeLinkOverviewQuery,
+  mockGetChargeLinkPeriodsQuery,
+  mockGetChargeLinkPeriodByIdQuery,
   mockStopChargeLinkMutation,
   mockCancelChargeLinkMutation,
   mockEditChargeLinkMutation,
@@ -35,7 +36,7 @@ import {
 import {
   Charge,
   ChargeType,
-  ChargeLinkOverviewItem,
+  ChargeLinkPeriod,
   ChargeSeriesPoint,
   ChargeStatus,
   ChargeResolution,
@@ -295,50 +296,56 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
 
 const charges = makeChargesMock();
 
-const chargeLinkOverviewItems: ChargeLinkOverviewItem[] = [
+const chargeLinkPeriods: ChargeLinkPeriod[] = [
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1000',
+    __typename: 'ChargeLinkPeriod',
+    id: '1000',
+    changes: [],
     amount: 100,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
     charge: charges[0],
   },
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1001',
+    __typename: 'ChargeLinkPeriod',
+    id: '1001',
+    changes: [],
     amount: 75,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
     charge: charges[1],
   },
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1002',
+    __typename: 'ChargeLinkPeriod',
+    id: '1002',
+    changes: [],
     amount: 50,
     period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
     closed: true,
     charge: charges[2],
   },
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1003',
+    __typename: 'ChargeLinkPeriod',
+    id: '1003',
+    changes: [],
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
     closed: false,
     charge: charges[3],
   },
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1004',
+    __typename: 'ChargeLinkPeriod',
+    id: '1004',
+    changes: [],
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
     closed: false,
     charge: charges[4],
   },
   {
-    __typename: 'ChargeLinkOverviewItem',
-    chargeLinkId: '1005',
+    __typename: 'ChargeLinkPeriod',
+    id: '1005',
+    changes: [],
     amount: 1,
     period: {
       start: new Date('2026-03-18T23:00:00.000Z'),
@@ -536,14 +543,27 @@ function getChargeWeekSeries() {
   });
 }
 
-function getChargeLinkOverview() {
-  return mockGetChargeLinkOverviewQuery(async () => {
+function getChargeLinkPeriods() {
+  return mockGetChargeLinkPeriodsQuery(async () => {
     await delay(mswConfig.delay);
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        chargeLinkOverview: chargeLinkOverviewItems,
+        chargeLinkPeriods: chargeLinkPeriods,
+      },
+    });
+  });
+}
+
+function getChargeLinkPeriodById() {
+  return mockGetChargeLinkPeriodByIdQuery(async ({ variables: { id } }) => {
+    await delay(mswConfig.delay);
+    const period = chargeLinkPeriods.find((p) => p.id === id);
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query' as const,
+        chargeLinkPeriodById: period ? { ...period, changes: [] } : null,
       },
     });
   });
@@ -625,6 +645,7 @@ export function chargesMocks() {
     getChargeWeekSeries(),
     cancelChargeLink(),
     getChargesByType(),
-    getChargeLinkOverview(),
+    getChargeLinkPeriods(),
+    getChargeLinkPeriodById(),
   ];
 }

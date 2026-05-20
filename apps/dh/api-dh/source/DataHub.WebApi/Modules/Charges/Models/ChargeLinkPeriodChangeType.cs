@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Shared;
-
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeLinkId(
-    string MeteringPointId,
-    ChargeIdentifierDto ChargeId);
+public enum ChargeLinkPeriodChangeType
+{
+    Started,
+    Stopped,
+    Cancelled,
+    Edited,
+}

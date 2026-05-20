@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
@@ -120,34 +121,24 @@ public interface IChargesClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Query charge link overview items (charge links flattened by period).
+    /// Query charge link periods.
     /// </summary>
-    Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+    Task<IEnumerable<ChargeLinkPeriod>> GetChargeLinkPeriodsAsync(
         string meteringPointId,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Stops a charge link at a given date.
+    /// Get a charge link period by its id.
     /// </summary>
-    Task<bool> StopChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset stopDate,
+    Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
+        ChargeLinkPeriodId id,
         CancellationToken ct = default);
 
     /// <summary>
-    /// Cancels a charge link by its id.
+    /// Get historical charge link period by charge link period id.
     /// </summary>
-    Task<bool> CancelChargeLinkAsync(
-        ChargeLinkId id,
-        CancellationToken ct = default);
-
-    /// <summary>
-    /// Edits a charge link.
-    /// </summary>
-    Task<bool> EditChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset newStartDate,
-        int factor,
+    Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
+        ChargeLinkPeriodId id,
         CancellationToken ct = default);
 
     /// <summary>
@@ -158,5 +149,29 @@ public interface IChargesClient
         string meteringPointId,
         DateTimeOffset newStartDate,
         int factor,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Edits a charge link.
+    /// </summary>
+    Task<bool> EditChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Stops a charge link at a given date.
+    /// </summary>
+    Task<bool> StopChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Cancels a charge link by its id.
+    /// </summary>
+    Task<bool> CancelChargeLinkAsync(
+        ChargeLinkPeriodId id,
         CancellationToken ct = default);
 }

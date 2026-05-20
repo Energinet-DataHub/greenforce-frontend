@@ -1,9 +1,16 @@
-query GetChargeLinkOverview($meteringPointId: String!) {
-  chargeLinkOverview(meteringPointId: $meteringPointId) {
-    chargeLinkId
+query GetChargeLinkPeriodById($id: String!) {
+  chargeLinkPeriodById(id: $id) {
+    id
     amount
     period
     closed
+    changes {
+      created
+      changeType
+      effectiveDate
+      factor
+      previousFactor
+    }
     charge {
       id
       code

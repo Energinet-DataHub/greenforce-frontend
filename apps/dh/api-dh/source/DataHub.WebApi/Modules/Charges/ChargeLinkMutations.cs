@@ -25,27 +25,6 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> StopChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset stopDate,
-        IChargesClient client,
-        CancellationToken ct)
-        => await client.StopChargeLinkAsync(id, stopDate, ct);
-
-    [Mutation]
-    [UseRevisionLog]
-    [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> EditChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset newStartDate,
-        int factor,
-        IChargesClient client,
-        CancellationToken ct)
-        => await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
-
-    [Mutation]
-    [UseRevisionLog]
-    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> CreateChargeLinkAsync(
         ChargeIdentifierDto chargeId,
         string meteringPointId,
@@ -58,8 +37,29 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
+    public static async Task<bool> EditChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
+
+    [Mutation]
+    [UseRevisionLog]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
+    public static async Task<bool> StopChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset stopDate,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.StopChargeLinkAsync(id, stopDate, ct);
+
+    [Mutation]
+    [UseRevisionLog]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
     public static async Task<bool> CancelChargeLinkAsync(
-        ChargeLinkId id,
+        ChargeLinkPeriodId id,
         IChargesClient client,
         CancellationToken ct)
         => await client.CancelChargeLinkAsync(id, ct);

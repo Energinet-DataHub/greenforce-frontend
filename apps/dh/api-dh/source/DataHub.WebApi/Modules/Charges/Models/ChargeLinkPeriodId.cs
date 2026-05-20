@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeLinkOverviewItem(
+public record ChargeLinkPeriodId(
     string MeteringPointId,
-    ChargeLinkPeriodDto Period,
-    Charge Charge);
+    ChargeIdentifierDto ChargeId,
+    DateTimeOffset From);
