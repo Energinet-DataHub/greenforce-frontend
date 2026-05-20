@@ -699,8 +699,6 @@ describe('DhActionsRegistry', () => {
         '1234567890123'
       );
 
-      // The mock PermissionService has no 'metering-point:change-of-supplier' case,
-      // so it returns false — the action should be filtered out.
       expect(result).toEqual([]);
     });
 
