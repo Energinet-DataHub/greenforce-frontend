@@ -529,9 +529,9 @@ export class DhUpdateCustomerDataComponent {
 
     return {
       firstCustomerName: customerName1 || undefined,
-      firstCustomerCpr: cpr1 ?? undefined,
+      firstCustomerCpr: cpr1 || undefined,
       secondCustomerName: customerName2 || undefined,
-      secondCustomerCpr: cpr2 ?? undefined,
+      secondCustomerCpr: cpr2 || undefined,
       firstCustomerCvr: undefined,
     };
   }
