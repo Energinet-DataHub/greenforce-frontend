@@ -247,6 +247,20 @@ export class DhActorConversationNewConversation {
       ? null
       : { electricalHeatingAttachmentsRequired: true };
 
+  private readonly supplierPeriodOnSelectedDateValidator: ValidatorFn = (
+    control: AbstractControl<Date | null>
+  ) => {
+    const selectedDate = control.value;
+    if (!selectedDate) return null;
+
+    const selectedDay = dayjs(selectedDate);
+    const hasPeriod = this.electricalHeatingPeriods().some((period) =>
+      selectedDay.isBetween(period.from, period.to, 'day', '[]')
+    );
+
+    return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
+  };
+
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
@@ -330,7 +344,7 @@ export class DhActorConversationNewConversation {
 
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.energySupplierDate,
-    Validators.required,
+    [this.supplierPeriodOnSelectedDateValidator, Validators.required],
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );
