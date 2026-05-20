@@ -24,6 +24,7 @@ import { WATT_RADIO } from '@energinet/watt/radio';
 import { EicFunction, MarketRole } from '@energinet-datahub/dh/shared/domain/graphql';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 @Component({
   selector: 'dh-actor-conversation-receiver-radio-group',
@@ -34,6 +35,7 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
     WATT_RADIO,
     WattDatepickerComponent,
     WattSeparatorComponent,
+    WattFieldErrorComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -50,7 +52,11 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
           @if (receiverControl().value === 'ENERGY_SUPPLIER') {
             <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
               <watt-separator weight="bold" orientation="vertical" />
-              <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()" />
+              <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()">
+                @if (dateControl().errors?.noSupplierPeriodForSelectedDate) {
+                  <watt-field-error> {{ t('noSupplierPeriodForSelectedDate') }} </watt-field-error>
+                }
+              </watt-datepicker>
             </vater-stack>
           }
           @if (showGridAccessProvider()) {
