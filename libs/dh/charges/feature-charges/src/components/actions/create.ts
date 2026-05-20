@@ -36,7 +36,7 @@ import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-
 
 import {
   ChargeType,
-  ChargeResolution,
+  ChargeResolutionInput,
   CreateChargeDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
@@ -175,8 +175,8 @@ export default class DhChargesCreate {
   createCharge = mutation(CreateChargeDocument);
   toast = injectToast('charges.actions.create.toast');
   toastEffect = effect(() => this.toast(this.createCharge.status()));
-  dailyResolution: ChargeResolution = 'DAILY';
-  hourlyResolution: ChargeResolution = 'HOURLY';
+  dailyResolution: ChargeResolutionInput = 'DAILY';
+  hourlyResolution: ChargeResolutionInput = 'HOURLY';
   type = signal<ChargeType | null>(null);
   isResolutionHidden = computed(() => this.type() !== 'TARIFF' && this.type() !== 'TARIFF_TAX');
   form = computed(
@@ -187,7 +187,7 @@ export default class DhChargesCreate {
         name: dhMakeFormControl('', Validators.required),
         description: dhMakeFormControl('', Validators.required),
         validFrom: dhMakeFormControl<Date>(null, Validators.required),
-        resolution: dhMakeFormControl<ChargeResolution>(
+        resolution: dhMakeFormControl<ChargeResolutionInput>(
           {
             value: this.isResolutionHidden() ? 'MONTHLY' : null,
             disabled: this.isResolutionHidden(),

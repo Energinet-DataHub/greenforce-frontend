@@ -268,6 +268,7 @@ export class DhUpdateCustomerDataComponent {
   );
   meteringPointId = input.required<string>();
   processId = input<string>();
+  businessReason = input<ChangeCustomerCharacteristicsBusinessReason>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
@@ -311,7 +312,11 @@ export class DhUpdateCustomerDataComponent {
           ),
           cpr1: dhMakeFormControl<string | null>(
             null,
-            !this.isBusinessCustomer() ? [dhCprValidator()] : []
+            !this.isBusinessCustomer()
+              ? this.legalCustomerId() === null
+                ? [Validators.required, dhCprValidator()]
+                : [dhCprValidator()]
+              : []
           ),
           customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
           cpr2: dhMakeFormControl<string | null>(
@@ -484,9 +489,11 @@ export class DhUpdateCustomerDataComponent {
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason: this.processId()
-            ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-            : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          businessReason:
+            this.businessReason() ??
+            (this.processId()
+              ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+              : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,

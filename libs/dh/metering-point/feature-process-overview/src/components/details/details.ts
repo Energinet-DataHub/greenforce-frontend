@@ -29,9 +29,11 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
-import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
+import { WattDatePipe } from '@energinet/watt/date';
 import { WattExpandableLinkComponent } from '@energinet/watt/expandable-link';
+import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
 
@@ -58,12 +60,14 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     TranslocoDirective,
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
+    WattButtonComponent,
+    WattCopyToClipboardDirective,
     WattDatePipe,
+    WattExpandableLinkComponent,
+    WattIconComponent,
     DhEmDashFallbackPipe,
     DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
-    WattButtonComponent,
-    WattExpandableLinkComponent,
     VaterGridComponent,
     VaterStackComponent,
     SupportedActionsPipe,
@@ -93,6 +97,19 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
     dh-metering-point-process-overview-details .fas-action-group__title {
       margin: 0;
     }
+
+    dh-metering-point-process-overview-details watt-description-list + watt-description-list {
+      margin-top: var(--watt-space-xs);
+    }
+
+    dh-metering-point-process-overview-details .dh-copy-link {
+      border: 0;
+      background: transparent;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--watt-space-xs);
+    }
   `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
@@ -107,37 +124,40 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
         <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
         </h3>
-        <watt-description-list
-          variant="inline-flow"
-          [groupsPerRow]="4"
-          *transloco="let t; prefix: 'meteringPoint.processOverview'"
-        >
-          <watt-description-list-item
-            [label]="t('details.list.createdAt')"
-            [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
-          />
-
-          <watt-description-list-item
-            [label]="t('details.list.cutoff')"
-            [value]="cutoffDate() | wattDate | dhEmDashFallback"
-          />
-
-          @if (businessReason() !== 'ProductionObligation') {
+        <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          <watt-description-list variant="inline-flow" [groupsPerRow]="4">
             <watt-description-list-item
-              [label]="t('details.list.businessReason')"
-              [value]="
-                businessReason()
-                  ? t('businessReason.' + businessReason())
-                  : (null | dhEmDashFallback)
-              "
+              [label]="t('details.list.createdAt')"
+              [value]="createdAt() | wattDate: 'long' | dhEmDashFallback"
             />
-          }
-
-          <watt-description-list-item
-            [label]="t('details.list.initiator')"
-            [value]="initiator() | dhEmDashFallback"
-          />
-        </watt-description-list>
+            <watt-description-list-item
+              [label]="t('details.list.cutoff')"
+              [value]="cutoffDate() | wattDate | dhEmDashFallback"
+            />
+            <watt-description-list-item [label]="t('details.list.processId')">
+              <button type="button" class="watt-link-s dh-copy-link" [wattCopyToClipboard]="id()">
+                <watt-icon size="xs" name="contentCopy" />
+                {{ t('details.list.copy') }}
+              </button>
+            </watt-description-list-item>
+          </watt-description-list>
+          <watt-description-list variant="inline-flow" [groupsPerRow]="4">
+            @if (businessReason() !== 'ProductionObligation') {
+              <watt-description-list-item
+                [label]="t('details.list.businessReason')"
+                [value]="
+                  businessReason()
+                    ? t('businessReason.' + businessReason())
+                    : (null | dhEmDashFallback)
+                "
+              />
+            }
+            <watt-description-list-item
+              [label]="t('details.list.initiator')"
+              [value]="initiator() | dhEmDashFallback"
+            />
+          </watt-description-list>
+        </ng-container>
         @if (isFas() && fasActionGroups().length > 0) {
           <watt-expandable-link
             *transloco="let t; prefix: 'meteringPoint.processOverview'"

@@ -15,11 +15,12 @@
 using System;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
+using Energinet.DataHub.WebApi.Modules.Charges.Types;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Xunit;
 using ChargeResolution = Energinet.DataHub.Charges.Abstractions.Shared.ResolutionDto;
-using RequestChangeOfPriceListResolution = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V1.Models.ResolutionV1;
+using RequestChangeOfPriceListResolution = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models.ResolutionV2;
 
 namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL;
 
@@ -43,7 +44,8 @@ public class EnumerationTests
     [Theory]
     [InlineData(typeof(RequestChangeOfPriceListResolution))]
     public void CastDurationTo_ToRequestChangeOfPriceListResolution_ReturnsMatchingEnumValue(Type type)
-        => EnumerationTestHelper.TestCustomCast<Resolution>(
+        => EnumerationTestHelper.TestCustomCastFromEnumType<Resolution>(
+            typeof(ChargeResolutionInputEnumType),
             type,
             r => r.CastDurationTo<RequestChangeOfPriceListResolution>());
 

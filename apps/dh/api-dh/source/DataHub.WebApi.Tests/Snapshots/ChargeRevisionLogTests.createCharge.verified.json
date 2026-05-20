@@ -1,7 +1,7 @@
 ﻿{
   "activity": "createCharge",
   "payload": {
-    "query": "mutation($code: String!, $name: String!, $description: String!, $type: ChargeType!, $resolution: ChargeResolution!, $validFrom: DateTime!, $vat: Boolean!) { createCharge(input: { code: $code, name: $name, description: $description, type: $type, resolution: $resolution, validFrom: $validFrom, vat: $vat }) { boolean } }",
+    "query": "mutation($code: String!, $name: String!, $description: String!, $type: ChargeType!, $resolution: ChargeResolutionInput!, $validFrom: DateTime!, $vat: Boolean!) { createCharge(input: { code: $code, name: $name, description: $description, type: $type, resolution: $resolution, validFrom: $validFrom, vat: $vat }) { boolean } }",
     "variables": {
       "code": "TEST",
       "name": "Test Charge",

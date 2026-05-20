@@ -18,6 +18,7 @@
 //#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
@@ -205,12 +206,10 @@ describe('Process overview details', () => {
     await user.click(sendInfoButtons[0]);
 
     await waitForAsync(() =>
-      expect(router.navigate).toHaveBeenCalledWith([
-        'metering-point',
-        'imp-123',
-        'update-customer-details',
-        expect.any(String),
-      ])
+      expect(router.navigate).toHaveBeenCalledWith(
+        ['metering-point', 'imp-123', 'update-customer-details', expect.any(String)],
+        expect.objectContaining({ queryParams: expect.any(Object) })
+      )
     );
   });
 
@@ -315,5 +314,17 @@ describe('Process overview details', () => {
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
+  });
+
+  it('should copy the process id to the clipboard when the copy link is clicked', async () => {
+    const fixture = await setup('process-copy-test-id');
+    const user = userEvent.setup();
+    const clipboard = fixture.debugElement.injector.get(Clipboard);
+    const copySpy = vi.spyOn(clipboard, 'copy').mockReturnValue(true);
+
+    const copyLink = await screen.findByRole('button', { name: /copy/i });
+    await user.click(copyLink);
+
+    expect(copySpy).toHaveBeenCalledWith('process-copy-test-id');
   });
 });

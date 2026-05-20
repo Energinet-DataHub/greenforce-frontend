@@ -39,7 +39,7 @@ public static class MeteringPointMetadataMapper
             ConnectionType = meteringPoint.ConnectionType?.MapToDto(),
             DisconnectionType = meteringPoint.DisconnectionType?.MapToDto(),
             Product = meteringPoint.Product?.MapToDto(),
-            ProductObligation = meteringPoint.ProductObligation,
+            ProductObligation = meteringPoint.ProductionObligation,
             MeasureUnit = meteringPoint.EnergyUnit.MapToDto(),
             AssetType = meteringPoint.AssetType?.MapToDto(),
             EnvironmentalFriendly = null,
