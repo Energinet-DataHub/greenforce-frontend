@@ -1073,7 +1073,6 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "SecondaryMoveIn": "Secondary move-in (BRS-009)",
         "IncorrectMove": "Handling of incorrect move (BRS-003)"
       },
       "businessReason": {
