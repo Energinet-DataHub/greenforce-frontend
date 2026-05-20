@@ -509,7 +509,6 @@ export class DhUpdateCustomerDataComponent {
     );
   }
 
-
   clearAddressFields(addressType: 'legal' | 'technical') {
     const formGroup =
       addressType === 'legal'

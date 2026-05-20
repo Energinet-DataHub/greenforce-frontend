@@ -206,4 +206,3 @@ describe('resolveNameProtection', () => {
     expect(resolveNameProtection(values, false)).toBe(true);
   });
 });
-

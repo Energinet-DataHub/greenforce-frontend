@@ -43,12 +43,8 @@ export function resolveCustomerIdentity(
   };
 }
 
-export function resolveNameProtection(
-  values: FormValues,
-  isBusinessCustomer: boolean
-): boolean {
+export function resolveNameProtection(values: FormValues, isBusinessCustomer: boolean): boolean {
   return isBusinessCustomer
     ? values.businessCustomerDetails.nameProtection
     : values.privateCustomerDetails.nameProtection;
 }
-
