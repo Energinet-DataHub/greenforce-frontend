@@ -16,18 +16,19 @@
 :root {
   --watt-button-color: var(--watt-color-primary);
   --watt-button-text-hover-color: var(--watt-color-primary-dark);
-  --watt-button-text-focus-color: var(--watt-color-primary-darker);
   --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
   --mat-button-text-with-icon-horizontal-padding: var(--watt-space-m);
-  --watt-button-focus-color: var(--watt-button-text-focus-color, var(--watt-color-primary-darker));
+  --watt-button-focus-color: var(--watt-color-primary-darker);
   --watt-button-focus-width: 2px;
-  --watt-button-focus-offset: 2px;
+  --watt-button-focus-offset: 4px;
+  --watt-button-focus-radius: var(--watt-radius-m);
 }
 
 @mixin focus-ring {
-  outline: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
-  outline-offset: var(--watt-button-focus-offset);
+  // Focus ring is rendered on the host (watt-button) via ::after,
+  // because .mat-mdc-button has overflow: hidden (for ripples) which
+  // would clip a ring placed on the inner button.
 }
 
 @mixin primary-hover {
@@ -68,6 +69,18 @@
 
 watt-button {
   display: inline-block;
+  position: relative;
+
+  // Focus ring rendered on the host so it can have an independent
+  // border-radius from the button itself (Figma: button 4px, ring 8px).
+  &:has(.mat-mdc-button:focus-visible)::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--watt-button-focus-offset) * -1);
+    border: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
+    border-radius: var(--watt-button-focus-radius);
+    pointer-events: none;
+  }
 
   &.watt-button--primary {
     &.watt-button--disabled .mat-mdc-button.mat-primary {
@@ -206,7 +219,7 @@ watt-button {
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
-      border-radius: var(--watt-radius-m);
+      border-radius: var(--watt-radius-s);
       --mat-button-text-label-text-tracking: 0;
       --mat-button-text-state-layer-color: var(--watt-ripple-color);
       --mat-button-text-ripple-color: var(--watt-ripple-color);
