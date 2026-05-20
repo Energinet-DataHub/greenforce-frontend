@@ -842,6 +842,7 @@
       },
       "receiverLabel": "Til",
       "onDate": "På dato",
+      "noSupplierPeriodForSelectedDate": "Der er ingen leverandørperiode for den valgte dato",
       "role": {
         "ENERGY_SUPPLIER": "Elleverandør",
         "ENERGINET": "Energinet",

@@ -843,6 +843,7 @@
       },
       "receiverLabel": "To",
       "onDate": "On date",
+      "noSupplierPeriodForSelectedDate": "No energy supplier period found for selected date",
       "role": {
         "ENERGY_SUPPLIER": "Energy supplier",
         "ENERGINET": "Energinet",
