@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { type FormControl, type FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { type FormControl, type FormGroup } from '@angular/forms';
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
 import {
@@ -24,17 +24,6 @@ import {
   ChangeOfSupplierBusinessReason,
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { Component } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { WATT_CARD } from '@energinet/watt/card';
-import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
-import { DhContactDetailsComponent } from './components/dh-contact-details.component';
-import { DhCustomerAddressDetailsComponent } from './components/dh-customer-address-details.component';
-import { DhPrivateCustomerDetailsComponent } from './components/dh-private-customer-details.component';
-import { DhBusinessCustomerDetailsFormComponent } from './components/dh-business-customer-details-form.component';
-import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 export type ContactType = 'legalContact' | 'technicalContact';
 
