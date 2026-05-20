@@ -351,7 +351,7 @@ export class DhActorConversationNewConversation {
 
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.energySupplierDate,
-    [this.haveSupplierPeriodOnSelectedDate, Validators.required],
+    [this.supplierPeriodOnSelectedDateValidator, Validators.required],
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );

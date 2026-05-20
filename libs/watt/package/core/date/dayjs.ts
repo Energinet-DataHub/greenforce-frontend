@@ -23,6 +23,7 @@ import duration from 'dayjs/plugin/duration';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import isBetween from 'dayjs/plugin/isBetween';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 
 // Force import of plugins in generated .d.ts file by exporting their types
 type __ngPackagrDayjsTypeScriptWorkaround =
@@ -31,7 +32,8 @@ type __ngPackagrDayjsTypeScriptWorkaround =
   | typeof duration
   | typeof customParseFormat
   | typeof updateLocale
-  | typeof isBetween;
+  | typeof isBetween
+  | typeof isSameOrAfter;
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -39,5 +41,6 @@ dayjs.extend(duration);
 dayjs.extend(customParseFormat);
 dayjs.extend(updateLocale);
 dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
 
 export { dayjs, __ngPackagrDayjsTypeScriptWorkaround };
