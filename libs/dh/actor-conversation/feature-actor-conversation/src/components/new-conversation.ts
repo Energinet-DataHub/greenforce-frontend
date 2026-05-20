@@ -254,16 +254,9 @@ export class DhActorConversationNewConversation {
     if (!selectedDate) return null;
 
     const selectedDay = dayjs(selectedDate);
-    const hasPeriod = this.electricalHeatingPeriods().some((period) => {
-      const from = new Date(period.from);
-
-      if (period.to == null) {
-        return selectedDay.isSameOrAfter(from, 'day');
-      }
-
-      const to = new Date(period.to);
-      return selectedDay.isBetween(from, to, 'day', '[]');
-    });
+    const hasPeriod = this.electricalHeatingPeriods().some((period) =>
+      selectedDay.isBetween(period.from, period.to, 'day', '[]')
+    );
 
     return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
   };
