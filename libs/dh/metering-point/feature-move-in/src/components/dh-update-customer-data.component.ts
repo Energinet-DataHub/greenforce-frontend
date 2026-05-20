@@ -496,11 +496,15 @@ export class DhUpdateCustomerDataComponent {
               : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
-          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
-          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
-          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : undefined,
-          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
+          firstCustomerCpr: !this.isBusinessCustomer() ? (cpr1 ?? undefined) : undefined,
+          secondCustomerCpr: !this.isBusinessCustomer() ? (cpr2 ?? undefined) : undefined,
+          firstCustomerName: !this.isBusinessCustomer()
+            ? customerName1 || undefined
+            : companyName || undefined,
+          secondCustomerName: !this.isBusinessCustomer()
+            ? customerName2 || undefined
+            : undefined,
+          firstCustomerCvr: this.isBusinessCustomer() ? cvr || undefined : undefined,
           protectedName: nameProtection,
           processId: this.processId(),
           usagePointLocations: [
