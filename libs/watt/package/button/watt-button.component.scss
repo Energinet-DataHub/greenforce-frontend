@@ -20,7 +20,10 @@
   --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
   --mat-button-text-with-icon-horizontal-padding: var(--watt-space-m);
-  --watt-button-focus-color: var(--watt-color-primary-darker);
+  --watt-button-focus-color: var(
+    --watt-button-text-focus-color,
+    var(--watt-color-primary-darker)
+  );
   --watt-button-focus-width: 2px;
   --watt-button-focus-offset: 2px;
 }
