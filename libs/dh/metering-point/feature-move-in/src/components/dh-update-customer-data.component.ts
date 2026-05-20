@@ -47,6 +47,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { FormValues } from '../types';
 import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
@@ -463,7 +464,7 @@ export class DhUpdateCustomerDataComponent {
   async updateCustomerData() {
     if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
-    const values = this.form().getRawValue();
+    const values: FormValues = this.form().getRawValue();
 
     await this.requestChangeCustomerCharacteristics.mutate({
       variables: {
@@ -507,24 +508,24 @@ export class DhUpdateCustomerDataComponent {
     );
   }
 
-  private resolveNameProtection(values: ReturnType<typeof this.form>['value']) {
+  private resolveNameProtection(values: FormValues) {
     return this.isBusinessCustomer()
-      ? values.businessCustomerDetails?.nameProtection
-      : values.privateCustomerDetails?.nameProtection;
+      ? values.businessCustomerDetails.nameProtection
+      : values.privateCustomerDetails.nameProtection;
   }
 
-  private resolveCustomerIdentity(values: ReturnType<typeof this.form>['value']) {
+  private resolveCustomerIdentity(values: FormValues) {
     if (this.isBusinessCustomer()) {
       return {
-        firstCustomerName: values.businessCustomerDetails?.companyName || undefined,
-        firstCustomerCvr: values.businessCustomerDetails?.cvr || undefined,
+        firstCustomerName: values.businessCustomerDetails.companyName || undefined,
+        firstCustomerCvr: values.businessCustomerDetails.cvr || undefined,
         firstCustomerCpr: undefined,
         secondCustomerCpr: undefined,
         secondCustomerName: undefined,
       };
     }
 
-    const { cpr1, cpr2, customerName1, customerName2 } = values.privateCustomerDetails ?? {};
+    const { cpr1, cpr2, customerName1, customerName2 } = values.privateCustomerDetails;
 
     return {
       firstCustomerName: customerName1 || undefined,
