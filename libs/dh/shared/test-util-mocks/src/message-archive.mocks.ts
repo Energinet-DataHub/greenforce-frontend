@@ -247,10 +247,10 @@ function getMeteringPointProcessOverview() {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-cmi-info',
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-      createdAt: new Date('2026-05-13T09:11:00Z'),
-      cutoffDate: new Date('2026-05-13T00:00:00Z'),
+      createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
+      cutoffDate: new Date(Date.now() + 864e5), // tomorrow
       state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation],
+      availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
       initiator: {
         __typename: 'MarketParticipant' as const,
         id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
@@ -263,10 +263,10 @@ function getMeteringPointProcessOverview() {
       __typename: 'MeteringPointProcess' as const,
       id: 'process-cos-info',
       businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-      createdAt: new Date('2026-05-14T08:30:00Z'),
-      cutoffDate: new Date('2026-05-20T00:00:00Z'),
+      createdAt: new Date(Date.now() - 864e5), // yesterday (864e5 = 1 day in ms)
+      cutoffDate: new Date(Date.now() + 864e5), // tomorrow
       state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation],
+      availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
       initiator: {
         __typename: 'MarketParticipant' as const,
         id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
@@ -341,12 +341,13 @@ export const knownProcesses: Record<
   'process-cmi-info': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
     initiatorGln: processCmiInfoInitiatorGln,
   },
   'process-cos-info': {
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Pending,
-    availableActions: [WorkflowAction.SendInformation],
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
     initiatorGln: processCosInfoInitiatorGln,
   },
   'process-smi-info': {
@@ -380,16 +381,16 @@ function getAvailableActions(
       WorkflowAction.RejectRequest,
     ];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
-    return [WorkflowAction.SendInformation];
+    return [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
   if (businessReason === ProcessManagerBusinessReason.SecondaryMoveIn)
     return [WorkflowAction.SendInformation];
   if (businessReason === ProcessManagerBusinessReason.ChangeOfEnergySupplier)
-    return [WorkflowAction.SendInformation];
+    return [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
   return [];
 }
 
 function buildCustomerMoveInProcess(processId: string, apiBase: string, initiatorId: string) {
-  const createdAt = new Date('2026-05-13T09:11:00Z');
+  const createdAt = new Date(Date.now() - 6 * 864e5); // 6 days ago (864e5 = 1 day in ms)
   const actor = {
     __typename: 'MarketParticipant' as const,
     id: initiatorId,
@@ -427,10 +428,10 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     __typename: 'MeteringPointProcess' as const,
     id: processId,
     createdAt,
-    cutoffDate: new Date('2026-05-13T00:00:00Z'),
+    cutoffDate: new Date(Date.now() + 864e5), // tomorrow (864e5 = 1 day in ms)
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Pending,
-    availableActions: [WorkflowAction.SendInformation],
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -455,7 +456,9 @@ function buildChangeOfEnergySupplierProcess(
   apiBase: string,
   initiatorId: string
 ) {
-  const createdAt = new Date('2026-05-14T08:30:00Z');
+  const createdAt = new Date(Date.now() - 864e5); // yesterday (864e5 = 1 day in ms)
+  const stepsCompletedAt = new Date(Date.now() - 864e5); // yesterday
+  const lastStepCompletedAt = new Date(Date.now() - 864e5); // yesterday
   const actor = {
     __typename: 'MarketParticipant' as const,
     id: initiatorId,
@@ -493,10 +496,10 @@ function buildChangeOfEnergySupplierProcess(
     __typename: 'MeteringPointProcess' as const,
     id: processId,
     createdAt,
-    cutoffDate: new Date('2026-05-20T00:00:00Z'),
+    cutoffDate: new Date(Date.now() + 864e5), // tomorrow (864e5 = 1 day in ms)
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Pending,
-    availableActions: [WorkflowAction.SendInformation],
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -507,7 +510,7 @@ function buildChangeOfEnergySupplierProcess(
       step({
         stepId: '1',
         stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1',
-        completedAt: new Date('2026-05-14T08:31:00Z'),
+        completedAt: stepsCompletedAt,
         stepState: MeteringPointProcessState.Succeeded,
         actorValue: actor,
         documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-1`,
@@ -515,14 +518,43 @@ function buildChangeOfEnergySupplierProcess(
       step({
         stepId: '2',
         stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2',
-        completedAt: new Date('2026-05-14T09:00:00Z'),
+        completedAt: stepsCompletedAt,
         stepState: MeteringPointProcessState.Succeeded,
         actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-2`,
       }),
-      step({ stepId: '4', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4' }),
-      step({ stepId: '5', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5' }),
-      step({ stepId: '6', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6' }),
-      step({ stepId: '7', stepKey: 'BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7' }),
+      step({
+        stepId: '4',
+        stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4',
+        completedAt: stepsCompletedAt,
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-4`,
+      }),
+      step({
+        stepId: '5',
+        stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5',
+        completedAt: stepsCompletedAt,
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-5`,
+      }),
+      step({
+        stepId: '6',
+        stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6',
+        completedAt: stepsCompletedAt,
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-6`,
+      }),
+      step({
+        stepId: '7',
+        stepKey: 'BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7',
+        completedAt: lastStepCompletedAt,
+        stepState: MeteringPointProcessState.Succeeded,
+        actorValue: actor,
+        documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=cos-step-7`,
+      }),
       step({ stepId: '11', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11' }),
       step({ stepId: '12', stepKey: 'BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12' }),
     ],

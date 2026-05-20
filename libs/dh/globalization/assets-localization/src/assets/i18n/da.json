@@ -1072,7 +1072,6 @@
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)",
-        "SecondaryMoveIn": "Sekundær tilflytning (BRS-009)",
         "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-003)"
       },
       "businessReason": {
@@ -1109,13 +1108,15 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Anmod om korrektion"
+          "REQUEST_CORRECTION": "Anmod om korrektion",
+          "CANCEL_WORKFLOW": "Annuller"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
         },
         "ChangeOfEnergySupplier": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Annuller"
         }
       },
       "incorrectMoveIn": {
@@ -1170,7 +1171,9 @@
         "errorToast": "Anmodning om afbrydelse af målepunkt fejlede"
       },
       "processTypeName": {
-        "EndOfSupply": "leveranceophør"
+        "EndOfSupply": "leveranceophør",
+        "CustomerMoveIn": "tilflytning",
+        "ChangeOfEnergySupplier": "leverandørskifte"
       },
       "steps": {
         "CloseDownMeteringPoint": {
