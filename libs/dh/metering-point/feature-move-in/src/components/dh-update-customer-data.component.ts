@@ -465,57 +465,25 @@ export class DhUpdateCustomerDataComponent {
 
     const values = this.form().getRawValue();
 
-    const {
-      cpr1,
-      cpr2,
-      customerName1,
-      customerName2,
-      nameProtection: privateNameProtection,
-    } = values.privateCustomerDetails;
-    const {
-      companyName,
-      cvr,
-      nameProtection: businessNameProtection,
-    } = values.businessCustomerDetails;
-    const nameProtection = this.isBusinessCustomer()
-      ? businessNameProtection
-      : privateNameProtection;
-    const legalContactDetails = values.legalContactDetails;
-    const legalContactAddressDetails = values.legalContactAddressDetails;
-    const technicalContactDetails = values.technicalContactDetails;
-    const technicalContactAddressDetails = values.technicalContactAddressDetails;
-
     await this.requestChangeCustomerCharacteristics.mutate({
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason:
-            this.businessReason() ??
-            (this.processId()
-              ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-              : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer),
+          businessReason: this.resolveBusinessReason(),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
-          firstCustomerCpr: !this.isBusinessCustomer() ? (cpr1 ?? undefined) : undefined,
-          secondCustomerCpr: !this.isBusinessCustomer() ? (cpr2 ?? undefined) : undefined,
-          firstCustomerName: !this.isBusinessCustomer()
-            ? customerName1 || undefined
-            : companyName || undefined,
-          secondCustomerName: !this.isBusinessCustomer()
-            ? customerName2 || undefined
-            : undefined,
-          firstCustomerCvr: this.isBusinessCustomer() ? cvr || undefined : undefined,
-          protectedName: nameProtection,
           processId: this.processId(),
+          protectedName: this.resolveNameProtection(values),
+          ...this.resolveCustomerIdentity(values),
           usagePointLocations: [
             mapUsagePointLocation(
-              legalContactDetails,
-              legalContactAddressDetails,
+              values.legalContactDetails,
+              values.legalContactAddressDetails,
               AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
-              technicalContactDetails,
-              technicalContactAddressDetails,
+              values.technicalContactDetails,
+              values.technicalContactAddressDetails,
               AddressTypeV2.Technical
             ),
           ],
@@ -528,6 +496,44 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  private resolveBusinessReason(): ChangeCustomerCharacteristicsBusinessReason {
+    return (
+      this.businessReason() ??
+      (this.processId()
+        ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+        : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer)
+    );
+  }
+
+  private resolveNameProtection(values: ReturnType<typeof this.form>['value']) {
+    return this.isBusinessCustomer()
+      ? values.businessCustomerDetails?.nameProtection
+      : values.privateCustomerDetails?.nameProtection;
+  }
+
+  private resolveCustomerIdentity(values: ReturnType<typeof this.form>['value']) {
+    if (this.isBusinessCustomer()) {
+      return {
+        firstCustomerName: values.businessCustomerDetails?.companyName || undefined,
+        firstCustomerCvr: values.businessCustomerDetails?.cvr || undefined,
+        firstCustomerCpr: undefined,
+        secondCustomerCpr: undefined,
+        secondCustomerName: undefined,
+      };
+    }
+
+    const { cpr1, cpr2, customerName1, customerName2 } =
+      values.privateCustomerDetails ?? {};
+
+    return {
+      firstCustomerName: customerName1 || undefined,
+      firstCustomerCpr: cpr1 ?? undefined,
+      secondCustomerName: customerName2 || undefined,
+      secondCustomerCpr: cpr2 ?? undefined,
+      firstCustomerCvr: undefined,
+    };
   }
 
   clearAddressFields(addressType: 'legal' | 'technical') {
