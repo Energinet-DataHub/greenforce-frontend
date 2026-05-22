@@ -270,6 +270,8 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
+        var seriesPeriods = BuildSeriesPeriods(charge, start, end, points);
+
         var result = await ediClient.SendAsync(
             new UpsertChargeSeriesCommandV2(new(
                 ChargeId: id.Code,
@@ -277,14 +279,7 @@ public class ChargesClient(
                 ChargeOwnerId: id.Owner,
                 Start: start,
                 End: end,
-                Points:
-                [
-                    new(
-                        Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
-                        Start: start,
-                        End: end,
-                        Points: points),
-                ])),
+                Points: seriesPeriods)),
             ct);
 
         return result.IsSuccess;
@@ -411,6 +406,44 @@ public class ChargesClient(
     };
 
     private static DateTimeZone DanishTimeZone => LocalDateExtensions.DanishTimeZone;
+
+    internal static List<ChargeSeriesPointsV2> BuildSeriesPeriods(
+        Charge charge,
+        DateTimeOffset start,
+        DateTimeOffset end,
+        List<ChargePointV2> points)
+        => charge.Resolution == Resolution.Monthly
+            ? BuildMonthlySeriesPeriods(charge, start, points)
+            :
+            [
+                new ChargeSeriesPointsV2(
+                    Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
+                    Start: start,
+                    End: end,
+                    Points: points),
+            ];
+
+    internal static List<ChargeSeriesPointsV2> BuildMonthlySeriesPeriods(
+        Charge charge,
+        DateTimeOffset start,
+        List<ChargePointV2> points)
+    {
+        var seriesPeriods = new List<ChargeSeriesPointsV2>();
+        var periodStart = start.ToInstant();
+
+        foreach (var point in points)
+        {
+            var periodEnd = NextSlot(periodStart, Resolution.Monthly);
+            seriesPeriods.Add(new ChargeSeriesPointsV2(
+                Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
+                Start: periodStart.ToDateTimeOffset(),
+                End: periodEnd.ToDateTimeOffset(),
+                Points: [new ChargePointV2(Position: 1, PriceAmount: point.PriceAmount)]));
+            periodStart = periodEnd;
+        }
+
+        return seriesPeriods;
+    }
 
     internal static IEnumerable<Instant> GenerateExpectedSlots(Instant from, Instant to, Resolution resolution)
     {
