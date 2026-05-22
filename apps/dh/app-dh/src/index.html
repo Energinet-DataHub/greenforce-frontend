@@ -61,10 +61,10 @@ limitations under the License.
         background: #ffffff;
         color: #00898a;
         font-family:
-          'Open Sans',
+          "Open Sans",
           -apple-system,
           BlinkMacSystemFont,
-          'Segoe UI',
+          "Segoe UI",
           sans-serif;
         z-index: 2147483647;
         transition: opacity 200ms ease-out;
@@ -125,21 +125,21 @@ limitations under the License.
        */
       (function () {
         var translations = {
-          da: { label: 'Indlæser DataHub…', aria: 'Indlæser DataHub' },
-          en: { label: 'Loading DataHub…', aria: 'Loading DataHub' },
+          da: { label: "Indlæser DataHub…", aria: "Indlæser DataHub" },
+          en: { label: "Loading DataHub…", aria: "Loading DataHub" },
         };
-        var lang = 'da';
+        var lang = "da";
         try {
-          var stored = window.localStorage.getItem('dh-language');
+          var stored = window.localStorage.getItem("dh-language");
           if (stored && translations[stored]) lang = stored;
         } catch (_) {
           /* localStorage may be unavailable (e.g. privacy mode) - keep default */
         }
         var t = translations[lang];
-        document.documentElement.setAttribute('lang', lang);
-        var splash = document.getElementById('dh-startup-splash');
-        if (splash) splash.setAttribute('aria-label', t.aria);
-        var label = document.querySelector('[data-dh-splash-label]');
+        document.documentElement.setAttribute("lang", lang);
+        var splash = document.getElementById("dh-startup-splash");
+        if (splash) splash.setAttribute("aria-label", t.aria);
+        var label = document.querySelector("[data-dh-splash-label]");
         if (label) label.textContent = t.label;
       })();
     </script>
