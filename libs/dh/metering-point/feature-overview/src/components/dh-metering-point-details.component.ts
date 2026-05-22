@@ -257,15 +257,13 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
                 }
               </watt-description-list-item>
 
-              @if (meteringPointDetails()?.type === MeteringPointType.Production) {
-                <watt-description-list-item [label]="t('powerPlantAssetType')">
-                  @if (meteringPointDetails()?.assetType) {
-                    {{ 'assetType.' + meteringPointDetails()?.assetType | transloco }}
-                  } @else {
-                    {{ null | dhEmDashFallback }}
-                  }
-                </watt-description-list-item>
-              }
+              <watt-description-list-item [label]="t('powerPlantAssetType')">
+                @if (meteringPointDetails()?.assetType) {
+                  {{ 'assetType.' + meteringPointDetails()?.assetType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </watt-description-list-item>
 
               <watt-description-list-item [label]="t('powerPlantConnectionType')">
                 @if (meteringPointDetails()?.connectionType) {
