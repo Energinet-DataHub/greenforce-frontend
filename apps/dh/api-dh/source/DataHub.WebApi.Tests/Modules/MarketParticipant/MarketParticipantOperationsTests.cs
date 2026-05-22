@@ -115,7 +115,7 @@ public class MarketParticipantOperationsTests
                 It.IsAny<IEnumerable<MeteringPointDto>>(),
                 It.IsAny<CancellationToken>(),
                 It.IsAny<string?>()))
-            .Callback<Guid, IEnumerable<MeteringPointDto>, CancellationToken, string?>((_, body, _, _) => mappedMeteringPoints = body.ToList())
+            .Callback<Guid, IEnumerable<MeteringPointDto>, CancellationToken, string?>((_, meteringPoints, _, _) => mappedMeteringPoints = meteringPoints.ToList())
             .Returns(Task.CompletedTask);
 
         em1Client
