@@ -336,8 +336,6 @@ export class DhMeteringPointDetailsComponent {
       .format('MMMM');
   }
 
-  MeteringPointType = ElectricityMarketMeteringPointType;
-
   showAddressDetails(): void {
     this.modalService.open({
       component: DhAddressDetailsComponent,
