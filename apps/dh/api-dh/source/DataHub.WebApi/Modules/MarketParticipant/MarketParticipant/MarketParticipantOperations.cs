@@ -301,8 +301,12 @@ public static class MarketParticipantOperations
 
             if (!result.IsSuccess || result.Data is null)
             {
+                var diagnosticMessage = string.IsNullOrWhiteSpace(result.DiagnosticMessage)
+                    ? "No diagnostic message was provided."
+                    : result.DiagnosticMessage;
+
                 throw new InvalidOperationException(
-                    $"GetMeteringPointTypesQueryV1 failed: {result.DiagnosticMessage}");
+                    $"GetMeteringPointTypesQueryV1 failed for {meteringPointIds.Count} metering point(s): {diagnosticMessage}");
             }
 
             meteringPointsWithType = result.Data.MeteringPointTypes;
