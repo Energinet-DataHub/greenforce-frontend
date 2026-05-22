@@ -17,6 +17,7 @@ using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
+using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -25,7 +26,7 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> CreateChargeLinkAsync(
+    public static async Task<ChargeLinkPeriod> CreateChargeLinkAsync(
         ChargeIdentifierDto chargeId,
         string meteringPointId,
         DateTimeOffset newStartDate,
@@ -37,7 +38,7 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> EditChargeLinkAsync(
+    public static async Task<IEnumerable<ChargeLinkPeriod>> EditChargeLinkAsync(
         ChargeLinkPeriodId id,
         DateTimeOffset newStartDate,
         int factor,
@@ -48,7 +49,7 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> StopChargeLinkAsync(
+    public static async Task<ChargeLinkPeriod> StopChargeLinkAsync(
         ChargeLinkPeriodId id,
         DateTimeOffset stopDate,
         IChargesClient client,
@@ -58,7 +59,7 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> CancelChargeLinkAsync(
+    public static async Task<ChargeLinkPeriod> CancelChargeLinkAsync(
         ChargeLinkPeriodId id,
         IChargesClient client,
         CancellationToken ct)

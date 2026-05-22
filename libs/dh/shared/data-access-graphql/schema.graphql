@@ -263,7 +263,7 @@ type CancelChangeOfEnergySupplierPayload {
 }
 
 type CancelChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type CancelCustomerMoveInPayload {
@@ -328,10 +328,12 @@ type Charge {
 }
 
 type ChargeLinkPeriod {
+  sortKey: String!
+  charge: Charge!
   changes: [ChargeLinkPeriodChange!]!
   period: DateRange!
+  cancelled: Boolean!
   closed: Boolean!
-  charge: Charge!
   amount: Int!
   id: String!
 }
@@ -484,7 +486,7 @@ type CreateCalculationPayload {
 }
 
 type CreateChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type CreateChargePayload {
@@ -535,7 +537,7 @@ type DismissNotificationPayload {
 }
 
 type EditChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: [ChargeLinkPeriod!]
 }
 
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
@@ -1791,7 +1793,7 @@ type StartConversationPayload {
 }
 
 type StopChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type StopChargePayload {
