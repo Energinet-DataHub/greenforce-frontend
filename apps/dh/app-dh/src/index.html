@@ -107,10 +107,6 @@ limitations under the License.
     </style>
   </head>
   <body>
-    <div id="dh-startup-splash" role="status" aria-live="polite">
-      <div class="dh-startup-splash__spinner" aria-hidden="true"></div>
-      <div class="dh-startup-splash__label" data-dh-splash-label>Indlæser DataHub…</div>
-    </div>
     <script>
       /*
        * Localize the startup splash before Angular bootstraps.
@@ -143,7 +139,12 @@ limitations under the License.
         if (label) label.textContent = t.label;
       })();
     </script>
-    <datahub-app></datahub-app>
+    <datahub-app>
+      <div id="dh-startup-splash" role="status" aria-live="polite">
+        <div class="dh-startup-splash__spinner" aria-hidden="true"></div>
+        <div class="dh-startup-splash__label" data-dh-splash-label>Indlæser DataHub…</div>
+      </div>
+    </datahub-app>
     <noscript>Please enable JavaScript to continue using this application.</noscript>
   </body>
 </html>

@@ -87,29 +87,7 @@ function bootstrapApp() {
         ],
       });
     })
-    .then(() => removeStartupSplash())
     .catch((error: unknown) => {
-      // Ensure the splash is removed even when bootstrap fails so the user
-      // is not stuck looking at an indefinite spinner.
-      removeStartupSplash();
       console.error(error);
     });
-}
-
-/**
- * Removes the static loading splash defined in `index.html`. The splash is
- * kept visible from the very first paint until Angular has fully bootstrapped
- * (which, due to `dhActorTokenInitializer`, includes warming the user-actor
- * token cache). A short fade-out is applied to avoid an abrupt flicker.
- */
-function removeStartupSplash(): void {
-  const splash = document.getElementById('dh-startup-splash');
-  if (!splash) return;
-
-  splash.classList.add('dh-startup-splash--hidden');
-
-  const remove = () => splash.remove();
-  splash.addEventListener('transitionend', remove, { once: true });
-  // Fallback in case the transition never fires (e.g. reduced motion).
-  setTimeout(remove, 400);
 }
