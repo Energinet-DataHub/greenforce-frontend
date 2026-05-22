@@ -113,7 +113,7 @@ public class MeteringPointProcessSubscriptionTests
             ExpectedValidityDate: new DateTimeOffset(2025, 1, 5, 0, 0, 0, TimeSpan.Zero),
             TransactionId: "transaction-id",
             Lifecycle: new WorkflowInstanceLifecycleDto(
-                CreatedBy: new ActorIdentityDto(
+                CreatedBy: new MaskedActorIdentityDto(
                     ActorNumber.Create("5790001330552"),
                     ActorRole.GridAccessProvider),
                 State: WorkflowInstanceLifecycleState.Sleeping,
