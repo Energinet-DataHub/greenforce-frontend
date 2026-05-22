@@ -286,8 +286,6 @@ export class DhActorConversationNewConversation {
         ) ?? []
   );
 
-  _ = effect(() => console.log(this.supplierPeriods()));
-
   private readonly electricalHeatingPeriods = computed(
     () => this.electricalHeatingInformation()?.supplierPeriods ?? []
   );
