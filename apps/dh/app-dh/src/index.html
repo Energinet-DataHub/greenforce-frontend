@@ -107,43 +107,43 @@ limitations under the License.
     </style>
   </head>
   <body>
-    <script>
-      /*
-       * Localize the startup splash before Angular bootstraps.
-       *
-       * The user's language preference is persisted by `DhLanguageService`
-       * under the `dh-language` key in localStorage (values: 'da' | 'en').
-       * If no preference is stored yet, we fall back to Danish to match the
-       * app's `defaultLang` in `dh-transloco.providers.ts`.
-       *
-       * Keep these inline strings aligned with the app's localization assets
-       * if the corresponding loading text is updated in the future.
-       */
-      (function () {
-        var translations = {
-          da: { label: "Indlæser DataHub…", aria: "Indlæser DataHub" },
-          en: { label: "Loading DataHub…", aria: "Loading DataHub" },
-        };
-        var lang = "da";
-        try {
-          var stored = window.localStorage.getItem("dh-language");
-          if (stored && translations[stored]) lang = stored;
-        } catch (_) {
-          /* localStorage may be unavailable (e.g. privacy mode) - keep default */
-        }
-        var t = translations[lang];
-        document.documentElement.setAttribute("lang", lang);
-        var splash = document.getElementById("dh-startup-splash");
-        if (splash) splash.setAttribute("aria-label", t.aria);
-        var label = document.querySelector("[data-dh-splash-label]");
-        if (label) label.textContent = t.label;
-      })();
-    </script>
     <datahub-app>
       <div id="dh-startup-splash" role="status" aria-live="polite">
         <div class="dh-startup-splash__spinner" aria-hidden="true"></div>
         <div class="dh-startup-splash__label" data-dh-splash-label>Indlæser DataHub…</div>
       </div>
+      <script>
+        /*
+         * Localize the startup splash before Angular bootstraps.
+         *
+         * The user's language preference is persisted by `DhLanguageService`
+         * under the `dh-language` key in localStorage (values: 'da' | 'en').
+         * If no preference is stored yet, we fall back to Danish to match the
+         * app's `defaultLang` in `dh-transloco.providers.ts`.
+         *
+         * Keep these inline strings aligned with the app's localization assets
+         * if the corresponding loading text is updated in the future.
+         */
+        (function () {
+          var translations = {
+            da: { label: "Indlæser DataHub…", aria: "Indlæser DataHub" },
+            en: { label: "Loading DataHub…", aria: "Loading DataHub" },
+          };
+          var lang = "da";
+          try {
+            var stored = window.localStorage.getItem("dh-language");
+            if (stored && translations[stored]) lang = stored;
+          } catch (_) {
+            /* localStorage may be unavailable (e.g. privacy mode) - keep default */
+          }
+          var t = translations[lang];
+          document.documentElement.setAttribute("lang", lang);
+          var splash = document.getElementById("dh-startup-splash");
+          if (splash) splash.setAttribute("aria-label", t.aria);
+          var label = document.querySelector("[data-dh-splash-label]");
+          if (label) label.textContent = t.label;
+        })();
+      </script>
     </datahub-app>
     <noscript>Please enable JavaScript to continue using this application.</noscript>
   </body>
