@@ -80,8 +80,8 @@ public class ChargeLinkPeriodTests
         server.ChargesClientMock
             .Setup(x => x.GetChargeLinkPeriodsAsync("571313180000000005", It.IsAny<CancellationToken>()))
             .ReturnsAsync([
-                new ChargeLinkPeriod("571313180000000005", linkPeriod, feeCharge),
-                new ChargeLinkPeriod("571313180000000005", linkPeriod, tariffCharge),
+                new ChargeLinkPeriod("571313180000000005", linkPeriod, feeCharge.Id),
+                new ChargeLinkPeriod("571313180000000005", linkPeriod, tariffCharge.Id),
             ]);
 
         var result = await server.ExecuteRequestAsync(
@@ -98,11 +98,11 @@ public class ChargeLinkPeriodTests
             .EnumerateArray()
             .ToArray();
 
-        // Items are sorted by SortOrder: Tariff (1) before Fee (3)
-        var tariffPeriod = items[0].GetProperty("period");
-        var feePeriod = items[1].GetProperty("period");
+        // Fee charge links should have null period end, tariff should keep period end
+        var feePeriod = items.First(i => i.GetProperty("period").GetProperty("end").ValueKind == JsonValueKind.Null);
+        var tariffPeriod = items.First(i => i.GetProperty("period").GetProperty("end").ValueKind == JsonValueKind.String);
 
-        Assert.Equal(JsonValueKind.String, tariffPeriod.GetProperty("end").ValueKind);
-        Assert.Equal(JsonValueKind.Null, feePeriod.GetProperty("end").ValueKind);
+        Assert.Equal(JsonValueKind.String, tariffPeriod.GetProperty("period").GetProperty("end").ValueKind);
+        Assert.Equal(JsonValueKind.Null, feePeriod.GetProperty("period").GetProperty("end").ValueKind);
     }
 }
