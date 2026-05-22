@@ -193,7 +193,7 @@ public static partial class MeteringPointProcessNode
         // TODO: Check if the actor has been masked.
         // If yes, we clean the information to memic the old behaviour
         // Before we introduced MaskedActorIdentity
-        var actorIdentityIsNotMasked = actorIdentity.ActorNumber?.Value == null;
+        var actorIdentityIsNotMasked = actorIdentity.ActorNumber?.Value != null;
 
         return new MeteringPointProcess(
             Id: id.ToString(),
