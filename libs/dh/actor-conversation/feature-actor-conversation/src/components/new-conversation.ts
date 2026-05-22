@@ -62,7 +62,7 @@ import {
   ConversationSubject,
   GetConversationsDocument,
   StartConversationDocument,
-  GetMeteringPointTypeDocument,
+  GetMeteringPointInfoDocument,
   GetElectricalHeatingDocument,
   ElectricityMarketViewMeteringPointType,
   StartElectricalHeatingConversationInput,
@@ -224,7 +224,7 @@ export class DhActorConversationNewConversation {
   private readonly electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: { meteringPointIdentification: this.meteringPointIdentification() ?? '' },
   }));
-  private readonly meteringPointTypeQuery = query(GetMeteringPointTypeDocument, () => ({
+  private readonly meteringPointInfoQuery = query(GetMeteringPointInfoDocument, () => ({
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
 
@@ -254,8 +254,8 @@ export class DhActorConversationNewConversation {
     if (!selectedDate) return null;
 
     const selectedDay = dayjs(selectedDate);
-    const hasPeriod = this.electricalHeatingPeriods().some((period) =>
-      selectedDay.isBetween(period.from, period.to, 'day', '[]')
+    const hasPeriod = this.supplierPeriods().some((period) =>
+      selectedDay.isBetween(period.validFrom, period.validTo, 'day', '[]')
     );
 
     return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
@@ -277,6 +277,17 @@ export class DhActorConversationNewConversation {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
+  private readonly supplierPeriods = computed(
+    () =>
+      this.meteringPointInfoQuery
+        .data()
+        ?.meteringPoint.commercialRelationTimeline.flatMap(
+          (timeline) => timeline.energySupplyPeriodTimeline
+        ) ?? []
+  );
+
+  _ = effect(() => console.log(this.supplierPeriods()));
+
   private readonly electricalHeatingPeriods = computed(
     () => this.electricalHeatingInformation()?.supplierPeriods ?? []
   );
@@ -291,7 +302,7 @@ export class DhActorConversationNewConversation {
 
   isMeteringPointTypeConsumption = computed(
     () =>
-      this.meteringPointTypeQuery.data()?.meteringPoint.metadata.type ===
+      this.meteringPointInfoQuery.data()?.meteringPoint.metadata.type ===
       ElectricityMarketViewMeteringPointType.Consumption
   );
 
