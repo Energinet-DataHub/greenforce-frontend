@@ -189,7 +189,7 @@ public static partial class MeteringPointProcessNode
         WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
-        var actorIdentity = lifecycle.CreatedBy as ActorIdentityDto;
+        var actorIdentity = lifecycle.CreatedBy;
 
         return new MeteringPointProcess(
             Id: id.ToString(),
@@ -197,8 +197,8 @@ public static partial class MeteringPointProcessNode
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
-            ActorNumber: actorIdentity?.ActorNumber.Value ?? string.Empty,
-            ActorRole: actorIdentity?.ActorRole.Name ?? string.Empty,
+            ActorNumber: actorIdentity.ActorNumber?.Value ?? string.Empty,
+            ActorRole: actorIdentity.ActorRole.Name,
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
             Actions: actions,
             WorkflowSteps: workflowSteps);
