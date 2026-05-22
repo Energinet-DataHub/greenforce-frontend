@@ -528,15 +528,18 @@ function getChargeWeekSeries() {
         chargeById: {
           __typename: 'Charge',
           id: chargeInformation.id,
-          series: chargeInformation.series.map((point) => ({
-            __typename: 'ChargeSeriesPoint',
-            price: point.price,
-            interval: {
-              start: point.interval.start,
-              end: point.interval.end,
-            },
-            hasChanged: point.hasChanged,
-          })),
+          series: chargeInformation.series
+            .map((point) => ({
+              __typename: 'ChargeSeriesPoint' as const,
+              price: point.price,
+              interval: {
+                start: point.interval.start,
+                end: point.interval.end,
+              },
+              hasChanged: point.hasChanged,
+            }))
+            // Randomly filter out some data points to simulate missing data
+            .filter(() => Math.random() > 0.5),
         },
       },
     });
