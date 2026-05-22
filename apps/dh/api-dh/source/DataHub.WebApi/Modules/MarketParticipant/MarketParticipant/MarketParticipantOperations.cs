@@ -13,15 +13,19 @@
 // limitations under the License.
 
 using System.Text.Json;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoints.GetMeteringPointTypes.V1;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
+using Microsoft.FeatureManagement;
 using ApiException = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.ApiException;
 using EicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 using MeteringPointDto = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.MeteringPointDto;
 using MeteringPointType = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.MeteringPointType;
+using SharedMeteringPointType = Energinet.DataHub.ElectricityMarket.Abstractions.Shared.MeteringPointType;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant.Actor;
 
@@ -280,15 +284,70 @@ public static class MarketParticipantOperations
         Guid marketParticipantId,
         IReadOnlyCollection<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 marketParticipantClient,
-        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        [Service] IElectricityMarketClient_V1 em1Client,
+        [Service] IElectricityMarketClient em2Client,
+        [Service] IFeatureManager featureManager,
         CancellationToken ct)
     {
-        var meteringPointsWithType = await electricityMarketClient
-            .MeteringPointQueryTypeAsync(meteringPointIds, ct)
-            .ConfigureAwait(false);
+        var isNewMeteringPointsModelEnabled = await featureManager.IsEnabledAsync("PM120-DH3-METERING-POINTS-UI");
+
+        IReadOnlyCollection<MeteringPointTypeDtoV1> meteringPointsWithType;
+
+        if (isNewMeteringPointsModelEnabled)
+        {
+            var result = await em2Client
+                .SendAsync(new GetMeteringPointTypesQueryV1(meteringPointIds.ToList()), ct)
+                .ConfigureAwait(false);
+
+            if (!result.IsSuccess || result.Data is null)
+            {
+                throw new InvalidOperationException(
+                    $"GetMeteringPointTypesQueryV1 failed: {result.DiagnosticMessage}");
+            }
+
+            meteringPointsWithType = result.Data.MeteringPointTypes;
+        }
+        else
+        {
+            var em1Result = await em1Client
+                .MeteringPointQueryTypeAsync(meteringPointIds, ct)
+                .ConfigureAwait(false);
+
+            meteringPointsWithType = em1Result.Select(dto =>
+            {
+                var mappedType = dto.Type switch
+                {
+                    MeteringPointType.Consumption => SharedMeteringPointType.Consumption,
+                    MeteringPointType.Production => SharedMeteringPointType.Production,
+                    MeteringPointType.Exchange => SharedMeteringPointType.Exchange,
+                    MeteringPointType.VEProduction => SharedMeteringPointType.VEProduction,
+                    MeteringPointType.Analysis => SharedMeteringPointType.Analysis,
+                    MeteringPointType.NotUsed => SharedMeteringPointType.NotUsed,
+                    MeteringPointType.SurplusProductionGroup6 => SharedMeteringPointType.SurplusProductionGroup6,
+                    MeteringPointType.NetProduction => SharedMeteringPointType.NetProduction,
+                    MeteringPointType.SupplyToGrid => SharedMeteringPointType.SupplyToGrid,
+                    MeteringPointType.ConsumptionFromGrid => SharedMeteringPointType.ConsumptionFromGrid,
+                    MeteringPointType.WholesaleServicesOrInformation => SharedMeteringPointType.WholesaleServicesOrInformation,
+                    MeteringPointType.OwnProduction => SharedMeteringPointType.OwnProduction,
+                    MeteringPointType.NetFromGrid => SharedMeteringPointType.NetFromGrid,
+                    MeteringPointType.NetToGrid => SharedMeteringPointType.NetToGrid,
+                    MeteringPointType.TotalConsumption => SharedMeteringPointType.TotalConsumption,
+                    MeteringPointType.NetLossCorrection => SharedMeteringPointType.NetLossCorrection,
+                    MeteringPointType.ElectricalHeating => SharedMeteringPointType.ElectricalHeating,
+                    MeteringPointType.NetConsumption => SharedMeteringPointType.NetConsumption,
+                    MeteringPointType.OtherConsumption => SharedMeteringPointType.OtherConsumption,
+                    MeteringPointType.OtherProduction => SharedMeteringPointType.OtherProduction,
+                    MeteringPointType.ExchangeReactiveEnergy => SharedMeteringPointType.ExchangeReactiveEnergy,
+                    MeteringPointType.InternalUse => SharedMeteringPointType.InternalUse,
+                    _ => SharedMeteringPointType.Unknown,
+                };
+
+                return new MeteringPointTypeDtoV1(dto.Identification, mappedType);
+            }).ToList();
+        }
 
         var foundMeteringPoints = meteringPointsWithType
-            .Select(dto => dto.Identification)
+            .Select(dto => dto.MeteringPointId)
             .ToHashSet();
 
         foreach (var meteringPoint in meteringPointIds)
@@ -315,32 +374,32 @@ public static class MarketParticipantOperations
         {
             var type = mp.Type switch
             {
-                MeteringPointType.Consumption => Clients.MarketParticipant.v1.MeteringPointType.E17Consumption,
-                MeteringPointType.Production => Clients.MarketParticipant.v1.MeteringPointType.E18Production,
-                MeteringPointType.Exchange => Clients.MarketParticipant.v1.MeteringPointType.E20Exchange,
-                MeteringPointType.VEProduction => Clients.MarketParticipant.v1.MeteringPointType.D01VeProduction,
-                MeteringPointType.Analysis => Clients.MarketParticipant.v1.MeteringPointType.D02Analysis,
-                MeteringPointType.NotUsed => Clients.MarketParticipant.v1.MeteringPointType.D03NotUsed,
-                MeteringPointType.SurplusProductionGroup6 => Clients.MarketParticipant.v1.MeteringPointType.D04SurplusProductionGroup6,
-                MeteringPointType.NetProduction => Clients.MarketParticipant.v1.MeteringPointType.D05NetProduction,
-                MeteringPointType.SupplyToGrid => Clients.MarketParticipant.v1.MeteringPointType.D06SupplyToGrid,
-                MeteringPointType.ConsumptionFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D07ConsumptionFromGrid,
-                MeteringPointType.WholesaleServicesOrInformation => Clients.MarketParticipant.v1.MeteringPointType.D08WholeSaleServicesInformation,
-                MeteringPointType.OwnProduction => Clients.MarketParticipant.v1.MeteringPointType.D09OwnProduction,
-                MeteringPointType.NetFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D10NetFromGrid,
-                MeteringPointType.NetToGrid => Clients.MarketParticipant.v1.MeteringPointType.D11NetToGrid,
-                MeteringPointType.TotalConsumption => Clients.MarketParticipant.v1.MeteringPointType.D12TotalConsumption,
-                MeteringPointType.NetLossCorrection => Clients.MarketParticipant.v1.MeteringPointType.D13NetLossCorrection,
-                MeteringPointType.ElectricalHeating => Clients.MarketParticipant.v1.MeteringPointType.D14ElectricalHeating,
-                MeteringPointType.NetConsumption => Clients.MarketParticipant.v1.MeteringPointType.D15NetConsumption,
-                MeteringPointType.OtherConsumption => Clients.MarketParticipant.v1.MeteringPointType.D17OtherConsumption,
-                MeteringPointType.OtherProduction => Clients.MarketParticipant.v1.MeteringPointType.D18OtherProduction,
-                MeteringPointType.ExchangeReactiveEnergy => Clients.MarketParticipant.v1.MeteringPointType.D20ExchangeReactiveEnergy,
-                MeteringPointType.InternalUse => Clients.MarketParticipant.v1.MeteringPointType.D99InternalUse,
+                SharedMeteringPointType.Consumption => Clients.MarketParticipant.v1.MeteringPointType.E17Consumption,
+                SharedMeteringPointType.Production => Clients.MarketParticipant.v1.MeteringPointType.E18Production,
+                SharedMeteringPointType.Exchange => Clients.MarketParticipant.v1.MeteringPointType.E20Exchange,
+                SharedMeteringPointType.VEProduction => Clients.MarketParticipant.v1.MeteringPointType.D01VeProduction,
+                SharedMeteringPointType.Analysis => Clients.MarketParticipant.v1.MeteringPointType.D02Analysis,
+                SharedMeteringPointType.NotUsed => Clients.MarketParticipant.v1.MeteringPointType.D03NotUsed,
+                SharedMeteringPointType.SurplusProductionGroup6 => Clients.MarketParticipant.v1.MeteringPointType.D04SurplusProductionGroup6,
+                SharedMeteringPointType.NetProduction => Clients.MarketParticipant.v1.MeteringPointType.D05NetProduction,
+                SharedMeteringPointType.SupplyToGrid => Clients.MarketParticipant.v1.MeteringPointType.D06SupplyToGrid,
+                SharedMeteringPointType.ConsumptionFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D07ConsumptionFromGrid,
+                SharedMeteringPointType.WholesaleServicesOrInformation => Clients.MarketParticipant.v1.MeteringPointType.D08WholeSaleServicesInformation,
+                SharedMeteringPointType.OwnProduction => Clients.MarketParticipant.v1.MeteringPointType.D09OwnProduction,
+                SharedMeteringPointType.NetFromGrid => Clients.MarketParticipant.v1.MeteringPointType.D10NetFromGrid,
+                SharedMeteringPointType.NetToGrid => Clients.MarketParticipant.v1.MeteringPointType.D11NetToGrid,
+                SharedMeteringPointType.TotalConsumption => Clients.MarketParticipant.v1.MeteringPointType.D12TotalConsumption,
+                SharedMeteringPointType.NetLossCorrection => Clients.MarketParticipant.v1.MeteringPointType.D13NetLossCorrection,
+                SharedMeteringPointType.ElectricalHeating => Clients.MarketParticipant.v1.MeteringPointType.D14ElectricalHeating,
+                SharedMeteringPointType.NetConsumption => Clients.MarketParticipant.v1.MeteringPointType.D15NetConsumption,
+                SharedMeteringPointType.OtherConsumption => Clients.MarketParticipant.v1.MeteringPointType.D17OtherConsumption,
+                SharedMeteringPointType.OtherProduction => Clients.MarketParticipant.v1.MeteringPointType.D18OtherProduction,
+                SharedMeteringPointType.ExchangeReactiveEnergy => Clients.MarketParticipant.v1.MeteringPointType.D20ExchangeReactiveEnergy,
+                SharedMeteringPointType.InternalUse => Clients.MarketParticipant.v1.MeteringPointType.D99InternalUse,
                 _ => Clients.MarketParticipant.v1.MeteringPointType.Unknown,
             };
 
-            return new MeteringPointDto { Identification = mp.Identification, MeteringPointType = type };
+            return new MeteringPointDto { Identification = mp.MeteringPointId, MeteringPointType = type };
         });
 
         await marketParticipantClient
