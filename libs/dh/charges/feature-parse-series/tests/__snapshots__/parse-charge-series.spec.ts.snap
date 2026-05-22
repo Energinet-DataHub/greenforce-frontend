@@ -344,6 +344,34 @@ exports[`parseChargeSeries > should parse monthly resolution with first entry st
 }
 `;
 
+exports[`parseChargeSeries > should parse monthly resolution with sequential positions 1,1,1,1 and mid-month start (Sep–Dec crossing DST) 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2026-12-31T23:00:00.000Z,
+    "start": 2026-09-13T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 4,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
+exports[`parseChargeSeries > should parse monthly resolution with sequential positions 1,2,3,4 and mid-month start (Sep–Dec crossing DST) 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2026-12-31T23:00:00.000Z,
+    "start": 2026-09-13T22:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 4,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
 exports[`parseChargeSeries > should parse points in daily resolution 1`] = `
 {
   "errors": [],

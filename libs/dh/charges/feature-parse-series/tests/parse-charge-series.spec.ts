@@ -414,4 +414,36 @@ describe(parseChargeSeries, () => {
     const result = await lastValueFrom(stream);
     expect(makeReadable(result)).toMatchSnapshot();
   });
+
+  it('should parse monthly resolution with sequential positions 1,2,3,4 and mid-month start (Sep–Dec crossing DST)', async () => {
+    // Reproduces the real-world case: position column uses 1,2,3,4 (not 1,1,1,1)
+    // for a P1M charge starting mid-September 2026, crossing the October DST boundary.
+    // Both position formats must be accepted; only missing months should be rejected.
+    const csv = [
+      'Position,Periode,Pris',
+      '1,14.9.2026 0.00,10.101259',
+      '2,1.10.2026 0.00,10.101259',
+      '3,1.11.2026 0.00,10.101259',
+      '4,1.12.2026 0.00,10.101259',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
+
+  it('should parse monthly resolution with sequential positions 1,1,1,1 and mid-month start (Sep–Dec crossing DST)', async () => {
+    // Same dates as above but with all-1 positions – the backend normalises both to Position=1.
+    const csv = [
+      'Position,Periode,Pris',
+      '1,14.9.2026 0.00,10.101259',
+      '1,1.10.2026 0.00,10.101259',
+      '1,1.11.2026 0.00,10.101259',
+      '1,1.12.2026 0.00,10.101259',
+    ].join('\n');
+
+    const stream = parseChargeSeries(csv, ChargeResolution.Monthly);
+    const result = await lastValueFrom(stream);
+    expect(makeReadable(result)).toMatchSnapshot();
+  });
 });

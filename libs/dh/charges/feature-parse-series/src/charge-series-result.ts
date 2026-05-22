@@ -146,9 +146,11 @@ export class ChargeSeriesResult {
       case ChargeResolution.Monthly:
         // For monthly resolution, the first entry can start on any day of the month.
         // Subsequent entries must start on the 1st of the month.
-        return this.points.length === 1
-          ? withDstFix(this.last, (d) => d.add(1, 'month').startOf('month'))
-          : withDstFix(this.last, (d) => d.add(1, 'month'));
+        // If the current date is not the 1st, snap to the 1st of the following month;
+        // otherwise just advance one month (which also lands on the 1st).
+        return withDstFix(this.last, (d) =>
+          d.date() === 1 ? d.add(1, 'month') : d.add(1, 'month').startOf('month')
+        );
     }
   };
 
