@@ -40,28 +40,7 @@ export function computeRowLabels(weekStart: Date, weekEnd: Date): string[] {
     // 01 - 02
     // 02 - 02 (DST end)
     // 02 - 03
-    .toSorted((a, b) => {
-      const [aStart, aEnd] = a.split(' — ').map((time) => parseInt(time, 10));
-      const [bStart, bEnd] = b.split(' — ').map((time) => parseInt(time, 10));
-
-      if (aStart < bStart) {
-        return -1;
-      }
-
-      if (aStart > bStart) {
-        return 1;
-      }
-
-      if (aEnd < bEnd) {
-        return -1;
-      }
-
-      if (aEnd > bEnd) {
-        return 1;
-      }
-
-      return 0;
-    });
+    .toSorted();
 
   return [...new Set(labels)];
 }

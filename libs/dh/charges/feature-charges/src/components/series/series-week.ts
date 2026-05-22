@@ -43,7 +43,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
-import { computeRowLabels } from '../util/time-utils';
+import { computeRowLabels } from '../util/week-table-utils';
 import { DhChargesWeekRow } from '../../types';
 
 @Component({
