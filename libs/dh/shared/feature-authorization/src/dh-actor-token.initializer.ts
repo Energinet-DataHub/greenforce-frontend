@@ -16,11 +16,15 @@
  * limitations under the License.
  */
 //#endregion
+import { HttpErrorResponse } from '@angular/common/http';
 import { inject, provideAppInitializer } from '@angular/core';
 import { MsalService } from '@azure/msal-angular';
 import { firstValueFrom } from 'rxjs';
 
+import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+
 import { DhActorTokenService } from './dh-actor-token.service';
+import { DhStartupErrorService } from './dh-startup-error.service';
 
 /**
  * App initializer that pre-warms the internal token + user-actors cache
@@ -39,17 +43,23 @@ import { DhActorTokenService } from './dh-actor-token.service';
  *   the startup splash (see `apps/dh/app-dh/src/index.html`) visible the
  *   whole time and lets the shell render fully-interactive.
  *
- * Safety:
+ * Failure behaviour:
  *   - When no MSAL account exists yet (first-time visit / expired session),
  *     the initializer short-circuits so the normal login redirect flow in
  *     `DataHubAppComponent` can take over.
- *   - All errors are swallowed: the interceptor remains the source of truth
- *     for token acquisition and will surface failures on the first real
- *     HTTP request as before.
+ *   - When `GetUserActors` itself fails, the initializer reports the error
+ *     to `DhStartupErrorService` and returns normally. Bootstrap then
+ *     completes successfully and `DataHubAppComponent` renders
+ *     `DhStartupErrorComponent`
+ *   - When `GetToken` fails, the `DhActorTokenService` already triggers an
+ *     MSAL logout redirect, so the initializer swallows that error to let
+ *     the redirect take effect uninterrupted.
  */
 export const dhActorTokenInitializer = provideAppInitializer(async () => {
   const msalService = inject(MsalService);
   const actorTokenService = inject(DhActorTokenService);
+  const apiEnvironment = inject(dhApiEnvironmentToken);
+  const startupErrorService = inject(DhStartupErrorService);
 
   try {
     // `handleRedirectObservable` initializes the MSAL instance internally
@@ -76,8 +86,15 @@ export const dhActorTokenInitializer = provideAppInitializer(async () => {
 
   try {
     await firstValueFrom(actorTokenService.acquireToken());
-  } catch {
-    // Intentionally ignored - the interceptor will retry on the first
-    // real request and surface the error to the user there.
+  } catch (error) {
+    if (isGetUserActorsError(error, apiEnvironment.getUserActorsUrl)) {
+      startupErrorService.setError('get-user-actors', error);
+    }
+    // Any other failure (e.g. GetToken) is left to the service-level handler
+    // (which already triggers an MSAL logout) or the regular HTTP interceptor.
   }
 });
+
+function isGetUserActorsError(error: unknown, getUserActorsUrl: string): boolean {
+  return error instanceof HttpErrorResponse && (error.url?.endsWith(getUserActorsUrl) ?? false);
+}

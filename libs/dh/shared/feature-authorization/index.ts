@@ -26,5 +26,7 @@ export * from './src/dh-selected-actor.component';
 export * from './src/dh-mitid-button.component';
 export * from './src/dh-actor-token.service';
 export * from './src/dh-actor-token.initializer';
+export * from './src/dh-startup-error.service';
+export * from './src/dh-startup-error.component';
 export * from './src/dh-actor-storage';
 export * from './src/market-role-required.directive';

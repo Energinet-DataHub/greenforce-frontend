@@ -124,6 +124,12 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "startupError": {
+      "title": "DataHub couldn't be loaded",
+      "message": "We couldn't load your information. Please try reloading the page, or sign out and sign in again.",
+      "retry": "Reload",
+      "signOut": "Sign out"
+    },
     "downloadStart": "Starting download...",
     "download": "Download",
     "exportCsv": "Export CSV",

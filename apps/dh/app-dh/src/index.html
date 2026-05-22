@@ -46,9 +46,9 @@ limitations under the License.
     <style>
       /*
        * Startup splash shown before Angular bootstraps and while the initial
-       * authentication / user-actors round-trip completes. Removed from the DOM
-       * in main.ts once bootstrapApplication() resolves (which happens after
-       * all app initializers have completed).
+       * authentication / user-actors round-trip completes. Removed from the
+       * DOM in `main.ts` once `bootstrapApplication()` resolves (which
+       * happens after all app initializers have completed).
        */
       #dh-startup-splash {
         position: fixed;
@@ -114,15 +114,7 @@ limitations under the License.
       </div>
       <script>
         /*
-         * Localize the startup splash before Angular bootstraps.
-         *
-         * The user's language preference is persisted by `DhLanguageService`
-         * under the `dh-language` key in localStorage (values: 'da' | 'en').
-         * If no preference is stored yet, we fall back to Danish to match the
-         * app's `defaultLang` in `dh-transloco.providers.ts`.
-         *
-         * Keep these inline strings aligned with the app's localization assets
-         * if the corresponding loading text is updated in the future.
+         * Localize the startup splash label before Angular bootstraps.
          */
         (function () {
           var translations = {

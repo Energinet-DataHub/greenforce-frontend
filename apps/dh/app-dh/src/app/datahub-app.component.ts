@@ -32,6 +32,8 @@ import {
   CookieInformationCulture,
 } from '@energinet-datahub/gf/util-cookie-information';
 
+import { DhStartupErrorComponent, DhStartupErrorService } from '@energinet-datahub/dh/core/shell';
+
 const loginRoute = '/login';
 const dhRedirectToParam = 'dhRedirectTo';
 
@@ -46,10 +48,18 @@ const dhRedirectToParam = 'dhRedirectTo';
       }
     `,
   ],
-  template: `<router-outlet />`,
-  imports: [RouterOutlet],
+  template: `
+    @if (startupError.hasError()) {
+      <dh-startup-error />
+    } @else {
+      <router-outlet />
+    }
+  `,
+  imports: [RouterOutlet, DhStartupErrorComponent],
 })
 export class DataHubAppComponent implements OnInit {
+  protected readonly startupError = inject(DhStartupErrorService);
+
   private readonly router = inject(Router);
   private readonly activatedRoute = inject(ActivatedRoute);
   private readonly destroyRef = inject(DestroyRef);
@@ -79,6 +89,13 @@ export class DataHubAppComponent implements OnInit {
       .subscribe((status) => {
         this.appInsights.setCookiesUsage(status.cookie_cat_statistic);
       });
+
+    // If startup failed (e.g. GetUserActors errored) we render the inline
+    // error page instead of triggering the regular redirect-to-login flow.
+    // Reload / Sign out actions on that page recover the session.
+    if (this.startupError.hasError()) {
+      return;
+    }
 
     this.authService.handleRedirectObservable().subscribe((data) => {
       if (data) {
