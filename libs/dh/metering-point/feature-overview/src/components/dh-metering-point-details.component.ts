@@ -29,7 +29,6 @@ import {
 } from '@energinet/watt/description-list';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
