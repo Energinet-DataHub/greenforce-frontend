@@ -51,6 +51,7 @@ describe(DataHubAppComponent, () => {
     }),
     {
       provide: DhStartupErrorService,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
       useValue: { hasError: signal(false), setError: () => {}, clear: () => {} },
     },
   ];
