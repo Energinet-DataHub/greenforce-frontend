@@ -190,6 +190,10 @@ public static partial class MeteringPointProcessNode
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
     {
         var actorIdentity = lifecycle.CreatedBy;
+        // TODO: Check if the actor has been masked.
+        // If yes, we clean the information to memic the old behaviour
+        // Before we introduced MaskedActorIdentity
+        var actorIdentityIsNotMasked = actorIdentity.ActorNumber?.Value == null;
 
         return new MeteringPointProcess(
             Id: id.ToString(),
@@ -197,8 +201,8 @@ public static partial class MeteringPointProcessNode
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
-            ActorNumber: actorIdentity.ActorNumber?.Value ?? string.Empty,
-            ActorRole: actorIdentity.ActorRole.Name,
+            ActorNumber: actorIdentityIsNotMasked ? actorIdentity.ActorNumber!.Value : string.Empty,
+            ActorRole: actorIdentityIsNotMasked ? actorIdentity.ActorRole.Name : string.Empty,
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
             Actions: actions,
             WorkflowSteps: workflowSteps);
