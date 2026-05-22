@@ -356,7 +356,6 @@ public static class MarketParticipantOperations
         Guid marketParticipantId,
         IEnumerable<string> meteringPointIds,
         [Service] IMarketParticipantClient_V1 marketParticipantClient,
-        [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct)
     {
         await marketParticipantClient
