@@ -412,7 +412,8 @@ public class ChargesClient(
         DateTimeOffset start,
         DateTimeOffset end,
         List<ChargePointV2> points)
-        => charge.Resolution == Resolution.Monthly
+    {
+        var seriesPeriods = charge.Resolution == Resolution.Monthly
             ? BuildMonthlySeriesPeriods(charge, start, points)
             :
             [
@@ -422,6 +423,21 @@ public class ChargesClient(
                     End: end,
                     Points: points),
             ];
+
+        // Validate that monthly periods align with the provided end date
+        if (charge.Resolution == Resolution.Monthly && seriesPeriods.Count > 0)
+        {
+            var computedEnd = seriesPeriods[^1].End;
+            if (computedEnd != end)
+            {
+                throw new GraphQLException(
+                    $"Monthly series end date mismatch. Expected: {end:O}, Computed: {computedEnd:O}. " +
+                    $"Ensure the number of points ({points.Count}) aligns with the time span from {start:O} to {end:O}.");
+            }
+        }
+
+        return seriesPeriods;
+    }
 
     internal static List<ChargeSeriesPointsV2> BuildMonthlySeriesPeriods(
         Charge charge,

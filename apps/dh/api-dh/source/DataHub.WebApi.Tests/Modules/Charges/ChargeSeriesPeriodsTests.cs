@@ -41,19 +41,26 @@ public class ChargeSeriesPeriodsTests
             new(Position: 1, PriceAmount: 10.101259m),
         };
 
-        var periods = ChargesClient.BuildSeriesPeriods(charge, start, end: start.AddMonths(4), points);
+        // Compute end by applying NextSlot for each point (aligned with production slot logic)
+        var slotStart = start.ToInstant();
+        for (var i = 0; i < points.Count; i++)
+            slotStart = ChargesClient.NextSlot(slotStart, Resolution.Monthly);
+
+        var end = slotStart.ToDateTimeOffset();
+
+        var periods = ChargesClient.BuildSeriesPeriods(charge, start, end, points);
 
         periods.Should().HaveCount(4);
 
-        var expectedStart = start.ToInstant();
+        var actualPeriodStart = start.ToInstant();
         foreach (var period in periods)
         {
-            var expectedEnd = ChargesClient.NextSlot(expectedStart, Resolution.Monthly);
-            period.Start.Should().Be(expectedStart.ToDateTimeOffset());
+            var expectedEnd = ChargesClient.NextSlot(actualPeriodStart, Resolution.Monthly);
+            period.Start.Should().Be(actualPeriodStart.ToDateTimeOffset());
             period.End.Should().Be(expectedEnd.ToDateTimeOffset());
             period.Points.Should().ContainSingle();
             period.Points.Single().Position.Should().Be(1);
-            expectedStart = expectedEnd;
+            actualPeriodStart = expectedEnd;
         }
     }
 
@@ -81,7 +88,7 @@ public class ChargeSeriesPeriodsTests
     }
 
     [Fact]
-    public void BuildMonthlySeriesPeriods_IrregularStartDate_BuildsFirstPeriodFromMidMonthThenCalendarMonths()
+    public void BuildMonthlySeriesPeriods_IrregularStartDate_BuildsPeriodsAdvancingOneMonthPerSlot()
     {
         var charge = CreateCharge(Resolution.Monthly);
         var start = new DateTimeOffset(2026, 9, 14, 22, 0, 0, TimeSpan.Zero);
