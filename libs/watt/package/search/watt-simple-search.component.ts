@@ -28,8 +28,13 @@ import { WattFieldComponent } from '@energinet/watt/field';
   selector: 'watt-simple-search',
   styles: `
     :host {
+      min-width: 260px;
       height: 44px; /* Magix UX number (replace with variable) */
       min-height: 44px; /* Magix UX number (replace with variable) */
+    }
+
+    :host:focus-within .watt-field-wrapper {
+      border: 2px solid var(--watt-color-primary-dark);
     }
 
     .clear {
