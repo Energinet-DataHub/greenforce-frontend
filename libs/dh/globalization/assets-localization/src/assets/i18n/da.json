@@ -1089,7 +1089,7 @@
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)",
-        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-003)"
+        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
