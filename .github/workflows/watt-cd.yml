@@ -142,7 +142,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v3
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: Watt + UI"
