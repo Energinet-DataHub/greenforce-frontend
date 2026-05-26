@@ -16,14 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { input, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import {
+  input,
+  computed,
+  Component,
+  ChangeDetectionStrategy,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
-import { dayjs, WattRange } from '@energinet/watt/core/date';
-import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
+import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
+import { dataSource, WATT_TABLE, WattTableColumn, WattTableColumnDef } from '@energinet/watt/table';
 import {
   WattDatepickerComponent,
   wattProvideOneWeekRangeSelectionStrategy,
@@ -35,13 +41,15 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
-import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
+import { computeRowLabels } from '../util/week-table-utils';
 import { DhChargesWeekRow } from '../../types';
 
 @Component({
   selector: 'dh-charges-series-week-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
@@ -52,11 +60,17 @@ import { DhChargesWeekRow } from '../../types';
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattDatepickerComponent,
-    DhChargeIntervalPipe,
+    WattDatePipe,
   ],
   styles: `
-    watt-datepicker {
-      width: 260px;
+    dh-charges-series-week-table {
+      watt-datepicker {
+        width: 260px;
+      }
+
+      .week-table__weekend-cell {
+        background-color: var(--watt-color-neutral-grey-100);
+      }
     }
   `,
   providers: [wattProvideOneWeekRangeSelectionStrategy()],
@@ -77,16 +91,29 @@ import { DhChargesWeekRow } from '../../types';
       </watt-data-filters>
 
       <watt-table
-        [columns]="columns"
+        [columns]="columns()"
         [dataSource]="dataSource"
         [loading]="chargeWeekSeriesQuery.loading()"
         [stickyFooter]="true"
       >
         @let dateHeader = 'charges.series.resolution.' + (resolution() ?? 'UNKNOWN') | transloco;
 
-        <ng-container *wattTableCell="columns.date; header: dateHeader; let row">
-          {{ row.interval | dhChargeInterval: resolution() }}
+        <ng-container *wattTableCell="columns().date; header: dateHeader; let row">
+          {{ row.label }}
         </ng-container>
+
+        @for (date of datesWithinPeriod(); track $index; let index = $index) {
+          @let _day = 'day' + (index + 1);
+
+          @let dayHeader =
+            t('columns.' + _day, {
+              date: date | wattDate,
+            });
+
+          <ng-container *wattTableCell="columns()[_day]; header: dayHeader; let row" />
+
+          <ng-container *wattTableCell="columns()[_day + 'HasChanged']; header: ''; let row" />
+        }
       </watt-table>
     </watt-data-table>
   `,
@@ -127,13 +154,67 @@ export class DhChargesSeriesWeekTable {
   charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
   resolution = computed(() => this.charge()?.resolution);
 
-  series = computed(() => {
-    return [];
+  series = computed(() => this.chargeWeekSeriesQuery.data()?.chargeById?.series ?? []);
+  dataSource = dataSource(() => this.generateRows());
+
+  columns = computed<WattTableColumnDef<DhChargesWeekRow>>(() => {
+    const columns: WattTableColumnDef<DhChargesWeekRow> = {
+      date: { accessor: null, sort: false },
+    };
+
+    this.datesWithinPeriod().forEach((_, index) => {
+      const dayIndex = index + 1;
+      const columnKey = 'day' + dayIndex;
+      const isWeekend = dayIndex > 5;
+
+      const dayColumn: WattTableColumn<DhChargesWeekRow> = {
+        accessor: null,
+        align: 'right',
+        size: 'minmax(200px, auto)',
+        sort: false,
+        dataCellClass: isWeekend ? 'week-table__weekend-cell' : '',
+      };
+      const dotColumn: WattTableColumn<DhChargesWeekRow> = {
+        accessor: null,
+        sort: false,
+        dataCellClass: isWeekend ? 'week-table__weekend-cell' : '',
+      };
+
+      columns[columnKey] = dayColumn;
+      columns[columnKey + 'HasChanged'] = dotColumn;
+    });
+
+    return columns;
   });
 
-  dataSource = dataSource(() => this.series());
+  datesWithinPeriod = computed(() => {
+    const period = this.selectedPeriod();
 
-  columns: WattTableColumnDef<DhChargesWeekRow> = {
-    date: { accessor: null, sort: false },
-  };
+    if (!period) {
+      return [];
+    }
+
+    const periodStart = dayjs(period.start);
+    const periodEnd = dayjs(period.end);
+    const diff = periodEnd.diff(periodStart, 'day');
+
+    return Array.from({ length: diff + 1 }, (_, index) => periodStart.add(index, 'day').toDate());
+  });
+
+  private generateRows(): DhChargesWeekRow[] {
+    const period = this.selectedPeriod();
+
+    if (this.chargeWeekSeriesQuery.loading() || !period) {
+      return [];
+    }
+
+    assertIsDefined(period.end);
+
+    const rowLabels = computeRowLabels(period.start, period.end);
+
+    return rowLabels.map((label) => ({
+      label,
+      series: [],
+    }));
+  }
 }
