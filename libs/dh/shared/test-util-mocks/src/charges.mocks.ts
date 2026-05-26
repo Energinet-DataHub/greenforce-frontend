@@ -731,6 +731,8 @@ function cancelChargeLink() {
           chargeLinkPeriod: {
             ...period,
             period: { start: period.period.start, end: period.period.start },
+            cancelled: true,
+            closed: true,
           },
         },
       },
