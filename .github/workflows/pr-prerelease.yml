@@ -42,7 +42,7 @@ jobs:
 
   #
   # Build and publish a backend prerelease tagged ui_dotnet_<PR>.
-  # Delegates to dotnet-ci.yml which calls dotnet-build-prerelease.yml@workflows/v1.
+  # Delegates to dotnet-ci.yml which calls dotnet-build-prerelease.yml@workflows/v3.
   # github.event_name propagates as 'pull_request' through the workflow_call chain so
   # the prerelease creation step in the shared helper runs as expected.
   #

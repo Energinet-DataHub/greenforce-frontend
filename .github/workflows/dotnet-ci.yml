@@ -28,7 +28,7 @@ on:
   workflow_call: {}
 jobs:
   dotnet_ci_build:
-    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/dotnet-build-prerelease.yml@workflows/v3
     with:
       solution_file_path: apps/dh/api-dh/DataHub.WebApi.sln
       release_name_prefix: ui_dotnet
