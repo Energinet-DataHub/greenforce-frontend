@@ -18,3 +18,4 @@
 //#endregion
 export { DhStartMoveInComponent } from './src/components/dh-start-move-in.component';
 export { DhUpdateCustomerDataComponent } from './src/components/dh-update-customer-data.component';
+export { dhMoveInCvrValidator } from './src/validators/dh-move-in-cvr.validator';

@@ -40,7 +40,8 @@ import {
 import { InitiateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -189,7 +190,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
       this.form.controls.cvr.clearValidators();
     } else {
       this.form.controls.cvr.enable();
-      this.form.controls.cvr.setValidators([Validators.required, dhCvrValidator()]);
+      this.form.controls.cvr.setValidators([Validators.required, dhMoveInCvrValidator()]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();
     }
