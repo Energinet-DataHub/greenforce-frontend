@@ -238,12 +238,7 @@ export class DhChargesSeriesWeekTable {
           const points = apiSeriesMap[dayKey] ?? [];
 
           const maybePoint = points.find((p) => {
-            const range = {
-              start: p.interval.start,
-              end: p.interval.end ?? null,
-            };
-
-            const intervalLabel = pipe.transform(range, 'HOURLY');
+            const intervalLabel = pipe.transform(p.interval, 'HOURLY');
 
             return intervalLabel === label;
           });
