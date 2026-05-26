@@ -34,7 +34,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
       min-height: 44px; /* Magix UX number (replace with variable) */
     }
 
-    .watt-field-wrapper:focus-within {
+    watt-simple-search .watt-field-wrapper:focus-within {
       border: 2px solid var(--watt-color-primary-dark);
     }
 
