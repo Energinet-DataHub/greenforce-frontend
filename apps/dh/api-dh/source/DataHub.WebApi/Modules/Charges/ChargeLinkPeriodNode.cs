@@ -95,6 +95,6 @@ public static partial class ChargeLinkPeriodNode
     private static string GetSortKeyValue(ChargeLinkPeriod item, Charge charge)
     {
         var invertedDate = long.MaxValue - item.Period.From.ToUnixTimeMilliseconds();
-        return $"{charge.Type.SortOrder}{item.ChargeId.Owner}{item.ChargeId.Code}{invertedDate}";
+        return $"{charge.Type.SortOrder}|{item.ChargeId.Owner}|{item.ChargeId.Code,-10}|{invertedDate}";
     }
 }
