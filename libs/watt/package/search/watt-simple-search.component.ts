@@ -28,36 +28,36 @@ import { WattFieldComponent } from '@energinet/watt/field';
   selector: 'watt-simple-search',
   encapsulation: ViewEncapsulation.None,
   styles: `
-    :host {
+    watt-simple-search {
       min-width: 260px;
       height: 44px; /* Magix UX number (replace with variable) */
       min-height: 44px; /* Magix UX number (replace with variable) */
-    }
 
-    watt-simple-search .watt-field-wrapper:focus-within {
-      border: 2px solid var(--watt-color-primary-dark);
-    }
+      .watt-field-wrapper:focus-within {
+        border: 2px solid var(--watt-color-primary-dark);
+      }
 
-    .clear {
-      position: absolute;
-      top: 50%;
-      right: var(--watt-space-s);
-      padding: var(--watt-space-xs);
-      border: none;
-      border-radius: 4px;
-      background: none;
-      color: var(--watt-color-primary);
-      transform: translateY(-50%);
-      cursor: pointer;
-      pointer-events: auto;
-    }
+      .clear {
+        position: absolute;
+        top: 50%;
+        right: var(--watt-space-s);
+        padding: var(--watt-space-xs);
+        border: none;
+        border-radius: 4px;
+        background: none;
+        color: var(--watt-color-primary);
+        transform: translateY(-50%);
+        cursor: pointer;
+        pointer-events: auto;
+      }
 
-    .clear:focus-visible {
-      outline: 2px solid var(--watt-color-primary);
-    }
+      .clear:focus-visible {
+        outline: 2px solid var(--watt-color-primary);
+      }
 
-    input:placeholder-shown ~ .clear {
-      display: none;
+      input:placeholder-shown ~ .clear {
+        display: none;
+      }
     }
   `,
   template: `
