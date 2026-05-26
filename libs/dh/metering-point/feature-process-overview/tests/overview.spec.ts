@@ -149,6 +149,9 @@ describe('Process overview', () => {
 
   it('should hide all action buttons for unrelated market roles', async () => {
     await setup({ actorMarketRole: EicFunction.DataHubAdministrator });
+    await waitForAsync(() =>
+      expect(document.querySelector('[role="treegrid"] vater-stack')).not.toBeNull()
+    );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
@@ -181,6 +184,9 @@ describe('Process overview', () => {
       isEnergySupplierResponsible: false,
     });
 
+    await waitForAsync(() =>
+      expect(document.querySelector('[role="treegrid"] vater-stack')).not.toBeNull()
+    );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
     expect(screen.queryAllByText(/Possible actions for actors/i)).toHaveLength(0);

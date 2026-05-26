@@ -278,7 +278,9 @@ describe('Process overview details', () => {
       isEnergySupplierResponsible: false,
     });
 
-    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    await waitForAsync(() =>
+      expect(document.querySelector('watt-drawer-actions')).not.toBeNull()
+    );
 
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
@@ -302,7 +304,9 @@ describe('Process overview details', () => {
       actorGln: '1234567890123',
     });
 
-    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    await waitForAsync(() =>
+      expect(document.querySelector('watt-drawer-actions')).not.toBeNull()
+    );
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
