@@ -28,10 +28,7 @@ export type ChargeSeriesPointLite = NonNullable<
 >['series'][0];
 
 export interface DhChargesWeekRow {
-  interval: {
-    start: Date;
-    end: Date | null;
-  };
+  label: string;
   series: (Pick<ChargeSeriesPointLite, 'hasChanged'> & {
     price: number | null;
   })[];
