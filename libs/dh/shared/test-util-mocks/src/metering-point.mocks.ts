@@ -54,6 +54,7 @@ import {
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
+  mockGetMeteringPointInfoQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -70,6 +71,7 @@ import { meteringPointsByGridAreaCode } from './data/metering-point/metering-poi
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
+import { dayjs } from '@energinet/watt/core/date';
 
 export function meteringPointMocks(apiBase: string) {
   return [
@@ -100,6 +102,7 @@ export function meteringPointMocks(apiBase: string) {
     getConversation(),
     getMeteringPointConversationInformation(),
     getMeteringPointNewConversationInformation(),
+    getMeteringPointInfo(),
     getElectricalHeatingInformation(),
     sendMessage(),
     closeConversation(),
@@ -973,6 +976,42 @@ function getMeteringPointNewConversationInformation() {
             },
             type: ElectricityMarketMeteringPointType.Consumption,
           },
+        },
+      },
+    });
+  });
+}
+
+function getMeteringPointInfo() {
+  return mockGetMeteringPointInfoQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPoint: {
+          __typename: 'ElectricityMarketViewMeteringPointDto',
+          id: '1',
+          meteringPointId: '222222222222222222',
+          metadata: {
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
+            id: '1',
+            type: ElectricityMarketMeteringPointType.Consumption,
+          },
+          commercialRelationTimeline: [
+            {
+              __typename: 'ElectricityMarketViewCommercialRelationDto',
+              id: '1',
+              energySupplyPeriodTimeline: [
+                {
+                  __typename: 'ElectricityMarketViewEnergySupplyPeriodDto',
+                  id: '1',
+                  validFrom: dayjs().subtract(1, 'week').toDate(),
+                  validTo: new Date('9999-12-31'),
+                },
+              ],
+            },
+          ],
         },
       },
     });

@@ -1,0 +1,18 @@
+query GetMeteringPointInfo($meteringPointId: String!) {
+  meteringPoint(meteringPointId: $meteringPointId, searchMigratedMeteringPoints: false) {
+    id
+    meteringPointId
+    metadata {
+      id
+      type
+    }
+    commercialRelationTimeline {
+      id
+      energySupplyPeriodTimeline {
+        id
+        validFrom
+        validTo
+      }
+    }
+  }
+}
