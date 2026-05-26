@@ -237,7 +237,7 @@ export class DhChargesSeriesWeekTable {
         label,
         series: this.datesWithinPeriod().map((date) => {
           const dayKey = dayjs(date).startOf('day').toISOString();
-          const points = apiSeriesMap.get(dayKey) ?? [];
+          const points = apiSeriesMap[dayKey] ?? [];
 
           const maybePoint = points.find((p) => {
             const range = {

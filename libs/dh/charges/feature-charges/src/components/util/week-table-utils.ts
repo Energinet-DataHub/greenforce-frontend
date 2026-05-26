@@ -49,6 +49,8 @@ export function computeRowLabels(weekStart: Date, weekEnd: Date): string[] {
 
 export function groupSeriesByDay(
   series: ChargeSeriesPointLite[]
-): Map<string, ChargeSeriesPointLite[]> {
-  return Map.groupBy(series, (point) => dayjs(point.interval.start).startOf('day').toISOString());
+): Partial<Record<string, ChargeSeriesPointLite[]>> {
+  return Object.groupBy(series, (point) =>
+    dayjs(point.interval.start).startOf('day').toISOString()
+  );
 }
