@@ -17,7 +17,6 @@ using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
-using NodaTime.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
