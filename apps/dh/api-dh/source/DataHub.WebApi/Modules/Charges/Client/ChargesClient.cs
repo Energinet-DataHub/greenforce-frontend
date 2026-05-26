@@ -379,7 +379,7 @@ public class ChargesClient(
             ct);
 
         if (!result.IsSuccess)
-            throw new GraphQLException("Failed to stop charge link");
+            throw new GraphQLException("Failed to edit charge link");
 
         var start = newStartDate.ToInstant();
 
