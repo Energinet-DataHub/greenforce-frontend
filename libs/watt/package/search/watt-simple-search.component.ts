@@ -17,7 +17,7 @@
  */
 //#endregion
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { Component, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
@@ -26,6 +26,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
 @Component({
   imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
+  encapsulation: ViewEncapsulation.None,
   styles: `
     :host {
       min-width: 260px;
@@ -33,7 +34,7 @@ import { WattFieldComponent } from '@energinet/watt/field';
       min-height: 44px; /* Magix UX number (replace with variable) */
     }
 
-    :host:focus-within .watt-field-wrapper {
+    .watt-field-wrapper:focus-within {
       border: 2px solid var(--watt-color-primary-dark);
     }
 
