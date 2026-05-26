@@ -56,11 +56,11 @@ public class ChargeLinkRevisionLogTests
                 $stopDate: DateTime!
               ) {
                 stopChargeLink(input: {
-                      id: $id,
-                      stopDate: $stopDate
-                    }) {
-                      chargeLinkPeriod { id }
-                    }
+                  id: $id,
+                  stopDate: $stopDate
+                }) {
+                  chargeLinkPeriod { id }
+                }
               }
             """;
 
@@ -87,12 +87,12 @@ public class ChargeLinkRevisionLogTests
                 $factor: Int!
               ) {
                 editChargeLink(input: {
-                      id: $id,
-                      newStartDate: $newStartDate,
-                      factor: $factor
-                    }) {
-                      chargeLinkPeriod { id }
-                    }
+                  id: $id,
+                  newStartDate: $newStartDate,
+                  factor: $factor
+                }) {
+                  chargeLinkPeriod { id }
+                }
               }
             """;
 
@@ -121,13 +121,13 @@ public class ChargeLinkRevisionLogTests
                 $factor: Int!
               ) {
                 createChargeLink(input: {
-                      chargeId: $chargeId,
-                      meteringPointId: $meteringPointId,
-                      newStartDate: $newStartDate,
-                      factor: $factor
-                    }) {
-                      chargeLinkPeriod { id }
-                    }
+                  chargeId: $chargeId,
+                  meteringPointId: $meteringPointId,
+                  newStartDate: $newStartDate,
+                  factor: $factor
+                }) {
+                  chargeLinkPeriod { id }
+                }
               }
             """;
 
@@ -152,10 +152,10 @@ public class ChargeLinkRevisionLogTests
             $$"""
               mutation ($id: String!) {
                 cancelChargeLink(input: {
-                      id: $id
-                    }) {
-                      chargeLinkPeriod { id }
-                    }
+                  id: $id
+                }) {
+                  chargeLinkPeriod { id }
+                }
               }
             """;
 
