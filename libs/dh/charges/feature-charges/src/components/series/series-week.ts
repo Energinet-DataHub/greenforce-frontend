@@ -119,9 +119,7 @@ import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-s
             });
 
           <ng-container *wattTableCell="columns()[_day]; header: dayHeader; let row">
-            @if (row.series[index]) {
-              {{ row.series[index].price | number: '1.6-6' }}
-            }
+            {{ row.series[index].price | number: '1.6-6' }}
           </ng-container>
 
           <ng-container *wattTableCell="columns()[_day + 'HasChanged']; header: ''; let row">
