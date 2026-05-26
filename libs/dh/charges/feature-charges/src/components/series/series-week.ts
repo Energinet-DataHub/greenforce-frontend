@@ -23,6 +23,7 @@ import {
   ChangeDetectionStrategy,
   ViewEncapsulation,
 } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -40,11 +41,16 @@ import {
   GetChargeWeekSeriesDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { dhMakeFormControl, dhFormControlToSignal } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhMakeFormControl,
+  dhFormControlToSignal,
+  DhCircleComponent,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
-import { computeRowLabels } from '../util/week-table-utils';
-import { DhChargesWeekRow } from '../../types';
+import { computeRowLabels, groupSeriesByDay } from '../util/week-table-utils';
+import { ChargeSeriesPointLite, DhChargesWeekRow } from '../../types';
+import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 @Component({
   selector: 'dh-charges-series-week-table',
@@ -52,6 +58,7 @@ import { DhChargesWeekRow } from '../../types';
   encapsulation: ViewEncapsulation.None,
   imports: [
     ReactiveFormsModule,
+    DecimalPipe,
     TranslocoDirective,
     TranslocoPipe,
 
@@ -61,6 +68,7 @@ import { DhChargesWeekRow } from '../../types';
     WattDataTableComponent,
     WattDatepickerComponent,
     WattDatePipe,
+    DhCircleComponent,
   ],
   styles: `
     dh-charges-series-week-table {
@@ -110,9 +118,17 @@ import { DhChargesWeekRow } from '../../types';
               date: date | wattDate,
             });
 
-          <ng-container *wattTableCell="columns()[_day]; header: dayHeader; let row" />
+          <ng-container *wattTableCell="columns()[_day]; header: dayHeader; let row">
+            @if (row.series[index]) {
+              {{ row.series[index].price | number: '1.6-6' }}
+            }
+          </ng-container>
 
-          <ng-container *wattTableCell="columns()[_day + 'HasChanged']; header: ''; let row" />
+          <ng-container *wattTableCell="columns()[_day + 'HasChanged']; header: ''; let row">
+            @if (row.series[index]?.hasChanged) {
+              <dh-circle />
+            }
+          </ng-container>
         }
       </watt-table>
     </watt-data-table>
@@ -155,7 +171,7 @@ export class DhChargesSeriesWeekTable {
   resolution = computed(() => this.charge()?.resolution);
 
   series = computed(() => this.chargeWeekSeriesQuery.data()?.chargeById?.series ?? []);
-  dataSource = dataSource(() => this.generateRows());
+  dataSource = dataSource(() => this.generateRows(this.series()));
 
   columns = computed<WattTableColumnDef<DhChargesWeekRow>>(() => {
     const columns: WattTableColumnDef<DhChargesWeekRow> = {
@@ -201,7 +217,7 @@ export class DhChargesSeriesWeekTable {
     return Array.from({ length: diff + 1 }, (_, index) => periodStart.add(index, 'day').toDate());
   });
 
-  private generateRows(): DhChargesWeekRow[] {
+  private generateRows(apiSeries: ChargeSeriesPointLite[]): DhChargesWeekRow[] {
     const period = this.selectedPeriod();
 
     if (this.chargeWeekSeriesQuery.loading() || !period) {
@@ -211,10 +227,34 @@ export class DhChargesSeriesWeekTable {
     assertIsDefined(period.end);
 
     const rowLabels = computeRowLabels(period.start, period.end);
+    const apiSeriesMap = groupSeriesByDay(apiSeries);
 
-    return rowLabels.map((label) => ({
-      label,
-      series: [],
-    }));
+    const emptySlot: DhChargesWeekRow['series'][0] = { price: null, hasChanged: false };
+    const pipe = new DhChargeIntervalPipe();
+
+    return rowLabels.map((label) => {
+      return {
+        label,
+        series: this.datesWithinPeriod().map((date) => {
+          const dayKey = dayjs(date).startOf('day').toISOString();
+          const points = apiSeriesMap.get(dayKey) ?? [];
+
+          const maybePoint = points.find((p) => {
+            const range = {
+              start: p.interval.start,
+              end: p.interval.end ?? null,
+            };
+
+            const intervalLabel = pipe.transform(range, 'HOURLY');
+
+            return intervalLabel === label;
+          });
+
+          return maybePoint
+            ? { price: maybePoint.price, hasChanged: maybePoint.hasChanged }
+            : emptySlot;
+        }),
+      };
+    });
   }
 }

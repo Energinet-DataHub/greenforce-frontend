@@ -20,6 +20,8 @@ import { dayjs } from '@energinet/watt/core/date';
 
 import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
+import { ChargeSeriesPointLite } from '../../types';
+
 export function computeRowLabels(weekStart: Date, weekEnd: Date): string[] {
   const pipe = new DhChargeIntervalPipe();
   const totalHours = dayjs(weekEnd).diff(dayjs(weekStart), 'hour');
@@ -43,4 +45,10 @@ export function computeRowLabels(weekStart: Date, weekEnd: Date): string[] {
     .toSorted();
 
   return [...new Set(labels)];
+}
+
+export function groupSeriesByDay(
+  series: ChargeSeriesPointLite[]
+): Map<string, ChargeSeriesPointLite[]> {
+  return Map.groupBy(series, (point) => dayjs(point.interval.start).startOf('day').toISOString());
 }
