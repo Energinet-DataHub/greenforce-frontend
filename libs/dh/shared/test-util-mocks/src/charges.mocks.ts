@@ -655,7 +655,7 @@ function createChargeLink() {
           chargeLinkPeriod: {
             __typename: 'ChargeLinkPeriod',
             id: 'new-id',
-            sortKey: '',
+            sortKey: makeSortKey(charge, newStartDate),
             amount: factor,
             charge,
             cancelled: false,
