@@ -12,15 +12,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Shared;
+using Energinet.DataHub.WebApi.Modules.Charges.Client;
+using Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-public record ChargeLinkPeriod(
-    string MeteringPointId,
-    ChargeLinkPeriodDto Period,
-    ChargeIdentifierDto ChargeId)
+public static partial class ChargesDataLoaders
 {
-    public ChargeLinkPeriodId Id => new(MeteringPointId, ChargeId, Period.From.ToDateTimeOffset());
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<ChargeIdentifierDto, Charge>> GetChargeByIdAsync(
+        IReadOnlyList<ChargeIdentifierDto> keys,
+        IChargesClient client,
+        CancellationToken ct)
+    {
+        var charges = await client.GetChargesAsync(ct);
+        return charges
+            .Select(c => new KeyValuePair<ChargeIdentifierDto, Charge>(c.Id, c))
+            .ToDictionary();
+    }
 }
