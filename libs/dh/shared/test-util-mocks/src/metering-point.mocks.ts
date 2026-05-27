@@ -743,12 +743,14 @@ function getConversation() {
           participants: [
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '1',
               type: 'INITIATOR',
               role: 'ENERGY_SUPPLIER',
               actorName: 'Sort Strøm',
             },
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '2',
               type: 'RECEIVER',
               role: 'GRID_ACCESS_PROVIDER',
               actorName: 'Grøn Strøm',
@@ -769,6 +771,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -791,6 +795,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -818,6 +824,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -834,6 +842,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -844,8 +854,8 @@ function getConversation() {
               actorName: 'Sort Strøm',
               userName: 'Hanne Hansen',
               isSentByCurrentActor: true,
-
               anonymous: false,
+              electricalHeatingUserMessage: null,
               electricalHeatingInformation: {
                 __typename: 'ElectricalHeatingMessage',
                 isElectricalHeatingActive: true,
@@ -859,6 +869,7 @@ function getConversation() {
                   },
                 ],
               },
+              userMessage: null,
               attachments: [],
             },
             {
@@ -881,6 +892,8 @@ function getConversation() {
                 content:
                   'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',
               },
+              electricalHeatingInformation: null,
+              userMessage: null,
               attachments: [],
             },
             {
@@ -896,6 +909,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: true,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -911,6 +926,8 @@ function getConversation() {
               userName: '',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
           ],
