@@ -123,18 +123,22 @@ watt-field {
   --watt-input-border-radius: 4px;
   --watt-border-color: var(--watt-on-light-low-emphasis);
   --watt-label-text-color: var(--watt-text-color);
+  --watt-field-control-height: 44px;
+  --watt-field-label-line-height: 20px;
+  --watt-field-label-gap: 4px;
+  --watt-field-label-block-height: calc(
+    var(--watt-field-label-line-height) + var(--watt-field-label-gap)
+  );
+  --watt-field-subscript-gap: 4px;
 
   width: 100%;
   display: block;
 
-  &:not(.watt-field--chip, :has(watt-field-hint)) {
-    padding-bottom: 20px;
-  }
-
   .label {
-    min-height: 27px;
     display: flex;
     align-items: center;
+    line-height: var(--watt-field-label-line-height);
+    padding-bottom: var(--watt-field-label-gap);
 
     watt-icon {
       margin-left: var(--watt-space-s);
@@ -157,6 +161,7 @@ watt-field {
 
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
+      box-sizing: border-box;
       display: flex;
       position: relative;
       width: 100%;
@@ -179,10 +184,13 @@ watt-field {
     watt-field-warning {
       @include watt.typography-watt-text-s;
     }
+  }
 
-    :not(.watt-field--chip) :is(watt-field-hint, watt-field-error, watt-field-warning) {
-      padding: 0 var(--watt-space-s);
-    }
+  &:not(.watt-field--chip)
+    > :is(label, .watt-label)
+    > :is(watt-field-hint, watt-field-error, watt-field-warning) {
+    margin-top: var(--watt-field-subscript-gap);
+    padding: 0 var(--watt-space-s);
   }
 
   &:not(.watt-field--box) > :is(label, .watt-label) > vater-flex > .watt-field-wrapper {
@@ -199,6 +207,6 @@ watt-field {
   }
 
   &.watt-field--box .watt-field-wrapper {
-    min-height: 46px;
+    min-height: var(--watt-field-control-height);
   }
 }
