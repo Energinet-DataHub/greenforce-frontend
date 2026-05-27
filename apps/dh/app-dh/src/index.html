@@ -44,11 +44,15 @@ limitations under the License.
     />
 
     <style>
+      html.dh-login-startup #dh-startup-splash {
+        display: none;
+      }
+
       /*
        * Startup splash shown before Angular bootstraps and while the initial
-       * authentication / user-actors round-trip completes. Removed from the
-       * DOM in `main.ts` once `bootstrapApplication()` resolves (which
-       * happens after all app initializers have completed).
+       * authentication / user-actors round-trip completes. The login route is
+       * excluded by the early script below so users see the login screen
+       * without an extra loading screen.
        */
       #dh-startup-splash {
         position: fixed;
@@ -94,6 +98,12 @@ limitations under the License.
         }
       }
     </style>
+    <script>
+      /* Hide the startup splash immediately on the login route, before first paint. */
+      if (window.location.pathname === "/login") {
+        document.documentElement.classList.add("dh-login-startup");
+      }
+    </script>
   </head>
   <body>
     <datahub-app>
