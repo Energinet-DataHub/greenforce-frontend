@@ -47,8 +47,10 @@ import { VaterStackComponent } from '@energinet/watt/vater';
       *transloco="let t; prefix: 'shared.startupError'"
     >
       <watt-empty-state icon="custom-power" [title]="t('title')" [message]="t('message')">
-        <watt-button variant="primary" (click)="onReload()">{{ t('retry') }}</watt-button>
-        <watt-button variant="secondary" (click)="onSignOut()">{{ t('signOut') }}</watt-button>
+        <vater-stack>
+          <watt-button variant="primary" (click)="onReload()">{{ t('retry') }}</watt-button>
+          <watt-button variant="secondary" (click)="onSignOut()">{{ t('signOut') }}</watt-button>
+        </vater-stack>
       </watt-empty-state>
     </vater-stack>
   `,
