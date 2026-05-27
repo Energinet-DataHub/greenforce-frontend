@@ -1168,7 +1168,9 @@ type MeteringPointIdentificationDto {
 }
 
 type MeteringPointProcess {
+  cancelledByProcess: MeteringPointProcess
   initiator: MarketParticipant
+  initiatorRole: EicFunction
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
@@ -1177,10 +1179,12 @@ type MeteringPointProcess {
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
+  cancellationTimestamp: DateTime
 }
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
+  actorRole: EicFunction
   """
   Generates the URL for fetching the master data document content.
   The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.

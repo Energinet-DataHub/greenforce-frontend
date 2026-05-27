@@ -1193,6 +1193,7 @@
         "ChangeOfEnergySupplier": "leverandørskifte"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret (RSM-004)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
@@ -1340,6 +1341,10 @@
         "noSteps": "Ingen trin tilgængelige for denne process",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
+        "cancelledByProcess": {
+          "prefix": "Proces annulleret af",
+          "suffix": " med skæringsdato {{ date }}"
+        },
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",

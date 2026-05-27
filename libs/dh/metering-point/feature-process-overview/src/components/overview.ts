@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, translate } from '@jsverse/transloco';
@@ -26,30 +26,26 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   DhEmDashFallbackPipe,
-  DhStateBadge,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import {
-  GetMeteringPointProcessOverviewDocument,
-  OnMeteringPointProcessUpdatedDocument,
-  WorkflowAction,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
+import { DhProcessStateBadge } from './process-state-badge';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
+import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -68,7 +64,7 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
-    DhStateBadge,
+    DhProcessStateBadge,
     DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
@@ -78,8 +74,8 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
       *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
-      [error]="query.error()"
-      [ready]="query.called() && !query.loading()"
+      [error]="store.error()"
+      [ready]="store.called() && !store.loading()"
       [header]="false"
       [pageSize]="100"
     >
@@ -113,7 +109,7 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
-        [loading]="query.loading()"
+        [loading]="store.loading()"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
         (rowClick)="navigation.navigate('details', $event.id)"
@@ -128,12 +124,15 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
           {{ t('processType.' + process.businessReason) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
+          <dh-process-state-badge
+            [status]="process.state"
+            *transloco="let t; prefix: 'shared.states'"
+          >
             {{ t(process.state) }}
-          </dh-state-badge>
+          </dh-process-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
-          {{ process.initiator?.displayName | dhEmDashFallback }}
+          {{ initiatorLabel(process) | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actions; let process">
           <vater-stack
@@ -182,6 +181,7 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
 })
 export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
+  protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
   private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
@@ -193,61 +193,48 @@ export class DhMeteringPointProcessOverviewTable {
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
-  initialDateRange = {
-    start: dayjs().subtract(3, 'months').startOf('day').toDate(),
-    end: dayjs().endOf('day').toDate(),
-  };
-
-  query = query(GetMeteringPointProcessOverviewDocument, () => ({
-    variables: {
-      ...this.filters(),
-      meteringPointId: this.meteringPointId(),
-      created: this.filters()?.created ?? this.initialDateRange,
-    },
-  }));
-
-  dataSource = dataSource(() => this.query.data()?.meteringPointProcessOverview ?? []);
+  dataSource = dataSource(() => this.store.processes());
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
     businessReason: { accessor: 'businessReason' },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
-    initiator: { accessor: (process) => process.initiator?.displayName },
+    initiator: { accessor: (process) => this.initiatorLabel(process) },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
   };
 
   form = new FormGroup({
-    created: dhMakeFormControl(this.initialDateRange),
+    created: dhMakeFormControl(this.store.dateRange()),
     includeViews: dhMakeFormControl(false),
     includeMasterMeasurementAndPriceRequests: dhMakeFormControl(false),
   });
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
-  filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
 
   constructor() {
-    effect((onCleanup) => {
-      const variables = this.query.variables();
-      const meteringPointId = variables.meteringPointId;
-      const created = variables.created;
+    // Bridge the route-bound metering point id into the store that owns the overview query.
+    // The list itself stays a pure derivation inside the store, so it cannot drift.
+    effect(() => this.store.meteringPointId.set(this.meteringPointId()));
 
-      if (!meteringPointId || !created) return;
+    // The date-range chip is an event stream, so sync it into the store via RxJS
+    // (the appropriate use of valueChanges, not an effect).
+    this.form.controls.created.valueChanges
+      .pipe(
+        filter((created): created is NonNullable<typeof created> => Boolean(created?.end)),
+        takeUntilDestroyed()
+      )
+      .subscribe((created) => this.store.dateRange.set(created));
+  }
 
-      const unsubscribe = this.query.subscribeToMore({
-        document: OnMeteringPointProcessUpdatedDocument,
-        variables: { meteringPointId, created },
-        updateQuery: (prev, options) => ({
-          ...prev,
-          meteringPointProcessOverview: prev.meteringPointProcessOverview.map((x) =>
-            x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
-              ? options.subscriptionData.data.meteringPointProcessUpdated
-              : x
-          ),
-        }),
-      });
-      onCleanup(unsubscribe);
-    });
+  // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);
+  // otherwise fall back to the translated initiator role for masked actors.
+  initiatorLabel(process: MeteringPointProcess): string | undefined {
+    if (process.initiator?.displayName) return process.initiator.displayName;
+    if (process.initiatorRole) {
+      return translate('marketParticipant.marketRoles.' + process.initiatorRole);
+    }
+    return undefined;
   }
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {

@@ -1194,6 +1194,7 @@
         "ChangeOfEnergySupplier": "change of energy supplier"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Process cancelled (RSM-004)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
@@ -1341,6 +1342,10 @@
         "noSteps": "No steps available for this process",
         "showPossibleActions": "Show possible actions",
         "hidePossibleActions": "Hide possible actions",
+        "cancelledByProcess": {
+          "prefix": "Process cancelled by",
+          "suffix": " with cut-off date {{ date }}"
+        },
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",

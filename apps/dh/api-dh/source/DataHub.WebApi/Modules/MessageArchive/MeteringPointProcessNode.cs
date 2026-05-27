@@ -77,12 +77,43 @@ public static partial class MeteringPointProcessNode
         Interval created,
         [EventMessage] MeteringPointProcess process) => process;
 
+    // This resolver fetches one extra workflow instance per parent process. It is only selected by the
+    // single-process detail query (GetMeteringPointProcessById), so it issues at most one extra call.
+    // If a future query selects cancelledByProcess across the overview list, introduce a workflow-instance
+    // DataLoader keyed by id to avoid an N+1.
+    public static async Task<MeteringPointProcess?> GetCancelledByProcessAsync(
+        [Parent] MeteringPointProcess process,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        if (string.IsNullOrEmpty(process.CancelledByProcessId))
+        {
+            return null;
+        }
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var query = new GetWorkflowInstanceByIdQuery(userIdentity, Guid.Parse(process.CancelledByProcessId));
+
+        var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
+
+        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
+    }
+
     public static async Task<ActorDto?> GetInitiatorAsync(
         [Parent] MeteringPointProcess process,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
         Enum.TryParse<EicFunction>(process.ActorRole, out var role)
             ? await dataLoader.LoadAsync((process.ActorNumber, role))
             : null;
+
+    // The role is always available (the backend masks only the actor number for foreign actors),
+    // so it is exposed independently of the number-keyed initiator resolution above. This lets the
+    // frontend show the actor role for every involved actor while the GLN/name stays hidden when masked.
+    public static EicFunction? GetInitiatorRole(
+        [Parent] MeteringPointProcess process) =>
+        Enum.TryParse<EicFunction>(process.ActorRole, out var role) ? role : null;
 
     public static IEnumerable<MeteringPointProcessStep> GetSteps(
         [Parent] MeteringPointProcess process)
@@ -123,6 +154,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
+        descriptor.Field(f => f.CancellationTimestamp);
         descriptor.Field("availableActions")
             .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
             .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
@@ -195,6 +227,13 @@ public static partial class MeteringPointProcessNode
         // Before we introduced MaskedActorIdentity
         var actorIdentityIsNotMasked = actorIdentity.ActorNumber?.Value != null;
 
+        // TerminatedAt is set for every termination (succeeded/failed/rejected too), so only
+        // surface it as the cancellation timestamp when the process was actually canceled.
+        var cancellationTimestamp =
+            lifecycle.TerminationState == WorkflowInstanceTerminationState.Canceled
+                ? lifecycle.TerminatedAt
+                : null;
+
         return new MeteringPointProcess(
             Id: id.ToString(),
             TransactionId: transactionId,
@@ -202,8 +241,10 @@ public static partial class MeteringPointProcessNode
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
             ActorNumber: actorIdentityIsNotMasked ? actorIdentity.ActorNumber!.Value : string.Empty,
-            ActorRole: actorIdentityIsNotMasked ? actorIdentity.ActorRole.Name : string.Empty,
+            ActorRole: actorIdentity.ActorRole.Name, // Always keep the role; only the number is masked for foreign actors.
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
+            CancelledByProcessId: lifecycle.CanceledByWorkflowInstanceId?.ToString(),
+            CancellationTimestamp: cancellationTimestamp,
             Actions: actions,
             WorkflowSteps: workflowSteps);
     }

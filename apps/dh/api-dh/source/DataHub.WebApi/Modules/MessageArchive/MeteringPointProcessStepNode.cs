@@ -28,6 +28,13 @@ public static partial class MeteringPointProcessStepNode
             ? await dataLoader.LoadAsync((step.ActorNumber, role))
             : null;
 
+    // The role is always available (the backend masks only the actor number for foreign actors),
+    // so it is exposed independently of the number-keyed actor resolution above. This lets the
+    // frontend show the actor role for every step while the GLN/name stays hidden when masked.
+    public static EicFunction? GetActorRole(
+        [Parent] MeteringPointProcessStep step) =>
+        Enum.TryParse<EicFunction>(step.ActorRole, out var role) ? role : null;
+
     /// <summary>
     /// Generates the URL for fetching the master data document content.
     /// The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
