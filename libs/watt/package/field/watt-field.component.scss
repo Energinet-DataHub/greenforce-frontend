@@ -56,9 +56,9 @@ form.ng-submitted watt-field:has(.ng-invalid),
     }
   }
 
-  &.watt-field--show-errors:has(watt-field-error, watt-field-warning) {
-    padding-bottom: 0;
-  }
+  // &.watt-field--show-errors:has(watt-field-error, watt-field-warning) {
+  //   padding-bottom: 0;
+  // }
 
   &.watt-field--show-errors:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
@@ -133,6 +133,7 @@ watt-field {
 
   width: 100%;
   display: block;
+  padding-bottom: var(--watt-space-ml);
 
   .label {
     display: flex;
@@ -190,7 +191,6 @@ watt-field {
     > :is(label, .watt-label)
     > :is(watt-field-hint, watt-field-error, watt-field-warning) {
     margin-top: var(--watt-field-subscript-gap);
-    padding: 0 var(--watt-space-s);
   }
 
   &:not(.watt-field--box) > :is(label, .watt-label) > vater-flex > .watt-field-wrapper {
