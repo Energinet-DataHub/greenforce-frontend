@@ -17,6 +17,8 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacte
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -60,7 +62,13 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 
     [Mutation]
@@ -88,7 +96,7 @@ public static class MoveInOperations
             var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
             if (startDate is null)
             {
-                throw new HotChocolate.GraphQLException($"Unable to resolve start date for process '{processId}'.");
+                throw new GraphQLException($"Unable to resolve start date for process '{processId}'.");
             }
 
             resolvedStartDate = startDate.Value;
@@ -111,7 +119,37 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
+    public static async Task<bool> RequestIncorrectMoveInAsync(
+        Guid processId,
+        string meteringPointId,
+        DateTimeOffset cutoffDate,
+        [Service] IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestIncorrectMoveInCommandV1(
+            new RequestIncorrectMoveInRequestV1(processId.ToString(), meteringPointId, cutoffDate, "some-reason"));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command RequestIncorrectMoveInAsync failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 
     private static DateTimeOffset GetDefaultResolvedStartDate() =>

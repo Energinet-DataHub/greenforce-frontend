@@ -29,6 +29,7 @@ import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorizati
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
+  dhSyncControlValidators,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
@@ -46,6 +47,8 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { FormValues } from '../types';
+import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
@@ -143,6 +146,10 @@ import {
             } @else {
               <dh-private-customer-details
                 [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+                [meteringPointId]="meteringPointId()"
+                [contactId1]="legalCustomerId()"
+                [contactId2]="secondaryCustomerId()"
+                [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
               />
             }
           }
@@ -252,11 +259,18 @@ export class DhUpdateCustomerDataComponent {
   isBusinessCustomer = computed(
     () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
   );
+  legalCustomerId = computed(() => (this.processId() ? null : (this.legalCustomer()?.id ?? null)));
+  secondaryCustomerId = computed(() => {
+    if (this.processId()) return null;
+    const customer = this.effectiveSecondaryCustomer();
+    return customer?.name ? customer.id : null;
+  });
   isLoading = computed(
     () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
   meteringPointId = input.required<string>();
   processId = input<string>();
+  businessReason = input<ChangeCustomerCharacteristicsBusinessReason>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
 
@@ -298,12 +312,19 @@ export class DhUpdateCustomerDataComponent {
             this.effectiveCustomerName(),
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cpr1: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          cpr1: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer()
+              ? this.legalCustomerId() === null
+                ? [Validators.required, dhCprValidator()]
+                : [dhCprValidator()]
+              : []
           ),
           customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
+          cpr2: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer() ? [dhCprValidator()] : []
+          ),
           nameProtection: dhMakeFormControl<boolean>(
             this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),
@@ -392,6 +413,35 @@ export class DhUpdateCustomerDataComponent {
     );
   });
 
+  /** Sync secondary customer cross-field validators */
+  private readonly customerName2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2
+  );
+
+  private readonly cpr2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2
+  );
+
+  private readonly secondaryCustomerRequired = computed(() => {
+    if (this.isBusinessCustomer()) return false;
+    const name2 = this.customerName2Changed();
+    const cpr2 = this.cpr2Changed();
+    const isCprMasked = cpr2 === null && !!this.secondaryCustomerId();
+    return !isCprMasked && (!!name2 || !!cpr2);
+  });
+
+  private readonly syncName2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
+  private readonly syncCpr2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
   readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
   );
@@ -415,53 +465,27 @@ export class DhUpdateCustomerDataComponent {
   async updateCustomerData() {
     if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
-    const values = this.form().getRawValue();
-
-    const {
-      cpr1,
-      cpr2,
-      customerName1,
-      customerName2,
-      nameProtection: privateNameProtection,
-    } = values.privateCustomerDetails;
-    const {
-      companyName,
-      cvr,
-      nameProtection: businessNameProtection,
-    } = values.businessCustomerDetails;
-    const nameProtection = this.isBusinessCustomer()
-      ? businessNameProtection
-      : privateNameProtection;
-    const legalContactDetails = values.legalContactDetails;
-    const legalContactAddressDetails = values.legalContactAddressDetails;
-    const technicalContactDetails = values.technicalContactDetails;
-    const technicalContactAddressDetails = values.technicalContactAddressDetails;
+    const values: FormValues = this.form().getRawValue();
 
     await this.requestChangeCustomerCharacteristics.mutate({
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason: this.processId()
-            ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-            : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
+          businessReason: this.resolveBusinessReason(),
           electricalHeating:
             this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
-          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
-          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
-          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : undefined,
-          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
-          protectedName: nameProtection,
           processId: this.processId(),
+          protectedName: resolveNameProtection(values, this.isBusinessCustomer()),
+          ...resolveCustomerIdentity(values, this.isBusinessCustomer()),
           usagePointLocations: [
             mapUsagePointLocation(
-              legalContactDetails,
-              legalContactAddressDetails,
+              values.legalContactDetails,
+              values.legalContactAddressDetails,
               AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
-              technicalContactDetails,
-              technicalContactAddressDetails,
+              values.technicalContactDetails,
+              values.technicalContactAddressDetails,
               AddressTypeV2.Technical
             ),
           ],
@@ -474,6 +498,15 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  private resolveBusinessReason(): ChangeCustomerCharacteristicsBusinessReason {
+    return (
+      this.businessReason() ??
+      (this.processId()
+        ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+        : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer)
+    );
   }
 
   clearAddressFields(addressType: 'legal' | 'technical') {

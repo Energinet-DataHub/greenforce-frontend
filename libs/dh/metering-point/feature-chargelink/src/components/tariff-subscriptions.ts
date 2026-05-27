@@ -34,7 +34,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
-  GetChargeLinkOverviewDocument,
+  GetChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   dhMakeFormControl,
@@ -47,7 +47,7 @@ import {
   DhChargePeriodPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
-import { ChargeLinkOverview } from '../types';
+import { ChargeLinkPeriod } from '../types';
 import { DhChargeLinkDetails } from './details';
 
 const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== ChargeType.Fee);
@@ -133,13 +133,13 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
 })
 export default class DhMeteringPointChargeLinksTariffSubscriptions {
   readonly meteringPointId = input.required<string>();
-  protected chargeLinks = query(GetChargeLinkOverviewDocument, () => ({
+  protected chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
     },
   }));
 
-  selected = signal<ChargeLinkOverview | undefined>(undefined);
+  selected = signal<ChargeLinkPeriod | undefined>(undefined);
   showClosed = signal(false);
 
   form = new FormGroup({ chargeTypes: dhMakeFormControl<ChargeType[]>() });
@@ -147,10 +147,10 @@ export default class DhMeteringPointChargeLinksTariffSubscriptions {
   chargeTypes = dhFormControlToSignal(this.form.controls.chargeTypes);
   types = computed(() => this.chargeTypes() ?? TARIFF_SUBSCRIPTIONS);
 
-  items = computed(() => this.chargeLinks.data()?.chargeLinkOverview ?? []);
+  items = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
   tariffsSubs = computed(() => this.items().filter((i) => this.types().includes(i.charge.type)));
   dataSource = dataSource(() => this.tariffsSubs().filter((i) => !i.closed || this.showClosed()));
-  columns: WattTableColumnDef<ChargeLinkOverview> = {
+  columns: WattTableColumnDef<ChargeLinkPeriod> = {
     type: { accessor: (item) => item.charge.type },
     id: { accessor: (item) => item.charge.code },
     name: { accessor: (item) => item.charge.name ?? '' },

@@ -34,9 +34,26 @@ import {
 import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
+import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
+import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
-export type ActionRole = EicFunction | typeof ResponsibleEnergySupplier;
+export const InitiatingParticipant = 'InitiatingParticipant' as const;
+export type ActionRole =
+  | EicFunction
+  | typeof ResponsibleEnergySupplier
+  | typeof InitiatingParticipant;
+
+/**
+ * The set of concrete EicFunction roles that the `InitiatingParticipant`
+ * sentinel expands to when deriving actor roles for the FAS display. If a
+ * future process is ever initiated by a role outside this set, add it here
+ * and revisit how the FAS-grouped view labels the action.
+ */
+export const INITIATOR_ROLE_UNIVERSE: readonly EicFunction[] = [
+  EicFunction.EnergySupplier,
+  EicFunction.GridAccessProvider,
+];
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
@@ -70,6 +87,9 @@ export class DhActionsRegistry {
   private readonly registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>> = {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
+    [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
+    [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
+      .handlers,
   };
 
   private readonly permissionSignals: ReadonlyMap<Permission, Signal<boolean>> = new Map(
@@ -86,41 +106,98 @@ export class DhActionsRegistry {
     );
   }
 
-  private matchesRoles(handler: ActionHandler, isResponsible: boolean): boolean {
+  private matchesRoles(
+    handler: ActionHandler,
+    isResponsible: boolean,
+    initiatorGlnOrEic?: string
+  ): boolean {
     if (!handler.roles?.length) return true;
-    const marketRole = this.actorStorage.getSelectedActor().marketRole;
-    return handler.roles.some((role) =>
-      role === ResponsibleEnergySupplier ? isResponsible : marketRole === role
-    );
+    const actor = this.actorStorage.getSelectedActor();
+    return handler.roles.some((role) => {
+      if (role === ResponsibleEnergySupplier) return isResponsible;
+      // actor.gln can hold either a GLN or EIC (mirrors GraphQL glnOrEicNumber);
+      // initiatorGlnOrEic is sourced from the same field, so the comparison is semantically correct
+      if (role === InitiatingParticipant)
+        return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
+      return actor.marketRole === role;
+    });
   }
 
   getSupportedActions(
     availableActions: WorkflowAction[],
     businessReason: ProcessManagerBusinessReason,
-    isEnergySupplierResponsible: boolean
+    isEnergySupplierResponsible: boolean,
+    initiatorGlnOrEic?: string
   ): WorkflowAction[] {
-    return availableActions.filter((action) => {
+    const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
       // FAS users see every supported action (info row in the table, disabled
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
-      return this.matchesRoles(handler, isEnergySupplierResponsible);
+      return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
     });
+
+    // Canonical display order — actions not listed here sort to the end.
+    const ACTION_DISPLAY_ORDER: readonly WorkflowAction[] = [
+      WorkflowAction.CancelWorkflow,
+      WorkflowAction.RejectRequest,
+    ];
+
+    return supported.sort((a, b) => {
+      const aIndex = ACTION_DISPLAY_ORDER.indexOf(a);
+      const bIndex = ACTION_DISPLAY_ORDER.indexOf(b);
+      const aNorm = aIndex === -1 ? ACTION_DISPLAY_ORDER.length : aIndex;
+      const bNorm = bIndex === -1 ? ACTION_DISPLAY_ORDER.length : bIndex;
+      return aNorm - bNorm;
+    });
+  }
+
+  /**
+   * Returns the actor roles (e.g. EnergySupplier, GridAccessProvider) that perform this action,
+   * derived from the handler's `roles` field. Sentinel roles are expanded:
+   * `ResponsibleEnergySupplier` -> `EnergySupplier`,
+   * `InitiatingParticipant` -> the {@link INITIATOR_ROLE_UNIVERSE} set
+   * (currently `EnergySupplier` + `GridAccessProvider`).
+   *
+   * Concrete `EicFunction` entries declared next to a sentinel are preserved
+   * via the dedupe `Set`, so a handler with
+   * `[InitiatingParticipant, EicFunction.GridAccessProvider]` still returns
+   * both roles even if the universe later narrows.
+   */
+  getActorRolesForAction(
+    action: WorkflowAction,
+    businessReason: ProcessManagerBusinessReason
+  ): EicFunction[] {
+    const handler = this.registry[businessReason]?.[action];
+    if (!handler?.roles?.length) return [];
+    const actorRoles = new Set<EicFunction>();
+    for (const role of handler.roles) {
+      if (role === ResponsibleEnergySupplier) {
+        actorRoles.add(EicFunction.EnergySupplier);
+      } else if (role === InitiatingParticipant) {
+        INITIATOR_ROLE_UNIVERSE.forEach((r) => actorRoles.add(r));
+      } else {
+        actorRoles.add(role);
+      }
+    }
+    return [...actorRoles];
   }
 
   execute(
     action: WorkflowAction,
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext,
-    isEnergySupplierResponsible: boolean
+    isEnergySupplierResponsible: boolean,
+    initiatorGlnOrEic?: string
   ): void {
     if (this.isFas()) return;
     const supported = this.getSupportedActions(
       [action],
       businessReason,
-      isEnergySupplierResponsible
+      isEnergySupplierResponsible,
+      initiatorGlnOrEic
     );
     if (!supported.includes(action)) return;
     this.registry[businessReason]?.[action]?.callback(context);

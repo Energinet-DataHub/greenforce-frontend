@@ -19,7 +19,12 @@
 
 import { wholesaleMocks } from './src/wholesale.mocks';
 import { marketParticipantMocks } from './src/market-participant.mocks';
-import { messageArchiveMocks } from './src/message-archive.mocks';
+import {
+  messageArchiveMocks,
+  knownProcesses,
+  processCmiInfoInitiatorGln,
+  processCosInfoInitiatorGln,
+} from './src/message-archive.mocks';
 import { adminMocks } from './src/admin.mocks';
 import { marketParticipantUserMocks } from './src/market-participant-user.mocks';
 import { marketParticipantUserRoleMocks } from './src/market-participant-user-role.mocks';
@@ -62,3 +67,5 @@ export const mocks = [
   moveInMocks,
   messageQueueMocks,
 ];
+
+export { knownProcesses, processCmiInfoInitiatorGln, processCosInfoInitiatorGln };

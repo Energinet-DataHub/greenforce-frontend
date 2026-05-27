@@ -32,7 +32,7 @@ public class ProcessManagerModule : IModule
         ArgumentNullException.ThrowIfNull(configuration);
 
         // Client and adapters
-        services.AddProcessManagerHttpClients();
+        services.AddProcessManagerHttpClients(configuration);
         services.AddScoped<ICalculationsClient, CalculationsClient>();
         services.AddScoped<IMoveInClient, MoveInClient>();
         services.AddScoped<IRequestsClient, RequestsClient>();

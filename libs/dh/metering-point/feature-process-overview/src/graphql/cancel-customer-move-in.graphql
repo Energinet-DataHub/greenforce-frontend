@@ -1,0 +1,5 @@
+mutation CancelCustomerMoveIn($meteringPointId: String!, $processId: UUID!) {
+  cancelCustomerMoveIn(input: { meteringPointId: $meteringPointId, processId: $processId }) {
+    boolean
+  }
+}

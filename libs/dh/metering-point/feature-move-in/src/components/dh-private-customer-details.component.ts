@@ -17,12 +17,14 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { PrivateCustomerFormGroup } from '../types';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { WattFieldErrorComponent } from '@energinet/watt/field';
+
+import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
+
+import { PrivateCustomerFormGroup } from '../types';
+import { DhCprFieldComponent } from './dh-cpr-field.component';
 
 @Component({
   selector: 'dh-private-customer-details',
@@ -30,55 +32,40 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
     ReactiveFormsModule,
     WattTextFieldComponent,
     TranslocoDirective,
-    WattFieldErrorComponent,
     WattCheckboxComponent,
+    DhCprFieldComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    .margin-top-l {
+      margin-top: var(--watt-space-l);
+    }
+  `,
   template: `
     @let formGroup = privateCustomerFormGroup();
     <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <h4>{{ t('customer1') }}</h4>
       <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName1" />
-      <watt-text-field [label]="t('cpr')" [formControl]="formGroup.controls.cpr1" maxLength="10">
-        <watt-field-error>
-          @if (formGroup.controls.cpr1.hasError('containsLetters')) {
-            {{ t('cprError.containsLetters') }}
-          } @else if (formGroup.controls.cpr1.hasError('containsDash')) {
-            {{ t('cprError.containsDash') }}
-          } @else if (formGroup.controls.cpr1.hasError('invalidCprLength')) {
-            {{ t('cprError.invalidCprLength') }}
-          } @else if (formGroup.controls.cpr1.hasError('invalidDate')) {
-            {{ t('cprError.invalidDate') }}
-          } @else if (formGroup.controls.cpr1.hasError('allOnes')) {
-            {{ t('cprError.allOnes') }}
-          }
-        </watt-field-error>
-      </watt-text-field>
+      <dh-cpr-field
+        [cprControl]="formGroup.controls.cpr1"
+        [contactId]="contactId1()"
+        [meteringPointId]="meteringPointId()"
+        [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+      />
+
       <h4>{{ t('customer2') }}</h4>
       <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName2" />
-      <watt-text-field
-        [label]="t('cpr')"
-        [formControl]="formGroup.controls.cpr2"
+      <dh-cpr-field
         class="watt-space-stack-l"
-        maxLength="10"
-      >
-        <watt-field-error>
-          @if (formGroup.controls.cpr2.hasError('containsLetters')) {
-            {{ t('cprError.containsLetters') }}
-          } @else if (formGroup.controls.cpr2.hasError('containsDash')) {
-            {{ t('cprError.containsDash') }}
-          } @else if (formGroup.controls.cpr2.hasError('invalidCprLength')) {
-            {{ t('cprError.invalidCprLength') }}
-          } @else if (formGroup.controls.cpr2.hasError('invalidDate')) {
-            {{ t('cprError.invalidDate') }}
-          } @else if (formGroup.controls.cpr2.hasError('allOnes')) {
-            {{ t('cprError.allOnes') }}
-          }
-        </watt-field-error>
-      </watt-text-field>
+        [cprControl]="formGroup.controls.cpr2"
+        [contactId]="contactId2()"
+        [meteringPointId]="meteringPointId()"
+        [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+      />
+
       <watt-checkbox
         [formControl]="formGroup.controls.nameProtection"
-        class="watt-space-stack-m"
+        class="watt-space-stack-m margin-top-l"
         data-testid="name-protection"
       >
         {{ t('nameProtection') }}
@@ -88,4 +75,8 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 })
 export class DhPrivateCustomerDetailsComponent {
   privateCustomerFormGroup = input.required<FormGroup<PrivateCustomerFormGroup>>();
+  meteringPointId = input.required<string>();
+  contactId1 = input<string | null>(null);
+  contactId2 = input<string | null>(null);
+  searchMigratedMeteringPoints = input.required<boolean>();
 }

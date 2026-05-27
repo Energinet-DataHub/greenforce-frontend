@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -28,7 +28,6 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -41,12 +40,16 @@ import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   GetMeteringPointProcessOverviewDocument,
+  OnMeteringPointProcessUpdatedDocument,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
+import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -62,11 +65,11 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
     WattDataTableComponent,
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
-    WattIconComponent,
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
     DhStateBadge,
+    DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
@@ -138,17 +141,18 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
             gap="s"
             *transloco="let t; prefix: 'meteringPoint.processOverview.actions'"
           >
-            @for (
-              action of process.availableActions
-                | supportedActions: process.businessReason : isEnergySupplierResponsible();
-              track action
-            ) {
-              @if (isFas()) {
-                <vater-stack direction="row" gap="xs">
-                  <watt-icon name="warning" size="s" />
-                  <span>{{ t(process.businessReason + '.FAS_' + action) }}</span>
-                </vater-stack>
-              } @else {
+            @let visibleActions =
+              process.availableActions
+                | supportedActions
+                  : process.businessReason
+                  : isEnergySupplierResponsible()
+                  : process.initiator?.glnOrEicNumber;
+            @if (isFas()) {
+              @if (visibleActions.length > 0) {
+                <em>{{ t('fasGenericActions') }}</em>
+              }
+            } @else {
+              @for (action of visibleActions; track action) {
                 <watt-button
                   variant="secondary"
                   (click)="onActionClick($event, process, action)"
@@ -157,6 +161,17 @@ import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
                   {{ t(process.businessReason + '.' + action) }}
                 </watt-button>
               }
+
+              <ng-container *dhReleaseToggle="'BRS011-INCOMING-MESSAGES'">
+                @if (isEnergySupplierResponsible() && process.businessReason === 'CustomerMoveIn') {
+                  <watt-button
+                    variant="secondary"
+                    size="small"
+                    (click)="onRequestCorrectionClick($event, process)"
+                    >{{ t('CustomerMoveIn.REQUEST_CORRECTION') }}</watt-button
+                  >
+                }
+              </ng-container>
             }
           </vater-stack>
         </ng-container>
@@ -169,6 +184,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -210,6 +226,30 @@ export class DhMeteringPointProcessOverviewTable {
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
   filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
 
+  constructor() {
+    effect((onCleanup) => {
+      const variables = this.query.variables();
+      const meteringPointId = variables.meteringPointId;
+      const created = variables.created;
+
+      if (!meteringPointId || !created) return;
+
+      const unsubscribe = this.query.subscribeToMore({
+        document: OnMeteringPointProcessUpdatedDocument,
+        variables: { meteringPointId, created },
+        updateQuery: (prev, options) => ({
+          ...prev,
+          meteringPointProcessOverview: prev.meteringPointProcessOverview.map((x) =>
+            x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
+              ? options.subscriptionData.data.meteringPointProcessUpdated
+              : x
+          ),
+        }),
+      });
+      onCleanup(unsubscribe);
+    });
+  }
+
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
     event.stopPropagation();
     this.actionService.execute(
@@ -221,7 +261,16 @@ export class DhMeteringPointProcessOverviewTable {
         processId: process.id,
         cutoffDate: process.cutoffDate,
       },
-      this.isEnergySupplierResponsible()
+      this.isEnergySupplierResponsible(),
+      process.initiator?.glnOrEicNumber
     );
+  }
+
+  onRequestCorrectionClick(event: Event, process: MeteringPointProcess) {
+    event.stopPropagation();
+
+    assertIsDefined(process.cutoffDate);
+
+    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
   }
 }

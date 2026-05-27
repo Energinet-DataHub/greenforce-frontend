@@ -21,7 +21,7 @@ import { dayjs } from '@energinet/watt/date';
 
 export function dhCprValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
-    if (control.value === '') {
+    if (!control.value) {
       return null;
     }
 

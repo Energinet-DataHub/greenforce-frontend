@@ -34,7 +34,7 @@ concurrency:
 jobs:
   # promote dotnet prerelease from PR
   dotnet_promote_prerelease:
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v3
     with:
       release_name_prefix: ui_dotnet
 
@@ -44,7 +44,7 @@ jobs:
 
   frontend_promote_prerelease:
     needs: [frontend_ci_build]
-    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/promote-prerelease.yml@workflows/v3
     with:
       release_name_prefix: ui_frontend
 
@@ -65,7 +65,7 @@ jobs:
     steps:
       - run: echo "${{ toJSON(needs) }}"
 
-      - uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
+      - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
         name: Generate Github token
         id: generate_token
         with:
@@ -74,7 +74,7 @@ jobs:
           owner: Energinet-DataHub
 
       - name: Find associated pull request
-        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@actions/v1
+        uses: Energinet-DataHub/.github/.github/actions/find-related-pr-number@actions/v2
         id: find_pull_request
 
       - name: Repository Dispatch
@@ -99,7 +99,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v3
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: UI + BFF"

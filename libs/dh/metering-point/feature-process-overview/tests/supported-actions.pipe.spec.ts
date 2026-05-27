@@ -140,7 +140,8 @@ describe('SupportedActionsPipe', () => {
     expect(getSupportedActions).toHaveBeenCalledWith(
       [WorkflowAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
-      true
+      true,
+      undefined
     );
   });
 
@@ -153,7 +154,8 @@ describe('SupportedActionsPipe', () => {
     expect(getSupportedActions).toHaveBeenCalledWith(
       [WorkflowAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
-      false
+      false,
+      undefined
     );
   });
 });

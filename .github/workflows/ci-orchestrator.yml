@@ -34,11 +34,37 @@ on:
     types: [checks_requested]
 
 jobs:
+  # Detect whether the PR touches paths that the .NET build cares about.
+  # For merge_group events we skip detection and force the .NET job to run,
+  # because the merge could combine changes from several PRs that
+  # individually did not touch the backend.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend || 'true' }}
+    steps:
+      - if: github.event_name == 'pull_request'
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'apps/dh/api-dh/**'
+              - '.github/workflows/dotnet-ci.yml'
+              - '.github/workflows/ci-orchestrator.yml'
+              - '.github/actions/dotnet-prepare-outputs/**'
+              - '.github/actions/dotnet-tests-prepare-outputs/**'
+              - 'global.json'
+
   dh_ci_frontend:
     uses: ./.github/workflows/pr.yml
     secrets: inherit
 
   dh_ci_dotnet:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
     uses: ./.github/workflows/dotnet-ci.yml
     secrets: inherit
 
@@ -49,6 +75,9 @@ jobs:
     permissions: {}
     runs-on: ubuntu-latest
     needs: [dh_ci_frontend, dh_ci_dotnet]
+    # Skipped jobs report result == "skipped" which is intentionally not
+    # treated as failure or cancelled, so a frontend-only PR with the .NET
+    # job skipped still passes the gate.
     if: |
       always()
     steps:

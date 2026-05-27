@@ -12,11 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
+namespace Energinet.DataHub.WebApi.Modules.Charges.Types;
 
-public record ChargeLinkOverviewItem(
-    string MeteringPointId,
-    ChargeLinkPeriodDto Period,
-    Charge Charge);
+public class ChargeResolutionEnumType : EnumType<Resolution>
+{
+    protected override void Configure(IEnumTypeDescriptor<Resolution> descriptor)
+    {
+        descriptor
+            .Name("ChargeResolution")
+            .BindValuesExplicitly();
+
+        descriptor.Value(Resolution.QuarterHourly);
+        descriptor.Value(Resolution.Hourly);
+        descriptor.Value(Resolution.Daily);
+        descriptor.Value(Resolution.Monthly);
+    }
+}

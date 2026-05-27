@@ -12,13 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.WebApi.Modules.Charges.Types;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
+using HotChocolate.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeOverviewQuery(
     ChargeType[]? Types,
     string[]? Owners,
+    [property: GraphQLType(typeof(ListType<NonNullType<ChargeResolutionInputEnumType>>))]
     Resolution[]? Resolution,
     DateTimeOffset? ActivePeriodStart,
     DateTimeOffset? ActivePeriodEnd,

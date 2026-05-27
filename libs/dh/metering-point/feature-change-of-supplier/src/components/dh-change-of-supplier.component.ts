@@ -27,6 +27,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from '@energinet/watt/radio';
 import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
@@ -39,7 +40,8 @@ import {
 import { InitiateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/feature-move-in';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -53,6 +55,7 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
     WattDatepickerComponent,
     WattCheckboxComponent,
     WattTextFieldComponent,
+    WattFieldErrorComponent,
     WattRadioComponent,
     VaterStackComponent,
   ],
@@ -112,7 +115,21 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
               [formControl]="form.controls.cpr"
               maxLength="10"
               class="cpr-field"
-            />
+            >
+              <watt-field-error>
+                @if (form.controls.cpr.hasError('containsLetters')) {
+                  {{ t('cprError.containsLetters') }}
+                } @else if (form.controls.cpr.hasError('containsDash')) {
+                  {{ t('cprError.containsDash') }}
+                } @else if (form.controls.cpr.hasError('invalidCprLength')) {
+                  {{ t('cprError.invalidCprLength') }}
+                } @else if (form.controls.cpr.hasError('invalidDate')) {
+                  {{ t('cprError.invalidDate') }}
+                } @else if (form.controls.cpr.hasError('allOnes')) {
+                  {{ t('cprError.allOnes') }}
+                }
+              </watt-field-error>
+            </watt-text-field>
           } @else {
             <watt-text-field
               [label]="t('cvr')"
@@ -173,7 +190,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
       this.form.controls.cvr.clearValidators();
     } else {
       this.form.controls.cvr.enable();
-      this.form.controls.cvr.setValidators([Validators.required, dhCvrValidator()]);
+      this.form.controls.cvr.setValidators([Validators.required, dhMoveInCvrValidator()]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();
     }

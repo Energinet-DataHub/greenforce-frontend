@@ -45,6 +45,8 @@ import {
   mockDisconnectMeteringPointMutation,
   mockRequestConnectionStateChangeMutation,
   mockCancelEndOfSupplyMutation,
+  mockCancelCustomerMoveInMutation,
+  mockCancelChangeOfEnergySupplierMutation,
   mockRejectEndOfSupplyMutation,
   mockRequestEndOfSupplyMutation,
   mockRequestServiceEndOfSupplyMutation,
@@ -52,6 +54,7 @@ import {
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
+  mockGetMeteringPointInfoQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -68,6 +71,7 @@ import { meteringPointsByGridAreaCode } from './data/metering-point/metering-poi
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
+import { dayjs } from '@energinet/watt/core/date';
 
 export function meteringPointMocks(apiBase: string) {
   return [
@@ -88,6 +92,8 @@ export function meteringPointMocks(apiBase: string) {
     changeProductionObligation(),
     requestEndOfSupply(),
     cancelEndOfSupply(),
+    cancelCustomerMoveIn(),
+    cancelChangeOfEnergySupplier(),
     rejectEndOfSupply(),
     requestServiceEndOfSupply(),
     initiateChangeOfSupplier(),
@@ -96,6 +102,7 @@ export function meteringPointMocks(apiBase: string) {
     getConversation(),
     getMeteringPointConversationInformation(),
     getMeteringPointNewConversationInformation(),
+    getMeteringPointInfo(),
     getElectricalHeatingInformation(),
     sendMessage(),
     closeConversation(),
@@ -605,16 +612,23 @@ function getContactCPR() {
 }
 
 function getMeteringPoint() {
-  return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId } }) => {
+  return mockGetMeteringPointByIdQuery(async ({ variables: { meteringPointId, actorGln } }) => {
     await delay(mswConfig.delay);
+
+    const meteringPoint =
+      meteringPointId === parentMeteringPoint.meteringPointId
+        ? parentMeteringPoint
+        : childMeteringPoint;
+
+    const isEnergySupplier = meteringPoint.commercialRelation?.energySupplier === actorGln;
 
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPoint:
-          meteringPointId === parentMeteringPoint.meteringPointId
-            ? parentMeteringPoint
-            : childMeteringPoint,
+        meteringPoint: {
+          ...meteringPoint,
+          isEnergySupplier,
+        },
       },
     });
   });
@@ -729,12 +743,14 @@ function getConversation() {
           participants: [
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '1',
               type: 'INITIATOR',
               role: 'ENERGY_SUPPLIER',
               actorName: 'Sort Strøm',
             },
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '2',
               type: 'RECEIVER',
               role: 'GRID_ACCESS_PROVIDER',
               actorName: 'Grøn Strøm',
@@ -755,6 +771,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -777,6 +795,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -804,6 +824,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -820,6 +842,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -830,8 +854,8 @@ function getConversation() {
               actorName: 'Sort Strøm',
               userName: 'Hanne Hansen',
               isSentByCurrentActor: true,
-
               anonymous: false,
+              electricalHeatingUserMessage: null,
               electricalHeatingInformation: {
                 __typename: 'ElectricalHeatingMessage',
                 isElectricalHeatingActive: true,
@@ -845,6 +869,7 @@ function getConversation() {
                   },
                 ],
               },
+              userMessage: null,
               attachments: [],
             },
             {
@@ -867,6 +892,8 @@ function getConversation() {
                 content:
                   'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',
               },
+              electricalHeatingInformation: null,
+              userMessage: null,
               attachments: [],
             },
             {
@@ -882,6 +909,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: true,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -897,6 +926,8 @@ function getConversation() {
               userName: '',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
           ],
@@ -962,6 +993,42 @@ function getMeteringPointNewConversationInformation() {
             },
             type: ElectricityMarketMeteringPointType.Consumption,
           },
+        },
+      },
+    });
+  });
+}
+
+function getMeteringPointInfo() {
+  return mockGetMeteringPointInfoQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPoint: {
+          __typename: 'ElectricityMarketViewMeteringPointDto',
+          id: '1',
+          meteringPointId: '222222222222222222',
+          metadata: {
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
+            id: '1',
+            type: ElectricityMarketMeteringPointType.Consumption,
+          },
+          commercialRelationTimeline: [
+            {
+              __typename: 'ElectricityMarketViewCommercialRelationDto',
+              id: '1',
+              energySupplyPeriodTimeline: [
+                {
+                  __typename: 'ElectricityMarketViewEnergySupplyPeriodDto',
+                  id: '1',
+                  validFrom: dayjs().subtract(1, 'week').toDate(),
+                  validTo: new Date('9999-12-31'),
+                },
+              ],
+            },
+          ],
         },
       },
     });
@@ -1076,6 +1143,38 @@ function cancelEndOfSupply() {
         __typename: 'Mutation',
         cancelEndOfSupply: {
           __typename: 'CancelEndOfSupplyPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelCustomerMoveIn() {
+  return mockCancelCustomerMoveInMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelCustomerMoveIn: {
+          __typename: 'CancelCustomerMoveInPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelChangeOfEnergySupplier() {
+  return mockCancelChangeOfEnergySupplierMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelChangeOfEnergySupplier: {
+          __typename: 'CancelChangeOfEnergySupplierPayload',
           boolean: true,
         },
       },

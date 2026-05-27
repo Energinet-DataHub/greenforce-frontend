@@ -62,7 +62,7 @@ import {
   ConversationSubject,
   GetConversationsDocument,
   StartConversationDocument,
-  GetMeteringPointTypeDocument,
+  GetMeteringPointInfoDocument,
   GetElectricalHeatingDocument,
   ElectricityMarketViewMeteringPointType,
   StartElectricalHeatingConversationInput,
@@ -224,7 +224,7 @@ export class DhActorConversationNewConversation {
   private readonly electricHeatingInformationQuery = query(GetElectricalHeatingDocument, () => ({
     variables: { meteringPointIdentification: this.meteringPointIdentification() ?? '' },
   }));
-  private readonly meteringPointTypeQuery = query(GetMeteringPointTypeDocument, () => ({
+  private readonly meteringPointInfoQuery = query(GetMeteringPointInfoDocument, () => ({
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
 
@@ -247,6 +247,20 @@ export class DhActorConversationNewConversation {
       ? null
       : { electricalHeatingAttachmentsRequired: true };
 
+  private readonly supplierPeriodOnSelectedDateValidator: ValidatorFn = (
+    control: AbstractControl<Date | null>
+  ) => {
+    const selectedDate = control.value;
+    if (!selectedDate) return null;
+
+    const selectedDay = dayjs(selectedDate);
+    const hasPeriod = this.supplierPeriods().some((period) =>
+      selectedDay.isBetween(period.validFrom, period.validTo, 'day', '[]')
+    );
+
+    return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
+  };
+
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
@@ -263,6 +277,15 @@ export class DhActorConversationNewConversation {
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
   );
 
+  private readonly supplierPeriods = computed(
+    () =>
+      this.meteringPointInfoQuery
+        .data()
+        ?.meteringPoint.commercialRelationTimeline.flatMap(
+          (timeline) => timeline.energySupplyPeriodTimeline
+        ) ?? []
+  );
+
   private readonly electricalHeatingPeriods = computed(
     () => this.electricalHeatingInformation()?.supplierPeriods ?? []
   );
@@ -277,7 +300,7 @@ export class DhActorConversationNewConversation {
 
   isMeteringPointTypeConsumption = computed(
     () =>
-      this.meteringPointTypeQuery.data()?.meteringPoint.metadata.type ===
+      this.meteringPointInfoQuery.data()?.meteringPoint.metadata.type ===
       ElectricityMarketViewMeteringPointType.Consumption
   );
 
@@ -330,7 +353,7 @@ export class DhActorConversationNewConversation {
 
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.energySupplierDate,
-    Validators.required,
+    [this.supplierPeriodOnSelectedDateValidator, Validators.required],
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );

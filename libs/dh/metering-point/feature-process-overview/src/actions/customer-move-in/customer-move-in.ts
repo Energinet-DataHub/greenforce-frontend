@@ -19,29 +19,68 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { EicFunction, WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  CancelCustomerMoveInDocument,
+  ChangeCustomerCharacteristicsBusinessReason,
+  EicFunction,
+  GetMeteringPointProcessByIdDocument,
+  GetMeteringPointProcessOverviewDocument,
+  ProcessManagerBusinessReason,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { ResponsibleEnergySupplier, type ActionHandlerMap } from '../registry';
+import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
+import { cancelProcessAction } from '../shared/cancel-process-action';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
   private readonly router = inject(Router);
+  private readonly cancelCustomerMoveIn = mutation(CancelCustomerMoveInDocument);
 
   readonly handlers: ActionHandlerMap = {
     [WorkflowAction.SendInformation]: {
-      roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
+      roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
-        this.router.navigate([
-          getPath<BasePaths>('metering-point'),
-          ctx.internalMeteringPointId,
-          getPath<MeteringPointSubPaths>('update-customer-details'),
-          ctx.processId,
-        ]),
+        this.router.navigate(
+          [
+            getPath<BasePaths>('metering-point'),
+            ctx.internalMeteringPointId,
+            getPath<MeteringPointSubPaths>('update-customer-details'),
+            ctx.processId,
+          ],
+          {
+            queryParams: {
+              businessReason: ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn,
+            },
+          }
+        ),
+    },
+    [WorkflowAction.CancelWorkflow]: {
+      permissions: ['metering-point:move-in'],
+      roles: [InitiatingParticipant],
+      callback: cancelProcessAction(
+        `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.CustomerMoveIn}`,
+        (ctx, onCompleted, onError) => {
+          this.cancelCustomerMoveIn.mutate({
+            refetchQueries: [
+              GetMeteringPointProcessByIdDocument,
+              GetMeteringPointProcessOverviewDocument,
+            ],
+            variables: {
+              meteringPointId: ctx.meteringPointId,
+              processId: ctx.processId,
+            },
+            onCompleted,
+            onError,
+          });
+        }
+      ),
     },
   };
 }
