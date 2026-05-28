@@ -31,6 +31,8 @@ import {
   mockCancelChargeLinkMutation,
   mockEditChargeLinkMutation,
   mockGetChargeWeekSeriesQuery,
+  mockGetHistoricalChargeLinkPeriodsQuery,
+  mockCreateChargeLinkMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 
 import {
@@ -296,6 +298,19 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
 
 const charges = makeChargesMock();
 
+function makeSortKey(charge: Charge, periodStart: Date): string {
+  const sortOrderMap: Record<string, number> = {
+    [ChargeType.Tariff]: 1,
+    [ChargeType.TariffTax]: 2,
+    [ChargeType.Fee]: 3,
+    [ChargeType.Subscription]: 4,
+  };
+  const sortOrder = (sortOrderMap[charge.type] ?? 99).toString().padStart(2, '0');
+  const owner = charge.owner?.glnOrEicNumber ?? '';
+  const invertedDate = (Number.MAX_SAFE_INTEGER - periodStart.getTime()).toString();
+  return `${sortOrder}-${owner}-${charge.code}-${invertedDate}`;
+}
+
 const chargeLinkPeriods: ChargeLinkPeriod[] = [
   {
     __typename: 'ChargeLinkPeriod',
@@ -304,6 +319,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
     amount: 100,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
+    cancelled: false,
+    sortKey: makeSortKey(charges[0], new Date('2023-01-01T00:00:00Z')),
     charge: charges[0],
   },
   {
@@ -313,6 +330,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
     amount: 75,
     period: { start: new Date('2023-01-01T00:00:00Z'), end: new Date('2023-12-31T23:59:59Z') },
     closed: true,
+    cancelled: false,
+    sortKey: makeSortKey(charges[1], new Date('2023-01-01T00:00:00Z')),
     charge: charges[1],
   },
   {
@@ -322,6 +341,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
     amount: 50,
     period: { start: new Date('2023-03-01T00:00:00Z'), end: new Date('2023-09-30T23:59:59Z') },
     closed: true,
+    cancelled: false,
+    sortKey: makeSortKey(charges[2], new Date('2023-03-01T00:00:00Z')),
     charge: charges[2],
   },
   {
@@ -331,6 +352,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
     closed: false,
+    cancelled: false,
+    sortKey: makeSortKey(charges[3], new Date('2023-04-01T00:00:00Z')),
     charge: charges[3],
   },
   {
@@ -340,6 +363,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
     amount: 120,
     period: { start: new Date('2023-04-01T00:00:00Z'), end: null },
     closed: false,
+    cancelled: false,
+    sortKey: makeSortKey(charges[4], new Date('2023-04-01T00:00:00Z')),
     charge: charges[4],
   },
   {
@@ -352,6 +377,8 @@ const chargeLinkPeriods: ChargeLinkPeriod[] = [
       end: new Date('2026-03-19T22:59:59.999Z'),
     },
     closed: false,
+    cancelled: false,
+    sortKey: makeSortKey(charges[0], new Date('2026-03-18T23:00:00.000Z')),
     charge: charges[0],
   },
 ];
@@ -566,7 +593,33 @@ function getChargeLinkPeriodById() {
     return HttpResponse.json({
       data: {
         __typename: 'Query' as const,
-        chargeLinkPeriodById: period ? { ...period, changes: [] } : null,
+        chargeLinkPeriodById: period,
+      },
+    });
+  });
+}
+
+function getHistoricalChargeLinkPeriods() {
+  return mockGetHistoricalChargeLinkPeriodsQuery(async ({ variables: { id } }) => {
+    await delay(mswConfig.delay);
+    const period = chargeLinkPeriods.find((p) => p.id === id);
+    if (!period) return HttpResponse.json({ errors: ['Period not found'] }, { status: 404 });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query' as const,
+        chargeLinkPeriodById: {
+          ...period,
+          changes: [
+            {
+              __typename: 'ChargeLinkPeriodChange',
+              changeType: 'STARTED',
+              created: new Date('2023-01-01T00:00:00Z'),
+              effectiveDate: new Date('2023-01-01T00:00:00Z'),
+              factor: period?.amount ?? 1,
+              previousFactor: null,
+            },
+          ],
+        },
       },
     });
   });
@@ -592,30 +645,27 @@ function getChargesByType() {
   });
 }
 
-function stopChargeLink() {
-  return mockStopChargeLinkMutation(async () => {
+function createChargeLink() {
+  return mockCreateChargeLinkMutation(async ({ variables: { chargeId, factor, newStartDate } }) => {
     await delay(mswConfig.delay);
+    const charge = charges.find((c) => c.id === chargeId);
+    if (!charge) return HttpResponse.json({ errors: ['Charge not found'] }, { status: 404 });
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
-        stopChargeLink: {
-          __typename: 'StopChargeLinkPayload',
-          success: true,
-        },
-      },
-    });
-  });
-}
-
-function cancelChargeLink() {
-  return mockCancelChargeLinkMutation(async () => {
-    await delay(mswConfig.delay);
-    return HttpResponse.json({
-      data: {
-        __typename: 'Mutation',
-        cancelChargeLink: {
-          __typename: 'CancelChargeLinkPayload',
-          success: true,
+        createChargeLink: {
+          __typename: 'CreateChargeLinkPayload',
+          chargeLinkPeriod: {
+            __typename: 'ChargeLinkPeriod',
+            id: 'new-id',
+            sortKey: makeSortKey(charge, newStartDate),
+            amount: factor,
+            charge,
+            cancelled: false,
+            closed: false,
+            period: { start: newStartDate, end: null },
+            changes: [],
+          },
         },
       },
     });
@@ -623,14 +673,70 @@ function cancelChargeLink() {
 }
 
 function editChargeLink() {
-  return mockEditChargeLinkMutation(async () => {
+  return mockEditChargeLinkMutation(async ({ variables: { id, newStartDate, factor } }) => {
     await delay(mswConfig.delay);
+    const period = chargeLinkPeriods.find((p) => p.id === id);
+    if (!period) return HttpResponse.json({ errors: ['Period not found'] }, { status: 404 });
+    const updated = {
+      ...period,
+      period: { start: period.period.start, end: newStartDate },
+    };
+    const created = {
+      ...period,
+      id: `${id}-edited`,
+      amount: factor,
+      period: { start: newStartDate, end: null },
+      closed: false,
+      sortKey: makeSortKey(period.charge, newStartDate),
+    };
     return HttpResponse.json({
       data: {
         __typename: 'Mutation',
         editChargeLink: {
           __typename: 'EditChargeLinkPayload',
-          success: true,
+          chargeLinkPeriod: [updated, created],
+        },
+      },
+    });
+  });
+}
+
+function stopChargeLink() {
+  return mockStopChargeLinkMutation(async ({ variables: { id, stopDate } }) => {
+    await delay(mswConfig.delay);
+    const period = chargeLinkPeriods.find((p) => p.id === id);
+    if (!period) return HttpResponse.json({ errors: ['Period not found'] }, { status: 404 });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        stopChargeLink: {
+          __typename: 'StopChargeLinkPayload',
+          chargeLinkPeriod: {
+            ...period,
+            period: { start: period.period.start, end: stopDate },
+          },
+        },
+      },
+    });
+  });
+}
+
+function cancelChargeLink() {
+  return mockCancelChargeLinkMutation(async ({ variables: { id } }) => {
+    await delay(mswConfig.delay);
+    const period = chargeLinkPeriods.find((p) => p.id === id);
+    if (!period) return HttpResponse.json({ errors: ['Period not found'] }, { status: 404 });
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelChargeLink: {
+          __typename: 'CancelChargeLinkPayload',
+          chargeLinkPeriod: {
+            ...period,
+            period: { start: period.period.start, end: period.period.start },
+            cancelled: true,
+            closed: true,
+          },
         },
       },
     });
@@ -641,14 +747,16 @@ export function chargesMocks() {
   return [
     getCharges(),
     getChargeById(),
-    stopChargeLink(),
-    editChargeLink(),
     getChargeSeries(),
     getMissingPriceSeriesPoints(),
     getChargeWeekSeries(),
-    cancelChargeLink(),
     getChargesByType(),
     getChargeLinkPeriods(),
     getChargeLinkPeriodById(),
+    getHistoricalChargeLinkPeriods(),
+    createChargeLink(),
+    editChargeLink(),
+    stopChargeLink(),
+    cancelChargeLink(),
   ];
 }

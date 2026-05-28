@@ -16,15 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
 import { TranslocoDirective } from '@jsverse/transloco';
+
 import { VATER } from '@energinet/watt/vater';
+import { dayjs } from '@energinet/watt/core/date';
 import { WATT_RADIO } from '@energinet/watt/radio';
-import { EicFunction, MarketRole } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+
+import { EicFunction, MarketRole } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-actor-conversation-receiver-radio-group',
@@ -52,7 +56,7 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
           @if (receiverControl().value === 'ENERGY_SUPPLIER') {
             <vater-stack gap="m" fill="vertical" direction="row" class="watt-space-inset-s">
               <watt-separator weight="bold" orientation="vertical" />
-              <watt-datepicker [label]="t('onDate')" [formControl]="dateControl()">
+              <watt-datepicker [max]="today" [label]="t('onDate')" [formControl]="dateControl()">
                 @if (dateControl().errors?.noSupplierPeriodForSelectedDate) {
                   <watt-field-error> {{ t('noSupplierPeriodForSelectedDate') }} </watt-field-error>
                 }
@@ -78,6 +82,8 @@ export class DhActorConversationReceiverRadioGroup {
   marketRole = input.required<EicFunction>();
   receiverControl = input.required<FormControl<MarketRole | null>>();
   dateControl = input.required<FormControl<Date | null>>();
+
+  protected readonly today = dayjs().startOf('day').toDate();
 
   protected readonly showGridAccessProvider = computed(
     () => this.marketRole() !== EicFunction.GridAccessProvider

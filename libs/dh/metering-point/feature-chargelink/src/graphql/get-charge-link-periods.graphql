@@ -1,21 +1,5 @@
 query GetChargeLinkPeriods($meteringPointId: String!) {
   chargeLinkPeriods(meteringPointId: $meteringPointId) {
-    id
-    amount
-    period
-    closed
-    charge {
-      id
-      code
-      name
-      type
-      typeDisplayName
-      displayName
-      transparentInvoicing
-      owner {
-        id
-        displayName
-      }
-    }
+    ...ChargeLinkPeriodFields
   }
 }

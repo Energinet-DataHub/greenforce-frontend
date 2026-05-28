@@ -1,7 +1,7 @@
 ﻿{
   "activity": "stopChargeLink",
   "payload": {
-    "query": "mutation($id: String!, $stopDate: DateTime!) { stopChargeLink(input: { id: $id, stopDate: $stopDate }) { boolean } }",
+    "query": "mutation($id: String!, $stopDate: DateTime!) { stopChargeLink(input: { id: $id, stopDate: $stopDate }) { chargeLinkPeriod { id } } }",
     "variables": {
       "id": "eyJtZXRlcmluZ1BvaW50SWQiOiI1NzEzMTMxODAwMDAwMDAwMDUiLCJjaGFyZ2VJZCI6eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9fQ==",
       "stopDate": "2025-06-01T00:00:00Z"

@@ -1090,7 +1090,7 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "IncorrectMove": "Handling of incorrect move (BRS-003)"
+        "IncorrectMove": "Handling of incorrect move (BRS-011)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",

@@ -131,19 +131,25 @@ import { WattDataIntlService } from './watt-data-intl.service';
           ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
-                <watt-empty-state
-                  [icon]="error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'"
-                  [title]="
-                    error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle
-                  "
-                  [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
-                >
-                  @if (enableRetry()) {
-                    <watt-button variant="secondary" (click)="retry.emit()"
-                      >{{ intl.emptyRetry }}
-                    </watt-button>
-                  }
-                </watt-empty-state>
+                <ng-content select="watt-empty-state">
+                  <watt-empty-state
+                    [icon]="
+                      error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'
+                    "
+                    [title]="
+                      error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle
+                    "
+                    [message]="
+                      error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText
+                    "
+                  >
+                    @if (enableRetry()) {
+                      <watt-button variant="secondary" (click)="retry.emit()"
+                        >{{ intl.emptyRetry }}
+                      </watt-button>
+                    }
+                  </watt-empty-state>
+                </ng-content>
               </vater-stack>
             </vater-flex>
           }
