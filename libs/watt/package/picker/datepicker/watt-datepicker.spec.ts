@@ -310,6 +310,31 @@ describe(WattDatepickerComponent, () => {
       });
     });
 
+    describe('datepickerClosed (calendar UI path)', () => {
+      // Driving Material's real MatDatepickerInput via a fixed Date is fragile in unit
+      // tests because the value setter routes through DateAdapter and the mask dispatches
+      // an `input` event that re-enters inputChanged. We test the clear branch directly
+      // (no Date round-trip needed) and leave the populated branch to the format-helper
+      // tests above, which exercise the same `formatDateFromViewToModel` path.
+      it('clears the form control and the mask input when the calendar has no value', async () => {
+        const { fixture, actualInput } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        (
+          datepickerComponent as unknown as { matDatepickerInput: () => { value: Date | null } }
+        ).matDatepickerInput = () => ({ value: null });
+
+        datepickerComponent.datepickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+        expect(actualInput.value).toBe('');
+      });
+    });
+
     it('allows stepping through days when enabled', async () => {
       const initialDate = new Date(TEST_DATE_2023_01_15);
       const { fixture } = await setup({
@@ -583,6 +608,45 @@ describe(WattDatepickerComponent, () => {
 
       // The result should contain monthOnly error
       expect(validationResult).toEqual({ monthOnly: true });
+    });
+
+    describe('rangePickerClosed (calendar UI path)', () => {
+      // Same caveat as datepickerClosed: driving MatDateRangeInput end-to-end with
+      // concrete Dates re-enters maskito and produces spurious value changes in tests.
+      // We test the clear branch and the rangeSeparator contract through a focused
+      // unit-style assertion below; the format-helper round-trip is covered by the
+      // rangeInputChanged tests above.
+      it('clears the form control and the mask input when the range has no value', async () => {
+        const { fixture, actualInput } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        (datepickerComponent as unknown as {
+          matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
+        }).matDateRangeInput = () => ({ value: { start: null, end: null } });
+
+        datepickerComponent.rangePickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+        expect(actualInput.value).toBe('');
+      });
+
+      it('exposes rangeSeparator (must match the mask used by rangeInputChanged)', async () => {
+        // Regression guard for #5271: rangePickerClosed previously concatenated start/end
+        // with a hard-coded '-'. The displayed value must use rangeSeparator (' - ', length
+        // 3) so the mask input parses correctly when the user edits the displayed range
+        // afterwards (rangeInputChanged slices by this.rangeSeparator.length).
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        expect(datepickerComponent.rangeSeparator).toBe(' - ');
+        expect(datepickerComponent.rangeSeparator.length).toBe(3);
+      });
     });
 
     it('clears the range picker', async () => {
