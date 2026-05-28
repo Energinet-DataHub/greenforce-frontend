@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
+import { DestroyRef, Signal, computed, effect, inject, signal } from '@angular/core';
 import {
   ApolloError,
   FetchResult,
@@ -49,10 +49,16 @@ export enum MutationStatus {
 }
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface MutationOptions<TResult, TVariables>
-  extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
-  onCompleted?: (data: TResult, clientOptions?: MutationOptions<TResult, TVariables>) => void;
-  onError?: (error: ApolloError, clientOptions?: MutationOptions<TResult, TVariables>) => void;
+export interface MutationOptions<TResult, TVariables> extends Omit<
+  ApolloMutationOptions<TResult, TVariables>,
+  'mutation'
+> {
+  onCompleted?: (data: TResult, clientOptions: MutationOptions<TResult, TVariables>) => void;
+  onError?: (error: ApolloError, clientOptions: MutationOptions<TResult, TVariables>) => void;
+  onStatusUpdated?: (
+    status: MutationStatus,
+    clientOptions: MutationOptions<TResult, TVariables>
+  ) => void;
 }
 
 export type MutationResult<T> = FetchResult<T> & {
@@ -79,6 +85,8 @@ export function mutation<TResult, TVariables extends OperationVariables>(
   const loading = signal(false);
   const called = signal(false);
   const status = signal(MutationStatus.Idle);
+
+  effect(() => options?.onStatusUpdated?.(status(), options));
 
   return {
     // Upcast to prevent writing to signals
