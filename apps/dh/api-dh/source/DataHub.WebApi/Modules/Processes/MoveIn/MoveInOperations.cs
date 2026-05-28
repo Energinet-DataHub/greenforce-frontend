@@ -136,6 +136,16 @@ public static class MoveInOperations
             }
         }
 
+        if (needsFirstCpr && string.IsNullOrEmpty(resolvedFirstCustomerCpr))
+        {
+            throw new GraphQLException("Unable to resolve CPR for the first customer.");
+        }
+
+        if (needsSecondCpr && string.IsNullOrEmpty(resolvedSecondCustomerCpr))
+        {
+            throw new GraphQLException("Unable to resolve CPR for the second customer.");
+        }
+
         var command = new RequestChangeCustomerCharacteristicsCommandV2(
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
@@ -205,13 +215,15 @@ public static class MoveInOperations
         var meteringPoint = meteringPointResult.Data?.MeteringPoint;
         if (meteringPoint is null)
         {
-            return (null, null);
+            throw new GraphQLException(
+                $"Unable to resolve existing customer CPR: metering point '{meteringPointId}' could not be loaded.");
         }
 
         var customers = meteringPoint.CommercialRelation?.ActiveEnergySupplierPeriod?.Contacts;
         if (customers is null)
         {
-            return (null, null);
+            throw new GraphQLException(
+                $"Unable to resolve existing customer CPR: no customer contacts found for metering point '{meteringPointId}'.");
         }
 
         Guid? juridicalId = null;
