@@ -1699,6 +1699,13 @@
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "registerElectricalHeating": "Register electrical heating",
+      "meteringPoint": "Metering point",
+      "meteringPointIdLabel": "Electrical heating (D14) metering point ID"
     }
   },
   "messageArchive": {

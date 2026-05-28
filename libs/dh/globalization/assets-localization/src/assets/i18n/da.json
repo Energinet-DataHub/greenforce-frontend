@@ -1699,6 +1699,13 @@
       "submitSuccess": "Leverandørskifte indsendt. Du kan følge status under processer",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskifte kunne ikke indsendes"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "registerElectricalHeating": "Registrer elvarme",
+      "meteringPoint": "Målepunkt",
+      "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
     }
   },
   "messageArchive": {
