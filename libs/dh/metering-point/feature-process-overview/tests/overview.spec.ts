@@ -161,14 +161,12 @@ describe('Process overview', () => {
 
   it('should hide all action buttons for unrelated market roles', async () => {
     await setup({ actorMarketRole: EicFunction.DataHubAdministrator });
-    // Poll: the prior test in this file populates these buttons; the new render
-    // re-evaluates SupportedActionsPipe with the new actor on the next CD cycle,
-    // and we need to wait that cycle out. If a button truly persisted, this
-    // times out (not silently passes).
-    await waitForAsync(() => {
-      expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
-      expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
-    });
+    // Scope to the table: this test cares about no action buttons in the process
+    // rows for an unrelated market role, not about any /Cancel/-named button
+    // elsewhere in the document (e.g., chip/dialog leftovers between tests).
+    const table = screen.getByRole('treegrid');
+    expect(within(table).queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+    expect(within(table).queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 
   it('should show generic possible-actions text instead of buttons for FAS users', async () => {
@@ -199,13 +197,13 @@ describe('Process overview', () => {
       isEnergySupplierResponsible: false,
     });
 
-    // Same rationale as the unrelated-market-roles test: poll until the new
-    // actor's filter has been applied by the next CD cycle.
-    await waitForAsync(() => {
-      expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
-      expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
-      expect(screen.queryAllByText(/Possible actions for actors/i)).toHaveLength(0);
-    });
+    // Scope to the table for the same reason as the unrelated-market-roles test:
+    // we are asserting on the action column for this actor, not on every button
+    // in the document. The FAS "Possible actions" text is row-internal too.
+    const table = screen.getByRole('treegrid');
+    expect(within(table).queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+    expect(within(table).queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
+    expect(within(table).queryAllByText(/Possible actions for actors/i)).toHaveLength(0);
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
