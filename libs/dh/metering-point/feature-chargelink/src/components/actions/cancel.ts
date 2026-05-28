@@ -65,7 +65,11 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
         <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="secondary" (click)="cancel.mutate({ variables: { id: id() } })">
+        <watt-button
+          variant="secondary"
+          (click)="cancel.mutate({ variables: { id: id() } })"
+          [disabled]="cancel.loading()"
+        >
           {{ t('cancel') }}
         </watt-button>
       </watt-modal-actions>
