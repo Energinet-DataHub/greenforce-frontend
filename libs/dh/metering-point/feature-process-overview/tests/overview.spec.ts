@@ -75,7 +75,14 @@ async function setup(
         useValue: {
           getSelectedActor: () => ({
             id: 'actor-1',
-            gln: '1234567890123',
+            // Deliberately NOT matching any mock initiator's GLN. The overview
+            // tests are about role-based button filtering, not the
+            // InitiatingParticipant path. If we used a GLN that overlaps a mock
+            // initiator (e.g. the by-id mock's first row), Apollo's normalised
+            // cache could leak that GLN into the overview's initiator (entities
+            // are keyed by id), making InitiatingParticipant spuriously match
+            // and showing buttons for actors that should not see them.
+            gln: '0000000000000',
             marketRole: actorMarketRole,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
