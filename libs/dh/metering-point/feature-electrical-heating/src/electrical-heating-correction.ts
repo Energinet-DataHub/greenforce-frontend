@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -34,14 +34,16 @@ import {
 
 @Component({
   selector: 'dh-electrical-heating-correction',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
     RouterLink,
-    WattTextFieldComponent,
+
     VATER,
-    WattButtonComponent,
     WATT_CARD,
+    WattButtonComponent,
+    WattTextFieldComponent,
   ],
   styles: `
     :host {
