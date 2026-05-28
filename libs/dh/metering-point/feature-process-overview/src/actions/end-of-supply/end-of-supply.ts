@@ -86,7 +86,7 @@ export class EndOfSupplyActions {
     [WorkflowAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-respond'],
-      roles: [ResponsibleEnergySupplier],
+      roles: [EicFunction.GridAccessProvider],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
         this.rejectEndOfSupply.mutate({
           refetchQueries: [
@@ -107,8 +107,8 @@ export class EndOfSupplyActions {
     },
     [WorkflowAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
-      permissions: ['metering-point:end-of-supply-request', 'metering-point:end-of-supply-respond'],
-      roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
+      permissions: ['metering-point:end-of-supply-request'],
+      roles: [ResponsibleEnergySupplier],
       callback: cancelProcessAction(
         `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.EndOfSupply}`,
         (ctx, onCompleted, onError) => {

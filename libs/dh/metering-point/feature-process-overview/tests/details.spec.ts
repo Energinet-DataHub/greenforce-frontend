@@ -43,6 +43,23 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
+// Mirrors the canonical permission-to-role mapping in
+// geh-market-participant/.../KnownPermissions.cs so role-only handlers gate
+// realistically in tests (instead of an all-true mock making the assertions
+// vacuous).
+const PERMISSIONS_BY_ROLE: Partial<Record<EicFunction, ReadonlySet<string>>> = {
+  [EicFunction.EnergySupplier]: new Set([
+    'metering-point:end-of-supply-request',
+    'metering-point:connection-state-manage',
+    'metering-point:move-in',
+    'metering-point:change-of-supplier',
+  ]),
+  [EicFunction.GridAccessProvider]: new Set([
+    'metering-point:end-of-supply-respond',
+    'metering-point:connection-state-manage',
+  ]),
+};
+
 async function setup(
   processId = 'process-eos-cancel',
   overrides: {
@@ -58,6 +75,7 @@ async function setup(
     actorGln = '1234567890123',
     isEnergySupplierResponsible = false,
   } = overrides;
+  const rolePermissions = PERMISSIONS_BY_ROLE[actorMarketRole] ?? new Set<string>();
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -70,7 +88,7 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasPermission: () => of(true),
+          hasPermission: (permission: string) => of(rolePermissions.has(permission)),
         },
       },
       {
@@ -117,21 +135,34 @@ describe('Process overview details', () => {
     expect(document.querySelector('dh-metering-point-process-overview-steps')).not.toBeNull();
   });
 
-  it('should show action buttons for EndOfSupply process', async () => {
+  it('should show reject request button for GridAccessProvider on EndOfSupply process', async () => {
     await setup('process-eos-cancel');
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
   });
 
-  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+  it('should hide cancel button for GridAccessProvider on EndOfSupply process', async () => {
+    await setup('process-eos-cancel');
+    // Confirm at least one EndOfSupply action has rendered so the assertion
+    // below cannot pass simply because the actions row has not loaded yet.
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
+    );
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should hide reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
     await setup('process-eos-cancel', {
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
     });
+    // Positive control: cancel must render so the negation below proves the
+    // role gate, not just an unloaded actions row.
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
+    expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
   });
 
   it('should show request disconnection button for EndOfSupply process', async () => {
