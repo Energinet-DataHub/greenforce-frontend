@@ -89,14 +89,6 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           <watt-date-range-chip [formControl]="form.controls.created">
             {{ t('created') }}
           </watt-date-range-chip>
-          <vater-stack direction="row" offset="ml" gap="l">
-            <!--<watt-checkbox [formControl]="form.controls.includeViews">
-              {{ t('includeViews') }}
-            </watt-checkbox>-->
-            <!--<watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
-              {{ t('includeMasterMeasurementAndPriceRequests') }}
-            </watt-checkbox>-->
-          </vater-stack>
         </form>
       </watt-data-filters>
       <watt-table
@@ -203,8 +195,6 @@ export class DhMeteringPointProcessOverviewTable {
 
   form = new FormGroup({
     created: dhMakeFormControl(this.store.dateRange()),
-    includeViews: dhMakeFormControl(false),
-    includeMasterMeasurementAndPriceRequests: dhMakeFormControl(false),
   });
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));

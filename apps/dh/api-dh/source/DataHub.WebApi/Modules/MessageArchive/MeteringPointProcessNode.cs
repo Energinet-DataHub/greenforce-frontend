@@ -103,10 +103,15 @@ public static partial class MeteringPointProcessNode
 
     public static async Task<ActorDto?> GetInitiatorAsync(
         [Parent] MeteringPointProcess process,
-        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
-        Enum.TryParse<EicFunction>(process.ActorRole, out var role)
-            ? await dataLoader.LoadAsync((process.ActorNumber, role))
-            : null;
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader)
+    {
+        // Masked foreign actors carry a populated ActorRole but an empty ActorNumber,
+        // so guard the DataLoader to avoid an upstream lookup with an empty number.
+        // Callers fall back to `initiatorRole` for the role label.
+        if (string.IsNullOrEmpty(process.ActorNumber)) return null;
+        if (!Enum.TryParse<EicFunction>(process.ActorRole, out var role)) return null;
+        return await dataLoader.LoadAsync((process.ActorNumber, role));
+    }
 
     // The role is always available (the backend masks only the actor number for foreign actors),
     // so it is exposed independently of the number-keyed initiator resolution above. This lets the

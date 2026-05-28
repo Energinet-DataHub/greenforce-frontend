@@ -23,10 +23,15 @@ public static partial class MeteringPointProcessStepNode
 {
     public static async Task<ActorDto?> GetActorAsync(
         [Parent] MeteringPointProcessStep step,
-        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
-        Enum.TryParse<EicFunction>(step.ActorRole, out var role)
-            ? await dataLoader.LoadAsync((step.ActorNumber, role))
-            : null;
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader)
+    {
+        // Masked foreign actors carry a populated ActorRole but an empty ActorNumber,
+        // so guard the DataLoader to avoid an upstream lookup with an empty number.
+        // Callers fall back to `actorRole` for the role label.
+        if (string.IsNullOrEmpty(step.ActorNumber)) return null;
+        if (!Enum.TryParse<EicFunction>(step.ActorRole, out var role)) return null;
+        return await dataLoader.LoadAsync((step.ActorNumber, role));
+    }
 
     // The role is always available (the backend masks only the actor number for foreign actors),
     // so it is exposed independently of the number-keyed actor resolution above. This lets the
