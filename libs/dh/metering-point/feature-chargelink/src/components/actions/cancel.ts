@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, input, viewChild } from '@angular/core';
+import { Component, input, viewChild } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -51,7 +51,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   template: `
     <watt-modal
       size="small"
-      #cancel
+      #modal
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
       (closed)="navigate('..')"
@@ -62,10 +62,10 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       </h2>
       {{ t('cancelWarning') }}
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="cancel.close(false)">
+        <watt-button variant="secondary" (click)="modal.close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="secondary" (click)="cancelLink()">
+        <watt-button variant="secondary" (click)="cancel.mutate({ variables: { id: id() } })">
           {{ t('cancel') }}
         </watt-button>
       </watt-modal-actions>
@@ -73,18 +73,12 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   `,
 })
 export default class DhMeteringPointCancelChargeLink {
-  private toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
-  private cancel = mutation(CancelChargeLinkDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
-  protected navigate = injectRelativeNavigate();
   readonly id = input.required<string>();
-
-  async cancelLink() {
-    await this.cancel.mutate({ variables: { id: this.id() } });
-    this.modal().close(true);
-  }
-
-  constructor() {
-    effect(() => this.toast(this.cancel.status()));
-  }
+  readonly modal = viewChild.required(WattModalComponent);
+  protected navigate = injectRelativeNavigate();
+  protected toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
+  protected cancel = mutation(CancelChargeLinkDocument, {
+    onCompleted: () => this.modal().close(true),
+    onStatusUpdated: this.toast,
+  });
 }
