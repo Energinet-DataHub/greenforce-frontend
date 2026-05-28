@@ -162,10 +162,9 @@ export default class DhMeteringPointCreateChargeLink {
     return type ? { variables: { type } } : { skip: true };
   });
 
-  private toast = injectToast('meteringPoint.chargeLinks.create.toast');
   protected createChargeLink = mutation(CreateChargeLinkDocument, {
     onCompleted: () => this.modal().close(true),
-    onStatusUpdated: this.toast,
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.create.toast'),
     update: (cache, { data }) => {
       const period = data?.createChargeLink?.chargeLinkPeriod;
       const meteringPointId = this.meteringPointId();

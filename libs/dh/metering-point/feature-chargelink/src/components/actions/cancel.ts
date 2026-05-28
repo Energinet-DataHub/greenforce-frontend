@@ -79,9 +79,8 @@ export default class DhMeteringPointCancelChargeLink {
   readonly id = input.required<string>();
   readonly modal = viewChild.required(WattModalComponent);
   protected navigate = injectRelativeNavigate();
-  protected toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
   protected cancel = mutation(CancelChargeLinkDocument, {
     onCompleted: () => this.modal().close(true),
-    onStatusUpdated: this.toast,
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.cancel.toast'),
   });
 }
