@@ -73,7 +73,7 @@ jobs:
 
       - name: Get releaseversion strings
         id: get_releaseversion_strings
-        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v1
+        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v2
         with:
           release_name_prefix: ui_frontend
 
