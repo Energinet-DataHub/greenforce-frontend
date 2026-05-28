@@ -19,13 +19,20 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Co
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetContactCpr.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
+using Energinet.DataHub.ElectricityMarket.Client;
+using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
 using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
+using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 
@@ -88,7 +95,9 @@ public static class MoveInOperations
         IReadOnlyCollection<UsagePointLocationV2>? usagePointLocations,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient,
-        [Service] IMoveInClient moveInClient)
+        [Service] IMoveInClient moveInClient,
+        [Service] IElectricityMarketClient electricityMarketClient,
+        [Service] IHttpContextAccessor httpContextAccessor)
     {
         var resolvedStartDate = GetDefaultResolvedStartDate();
         if (processId != null)
@@ -102,15 +111,40 @@ public static class MoveInOperations
             resolvedStartDate = startDate.Value;
         }
 
+        // When CPR is not provided for a private customer (no CVR), fetch the current CPR
+        // from the metering point's existing customer data so that the update does not
+        // accidentally clear the existing value.
+        var resolvedFirstCustomerCpr = firstCustomerCpr;
+        var resolvedSecondCustomerCpr = secondCustomerCpr;
+
+        var isPrivateCustomer = string.IsNullOrEmpty(firstCustomerCvr);
+        var needsFirstCpr = isPrivateCustomer && string.IsNullOrEmpty(resolvedFirstCustomerCpr);
+        var needsSecondCpr = isPrivateCustomer && string.IsNullOrEmpty(resolvedSecondCustomerCpr) && !string.IsNullOrEmpty(secondCustomerName);
+
+        if (needsFirstCpr || needsSecondCpr)
+        {
+            var contacts = await GetCustomerContactsAsync(meteringPointId, httpContextAccessor, electricityMarketClient, ct).ConfigureAwait(false);
+
+            if (needsFirstCpr && contacts.JuridicalContactId is not null)
+            {
+                resolvedFirstCustomerCpr = await FetchContactCprAsync(meteringPointId, contacts.JuridicalContactId.Value, electricityMarketClient, ct).ConfigureAwait(false);
+            }
+
+            if (needsSecondCpr && contacts.SecondaryContactId is not null)
+            {
+                resolvedSecondCustomerCpr = await FetchContactCprAsync(meteringPointId, contacts.SecondaryContactId.Value, electricityMarketClient, ct).ConfigureAwait(false);
+            }
+        }
+
         var command = new RequestChangeCustomerCharacteristicsCommandV2(
             RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
                 StartDate: resolvedStartDate,
-                FirstCustomerCpr: firstCustomerCpr,
+                FirstCustomerCpr: resolvedFirstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
-                SecondCustomerCpr: secondCustomerCpr,
+                SecondCustomerCpr: resolvedSecondCustomerCpr,
                 SecondCustomerName: secondCustomerName,
                 ProtectedName: protectedName,
                 ElectricalHeating: electricalHeating,
@@ -150,6 +184,70 @@ public static class MoveInOperations
         }
 
         return true;
+    }
+
+    private static async Task<(Guid? JuridicalContactId, Guid? SecondaryContactId)> GetCustomerContactsAsync(
+        string meteringPointId,
+        IHttpContextAccessor httpContextAccessor,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        var user = httpContextAccessor.HttpContext?.User
+            ?? throw new InvalidOperationException("Http context is not available.");
+
+        var actorNumber = user.GetMarketParticipantNumber();
+        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
+
+        var meteringPointResult = await electricityMarketClient
+            .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, marketRole.MapToDto()), ct)
+            .ConfigureAwait(false);
+
+        var meteringPoint = meteringPointResult.Data?.MeteringPoint;
+        if (meteringPoint is null)
+        {
+            return (null, null);
+        }
+
+        var customers = meteringPoint.CommercialRelation?.ActiveEnergySupplierPeriod?.Contacts;
+        if (customers is null)
+        {
+            return (null, null);
+        }
+
+        Guid? juridicalId = null;
+        Guid? secondaryId = null;
+
+        foreach (var contact in customers)
+        {
+            if (contact.RelationType.MapToDto() == CustomerRelationType.Juridical)
+            {
+                juridicalId = contact.Id;
+            }
+            else if (contact.RelationType.MapToDto() == CustomerRelationType.Secondary)
+            {
+                secondaryId = contact.Id;
+            }
+        }
+
+        return (juridicalId, secondaryId);
+    }
+
+    private static async Task<string?> FetchContactCprAsync(
+        string meteringPointId,
+        Guid contactId,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        var result = await electricityMarketClient
+            .SendAsync(new GetContactCprQueryV1(meteringPointId, contactId), ct)
+            .ConfigureAwait(false);
+
+        if (result.IsSuccess && result.HasData && result.Data is not null)
+        {
+            return result.Data.Cpr;
+        }
+
+        return null;
     }
 
     private static DateTimeOffset GetDefaultResolvedStartDate() =>
