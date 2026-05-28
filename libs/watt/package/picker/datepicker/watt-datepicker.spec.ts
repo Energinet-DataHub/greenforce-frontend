@@ -622,9 +622,11 @@ describe(WattDatepickerComponent, () => {
           (de) => de.componentInstance instanceof WattDatepickerComponent
         ).componentInstance;
 
-        (datepickerComponent as unknown as {
-          matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
-        }).matDateRangeInput = () => ({ value: { start: null, end: null } });
+        (
+          datepickerComponent as unknown as {
+            matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
+          }
+        ).matDateRangeInput = () => ({ value: { start: null, end: null } });
 
         datepickerComponent.rangePickerClosed();
         fixture.detectChanges();
