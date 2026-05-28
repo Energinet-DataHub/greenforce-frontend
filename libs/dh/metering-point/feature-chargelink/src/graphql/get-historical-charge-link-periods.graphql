@@ -1,0 +1,12 @@
+query GetHistoricalChargeLinkPeriods($id: String!) {
+  chargeLinkPeriodById(id: $id) {
+    id
+    changes {
+      created
+      changeType
+      effectiveDate
+      factor
+      previousFactor
+    }
+  }
+}

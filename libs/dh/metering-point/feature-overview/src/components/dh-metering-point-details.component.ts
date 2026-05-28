@@ -29,7 +29,6 @@ import {
 } from '@energinet/watt/description-list';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import { ElectricityMarketMeteringPointType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
@@ -257,15 +256,13 @@ import { DhAddressDetailsComponent } from './address/dh-address-details.componen
                 }
               </watt-description-list-item>
 
-              @if (meteringPointDetails()?.type === MeteringPointType.Production) {
-                <watt-description-list-item [label]="t('powerPlantAssetType')">
-                  @if (meteringPointDetails()?.assetType) {
-                    {{ 'assetType.' + meteringPointDetails()?.assetType | transloco }}
-                  } @else {
-                    {{ null | dhEmDashFallback }}
-                  }
-                </watt-description-list-item>
-              }
+              <watt-description-list-item [label]="t('powerPlantAssetType')">
+                @if (meteringPointDetails()?.assetType) {
+                  {{ 'assetType.' + meteringPointDetails()?.assetType | transloco }}
+                } @else {
+                  {{ null | dhEmDashFallback }}
+                }
+              </watt-description-list-item>
 
               <watt-description-list-item [label]="t('powerPlantConnectionType')">
                 @if (meteringPointDetails()?.connectionType) {
@@ -338,8 +335,6 @@ export class DhMeteringPointDetailsComponent {
       .month(month - 1)
       .format('MMMM');
   }
-
-  MeteringPointType = ElectricityMarketMeteringPointType;
 
   showAddressDetails(): void {
     this.modalService.open({

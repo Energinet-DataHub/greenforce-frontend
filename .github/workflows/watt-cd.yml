@@ -95,7 +95,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        uses: chromaui/action@1bbb5819252d9782cb7d77122d9becae467def18 # v16.10.1
+        uses: chromaui/action@0b8c883861c1663076150cf1f4592b19d1ff6a54 # v17.0.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.chromatic_project_token }}
@@ -142,7 +142,7 @@ jobs:
     if: |
       always() &&
       contains(needs.*.result, 'failure')
-    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v1
+    uses: Energinet-DataHub/.github/.github/workflows/notify-team.yml@workflows/v3
     with:
       team_name: TeamFrontend
       subject: "Deployment dispatch failed: Watt + UI"

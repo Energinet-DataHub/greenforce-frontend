@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
@@ -93,6 +94,20 @@ public class ChargesClient(
         }
 
         return items;
+    }
+
+    public async Task<IEnumerable<Charge>> GetChargesAsync(CancellationToken ct = default)
+    {
+        var result = await client.GetChargeInformationAsync(
+            new(0, 10000, new(string.Empty, [], []), ChargeInformationSortProperty.Type, false),
+            ct);
+
+        var charges = result.Data ?? [];
+        return !result.IsSuccess
+            ? throw new GraphQLException(result.DiagnosticMessage)
+            : charges
+                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+                .Select(MapChargeInformationDtoToCharge);
     }
 
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
@@ -297,13 +312,10 @@ public class ChargesClient(
         var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
         if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
         var chargeLinks = result.Data ?? [];
-        var distinctChargeIds = chargeLinks.Select(cl => cl.ChargeIdentifier).Distinct();
-        var charges = await Task.WhenAll(distinctChargeIds.Select(id => GetChargeByIdAsync(id, ct)));
-        var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
         return chargeLinks
-            .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
-            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
-                new ChargeLinkPeriod(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
+            .SelectMany(cl => cl.ChargeLinkPeriods
+                .DistinctBy(p => p.From) // From *should* be unique, but some garbage data exists
+                .Select(p => new ChargeLinkPeriod(meteringPointId, p, cl.ChargeIdentifier)));
     }
 
     public async Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
@@ -322,10 +334,66 @@ public class ChargesClient(
     {
         var items = await GetChargeLinkPeriodsAsync(id.MeteringPointId, ct);
         return items.FirstOrDefault(p =>
-            new ChargeLinkPeriodId(p.MeteringPointId, p.Charge.Id, p.Period.From.ToDateTimeOffset()) == id);
+            new ChargeLinkPeriodId(p.MeteringPointId, p.ChargeId, p.Period.From.ToDateTimeOffset()) == id);
     }
 
-    public async Task<bool> StopChargeLinkAsync(
+    public async Task<ChargeLinkPeriod> CreateChargeLinkAsync(
+        ChargeIdentifierDto chargeId,
+        string meteringPointId,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                chargeId.Code,
+                chargeId.Owner,
+                ToChargeLinkChargeType(chargeId.TypeDto),
+                meteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        return result.IsSuccess
+            ? new(meteringPointId, new(factor, newStartDate.ToInstant(), null), chargeId)
+            : throw new GraphQLException("Failed to create charge link");
+    }
+
+    public async Task<IEnumerable<ChargeLinkPeriod>> EditChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
+    {
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
+
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        if (!result.IsSuccess)
+            throw new GraphQLException("Failed to edit charge link");
+
+        var start = newStartDate.ToInstant();
+
+        if (start == chargeLink.Period.From)
+        {
+            return [new ChargeLinkPeriod(id.MeteringPointId, chargeLink.Period with { Factor = factor }, id.ChargeId)];
+        }
+
+        var updated = new ChargeLinkPeriod(id.MeteringPointId, chargeLink.Period with { To = start }, id.ChargeId);
+        var created = new ChargeLinkPeriod(id.MeteringPointId, new(factor, start, chargeLink.Period.To), id.ChargeId);
+        return [updated, created];
+    }
+
+    public async Task<ChargeLinkPeriod> StopChargeLinkAsync(
         ChargeLinkPeriodId id,
         DateTimeOffset stopDate,
         CancellationToken ct = default)
@@ -343,10 +411,12 @@ public class ChargesClient(
                 chargeLink.Period.Factor.ToString())),
             ct);
 
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? new(id.MeteringPointId, chargeLink.Period with { To = stopDate.ToInstant() }, id.ChargeId)
+            : throw new GraphQLException("Failed to stop charge link");
     }
 
-    public async Task<bool> CancelChargeLinkAsync(ChargeLinkPeriodId id, CancellationToken ct = default)
+    public async Task<ChargeLinkPeriod> CancelChargeLinkAsync(ChargeLinkPeriodId id, CancellationToken ct = default)
     {
         var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
             ?? throw new GraphQLException("Charge link not found");
@@ -361,46 +431,9 @@ public class ChargesClient(
                 chargeLink.Period.Factor.ToString())),
             ct);
 
-        return result.IsSuccess;
-    }
-
-    public async Task<bool> EditChargeLinkAsync(
-        ChargeLinkPeriodId id,
-        DateTimeOffset newStartDate,
-        int factor,
-        CancellationToken ct = default)
-    {
-        var result = await ediClient.SendAsync(
-            new UpsertChargeLinkCommandV1(new(
-                id.ChargeId.Code,
-                id.ChargeId.Owner,
-                ToChargeLinkChargeType(id.ChargeId.TypeDto),
-                id.MeteringPointId,
-                newStartDate,
-                factor.ToString())),
-            ct);
-
-        return result.IsSuccess;
-    }
-
-    public async Task<bool> CreateChargeLinkAsync(
-        ChargeIdentifierDto chargeId,
-        string meteringPointId,
-        DateTimeOffset newStartDate,
-        int factor,
-        CancellationToken ct = default)
-    {
-        var result = await ediClient.SendAsync(
-            new UpsertChargeLinkCommandV1(new(
-                chargeId.Code,
-                chargeId.Owner,
-                ToChargeLinkChargeType(chargeId.TypeDto),
-                meteringPointId,
-                newStartDate,
-                factor.ToString())),
-            ct);
-
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? new(id.MeteringPointId, chargeLink.Period with { To = id.From.ToInstant() }, id.ChargeId)
+            : throw new GraphQLException("Failed to cancel charge link");
     }
 
     private static ChargeTypeV1 ToChargeLinkChargeType(ChargeTypeDto type) => type switch

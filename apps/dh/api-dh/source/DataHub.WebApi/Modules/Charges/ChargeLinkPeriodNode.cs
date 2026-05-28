@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
@@ -30,14 +31,13 @@ public static partial class ChargeLinkPeriodNode
     public static async Task<IEnumerable<ChargeLinkPeriod>> GetChargeLinkPeriodsAsync(
         string meteringPointId,
         IChargesClient client,
+        IChargeByIdDataLoader dataLoader,
         CancellationToken ct)
     {
         var items = await client.GetChargeLinkPeriodsAsync(meteringPointId, ct);
-        return items
-            .OrderBy(item => item.Charge.Type.SortOrder)
-            .ThenBy(item => item.Charge.Id.Owner)
-            .ThenBy(item => item.Charge.Id.Code)
-            .ThenByDescending(item => item.Period.From);
+        var charges = await dataLoader.LoadRequiredAsync([.. items.Select(i => i.ChargeId)], ct);
+        var chargeMap = charges.Distinct().ToDictionary(c => c.Id);
+        return items.OrderBy(item => GetSortKeyValue(item, chargeMap[item.ChargeId]));
     }
 
     [Query]
@@ -47,6 +47,19 @@ public static partial class ChargeLinkPeriodNode
         IChargesClient client,
         CancellationToken ct)
         => await client.GetChargeLinkPeriodByIdAsync(id, ct);
+
+    public static async Task<string> GetSortKeyAsync(
+        [Parent] ChargeLinkPeriod item,
+        IChargeByIdDataLoader dataLoader)
+    {
+        var charge = await dataLoader.LoadRequiredAsync(item.ChargeId);
+        return GetSortKeyValue(item, charge);
+    }
+
+    public static async Task<Charge> GetChargeAsync(
+        [Parent] ChargeLinkPeriod item,
+        IChargeByIdDataLoader dataLoader)
+        => await dataLoader.LoadRequiredAsync(item.ChargeId);
 
     public static async Task<IEnumerable<ChargeLinkPeriodChange>> GetChangesAsync(
         [Parent] ChargeLinkPeriod item,
@@ -59,21 +72,29 @@ public static partial class ChargeLinkPeriodNode
 
     public static Interval GetPeriod([Parent] ChargeLinkPeriod item)
     {
-        var hideEnd = item.Charge.Type == ChargeType.Fee && item.Period.From != item.Period.To;
+        var hideEnd = item.ChargeId.TypeDto == ChargeTypeDto.Fee && item.Period.From != item.Period.To;
         return new(item.Period.From, hideEnd ? null : item.Period.To);
     }
 
+    public static bool GetCancelled([Parent] ChargeLinkPeriod item)
+        => item.Period.To == item.Period.From;
+
     public static bool GetClosed([Parent] ChargeLinkPeriod item)
     {
-        if (item.Period.To == item.Period.From) return true; // Treat cancelled as closed
+        if (GetCancelled(item)) return true; // Treat cancelled as closed
         return item.Period.To is not null && item.Period.To < DateTimeOffset.Now.ToInstant();
     }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriod> descriptor)
     {
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.Charge);
         descriptor.Field(f => f.Period.Factor).Name("amount");
         descriptor.Field(f => f.Id).Type<NonNullType<StringType>>().Name("id");
+    }
+
+    private static string GetSortKeyValue(ChargeLinkPeriod item, Charge charge)
+    {
+        var invertedDate = long.MaxValue - item.Period.From.ToUnixTimeMilliseconds();
+        return $"{charge.Type.SortOrder}|{item.ChargeId.Owner}|{item.ChargeId.Code,-10}|{invertedDate}";
     }
 }
