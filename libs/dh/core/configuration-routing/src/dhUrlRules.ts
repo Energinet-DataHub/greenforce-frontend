@@ -25,5 +25,5 @@
  */
 export const dhRedactionPatterns = [
   '/admin/users/details/([^/?#]+)',
-  '/metering-point/(\\d+|[a-zA-Z0-9]{10,})',
+  '/metering-point/(?!search|create)([^/?#]+)',
 ];
