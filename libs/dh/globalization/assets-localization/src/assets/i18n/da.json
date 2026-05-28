@@ -124,6 +124,12 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
+    "startupError": {
+      "title": "DataHub kunne ikke indlæses",
+      "message": "Vi kunne ikke hente dine oplysninger. Prøv at genindlæse siden, eller log ud og log ind igen.",
+      "retry": "Genindlæs",
+      "signOut": "Log ud"
+    },
     "downloadStart": "Starter download...",
     "download": "Download",
     "exportCsv": "Eksporter CSV",
