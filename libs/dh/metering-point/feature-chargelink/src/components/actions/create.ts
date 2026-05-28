@@ -142,102 +142,101 @@ import {
   `,
 })
 export default class DhMeteringPointCreateChargeLink {
-  private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-  private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
-  private readonly createChargeLink = mutation(CreateChargeLinkDocument);
-  private readonly fb = inject(NonNullableFormBuilder);
-  private readonly chargesQuery = query(GetChargeByTypeDocument, () => {
+  readonly meteringPointId = input.required<string>();
+  readonly selectedType = model<ChargeType | null>(null);
+
+  private modal = viewChild.required(WattModalComponent);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private fb = inject(NonNullableFormBuilder);
+
+  private chargesQuery = query(GetChargeByTypeDocument, () => {
     const type = this.selectedType();
     return type ? { variables: { type } } : { skip: true };
   });
 
-  private readonly modal = viewChild.required(WattModalComponent);
+  private toast = injectToast('meteringPoint.chargeLinks.create.toast');
+  private createChargeLink = mutation(CreateChargeLinkDocument, {
+    onCompleted: () => this.modal().close(true),
+    onStatusUpdated: this.toast,
+    update: (cache, { data }) => {
+      const period = data?.createChargeLink?.chargeLinkPeriod;
+      const meteringPointId = this.meteringPointId();
+      if (!period) return;
+      cache.updateQuery(
+        { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
+        (existing) => {
+          if (!existing) return null;
+          const periods = [period, ...existing.chargeLinkPeriods.filter((p) => p.id !== period.id)];
+          return {
+            ...existing,
+            chargeLinkPeriods: periods.sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+          };
+        }
+      );
+    },
+  });
 
-  form = computed(() =>
+  protected form = computed(() =>
     this.fb.group({
       chargeId: this.fb.control<string>('', Validators.required),
+      startDate: this.fb.control<Date | null>(null, Validators.required),
       factor: this.fb.control<string | null>(
         null,
         this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
           ? [Validators.required, Validators.min(1)]
           : null
       ),
-      startDate: this.fb.control<Date | null>(null, Validators.required),
     })
   );
 
-  meteringPointId = input.required<string>();
+  protected selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
+  protected resetChargeIdOnDateChangeEffect = effect(() => {
+    this.selectedDate();
+    this.form().controls.chargeId.reset();
+  });
 
-  selectedType = model<ChargeType | null>(null);
-
-  selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
-  chargeOptions = computed<WattDropdownOptions>(() => {
+  protected chargeOptions = computed<WattDropdownOptions>(() => {
     const opts = this.chargesQuery.data()?.chargesByType ?? [];
     const date = this.selectedDate();
     return !date ? [] : opts.filter((o) => o.periods.some(({ period: p }) => contains(p, date)));
   });
 
-  onClosed(created: boolean) {
-    const period = this.createChargeLink.data()?.createChargeLink.chargeLinkPeriod;
-    if (created && period) {
-      const { type } = period.charge;
-      const path = type === 'FEE' ? getPath('fees') : getPath('tariff-and-subscription');
-      this.router.navigate([{ outlets: { create: null, primary: [path, period.id] } }], {
-        relativeTo: this.route.parent,
-      });
-    } else {
-      this.router.navigate([{ outlets: { create: null } }], {
-        relativeTo: this.route.parent,
-      });
-    }
-  }
-
-  async createLink() {
-    const form = this.form();
-
-    if (form.invalid) return;
-
-    const { chargeId, startDate, factor } = form.getRawValue();
-
+  protected async createLink() {
+    const { chargeId, startDate, factor } = this.form().getRawValue();
     assertIsDefined(chargeId);
     assertIsDefined(startDate);
-
     await this.createChargeLink.mutate({
       variables: {
         chargeId,
         meteringPointId: this.meteringPointId(),
         newStartDate: startDate,
-        factor: parseInt(factor ?? '1'),
-      },
-      update: (cache, { data }) => {
-        const period = data?.createChargeLink?.chargeLinkPeriod;
-        const meteringPointId = this.meteringPointId();
-        if (!period) return;
-        cache.updateQuery(
-          { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
-          (existing) =>
-            existing?.chargeLinkPeriods.every((p) => p.id !== period.id)
-              ? {
-                  ...existing,
-                  chargeLinkPeriods: [period, ...existing.chargeLinkPeriods].sort((a, b) =>
-                    a.sortKey.localeCompare(b.sortKey)
-                  ),
-                }
-              : existing
-        );
+        factor: parseInt(factor ?? '1', 10),
       },
     });
-
-    this.modal().close(true);
   }
 
-  constructor() {
-    effect(() => {
-      this.selectedDate();
-      this.form().controls.chargeId.reset();
-    });
+  protected onClosed(created: boolean) {
+    const path = created
+      ? { outlets: { create: null, primary: this.getRedirectPath() } }
+      : { outlets: { create: null } };
 
-    effect(() => this.toast(this.createChargeLink.status()));
+    this.router.navigate([path], { relativeTo: this.route.parent });
   }
+
+  private getRedirectPath = () => {
+    const createdPeriod = this.createChargeLink.data()?.createChargeLink.chargeLinkPeriod;
+    if (!createdPeriod) return null;
+    const id = createdPeriod.id;
+    const type = createdPeriod.charge.type;
+    switch (type) {
+      case 'FEE':
+        return [getPath('fees'), id];
+      case 'SUBSCRIPTION':
+      case 'TARIFF':
+      case 'TARIFF_TAX':
+      case null:
+        return [getPath('tariff-and-subscription'), id];
+    }
+  };
 }
