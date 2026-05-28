@@ -133,7 +133,12 @@ import {
           <watt-button variant="secondary" (click)="selectedType.set(null)">
             {{ t('back') }}
           </watt-button>
-          <watt-button variant="primary" type="submit" formId="create-charge-link-form">
+          <watt-button
+            variant="primary"
+            type="submit"
+            formId="create-charge-link-form"
+            [disabled]="createChargeLink.loading()"
+          >
             {{ t('actions.' + selectedType()) }}
           </watt-button>
         }
@@ -156,7 +161,7 @@ export default class DhMeteringPointCreateChargeLink {
   });
 
   private toast = injectToast('meteringPoint.chargeLinks.create.toast');
-  private createChargeLink = mutation(CreateChargeLinkDocument, {
+  protected createChargeLink = mutation(CreateChargeLinkDocument, {
     onCompleted: () => this.modal().close(true),
     onStatusUpdated: this.toast,
     update: (cache, { data }) => {
