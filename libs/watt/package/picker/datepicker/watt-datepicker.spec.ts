@@ -311,11 +311,36 @@ describe(WattDatepickerComponent, () => {
     });
 
     describe('datepickerClosed (calendar UI path)', () => {
-      // Driving Material's real MatDatepickerInput via a fixed Date is fragile in unit
-      // tests because the value setter routes through DateAdapter and the mask dispatches
-      // an `input` event that re-enters inputChanged. We test the clear branch directly
-      // (no Date round-trip needed) and leave the populated branch to the format-helper
-      // tests above, which exercise the same `formatDateFromViewToModel` path.
+      // Driving Material's real MatDatepickerInput end-to-end is fragile because the value
+      // setter routes through DateAdapter and the mask dispatches an `input` event that
+      // re-enters inputChanged. We instead stub the matDatepickerInput viewChild getter so
+      // we can assert the handler's own conversion (calendar Date -> UTC-midnight model +
+      // masked text) for both the populated and the cleared branch.
+      it('stores UTC midnight and shows the picked day when a calendar date is selected', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        // Material emits a local-time Date for the picked calendar day. Stub the mask input
+        // with a no-op dispatch so the handler's conversion is asserted directly, without the
+        // real maskito `input` re-entry that the comment above describes.
+        const maskInput = { nativeElement: { value: '', dispatchEvent: () => false } };
+        const comp = datepickerComponent as unknown as {
+          matDatepickerInput: () => { value: Date | null };
+          actualInput: () => typeof maskInput;
+        };
+        comp.matDatepickerInput = () => ({ value: new Date(2023, 0, 15) });
+        comp.actualInput = () => maskInput;
+
+        datepickerComponent.datepickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBe('2023-01-15T00:00:00.000Z');
+        expect(maskInput.nativeElement.value).toBe('15-01-2023');
+      });
+
       it('clears the form control and the mask input when the calendar has no value', async () => {
         const { fixture, actualInput } = await setup({ template });
         const datepickerComponent = fixture.debugElement.query(
@@ -611,11 +636,42 @@ describe(WattDatepickerComponent, () => {
     });
 
     describe('rangePickerClosed (calendar UI path)', () => {
-      // Same caveat as datepickerClosed: driving MatDateRangeInput end-to-end with
-      // concrete Dates re-enters maskito and produces spurious value changes in tests.
-      // We test the clear branch and the rangeSeparator contract through a focused
-      // unit-style assertion below; the format-helper round-trip is covered by the
-      // rangeInputChanged tests above.
+      // Same approach as datepickerClosed: stub the matDateRangeInput viewChild getter to
+      // avoid the fragile DateAdapter/maskito round-trip, so we can assert the handler's own
+      // conversion (calendar Dates -> UTC-midnight start / UTC-end-of-day end model + masked
+      // text built with rangeSeparator) for both the populated and the cleared branch.
+      it('stores UTC start/end-of-day and shows the picked days when a range is selected', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        // Material emits local-time Dates for the picked start and end calendar days. Stub the
+        // mask input with a no-op dispatch so the handler's conversion is asserted directly,
+        // without the real maskito `input` re-entry that the comment above describes.
+        const maskInput = { nativeElement: { value: '', dispatchEvent: () => false } };
+        const comp = datepickerComponent as unknown as {
+          matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
+          actualInput: () => typeof maskInput;
+        };
+        comp.matDateRangeInput = () => ({
+          value: { start: new Date(2023, 0, 15), end: new Date(2023, 0, 20) },
+        });
+        comp.actualInput = () => maskInput;
+
+        datepickerComponent.rangePickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.start).toBe('2023-01-15T00:00:00.000Z');
+        // End is anchored at UTC end-of-day so inclusive range queries cover the full day.
+        expect(value.end).toBe('2023-01-20T23:59:59.999Z');
+        // The visible mask uses midnight for both ends (no day+1 roll-over) and rangeSeparator
+        // (' - '), which rangeInputChanged slices by; a hard-coded '-' would fail this.
+        expect(maskInput.nativeElement.value).toBe('15-01-2023 - 20-01-2023');
+      });
+
       it('clears the form control and the mask input when the range has no value', async () => {
         const { fixture, actualInput } = await setup({ template });
         const datepickerComponent = fixture.debugElement.query(
@@ -634,20 +690,6 @@ describe(WattDatepickerComponent, () => {
 
         expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
         expect(actualInput.value).toBe('');
-      });
-
-      it('exposes rangeSeparator (must match the mask used by rangeInputChanged)', async () => {
-        // Regression guard for #5271: rangePickerClosed previously concatenated start/end
-        // with a hard-coded '-'. The displayed value must use rangeSeparator (' - ', length
-        // 3) so the mask input parses correctly when the user edits the displayed range
-        // afterwards (rangeInputChanged slices by this.rangeSeparator.length).
-        const { fixture } = await setup({ template });
-        const datepickerComponent = fixture.debugElement.query(
-          (de) => de.componentInstance instanceof WattDatepickerComponent
-        ).componentInstance;
-
-        expect(datepickerComponent.rangeSeparator).toBe(' - ');
-        expect(datepickerComponent.rangeSeparator.length).toBe(3);
       });
     });
 
