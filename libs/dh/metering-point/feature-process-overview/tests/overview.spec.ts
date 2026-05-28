@@ -39,6 +39,23 @@ import { Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 
+// Mirrors the canonical permission-to-role mapping in
+// geh-market-participant/.../KnownPermissions.cs so role-only handlers gate
+// realistically in tests (instead of an all-true mock making the assertions
+// vacuous).
+const PERMISSIONS_BY_ROLE: Partial<Record<EicFunction, ReadonlySet<string>>> = {
+  [EicFunction.EnergySupplier]: new Set([
+    'metering-point:end-of-supply-request',
+    'metering-point:connection-state-manage',
+    'metering-point:move-in',
+    'metering-point:change-of-supplier',
+  ]),
+  [EicFunction.GridAccessProvider]: new Set([
+    'metering-point:end-of-supply-respond',
+    'metering-point:connection-state-manage',
+  ]),
+};
+
 async function setup(
   overrides: Partial<{
     isFas: boolean;
@@ -51,6 +68,7 @@ async function setup(
     actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
   } = overrides;
+  const rolePermissions = PERMISSIONS_BY_ROLE[actorMarketRole] ?? new Set<string>();
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
     providers: [
@@ -63,7 +81,7 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasPermission: () => of(true),
+          hasPermission: (permission: string) => of(rolePermissions.has(permission)),
         },
       },
       {
@@ -107,7 +125,12 @@ describe('Process overview', () => {
   });
 
   it('should show cancel button and open modal when clicked', async () => {
-    await setup();
+    // Cancel is now restricted to the responsible EnergySupplier; the default
+    // GridAccessProvider actor would no longer see the button.
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     const user = userEvent.setup();
 
     await waitForAsync(() =>
@@ -187,12 +210,16 @@ describe('Process overview', () => {
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
+    // GridAccessProvider can no longer cancel end-of-supply (that is the
+    // requester's right). Reject is now the GridAccessProvider-owned action,
+    // and is independent of EnergySupplier responsibility.
     await setup({
       actorMarketRole: EicFunction.GridAccessProvider,
       isEnergySupplierResponsible: false,
     });
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 });
