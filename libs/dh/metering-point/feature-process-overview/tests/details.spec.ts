@@ -395,23 +395,45 @@ describe('Process overview details', () => {
     // The cancelling process (`process-cancelling-not-listed`) is not part of the
     // overview's visible list, so the banner still shows the wording but the
     // process name is plain text, not a link.
-    await setup('process-cross-cancelled-not-listed');
+    const fixture = await setup('process-cross-cancelled-not-listed');
 
     const banner = await screen.findByRole('status');
     expect(banner).toHaveTextContent(/Process cancelled by/i);
     expect(banner).toHaveTextContent(/Secondary move-in/i);
     expect(banner).toHaveTextContent(/with cut-off date/i);
 
-    // No link/button to the cancelling process is rendered.
+    // Wait until the overview query has actually resolved and populated the visible
+    // list (it contains `process-cancelling`). Only then is "no link" meaningful: it
+    // proves the plain-text branch was chosen because this id is absent, not because
+    // the list had not loaded yet (which would make the assertion a timing tautology).
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+    await waitForAsync(() =>
+      expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
+    );
+
+    // No link/button to the cancelling process is rendered, and the name is plain text.
     expect(
       within(banner).queryByRole('button', { name: /Secondary move-in/i })
     ).not.toBeInTheDocument();
+    expect(within(banner).getByText(/Secondary move-in/i).tagName).toBe('SPAN');
   });
 
   it('should not show the cross-cancellation banner when the process was not cancelled by another process', async () => {
     await setup('process-eos-cancel');
 
     expect(screen.queryByRole('status')).not.toBeInTheDocument();
+  });
+
+  it('should render the cancellation step (RSM-004) label in the step table for a cancelled process', async () => {
+    // A cancelled process carries a trailing cancellation step whose backend id is
+    // `CANCELLATION_STEP_V1_STEP_1` (BFF derives it from the "Cancellation_Step"
+    // UniqueName). It resolves through the step-name fallback to the translated
+    // label, so a wrong/removed key would surface the raw id and fail this.
+    await setup('process-cross-cancelled');
+
+    await waitForAsync(() =>
+      expect(screen.getByText(/Process cancelled \(RSM-004\)/i)).toBeInTheDocument()
+    );
   });
 
   it('should navigate to the cancelling process when the banner link is clicked', async () => {

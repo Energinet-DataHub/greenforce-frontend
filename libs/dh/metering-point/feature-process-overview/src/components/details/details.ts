@@ -269,7 +269,7 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
-  protected navigation = inject(DhNavigationService);
+  protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);

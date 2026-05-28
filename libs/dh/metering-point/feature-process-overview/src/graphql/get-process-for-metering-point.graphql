@@ -6,7 +6,6 @@ query GetMeteringPointProcessById($id: String!) {
     businessReason
     state
     availableActions
-    cancellationTimestamp
     cancelledByProcess {
       id
       businessReason

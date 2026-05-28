@@ -761,8 +761,6 @@ function buildGenericProcess({
     businessReason,
     state,
     availableActions,
-    cancellationTimestamp:
-      state === MeteringPointProcessState.Canceled ? new Date('2026-02-17T08:26:00Z') : null,
     cancelledByProcess: cancelledByProcess
       ? {
           __typename: 'MeteringPointProcess' as const,
@@ -807,6 +805,26 @@ function buildGenericProcess({
         actor: null,
         actorRole: EicFunction.SystemOperator,
       },
+      // A canceled workflow gets a trailing cancellation step (RSM-004) whose
+      // completedAt carries the cancellation timestamp. Mirrors the backend, where
+      // the step's UniqueName is "Cancellation_Step" -> id CANCELLATION_STEP_V1_STEP_1.
+      ...(state === MeteringPointProcessState.Canceled
+        ? [
+            {
+              __typename: 'MeteringPointProcessStep' as const,
+              id: `step-${processId}-cancellation`,
+              step: 'CANCELLATION_STEP_V1_STEP_1',
+              comment: null,
+              completedAt: new Date('2026-02-17T08:26:00Z'),
+              dueDate: null,
+              state: MeteringPointProcessState.Succeeded,
+              description: 'Cancellation step',
+              documentUrl: null,
+              actor: null,
+              actorRole: null,
+            },
+          ]
+        : []),
     ],
   };
 }

@@ -18,7 +18,8 @@
 //#endregion
 import { computed, effect, Injectable, signal } from '@angular/core';
 
-import { dayjs, WattRange } from '@energinet/watt/date';
+import { dayjs } from '@energinet/watt/date';
+import type { WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeteringPointProcessOverviewDocument,
