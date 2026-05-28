@@ -21,10 +21,9 @@ import { FormControl } from '@angular/forms';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 
-import { WattDatePipe } from '@energinet/watt/core/date';
+import { toLocalCalendarDate, toUtcMidnight, WattDatePipe } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
-import { toLocalCalendarDate, toUtcMidnight } from './watt-date-chip-tz';
 
 @Component({
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],

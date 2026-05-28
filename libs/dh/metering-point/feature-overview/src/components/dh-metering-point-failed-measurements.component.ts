@@ -26,7 +26,7 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { dayjs, toUtcEndOfDay, toUtcMidnight, WattDatePipe } from '@energinet/watt/date';
 
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetFailedSendMeasurementsInstancesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
@@ -111,7 +111,7 @@ export class DhMeteringPointFailedMeasurementsComponent {
     errorText: { accessor: (m) => m.errorText, sort: false },
   };
 
-  initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
+  initialCreated = { start: toUtcMidnight(dayjs().toDate()), end: toUtcEndOfDay(dayjs().toDate()) };
   form = new FormGroup({
     created: new FormControl(this.initialCreated, { nonNullable: true }),
   });

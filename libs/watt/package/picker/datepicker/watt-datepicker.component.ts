@@ -50,6 +50,9 @@ import { maskitoDateOptionsGenerator, maskitoDateRangeOptionsGenerator } from '@
 
 import {
   dayjs,
+  toLocalCalendarDate,
+  toUtcEndOfDay,
+  toUtcMidnight,
   WattRange,
   WattDateRange,
   WattLocaleService,
@@ -386,16 +389,13 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     nativeInput: HTMLInputElement,
     matDateInput: D
   ): void {
-    nativeInput.value = value ? this.formatDateTimeFromModelToView(value) : '';
-
-    if (value) {
-      // Parse UTC date and create a local Date with the same calendar date,
-      // so Material's datepicker displays the correct date regardless of timezone.
-      const d = dayjs.utc(value);
-      matDateInput.value = new Date(d.year(), d.month(), d.date());
-    } else {
-      matDateInput.value = null;
-    }
+    // Derive a single local Date on the model's UTC calendar day and use it for both
+    // the masked text and Material's calendar, so the two always agree. This also keeps
+    // a range end (stored at 23:59:59.999Z) from rolling the masked text to the next day
+    // in offsets ahead of UTC, which a Europe/Copenhagen format of the raw value would do.
+    const calendarDate = toLocalCalendarDate(value);
+    nativeInput.value = calendarDate ? dayjs(calendarDate).format(dateShortFormat) : '';
+    matDateInput.value = calendarDate;
   }
 
   /**
@@ -407,10 +407,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
    * misuse instead of the opaque RangeError from `new Date(NaN).toISOString()`.
    */
   private formatDateFromViewToModel(value: Date): string {
-    if (!dayjs(value).isValid()) {
-      throw new Error('formatDateFromViewToModel: value must be a valid Date');
-    }
-    return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate())).toISOString();
+    const utc = toUtcMidnight(value);
+    if (!utc) throw new Error('formatDateFromViewToModel: value must be a valid Date');
+    return utc.toISOString();
   }
 
   /**
@@ -420,12 +419,9 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
    * Callers are expected to validate `value`; throws on invalid Date.
    */
   private formatEndDateFromViewToModel(value: Date): string {
-    if (!dayjs(value).isValid()) {
-      throw new Error('formatEndDateFromViewToModel: value must be a valid Date');
-    }
-    return new Date(
-      Date.UTC(value.getFullYear(), value.getMonth(), value.getDate(), 23, 59, 59, 999)
-    ).toISOString();
+    const utc = toUtcEndOfDay(value);
+    if (!utc) throw new Error('formatEndDateFromViewToModel: value must be a valid Date');
+    return utc.toISOString();
   }
 
   private formatDateTimeFromModelToView(value: string): string {

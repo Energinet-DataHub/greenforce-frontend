@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { dayjs } from '@energinet/watt/core/date';
+import { dayjs } from './dayjs';
 
 /**
  * Re-anchors a local-time Date at UTC midnight of the same calendar day.
@@ -28,6 +28,8 @@ import { dayjs } from '@energinet/watt/core/date';
  * Date for the same year/month/day keeps the calendar date stable across
  * timezones, matching the strategy used by WattDatepickerComponent.
  */
+export function toUtcMidnight(value: Date): Date;
+export function toUtcMidnight(value: Date | null | undefined): Date | null;
 export function toUtcMidnight(value: Date | null | undefined): Date | null {
   if (!value || !dayjs(value).isValid()) return null;
   return new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
@@ -37,6 +39,8 @@ export function toUtcMidnight(value: Date | null | undefined): Date | null {
  * Re-anchors a local-time Date at UTC end-of-day. Used for range end dates so
  * the entire selected day is included in inclusive range queries.
  */
+export function toUtcEndOfDay(value: Date): Date;
+export function toUtcEndOfDay(value: Date | null | undefined): Date | null;
 export function toUtcEndOfDay(value: Date | null | undefined): Date | null {
   if (!value || !dayjs(value).isValid()) return null;
   return new Date(
