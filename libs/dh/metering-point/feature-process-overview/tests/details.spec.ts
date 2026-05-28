@@ -271,7 +271,9 @@ describe('Process overview details', () => {
     await setup('process-masked-initiator');
 
     // Resolved actor: the step renders the GLN/name from displayName.
-    await waitForAsync(() => expect(screen.getByText(/1234567890123 • Radius/)).toBeInTheDocument());
+    await waitForAsync(() =>
+      expect(screen.getByText(/1234567890123 • Radius/)).toBeInTheDocument()
+    );
 
     // Masked actor: the step renders the translated role, not a GLN.
     expect(screen.getByText(/System operator/i)).toBeInTheDocument();

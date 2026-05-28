@@ -30,10 +30,7 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import {
-  DhEmDashFallbackPipe,
-  dhMakeFormControl,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';

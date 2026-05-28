@@ -134,10 +134,7 @@ import { DhProcessStateBadge } from '../process-state-badge';
       <watt-drawer-topbar>
         <vater-stack direction="row" gap="s" align="center">
           @if (isLoading() || state()) {
-            <dh-process-state-badge
-              [status]="state()"
-              *transloco="let t; prefix: 'shared.states'"
-            >
+            <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
               {{ t(state() ?? 'indeterminate') }}
             </dh-process-state-badge>
           }
@@ -153,12 +150,15 @@ import { DhProcessStateBadge } from '../process-state-badge';
                   type="button"
                   class="watt-link-s dh-cancelled-by__link"
                   (click)="goToCancellingProcess()"
-                >{{ t('processType.' + cancelledBy.businessReason) }}</button>
+                >
+                  {{ t('processType.' + cancelledBy.businessReason) }}
+                </button>
               } @else {
                 <span class="dh-cancelled-by__name">{{
                   t('processType.' + cancelledBy.businessReason)
                 }}</span>
-              }{{
+              }
+              {{
                 t('details.cancelledByProcess.suffix', { date: cancelledBy.cutoffDate | wattDate })
               }}
             </span>

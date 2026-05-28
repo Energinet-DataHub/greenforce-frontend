@@ -214,9 +214,7 @@ describe('Process overview', () => {
     // the translated role ("Grid access provider") instead of a GLN.
     await setup();
 
-    await waitForAsync(() =>
-      expect(screen.getByRole('treegrid')).toBeInTheDocument()
-    );
+    await waitForAsync(() => expect(screen.getByRole('treegrid')).toBeInTheDocument());
 
     const grid = screen.getByRole('treegrid');
     await waitForAsync(() =>
