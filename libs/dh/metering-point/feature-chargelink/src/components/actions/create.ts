@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   input,
   model,
@@ -43,7 +43,11 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { getPath } from '@energinet-datahub/dh/core/configuration-routing';
-import { dhFormControlToSignal, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhFormControlToSignal,
+  dhMakeFormControl,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
@@ -82,7 +86,6 @@ import {
   `,
   template: `
     <watt-modal
-      #create
       size="small"
       autoOpen
       (closed)="onClosed($event)"
@@ -126,7 +129,7 @@ import {
       </dh-charges-type-selection>
       <watt-modal-actions>
         @if (!selectedType()) {
-          <watt-button variant="secondary" (click)="create.close(false)">
+          <watt-button variant="secondary" (click)="modal().close(false)">
             {{ t('close') }}
           </watt-button>
         } @else {
@@ -149,11 +152,10 @@ import {
 export default class DhMeteringPointCreateChargeLink {
   readonly meteringPointId = input.required<string>();
   readonly selectedType = model<ChargeType | null>(null);
+  readonly modal = viewChild.required(WattModalComponent);
 
-  private modal = viewChild.required(WattModalComponent);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private fb = inject(NonNullableFormBuilder);
 
   private chargesQuery = query(GetChargeByTypeDocument, () => {
     const type = this.selectedType();
@@ -182,17 +184,18 @@ export default class DhMeteringPointCreateChargeLink {
     },
   });
 
-  protected form = computed(() =>
-    this.fb.group({
-      chargeId: this.fb.control<string>('', Validators.required),
-      startDate: this.fb.control<Date | null>(null, Validators.required),
-      factor: this.fb.control<string | null>(
-        null,
-        this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
-          ? [Validators.required, Validators.min(1)]
-          : null
-      ),
-    })
+  protected form = computed(
+    () =>
+      new FormGroup({
+        chargeId: dhMakeFormControl('', Validators.required),
+        startDate: dhMakeFormControl<Date>(null, Validators.required),
+        factor: dhMakeFormControl<string>(
+          null,
+          this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
+            ? [Validators.required, Validators.min(1)]
+            : []
+        ),
+      })
   );
 
   protected selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
