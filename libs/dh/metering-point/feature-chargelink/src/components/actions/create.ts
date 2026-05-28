@@ -163,8 +163,8 @@ export default class DhMeteringPointCreateChargeLink {
   });
 
   protected createChargeLink = mutation(CreateChargeLinkDocument, {
-    onCompleted: () => this.modal().close(true),
     onStatusUpdated: injectToast('meteringPoint.chargeLinks.create.toast'),
+    onCompleted: () => this.modal().close(true),
     update: (cache, { data }) => {
       const period = data?.createChargeLink?.chargeLinkPeriod;
       const meteringPointId = this.meteringPointId();
