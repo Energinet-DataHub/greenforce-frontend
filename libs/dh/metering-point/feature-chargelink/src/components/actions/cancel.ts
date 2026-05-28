@@ -51,7 +51,6 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   template: `
     <watt-modal
       size="small"
-      #modal
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
       (closed)="navigate('..')"
@@ -62,7 +61,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       </h2>
       {{ t('cancelWarning') }}
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="modal.close(false)">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('close') }}
         </watt-button>
         <watt-button
