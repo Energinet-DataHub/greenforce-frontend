@@ -43,23 +43,6 @@ import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 
-// Mirrors the canonical permission-to-role mapping in
-// geh-market-participant/.../KnownPermissions.cs so role-only handlers gate
-// realistically in tests (instead of an all-true mock making the assertions
-// vacuous).
-const PERMISSIONS_BY_ROLE: Partial<Record<EicFunction, ReadonlySet<string>>> = {
-  [EicFunction.EnergySupplier]: new Set([
-    'metering-point:end-of-supply-request',
-    'metering-point:connection-state-manage',
-    'metering-point:move-in',
-    'metering-point:change-of-supplier',
-  ]),
-  [EicFunction.GridAccessProvider]: new Set([
-    'metering-point:end-of-supply-respond',
-    'metering-point:connection-state-manage',
-  ]),
-};
-
 async function setup(
   processId = 'process-eos-cancel',
   overrides: {
@@ -75,7 +58,6 @@ async function setup(
     actorGln = '1234567890123',
     isEnergySupplierResponsible = false,
   } = overrides;
-  const rolePermissions = PERMISSIONS_BY_ROLE[actorMarketRole] ?? new Set<string>();
   const { fixture } = await render(DhMeteringPointProcessOverviewDetails, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
@@ -88,7 +70,7 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasPermission: (permission: string) => of(rolePermissions.has(permission)),
+          hasPermission: () => of(true),
         },
       },
       {

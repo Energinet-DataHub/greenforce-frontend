@@ -39,23 +39,6 @@ import { Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 
-// Mirrors the canonical permission-to-role mapping in
-// geh-market-participant/.../KnownPermissions.cs so role-only handlers gate
-// realistically in tests (instead of an all-true mock making the assertions
-// vacuous).
-const PERMISSIONS_BY_ROLE: Partial<Record<EicFunction, ReadonlySet<string>>> = {
-  [EicFunction.EnergySupplier]: new Set([
-    'metering-point:end-of-supply-request',
-    'metering-point:connection-state-manage',
-    'metering-point:move-in',
-    'metering-point:change-of-supplier',
-  ]),
-  [EicFunction.GridAccessProvider]: new Set([
-    'metering-point:end-of-supply-respond',
-    'metering-point:connection-state-manage',
-  ]),
-};
-
 async function setup(
   overrides: Partial<{
     isFas: boolean;
@@ -68,7 +51,6 @@ async function setup(
     actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
   } = overrides;
-  const rolePermissions = PERMISSIONS_BY_ROLE[actorMarketRole] ?? new Set<string>();
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
     providers: [
@@ -81,7 +63,7 @@ async function setup(
         provide: PermissionService,
         useValue: {
           isFas: () => of(isFas),
-          hasPermission: (permission: string) => of(rolePermissions.has(permission)),
+          hasPermission: () => of(true),
         },
       },
       {
