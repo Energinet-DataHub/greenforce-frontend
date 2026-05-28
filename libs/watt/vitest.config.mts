@@ -36,6 +36,10 @@ export default defineConfig({
   //  plugins: [ nxViteTsPaths() ],
   // },
   test: {
+    // Pin a non-UTC, DST-bearing timezone so timezone-handling tests are falsifiable:
+    // a regression to raw local-Date handling produces a different instant than the
+    // UTC-anchored expectation and fails (on a UTC runner the two would coincide).
+    env: { TZ: 'Europe/Copenhagen' },
     passWithNoTests: true,
     watch: false,
     globals: true,

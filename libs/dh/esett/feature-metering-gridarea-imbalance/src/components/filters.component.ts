@@ -32,7 +32,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
-import { dayjs, WattRange } from '@energinet/watt/date';
+import { dayjs, toUtcEndOfDay, toUtcMidnight, WattRange } from '@energinet/watt/date';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -132,8 +132,8 @@ export class DhMeteringGridAreaImbalanceFiltersComponent {
     gridAreas: this.fb.control(null),
     valuesToInclude: this.fb.control(MeteringGridImbalanceValuesToInclude.Imbalances),
     created: new FormControl<WattRange<Date>>({
-      start: dayjs(new Date()).startOf('day').subtract(2, 'days').toDate(),
-      end: dayjs(new Date()).endOf('day').toDate(),
+      start: toUtcMidnight(dayjs(new Date()).subtract(2, 'days').toDate()),
+      end: toUtcEndOfDay(new Date()),
     }),
     calculationPeriod: this.fb.control(null),
   });

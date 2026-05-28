@@ -22,6 +22,7 @@ import {
   model,
   output,
   inject,
+  computed,
   Component,
   Injectable,
   ViewEncapsulation,
@@ -37,7 +38,15 @@ import {
 
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
+import {
+  dayjs,
+  toLocalCalendarDate,
+  toUtcCalendarMidnight,
+  toUtcEndOfDay,
+  toUtcMidnight,
+  WattDatePipe,
+  WattRange,
+} from '@energinet/watt/core/date';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';
 
 import { WattMenuChipComponent } from './watt-menu-chip.component';
@@ -129,35 +138,30 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
         [opened]="picker.opened"
         (toggleChange)="picker.open()"
       >
-        <mat-date-range-input
-          #input
-          class="cdk-visually-hidden"
-          separator=""
-          [rangePicker]="picker"
-        >
+        <mat-date-range-input class="cdk-visually-hidden" separator="" [rangePicker]="picker">
           <input
             type="text"
             matStartDate
             tabindex="-1"
             role="none"
-            [value]="value() ? value()?.start : null"
-            (dateChange)="updateStartDate($event.value!)"
-            (dateChange)="showActions() && onSelectionChange($event.value ? input.value! : null)"
+            [value]="materialStart()"
+            (dateChange)="updateStartDate($event.value)"
+            (dateChange)="showActions() && onSelectionChange($event.value)"
           />
           <input
             type="text"
             matEndDate
             tabindex="-1"
             role="none"
-            [value]="value() ? value()?.end : null"
-            (dateChange)="updateEndDate($event.value!)"
-            (dateChange)="onSelectionChange($event.value ? input.value! : null)"
+            [value]="materialEnd()"
+            (dateChange)="updateEndDate($event.value)"
+            (dateChange)="onSelectionChange($event.value)"
           />
         </mat-date-range-input>
         <ng-content />
         @if (value()?.start && value()?.end) {
           <span class="value">
-            {{ value() | wattDate }}
+            {{ displayValue() | wattDate }}
           </span>
         }
       </watt-menu-chip>
@@ -183,6 +187,22 @@ export class WattDateRangeChipComponent {
 
   selectionChange = output<WattRange<Date> | null>();
 
+  /** Local-time Dates for Material's range input, derived from the UTC model value. */
+  protected materialStart = computed(() => toLocalCalendarDate(this.value()?.start));
+  protected materialEnd = computed(() => toLocalCalendarDate(this.value()?.end));
+
+  /**
+   * Display projection for `wattDate`. The form value stores end-of-day at UTC
+   * (23:59:59.999Z) so inclusive range queries cover the full day, but that
+   * timestamp rolls over to the next day when formatted in Europe/Copenhagen.
+   * Projecting end back to UTC midnight keeps the displayed calendar day stable.
+   */
+  protected displayValue = computed(() => {
+    const v = this.value();
+    if (!v?.start || !v?.end) return null;
+    return { start: v.start, end: toUtcCalendarMidnight(v.end) };
+  });
+
   selectionStrategy() {
     const customStrategy = this.customSelectionStrategy();
     const strategy = new WattDateRangeSelectionStrategy(this.dateAdapter);
@@ -195,20 +215,26 @@ export class WattDateRangeChipComponent {
     this.selectionChange.emit(null);
   }
 
-  onSelectionChange(value: WattRange<Date> | null) {
-    if (value === null || (value?.start && value?.end)) {
-      this.selectionChange.emit(value);
+  onSelectionChange(matValue: Date | null) {
+    // Emit the normalized model value, never Material's raw local-time Date, so the
+    // value reaching the form control is the same UTC-anchored range shown in the chip.
+    if (matValue === null) {
+      this.selectionChange.emit(null);
+      return;
     }
+    const value = this.value();
+    if (value?.start && value?.end) this.selectionChange.emit(value);
   }
 
-  updateStartDate(startDate: Date) {
-    this.value.set({ start: startDate, end: null });
+  updateStartDate(startDate: Date | null) {
+    const start = toUtcMidnight(startDate);
+    this.value.set(start ? { start, end: null } : null);
   }
 
   updateEndDate(endDate: Date | null) {
     const dateRange = this.value();
     if (dateRange) {
-      this.value.set({ start: dateRange.start, end: endDate });
+      this.value.set({ start: dateRange.start, end: toUtcEndOfDay(endDate) });
     }
   }
 }

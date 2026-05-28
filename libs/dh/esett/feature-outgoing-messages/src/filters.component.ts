@@ -52,7 +52,7 @@ import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphq
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 
 import { exists } from '@energinet-datahub/dh/shared/util-operators';
-import { dayjs, WattRange } from '@energinet/watt/date';
+import { dayjs, toUtcEndOfDay, toUtcMidnight, WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
@@ -156,8 +156,8 @@ export class DhOutgoingMessagesFiltersComponent {
   private gridAreasQuery = query(GetGridAreasDocument);
   private fb = inject(NonNullableFormBuilder);
   private initialCreatedDate = {
-    start: dayjs(new Date()).startOf('day').subtract(3, 'days').toDate(),
-    end: dayjs(new Date()).endOf('day').toDate(),
+    start: toUtcMidnight(dayjs(new Date()).subtract(3, 'days').toDate()),
+    end: toUtcEndOfDay(new Date()),
   };
 
   filter = output<GetOutgoingMessagesQueryVariables>();

@@ -26,7 +26,7 @@ import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vate
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { dayjs, toUtcEndOfDay, toUtcMidnight, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
@@ -194,8 +194,8 @@ export class DhMeteringPointProcessOverviewTable {
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
   initialDateRange = {
-    start: dayjs().subtract(3, 'months').startOf('day').toDate(),
-    end: dayjs().endOf('day').toDate(),
+    start: toUtcMidnight(dayjs().subtract(3, 'months').toDate()),
+    end: toUtcEndOfDay(dayjs().toDate()),
   };
 
   query = query(GetMeteringPointProcessOverviewDocument, () => ({

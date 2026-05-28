@@ -137,20 +137,11 @@ describe(WattDatepickerComponent, () => {
     it('updates value when user types a valid date', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the inputChanged method directly instead of simulating user input
-      datepickerComponent.inputChanged('25092023');
-
-      fixture.detectChanges();
-      await fixture.whenStable();
-
-      // Set a specific date value for testing
-      const testDate = new Date('2023-09-25T00:00:00.000Z');
-      fixture.componentInstance.dateRangeControl.setValue(testDate.toISOString());
+      datepickerComponent.inputChanged('25-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -158,8 +149,7 @@ describe(WattDatepickerComponent, () => {
       const control = fixture.componentInstance.dateRangeControl;
       expect(control.value).toBeDefined();
 
-      // The value stored in the control should be an ISO string
-      const dateFromControl = dayjs(control.value as string);
+      const dateFromControl = dayjs.utc(control.value as string);
       expect(dateFromControl.date()).toBe(25);
       expect(dateFromControl.month()).toBe(8); // 0-indexed, so 8 is September
       expect(dateFromControl.year()).toBe(2023);
@@ -233,6 +223,141 @@ describe(WattDatepickerComponent, () => {
       await fixture.whenStable();
 
       expect(control.valid).toBeFalsy();
+    });
+
+    describe('timezone-safe date handling', () => {
+      it('inputChanged produces UTC midnight ISO string for the selected date', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as string;
+        expect(value).toBe('2025-01-24T00:00:00.000Z');
+      });
+
+      it('inputChanged always produces a string value, not a Date object', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('15-06-2024');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value;
+        expect(typeof value).toBe('string');
+      });
+
+      it('control value time is always UTC midnight (T00:00:00.000Z)', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        const testDates = ['01-01-2025', '15-06-2024', '31-12-2023', '28-02-2024'];
+
+        for (const dateStr of testDates) {
+          datepickerComponent.inputChanged(dateStr);
+          fixture.detectChanges();
+          await fixture.whenStable();
+
+          const value = fixture.componentInstance.dateRangeControl.value as string;
+          expect(value).toMatch(/T00:00:00\.000Z$/);
+        }
+      });
+
+      it('UTC date components match the input date exactly', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as string;
+        const parsed = dayjs.utc(value);
+        expect(parsed.date()).toBe(24);
+        expect(parsed.month()).toBe(0); // January
+        expect(parsed.year()).toBe(2025);
+      });
+
+      it('clearing input after entering a date sets value to null', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.inputChanged('24-01-2025');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        expect(fixture.componentInstance.dateRangeControl.value).not.toBeNull();
+
+        datepickerComponent.inputChanged('');
+        fixture.detectChanges();
+        await fixture.whenStable();
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+      });
+    });
+
+    describe('datepickerClosed (calendar UI path)', () => {
+      // Driving Material's real MatDatepickerInput end-to-end is fragile because the value
+      // setter routes through DateAdapter and the mask dispatches an `input` event that
+      // re-enters inputChanged. We instead stub the matDatepickerInput viewChild getter so
+      // we can assert the handler's own conversion (calendar Date -> UTC-midnight model +
+      // masked text) for both the populated and the cleared branch.
+      it('stores UTC midnight and shows the picked day when a calendar date is selected', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        // Material emits a local-time Date for the picked calendar day. Stub the mask input
+        // with a no-op dispatch so the handler's conversion is asserted directly, without the
+        // real maskito `input` re-entry that the comment above describes.
+        const maskInput = { nativeElement: { value: '', dispatchEvent: () => false } };
+        const comp = datepickerComponent as unknown as {
+          matDatepickerInput: () => { value: Date | null };
+          actualInput: () => typeof maskInput;
+        };
+        comp.matDatepickerInput = () => ({ value: new Date(2023, 0, 15) });
+        comp.actualInput = () => maskInput;
+
+        datepickerComponent.datepickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBe('2023-01-15T00:00:00.000Z');
+        expect(maskInput.nativeElement.value).toBe('15-01-2023');
+      });
+
+      it('clears the form control and the mask input when the calendar has no value', async () => {
+        const { fixture, actualInput } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        (
+          datepickerComponent as unknown as { matDatepickerInput: () => { value: Date | null } }
+        ).matDatepickerInput = () => ({ value: null });
+
+        datepickerComponent.datepickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+        expect(actualInput.value).toBe('');
+      });
     });
 
     it('allows stepping through days when enabled', async () => {
@@ -362,48 +487,38 @@ describe(WattDatepickerComponent, () => {
     it('updates value when user types a valid date range', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the method directly since userEvent.type doesn't work well with the custom input in tests
-      datepickerComponent.rangeInputChanged('25092023-30092023');
+      datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
 
       const control = fixture.componentInstance.dateRangeControl;
-      expect(control.value).toBeDefined();
-
-      // The control value should be a WattDateRange
       const value = control.value as WattDateRange;
+      expect(value).toBeDefined();
 
-      if (value) {
-        // Check start date
-        const startDate = dayjs(value.start as string);
-        expect(startDate.date()).toBe(25);
-        expect(startDate.month()).toBe(8); // 0-indexed, so 8 is September
-        expect(startDate.year()).toBe(2023);
+      const startDate = dayjs.utc(value.start as string);
+      expect(startDate.date()).toBe(25);
+      expect(startDate.month()).toBe(8); // 0-indexed, so 8 is September
+      expect(startDate.year()).toBe(2023);
 
-        // Check end date
-        const endDate = dayjs(value.end as string);
-        expect(endDate.date()).toBe(30);
-        expect(endDate.month()).toBe(8);
-        expect(endDate.year()).toBe(2023);
-      }
+      const endDate = dayjs.utc(value.end as string);
+      expect(endDate.date()).toBe(30);
+      expect(endDate.month()).toBe(8);
+      expect(endDate.year()).toBe(2023);
     });
 
     it('sets end date to end of day', async () => {
       const { fixture } = await setup({ template });
 
-      // Get component instance to call method directly
       const datepickerComponent = fixture.debugElement.query(
         (de) => de.componentInstance instanceof WattDatepickerComponent
       ).componentInstance;
 
-      // Call the method directly since userEvent.type doesn't work well with the custom input in tests
-      datepickerComponent.rangeInputChanged('25092023-30092023');
+      datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
 
       fixture.detectChanges();
       await fixture.whenStable();
@@ -411,14 +526,82 @@ describe(WattDatepickerComponent, () => {
       const control = fixture.componentInstance.dateRangeControl;
       const value = control.value as WattDateRange;
 
-      if (value && value.end) {
-        const endDate = dayjs(value.end as string);
+      const endDate = dayjs.utc(value.end as string);
+      expect(endDate.hour()).toBe(23);
+      expect(endDate.minute()).toBe(59);
+      expect(endDate.second()).toBe(59);
+    });
 
-        // Check that the time is set to end of day
-        expect(endDate.hour()).toBe(23);
-        expect(endDate.minute()).toBe(59);
-        expect(endDate.second()).toBe(59);
-      }
+    describe('timezone-safe range handling (issue #3911)', () => {
+      it('rangeInputChanged produces UTC ISO strings, not Date objects', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(typeof value.start).toBe('string');
+        expect(typeof value.end).toBe('string');
+      });
+
+      it('range start date is UTC midnight', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.start).toBe('2025-03-01T00:00:00.000Z');
+      });
+
+      it('range end date is UTC end-of-day', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('01-03-2025 - 15-03-2025');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.end).toBe('2025-03-15T23:59:59.999Z');
+      });
+
+      it('range UTC date components match the input dates exactly', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        datepickerComponent.rangeInputChanged('25-09-2023 - 30-09-2023');
+
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+
+        const startDate = dayjs.utc(value.start);
+        expect(startDate.date()).toBe(25);
+        expect(startDate.month()).toBe(8); // September
+        expect(startDate.year()).toBe(2023);
+
+        const endDate = dayjs.utc(value.end);
+        expect(endDate.date()).toBe(30);
+        expect(endDate.month()).toBe(8); // September
+        expect(endDate.year()).toBe(2023);
+      });
     });
 
     it('enforces month-only mode when enabled', async () => {
@@ -450,6 +633,64 @@ describe(WattDatepickerComponent, () => {
 
       // The result should contain monthOnly error
       expect(validationResult).toEqual({ monthOnly: true });
+    });
+
+    describe('rangePickerClosed (calendar UI path)', () => {
+      // Same approach as datepickerClosed: stub the matDateRangeInput viewChild getter to
+      // avoid the fragile DateAdapter/maskito round-trip, so we can assert the handler's own
+      // conversion (calendar Dates -> UTC-midnight start / UTC-end-of-day end model + masked
+      // text built with rangeSeparator) for both the populated and the cleared branch.
+      it('stores UTC start/end-of-day and shows the picked days when a range is selected', async () => {
+        const { fixture } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        // Material emits local-time Dates for the picked start and end calendar days. Stub the
+        // mask input with a no-op dispatch so the handler's conversion is asserted directly,
+        // without the real maskito `input` re-entry that the comment above describes.
+        const maskInput = { nativeElement: { value: '', dispatchEvent: () => false } };
+        const comp = datepickerComponent as unknown as {
+          matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
+          actualInput: () => typeof maskInput;
+        };
+        comp.matDateRangeInput = () => ({
+          value: { start: new Date(2023, 0, 15), end: new Date(2023, 0, 20) },
+        });
+        comp.actualInput = () => maskInput;
+
+        datepickerComponent.rangePickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const value = fixture.componentInstance.dateRangeControl.value as WattDateRange;
+        expect(value.start).toBe('2023-01-15T00:00:00.000Z');
+        // End is anchored at UTC end-of-day so inclusive range queries cover the full day.
+        expect(value.end).toBe('2023-01-20T23:59:59.999Z');
+        // The visible mask uses midnight for both ends (no day+1 roll-over) and rangeSeparator
+        // (' - '), which rangeInputChanged slices by; a hard-coded '-' would fail this.
+        expect(maskInput.nativeElement.value).toBe('15-01-2023 - 20-01-2023');
+      });
+
+      it('clears the form control and the mask input when the range has no value', async () => {
+        const { fixture, actualInput } = await setup({ template });
+        const datepickerComponent = fixture.debugElement.query(
+          (de) => de.componentInstance instanceof WattDatepickerComponent
+        ).componentInstance;
+
+        (
+          datepickerComponent as unknown as {
+            matDateRangeInput: () => { value: { start: Date | null; end: Date | null } };
+          }
+        ).matDateRangeInput = () => ({ value: { start: null, end: null } });
+
+        datepickerComponent.rangePickerClosed();
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        expect(fixture.componentInstance.dateRangeControl.value).toBeNull();
+        expect(actualInput.value).toBe('');
+      });
     });
 
     it('clears the range picker', async () => {

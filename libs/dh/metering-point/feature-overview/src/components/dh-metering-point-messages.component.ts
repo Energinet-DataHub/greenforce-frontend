@@ -27,7 +27,7 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { dayjs, toUtcEndOfDay, toUtcMidnight, WattDatePipe } from '@energinet/watt/date';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -158,7 +158,7 @@ export class DhMeteringPointMessagesComponent {
     receiver: { accessor: (m) => m.receiver?.displayName },
   };
 
-  initialCreated = { start: dayjs().startOf('day').toDate(), end: dayjs().endOf('day').toDate() };
+  initialCreated = { start: toUtcMidnight(dayjs().toDate()), end: toUtcEndOfDay(dayjs().toDate()) };
   form = new FormGroup({
     created: new FormControl(this.initialCreated, { nonNullable: true }),
     documentType: new FormControl<MeteringPointDocumentType | null>(null),

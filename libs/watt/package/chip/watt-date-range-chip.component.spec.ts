@@ -169,32 +169,25 @@ describe(WattDateRangeChipComponent.name, () => {
     });
   });
 
-  it('should emit selectionChange only when both dates are selected or when clearing', async () => {
+  it('emits selectionChange only when clearing or when the model range is complete', async () => {
     const { fixture, selectionChangeSpy } = await setup();
     const component = fixture.componentInstance;
 
-    // Call with null - should emit (for clearing)
+    // A null Material value clears the selection and emits null.
     component.onSelectionChange(null);
     expect(selectionChangeSpy).toHaveBeenCalledTimes(1);
     expect(selectionChangeSpy).toHaveBeenCalledWith(null);
 
-    // Call with only start date - should not emit
+    // Only a start picked so far: the model range is incomplete, so nothing is emitted.
     selectionChangeSpy.mockClear();
-    const partialRangeStart: WattRange<Date> = { start: new Date(), end: null };
-    component.onSelectionChange(partialRangeStart);
+    component.updateStartDate(new Date(2025, 0, 10));
+    component.onSelectionChange(new Date(2025, 0, 10));
     expect(selectionChangeSpy).not.toHaveBeenCalled();
 
-    // Call with only end date - should not emit
-    // Note: WattRange requires start to be non-null, so this is more of a type assertion
-    const partialRangeEnd = { start: null, end: new Date() } as unknown as WattRange<Date>;
-    component.onSelectionChange(partialRangeEnd);
-    expect(selectionChangeSpy).not.toHaveBeenCalled();
-
-    // Call with both dates - should emit
-    const completeRange: WattRange<Date> = { start: new Date(), end: new Date() };
-    component.onSelectionChange(completeRange);
+    // Both dates picked: the complete range is emitted exactly once.
+    component.updateEndDate(new Date(2025, 0, 15));
+    component.onSelectionChange(new Date(2025, 0, 15));
     expect(selectionChangeSpy).toHaveBeenCalledTimes(1);
-    expect(selectionChangeSpy).toHaveBeenCalledWith(completeRange);
   });
 
   it('should show clear and select buttons when showActions is true', async () => {
@@ -276,6 +269,84 @@ describe(WattDateRangeChipComponent.name, () => {
 
       // Should display just the single date (based on wattFormatDate logic)
       expect(screen.getByText('15-01-2024')).toBeInTheDocument();
+    });
+  });
+
+  describe('timezone-safe range handling (issue #3911)', () => {
+    it('updateStartDate normalizes a local-time Date to UTC midnight', async () => {
+      const { fixture } = await setup();
+      const component = fixture.componentInstance;
+
+      component.updateStartDate(new Date(2025, 0, 15, 8, 30));
+
+      const stored = component.value();
+      expect(stored?.start.toISOString()).toBe('2025-01-15T00:00:00.000Z');
+      expect(stored?.end).toBeNull();
+    });
+
+    it('updateEndDate normalizes a local-time Date to UTC end-of-day', async () => {
+      const { fixture } = await setup();
+      const component = fixture.componentInstance;
+
+      component.updateStartDate(new Date(2025, 0, 10));
+      component.updateEndDate(new Date(2025, 0, 15, 14, 0));
+
+      const stored = component.value();
+      expect(stored?.start.toISOString()).toBe('2025-01-10T00:00:00.000Z');
+      expect(stored?.end?.toISOString()).toBe('2025-01-15T23:59:59.999Z');
+    });
+
+    it('materialStart and materialEnd project stored UTC dates back to local calendar days', async () => {
+      const dateRange = {
+        start: new Date(Date.UTC(2025, 5, 1)),
+        end: new Date(Date.UTC(2025, 5, 7, 23, 59, 59, 999)),
+      };
+      const { fixture } = await setup({
+        value: dateRange,
+        formControl: new FormControl(dateRange),
+      });
+      const component = fixture.componentInstance;
+
+      const start = component['materialStart']();
+      const end = component['materialEnd']();
+
+      expect(start?.getFullYear()).toBe(2025);
+      expect(start?.getMonth()).toBe(5);
+      expect(start?.getDate()).toBe(1);
+
+      expect(end?.getFullYear()).toBe(2025);
+      expect(end?.getMonth()).toBe(5);
+      expect(end?.getDate()).toBe(7);
+    });
+
+    it('display formatting stays on the picked calendar days', async () => {
+      // UTC-midnight start and UTC end-of-day end should render in Copenhagen TZ
+      // as the same calendar days that were selected, not shifted by timezone.
+      const dateRange = {
+        start: new Date(Date.UTC(2025, 0, 15)),
+        end: new Date(Date.UTC(2025, 0, 20, 23, 59, 59, 999)),
+      };
+      await setup({ value: dateRange, formControl: new FormControl(dateRange) });
+
+      expect(screen.getByText('15-01-2025 ― 20-01-2025')).toBeInTheDocument();
+    });
+
+    it('emits the UTC-normalized range via selectionChange, not Material raw local dates', async () => {
+      const { fixture, selectionChangeSpy } = await setup();
+      const component = fixture.componentInstance;
+
+      // Simulate Material's range selection with local-time start and end Dates.
+      component.updateStartDate(new Date(2025, 0, 10, 8, 30));
+      component.updateEndDate(new Date(2025, 0, 15, 14, 0));
+      // The end input's dateChange invokes onSelectionChange with the (truthy) Material value.
+      // The emitted value must be the normalized model, since that is what the WattFormChipDirective
+      // writes into the consumer form control (and on to the backend), not Material's raw local Date.
+      component.onSelectionChange(new Date(2025, 0, 15, 14, 0));
+
+      expect(selectionChangeSpy).toHaveBeenCalledWith({
+        start: new Date('2025-01-10T00:00:00.000Z'),
+        end: new Date('2025-01-15T23:59:59.999Z'),
+      });
     });
   });
 

@@ -23,3 +23,9 @@ export { type WattRange, type WattDateRange, contains } from './watt-date-range'
 export { WattDatePipe } from './watt-date.pipe';
 export { wattFormatDate } from './watt-format-date';
 export { WattLocaleService } from './watt-locale.service';
+export {
+  toUtcMidnight,
+  toUtcEndOfDay,
+  toLocalCalendarDate,
+  toUtcCalendarMidnight,
+} from './watt-date-tz';
