@@ -279,6 +279,66 @@ describe(WattDateRangeChipComponent.name, () => {
     });
   });
 
+  describe('timezone-safe range handling (issue #3911)', () => {
+    it('updateStartDate normalizes a local-time Date to UTC midnight', async () => {
+      const { fixture } = await setup();
+      const component = fixture.componentInstance;
+
+      component.updateStartDate(new Date(2025, 0, 15, 8, 30));
+
+      const stored = component.value();
+      expect(stored?.start.toISOString()).toBe('2025-01-15T00:00:00.000Z');
+      expect(stored?.end).toBeNull();
+    });
+
+    it('updateEndDate normalizes a local-time Date to UTC end-of-day', async () => {
+      const { fixture } = await setup();
+      const component = fixture.componentInstance;
+
+      component.updateStartDate(new Date(2025, 0, 10));
+      component.updateEndDate(new Date(2025, 0, 15, 14, 0));
+
+      const stored = component.value();
+      expect(stored?.start.toISOString()).toBe('2025-01-10T00:00:00.000Z');
+      expect(stored?.end?.toISOString()).toBe('2025-01-15T23:59:59.999Z');
+    });
+
+    it('materialStart and materialEnd project stored UTC dates back to local calendar days', async () => {
+      const dateRange = {
+        start: new Date(Date.UTC(2025, 5, 1)),
+        end: new Date(Date.UTC(2025, 5, 7, 23, 59, 59, 999)),
+      };
+      const { fixture } = await setup({
+        value: dateRange,
+        formControl: new FormControl(dateRange),
+      });
+      const component = fixture.componentInstance;
+
+      const start = component['materialStart']();
+      const end = component['materialEnd']();
+
+      expect(start?.getFullYear()).toBe(2025);
+      expect(start?.getMonth()).toBe(5);
+      expect(start?.getDate()).toBe(1);
+
+      expect(end?.getFullYear()).toBe(2025);
+      expect(end?.getMonth()).toBe(5);
+      expect(end?.getDate()).toBe(7);
+    });
+
+    it('display formatting stays on the picked calendar days', async () => {
+      // UTC-midnight start and UTC end-of-day end should render in Copenhagen TZ
+      // as the same calendar days that were selected, not shifted by timezone.
+      const dateRange = {
+        start: new Date(Date.UTC(2025, 0, 15)),
+        end: new Date(Date.UTC(2025, 0, 20, 23, 59, 59, 999)),
+      };
+      await setup({ value: dateRange, formControl: new FormControl(dateRange) });
+
+      expect(screen.getByText('15-01-2025 ― 20-01-2025')).toBeInTheDocument();
+    });
+  });
+
   describe('Selection Strategy', () => {
     it('should handle custom selection strategy', async () => {
       const customStrategy = vi.fn().mockReturnValue({

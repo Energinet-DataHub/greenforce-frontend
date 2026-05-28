@@ -22,6 +22,7 @@ import {
   model,
   output,
   inject,
+  computed,
   Component,
   Injectable,
   ViewEncapsulation,
@@ -41,6 +42,12 @@ import { dayjs, WattDatePipe, WattRange } from '@energinet/watt/core/date';
 import { WattDatepickerIntlService } from '@energinet/watt/picker/datepicker';
 
 import { WattMenuChipComponent } from './watt-menu-chip.component';
+import {
+  toLocalCalendarDate,
+  toUtcCalendarMidnight,
+  toUtcEndOfDay,
+  toUtcMidnight,
+} from './watt-date-chip-tz';
 
 type customSelectionStrategy = (date: Date | null) => DateRange<Date>;
 @Injectable({
@@ -140,7 +147,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
             matStartDate
             tabindex="-1"
             role="none"
-            [value]="value() ? value()?.start : null"
+            [value]="materialStart()"
             (dateChange)="updateStartDate($event.value!)"
             (dateChange)="showActions() && onSelectionChange($event.value ? input.value! : null)"
           />
@@ -149,7 +156,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
             matEndDate
             tabindex="-1"
             role="none"
-            [value]="value() ? value()?.end : null"
+            [value]="materialEnd()"
             (dateChange)="updateEndDate($event.value!)"
             (dateChange)="onSelectionChange($event.value ? input.value! : null)"
           />
@@ -157,7 +164,7 @@ export class WattDateRangeSelectionStrategy extends DefaultMatCalendarRangeStrat
         <ng-content />
         @if (value()?.start && value()?.end) {
           <span class="value">
-            {{ value() | wattDate }}
+            {{ displayValue() | wattDate }}
           </span>
         }
       </watt-menu-chip>
@@ -183,6 +190,22 @@ export class WattDateRangeChipComponent {
 
   selectionChange = output<WattRange<Date> | null>();
 
+  /** Local-time Dates for Material's range input, derived from the UTC model value. */
+  protected materialStart = computed(() => toLocalCalendarDate(this.value()?.start));
+  protected materialEnd = computed(() => toLocalCalendarDate(this.value()?.end));
+
+  /**
+   * Display projection for `wattDate`. The form value stores end-of-day at UTC
+   * (23:59:59.999Z) so inclusive range queries cover the full day, but that
+   * timestamp rolls over to the next day when formatted in Europe/Copenhagen.
+   * Projecting end back to UTC midnight keeps the displayed calendar day stable.
+   */
+  protected displayValue = computed(() => {
+    const v = this.value();
+    if (!v?.start || !v?.end) return null;
+    return { start: v.start, end: toUtcCalendarMidnight(v.end) };
+  });
+
   selectionStrategy() {
     const customStrategy = this.customSelectionStrategy();
     const strategy = new WattDateRangeSelectionStrategy(this.dateAdapter);
@@ -202,13 +225,13 @@ export class WattDateRangeChipComponent {
   }
 
   updateStartDate(startDate: Date) {
-    this.value.set({ start: startDate, end: null });
+    this.value.set({ start: toUtcMidnight(startDate) as Date, end: null });
   }
 
   updateEndDate(endDate: Date | null) {
     const dateRange = this.value();
     if (dateRange) {
-      this.value.set({ start: dateRange.start, end: endDate });
+      this.value.set({ start: dateRange.start, end: toUtcEndOfDay(endDate) });
     }
   }
 }

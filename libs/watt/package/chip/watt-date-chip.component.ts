@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { input, model, output, Component, ViewEncapsulation } from '@angular/core';
+import { input, model, output, computed, Component, ViewEncapsulation } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -24,6 +24,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { WattDatePipe } from '@energinet/watt/core/date';
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattMenuChipComponent } from './watt-menu-chip.component';
+import { toLocalCalendarDate, toUtcMidnight } from './watt-date-chip-tz';
 
 @Component({
   imports: [MatDatepickerModule, WattMenuChipComponent, WattFieldComponent, WattDatePipe],
@@ -59,12 +60,11 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
           tabindex="-1"
           class="cdk-visually-hidden"
           type="text"
-          [value]="value()"
+          [value]="materialValue()"
           [matDatepicker]="picker"
           [min]="min()"
           [max]="max()"
-          (dateChange)="value.set($event.value)"
-          (dateChange)="selectionChange.emit($event.value)"
+          (dateChange)="onDateChange($event.value)"
         />
         {{ placeholder() }}
         <span>
@@ -86,8 +86,17 @@ export class WattDateChipComponent {
   label = input<string>();
   placeholder = input<string>();
   formControl = input.required<FormControl>();
-  value = model<string | null>(null);
-  selectionChange = output<Date>();
+  value = model<Date | null>(null);
+  selectionChange = output<Date | null>();
   min = input<Date | null>();
   max = input<Date | null>();
+
+  /** Local-time Date for Material's calendar, derived from the UTC-midnight model value. */
+  protected materialValue = computed(() => toLocalCalendarDate(this.value()));
+
+  protected onDateChange(date: Date | null): void {
+    const normalized = toUtcMidnight(date);
+    this.value.set(normalized);
+    this.selectionChange.emit(normalized);
+  }
 }
