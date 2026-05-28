@@ -18,19 +18,19 @@
 //#endregion
 import { Component, computed, effect, inject, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 import {
-  injectToast,
-  dhMakeFormControl,
   dhFormControlToSignal,
-  injectRelativeNavigate,
+  dhMakeFormControl,
+  dhSyncControlValidators,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { WATT_CARD } from '@energinet/watt/card';
@@ -39,13 +39,17 @@ import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 
 import {
-  AddressTypeV1,
-  GetMeteringPointByIdDocument,
+  AddressTypeV2,
   ChangeCustomerCharacteristicsBusinessReason,
+  GetMeteringPointByIdDocument,
+  GetTemporaryStorageDataDocument,
   RequestChangeCustomerCharacteristicsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { sync } from '../util/sync-controls';
+import { FormValues } from '../types';
+import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
+import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
@@ -54,12 +58,12 @@ import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import {
   BasePaths,
   getPath,
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'dh-update-customer-data',
@@ -75,19 +79,9 @@ import { Router } from '@angular/router';
     DhCustomerAddressDetailsComponent,
     DhPrivateCustomerDetailsComponent,
     DhBusinessCustomerDetailsFormComponent,
+    WattSkeletonComponent,
   ],
   styles: `
-    .sticky-header {
-      padding: 0;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .margin-medium {
-      margin: 0 var(--watt-space-m) 0 var(--watt-space-m);
-    }
-
     .form-container {
       margin-top: var(--watt-space-m);
       flex: 1 1 0;
@@ -98,6 +92,10 @@ import { Router } from '@angular/router';
     .customer-details-card {
       height: fit-content;
     }
+
+    .no-margin {
+      margin: 0;
+    }
   `,
   template: `
     <form
@@ -105,25 +103,21 @@ import { Router } from '@angular/router';
       (ngSubmit)="updateCustomerData()"
       *transloco="let t; prefix: 'meteringPoint.moveIn'"
     >
-      <watt-card class="sticky-header">
-        <vater-stack class="margin-medium" direction="row" justify="space-between">
-          <vater-stack direction="row" gap="m">
-            <h3>{{ t('updateCustomerData') }}</h3>
-            @if (query.loading()) {
-              <watt-spinner [diameter]="22" />
-            }
-          </vater-stack>
-          <vater-stack direction="row" gap="m">
-            <watt-button (click)="navigate('..')" variant="secondary">{{
-              t('cancel')
-            }}</watt-button>
-            <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()">{{
-              t('updateCustomerData')
-            }}</watt-button>
-          </vater-stack>
+      <vater-stack direction="row" justify="space-between">
+        <vater-stack direction="row" gap="m">
+          <h3 class="no-margin">{{ t('updateCustomerData') }}</h3>
+          @if (isLoading()) {
+            <watt-spinner [diameter]="22" />
+          }
         </vater-stack>
-      </watt-card>
-      <vater-flex direction="row" gap="m" class="form-container">
+        <vater-stack direction="row" gap="m">
+          <watt-button (click)="cancel()" variant="secondary">{{ t('cancel') }} </watt-button>
+          <watt-button type="submit" [loading]="requestChangeCustomerCharacteristics.loading()"
+            >{{ t('updateCustomerData') }}
+          </watt-button>
+        </vater-stack>
+      </vater-stack>
+      <vater-flex direction="row" gap="l" class="form-container">
         <!-- Customer -->
         <watt-card class="customer-details-card" data-testid="customer-details-card">
           <watt-card-title>
@@ -131,14 +125,33 @@ import { Router } from '@angular/router';
               {{ t('customerDetails.label') }}
             </h3>
           </watt-card-title>
-          @if (isBusinessCustomer()) {
-            <dh-business-customer-details
-              [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
-            />
-          } @else {
-            <dh-private-customer-details
-              [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
-            />
+          @if (isLoading()) {
+            <vater-stack gap="l" align="start">
+              <watt-skeleton width="25%" height="24px" />
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+              <vater-stack fill="horizontal" gap="xs" align="start">
+                <watt-skeleton width="25%" />
+                <watt-skeleton height="46px" />
+              </vater-stack>
+            </vater-stack>
+          }
+          @if (!isLoading()) {
+            @if (isBusinessCustomer()) {
+              <dh-business-customer-details
+                [businessCustomerFormGroup]="this.form().controls.businessCustomerDetails"
+              />
+            } @else {
+              <dh-private-customer-details
+                [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
+                [meteringPointId]="meteringPointId()"
+                [contactId1]="legalCustomerId()"
+                [contactId2]="secondaryCustomerId()"
+                [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+              />
+            }
           }
         </watt-card>
         <!-- Legal -->
@@ -150,9 +163,12 @@ import { Router } from '@angular/router';
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.legalContactDetails"
+            contactType="legalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.legalContactAddressDetails"
+            [disableClearButton]="legalAddressSameAsInstallation()"
+            (clearFields)="clearAddressFields('legal')"
           />
         </watt-card>
         <!-- Technical -->
@@ -164,9 +180,12 @@ import { Router } from '@angular/router';
           </watt-card-title>
           <dh-contact-details
             [contactDetailsFormGroup]="this.form().controls.technicalContactDetails"
+            contactType="technicalContact"
           />
           <dh-customer-address-details
             [addressDetailsFormGroup]="this.form().controls.technicalContactAddressDetails"
+            [disableClearButton]="technicalAddressSameAsInstallation()"
+            (clearFields)="clearAddressFields('technical')"
           />
         </watt-card>
       </vater-flex>
@@ -176,22 +195,34 @@ import { Router } from '@angular/router';
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
-  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
     this.toast(this.requestChangeCustomerCharacteristics.status())
   );
   requestChangeCustomerCharacteristics = mutation(RequestChangeCustomerCharacteristicsDocument);
-  query = query(GetMeteringPointByIdDocument, () => ({
+  getMeteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
       searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
       actorGln: this.actor.gln,
     },
   }));
-  private readonly customers = computed(
-    () => this.query.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod?.customers
+  temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
+    skip: !this.processId(),
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      processId: this.processId() ?? '',
+    },
+  }));
+  private readonly temporaryStorageCustomer = computed(
+    () => this.temporaryStorageCustomerQuery.data()?.temporaryStorageData
   );
+  private readonly customers = computed(
+    () =>
+      this.getMeteringPointQuery.data()?.meteringPoint.commercialRelation?.activeEnergySupplyPeriod
+        ?.customers
+  );
+
   private readonly legalCustomer = computed(() =>
     this.customers()?.find((customer) => customer.relationType === 'JURIDICAL')
   );
@@ -202,31 +233,75 @@ export class DhUpdateCustomerDataComponent {
     this.customers()?.find((customer) => customer.relationType === 'SECONDARY')
   );
   private readonly installationAddress = computed(
-    () => this.query.data()?.meteringPoint.metadata?.installationAddress
+    () => this.getMeteringPointQuery.data()?.meteringPoint.metadata?.installationAddress
   );
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
-  navigate = injectRelativeNavigate();
-  isBusinessCustomer = computed(() => this.legalCustomer()?.cvr !== null);
+  private readonly shouldClearContacts = computed(
+    () =>
+      !!this.processId() &&
+      (this.temporaryStorageCustomerQuery.loading() || !!this.temporaryStorageCustomer())
+  );
+
+  private readonly effectiveLegalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.legalContact()
+  );
+
+  private readonly effectiveTechnicalContact = computed(() =>
+    this.shouldClearContacts() ? undefined : this.technicalContact()
+  );
+
+  private readonly effectiveSecondaryCustomer = computed(() =>
+    this.shouldClearContacts() ? undefined : this.secondaryCustomer()
+  );
+
+  isBusinessCustomer = computed(
+    () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
+  );
+  legalCustomerId = computed(() => (this.processId() ? null : (this.legalCustomer()?.id ?? null)));
+  secondaryCustomerId = computed(() => {
+    if (this.processId()) return null;
+    const customer = this.effectiveSecondaryCustomer();
+    return customer?.name ? customer.id : null;
+  });
+  isLoading = computed(
+    () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
+  );
   meteringPointId = input.required<string>();
   processId = input<string>();
+  businessReason = input<ChangeCustomerCharacteristicsBusinessReason>();
   internalMeteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
+
+  /**
+   * When in a move-in flow (processId is set), block the metering point's
+   * existing customer data from reaching the form while the temporary storage
+   * query is still in-flight. Once it completes — whether it returns data or
+   * null — the gate opens and we either use temporary storage or fall back
+   * to the metering point customer.
+   */
+  private readonly effectiveCustomerName = computed(() => {
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
+  });
+
+  private readonly effectiveCustomerCvr = computed(() => {
+    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
+  });
 
   form = computed(
     () =>
       new FormGroup({
         businessCustomerDetails: new FormGroup({
           companyName: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             this.isBusinessCustomer() ? [Validators.required] : []
           ),
           cvr: dhMakeFormControl<string>(
-            this.legalCustomer()?.cvr ?? '',
-            this.isBusinessCustomer()
-              ? [Validators.required, dhMoveInCvrValidator(this.appEnv)]
-              : []
+            this.effectiveCustomerCvr(),
+            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
@@ -234,33 +309,40 @@ export class DhUpdateCustomerDataComponent {
         }),
         privateCustomerDetails: new FormGroup({
           customerName1: dhMakeFormControl<string>(
-            this.legalCustomer()?.name ?? '',
+            this.effectiveCustomerName(),
             !this.isBusinessCustomer() ? [Validators.required] : []
           ),
-          cpr1: dhMakeFormControl<string>(
-            '',
-            !this.isBusinessCustomer() ? [Validators.required, dhCprValidator()] : []
+          cpr1: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer()
+              ? this.legalCustomerId() === null
+                ? [Validators.required, dhCprValidator()]
+                : [dhCprValidator()]
+              : []
           ),
-          customerName2: dhMakeFormControl<string>(this.secondaryCustomer()?.name ?? ''),
-          cpr2: dhMakeFormControl<string>('', !this.isBusinessCustomer() ? [dhCprValidator()] : []),
+          customerName2: dhMakeFormControl<string>(this.effectiveSecondaryCustomer()?.name ?? ''),
+          cpr2: dhMakeFormControl<string | null>(
+            null,
+            !this.isBusinessCustomer() ? [dhCprValidator()] : []
+          ),
           nameProtection: dhMakeFormControl<boolean>(
-            this.secondaryCustomer()?.isProtectedName ?? false
+            this.effectiveSecondaryCustomer()?.isProtectedName ?? false
           ),
         }),
         legalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.legalContact()
+          this.effectiveLegalContact()
         ),
         legalContactAddressDetails: createContactAddressDetailsForm(
-          this.legalContact(),
+          this.effectiveLegalContact(),
           this.installationAddress()
         ),
         technicalContactDetails: createCustomerContactDetailsForm(
           this.legalCustomer(),
-          this.technicalContact()
+          this.effectiveTechnicalContact()
         ),
         technicalContactAddressDetails: createContactAddressDetailsForm(
-          this.technicalContact(),
+          this.effectiveTechnicalContact(),
           this.installationAddress()
         ),
       })
@@ -270,6 +352,14 @@ export class DhUpdateCustomerDataComponent {
     () => this.form().controls.privateCustomerDetails.controls.customerName1
   );
 
+  private readonly businessCustomerNameChanged = dhFormControlToSignal(
+    () => this.form().controls.businessCustomerDetails.controls.companyName
+  );
+
+  private readonly primaryCustomerName = computed(() =>
+    this.isBusinessCustomer() ? this.businessCustomerNameChanged() : this.legalCustomerNameChanged()
+  );
+
   /** Sync technical */
   private readonly technicalNameSameAsContactNameToggle = dhFormControlToSignal(
     () => this.form().controls.technicalContactDetails.controls.contactSameAsCustomer
@@ -277,29 +367,32 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncTechnicalContactName = effect(() => {
     const technicalNameSameAsContactName = this.technicalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control =
       this.form().controls.technicalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      technicalNameSameAsContactName ? legalCustomerName : this.technicalContact()?.name,
+      technicalNameSameAsContactName ? primaryCustomerName : this.effectiveTechnicalContact()?.name,
       technicalNameSameAsContactName
     );
   });
 
-  private readonly technicalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  readonly technicalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.technicalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncTechnicalContactAddress = effect(() => {
-    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallationToggle();
+    const technicalAddressSameAsInstallation = this.technicalAddressSameAsInstallation();
     const addressGroup = this.form().controls.technicalContactAddressDetails.controls.addressGroup;
-    const contact = this.technicalContact();
     const installationAddress = this.installationAddress();
 
     sync(
       addressGroup,
-      technicalAddressSameAsInstallation ? installationAddress : contact,
+      technicalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : this.effectiveTechnicalContact(),
       technicalAddressSameAsInstallation
     );
   });
@@ -311,28 +404,60 @@ export class DhUpdateCustomerDataComponent {
 
   private readonly syncLegalContactName = effect(() => {
     const legalNameSameAsContactName = this.legalNameSameAsContactNameToggle();
-    const legalCustomerName = this.legalCustomerNameChanged();
+    const primaryCustomerName = this.primaryCustomerName();
     const control = this.form().controls.legalContactDetails.controls.contactGroup.controls.name;
     sync(
       control,
-      legalNameSameAsContactName ? legalCustomerName : this.legalContact()?.name,
+      legalNameSameAsContactName ? primaryCustomerName : this.effectiveLegalContact()?.name,
       legalNameSameAsContactName
     );
   });
 
-  private readonly legalAddressSameAsInstallationToggle = dhFormControlToSignal(
+  /** Sync secondary customer cross-field validators */
+  private readonly customerName2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2
+  );
+
+  private readonly cpr2Changed = dhFormControlToSignal(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2
+  );
+
+  private readonly secondaryCustomerRequired = computed(() => {
+    if (this.isBusinessCustomer()) return false;
+    const name2 = this.customerName2Changed();
+    const cpr2 = this.cpr2Changed();
+    const isCprMasked = cpr2 === null && !!this.secondaryCustomerId();
+    return !isCprMasked && (!!name2 || !!cpr2);
+  });
+
+  private readonly syncName2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.customerName2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
+  private readonly syncCpr2Validators = dhSyncControlValidators(
+    () => this.form().controls.privateCustomerDetails.controls.cpr2,
+    Validators.required,
+    () => this.secondaryCustomerRequired()
+  );
+
+  readonly legalAddressSameAsInstallation = dhFormControlToSignal(
     () => this.form().controls.legalContactAddressDetails.controls.addressSameAsInstallation
   );
 
   private readonly syncLegalContactAddress = effect(() => {
-    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallationToggle();
+    const legalAddressSameAsInstallation = this.legalAddressSameAsInstallation();
     const addressGroup = this.form().controls.legalContactAddressDetails.controls.addressGroup;
-    const contact = this.legalContact();
     const installationAddress = this.installationAddress();
 
     sync(
       addressGroup,
-      legalAddressSameAsInstallation ? installationAddress : contact,
+      legalAddressSameAsInstallation
+        ? installationAddress
+          ? { ...installationAddress, postBox: null }
+          : null
+        : this.effectiveLegalContact(),
       legalAddressSameAsInstallation
     );
   });
@@ -340,41 +465,28 @@ export class DhUpdateCustomerDataComponent {
   async updateCustomerData() {
     if (this.form().invalid || this.requestChangeCustomerCharacteristics.loading()) return;
 
-    const values = this.form().getRawValue();
-
-    const { cpr1, cpr2, customerName1, customerName2, nameProtection } =
-      values.privateCustomerDetails;
-    const { companyName, cvr } = values.businessCustomerDetails;
-    const legalContactDetails = values.legalContactDetails;
-    const legalContactAddressDetails = values.legalContactAddressDetails;
-    const technicalContactDetails = values.technicalContactDetails;
-    const technicalContactAddressDetails = values.technicalContactAddressDetails;
+    const values: FormValues = this.form().getRawValue();
 
     await this.requestChangeCustomerCharacteristics.mutate({
       variables: {
         input: {
           meteringPointId: this.meteringPointId(),
-          businessReason: this.processId()
-            ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
-            : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer,
-          electricalHeating: this.query.data()?.meteringPoint.haveElectricalHeating ?? false,
-          firstCustomerCpr: !this.isBusinessCustomer() ? cpr1 : undefined,
-          secondCustomerCpr: !this.isBusinessCustomer() ? cpr2 : undefined,
-          firstCustomerName: !this.isBusinessCustomer() ? customerName1 : companyName,
-          secondCustomerName: !this.isBusinessCustomer() ? customerName2 : companyName,
-          firstCustomerCvr: this.isBusinessCustomer() ? cvr : undefined,
-          protectedName: nameProtection,
+          businessReason: this.resolveBusinessReason(),
+          electricalHeating:
+            this.getMeteringPointQuery.data()?.meteringPoint.haveElectricalHeating ?? false,
           processId: this.processId(),
+          protectedName: resolveNameProtection(values, this.isBusinessCustomer()),
+          ...resolveCustomerIdentity(values, this.isBusinessCustomer()),
           usagePointLocations: [
             mapUsagePointLocation(
-              legalContactDetails,
-              legalContactAddressDetails,
-              AddressTypeV1.Legal
+              values.legalContactDetails,
+              values.legalContactAddressDetails,
+              AddressTypeV2.Legal
             ),
             mapUsagePointLocation(
-              technicalContactDetails,
-              technicalContactAddressDetails,
-              AddressTypeV1.Technical
+              values.technicalContactDetails,
+              values.technicalContactAddressDetails,
+              AddressTypeV2.Technical
             ),
           ],
         },
@@ -386,5 +498,34 @@ export class DhUpdateCustomerDataComponent {
       this.internalMeteringPointId(),
       getPath<MeteringPointSubPaths>('process-overview'),
     ]);
+  }
+
+  private resolveBusinessReason(): ChangeCustomerCharacteristicsBusinessReason {
+    return (
+      this.businessReason() ??
+      (this.processId()
+        ? ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn
+        : ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer)
+    );
+  }
+
+  clearAddressFields(addressType: 'legal' | 'technical') {
+    const formGroup =
+      addressType === 'legal'
+        ? this.form().controls.legalContactAddressDetails
+        : this.form().controls.technicalContactAddressDetails;
+
+    clearAddressFields(formGroup);
+  }
+
+  cancel() {
+    const previousUrl = this.router.lastSuccessfulNavigation()?.previousNavigation?.finalUrl;
+
+    if (previousUrl) {
+      this.router.navigateByUrl(previousUrl.toString(), { replaceUrl: true });
+      return;
+    }
+
+    this.router.navigate([getPath<BasePaths>('metering-point'), this.internalMeteringPointId()]);
   }
 }

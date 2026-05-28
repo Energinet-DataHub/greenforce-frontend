@@ -90,7 +90,7 @@ import { DhCalculationsDetailsGridAreas } from './gridareas';
         </watt-button>
       </watt-drawer-actions>
       <watt-drawer-heading>
-        <h2>
+        <h2 class="watt-space-stack-m">
           @if (loading()) {
             {{ t('loading') }}
           } @else if (calculationType()) {

@@ -41,8 +41,8 @@ label {
 
   &.selected {
     background: var(--watt-color-primary);
-    color: var(--watt-on-dark-high-emphasis);
     border-color: transparent;
+    color: var(--watt-on-dark-high-emphasis);
 
     &:hover,
     &:focus-within {
@@ -68,5 +68,9 @@ label {
 
   .selected-icon {
     margin-right: var(--watt-space-s);
+  }
+
+  .dismissible-icon {
+    margin-left: var(--watt-space-s);
   }
 }

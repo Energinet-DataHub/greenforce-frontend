@@ -1,6 +1,6 @@
 ARG BUILD_ENV=production
 
-FROM mcr.microsoft.com/dotnet/sdk:9.0-noble AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS build
 WORKDIR /app
 
 COPY apps/dh/api-dh ./apps/dh/api-dh
@@ -14,8 +14,8 @@ RUN dotnet publish apps/dh/api-dh/source/DataHub.WebApi/DataHub.WebApi.csproj \
     /p:SkipSwaggerGen=true \
     /p:SkipSchemaExport=true
 
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble-chiseled-extra AS base-production
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-noble AS base-development
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra AS base-production
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble AS base-development
 
 FROM base-${BUILD_ENV} AS final
 

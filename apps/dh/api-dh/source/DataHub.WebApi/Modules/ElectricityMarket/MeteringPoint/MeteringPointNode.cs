@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestChangeProductionObligation;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestCloseDownMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestConnectMeteringPoint;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.RequestDisconnectMeteringPoint;
@@ -30,6 +31,7 @@ using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using Microsoft.FeatureManagement;
 using EicFunction = Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1.EicFunction;
@@ -77,11 +79,12 @@ public static partial class MeteringPointNode
         FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.ClosedDown);
 
     public static DateTimeOffset? DisconnectedDate([Parent] MeteringPointDto meteringPoint) =>
-        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected);
+        FindConnectionStateDate(meteringPoint.MetadataTimeline, ConnectionState.Disconnected, latest: true);
 
     #endregion
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["cpr:view"])]
     public static async Task<ContactCprResponse> GetMeteringPointContactCprAsync(
         string meteringPointId,
@@ -285,52 +288,52 @@ public static partial class MeteringPointNode
         switch (newConnectionState)
         {
             case ConnectionState.Connected:
-            {
-                switch (currentConnectionState)
                 {
-                    case ConnectionState.New:
+                    switch (currentConnectionState)
                     {
-                        var command = new RequestConnectMeteringPointCommandV1(
-                            new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
+                        case ConnectionState.New:
+                            {
+                                var command = new RequestConnectMeteringPointCommandV1(
+                                    new RequestConnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                        return result.IsSuccess;
+                                return result.IsSuccess;
+                            }
+
+                        case ConnectionState.Disconnected:
+                            {
+                                var command = new RequestReconnectMeteringPointCommandV1(
+                                    new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
+
+                                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+                                return result.IsSuccess;
+                            }
                     }
 
-                    case ConnectionState.Disconnected:
-                    {
-                        var command = new RequestReconnectMeteringPointCommandV1(
-                            new RequestReconnectMeteringPointRequestV1(meteringPointId, validityDate));
-
-                        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
-
-                        return result.IsSuccess;
-                    }
+                    return false;
                 }
 
-                return false;
-            }
-
             case ConnectionState.Disconnected:
-            {
-                var command = new RequestDisconnectMeteringPointCommandV1(
-                new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestDisconnectMeteringPointCommandV1(
+                    new RequestDisconnectMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             case ConnectionState.ClosedDown:
-            {
-                var command = new RequestCloseDownMeteringPointCommandV1(
-                new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
+                {
+                    var command = new RequestCloseDownMeteringPointCommandV1(
+                    new RequestCloseDownMeteringPointRequestV1(meteringPointId, validityDate));
 
-                var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+                    var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-                return result.IsSuccess;
-            }
+                    return result.IsSuccess;
+                }
 
             default:
                 return false;
@@ -343,13 +346,22 @@ public static partial class MeteringPointNode
         string meteringPointId,
         DateTimeOffset cutOffDate,
         bool newProductionObligationState,
+        IB2CClient ediB2CClient,
         CancellationToken ct)
     {
-        return await Task.FromResult(true);
+        var command = new RequestChangeProductionObligationCommandV1(
+            new RequestChangeProductionObligationRequestV1(meteringPointId, cutOffDate, newProductionObligationState));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        return result.IsSuccess
+            ? true
+            : throw new GraphQLException(
+                $"Command RequestChangeProductionObligation failed for meteringPointId '{meteringPointId}', cutOffDate '{cutOffDate:O}', newProductionObligationState '{newProductionObligationState}'. EDI response: {result}");
     }
 
     [Mutation]
-    [Authorize(Policy = nameof(EicFunction.EnergySupplier))]
+    [Authorize(Roles = ["metering-point:end-of-supply-request"])]
     public static async Task<bool> RequestEndOfSupplyAsync(
         string meteringPointId,
         DateTimeOffset terminationDate,
@@ -360,7 +372,8 @@ public static partial class MeteringPointNode
         var result = await ediB2CClient.SendAsync(command, ct);
         return result.IsSuccess
             ? true
-            : throw new GraphQLException("Command RequestEndOfSupply failed");
+            : throw new GraphQLException(
+                $"Command RequestEndOfSupply failed for meteringPointId '{meteringPointId}', terminationDate '{terminationDate:O}'. EDI response: {result}");
     }
 
     [Query]
@@ -424,12 +437,12 @@ public static partial class MeteringPointNode
         return findWhenHeatingChanged.LastOrDefault();
     }
 
-    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState)
+    private static DateTimeOffset? FindConnectionStateDate(IEnumerable<MeteringPointMetadataDto> meteringPointPeriods, ConnectionState connectionState, bool latest = false)
     {
-        return meteringPointPeriods
-            .Where(mp => mp.ConnectionState == connectionState)
-            .OrderBy(mp => mp.ValidFrom)
-            .FirstOrDefault()?.ValidFrom;
+        var filtered = meteringPointPeriods.Where(mp => mp.ConnectionState == connectionState);
+        return latest
+            ? filtered.MaxBy(mp => mp.ValidFrom)?.ValidFrom
+            : filtered.OrderBy(mp => mp.ValidFrom).FirstOrDefault()?.ValidFrom;
     }
 
     private static async Task<RelatedMeteringPointsDto> GetRelatedMeteringPointsAsync(

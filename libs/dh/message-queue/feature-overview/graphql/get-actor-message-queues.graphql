@@ -1,0 +1,14 @@
+query GetActorMessageQueues($actorNumber: String!, $actorRole: String!) {
+  actorMessageQueues(actorNumber: $actorNumber, actorRole: $actorRole) {
+    queues {
+      category
+      count
+      messages {
+        messageId
+        documentType
+        businessReason
+        enqueuedAt
+      }
+    }
+  }
+}

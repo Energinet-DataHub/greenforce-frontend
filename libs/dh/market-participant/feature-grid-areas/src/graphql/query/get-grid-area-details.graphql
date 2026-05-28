@@ -4,7 +4,10 @@ query GetGridAreaDetails($id: UUID!) {
     name
     status
     code
-    actor
+    owner {
+      id
+      displayNameWithoutMarketRole
+    }
     organizationName
     priceAreaCode
     type

@@ -1,0 +1,19 @@
+mutation RequestServiceEndOfSupply(
+  $meteringPointId: String!
+  $processId: UUID!
+  $serviceKind: ServiceKindV1!
+  $startDate: DateTime!
+  $description: String
+) {
+  requestServiceEndOfSupply(
+    input: {
+      meteringPointId: $meteringPointId
+      processId: $processId
+      serviceKind: $serviceKind
+      startDate: $startDate
+      description: $description
+    }
+  ) {
+    boolean
+  }
+}

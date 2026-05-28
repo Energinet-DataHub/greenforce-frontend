@@ -185,7 +185,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultOfAddMessageDocumentRequest"
+                  "$ref": "#/components/schemas/AddMessageDocumentCommandResponse"
                 }
               }
             }
@@ -262,84 +262,6 @@
             "description": "Bad Request",
             "content": {
               "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/GetActorNumbers": {
-      "get": {
-        "tags": [
-          "GetActorNumbers"
-        ],
-        "summary": "Get all actor numbers that have a conversation.",
-        "description": "Returns a distinct list of actor numbers for actors that participate in at least one conversation.",
-        "operationId": "GetActorNumbers",
-        "parameters": [
-          {
-            "name": "UserId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
-            }
-          },
-          {
-            "name": "MarketParticipantNumber",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "default": "5790001330583"
-            }
-          },
-          {
-            "name": "MarketRole",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "default": "Energinet"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetActorNumbersQueryResponse"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProblemDetails"
                 }
@@ -683,6 +605,84 @@
         }
       }
     },
+    "/api/GetMarketParticipants": {
+      "get": {
+        "tags": [
+          "GetMarketParticipants"
+        ],
+        "summary": "Get all marketparticipants that have a conversation.",
+        "description": "Returns a distinct list of marketparticipants that participate in at least one conversation.",
+        "operationId": "GetMarketParticipants",
+        "parameters": [
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketParticipantsQueryResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketParticipantsQueryResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMarketParticipantsQueryResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/GetMessageDocument/{documentId}": {
       "get": {
         "tags": [
@@ -728,19 +728,10 @@
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/FileContentResult"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -748,19 +739,10 @@
           "404": {
             "description": "Not Found",
             "content": {
-              "text/plain": {
+              "application/octet-stream": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -1207,40 +1189,10 @@
   },
   "components": {
     "schemas": {
-      "ActionResult": {
-        "type": "object"
-      },
-      "ActionResultOfAddMessageDocumentRequest": {
-        "type": "object",
-        "properties": {
-          "result": {
-            "$ref": "#/components/schemas/ActionResult"
-          },
-          "value": {
-            "$ref": "#/components/schemas/AddMessageDocumentRequest"
-          }
-        }
-      },
-      "ActorIdentifierDto": {
-        "type": "object",
-        "required": [
-          "actorNumber",
-          "actorType"
-        ],
-        "properties": {
-          "actorNumber": {
-            "type": "string"
-          },
-          "actorType": {
-            "type": "string"
-          }
-        }
-      },
       "AddConversationMessageRequest": {
         "type": "object",
         "required": [
           "conversationId",
-          "content",
           "anonymous",
           "attachedDocumentIds"
         ],
@@ -1252,7 +1204,8 @@
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
+            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean",
@@ -1268,14 +1221,15 @@
           }
         }
       },
-      "AddMessageDocumentRequest": {
+      "AddMessageDocumentCommandResponse": {
         "type": "object",
         "required": [
-          "file"
+          "documentId"
         ],
         "properties": {
-          "file": {
-            "$ref": "#/components/schemas/IFormFile"
+          "documentId": {
+            "type": "string",
+            "format": "uuid"
           }
         }
       },
@@ -1306,64 +1260,49 @@
           "PriceLinking"
         ]
       },
-      "EntityTagHeaderValue": {
+      "ElectricalHeatingInfo": {
         "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
         "properties": {
-          "tag": {
-            "$ref": "#/components/schemas/StringSegment"
+          "customerName": {
+            "type": "string",
+            "nullable": true
           },
-          "isWeak": {
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElectricalHeatingPeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
             "type": "boolean"
-          }
-        }
-      },
-      "FileContentResult": {
-        "type": "object",
-        "properties": {
-          "fileContents": {
-            "type": "string",
-            "format": "byte"
           },
-          "contentType": {
-            "type": "string",
-            "nullable": true
-          },
-          "fileDownloadName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastModified": {
+          "electricalHeatingFrom": {
             "type": "string",
             "format": "date-time",
             "nullable": true
-          },
-          "entityTag": {
-            "oneOf": [
-              {
-                "nullable": true
-              },
-              {
-                "$ref": "#/components/schemas/EntityTagHeaderValue"
-              }
-            ]
-          },
-          "enableRangeProcessing": {
-            "type": "boolean"
           }
         }
       },
-      "GetActorNumbersQueryResponse": {
+      "ElectricalHeatingPeriod": {
         "type": "object",
         "required": [
-          "actorIdentifiers"
+          "from",
+          "to"
         ],
         "properties": {
-          "actorIdentifiers": {
-            "type": "array",
-            "description": "Actor identifiers with at least one conversation.",
-            "items": {
-              "$ref": "#/components/schemas/ActorIdentifierDto"
-            }
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
           }
         }
       },
@@ -1543,13 +1482,13 @@
       "GetConversationQueryResponseElectricalHeatingUserMessage": {
         "type": "object",
         "required": [
-          "content",
           "reductionPeriod",
           "electricalHeatingFrom"
         ],
         "properties": {
           "content": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "reductionPeriod": {
             "$ref": "#/components/schemas/GetConversationQueryResponseElectricityHeatingPeriod"
@@ -1599,13 +1538,10 @@
       },
       "GetConversationQueryResponseUserMessage": {
         "type": "object",
-        "required": [
-          "content"
-        ],
         "properties": {
           "content": {
             "type": "string",
-            "description": "Message content"
+            "nullable": true
           }
         }
       },
@@ -1715,6 +1651,21 @@
           }
         }
       },
+      "GetMarketParticipantsQueryResponse": {
+        "type": "object",
+        "required": [
+          "marketParticipantIdentifiers"
+        ],
+        "properties": {
+          "marketParticipantIdentifiers": {
+            "type": "array",
+            "description": "MarketParticipant identifiers with at least one conversation.",
+            "items": {
+              "$ref": "#/components/schemas/MarketParticipantIdentifierDto"
+            }
+          }
+        }
+      },
       "IFormFile": {
         "type": "string",
         "format": "binary"
@@ -1740,6 +1691,21 @@
           "conversationId": {
             "type": "string",
             "format": "uuid"
+          }
+        }
+      },
+      "MarketParticipantIdentifierDto": {
+        "type": "object",
+        "required": [
+          "marketParticipantNumber",
+          "marketParticipantRole"
+        ],
+        "properties": {
+          "marketParticipantNumber": {
+            "type": "string"
+          },
+          "marketParticipantRole": {
+            "type": "string"
           }
         }
       },
@@ -1802,7 +1768,6 @@
           "senderActorType",
           "receiverActorType",
           "meteringPointIdentification",
-          "content",
           "anonymous",
           "attachedDocumentIds"
         ],
@@ -1827,7 +1792,8 @@
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty."
+            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean",
@@ -1864,7 +1830,6 @@
         "type": "object",
         "required": [
           "meteringPointIdentification",
-          "content",
           "anonymous",
           "electricalHeatingFrom",
           "electricalHeatingReductionPeriodFrom",
@@ -1880,7 +1845,8 @@
             "nullable": true
           },
           "content": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "anonymous": {
             "type": "boolean"
@@ -1918,30 +1884,6 @@
           }
         }
       },
-      "StringSegment": {
-        "type": "object",
-        "properties": {
-          "buffer": {
-            "type": "string",
-            "nullable": true
-          },
-          "offset": {
-            "format": "int32",
-            "pattern": "^-?(?:0|[1-9]\\d*)$"
-          },
-          "length": {
-            "format": "int32",
-            "pattern": "^-?(?:0|[1-9]\\d*)$"
-          },
-          "value": {
-            "type": "string",
-            "nullable": true
-          },
-          "hasValue": {
-            "type": "boolean"
-          }
-        }
-      },
       "TestActorRetrievalResult": {
         "type": "object",
         "properties": {
@@ -1958,6 +1900,20 @@
             "nullable": true
           },
           "gridAccessproviderExceptionMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "electricalHeatingInformation": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/ElectricalHeatingInfo"
+              }
+            ]
+          },
+          "electricalHeatingExceptionMessage": {
             "type": "string",
             "nullable": true
           }
@@ -1998,9 +1954,6 @@
       "name": "CloseConversation"
     },
     {
-      "name": "GetActorNumbers"
-    },
-    {
       "name": "GetConversation"
     },
     {
@@ -2008,6 +1961,9 @@
     },
     {
       "name": "GetElectricalHeatingInformation"
+    },
+    {
+      "name": "GetMarketParticipants"
     },
     {
       "name": "GetMessageDocument"

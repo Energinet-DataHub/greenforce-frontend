@@ -27,10 +27,14 @@ public static partial class ActorConversationsNode
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<GetConversationsQueryResponse> GetConversationsForMeteringPointAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         string? meteringPointIdentification,
         string? searchTerm,
+        bool? ownConversations,
+        bool? unread,
+        bool? opened,
+        bool? closed,
+        IEnumerable<ConversationSubject>? subjects,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -41,13 +45,13 @@ public static partial class ActorConversationsNode
         var userId = user.GetUserId();
 
         return await actorConversationClient.ApiGetConversationsAsync(
-            meteringPointIdentification,
-            searchTerm,
-            null,
-            null,
-            null,
-            null,
-            null,
+            meteringPointIdentification: meteringPointIdentification,
+            searchValue: searchTerm,
+            myConversations: ownConversations,
+            unread: unread,
+            opened: opened,
+            closed: closed,
+            subjects: subjects,
             userId: userId.ToString(),
             marketRole: MapMarketRoleToActorType(marketRole).ToString(),
             marketParticipantNumber: marketParticipantNumber,

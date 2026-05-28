@@ -50,7 +50,7 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { DhDelegations, DhDelegationsByType } from '../types';
 import { DhDelegationsByTypeComponent } from './delegations-by-type.component';
@@ -86,8 +86,9 @@ import { dhGroupDelegations } from '../dh-group-delegations';
 export class DhDelegationTabComponent {
   private readonly modalService = inject(WattModalService);
 
-  private delegationsForMarketParticipantQuery = lazyQuery(
-    GetDelegationsForMarketParticipantDocument
+  private delegationsForMarketParticipantQuery = query(
+    GetDelegationsForMarketParticipantDocument,
+    () => ({ variables: { marketParticipantId: this.actor().id } })
   );
 
   actor = input.required<DhMarketParticipantExtended>();
@@ -106,9 +107,8 @@ export class DhDelegationTabComponent {
 
   constructor() {
     effect(() => {
+      this.actor();
       this.statusControl.reset();
-
-      this.delegationsForMarketParticipantQuery.refetch({ marketParticipantId: this.actor().id });
     });
 
     effect(() => this.delegationsByType.set(dhGroupDelegations(this.delegationsRaw())));

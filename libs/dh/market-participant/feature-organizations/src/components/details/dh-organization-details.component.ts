@@ -113,7 +113,7 @@ export class DhOrganizationDetailsComponent {
       ? [...data]
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((x) => ({
-            actorNumberAndName: `${x.glnOrEicNumber} ${x.name}`,
+            actorNumberAndName: x.displayNameWithoutMarketRole,
             marketRole: x.marketRole,
             status: x.status,
           }))

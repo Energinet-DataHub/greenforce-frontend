@@ -163,13 +163,13 @@ public static partial class ExchangeEventSearchResultNode
         IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridAreaCode).ConfigureAwait(false);
 
-    public static Task<ActorNameDto?> GetEnergySupplierAsync(
+    public static Task<ActorDto?> GetEnergySupplierAsync(
         [Parent] ExchangeEventSearchResult result,
         IMarketParticipantNameByMarketRoleDataLoader dataLoader)
     {
         if (string.IsNullOrEmpty(result.ActorNumber))
         {
-            return Task.FromResult<ActorNameDto?>(null);
+            return Task.FromResult<ActorDto?>(null);
         }
 
         return dataLoader.LoadAsync((result.ActorNumber, EicFunction.EnergySupplier));

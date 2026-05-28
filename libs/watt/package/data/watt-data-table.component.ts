@@ -36,7 +36,7 @@ import { WATT_CARD_VARIANT, WattCardComponent } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattPaginatorComponent } from '@energinet/watt/paginator';
-import { WattSearchComponent, WattSimpleSearchComponent } from '@energinet/watt/search';
+import { WattSimpleSearchComponent } from '@energinet/watt/search';
 import { WattTableComponent } from '@energinet/watt/table';
 import { WattIcon } from '@energinet/watt/icon';
 
@@ -131,19 +131,25 @@ import { WattDataIntlService } from './watt-data-intl.service';
           ) {
             <vater-flex [autoSize]="autoSize()" fill="vertical">
               <vater-stack scrollable justify="center">
-                <watt-empty-state
-                  [icon]="error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'"
-                  [title]="
-                    error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle
-                  "
-                  [message]="error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText"
-                >
-                  @if (enableRetry()) {
-                    <watt-button variant="secondary" (click)="retry.emit()"
-                      >{{ intl.emptyRetry }}
-                    </watt-button>
-                  }
-                </watt-empty-state>
+                <ng-content select="watt-empty-state">
+                  <watt-empty-state
+                    [icon]="
+                      error() ? 'custom-power' : ready() ? emptyStateIcon() : 'custom-explore'
+                    "
+                    [title]="
+                      error() ? intl.errorTitle : ready() ? intl.emptyTitle : intl.defaultTitle
+                    "
+                    [message]="
+                      error() ? intl.errorText : ready() ? intl.emptyText : intl.defaultText
+                    "
+                  >
+                    @if (enableRetry()) {
+                      <watt-button variant="secondary" (click)="retry.emit()"
+                        >{{ intl.emptyRetry }}
+                      </watt-button>
+                    }
+                  </watt-empty-state>
+                </ng-content>
               </vater-stack>
             </vater-flex>
           }
@@ -188,8 +194,9 @@ export class WattDataTableComponent {
 
   table = contentChild.required(WattTableComponent<unknown>, { descendants: true });
 
-  search = viewChild(WattSearchComponent);
+  search = viewChild(WattSimpleSearchComponent);
   reset = () => this.search()?.clear();
+  focusSearch = () => this.search()?.focus();
 
   onSearch(value: string) {
     this.table().dataSource().filter = value;

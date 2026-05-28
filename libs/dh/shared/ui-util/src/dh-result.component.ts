@@ -46,7 +46,7 @@ type Variant = 'normal' | 'compact';
       <ng-content />
     } @else {
       <vater-stack
-        fill="vertical"
+        fill="both"
         [justify]="variant() === 'compact' ? 'start' : 'center'"
         [align]="variant() === 'compact' ? 'start' : 'center'"
       >

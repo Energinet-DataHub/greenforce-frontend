@@ -25,7 +25,7 @@ import { WattTableColumnDef, WattTableDataSource, WATT_TABLE } from '@energinet/
 
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionDetailDto } from '@energinet-datahub/dh/shared/domain';
-import { DhPermissionDetailsMarketRole } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhPermissionDetailsMarketRole } from '../../types';
 
 @Component({
   selector: 'dh-admin-permission-market-roles',

@@ -21,6 +21,8 @@ import { TranslocoService } from '@jsverse/transloco';
 
 import { WattLocaleService } from '@energinet/watt/date';
 import { DisplayLanguage, toDisplayLanguage } from '@energinet-datahub/gf/globalization/domain';
+import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 const LOCALE_STORAGE_KEY = 'dh-language';
 
@@ -30,10 +32,12 @@ const LOCALE_STORAGE_KEY = 'dh-language';
 export class DhLanguageService {
   private readonly transloco = inject(TranslocoService);
   private readonly wattLocaleService = inject(WattLocaleService);
+  private readonly apollo = inject(DhApollo);
+  private readonly localStorage = inject(localStorageToken);
 
   /** Returns selected language, will default to 'DisplayLanguage.Danish' if none exsists */
   public selectedLanguage = signal(
-    localStorage.getItem(LOCALE_STORAGE_KEY) ?? DisplayLanguage.Danish
+    this.localStorage.getItem(LOCALE_STORAGE_KEY) ?? DisplayLanguage.Danish
   );
 
   constructor() {
@@ -44,9 +48,10 @@ export class DhLanguageService {
       untracked(() => {
         this.transloco.setActiveLang(selectedLanguage);
         this.wattLocaleService.setActiveLocale(toDisplayLanguage(selectedLanguage));
+        this.apollo.client.refetchQueries({ include: 'active' });
       });
 
-      localStorage.setItem(LOCALE_STORAGE_KEY, this.selectedLanguage());
+      this.localStorage.setItem(LOCALE_STORAGE_KEY, this.selectedLanguage());
     });
   }
 

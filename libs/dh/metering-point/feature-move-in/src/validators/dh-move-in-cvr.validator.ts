@@ -17,22 +17,17 @@
  */
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-
-import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
-
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
 const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222']);
 
-export function dhMoveInCvrValidator(appEnv: DhAppEnvironment): ValidatorFn {
+export function dhMoveInCvrValidator(): ValidatorFn {
   const baseValidator = dhCvrValidator();
-
-  const bypassAllowed = appEnv !== DhAppEnvironment.prod && appEnv !== DhAppEnvironment.preprod;
 
   return (control: AbstractControl): ValidationErrors | null => {
     const value = String(control.value ?? '');
 
-    if (bypassAllowed && MOVE_IN_TEST_CVRS.has(value)) {
+    if (MOVE_IN_TEST_CVRS.has(value)) {
       return null;
     }
 

@@ -34,7 +34,6 @@ describe(WattCheckboxComponent, () => {
     expect(view.queryByLabelText(labelText)).not.toBeNull();
   });
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   describe('Reactive forms', () => {
     async function setup({ value, disabled = false }: { value: boolean; disabled?: boolean }) {
       const labelText = 'Are you awesome?';
@@ -89,9 +88,10 @@ describe(WattCheckboxComponent, () => {
     it('prevents clicking on disabled checkbox', async () => {
       const initialState = { value: true, disabled: true };
       const { fixture, checkboxLabel } = await setup(initialState);
+      const user = userEvent.setup({ pointerEventsCheck: 0 });
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await user.click(checkboxLabel);
         await fixture.whenStable();
       }
 
@@ -103,9 +103,10 @@ describe(WattCheckboxComponent, () => {
     it.skip('can click on checkbox after enabling it', async () => {
       const initialState = { value: true, disabled: true };
       const { fixture, checkboxLabel } = await setup(initialState);
+      const user = userEvent.setup({ pointerEventsCheck: 0 });
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await user.click(checkboxLabel);
         await fixture.whenStable();
       }
 
@@ -115,7 +116,7 @@ describe(WattCheckboxComponent, () => {
       fixture.componentInstance.checkboxControl.enable();
 
       if (checkboxLabel) {
-        userEvent.click(checkboxLabel);
+        await user.click(checkboxLabel);
         await fixture.whenStable();
       }
 

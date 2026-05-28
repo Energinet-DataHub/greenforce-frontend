@@ -39,7 +39,7 @@ export default defineConfig({
     passWithNoTests: true,
     watch: false,
     globals: true,
-    environment: 'jsdom',
+    environment: 'happy-dom',
     include: ['package/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     setupFiles: ['test/test-setup.ts'],
     reporters: ['default'],
@@ -48,6 +48,15 @@ export default defineConfig({
       provider: 'v8',
     },
     pool: 'forks',
+    // One worker so the Vite server's in-memory transform cache warms up
+    // after the first file and is reused for all subsequent files — avoids
+    // re-compiling Angular fesm2022 packages for every test file.
+    maxWorkers: 1,
+    // Run test files sequentially (one at a time) to maximise Vite cache reuse.
+    fileParallelism: false,
+    // Share the module graph across all test files in a single run so that
+    // Angular is initialized once rather than once per file.
+    isolate: false,
     testTimeout: 10_000,
   },
   define: {

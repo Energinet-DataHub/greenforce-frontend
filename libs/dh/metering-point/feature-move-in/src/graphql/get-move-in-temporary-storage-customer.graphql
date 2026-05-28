@@ -1,0 +1,7 @@
+query GetTemporaryStorageData($meteringPointId: String!, $processId: String!) {
+  temporaryStorageData(meteringPointId: $meteringPointId, processId: $processId) {
+    firstCustomerName
+    isBusinessCustomer
+    firstCustomerCvr
+  }
+}

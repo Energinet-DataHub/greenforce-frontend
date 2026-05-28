@@ -93,6 +93,7 @@ public static partial class ActorConversationNode
         descriptor.Field(f => f.Messages);
         descriptor.Field(f => f.Participants);
         descriptor.Field(f => f.PartOfConversations);
+        descriptor.Field(f => f.MeteringPointIdentification);
     }
 
     private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)

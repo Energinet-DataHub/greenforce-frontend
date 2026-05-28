@@ -52,15 +52,14 @@ _Note: Since this is an [Nx] workspace, the Nx CLI should be used over the Angul
 
 The application is deployed to the following environments:
 
-| Development 001       | Development 002       | Development 003       | Test 001                | Test 002                | PreProd               | Prod            |
-|-----------------------|-----------------------|-----------------------|-------------------------|-------------------------|-----------------------|-----------------|
-| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [dev_003][dh-dev_003] | [test_001][dh-test_001] | [test_002][dh-test_002] | [preprod][dh-preprod] | [prod][dh-prod] |
+| Development 001       | Development 002       | Development 003       | Test 001                | PreProd               | Prod            |
+|-----------------------|-----------------------|-----------------------|-------------------------|-----------------------|-----------------|
+| [dev_001][dh-dev_001] | [dev_002][dh-dev_002] | [dev_003][dh-dev_003] | [test_001][dh-test_001] | [preprod][dh-preprod] | [prod][dh-prod] |
 
 [dh-dev_001]: https://dev.datahub3.dk
 [dh-dev_002]: https://dev002.datahub3.dk
 [dh-dev_003]: https://dev003.datahub3.dk
 [dh-test_001]: https://test.datahub3.dk
-[dh-test_002]: https://test002.datahub3.dk
 [dh-preprod]: https://preprod.datahub3.dk
 [dh-prod]: https://datahub3.dk
 
@@ -104,32 +103,6 @@ bun api:dev
 _Note: It is recommended to use mocking as much as possible, see
 [mocking.md](docs/dh/mocking.md)._
 
-### Development
-
-When it is time to add a new library, refrain from writing files manually or
-copying from existing libraries. Instead, use the provided local generators
-that takes care of all the manual work and avoids common pitfalls.
-
-_Note: Make sure to read the [Workspace](#workspace) section beforehand to understand
-which library type to generate. **It is currently not possible to generate
-libraries of type `assets` and `styles`**._
-
-To generate a new library, run the below command\* and follow the instructions:
-
-```sh
-bun nx g @energinet-datahub/tools/workspace:library
-```
-
-While rarely needed, it is also possible to generate an entirely new domain.
-Running the following command\* will create a new domain with
-`data-access-api`, `feature`, and `shell` libraries included:
-
-```sh
-bun nx g @energinet-datahub/tools/workspace:domain
-```
-
-> Also available in [Nx Console](https://nx.dev/core-features/integrate-with-editors).
-
 ### Best Practices$$
 
 Take a look at our developer examples to see how to implement certain features like, and an overall best practice guide:
@@ -145,7 +118,7 @@ Take a look at our developer examples to see how to implement certain features l
 ### Backend For Frontend (BFF)
 
 There is currenly only one BFF located in `api-dh` under `apps/dh`.
-It is for `app-dh` and is using .NET 8.x.
+It is for `app-dh` and is using .NET 10.x.
 Check the [Development notes](./apps/dh/api-dh/documents/development.md)
 for how to get started.
 
@@ -266,7 +239,7 @@ depend on:
 | **`data‑access`**   | Code for interacting with a back-end system. It also includes all the code related to state management, and HTTP interceptors. | `data‑access‑<name>`   | `data-access` `util` `test-util` `domain` `environments`                                                                     |
 | **`util`**          | Low-level utilities used by many libraries and applications (services, pure functions, contants).                              | `util‑<name>`          | `util` `test-util` `environments` `domain`                                                                                   |
 | **`test‑util`**     | Stubs, test matchers, testing modules and test library configuration.                                                          | `test‑util‑<name>`     | `data-access` `util` `test-util` `domain` `configuration` `assets`                                                           |
-| **`e2e‑util`**      | Cypress commands and fixtures.                                                                                                 | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                                |
+| **`e2e‑util`**      | Playwright helpers and fixtures.                                                                                               | `e2e‑util‑<name>`      | `util` `test-util` `e2e-util`                                                                                                |
 | **`domain`**        | Interfaces, types, constants, functions and services related to domain objects.                                                | `domain`               | `domain` `util` `test-util`                                                                                                  |
 | **`shell`**         | Entrypoint for an application or domain. Orchestration and routing.                                                            | `shell`                | `feature` `ui` `data-access` `util` `test-util` `e2e-util` `shell` `domain` `configuration` `environments` `assets` `styles` |
 | **`configuration`** | Configuration and setup of libraries and concerns (for example i18n).                                                          | `configuration‑<name>` | `data-access` `util` `test-util` `configuration` `environments` `domain`                                                     |

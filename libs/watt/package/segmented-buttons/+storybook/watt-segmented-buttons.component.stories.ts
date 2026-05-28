@@ -16,62 +16,35 @@
  * limitations under the License.
  */
 //#endregion
-import { Meta, applicationConfig, moduleMetadata, StoryFn } from '@storybook/angular';
 import { provideRouter } from '@angular/router';
+import { Meta, applicationConfig, moduleMetadata, StoryObj } from '@storybook/angular';
 
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { WattSegmentedButtonsComponent } from '../watt-segmented-buttons.component';
-import { WattButtonComponent } from '@energinet/watt/button';
-import { WattSegmentedButtonComponent } from '../watt-segmented-button.component';
+import { WattStorybookSegmentedButtonsShowcaseComponent } from './storybook-segmented-buttons-showcase.component';
 
-const meta: Meta<WattSegmentedButtonsComponent> = {
+const meta: Meta<WattStorybookSegmentedButtonsShowcaseComponent> = {
   title: 'Components/Segmented buttons',
-  component: WattSegmentedButtonsComponent,
+  component: WattStorybookSegmentedButtonsShowcaseComponent,
   decorators: [
-    applicationConfig({
-      providers: [provideRouter([])],
-    }),
-    moduleMetadata({
-      imports: [
-        ReactiveFormsModule,
-        WattSegmentedButtonsComponent,
-        WattSegmentedButtonComponent,
-        WattButtonComponent,
-      ],
-    }),
+    applicationConfig({ providers: [provideRouter([])] }),
+    moduleMetadata({ imports: [WattStorybookSegmentedButtonsShowcaseComponent] }),
   ],
+  argTypes: {
+    disabled: {
+      control: 'boolean',
+      description: 'Disable the overview segmented buttons group',
+    },
+  },
+  args: {
+    disabled: false,
+  },
 };
 export default meta;
 
-export const WithFormControl: StoryFn<WattSegmentedButtonsComponent> = () => ({
-  props: {
-    exampleFormControl: new FormControl('year'),
-  },
-  template: `
-    <watt-segmented-buttons [formControl]="exampleFormControl">
-      <watt-segmented-button value="day">Day</watt-segmented-button>
-      <watt-segmented-button value="month">Month</watt-segmented-button>
-      <watt-segmented-button value="year">Year</watt-segmented-button>
-      <watt-segmented-button value="all years">All Years</watt-segmented-button>
-    </watt-segmented-buttons>
-    <h5>Form value: {{exampleFormControl.value}}</h5>
-  `,
-});
-export const Disable: StoryFn<WattSegmentedButtonsComponent> = () => ({
-  props: {
-    exampleFormControl: new FormControl('year'),
-  },
-  template: `
-    <watt-segmented-buttons [formControl]="exampleFormControl">
-      <watt-segmented-button value="day">Day</watt-segmented-button>
-      <watt-segmented-button value="month">Month</watt-segmented-button>
-      <watt-segmented-button value="year">Year</watt-segmented-button>
-      <watt-segmented-button value="all years">All Years</watt-segmented-button>
-    </watt-segmented-buttons>
-    <h5>Form value: {{exampleFormControl.value}}</h5>
-    <div style="display: flex; grid-gap: 10px; margin-top: 20px;">
-      <watt-button (click)="exampleFormControl.disable()">disable</watt-button>
-      <watt-button (click)="exampleFormControl.enable()">enable</watt-button>
-    </div>
-  `,
-});
+type Story = StoryObj<WattStorybookSegmentedButtonsShowcaseComponent>;
+
+export const Overview: Story = {
+  render: (args) => ({
+    props: args,
+    template: `<watt-storybook-segmented-buttons-showcase [disabled]="disabled" />`,
+  }),
+};

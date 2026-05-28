@@ -74,7 +74,7 @@ services.Configure<ForwardedHeadersOptions>(options =>
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto | ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedPrefix;
 
     // The api is not public so we will allow any proxy
-    options.KnownNetworks.Clear();
+    options.KnownIPNetworks.Clear();
     options.KnownProxies.Clear();
 });
 
@@ -98,7 +98,14 @@ services
     .AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true"))
     .AddPolicy(nameof(EicFunction.EnergySupplier), policy =>
         policy.RequireAssertion(context =>
-            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.EnergySupplier)));
+            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.EnergySupplier)))
+    .AddPolicy(nameof(EicFunction.GridAccessProvider), policy =>
+        policy.RequireAssertion(context =>
+            context.User.GetMarketParticipantMarketRole() == nameof(EicFunction.GridAccessProvider)))
+    .AddPolicy("EnergySupplierOrGridAccessProvider", policy =>
+        policy.RequireAssertion(context =>
+            context.User.GetMarketParticipantMarketRole() is var role
+            && (role == nameof(EicFunction.EnergySupplier) || role == nameof(EicFunction.GridAccessProvider))));
 
 if (environment.IsDevelopment())
 {
@@ -117,6 +124,8 @@ services.RegisterModules(configuration);
 services.AddAuthorizationRequestModule();
 
 services.AddFeatureManagement();
+
+services.AddSingleton<ISchemaDocumentFormatter, Energinet.DataHub.WebApi.Utilities.SortedSchemaDocumentFormatter>();
 
 services
     .AddGraphQLServices()

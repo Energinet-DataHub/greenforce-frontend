@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/no-duplicate-string */
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
 import { parseChargeSeries } from '../src/parse-charge-series';
 import { lastValueFrom } from 'rxjs';

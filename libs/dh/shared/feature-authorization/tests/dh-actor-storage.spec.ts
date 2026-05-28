@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
-
-import { DhActorStorage, localStorageToken, sessionStorageToken } from '../src/dh-actor-storage';
 import { TestBed } from '@angular/core/testing';
+
+import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test-util';
+import { localStorageToken, sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
+
+import { DhActorStorage } from '../src/dh-actor-storage';
 
 describe(DhActorStorage, () => {
   const actorIds = ['18918674-D8EB-483F-94E8-CE241AB502E5', '898BF589-543C-42DA-8A72-120F0E263E86'];

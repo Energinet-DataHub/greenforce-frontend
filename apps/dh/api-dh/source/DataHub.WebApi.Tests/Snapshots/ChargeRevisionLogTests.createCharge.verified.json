@@ -1,0 +1,17 @@
+﻿{
+  "activity": "createCharge",
+  "payload": {
+    "query": "mutation($code: String!, $name: String!, $description: String!, $type: ChargeType!, $resolution: ChargeResolutionInput!, $validFrom: DateTime!, $vat: Boolean!) { createCharge(input: { code: $code, name: $name, description: $description, type: $type, resolution: $resolution, validFrom: $validFrom, vat: $vat }) { boolean } }",
+    "variables": {
+      "code": "TEST",
+      "name": "Test Charge",
+      "description": "Test Description",
+      "type": "TARIFF",
+      "resolution": "HOURLY",
+      "validFrom": "2025-01-01T00:00:00Z",
+      "vat": true
+    }
+  },
+  "affectedEntityType": "Charge",
+  "affectedEntityKey": null
+}

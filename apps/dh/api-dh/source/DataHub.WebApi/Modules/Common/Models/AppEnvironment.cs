@@ -19,6 +19,7 @@ public static class AppEnvironment
     public const string Local = "localhost";
     public const string Dev001 = "d-001";
     public const string Dev002 = "d-002";
+    public const string Dev003 = "d-003";
     public const string Test001 = "t-001";
     public const string Test002 = "t-002";
     public const string PreProd = "b-001";

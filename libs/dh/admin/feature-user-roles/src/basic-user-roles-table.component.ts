@@ -19,8 +19,8 @@
 import { ChangeDetectionStrategy, Component, effect, input, output } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { ActorUserRole } from '@energinet-datahub/dh/admin/data-access-api';
 import { WATT_TABLE, WattTableColumnDef, WattTableDataSource } from '@energinet/watt/table';
+import { ActorUserRole } from './types';
 
 @Component({
   selector: 'dh-basic-user-roles-table',

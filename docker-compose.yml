@@ -59,7 +59,7 @@ services:
       MeasurementsHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-measurements-d-003
       ChargesHttpClient__BaseAddress: https://app-chargesapi-charges-d-we-003.azurewebsites.net
       ChargesHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-charges-d-003
-      EDIB2CHttpClient__BaseAddress: https://app-b2cwebapi-edi-d-we-003.azurewebsites.net
+      EDIB2CHttpClient__ApiBaseAddress: https://app-b2cwebapi-edi-d-we-003.azurewebsites.net
       EDIB2CHttpClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-b2cwebapi-d-003
       ElectricityMarketClient__ApiBaseAddress: https://app-api-v2-elmark-d-we-003.azurewebsites.net
       ElectricityMarketClient__ApplicationIdUri: api://f7619355-6c67-4100-9a78-1847f30742e2/datahub3-electricitymarket-d-003

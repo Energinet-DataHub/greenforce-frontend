@@ -13,11 +13,12 @@
 // limitations under the License.
 
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.DeleteAllEventSourcingData.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.GetProjectionsStatus.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RebuildProjections.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ClearMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
@@ -30,7 +31,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint;
 public static class OperationToolsMeteringPointNode
 {
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<string> GetDebugViewAsync(
         string meteringPointId,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
@@ -39,7 +40,16 @@ public static class OperationToolsMeteringPointNode
             .Then(r => r.Result);
 
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
+    [UseRevisionLog]
+    public static async Task<string> GetMeteringPointDebugJsonAsync(
+        string id,
+        [Service] IElectricityMarketClient_V1 electricityMarketClient,
+        CancellationToken ct) => await electricityMarketClient
+            .MeteringPointDebugJsonAsync(id, ct);
+
+    [Query]
+    [Authorize(Roles = ["operation-tools:view"])]
     public static async Task<IEnumerable<MeteringPointsGroupByPackageNumber>> GetMeteringPointsByGridAreaCodeAsync(
         string gridAreaCode,
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
@@ -51,14 +61,14 @@ public static class OperationToolsMeteringPointNode
                 .OrderBy(x => x.PackageNumber));
 
     [Query]
-    [Authorize(Roles = ["operation-tools:manage"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<MeteringPointCountDto> GetMeteringPointCountAsync(
         [Service] IElectricityMarketClient_V1 electricityMarketClient,
         CancellationToken ct) => await electricityMarketClient.MeteringPointCountAsync(ct);
 
     [Query]
-    [Authorize(Roles = ["operation-tools:manage"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<long> GetMeteringPointMigratedCountAsync(
         IElectricityMarketClient electricityMarketClient,
@@ -71,7 +81,7 @@ public static class OperationToolsMeteringPointNode
     }
 
     [Query]
-    [Authorize(Roles = ["metering-point:search"])]
+    [Authorize(Roles = ["operation-tools:view"])]
     [UseRevisionLog]
     public static async Task<GetMeteringPointDebugResultDtoV1?> GetOperationToolsMeteringPointAsync(
         string id,
@@ -81,6 +91,20 @@ public static class OperationToolsMeteringPointNode
         var result = await electricityMarketClient.SendAsync(new GetMeteringPointDebugQueryV1(id), ct);
         return !result.IsSuccess
             ? throw new InvalidOperationException($"Failed to get metering point {id}: {result.DiagnosticMessage}.")
+            : result.Data;
+    }
+
+    [Query]
+    [Authorize(Roles = ["operation-tools:view"])]
+    [UseRevisionLog]
+    public static async Task<GetProjectionsStatusResultDtoV1> GetProjectionsStatusAsync(
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        var result = await electricityMarketClient.SendAsync(new GetProjectionsStatusQueryV1(), ct);
+
+        return !result.IsSuccess || !result.HasData
+            ? throw new InvalidOperationException($"Failed to get projections status: {result.DiagnosticMessage}.")
             : result.Data;
     }
 

@@ -51,10 +51,10 @@ import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  dhMeteringPointIdValidator,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { dhMeteringPointTypeParam } from './dh-metering-point-params';
-import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 
 enum CountryCode {
   DK = 'DK',

@@ -14,6 +14,10 @@
 watt-description-list {
   display: block;
 
+  dl {
+    margin: 0; // 👈 add this
+  }
+
   &.watt-description-list-flow {
     dl {
       display: grid;
@@ -32,7 +36,9 @@ watt-description-list {
   &.watt-description-list-inline-flow {
     dl {
       display: flex;
-      gap: var(--watt-space-ml);
+      column-gap: var(--watt-space-ml);
+      row-gap: var(--watt-space-xs);
+      flex-wrap: wrap;
 
       dd {
         margin: 0;

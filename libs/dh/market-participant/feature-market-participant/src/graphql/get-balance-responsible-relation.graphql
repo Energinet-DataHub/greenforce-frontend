@@ -5,22 +5,18 @@ query GetBalanceResponsibleRelation($id: UUID!) {
       validPeriod
       status
       gridArea {
-        displayName
+        displayCodeGlnActor
         id
         code
       }
       meteringPointType
       balanceResponsibleWithName {
         id
-        actorName {
-          value
-        }
+        displayNameWithoutMarketRole
       }
       energySupplierWithName {
         id
-        actorName {
-          value
-        }
+        displayNameWithoutMarketRole
       }
     }
   }

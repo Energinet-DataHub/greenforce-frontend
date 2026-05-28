@@ -41,36 +41,40 @@ describe(WattTooltipDirective.name, () => {
 
   it('displays tooltip on hover', async () => {
     await setup();
+    const user = userEvent.setup();
     expect(isTooltipVisible()).toBe(false);
 
-    userEvent.hover(getTooltipTarget());
+    await user.hover(getTooltipTarget());
     expect(isTooltipVisible()).toBe(true);
   });
 
   it('hides tooltip on unhover', async () => {
     await setup();
-    userEvent.hover(getTooltipTarget());
+    const user = userEvent.setup();
+    await user.hover(getTooltipTarget());
     expect(isTooltipVisible()).toBe(true);
 
-    userEvent.unhover(getTooltipTarget());
+    await user.unhover(getTooltipTarget());
     expect(isTooltipVisible()).toBe(false);
   });
 
   it('displays tooltip on focus', async () => {
     await setup();
+    const user = userEvent.setup();
     expect(isTooltipVisible()).toBe(false);
 
-    userEvent.tab();
+    await user.tab();
 
     expect(isTooltipVisible()).toBe(true);
   });
 
   it('hides tooltip on blur', async () => {
     await setup();
-    userEvent.tab();
+    const user = userEvent.setup();
+    await user.tab();
     expect(isTooltipVisible()).toBe(true);
 
-    userEvent.tab();
+    await user.tab();
 
     expect(isTooltipVisible()).toBe(false);
   });

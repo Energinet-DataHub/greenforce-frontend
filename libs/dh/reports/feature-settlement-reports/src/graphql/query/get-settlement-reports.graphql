@@ -3,7 +3,7 @@ query GetSettlementReports {
     id
     actor {
       id
-      name
+      displayName
     }
     calculationType
     period

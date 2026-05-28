@@ -94,6 +94,7 @@ export const marketParticipants: MarketParticipant[] = [
     glnOrEicNumber: '5790000555555',
     name: 'Test Actor 1',
     displayName: 'Test Actor 1 • GridAccessProvider',
+    displayNameWithoutMarketRole: 'Test Actor 1',
     userRoles: userActorRoles,
     auditLogs: [auditLog],
     credentials,
@@ -139,6 +140,7 @@ export const marketParticipants: MarketParticipant[] = [
     auditLogs: [auditLog],
     credentials,
     displayName: 'Test Actor 3 • GridAccessProvider',
+    displayNameWithoutMarketRole: 'Test Actor 3',
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -182,6 +184,7 @@ export const marketParticipants: MarketParticipant[] = [
     auditLogs: [auditLog],
     credentials,
     displayName: 'Test Actor 2 • BalanceResponsibleParty',
+    displayNameWithoutMarketRole: 'Test Actor 2',
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -225,6 +228,7 @@ export const marketParticipants: MarketParticipant[] = [
     auditLogs: [auditLog],
     credentials,
     displayName: 'Test Actor 3 • DanishEnergyAgency',
+    displayNameWithoutMarketRole: 'Test Actor 3',
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -269,6 +273,8 @@ export const marketParticipants: MarketParticipant[] = [
     auditLogs: [auditLog],
     credentials,
     displayName: 'Test Actor 4 • DanishEnergyAgency',
+    displayNameWithoutMarketRole: 'Test Actor 4',
+
     gridAreas: [
       {
         __typename: 'GridAreaDto',
@@ -318,6 +324,7 @@ export const marketParticipants: MarketParticipant[] = [
     auditLogs: [auditLog],
     credentials,
     displayName: 'Test Actor 5 • BalanceResponsibleParty',
+    displayNameWithoutMarketRole: 'Test Actor 5',
     userRoles: userActorRoles,
     gridAreas: [
       {
@@ -362,6 +369,7 @@ export const marketParticipants: MarketParticipant[] = [
     glnOrEicNumber: '5790000555588',
     name: 'Test Actor 6',
     displayName: 'Test Actor 6 • EnergySupplier',
+    displayNameWithoutMarketRole: 'Test Actor 6',
     auditLogs: [auditLog],
     credentials,
     userRoles: userActorRoles,

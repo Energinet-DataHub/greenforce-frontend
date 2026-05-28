@@ -26,9 +26,10 @@ import { TreeState, WattJson } from './watt-json.component';
   imports: [WattJson],
   template: `
     <watt-json
-      [left]="json()"
-      [right]="compare()"
+      [baseline]="compare()"
+      [json]="json()"
       [diff]="compare() !== undefined"
+      [ignoreCase]="ignoreCase()"
       [tree]="tree()"
     />
   `,
@@ -40,9 +41,15 @@ export class WattJsonViewer {
   readonly json = input.required<unknown>();
 
   /**
-   * Optional value to compare against. When provided, enables diff mode with side-by-side view.
+   * Optional baseline value to compare against. When provided, enables diff mode
+   * with the baseline on the left (red) and `json` on the right (green).
    */
   readonly compare = input<unknown>();
+
+  /**
+   * When true, string comparisons in diff mode are case-insensitive.
+   */
+  readonly ignoreCase = input(false);
 
   /**
    * Maximum depth for `expandAll()`. Beyond this depth nodes start collapsed but can be

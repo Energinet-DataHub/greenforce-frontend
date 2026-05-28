@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { translate } from '@jsverse/transloco';
 
-import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
   GetBalanceResponsibleRelationDocument,
@@ -32,7 +32,7 @@ import {
   DhBalanceResponsibleRelation,
   DhBalanceResponsibleRelationFilters,
   DhBalanceResponsibleRelations,
-} from './dh-balance-responsible-relation';
+} from './types';
 import {
   dhGroupByMarketParticipant,
   dhGroupByType,
@@ -41,7 +41,10 @@ import { dhApplyFilter } from './dh-apply-filter';
 
 @Injectable()
 export class DhBalanceResponsibleRelationsStore {
-  private balanceResponsibleRelationsQuery = lazyQuery(GetBalanceResponsibleRelationDocument);
+  private balanceResponsibleRelationsQuery = query(GetBalanceResponsibleRelationDocument, () => {
+    const actorId = this.actor()?.id;
+    return actorId ? { variables: { id: actorId } } : { skip: true };
+  });
 
   private relations = computed<DhBalanceResponsibleRelations>(
     () =>
@@ -85,18 +88,6 @@ export class DhBalanceResponsibleRelationsStore {
 
   public isEmpty = computed(() => this.filteredRelations().length === 0);
 
-  constructor() {
-    effect(() => {
-      const actorId = this.actor()?.id;
-
-      if (actorId == undefined) {
-        return;
-      }
-
-      this.balanceResponsibleRelationsQuery.refetch({ id: actorId });
-    });
-  }
-
   public updateMarketParticipant(actor: DhMarketParticipantExtended | null) {
     this.actor.set(actor);
   }
@@ -124,9 +115,9 @@ export class DhBalanceResponsibleRelationsStore {
       .mapLines((relations) =>
         relations.map((balanceResponsibleRelation) => [
           `"${balanceResponsibleRelation.balanceResponsibleWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.balanceResponsibleWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.balanceResponsibleWithName?.displayNameWithoutMarketRole ?? ''}"`,
           `"${balanceResponsibleRelation.energySupplierWithName?.id ?? ''}"`,
-          `"${balanceResponsibleRelation.energySupplierWithName?.actorName.value ?? ''}"`,
+          `"${balanceResponsibleRelation.energySupplierWithName?.displayNameWithoutMarketRole ?? ''}"`,
           `"${balanceResponsibleRelation.gridArea?.code ?? ''}"`,
           `"${balanceResponsibleRelation.meteringPointType ?? ''}"`,
           `"${balanceResponsibleRelation.status}"`,
@@ -157,7 +148,7 @@ const applySearch = (
 
   if (
     actor?.marketRole === EicFunction.EnergySupplier &&
-    balanceResponsibleWithName?.actorName.value
+    balanceResponsibleWithName?.displayNameWithoutMarketRole
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
   ) {
@@ -166,7 +157,7 @@ const applySearch = (
 
   return (
     actor?.marketRole === EicFunction.BalanceResponsibleParty &&
-    energySupplierWithName?.actorName.value
+    energySupplierWithName?.displayNameWithoutMarketRole
       ?.toLocaleLowerCase()
       .includes(search.toLocaleLowerCase())
   );

@@ -32,8 +32,10 @@ import {
 import { MsalService } from '@azure/msal-angular';
 
 import { WattModalService } from '@energinet/watt/modal';
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
 
 import { DhInactivityLogoutComponent } from './dh-inactivity-logout.component';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 enum ActivityState {
   Inactive,
@@ -41,12 +43,16 @@ enum ActivityState {
   Overdue,
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class DhInactivityDetectionService {
   private readonly location = inject(Location);
   private readonly ngZone = inject(NgZone);
   private readonly modalService = inject(WattModalService);
   private readonly msal = inject(MsalService);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
+  private readonly appInsights = inject(DhApplicationInsights);
 
   private readonly secondsUntilWarning = 115 * 60;
 
@@ -83,7 +89,7 @@ export class DhInactivityDetectionService {
             this.openModal();
             break;
           case ActivityState.Overdue:
-            this.logout();
+            this.logout(ActivityState.Overdue);
             break;
         }
       });
@@ -92,9 +98,11 @@ export class DhInactivityDetectionService {
 
   private openModal() {
     this.ngZone.run(() => {
+      this.appInsights.trackEvent('User inactivity: Showing warning modal');
+
       this.modalService.open({
         component: DhInactivityLogoutComponent,
-        onClosed: (result) => result && this.logout(),
+        onClosed: (result) => result && this.logout(ActivityState.Inactive),
       });
     });
   }
@@ -103,9 +111,16 @@ export class DhInactivityDetectionService {
     return new Date().getTime() - suspendedAt.getTime() > 2 * 60 * 60 * 1000;
   }
 
-  private logout() {
-    this.msal.logoutRedirect({
-      postLogoutRedirectUri: this.location.path(),
-    });
+  private async logout(state: ActivityState) {
+    try {
+      this.appInsights.trackEvent(`User inactivity: ${ActivityState[state]}`);
+      await this.appInsights.flush();
+    } finally {
+      const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
+
+      this.msal.logoutRedirect({
+        postLogoutRedirectUri: maybeRedirectUrl ?? this.location.path(),
+      });
+    }
   }
 }

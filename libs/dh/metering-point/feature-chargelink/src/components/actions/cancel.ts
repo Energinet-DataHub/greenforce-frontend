@@ -80,13 +80,13 @@ export default class DhMeteringPointCancelChargeLink {
   id = input.required<string>();
 
   async cancelLink(saved: boolean) {
-    if (!saved) return this.navigate.navigate('details', this.id());
+    if (!saved) return this.navigate.navigate('list');
 
     await this.cancel.mutate({
       variables: { id: this.id() },
     });
 
-    this.navigate.navigate('details', this.id());
+    this.navigate.navigate('list');
   }
 
   constructor() {

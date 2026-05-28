@@ -21,7 +21,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattPhoneFieldComponent } from '@energinet/watt/phone-field';
-import { ContactDetailsFormType } from '../types';
+import { ContactDetailsFormType, ContactType } from '../types';
 import { VaterFlexComponent } from '@energinet/watt/vater';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
@@ -51,23 +51,26 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
           <vater-flex align="stretch">
             <watt-slide-toggle
               [formControl]="formGroup.controls.contactSameAsCustomer"
+              size="small"
               class="slide-toggle-margin-bottom"
               data-testid="legal-contact-same-as-customer"
             >
-              {{ t('contactSameAsCustomer') }}
+              {{ t(contactType() + 'SameAsCustomer') }}
             </watt-slide-toggle>
 
-            <watt-text-field
-              [formControl]="controls.name"
-              [label]="t('contactName')"
-              data-testid="legal-contact-name"
-            />
+            <vater-flex direction="row" gap="m" justify="space-between">
+              <watt-text-field
+                [formControl]="controls.name"
+                [label]="t('contactName')"
+                data-testid="legal-contact-name"
+              />
 
-            <watt-text-field
-              [formControl]="controls.attention"
-              [label]="t('attention')"
-              data-testid="legal-contact-attention"
-            />
+              <watt-text-field
+                [formControl]="controls.attention"
+                [label]="t('attention')"
+                data-testid="legal-contact-attention"
+              />
+            </vater-flex>
 
             <vater-flex direction="row" gap="m" justify="space-between">
               <watt-phone-field
@@ -103,4 +106,5 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 })
 export class DhContactDetailsComponent {
   contactDetailsFormGroup = input<FormGroup<ContactDetailsFormType>>();
+  contactType = input.required<ContactType>();
 }

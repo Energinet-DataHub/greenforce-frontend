@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Types
 [ObjectType<Models.CommercialRelationDto>]
 public static partial class CommercialRelationDtoType
 {
-    public static async Task<ActorNameDto?> GetEnergySupplierNameAsync(
+    public static async Task<ActorDto?> GetEnergySupplierNameAsync(
         [Parent] Models.CommercialRelationDto commercialRelation,
         IMarketParticipantNameByMarketRoleDataLoader dataLoader) =>
         await dataLoader.LoadAsync((commercialRelation?.EnergySupplier ?? string.Empty, MarketParticipant_EicFunction.EnergySupplier));

@@ -34,6 +34,7 @@ public static partial class ConversationParticipantDtoType
 
     static partial void Configure(IObjectTypeDescriptor<GetConversationQueryResponseParticipant> descriptor)
     {
+        descriptor.Field(f => f.MarketParticipantNumber).Name("id");
         descriptor.Field(f => f.Role);
         descriptor.Field(f => f.MarketParticipantNumber);
         descriptor.Field(f => f.Type);

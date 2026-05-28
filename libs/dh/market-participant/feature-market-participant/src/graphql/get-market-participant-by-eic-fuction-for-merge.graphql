@@ -1,0 +1,11 @@
+query GetMarketParticipantsForEicFunctionForMerge($eicFunctions: [EicFunction!]) {
+  marketParticipantsForEicFunction(eicFunctions: $eicFunctions) {
+    id
+    displayName
+    gridAreas {
+      id
+      code
+      name
+    }
+  }
+}

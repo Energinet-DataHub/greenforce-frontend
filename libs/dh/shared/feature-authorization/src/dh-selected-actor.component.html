@@ -16,6 +16,7 @@ limitations under the License.
 -->
 <div
   class="selected-market-participant-container"
+  data-testid="selectedMarketParticipant"
   (click)="isOpen = !isOpen && !isLoading()"
   cdkOverlayOrigin
   #trigger="cdkOverlayOrigin"
@@ -57,7 +58,10 @@ limitations under the License.
   [cdkConnectedOverlayHasBackdrop]="true"
   cdkConnectedOverlayBackdropClass="none"
 >
-  <div class="market-participants-dropup-container watt-elevation">
+  <div
+    class="market-participants-dropup-container watt-elevation"
+    data-testid="marketParticipantsDropup"
+  >
     @for (marketParticipantGroup of marketParticipantGroups(); track marketParticipantGroup) {
       <div class="market-participant-group-container">
         <div class="watt-label organization-name-header">
@@ -67,7 +71,7 @@ limitations under the License.
         @for (marketParticipant of marketParticipantGroup.actors; track marketParticipant) {
           <div
             class="market-participant-container"
-            (click)="selectMarketParticipant(marketParticipant)"
+            (click)="selectMarketParticipant(marketParticipant, 'template')"
           >
             <div class="market-participant-container-inner">
               <div>

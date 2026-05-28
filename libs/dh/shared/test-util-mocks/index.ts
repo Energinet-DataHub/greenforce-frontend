@@ -19,7 +19,12 @@
 
 import { wholesaleMocks } from './src/wholesale.mocks';
 import { marketParticipantMocks } from './src/market-participant.mocks';
-import { messageArchiveMocks } from './src/message-archive.mocks';
+import {
+  messageArchiveMocks,
+  knownProcesses,
+  processCmiInfoInitiatorGln,
+  processCosInfoInitiatorGln,
+} from './src/message-archive.mocks';
 import { adminMocks } from './src/admin.mocks';
 import { marketParticipantUserMocks } from './src/market-participant-user.mocks';
 import { marketParticipantUserRoleMocks } from './src/market-participant-user-role.mocks';
@@ -37,6 +42,7 @@ import { chargesMocks } from './src/charges.mocks';
 import { measurementsReportsMocks } from './src/measurements-reports.mocks';
 import { releaseTogglesMocks } from './src/release-toggles.mocks';
 import { moveInMocks } from './src/move-in.mocks';
+import { messageQueueMocks } from './src/message-queue.mocks';
 
 export const mocks = [
   wholesaleMocks,
@@ -59,4 +65,7 @@ export const mocks = [
   measurementsReportsMocks,
   releaseTogglesMocks,
   moveInMocks,
+  messageQueueMocks,
 ];
+
+export { knownProcesses, processCmiInfoInitiatorGln, processCosInfoInitiatorGln };

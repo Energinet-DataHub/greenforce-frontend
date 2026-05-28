@@ -113,8 +113,6 @@ type Request = ExtractNodeType<GetRequestsDataSource>;
 
         <ng-container *wattTableCell="columns['requestedBy']; let row">
           {{ row.requestedBy?.displayName }}
-          <br />
-          <span>{{ row.requestedBy?.glnOrEicNumber }}</span>
         </ng-container>
 
         <ng-container *wattTableCell="columns['state']; let row">

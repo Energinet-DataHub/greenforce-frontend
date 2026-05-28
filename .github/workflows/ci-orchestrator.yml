@@ -14,6 +14,7 @@
 name: CI orchestrator
 
 permissions:
+  actions: write
   checks: write
   contents: write
   id-token: write
@@ -33,45 +34,38 @@ on:
     types: [checks_requested]
 
 jobs:
-  #
-  # Markdown check and YAML validation
-  #
-  ci_base:
-    uses: Energinet-DataHub/.github/.github/workflows/ci-base.yml@workflows/v1
-    with:
-      skip_license_check: true # Handled by another workflow
-      skip_markdown_links_check: true # Handled by another workflow
-    secrets:
-      dh3serviceaccount_privatekey: ${{ secrets.dh3serviceaccount_privatekey }}
-
-  #
-  # Detect changes to start relevant workflows
-  #
+  # Detect whether the PR touches paths that the .NET build cares about.
+  # For merge_group events we skip detection and force the .NET job to run,
+  # because the merge could combine changes from several PRs that
+  # individually did not touch the backend.
   changes:
-    uses: ./.github/workflows/detect-changes.yml
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend || 'true' }}
+    steps:
+      - if: github.event_name == 'pull_request'
+        uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'apps/dh/api-dh/**'
+              - '.github/workflows/dotnet-ci.yml'
+              - '.github/workflows/ci-orchestrator.yml'
+              - '.github/actions/dotnet-prepare-outputs/**'
+              - '.github/actions/dotnet-tests-prepare-outputs/**'
+              - 'global.json'
 
-  #
-  # DataHub UI
-  #
   dh_ci_frontend:
-    needs: changes
-    if: ${{ needs.changes.outputs.dh_frontend == 'true' || needs.changes.outputs.dh_frontend_e2e == 'true' }}
-    uses: ./.github/workflows/dh-ci-frontend.yml
+    uses: ./.github/workflows/pr.yml
     secrets: inherit
 
   dh_ci_dotnet:
     needs: changes
-    if: ${{ needs.changes.outputs.dh_dotnet == 'true' }}
-    uses: ./.github/workflows/dh-ci-dotnet.yml
-    secrets: inherit
-
-  #
-  # Watt
-  #
-  watt_ci:
-    needs: changes
-    if: ${{ needs.changes.outputs.watt_frontend == 'true' }}
-    uses: ./.github/workflows/watt-ci.yml
+    if: needs.changes.outputs.backend == 'true'
+    uses: ./.github/workflows/dotnet-ci.yml
     secrets: inherit
 
   #
@@ -80,14 +74,10 @@ jobs:
   allow_merge_ci_orchestrator:
     permissions: {}
     runs-on: ubuntu-latest
-    needs:
-      [
-        ci_base,
-        changes,
-        dh_ci_frontend,
-        dh_ci_dotnet,
-        watt_ci
-      ]
+    needs: [dh_ci_frontend, dh_ci_dotnet]
+    # Skipped jobs report result == "skipped" which is intentionally not
+    # treated as failure or cancelled, so a frontend-only PR with the .NET
+    # job skipped still passes the gate.
     if: |
       always()
     steps:

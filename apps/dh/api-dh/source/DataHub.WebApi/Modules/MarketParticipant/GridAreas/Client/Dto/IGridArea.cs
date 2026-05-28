@@ -58,4 +58,14 @@ public interface IGridArea
     /// Indicates whether the grid area is to be discontinued.
     /// </summary>
     bool ToBeDiscontinued { get; }
+
+    /// <summary>
+    /// The actor number of the grid area, if any.
+    /// </summary>
+    string? ActorNumber { get; }
+
+    /// <summary>
+    /// The actor name of the grid area, if any.
+    /// </summary>
+    string? ActorName { get; }
 }

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-/* eslint-disable sonarjs/no-duplicate-string */
 import { RedirectFunction, Router, Routes } from '@angular/router';
 import { inject } from '@angular/core';
 import { forkJoin, map } from 'rxjs';

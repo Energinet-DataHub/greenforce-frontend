@@ -27,6 +27,7 @@ query GetPaginatedMarketParticipants(
       glnOrEicNumber
       name
       status
+      displayName
       marketRole
       publicMail {
         mail

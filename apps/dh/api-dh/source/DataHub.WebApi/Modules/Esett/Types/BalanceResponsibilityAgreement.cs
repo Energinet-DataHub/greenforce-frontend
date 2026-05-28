@@ -16,7 +16,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Esett.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas;
-using Energinet.DataHub.WebApi.Modules.MarketParticipant.Models;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett.Types;
@@ -29,12 +28,12 @@ public static partial class BalanceResponsibilityAgreement
         IGridAreaByIdDataLoader dataLoader) =>
             await dataLoader.LoadAsync(result.GridAreaId).ConfigureAwait(false);
 
-    public static Task<MarketParticipantNameWithId?> GetEnergySupplierWithNameAsync(
+    public static Task<ActorDto?> GetEnergySupplierWithNameAsync(
         [Parent] BalanceResponsibilityRelationDto result,
         IMarketParticipantNameByIdBatchDataLoader dataLoader) =>
             dataLoader.LoadAsync(result.EnergySupplierId);
 
-    public static Task<MarketParticipantNameWithId?> GetBalanceResponsibleWithNameAsync(
+    public static Task<ActorDto?> GetBalanceResponsibleWithNameAsync(
        [Parent] BalanceResponsibilityRelationDto result,
        IMarketParticipantNameByIdBatchDataLoader dataLoader) =>
             dataLoader.LoadAsync(result.BalanceResponsibleId);

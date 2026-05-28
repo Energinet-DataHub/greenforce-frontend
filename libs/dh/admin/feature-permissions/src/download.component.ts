@@ -38,9 +38,9 @@ import { translate, TranslocoPipe } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 
-import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { DhDownloadButtonComponent, GenerateCSV } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { Permission } from './types';
 
 @Component({
   selector: 'dh-permissions-download',
@@ -51,7 +51,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     DhDownloadButtonComponent,
   ],
   template: `
-    <vater-stack direction="row" gap="m">
+    <vater-stack direction="row" gap="s">
       <dh-download-button (click)="exportAsCsv()" />
       <dh-download-button
         *dhPermissionRequired="['user-roles:manage']"

@@ -20,6 +20,7 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 public record MeteringPointProcess(
     string Id,
+    string? TransactionId,
     DateTimeOffset CreatedAt,
     DateTimeOffset? CutoffDate,
     BusinessReason BusinessReason,

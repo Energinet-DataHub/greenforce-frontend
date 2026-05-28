@@ -5,6 +5,7 @@ query GetMeteringPointProcessById($id: String!) {
     cutoffDate
     businessReason
     state
+    availableActions
     steps {
       id
       step
@@ -15,7 +16,7 @@ query GetMeteringPointProcessById($id: String!) {
 
       actor {
         id
-        name
+        displayName
       }
       state
       documentUrl
@@ -23,6 +24,7 @@ query GetMeteringPointProcessById($id: String!) {
     initiator {
       id
       displayName
+      glnOrEicNumber
     }
   }
 }

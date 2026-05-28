@@ -17,7 +17,7 @@
  */
 //#endregion
 import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { Component, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
@@ -26,32 +26,38 @@ import { WattFieldComponent } from '@energinet/watt/field';
 @Component({
   imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
+  encapsulation: ViewEncapsulation.None,
   styles: `
-    :host {
+    watt-simple-search {
+      min-width: 260px;
       height: 44px; /* Magix UX number (replace with variable) */
       min-height: 44px; /* Magix UX number (replace with variable) */
-    }
 
-    .clear {
-      position: absolute;
-      top: 50%;
-      right: var(--watt-space-s);
-      padding: var(--watt-space-xs);
-      border: none;
-      border-radius: 4px;
-      background: none;
-      color: var(--watt-color-primary);
-      transform: translateY(-50%);
-      cursor: pointer;
-      pointer-events: auto;
-    }
+      .watt-field-wrapper:focus-within {
+        border: 2px solid var(--watt-color-primary-dark);
+      }
 
-    .clear:focus-visible {
-      outline: 2px solid var(--watt-color-primary);
-    }
+      .clear {
+        position: absolute;
+        top: 50%;
+        right: var(--watt-space-s);
+        padding: var(--watt-space-xs);
+        border: none;
+        border-radius: 4px;
+        background: none;
+        color: var(--watt-color-primary);
+        transform: translateY(-50%);
+        cursor: pointer;
+        pointer-events: auto;
+      }
 
-    input:placeholder-shown ~ .clear {
-      display: none;
+      .clear:focus-visible {
+        outline: 2px solid var(--watt-color-primary);
+      }
+
+      input:placeholder-shown ~ .clear {
+        display: none;
+      }
     }
   `,
   template: `
@@ -89,6 +95,10 @@ export class WattSimpleSearchComponent {
   onInput(value: string): void {
     const processed = this.trim() ? value.trim() : value;
     this.search$.next(processed);
+  }
+
+  focus(): void {
+    this.input().nativeElement.focus();
   }
 
   clear(): void {

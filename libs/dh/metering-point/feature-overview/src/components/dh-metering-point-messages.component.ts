@@ -133,18 +133,10 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
           {{ t('documentType.' + row.documentType) }}
         </ng-container>
         <ng-container *wattTableCell="columns['sender']; let row">
-          <div>
-            {{ row.sender?.displayName }}
-            <br />
-            <span>{{ row.sender?.glnOrEicNumber }}</span>
-          </div>
+          {{ row.sender?.displayName }}
         </ng-container>
         <ng-container *wattTableCell="columns['receiver']; let row">
-          <div>
-            {{ row.receiver?.displayName }}
-            <br />
-            <span>{{ row.receiver?.glnOrEicNumber }}</span>
-          </div>
+          {{ row.receiver?.displayName }}
         </ng-container>
         <ng-container *wattTableCell="columns['createdAt']; let row">
           {{ row.createdAt | wattDate: 'long' }}

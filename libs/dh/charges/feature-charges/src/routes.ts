@@ -39,18 +39,16 @@ export const chargeRoutes: Routes = [
   },
   {
     path: ':id',
+    canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
     loadComponent: () =>
       import('./components/information/information').then((m) => m.DhChargesInformation),
     children: [
       {
-        path: `${getPath<ChargesSubPaths>('prices')}/:resolution`,
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
-        loadComponent: () =>
-          import('./components/series/series').then((m) => m.DhChargesSeriesTable),
+        path: `${getPath<ChargesSubPaths>('prices')}`,
+        loadComponent: () => import('./components/series/series-page').then((m) => m.DhSeriesPage),
       },
       {
         path: getPath<ChargesSubPaths>('information'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
         loadComponent: () =>
           import('./components/information/information-periods').then(
             (m) => m.DhChargesInformationPeriods
@@ -58,7 +56,6 @@ export const chargeRoutes: Routes = [
       },
       {
         path: getPath<ChargesSubPaths>('history'),
-        canActivate: [PermissionGuard(['charges:view']), dhReleaseToggleGuard('PM58-PRICES-UI')],
         loadComponent: () =>
           import('./components/information/information-history').then(
             (m) => m.DhChargesInformationHistory

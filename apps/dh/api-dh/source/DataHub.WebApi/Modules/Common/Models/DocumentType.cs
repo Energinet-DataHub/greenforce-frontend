@@ -27,6 +27,8 @@ public record DocumentType : Enumeration<DocumentType>
     public static readonly DocumentType RequestWholesaleSettlement = new();
     public static readonly DocumentType ReminderOfMissingMeasurements = new();
     public static readonly DocumentType NotifyPriceList = new();
+    public static readonly DocumentType RequestPriceList = new();
+    public static readonly DocumentType RejectRequestPriceList = new();
     public static readonly DocumentType RequestChangeOfPriceList = new();
     public static readonly DocumentType ConfirmRequestChangeOfPriceList = new();
     public static readonly DocumentType RejectRequestChangeOfPriceList = new();
@@ -45,9 +47,6 @@ public record DocumentType : Enumeration<DocumentType>
     public static readonly DocumentType ConfirmRequestChangeBillingMasterData = new();
     public static readonly DocumentType RejectRequestChangeBillingMasterData = new();
     public static readonly DocumentType NotifyBillingMasterData = new();
-
-    public static readonly DocumentType B2CUpdateChargeLinks =
-        new() { GraphQLName = "B2C_UPDATE_CHARGE_LINKS" };
 
     public static readonly DocumentType B2CRequestChangeAccountingPointCharacteristics =
         new() { GraphQLName = "B2C_REQUEST_CHANGE_ACCOUNTING_POINT_CHARACTERISTICS" };

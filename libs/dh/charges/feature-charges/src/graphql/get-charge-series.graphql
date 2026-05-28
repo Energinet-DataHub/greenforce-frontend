@@ -1,8 +1,8 @@
 query GetChargeSeries($chargeId: String!, $interval: DateRange!) {
   chargeById(id: $chargeId) {
-    ...ChargeFields
+    id
     series(interval: $interval) {
-      period
+      interval
       price
       hasChanged
       changes {

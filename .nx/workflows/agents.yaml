@@ -1,0 +1,20 @@
+common-init-steps: &common-init-steps
+  - name: Checkout
+    uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/checkout/main.yaml'
+
+  - name: Setup toolchains
+    uses: 'nrwl/nx-cloud-workflows/v5/workflow-steps/install-mise/main.yaml'
+
+  - name: Install dependencies
+    script: |
+      bun install --frozen-lockfile
+
+  - name: Install Playwright browsers
+    script: |
+      bun playwright install --with-deps chromium
+
+launch-templates:
+  linux-large:
+    resource-class: 'docker_linux_amd64/large'
+    image: 'ubuntu22.04-node24.14-v1'
+    init-steps: *common-init-steps

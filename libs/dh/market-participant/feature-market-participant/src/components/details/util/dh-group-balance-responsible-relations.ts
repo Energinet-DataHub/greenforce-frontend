@@ -23,7 +23,7 @@ import {
   DhBalanceResponsibleRelations,
   DhBalanceResponsibleRelationsByType,
   DhBalanceResponsibleRelationsGrouped,
-} from '../balance-responsible-relation-tab/dh-balance-responsible-relation';
+} from '../balance-responsible-relation-tab/types';
 
 export function dhGroupByType(
   relations: DhBalanceResponsibleRelations
@@ -46,7 +46,6 @@ export function dhGroupByType(
   return groups;
 }
 
-// eslint-disable-next-line sonarjs/cognitive-complexity
 export function dhGroupByMarketParticipant(
   groupsByType: DhBalanceResponsibleRelationsByType,
   propertyToGroupBy: keyof Pick<
@@ -69,7 +68,7 @@ export function dhGroupByMarketParticipant(
       } else {
         marketParticipants.push({
           id: relation[propertyToGroupBy]?.id ?? '',
-          displayName: relation[propertyToGroupBy]?.actorName.value ?? '',
+          displayName: relation[propertyToGroupBy]?.displayNameWithoutMarketRole ?? '',
           relations: [relation],
           allRelationsHaveExpired: false,
         });

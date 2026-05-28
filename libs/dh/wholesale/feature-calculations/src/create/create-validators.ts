@@ -19,6 +19,7 @@
 import { inject } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
 import {
+  CalculationExecutionType,
   GetLatestCalculationDocument,
   PeriodInput,
   StartCalculationType,
@@ -59,9 +60,12 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
     control: AbstractControl<PeriodInput | null>
   ): Promise<ExistingCalculationError | null> => {
     const period = control.value;
-    const calculationType = control.parent?.get('calculationType')?.value;
+    const calculationType: StartCalculationType = control.parent?.get('calculationType')?.value;
+    const executionType: CalculationExecutionType = control.parent?.get('executionType')?.value;
 
-    // Skip validation if calculation type is aggregation
+    // Skip validation if execution type is Internal
+    if (executionType === CalculationExecutionType.Internal) return null;
+    // or calculation type is Aggregation
     if (calculationType === StartCalculationType.Aggregation) return null;
 
     // Skip validation if period is empty

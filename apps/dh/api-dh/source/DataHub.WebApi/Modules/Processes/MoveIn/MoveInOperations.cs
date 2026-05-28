@@ -13,12 +13,18 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Commands;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestIncorrectMoveIn.V1.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
+using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
-using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V1.Models.BusinessReasonV1;
+using NodaTime;
+using ChangeCustomerCharacteristicsBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.BusinessReasonV2;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
@@ -27,6 +33,7 @@ public static class MoveInOperations
 {
     [Mutation]
     [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> InitiateMoveInAsync(
         string meteringPointId,
         ChangeOfSupplierBusinessReason businessReason,
@@ -55,11 +62,18 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command InitiateMoveIn failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 
     [Mutation]
     [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
     public static async Task<bool> ChangeCustomerCharacteristicsAsync(
         string meteringPointId,
         ChangeCustomerCharacteristicsBusinessReason businessReason,
@@ -71,14 +85,28 @@ public static class MoveInOperations
         string? processId,
         bool? protectedName,
         bool electricalHeating,
-        IReadOnlyCollection<UsagePointLocationV1>? usagePointLocations,
+        IReadOnlyCollection<UsagePointLocationV2>? usagePointLocations,
         CancellationToken ct,
-        [Service] IB2CClient ediB2CClient)
+        [Service] IB2CClient ediB2CClient,
+        [Service] IMoveInClient moveInClient)
     {
-        var command = new RequestChangeCustomerCharacteristicsCommandV1(
-            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV1(
+        var resolvedStartDate = GetDefaultResolvedStartDate();
+        if (processId != null)
+        {
+            var startDate = await moveInClient.GetStartDateAsync(processId, ct).ConfigureAwait(false);
+            if (startDate is null)
+            {
+                throw new GraphQLException($"Unable to resolve start date for process '{processId}'.");
+            }
+
+            resolvedStartDate = startDate.Value;
+        }
+
+        var command = new RequestChangeCustomerCharacteristicsCommandV2(
+            RequestChangeCustomerCharacteristicsRequest: new RequestChangeCustomerCharacteristicsRequestV2(
                 MeteringPointId: meteringPointId,
                 BusinessReason: businessReason,
+                StartDate: resolvedStartDate,
                 FirstCustomerCpr: firstCustomerCpr,
                 FirstCustomerCvr: firstCustomerCvr,
                 FirstCustomerName: firstCustomerName,
@@ -91,6 +119,42 @@ public static class MoveInOperations
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
-        return result.IsSuccess;
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command ChangeCustomerCharacteristics failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
+    public static async Task<bool> RequestIncorrectMoveInAsync(
+        Guid processId,
+        string meteringPointId,
+        DateTimeOffset cutoffDate,
+        [Service] IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestIncorrectMoveInCommandV1(
+            new RequestIncorrectMoveInRequestV1(processId.ToString(), meteringPointId, cutoffDate, "some-reason"));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command RequestIncorrectMoveInAsync failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
+    }
+
+    private static DateTimeOffset GetDefaultResolvedStartDate() =>
+        SystemClock.Instance.GetCurrentInstant()
+            .InZone(LocalDateExtensions.DanishTimeZone)
+            .Date
+            .ToUtcDateTimeOffset();
 }

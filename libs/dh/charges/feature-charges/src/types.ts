@@ -16,7 +16,20 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { GetChargeWeekSeriesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import { ResultOf } from '@graphql-typed-document-node/core';
 
-export type Charge = ExtractNodeType<GetChargesDataSource>;
+export type ChargeOverviewItem = ExtractNodeType<GetChargeOverviewDataSource>;
+
+export type ChargeSeriesPointLite = NonNullable<
+  ResultOf<typeof GetChargeWeekSeriesDocument>['chargeById']
+>['series'][0];
+
+export interface DhChargesWeekRow {
+  label: string;
+  series: (Pick<ChargeSeriesPointLite, 'hasChanged'> & {
+    price: number | null;
+  })[];
+}

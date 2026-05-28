@@ -17,7 +17,8 @@
  */
 //#endregion
 import { Sort } from '@angular/material/sort';
-import { render, screen, waitFor, fireEvent } from '@testing-library/angular';
+import { render, screen, fireEvent } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 
 import { WattTableDataSource } from './watt-table-data-source';
@@ -205,9 +206,10 @@ describe(WattTableComponent, () => {
     };
 
     await setup({ dataSource, columns, sortChange });
+    const user = userEvent.setup();
 
     const position = screen.getByRole('columnheader', { name: 'position' });
-    userEvent.click(position.children[0]);
+    await user.click(position.children[0]);
 
     expect(sortChange).toHaveBeenCalledWith({
       active: 'position',
@@ -224,9 +226,10 @@ describe(WattTableComponent, () => {
     };
 
     await setup({ dataSource, columns, rowClick });
+    const user = userEvent.setup();
 
     const [firstCell] = screen.getAllByRole('gridcell');
-    userEvent.click(firstCell);
+    await user.click(firstCell);
 
     expect(rowClick).toHaveBeenCalledWith(data[0]);
   });
@@ -240,10 +243,11 @@ describe(WattTableComponent, () => {
     };
 
     const result = await setup({ dataSource, columns, rowClick });
+    const user = userEvent.setup();
 
     const [, secondRow] = result.getAllByRole('row');
     const [firstCell] = result.getAllByRole('gridcell');
-    userEvent.click(firstCell);
+    await user.click(firstCell);
 
     const lastCall = rowClick.mock.lastCall;
 
@@ -404,7 +408,7 @@ describe(WattTableComponent, () => {
     await fixture.whenStable();
 
     const [firstCheckbox] = screen.getAllByRole('checkbox');
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
   });
 
   it('automatically unchecks the select all checkbox', async () => {
@@ -427,7 +431,7 @@ describe(WattTableComponent, () => {
     fireEvent.click(firstCheckbox);
     fireEvent.click(secondCheckbox);
 
-    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('can set initially selected rows', async () => {
@@ -451,11 +455,13 @@ describe(WattTableComponent, () => {
     const [selectAllCheckbox, firstCheckbox, secondCheckbox, ...otherCheckboxes] =
       screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(selectAllCheckbox).not.toBeChecked());
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
-    await waitFor(() => expect(secondCheckbox).toBeChecked());
+    await waitForAsync(() => expect(selectAllCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
+    await waitForAsync(() => expect(secondCheckbox).toBeChecked());
 
-    await waitFor(() => otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked()));
+    await waitForAsync(() =>
+      otherCheckboxes.forEach((checkbox) => expect(checkbox).not.toBeChecked())
+    );
   });
 
   it("does NOT reset initial selection when 'selectable' Input is toggled", async () => {
@@ -479,9 +485,10 @@ describe(WattTableComponent, () => {
     });
 
     let [, firstCheckbox] = screen.getAllByRole('checkbox');
+    const user = userEvent.setup();
 
-    await waitFor(() => expect(firstCheckbox).toBeChecked());
-    userEvent.click(firstCheckbox);
+    await waitForAsync(() => expect(firstCheckbox).toBeChecked());
+    await user.click(firstCheckbox);
 
     result.rerender({
       componentProperties: {
@@ -505,7 +512,7 @@ describe(WattTableComponent, () => {
 
     [, firstCheckbox] = screen.getAllByRole('checkbox');
 
-    await waitFor(() => expect(firstCheckbox).not.toBeChecked());
+    await waitForAsync(() => expect(firstCheckbox).not.toBeChecked());
   });
 
   it('renders cell content using template', async () => {
@@ -555,7 +562,7 @@ describe(WattTableComponent, () => {
     await fixture.whenStable();
 
     // Wait a bit for toolbar to update
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.queryByRole('toolbar')).toHaveTextContent('6');
     });
   });

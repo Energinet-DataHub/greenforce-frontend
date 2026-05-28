@@ -18,11 +18,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Framework;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.DeleteAllEventSourcingData.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.GetProjectionsStatus.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RebuildProjections.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ClearMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
@@ -57,6 +58,29 @@ public class OperationToolsMeteringPointRevisionLogTests
         server.ElectricityMarketClientMock.Setup(
                 c => c.SendAsync(It.IsAny<GetMeteringPointDebugQueryV1>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(result);
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new() { { "id", "570000000000000008" } });
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetMeteringPointDebugJsonAsync")]
+    public async Task GetMeteringPointDebugJson()
+    {
+        var operation =
+            $$"""
+                query($id: String!) {
+                  meteringPointDebugJson(id: $id)
+                }
+              """;
+
+        var server = new GraphQLTestService();
+
+        server.ElectricityMarketClientV1Mock.Setup(
+                c => c.MeteringPointDebugJsonAsync(It.IsAny<string>(), It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+            .ReturnsAsync("{\"test\":\"value\"}");
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(
             server,
@@ -207,8 +231,34 @@ public class OperationToolsMeteringPointRevisionLogTests
         var server = new GraphQLTestService();
 
         server.ElectricityMarketClientV1Mock.Setup(
-                c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+                c => c.MeteringPointCountAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(new MeteringPointCountDto { TotalCount = 1000, QuarantinedCount = 5 });
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.GetProjectionsStatusAsync")]
+    public async Task GetProjectionsStatus()
+    {
+        var operation =
+            """
+                query {
+                  projectionsStatus {
+                    projections {
+                      name
+                    }
+                  }
+                }
+            """;
+
+        var server = new GraphQLTestService();
+        var result = Result<GetProjectionsStatusResultDtoV1>.Success(
+            new GetProjectionsStatusResultDtoV1(100, 50, 10, 5, []));
+
+        server.ElectricityMarketClientMock.Setup(
+                c => c.SendAsync(It.IsAny<GetProjectionsStatusQueryV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(result);
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(server, operation, []);
     }
@@ -229,7 +279,7 @@ public class OperationToolsMeteringPointRevisionLogTests
         var server = new GraphQLTestService();
 
         server.ElectricityMarketClientV1Mock.Setup(
-                c => c.SyncjobSetJobVersionEventStoreExportAsync(It.IsAny<DateTimeOffset?>(), It.IsAny<CancellationToken>(), It.IsAny<string?>()))
+                c => c.SyncjobSetJobVersionEventStoreExportAsync(It.IsAny<DateTimeOffset?>(), It.IsAny<CancellationToken>()))
             .Returns(Task.CompletedTask);
 
         await RevisionLogTestHelper.ExecuteAndAssertAsync(

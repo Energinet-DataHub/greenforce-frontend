@@ -49,7 +49,7 @@ export const wholesaleSettlementReportsQueryMock = (
       actor: {
         __typename: 'MarketParticipant',
         id: '1',
-        name: 'Sort Strøm',
+        displayName: 'Sort Strøm',
       },
       executionTime: {
         start: executionTimeStart,
@@ -71,7 +71,7 @@ export const wholesaleSettlementReportsQueryMock = (
       actor: {
         __typename: 'MarketParticipant',
         id: '2',
-        name: 'Hvid Strøm',
+        displayName: 'Hvid Strøm',
       },
       executionTime: {
         start: executionTimeStart,
@@ -93,7 +93,7 @@ export const wholesaleSettlementReportsQueryMock = (
       actor: {
         __typename: 'MarketParticipant',
         id: '3',
-        name: 'Blå Strøm',
+        displayName: 'Blå Strøm',
       },
       executionTime: {
         start: executionTimeStart,
@@ -115,7 +115,7 @@ export const wholesaleSettlementReportsQueryMock = (
       actor: {
         __typename: 'MarketParticipant',
         id: '3',
-        name: 'Blå Strøm',
+        displayName: 'Blå Strøm',
       },
       executionTime: {
         start: executionTimeStart,
@@ -156,7 +156,7 @@ export const wholesaleSettlementReportsQueryMock = (
       actor: {
         __typename: 'MarketParticipant',
         id: '3',
-        name: 'Blå Strøm',
+        displayName: 'Blå Strøm',
       },
       executionTime: {
         start: executionTimeStart,

@@ -19,23 +19,7 @@
 import '@angular/compiler';
 import '@analogjs/vitest-angular/setup-zone';
 import '@testing-library/jest-dom/vitest';
-import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
-import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+import { setUpAngularTestingLibrary, setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
 
-// Fix for MouseEvent constructor in jsdom
-global.MouseEvent = class MouseEvent extends Event {} as unknown as typeof MouseEvent;
-
-// Suppress CSS parsing errors from jsdom
-const originalConsoleError = console.error;
-console.error = (...args: unknown[]) => {
-  if (
-    args[0]?.toString().includes('Could not parse CSS stylesheet') ||
-    args[0]?.toString().includes('Error: Could not parse CSS stylesheet')
-  ) {
-    return;
-  }
-  originalConsoleError.apply(console, args);
-};
-
-addDomMatchers();
 setUpTestbed();
+setUpAngularTestingLibrary({ dom: { throwSuggestions: false } });
