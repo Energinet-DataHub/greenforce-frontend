@@ -447,17 +447,6 @@
       "navigation": {
         "day": "Day",
         "week": "Week"
-      },
-      "weekView": {
-        "columns": {
-          "day1": "Monday {{ date }}",
-          "day2": "Tuesday {{ date }}",
-          "day3": "Wednesday {{ date }}",
-          "day4": "Thursday {{ date }}",
-          "day5": "Friday {{ date }}",
-          "day6": "Saturday {{ date }}",
-          "day7": "Sunday {{ date }}"
-        }
       }
     },
     "actions": {
@@ -993,7 +982,11 @@
         "actions": "Actions",
         "edit": "Edit charge link",
         "stop": "Stop charge link",
-        "cancel": "Cancel charge link"
+        "cancel": "Cancel charge link",
+        "empty": {
+          "title": "No changes received yet",
+          "text": "Changes will appear here once they have been processed."
+        }
       },
       "create": {
         "errors": {
@@ -1090,7 +1083,7 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "IncorrectMove": "Handling of incorrect move (BRS-011)"
+        "IncorrectMove": "Handling of incorrect move (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",

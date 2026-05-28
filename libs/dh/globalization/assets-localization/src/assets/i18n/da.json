@@ -447,17 +447,6 @@
       "navigation": {
         "day": "Dag",
         "week": "Uge"
-      },
-      "weekView": {
-        "columns": {
-          "day1": "Mandag {{ date }}",
-          "day2": "Tirsdag {{ date }}",
-          "day3": "Onsdag {{ date }}",
-          "day4": "Torsdag {{ date }}",
-          "day5": "Fredag {{ date }}",
-          "day6": "Lørdag {{ date }}",
-          "day7": "Søndag {{ date }}"
-        }
       }
     },
     "actions": {
@@ -992,7 +981,11 @@
         "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
-        "cancel": "Annuller pristilknytning"
+        "cancel": "Annuller pristilknytning",
+        "empty": {
+          "title": "Ingen ændringer modtaget endnu",
+          "text": "Ændringer vises her, når de er blevet behandlet."
+        }
       },
       "create": {
         "errors": {
@@ -1089,7 +1082,7 @@
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskifte (BRS-001)",
-        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)"
+        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1665,7 +1658,7 @@
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at få afbrudt for strømmen på målepunktet.",
+      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
       "submitSuccess": "Leveranceophør indsendt.",

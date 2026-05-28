@@ -27,6 +27,7 @@ import {
   ViewEncapsulation,
   viewChild,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -41,9 +42,9 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
+import { getPath } from '@energinet-datahub/dh/core/configuration-routing';
 import { dhFormControlToSignal, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
@@ -51,6 +52,7 @@ import {
   ChargeType,
   GetChargeByTypeDocument,
   CreateChargeLinkDocument,
+  GetChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -83,8 +85,8 @@ import {
       #create
       size="small"
       autoOpen
+      (closed)="onClosed($event)"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'"
-      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -140,6 +142,8 @@ import {
   `,
 })
 export default class DhMeteringPointCreateChargeLink {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
   private readonly createChargeLink = mutation(CreateChargeLinkDocument);
   private readonly fb = inject(NonNullableFormBuilder);
@@ -149,8 +153,6 @@ export default class DhMeteringPointCreateChargeLink {
   });
 
   private readonly modal = viewChild.required(WattModalComponent);
-
-  navigate = inject(DhNavigationService);
 
   form = computed(() =>
     this.fb.group({
@@ -176,6 +178,21 @@ export default class DhMeteringPointCreateChargeLink {
     return !date ? [] : opts.filter((o) => o.periods.some(({ period: p }) => contains(p, date)));
   });
 
+  onClosed(created: boolean) {
+    const period = this.createChargeLink.data()?.createChargeLink.chargeLinkPeriod;
+    if (created && period) {
+      const { type } = period.charge;
+      const path = type === 'FEE' ? getPath('fees') : getPath('tariff-and-subscription');
+      this.router.navigate([{ outlets: { create: null, primary: [path, period.id] } }], {
+        relativeTo: this.route.parent,
+      });
+    } else {
+      this.router.navigate([{ outlets: { create: null } }], {
+        relativeTo: this.route.parent,
+      });
+    }
+  }
+
   async createLink() {
     const form = this.form();
 
@@ -192,6 +209,23 @@ export default class DhMeteringPointCreateChargeLink {
         meteringPointId: this.meteringPointId(),
         newStartDate: startDate,
         factor: parseInt(factor ?? '1'),
+      },
+      update: (cache, { data }) => {
+        const period = data?.createChargeLink?.chargeLinkPeriod;
+        const meteringPointId = this.meteringPointId();
+        if (!period) return;
+        cache.updateQuery(
+          { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
+          (existing) =>
+            existing?.chargeLinkPeriods.every((p) => p.id !== period.id)
+              ? {
+                  ...existing,
+                  chargeLinkPeriods: [period, ...existing.chargeLinkPeriods].sort((a, b) =>
+                    a.sortKey.localeCompare(b.sortKey)
+                  ),
+                }
+              : existing
+        );
       },
     });
 

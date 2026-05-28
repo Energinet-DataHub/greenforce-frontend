@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -31,11 +31,18 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
+import {
+  EditChargeLinkDocument,
+  GetChargeLinkPeriodByIdDocument,
+  GetChargeLinkPeriodsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-metering-point-edit-charge-link',
@@ -64,7 +71,7 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
       #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      (closed)="navigate.navigate('list')"
+      (closed)="navigate('..')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -80,6 +87,14 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
         tabindex="-1"
         [formGroup]="form"
       >
+        @if (chargeType() === 'SUBSCRIPTION') {
+          <watt-datepicker
+            [formControl]="form.controls.startDate"
+            [label]="t('startDate')"
+            [min]="min()"
+            [max]="max()"
+          />
+        }
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')">
           @if (form.controls.factor.errors?.min) {
             <watt-field-error>
@@ -87,7 +102,6 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
             </watt-field-error>
           }
         </watt-text-field>
-        <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
       </form>
       <watt-modal-actions>
         <watt-button variant="secondary" (click)="edit.close(false)">
@@ -104,13 +118,22 @@ export default class DhMeteringPointEditChargeLink {
   private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
   private readonly edit = mutation(EditChargeLinkDocument);
   private readonly modal = viewChild.required(WattModalComponent);
-  navigate = inject(DhNavigationService);
+  protected navigate = injectRelativeNavigate();
+  protected effect = effect(() => this.toast(this.edit.status()));
+
   form = new FormGroup({
     factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
   id = input.required<string>();
+  meteringPointId = input.required<string>();
+
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
+  min = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.start);
+  max = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.end ?? undefined);
+  chargeType = computed(() => this.period.data()?.chargeLinkPeriodById?.charge.type);
+  updateStartDateEffect = effect(() => this.form.controls.startDate.setValue(this.min() ?? null));
 
   save = async () => {
     if (this.form.invalid) return;
@@ -124,10 +147,31 @@ export default class DhMeteringPointEditChargeLink {
         newStartDate: this.form.value.startDate,
         factor: parseInt(this.form.value.factor),
       },
+      update: (cache, { data }) => {
+        const periods = data?.editChargeLink?.chargeLinkPeriod;
+        if (!periods) return;
+        cache.updateQuery(
+          {
+            query: GetChargeLinkPeriodsDocument,
+            variables: { meteringPointId: this.meteringPointId() },
+          },
+          (existing) => {
+            if (!existing) return existing;
+            const newPeriods = periods.filter(
+              (p) => !existing.chargeLinkPeriods.some((e) => e.id === p.id)
+            );
+            if (newPeriods.length === 0) return existing;
+            return {
+              ...existing,
+              chargeLinkPeriods: [...existing.chargeLinkPeriods, ...newPeriods].sort((a, b) =>
+                a.sortKey.localeCompare(b.sortKey)
+              ),
+            };
+          }
+        );
+      },
     });
 
     this.modal().close(true);
   };
-
-  effect = effect(() => this.toast(this.edit.status()));
 }

@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
@@ -35,7 +36,6 @@ import {
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkPeriod } from '../types';
-import { DhChargeLinkDetails } from './details';
 
 @Component({
   selector: 'dh-metering-point-charge-links-fees',
@@ -45,9 +45,9 @@ import { DhChargeLinkDetails } from './details';
     VATER,
     WATT_TABLE,
     DhChargePeriodPipe,
-    WattDataTableComponent,
     DhChargesStatus,
-    DhChargeLinkDetails,
+    WattDataTableComponent,
+    RouterOutlet,
   ],
   providers: [DhNavigationService],
   template: `
@@ -56,7 +56,7 @@ import { DhChargeLinkDetails } from './details';
       [enablePaginator]="false"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks'"
       [error]="chargeLinks.error()"
-      [ready]="chargeLinks.called() && !chargeLinks.loading()"
+      [ready]="chargeLinks.called()"
     >
       <watt-table
         *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.columns'"
@@ -64,8 +64,8 @@ import { DhChargeLinkDetails } from './details';
         [columns]="columns"
         [loading]="chargeLinks.loading()"
         [resolveHeader]="resolveHeader"
-        [activeRow]="selected()"
-        (rowClick)="selected.set($event)"
+        [activeRow]="activeRow()"
+        (rowClick)="page.navigate('id', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ element.charge.typeDisplayName }}
@@ -73,26 +73,28 @@ import { DhChargeLinkDetails } from './details';
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
           {{ element.period | dhChargePeriod }}
-          @if (element.period.start.getTime() === element.period.end?.getTime()) {
+          @if (element.cancelled) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
         </vater-stack>
       </watt-table>
     </watt-data-table>
-    <dh-charge-link-details [(item)]="selected" />
+    <router-outlet />
   `,
 })
 export default class DhMeteringPointChargeLinksFees {
   readonly meteringPointId = input.required<string>();
-  protected chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
+
+  page = inject(DhNavigationService);
+  chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
     },
   }));
 
-  selected = signal<ChargeLinkPeriod | undefined>(undefined);
-  items = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
-  dataSource = dataSource(() => this.items().filter((i) => i.charge.type === ChargeType.Fee));
+  periods = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
+  activeRow = computed(() => this.periods().find((i) => i.id === this.page.id()));
+  dataSource = dataSource(() => this.periods().filter((i) => i.charge.type === ChargeType.Fee));
   columns: WattTableColumnDef<ChargeLinkPeriod> = {
     type: { accessor: (item) => item.charge.type, sort: false },
     id: { accessor: (item) => item.charge?.code },
