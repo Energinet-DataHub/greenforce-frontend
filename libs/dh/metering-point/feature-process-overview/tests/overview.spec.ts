@@ -107,7 +107,12 @@ describe('Process overview', () => {
   });
 
   it('should show cancel button and open modal when clicked', async () => {
-    await setup();
+    // Cancel is now restricted to the responsible EnergySupplier; the default
+    // GridAccessProvider actor would no longer see the button.
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+    });
     const user = userEvent.setup();
 
     await waitForAsync(() =>
@@ -187,12 +192,16 @@ describe('Process overview', () => {
   });
 
   it('should still show action buttons for GridAccessProvider regardless of responsibility', async () => {
+    // GridAccessProvider can no longer cancel end-of-supply (that is the
+    // requester's right). Reject is now the GridAccessProvider-owned action,
+    // and is independent of EnergySupplier responsibility.
     await setup({
       actorMarketRole: EicFunction.GridAccessProvider,
       isEnergySupplierResponsible: false,
     });
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 });
