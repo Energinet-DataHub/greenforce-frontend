@@ -60,7 +60,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-create-charge-link',
+  selector: 'dh-charge-links-create-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -149,7 +149,7 @@ import {
     </watt-modal>
   `,
 })
-export default class DhMeteringPointCreateChargeLink {
+export default class DhChargeLinksCreateModal {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 

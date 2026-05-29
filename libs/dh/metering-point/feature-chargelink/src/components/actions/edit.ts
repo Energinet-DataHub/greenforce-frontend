@@ -45,7 +45,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-edit-charge-link',
+  selector: 'dh-charge-links-edit-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -113,7 +113,7 @@ import {
     </watt-modal>
   `,
 })
-export default class DhMeteringPointEditChargeLink {
+export default class DhChargeLinksEditModal {
   protected navigate = injectRelativeNavigate();
 
   readonly id = input.required<string>();

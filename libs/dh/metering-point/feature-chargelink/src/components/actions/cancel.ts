@@ -32,7 +32,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-cancel-charge-link',
+  selector: 'dh-charge-links-cancel-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -75,7 +75,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
     </watt-modal>
   `,
 })
-export default class DhMeteringPointCancelChargeLink {
+export default class DhChargeLinksCancelModal {
   protected navigate = injectRelativeNavigate();
   readonly id = input.required<string>();
   readonly modal = viewChild.required(WattModalComponent);

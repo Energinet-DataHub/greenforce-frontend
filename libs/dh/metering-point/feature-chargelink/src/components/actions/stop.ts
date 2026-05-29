@@ -40,7 +40,7 @@ import {
 import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-stop-charge-link',
+  selector: 'dh-charge-links-stop-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -92,7 +92,7 @@ import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
     </watt-modal>
   `,
 })
-export default class DhMeteringPointStopChargeLink {
+export default class DhChargeLinksStopModal {
   protected navigate = injectRelativeNavigate();
 
   readonly modal = viewChild.required(WattModalComponent);
