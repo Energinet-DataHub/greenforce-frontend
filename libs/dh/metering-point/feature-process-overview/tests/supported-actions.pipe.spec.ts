@@ -22,8 +22,8 @@ import { render, screen } from '@testing-library/angular';
 
 import { getTranslocoTestingModule } from '@energinet-datahub/dh/shared/test-util';
 import {
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActionsRegistry } from '../src/actions/registry';
@@ -43,17 +43,20 @@ import { SupportedActionsPipe } from '../src/actions/supported-actions.pipe';
   `,
 })
 class TestHost {
-  actions: WorkflowAction[] | null = null;
+  actions: MeteringPointProcessAction[] | null = null;
   businessReason?: ProcessManagerBusinessReason;
   isEnergySupplierResponsible?: boolean;
 }
 
 async function setup(overrides: Partial<TestHost> = {}) {
   const getSupportedActions = vi.fn(
-    (actions: WorkflowAction[], reason: ProcessManagerBusinessReason) => {
-      const registered: Partial<Record<ProcessManagerBusinessReason, WorkflowAction[]>> = {
-        [ProcessManagerBusinessReason.EndOfSupply]: [WorkflowAction.CancelWorkflow],
-        [ProcessManagerBusinessReason.CustomerMoveIn]: [WorkflowAction.SendInformation],
+    (actions: MeteringPointProcessAction[], reason: ProcessManagerBusinessReason) => {
+      const registered: Partial<Record<ProcessManagerBusinessReason, MeteringPointProcessAction[]>> = {
+        [ProcessManagerBusinessReason.EndOfSupply]: [MeteringPointProcessAction.CancelWorkflow],
+        [ProcessManagerBusinessReason.CustomerMoveIn]: [
+          MeteringPointProcessAction.SendInformation,
+          MeteringPointProcessAction.InitiateIncorrectMoveIn,
+        ],
       };
       const supported = registered[reason] ?? [];
       return actions.filter((a) => supported.includes(a));
@@ -77,30 +80,39 @@ async function setup(overrides: Partial<TestHost> = {}) {
 describe('SupportedActionsPipe', () => {
   it('should show CancelWorkflow for EndOfSupply', async () => {
     await setup({
-      actions: [WorkflowAction.CancelWorkflow],
+      actions: [MeteringPointProcessAction.CancelWorkflow],
       businessReason: ProcessManagerBusinessReason.EndOfSupply,
     });
 
-    expect(screen.getByText(WorkflowAction.CancelWorkflow)).toBeInTheDocument();
+    expect(screen.getByText(MeteringPointProcessAction.CancelWorkflow)).toBeInTheDocument();
   });
 
   it('should filter out SendInformation for EndOfSupply', async () => {
     await setup({
-      actions: [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
+      actions: [MeteringPointProcessAction.CancelWorkflow, MeteringPointProcessAction.SendInformation],
       businessReason: ProcessManagerBusinessReason.EndOfSupply,
     });
 
-    expect(screen.getByText(WorkflowAction.CancelWorkflow)).toBeInTheDocument();
-    expect(screen.queryByText(WorkflowAction.SendInformation)).not.toBeInTheDocument();
+    expect(screen.getByText(MeteringPointProcessAction.CancelWorkflow)).toBeInTheDocument();
+    expect(screen.queryByText(MeteringPointProcessAction.SendInformation)).not.toBeInTheDocument();
   });
 
   it('should show SendInformation for CustomerMoveIn', async () => {
     await setup({
-      actions: [WorkflowAction.SendInformation],
+      actions: [MeteringPointProcessAction.SendInformation],
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     });
 
-    expect(screen.getByText(WorkflowAction.SendInformation)).toBeInTheDocument();
+    expect(screen.getByText(MeteringPointProcessAction.SendInformation)).toBeInTheDocument();
+  });
+
+  it('should show InitiateIncorrectMoveIn for CustomerMoveIn', async () => {
+    await setup({
+      actions: [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+      businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    });
+
+    expect(screen.getByText(MeteringPointProcessAction.InitiateIncorrectMoveIn)).toBeInTheDocument();
   });
 
   it('should show no actions when actions is null', async () => {
@@ -114,7 +126,7 @@ describe('SupportedActionsPipe', () => {
 
   it('should show no actions when businessReason is undefined', async () => {
     await setup({
-      actions: [WorkflowAction.CancelWorkflow],
+      actions: [MeteringPointProcessAction.CancelWorkflow],
       businessReason: undefined,
     });
 
@@ -123,7 +135,7 @@ describe('SupportedActionsPipe', () => {
 
   it('should show no actions for unregistered business reason', async () => {
     await setup({
-      actions: [WorkflowAction.CancelWorkflow],
+      actions: [MeteringPointProcessAction.CancelWorkflow],
       businessReason: ProcessManagerBusinessReason.NewMeteringPoint,
     });
 
@@ -132,13 +144,13 @@ describe('SupportedActionsPipe', () => {
 
   it('should forward isEnergySupplierResponsible to the registry', async () => {
     const { getSupportedActions } = await setup({
-      actions: [WorkflowAction.CancelWorkflow],
+      actions: [MeteringPointProcessAction.CancelWorkflow],
       businessReason: ProcessManagerBusinessReason.EndOfSupply,
       isEnergySupplierResponsible: true,
     });
 
     expect(getSupportedActions).toHaveBeenCalledWith(
-      [WorkflowAction.CancelWorkflow],
+      [MeteringPointProcessAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
       true,
       undefined
@@ -147,12 +159,12 @@ describe('SupportedActionsPipe', () => {
 
   it('should default isEnergySupplierResponsible to false when not bound', async () => {
     const { getSupportedActions } = await setup({
-      actions: [WorkflowAction.CancelWorkflow],
+      actions: [MeteringPointProcessAction.CancelWorkflow],
       businessReason: ProcessManagerBusinessReason.EndOfSupply,
     });
 
     expect(getSupportedActions).toHaveBeenCalledWith(
-      [WorkflowAction.CancelWorkflow],
+      [MeteringPointProcessAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
       false,
       undefined

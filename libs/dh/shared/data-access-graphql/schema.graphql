@@ -1170,7 +1170,7 @@ type MeteringPointIdentificationDto {
 type MeteringPointProcess {
   initiator: MarketParticipant
   steps: [MeteringPointProcessStep!]!
-  availableActions: [WorkflowAction!]
+  availableActions: [MeteringPointProcessAction!]
   id: String!
   transactionId: String
   businessReason: ProcessManagerBusinessReason!
@@ -3572,6 +3572,19 @@ enum MeteringPointDocumentType {
   REJECT_REQUEST_MEASUREMENTS
 }
 
+"""
+Available actions that the current actor can perform on a metering point process.
+Superset of WorkflowAction,
+extended with BFF-only actions that are derived from cross-subsystem data.
+"""
+enum MeteringPointProcessAction {
+  SEND_INFORMATION
+  CANCEL_WORKFLOW
+  CONFIRM_WORKFLOW
+  REJECT_REQUEST
+  INITIATE_INCORRECT_MOVE_IN
+}
+
 enum MeteringPointProcessState {
   pending
   running
@@ -3930,14 +3943,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum WorkflowAction {
-  NO_ACTION
-  SEND_INFORMATION
-  CANCEL_WORKFLOW
-  CONFIRM_WORKFLOW
-  REJECT_REQUEST
 }
 
 "The authorize directive."

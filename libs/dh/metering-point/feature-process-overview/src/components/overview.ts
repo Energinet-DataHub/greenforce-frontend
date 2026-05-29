@@ -40,16 +40,13 @@ import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   GetMeteringPointProcessOverviewDocument,
+  MeteringPointProcessAction,
   OnMeteringPointProcessUpdatedDocument,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -69,7 +66,6 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
     WattFormChipDirective,
     DhEmDashFallbackPipe,
     DhStateBadge,
-    DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
@@ -161,17 +157,6 @@ import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-inco
                   {{ t(process.businessReason + '.' + action) }}
                 </watt-button>
               }
-
-              <ng-container *dhReleaseToggle="'BRS011-INCOMING-MESSAGES'">
-                @if (isEnergySupplierResponsible() && process.businessReason === 'CustomerMoveIn') {
-                  <watt-button
-                    variant="secondary"
-                    size="small"
-                    (click)="onRequestCorrectionClick($event, process)"
-                    >{{ t('CustomerMoveIn.REQUEST_CORRECTION') }}</watt-button
-                  >
-                }
-              </ng-container>
             }
           </vater-stack>
         </ng-container>
@@ -184,7 +169,6 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -250,7 +234,7 @@ export class DhMeteringPointProcessOverviewTable {
     });
   }
 
-  onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
+  onActionClick(event: Event, process: MeteringPointProcess, action: MeteringPointProcessAction) {
     event.stopPropagation();
     this.actionService.execute(
       action,
@@ -264,13 +248,5 @@ export class DhMeteringPointProcessOverviewTable {
       this.isEnergySupplierResponsible(),
       process.initiator?.glnOrEicNumber
     );
-  }
-
-  onRequestCorrectionClick(event: Event, process: MeteringPointProcess) {
-    event.stopPropagation();
-
-    assertIsDefined(process.cutoffDate);
-
-    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
   }
 }

@@ -43,7 +43,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
   GetMeteringPointProcessByIdDocument,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
@@ -263,7 +263,7 @@ export class DhMeteringPointProcessOverviewDetails {
    * Rendered in the fixed order [EnergySupplier, GridAccessProvider]. An action that
    * belongs to multiple roles appears under each role's group (no deduplication).
    */
-  fasActionGroups = computed<{ role: EicFunction; actions: WorkflowAction[] }[]>(() => {
+  fasActionGroups = computed<{ role: EicFunction; actions: MeteringPointProcessAction[] }[]>(() => {
     const reason = this.businessReason();
     if (!reason) return [];
 
@@ -294,7 +294,7 @@ export class DhMeteringPointProcessOverviewDetails {
     this.modalService.open({ component: DhFasActionInfoModal });
   }
 
-  executeAction(action: WorkflowAction) {
+  executeAction(action: MeteringPointProcessAction) {
     const reason = this.businessReason();
     if (!reason) return;
 

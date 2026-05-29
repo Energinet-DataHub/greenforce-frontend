@@ -12,16 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
-
-public class MessageArchiveModule : IModule
+/// <summary>
+/// Available actions that the current actor can perform on a metering point process.
+/// Superset of <see cref="Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction"/>,
+/// extended with BFF-only actions that are derived from cross-subsystem data.
+/// </summary>
+public enum MeteringPointProcessAction
 {
-    public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration) =>
-        services
-            .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
-            .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>()
-            .AddScoped<IIncorrectMoveInEligibilityService, IncorrectMoveInEligibilityService>();
+    SendInformation,
+    CancelWorkflow,
+    ConfirmWorkflow,
+    RejectRequest,
+    InitiateIncorrectMoveIn,
 }

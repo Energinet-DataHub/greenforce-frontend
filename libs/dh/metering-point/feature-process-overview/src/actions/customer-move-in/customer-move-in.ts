@@ -26,8 +26,8 @@ import {
   EicFunction,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -35,16 +35,22 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
+import {
+  InitiatingParticipant,
+  ResponsibleEnergySupplier,
+  type ActionHandlerMap,
+} from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { RequestIncorrectMoveIn } from './request-incorrect-move-in';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
   private readonly router = inject(Router);
+  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
   private readonly cancelCustomerMoveIn = mutation(CancelCustomerMoveInDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.SendInformation]: {
+    [MeteringPointProcessAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate(
@@ -61,7 +67,7 @@ export class CustomerMoveInActions {
           }
         ),
     },
-    [WorkflowAction.CancelWorkflow]: {
+    [MeteringPointProcessAction.CancelWorkflow]: {
       permissions: ['metering-point:move-in'],
       roles: [InitiatingParticipant],
       callback: cancelProcessAction(
@@ -81,6 +87,13 @@ export class CustomerMoveInActions {
           });
         }
       ),
+    },
+    [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+      roles: [ResponsibleEnergySupplier],
+      callback: (ctx) => {
+        if (!ctx.cutoffDate) return;
+        this.requestIncorrectMoveIn.request(ctx.processId, ctx.meteringPointId, ctx.cutoffDate);
+      },
     },
   };
 }

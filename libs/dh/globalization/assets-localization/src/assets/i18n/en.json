@@ -1132,8 +1132,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Request correction",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"

@@ -22,7 +22,7 @@ import { Router } from '@angular/router';
 import {
   ChangeCustomerCharacteristicsBusinessReason,
   EicFunction,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -37,7 +37,7 @@ export class SecondaryMoveInActions {
   private readonly router = inject(Router);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.SendInformation]: {
+    [MeteringPointProcessAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate(

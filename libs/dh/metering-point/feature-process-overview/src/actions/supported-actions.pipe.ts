@@ -20,7 +20,7 @@ import { inject, Pipe, PipeTransform } from '@angular/core';
 
 import {
   ProcessManagerBusinessReason,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActionsRegistry } from './registry';
@@ -30,11 +30,11 @@ export class SupportedActionsPipe implements PipeTransform {
   private readonly registry = inject(DhActionsRegistry);
 
   transform(
-    availableActions: WorkflowAction[] | null | undefined,
+    availableActions: MeteringPointProcessAction[] | null | undefined,
     businessReason?: ProcessManagerBusinessReason,
     isEnergySupplierResponsible?: boolean,
     initiatorGlnOrEic?: string
-  ): WorkflowAction[] {
+  ): MeteringPointProcessAction[] {
     if (!availableActions || !businessReason) return [];
     return this.registry.getSupportedActions(
       availableActions,
