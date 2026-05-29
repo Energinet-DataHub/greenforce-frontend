@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, computed, input, viewChild } from '@angular/core';
+import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -31,16 +31,13 @@ import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import {
-  injectToast,
-  dhMakeFormControl,
-  injectRelativeNavigate,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import {
   GetChargeLinkPeriodByIdDocument,
   StopChargeLinkDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-charge-links-stop-modal',
@@ -66,7 +63,7 @@ import {
       size="small"
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      (closed)="navigate('..')"
+      (closed)="page.navigate('id', id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -101,7 +98,7 @@ import {
   `,
 })
 export default class DhChargeLinksStopModal {
-  protected navigate = injectRelativeNavigate();
+  protected page = inject(DhNavigationService);
 
   readonly modal = viewChild.required(WattModalComponent);
   readonly id = input.required<string>();
