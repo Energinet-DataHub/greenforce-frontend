@@ -18,7 +18,6 @@
 //#endregion
 
 import { Component, input, viewChild } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -35,7 +34,6 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   selector: 'dh-charge-links-cancel-modal',
   imports: [
     TranslocoDirective,
-    ReactiveFormsModule,
     WATT_MODAL,
     WattButtonComponent,
     WattIconComponent,
