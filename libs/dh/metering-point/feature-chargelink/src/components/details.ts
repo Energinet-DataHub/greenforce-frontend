@@ -29,21 +29,21 @@ import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/dat
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
-import {
-  DhChargePeriodPipe,
-  DhChargesStatus,
-} from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WattHeadingComponent } from '@energinet/watt/heading';
 import { WattIconComponent } from '@energinet/watt/icon';
+
 import {
   GetChargeLinkPeriodByIdDocument,
   GetHistoricalChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
+import {
+  DhChargePeriodPipe,
+  DhChargesStatus,
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { ChargeLinkPeriodChange } from '../types';
 
 @Component({
@@ -73,7 +73,7 @@ import { ChargeLinkPeriodChange } from '../types';
       size="small"
       autoOpen
       [key]="id()"
-      (closed)="navigate('..')"
+      (closed)="page.navigate('list')"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
     >
       <watt-drawer-topbar>
@@ -182,7 +182,7 @@ import { ChargeLinkPeriodChange } from '../types';
 })
 export default class DhChargeLinksDetails {
   protected wattDataIntl = inject(WattDataIntlService);
-  protected navigate = injectRelativeNavigate();
+  protected page = inject(DhNavigationService);
 
   readonly id = input.required<string>();
 
