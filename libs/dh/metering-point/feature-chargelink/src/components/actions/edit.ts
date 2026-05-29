@@ -68,7 +68,6 @@ import {
   template: `
     <watt-modal
       size="small"
-      #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
       (closed)="navigate('..')"
@@ -78,14 +77,14 @@ import {
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
       <form
-        id="edit"
-        (ngSubmit)="save()"
+        id="edit-charge-link-form"
         vater-stack
         align="start"
         direction="column"
         gap="s"
         tabindex="-1"
         [formGroup]="form"
+        (ngSubmit)="edit()"
       >
         @if (chargeType() === 'SUBSCRIPTION') {
           <watt-datepicker
@@ -104,10 +103,10 @@ import {
         </watt-text-field>
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="edit.close(false)">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" type="submit" formId="edit">
+        <watt-button variant="primary" type="submit" formId="edit-charge-link-form">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
@@ -115,63 +114,57 @@ import {
   `,
 })
 export default class DhMeteringPointEditChargeLink {
-  private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
-  private readonly edit = mutation(EditChargeLinkDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
   protected navigate = injectRelativeNavigate();
-  protected effect = effect(() => this.toast(this.edit.status()));
+
+  readonly id = input.required<string>();
+  readonly meteringPointId = input.required<string>();
+  readonly modal = viewChild.required(WattModalComponent);
+
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({
+    variables: { id: this.id() },
+  }));
+
+  editChargeLink = mutation(EditChargeLinkDocument, {
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.edit.toast'),
+    onCompleted: () => this.modal().close(true),
+    update: (cache, { data }) => {
+      const periods = data?.editChargeLink?.chargeLinkPeriod;
+      if (!periods) return;
+      const meteringPointId = this.meteringPointId();
+      cache.updateQuery(
+        { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
+        (existing) => {
+          if (!existing) return null;
+          const ids = new Set(periods.map((p) => p.id));
+          const merged = [...existing.chargeLinkPeriods.filter((p) => !ids.has(p.id)), ...periods];
+          return {
+            ...existing,
+            chargeLinkPeriods: merged.sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+          };
+        }
+      );
+    },
+  });
 
   form = new FormGroup({
     factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  id = input.required<string>();
-  meteringPointId = input.required<string>();
-
-  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
   min = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.start);
   max = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.end ?? undefined);
   chargeType = computed(() => this.period.data()?.chargeLinkPeriodById?.charge.type);
   updateStartDateEffect = effect(() => this.form.controls.startDate.setValue(this.min() ?? null));
 
-  save = async () => {
-    if (this.form.invalid) return;
-
+  async edit() {
     assertIsDefined(this.form.value.startDate);
     assertIsDefined(this.form.value.factor);
-
-    await this.edit.mutate({
+    await this.editChargeLink.mutate({
       variables: {
         id: this.id(),
         newStartDate: this.form.value.startDate,
         factor: parseInt(this.form.value.factor),
       },
-      update: (cache, { data }) => {
-        const periods = data?.editChargeLink?.chargeLinkPeriod;
-        if (!periods) return;
-        cache.updateQuery(
-          {
-            query: GetChargeLinkPeriodsDocument,
-            variables: { meteringPointId: this.meteringPointId() },
-          },
-          (existing) => {
-            if (!existing) return existing;
-            const newPeriods = periods.filter(
-              (p) => !existing.chargeLinkPeriods.some((e) => e.id === p.id)
-            );
-            if (newPeriods.length === 0) return existing;
-            return {
-              ...existing,
-              chargeLinkPeriods: [...existing.chargeLinkPeriods, ...newPeriods].sort((a, b) =>
-                a.sortKey.localeCompare(b.sortKey)
-              ),
-            };
-          }
-        );
-      },
     });
-
-    this.modal().close(true);
-  };
+  }
 }

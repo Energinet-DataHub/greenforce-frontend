@@ -76,10 +76,10 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   `,
 })
 export default class DhMeteringPointCancelChargeLink {
+  protected navigate = injectRelativeNavigate();
   readonly id = input.required<string>();
   readonly modal = viewChild.required(WattModalComponent);
-  protected navigate = injectRelativeNavigate();
-  protected cancel = mutation(CancelChargeLinkDocument, {
+  cancel = mutation(CancelChargeLinkDocument, {
     onStatusUpdated: injectToast('meteringPoint.chargeLinks.cancel.toast'),
     onCompleted: () => this.modal().close(true),
   });

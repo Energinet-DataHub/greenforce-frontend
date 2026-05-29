@@ -106,7 +106,7 @@ import {
             tabindex="-1"
             id="create-charge-link-form"
             [formGroup]="form()"
-            (ngSubmit)="createLink()"
+            (ngSubmit)="create()"
           >
             <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
             <watt-dropdown
@@ -150,20 +150,25 @@ import {
   `,
 })
 export default class DhMeteringPointCreateChargeLink {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   readonly meteringPointId = input.required<string>();
   readonly selectedType = model<ChargeType | null>(null);
   readonly modal = viewChild.required(WattModalComponent);
 
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-
   charges = query(GetChargesByTypeDocument, () => {
-  private chargesQuery = query(GetChargeByTypeDocument, () => {
     const type = this.selectedType();
     return type ? { variables: { type } } : { skip: true };
   });
 
-  protected createChargeLink = mutation(CreateChargeLinkDocument, {
+  chargeOptions = computed<WattDropdownOptions>(() => {
+    const opts = this.charges.data()?.chargesByType ?? [];
+    const date = this.selectedDate();
+    return !date ? [] : opts.filter((o) => o.periods.some((p) => contains(p.period, date)));
+  });
+
+  createChargeLink = mutation(CreateChargeLinkDocument, {
     onStatusUpdated: injectToast('meteringPoint.chargeLinks.create.toast'),
     onCompleted: () => this.modal().close(true),
     update: (cache, { data }) => {
@@ -184,7 +189,7 @@ export default class DhMeteringPointCreateChargeLink {
     },
   });
 
-  protected form = computed(
+  form = computed(
     () =>
       new FormGroup({
         chargeId: dhMakeFormControl('', Validators.required),
@@ -198,19 +203,13 @@ export default class DhMeteringPointCreateChargeLink {
       })
   );
 
-  protected selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
-  protected resetChargeIdOnDateChangeEffect = effect(() => {
+  selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
+  resetChargeIdOnDateChangeEffect = effect(() => {
     this.selectedDate();
     this.form().controls.chargeId.reset();
   });
 
-  protected chargeOptions = computed<WattDropdownOptions>(() => {
-    const opts = this.chargesQuery.data()?.chargesByType ?? [];
-    const date = this.selectedDate();
-    return !date ? [] : opts.filter((o) => o.periods.some(({ period: p }) => contains(p, date)));
-  });
-
-  protected async createLink() {
+  async create() {
     const { chargeId, startDate, factor } = this.form().getRawValue();
     assertIsDefined(chargeId);
     assertIsDefined(startDate);
@@ -224,7 +223,7 @@ export default class DhMeteringPointCreateChargeLink {
     });
   }
 
-  protected onClosed(created: boolean) {
+  onClosed(created: boolean) {
     const path = created
       ? { outlets: { create: null, primary: this.getRedirectPath() } }
       : { outlets: { create: null } };
@@ -232,7 +231,7 @@ export default class DhMeteringPointCreateChargeLink {
     this.router.navigate([path], { relativeTo: this.route.parent });
   }
 
-  private getRedirectPath = () => {
+  getRedirectPath() {
     const createdPeriod = this.createChargeLink.data()?.createChargeLink.chargeLinkPeriod;
     if (!createdPeriod) return null;
     const id = createdPeriod.id;
@@ -246,5 +245,5 @@ export default class DhMeteringPointCreateChargeLink {
       case null:
         return [getPath('tariff-and-subscription'), id];
     }
-  };
+  }
 }
