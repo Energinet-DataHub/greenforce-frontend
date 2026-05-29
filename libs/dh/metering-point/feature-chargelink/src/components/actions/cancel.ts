@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, input, viewChild } from '@angular/core';
+import { Component, inject, input, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -26,8 +26,9 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
-import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
@@ -51,7 +52,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       size="small"
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      (closed)="navigate('..')"
+      (closed)="page.navigate('id', id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -74,7 +75,7 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   `,
 })
 export default class DhChargeLinksCancelModal {
-  protected navigate = injectRelativeNavigate();
+  protected page = inject(DhNavigationService);
   readonly id = input.required<string>();
   readonly modal = viewChild.required(WattModalComponent);
   cancel = mutation(CancelChargeLinkDocument, {

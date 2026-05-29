@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, computed, effect, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -33,11 +33,8 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import {
-  dhMakeFormControl,
-  injectRelativeNavigate,
-  injectToast,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   EditChargeLinkDocument,
   GetChargeLinkPeriodByIdDocument,
@@ -70,7 +67,7 @@ import {
       size="small"
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      (closed)="navigate('..')"
+      (closed)="page.navigate('id', id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -114,7 +111,7 @@ import {
   `,
 })
 export default class DhChargeLinksEditModal {
-  protected navigate = injectRelativeNavigate();
+  protected page = inject(DhNavigationService);
 
   readonly id = input.required<string>();
   readonly meteringPointId = input.required<string>();
