@@ -50,10 +50,10 @@ import {
 
 import { ChargeLinkPeriod } from '../types';
 
-const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== ChargeType.Fee);
+const TARIFF_SUBSCRIPTIONS = [ChargeType.Tariff, ChargeType.TariffTax, ChargeType.Subscription];
 
 @Component({
-  selector: 'dh-metering-point-charge-links-tariff-subscriptions',
+  selector: 'dh-charge-links-tariff-subscriptions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
@@ -131,17 +131,17 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
     <router-outlet />
   `,
 })
-export default class DhMeteringPointChargeLinksTariffSubscriptions {
-  readonly meteringPointId = input.required<string>();
+export default class DhChargeLinksTariffSubscriptions {
+  protected page = inject(DhNavigationService);
 
-  page = inject(DhNavigationService);
+  readonly meteringPointId = input.required<string>();
+  readonly showClosed = signal(false);
+
   chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
     },
   }));
-
-  showClosed = signal(false);
 
   form = new FormGroup({ chargeTypes: dhMakeFormControl<ChargeType[]>() });
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType, [ChargeType.Fee]);

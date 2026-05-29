@@ -38,7 +38,7 @@ import {
 import { ChargeLinkPeriod } from '../types';
 
 @Component({
-  selector: 'dh-metering-point-charge-links-fees',
+  selector: 'dh-charge-links-fees',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
@@ -82,10 +82,11 @@ import { ChargeLinkPeriod } from '../types';
     <router-outlet />
   `,
 })
-export default class DhMeteringPointChargeLinksFees {
+export default class DhChargeLinksFees {
+  protected page = inject(DhNavigationService);
+
   readonly meteringPointId = input.required<string>();
 
-  page = inject(DhNavigationService);
   chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
