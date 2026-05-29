@@ -999,7 +999,11 @@
         "actions": "Actions",
         "edit": "Edit charge link",
         "stop": "Stop charge link",
-        "cancel": "Cancel charge link"
+        "cancel": "Cancel charge link",
+        "empty": {
+          "title": "No changes received yet",
+          "text": "Changes will appear here once they have been processed."
+        }
       },
       "create": {
         "errors": {

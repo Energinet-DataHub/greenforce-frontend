@@ -50,6 +50,12 @@ export const cache = new InMemoryCache({
             id: args?.id,
           });
         },
+        chargeLinkPeriodById(_, { args, toReference }) {
+          return toReference({
+            __typename: 'ChargeLinkPeriod',
+            id: args?.id,
+          });
+        },
         meteringPointExists(_, { args, toReference }) {
           return toReference({
             __typename: 'ElectricityMarketViewMeteringPointDto',

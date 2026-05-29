@@ -998,7 +998,11 @@
         "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
-        "cancel": "Annuller pristilknytning"
+        "cancel": "Annuller pristilknytning",
+        "empty": {
+          "title": "Ingen ændringer modtaget endnu",
+          "text": "Ændringer vises her, når de er blevet behandlet."
+        }
       },
       "create": {
         "errors": {

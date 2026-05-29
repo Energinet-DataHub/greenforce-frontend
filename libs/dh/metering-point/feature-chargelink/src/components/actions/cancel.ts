@@ -17,26 +17,23 @@
  */
 //#endregion
 
-import { Component, effect, inject, input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, input, viewChild } from '@angular/core';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { WATT_MODAL } from '@energinet/watt/modal';
+import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 
-import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { injectRelativeNavigate, injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-cancel-charge-link',
+  selector: 'dh-charge-links-cancel-modal',
   imports: [
     TranslocoDirective,
-    ReactiveFormsModule,
     WATT_MODAL,
     WattButtonComponent,
     WattIconComponent,
@@ -52,10 +49,9 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
   template: `
     <watt-modal
       size="small"
-      #cancel
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.cancel'"
-      (closed)="cancelLink($event)"
+      (closed)="navigate('..')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -63,33 +59,26 @@ import { CancelChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/gr
       </h2>
       {{ t('cancelWarning') }}
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="cancel.close(false)">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="secondary" (click)="cancel.close(true)">
+        <watt-button
+          variant="secondary"
+          (click)="cancel.mutate({ variables: { id: id() } })"
+          [disabled]="cancel.loading()"
+        >
           {{ t('cancel') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export default class DhMeteringPointCancelChargeLink {
-  private readonly toast = injectToast('meteringPoint.chargeLinks.cancel.toast');
-  private readonly cancel = mutation(CancelChargeLinkDocument);
-  private readonly navigate = inject(DhNavigationService);
-  id = input.required<string>();
-
-  async cancelLink(saved: boolean) {
-    if (!saved) return this.navigate.navigate('list');
-
-    await this.cancel.mutate({
-      variables: { id: this.id() },
-    });
-
-    this.navigate.navigate('list');
-  }
-
-  constructor() {
-    effect(() => this.toast(this.cancel.status()));
-  }
+export default class DhChargeLinksCancelModal {
+  protected navigate = injectRelativeNavigate();
+  readonly id = input.required<string>();
+  readonly modal = viewChild.required(WattModalComponent);
+  cancel = mutation(CancelChargeLinkDocument, {
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.cancel.toast'),
+    onCompleted: () => this.modal().close(true),
+  });
 }
