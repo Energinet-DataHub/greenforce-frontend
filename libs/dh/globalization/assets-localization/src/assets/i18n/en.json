@@ -1704,6 +1704,9 @@
       "title": "Historical correction",
       "cancel": "Cancel",
       "registerElectricalHeating": "Register electrical heating",
+      "periodTitle": "Period for which reduced electricity tax is applied",
+      "periodHint": "Start date must not be before the address's eligibility date (cf. BBR)",
+      "customer": "Customer",
       "meteringPoint": "Metering point",
       "meteringPointIdLabel": "Electrical heating (D14) metering point ID"
     }
