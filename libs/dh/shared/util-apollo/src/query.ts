@@ -67,29 +67,34 @@ import { DhApollo } from '@energinet-datahub/dh/shared/data-access-graphql';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 import { fromApolloError, mapGraphQLErrorsToApolloError } from './util/error';
 
-export enum QueryStatus {
-  Idle,
-  Error,
-  Loading,
-  Resolved,
-}
+export type QueryStatus = (typeof QueryStatus)[keyof typeof QueryStatus];
+export const QueryStatus = {
+  Idle: 'idle',
+  Error: 'error',
+  Loading: 'loading',
+  Resolved: 'resolved',
+} as const;
 
 // Since the `query` function is a wrapper around Apollo's `watchQuery`, the options API is almost
 // exactly the same. This just makes some changes to better align with the `useQuery` hook.
-interface BaseQueryOptions<TVariables extends OperationVariables>
-  extends Omit<WatchQueryOptions<TVariables>, 'query' | 'useInitialLoading' | 'variables'> {
+interface BaseQueryOptions<TVariables extends OperationVariables> extends Omit<
+  WatchQueryOptions<TVariables>,
+  'query' | 'useInitialLoading' | 'variables'
+> {
   // The `nextFetchPolicy` typically also accepts a function. Omitted for simplicity.
   nextFetchPolicy?: WatchQueryOptions<TVariables>['fetchPolicy'];
 }
 
-interface SkippedQueryOptions<TVariables extends OperationVariables>
-  extends BaseQueryOptions<TVariables> {
+interface SkippedQueryOptions<
+  TVariables extends OperationVariables,
+> extends BaseQueryOptions<TVariables> {
   skip: true;
   variables?: Partial<TVariables>;
 }
 
-interface ImmediateQueryOptions<TVariables extends OperationVariables>
-  extends BaseQueryOptions<TVariables> {
+interface ImmediateQueryOptions<
+  TVariables extends OperationVariables,
+> extends BaseQueryOptions<TVariables> {
   skip?: boolean;
   variables?: TVariables;
 }
@@ -239,7 +244,7 @@ export function query<TResult, TVariables extends OperationVariables>(
   const error = signal<ApolloError | undefined>(initial.error);
   const loading = signal(initial.loading);
   const networkStatus = signal(initial.networkStatus);
-  const status = signal(QueryStatus.Idle);
+  const status = signal<QueryStatus>('idle');
 
   // Extra signal to track if the query has been called
   const called = signal(false);
@@ -280,9 +285,9 @@ export function query<TResult, TVariables extends OperationVariables>(
     loading.set(result.loading);
     networkStatus.set(result.networkStatus);
     called.set(true);
-    if (result.loading) status.set(QueryStatus.Loading);
-    else if (result.error) status.set(QueryStatus.Error);
-    else status.set(QueryStatus.Resolved);
+    if (result.loading) status.set('loading');
+    else if (result.error) status.set('error');
+    else status.set('resolved');
   });
 
   // Clean up when the component is destroyed
@@ -306,7 +311,7 @@ export function query<TResult, TVariables extends OperationVariables>(
       error.set(initial.error);
       loading.set(initial.loading);
       networkStatus.set(initial.networkStatus);
-      status.set(QueryStatus.Idle);
+      status.set('idle');
       called.set(false);
     },
     getDocument: () => document,
