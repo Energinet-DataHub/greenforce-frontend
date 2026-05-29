@@ -54,7 +54,7 @@ import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui
 
 import {
   ChargeType,
-  GetChargeByTypeDocument,
+  GetChargesByTypeDocument,
   CreateChargeLinkDocument,
   GetChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -157,6 +157,7 @@ export default class DhMeteringPointCreateChargeLink {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
+  charges = query(GetChargesByTypeDocument, () => {
   private chargesQuery = query(GetChargeByTypeDocument, () => {
     const type = this.selectedType();
     return type ? { variables: { type } } : { skip: true };
