@@ -77,7 +77,7 @@ import {
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
-    dh-metering-point-create-charge-link {
+    dh-charge-links-create-modal {
       watt-datepicker,
       watt-text-field {
         width: 50%;
