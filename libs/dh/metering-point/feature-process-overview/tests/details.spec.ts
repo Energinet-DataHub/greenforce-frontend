@@ -446,9 +446,7 @@ describe('Process overview details', () => {
     // so the translation does not bake the RSM number in.
     await setup('process-cross-cancelled');
 
-    await waitForAsync(() =>
-      expect(screen.getByText(/^Process cancelled$/i)).toBeInTheDocument()
-    );
+    await waitForAsync(() => expect(screen.getByText(/^Process cancelled$/i)).toBeInTheDocument());
   });
 
   it('should navigate to the cancelling process when the banner link is clicked', async () => {
