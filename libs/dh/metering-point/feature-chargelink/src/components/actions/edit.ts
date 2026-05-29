@@ -163,7 +163,7 @@ export default class DhMeteringPointEditChargeLink {
       variables: {
         id: this.id(),
         newStartDate: this.form.value.startDate,
-        factor: parseInt(this.form.value.factor),
+        factor: parseInt(this.form.value.factor, 10),
       },
     });
   }
