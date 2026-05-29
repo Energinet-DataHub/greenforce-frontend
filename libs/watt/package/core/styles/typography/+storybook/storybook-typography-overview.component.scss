@@ -62,17 +62,3 @@ table caption {
 .font-weight-bold {
   @include typography.font-weight("bold");
 }
-
-.small-screen {
-  h1 {
-    @include typography.font-size("xl");
-  }
-
-  h2 {
-    @include typography.font-size("l");
-  }
-
-  h3 {
-    @include typography.font-size("m");
-  }
-}
