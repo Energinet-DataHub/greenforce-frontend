@@ -120,10 +120,7 @@ export default class DhChargeLinksEditModal {
   readonly meteringPointId = input.required<string>();
   readonly modal = viewChild.required(WattModalComponent);
 
-  period = query(GetChargeLinkPeriodByIdDocument, () => ({
-    variables: { id: this.id() },
-  }));
-
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
   editChargeLink = mutation(EditChargeLinkDocument, {
     onStatusUpdated: injectToast('meteringPoint.chargeLinks.edit.toast'),
     onCompleted: () => this.modal().close(true),
