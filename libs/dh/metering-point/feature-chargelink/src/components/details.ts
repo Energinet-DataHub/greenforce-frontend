@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -25,7 +25,7 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_TABLE, WattTableColumnDef, dataSource } from '@energinet/watt/table';
-import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
 import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
@@ -48,7 +48,7 @@ import { ChargeLinkPeriodChange } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-charge-link-details',
+  selector: 'dh-charge-links-details',
   imports: [
     RouterLink,
     RouterOutlet,
@@ -112,7 +112,7 @@ import { ChargeLinkPeriodChange } from '../types';
                   <watt-icon name="moreVertical" />
                 </watt-button>
                 <watt-menu #actions>
-                  @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
+                  @if (canEdit()) {
                     <watt-menu-item [routerLink]="['edit']">
                       {{ t('edit') }}
                     </watt-menu-item>
@@ -167,6 +167,12 @@ import { ChargeLinkPeriodChange } from '../types';
               [title]="t('empty.title')"
               [message]="t('empty.text')"
             />
+          } @else if (history.hasError()) {
+            <watt-empty-state
+              icon="custom-power"
+              [title]="wattDataIntl.errorTitle"
+              [message]="wattDataIntl.errorText"
+            />
           }
         </watt-data-table>
       </watt-drawer-content>
@@ -174,10 +180,12 @@ import { ChargeLinkPeriodChange } from '../types';
     <router-outlet />
   `,
 })
-export default class DhChargeLinkDetails {
+export default class DhChargeLinksDetails {
+  protected wattDataIntl = inject(WattDataIntlService);
+  protected navigate = injectRelativeNavigate();
+
   readonly id = input.required<string>();
 
-  navigate = injectRelativeNavigate();
   period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
   history = query(GetHistoricalChargeLinkPeriodsDocument, () => ({
     fetchPolicy: 'cache-first',
@@ -189,14 +197,14 @@ export default class DhChargeLinkDetails {
   item = computed(() => this.period.data()?.chargeLinkPeriodById);
   chargeType = computed(() => this.item()?.charge?.type);
   changes = computed(() => this.history.data()?.chargeLinkPeriodById?.changes ?? []);
-  isOptimistic = computed(() => !this.history.loading() && !this.changes().length);
+  isOptimistic = computed(() => this.history.status() === 'resolved' && !this.changes().length);
   historyDataSource = dataSource(() => this.changes());
   historyColumns: WattTableColumnDef<ChargeLinkPeriodChange> = {
     created: { accessor: (row) => row.created },
     description: { accessor: (row) => row.changeType, sort: false },
   };
 
-  // TODO: Disable stop if period is less than a day?
+  canEdit = computed(() => this.chargeType() !== 'TARIFF' && this.chargeType() !== 'TARIFF_TAX');
   canStop = computed(() => {
     if (this.chargeType() === 'FEE') return false;
     const period = this.item()?.period;
