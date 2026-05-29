@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { DestroyRef, Signal, computed, effect, inject, signal } from '@angular/core';
+import { DestroyRef, Signal, computed, inject, signal } from '@angular/core';
 import {
   ApolloError,
   FetchResult,
@@ -55,10 +55,7 @@ export interface MutationOptions<TResult, TVariables> extends Omit<
 > {
   onCompleted?: (data: TResult, clientOptions: MutationOptions<TResult, TVariables>) => void;
   onError?: (error: ApolloError, clientOptions: MutationOptions<TResult, TVariables>) => void;
-  onStatusUpdated?: (
-    status: MutationStatus,
-    clientOptions: MutationOptions<TResult, TVariables>
-  ) => void;
+  onStatusUpdated?: (status: MutationStatus) => void;
 }
 
 export type MutationResult<T> = FetchResult<T> & {
@@ -86,8 +83,6 @@ export function mutation<TResult, TVariables extends OperationVariables>(
   const called = signal(false);
   const status = signal(MutationStatus.Idle);
 
-  effect(() => options?.onStatusUpdated?.(status(), options));
-
   return {
     // Upcast to prevent writing to signals
     data: data as Signal<TResult | undefined>,
@@ -102,13 +97,15 @@ export function mutation<TResult, TVariables extends OperationVariables>(
       loading.set(false);
       called.set(false);
       status.set(MutationStatus.Idle);
+      options?.onStatusUpdated?.(MutationStatus.Idle);
     },
     mutate(
       options?: Partial<MutationOptions<TResult, TVariables>>
     ): Promise<MutationResult<TResult>> {
       const mergedOptions = { ...parentOptions, ...options };
-      const { onCompleted, onError, ...mutationOptions } = mergedOptions;
+      const { onCompleted, onError, onStatusUpdated, ...mutationOptions } = mergedOptions;
       status.set(MutationStatus.Loading);
+      onStatusUpdated?.(MutationStatus.Loading);
       return firstValueFrom(
         from(apollo.client.mutate({ ...mutationOptions, mutation: document })).pipe(
           // The MutationResult type is different from QueryResult in several ways
@@ -130,9 +127,11 @@ export function mutation<TResult, TVariables extends OperationVariables>(
           tap((result) => {
             if (result.error) {
               status.set(MutationStatus.Error);
+              onStatusUpdated?.(MutationStatus.Error);
               onError?.(result.error, mergedOptions);
             } else if (result.data) {
               status.set(MutationStatus.Resolved);
+              onStatusUpdated?.(MutationStatus.Resolved);
               onCompleted?.(result.data, mergedOptions);
             }
           }),
