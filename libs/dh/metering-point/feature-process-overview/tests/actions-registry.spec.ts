@@ -728,7 +728,10 @@ describe('DhActionsRegistry', () => {
         false
       );
 
-      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow, MeteringPointProcessAction.SendInformation]);
+      expect(result).toEqual([
+        MeteringPointProcessAction.CancelWorkflow,
+        MeteringPointProcessAction.SendInformation,
+      ]);
     });
 
     it('should include InitiateIncorrectMoveIn for CustomerMoveIn without role or permission gates', () => {

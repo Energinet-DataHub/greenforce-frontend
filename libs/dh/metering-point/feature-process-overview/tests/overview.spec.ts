@@ -219,9 +219,9 @@ describe('Process overview', () => {
     });
 
     await waitForAsync(() =>
-      expect(
-        screen.getAllByRole('button', { name: /Request correction/i }).length
-      ).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
+        0
+      )
     );
   });
 
@@ -233,9 +233,9 @@ describe('Process overview', () => {
     const user = userEvent.setup();
 
     await waitForAsync(() =>
-      expect(
-        screen.getAllByRole('button', { name: /Request correction/i }).length
-      ).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
+        0
+      )
     );
 
     const button = screen.getAllByRole('button', { name: /Request correction/i })[0];

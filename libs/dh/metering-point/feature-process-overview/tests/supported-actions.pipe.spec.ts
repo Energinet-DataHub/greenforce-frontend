@@ -51,7 +51,9 @@ class TestHost {
 async function setup(overrides: Partial<TestHost> = {}) {
   const getSupportedActions = vi.fn(
     (actions: MeteringPointProcessAction[], reason: ProcessManagerBusinessReason) => {
-      const registered: Partial<Record<ProcessManagerBusinessReason, MeteringPointProcessAction[]>> = {
+      const registered: Partial<
+        Record<ProcessManagerBusinessReason, MeteringPointProcessAction[]>
+      > = {
         [ProcessManagerBusinessReason.EndOfSupply]: [MeteringPointProcessAction.CancelWorkflow],
         [ProcessManagerBusinessReason.CustomerMoveIn]: [
           MeteringPointProcessAction.SendInformation,
@@ -89,7 +91,10 @@ describe('SupportedActionsPipe', () => {
 
   it('should filter out SendInformation for EndOfSupply', async () => {
     await setup({
-      actions: [MeteringPointProcessAction.CancelWorkflow, MeteringPointProcessAction.SendInformation],
+      actions: [
+        MeteringPointProcessAction.CancelWorkflow,
+        MeteringPointProcessAction.SendInformation,
+      ],
       businessReason: ProcessManagerBusinessReason.EndOfSupply,
     });
 
@@ -112,7 +117,9 @@ describe('SupportedActionsPipe', () => {
       businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     });
 
-    expect(screen.getByText(MeteringPointProcessAction.InitiateIncorrectMoveIn)).toBeInTheDocument();
+    expect(
+      screen.getByText(MeteringPointProcessAction.InitiateIncorrectMoveIn)
+    ).toBeInTheDocument();
   });
 
   it('should show no actions when actions is null', async () => {
