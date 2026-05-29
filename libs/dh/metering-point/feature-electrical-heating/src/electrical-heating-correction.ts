@@ -25,11 +25,14 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
 import { VATER } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
   dhMakeFormControl,
   dhMeteringPointIdValidator,
+  emDash,
 } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
@@ -39,13 +42,16 @@ import {
     TranslocoDirective,
     ReactiveFormsModule,
     RouterLink,
-
     VATER,
     WATT_CARD,
+    WattDatepickerComponent,
     WattButtonComponent,
     WattTextFieldComponent,
+    WattSeparatorComponent,
   ],
   styles: `
+    @use '@energinet/watt/utils' as watt;
+
     :host {
       display: block;
       width: 800px;
@@ -53,6 +59,20 @@ import {
 
     .register-electrical-heating-title {
       color: var(--watt-color-primary);
+    }
+
+    watt-datepicker {
+      width: auto;
+    }
+
+    .em-dash {
+      position: relative;
+      top: 12px; // Magix number
+    }
+
+    .hint {
+      color: var(--watt-color-neutral-grey-700);
+      @include watt.typography-watt-text-s;
     }
 
     .no-margin {
@@ -82,9 +102,32 @@ import {
         </watt-card>
 
         <watt-card>
-          <p>{{ t('meteringPoint') }}</p>
+          <p class="watt-text-s-highlighted">{{ t('meteringPoint') }}</p>
 
-          <vater-stack direction="row" gap="s" align="center" fill="horizontal">
+          <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
+            <watt-separator weight="bold" orientation="vertical" />
+            {{ emDash }}
+          </vater-stack>
+
+          <span class="watt-label">{{ t('periodTitle') }}</span>
+          <vater-flex>
+            <vater-stack direction="row" gap="m" align="start">
+              <watt-datepicker [formControl]="form.controls.periodStart" />
+              <span class="em-dash">{{ emDash }}</span>
+              <watt-datepicker [formControl]="form.controls.periodEnd" />
+            </vater-stack>
+
+            <span class="hint">{{ t('periodHint') }}</span>
+          </vater-flex>
+
+          <p class="watt-text-s-highlighted">{{ t('customer') }}</p>
+
+          <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
+            <watt-separator weight="bold" orientation="vertical" />
+            {{ emDash }}
+          </vater-stack>
+
+          <vater-stack direction="row" gap="s" align="center">
             <watt-text-field
               maxLength="18"
               [formControl]="form.controls.meteringPointId"
@@ -106,7 +149,11 @@ export class DhElectricalHeatingCorrection {
       Validators.required,
       dhMeteringPointIdValidator(),
     ]),
+    periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
+    periodEnd: dhMakeFormControl<Date | null>(null),
   });
+
+  emDash = emDash;
 
   cancelLink = computed(() =>
     combineWithIdPaths('metering-point', this.internalMeteringPointId(), 'actor-conversation')

@@ -1704,6 +1704,9 @@
       "title": "Historisk rettelse",
       "cancel": "Afbryd",
       "registerElectricalHeating": "Registrer elvarme",
+      "periodTitle": "Periode for reduceret elafgift",
+      "periodHint": "Startdato må ikke ligge før adressens berettigelsesdato (jf. BBR)",
+      "customer": "Kunde",
       "meteringPoint": "Målepunkt",
       "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
     }
