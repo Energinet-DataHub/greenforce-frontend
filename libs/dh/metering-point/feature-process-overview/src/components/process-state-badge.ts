@@ -17,11 +17,13 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+
+import { WattBadgeComponent, WattBadgeType } from '@energinet/watt/badge';
+
 import {
   MeteringPointProcessState,
   OrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { WattBadgeComponent, WattBadgeType } from '@energinet/watt/badge';
 
 /**
  * Process-overview-local state badge. Identical to the shared `DhStateBadge`

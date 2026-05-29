@@ -140,7 +140,7 @@ import { DhProcessStateBadge } from '../process-state-badge';
           }
           @if (cancelledByProcess(); as cancelledBy) {
             <span
-              role="status"
+              role="note"
               class="dh-cancelled-by watt-text-s"
               *transloco="let t; prefix: 'meteringPoint.processOverview'"
             >
