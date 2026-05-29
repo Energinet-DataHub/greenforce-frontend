@@ -113,7 +113,13 @@ type MeteringPointProcessStep = NonNullable<
           {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actor; let process">
-          {{ actorLabel(process) | dhEmDashFallback }}
+          @if (process.actor?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.actorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
+          }
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}
@@ -168,16 +174,6 @@ export class DhMeteringPointProcessOverviewSteps {
 
   getRowClass = (step: MeteringPointProcessStep) => {
     return step.state === ProcessStepState.Pending ? 'pending-step' : '';
-  };
-
-  // Show the actor's GLN/name (displayName) when it is resolved (own actor / FAS);
-  // otherwise fall back to the translated actor role for masked actors.
-  actorLabel = (step: MeteringPointProcessStep): string | undefined => {
-    if (step.actor?.displayName) return step.actor.displayName;
-    if (step.actorRole) {
-      return this.transloco.translate('marketParticipant.marketRoles.' + step.actorRole);
-    }
-    return undefined;
   };
 
   async openRawMessage(documentUrl: string, event: Event) {

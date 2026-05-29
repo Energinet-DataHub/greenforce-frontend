@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input } f
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -51,6 +51,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
     ReactiveFormsModule,
     RouterOutlet,
     TranslocoDirective,
+    TranslocoPipe,
     VaterUtilityDirective,
     VaterStackComponent,
     WATT_TABLE,
@@ -121,7 +122,13 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           </dh-process-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
-          {{ initiatorLabel(process) | dhEmDashFallback }}
+          @if (process.initiator?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.initiatorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.initiatorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
+          }
         </ng-container>
         <ng-container *wattTableCell="columns.actions; let process">
           <vater-stack

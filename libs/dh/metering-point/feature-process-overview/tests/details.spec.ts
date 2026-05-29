@@ -380,11 +380,21 @@ describe('Process overview details', () => {
     // `process-cross-cancelled` carries a resolved `cancelledByProcess` object that
     // gates the banner. The cancelling process (`process-cancelling`) is present in
     // the overview list, so the process name renders as a clickable link.
-    await setup('process-cross-cancelled');
+    const fixture = await setup('process-cross-cancelled');
 
-    const banner = await screen.findByRole('status');
+    const banner = await screen.findByRole('note');
     expect(banner).toHaveTextContent(/Process cancelled by/i);
     expect(banner).toHaveTextContent(/with cut-off date/i);
+
+    // Wait until the overview query has resolved and the cancelling process id is in the
+    // visible list. Only then is the link's presence meaningful: it proves the link was
+    // chosen because the store gates it, not because the template hardcodes a link (which
+    // would make the assertion pass even if the store check were removed). Mirrors the
+    // guard in the plain-text test below.
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+    await waitForAsync(() =>
+      expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
+    );
 
     // The cancelling process is rendered as a clickable link labelled with its
     // translated process type (SecondaryMoveIn -> "Secondary move-in (BRS-009)").
@@ -399,7 +409,7 @@ describe('Process overview details', () => {
     // process name is plain text, not a link.
     const fixture = await setup('process-cross-cancelled-not-listed');
 
-    const banner = await screen.findByRole('status');
+    const banner = await screen.findByRole('note');
     expect(banner).toHaveTextContent(/Process cancelled by/i);
     expect(banner).toHaveTextContent(/Secondary move-in/i);
     expect(banner).toHaveTextContent(/with cut-off date/i);
@@ -423,18 +433,21 @@ describe('Process overview details', () => {
   it('should not show the cross-cancellation banner when the process was not cancelled by another process', async () => {
     await setup('process-eos-cancel');
 
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
   });
 
-  it('should render the cancellation step (RSM-004) label in the step table for a cancelled process', async () => {
+  it('should render the cancellation step label in the step table for a cancelled process', async () => {
     // A cancelled process carries a trailing cancellation step whose backend id is
     // `CANCELLATION_STEP_V1_STEP_1` (BFF derives it from the "Cancellation_Step"
     // UniqueName). It resolves through the step-name fallback to the translated
     // label, so a wrong/removed key would surface the raw id and fail this.
+    // The label is generic on purpose: the same step can produce different RSM
+    // messages (RSM-004 / RSM-020 / RSM-025) depending on the calling workflow,
+    // so the translation does not bake the RSM number in.
     await setup('process-cross-cancelled');
 
     await waitForAsync(() =>
-      expect(screen.getByText(/Process cancelled \(RSM-004\)/i)).toBeInTheDocument()
+      expect(screen.getByText(/^Process cancelled$/i)).toBeInTheDocument()
     );
   });
 
@@ -444,7 +457,7 @@ describe('Process overview details', () => {
     const router = fixture.debugElement.injector.get(Router);
     const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
 
-    const banner = await screen.findByRole('status');
+    const banner = await screen.findByRole('note');
     // The link only renders once the overview query resolves and the cancelling
     // process id appears in the store's visible list, so wait for it.
     const link = await within(banner).findByRole('button', { name: /Secondary move-in/i });
