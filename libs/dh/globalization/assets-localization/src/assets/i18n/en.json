@@ -124,6 +124,12 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "startupError": {
+      "title": "DataHub couldn't be loaded",
+      "message": "We couldn't load your information. Please try reloading the page, or sign out and sign in again.",
+      "retry": "Reload",
+      "signOut": "Sign out"
+    },
     "downloadStart": "Starting download...",
     "download": "Download",
     "exportCsv": "Export CSV",
@@ -1697,6 +1703,13 @@
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "registerElectricalHeating": "Register electrical heating",
+      "meteringPoint": "Metering point",
+      "meteringPointIdLabel": "Electrical heating (D14) metering point ID"
     }
   },
   "messageArchive": {

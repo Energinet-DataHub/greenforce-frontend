@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, signal } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { By } from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
@@ -29,7 +29,11 @@ import {
   provideMsalTesting,
   MsalGuardMock,
 } from '@energinet-datahub/dh/shared/test-util';
-import { dhCoreShellProviders, dhCoreShellRoutes } from '@energinet-datahub/dh/core/shell';
+import {
+  dhCoreShellProviders,
+  dhCoreShellRoutes,
+  DhStartupErrorService,
+} from '@energinet-datahub/dh/core/shell';
 
 import { DataHubAppComponent } from './datahub-app.component';
 
@@ -45,6 +49,11 @@ describe(DataHubAppComponent, () => {
     provideServiceWorker('', {
       enabled: false,
     }),
+    {
+      provide: DhStartupErrorService,
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      useValue: { hasError: signal(false), setError: () => {}, clear: () => {} },
+    },
   ];
 
   it('has a router outlet', async () => {
