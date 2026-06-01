@@ -187,141 +187,126 @@ describe('Process overview', () => {
     expect(within(chip as HTMLElement).queryByText(/\d{4}/)).not.toBeInTheDocument();
   });
 
-  it(
-    'should narrow the rendered table to rows matching the chosen status',
-    async () => {
-      const fixture = await setup();
-      const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+  it('should narrow the rendered table to rows matching the chosen status', async () => {
+    const fixture = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
-      // Baseline: the rows the user sees with no filter applied (includes the header row).
-      const baselineRows = renderedRowCount();
+    // Baseline: the rows the user sees with no filter applied (includes the header row).
+    const baselineRows = renderedRowCount();
 
-      // Falsifiability guard on the FIXTURE DATA (read once to size the assertion): the
-      // status filter only proves narrowing if some loaded rows are Running and some are not.
-      const fullDataRows = store.processes().length;
-      const runningRows = store
-        .processes()
-        .filter((p) => p.state === MeteringPointProcessState.Running).length;
-      expect(runningRows).toBeGreaterThan(0);
-      expect(runningRows).toBeLessThan(fullDataRows);
+    // Falsifiability guard on the FIXTURE DATA (read once to size the assertion): the
+    // status filter only proves narrowing if some loaded rows are Running and some are not.
+    const fullDataRows = store.processes().length;
+    const runningRows = store
+      .processes()
+      .filter((p) => p.state === MeteringPointProcessState.Running).length;
+    expect(runningRows).toBeGreaterThan(0);
+    expect(runningRows).toBeLessThan(fullDataRows);
 
-      applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
+    applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
 
-      // The rendered table now shows only the Running rows. The header offset is the
-      // same as in the baseline, so subtract the rows that were filtered out.
-      expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - runningRows));
-    }
-  );
+    // The rendered table now shows only the Running rows. The header offset is the
+    // same as in the baseline, so subtract the rows that were filtered out.
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - runningRows));
+  });
 
-  it(
-    'should narrow the rendered table to rows matching the chosen type',
-    async () => {
-      const fixture = await setup();
-      const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+  it('should narrow the rendered table to rows matching the chosen type', async () => {
+    const fixture = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
-      const baselineRows = renderedRowCount();
+    const baselineRows = renderedRowCount();
 
-      const fullDataRows = store.processes().length;
-      const endOfSupplyRows = store
-        .processes()
-        .filter((p) => p.businessReason === ProcessManagerBusinessReason.EndOfSupply).length;
-      expect(endOfSupplyRows).toBeGreaterThan(0);
-      expect(endOfSupplyRows).toBeLessThan(fullDataRows);
+    const fullDataRows = store.processes().length;
+    const endOfSupplyRows = store
+      .processes()
+      .filter((p) => p.businessReason === ProcessManagerBusinessReason.EndOfSupply).length;
+    expect(endOfSupplyRows).toBeGreaterThan(0);
+    expect(endOfSupplyRows).toBeLessThan(fullDataRows);
 
-      applyFilters(fixture, {
-        businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
-      });
+    applyFilters(fixture, {
+      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+    });
 
-      expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - endOfSupplyRows));
-    }
-  );
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - endOfSupplyRows));
+  });
 
-  it(
-    'should combine the type and status filters with AND in the rendered table',
-    async () => {
-      const fixture = await setup();
-      const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+  it('should combine the type and status filters with AND in the rendered table', async () => {
+    const fixture = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
-      const baselineRows = renderedRowCount();
+    const baselineRows = renderedRowCount();
 
-      const fullDataRows = store.processes().length;
-      const matchingRows = store
-        .processes()
-        .filter(
-          (p) =>
-            p.businessReason === ProcessManagerBusinessReason.EndOfSupply &&
-            p.state === MeteringPointProcessState.Running
-        ).length;
-      // Guard: the AND combination must match a non-empty, narrowed subset, and that
-      // subset must be strictly smaller than either single filter to prove it is an AND.
-      const endOfSupplyRows = store
-        .processes()
-        .filter((p) => p.businessReason === ProcessManagerBusinessReason.EndOfSupply).length;
-      expect(matchingRows).toBeGreaterThan(0);
-      expect(matchingRows).toBeLessThan(endOfSupplyRows);
+    const fullDataRows = store.processes().length;
+    const matchingRows = store
+      .processes()
+      .filter(
+        (p) =>
+          p.businessReason === ProcessManagerBusinessReason.EndOfSupply &&
+          p.state === MeteringPointProcessState.Running
+      ).length;
+    // Guard: the AND combination must match a non-empty, narrowed subset, and that
+    // subset must be strictly smaller than either single filter to prove it is an AND.
+    const endOfSupplyRows = store
+      .processes()
+      .filter((p) => p.businessReason === ProcessManagerBusinessReason.EndOfSupply).length;
+    expect(matchingRows).toBeGreaterThan(0);
+    expect(matchingRows).toBeLessThan(endOfSupplyRows);
 
-      applyFilters(fixture, {
-        businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
-        states: [MeteringPointProcessState.Running],
-      });
+    applyFilters(fixture, {
+      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      states: [MeteringPointProcessState.Running],
+    });
 
-      expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - matchingRows));
-    }
-  );
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - matchingRows));
+  });
 
-  it(
-    'should render every loaded row when no filters are applied',
-    async () => {
-      const fixture = await setup();
-      const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+  it('should render every loaded row when no filters are applied', async () => {
+    const fixture = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
-      // One header row plus one rendered row per loaded process.
-      expect(renderedRowCount()).toBe(store.processes().length + 1);
-    }
-  );
+    // One header row plus one rendered row per loaded process.
+    expect(renderedRowCount()).toBe(store.processes().length + 1);
+  });
 
-  it(
-    'should restore the full table when the reset button is clicked',
-    async () => {
-      const fixture = await setup();
-      const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
-      const user = userEvent.setup();
+  it('should restore the full table when the reset button is clicked', async () => {
+    const fixture = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+    const user = userEvent.setup();
 
-      const baselineRows = renderedRowCount();
+    const baselineRows = renderedRowCount();
 
-      // Size the expected narrowed count from the fixture (read once), and guard that
-      // it is a strict subset so the restore assertion is meaningful.
-      const fullDataRows = store.processes().length;
-      const matchingRows = store
-        .processes()
-        .filter(
-          (p) =>
-            p.businessReason === ProcessManagerBusinessReason.EndOfSupply &&
-            p.state === MeteringPointProcessState.Running
-        ).length;
-      expect(matchingRows).toBeGreaterThan(0);
-      expect(matchingRows).toBeLessThan(fullDataRows);
+    // Size the expected narrowed count from the fixture (read once), and guard that
+    // it is a strict subset so the restore assertion is meaningful.
+    const fullDataRows = store.processes().length;
+    const matchingRows = store
+      .processes()
+      .filter(
+        (p) =>
+          p.businessReason === ProcessManagerBusinessReason.EndOfSupply &&
+          p.state === MeteringPointProcessState.Running
+      ).length;
+    expect(matchingRows).toBeGreaterThan(0);
+    expect(matchingRows).toBeLessThan(fullDataRows);
 
-      // Drive the real form -> valueChanges -> store bridge so the controls actually
-      // hold values that the native `type="reset"` button must clear. Setting store
-      // signals alone would not leave the form in a state reset could change. Use only
-      // the client-side filters (no period) so the narrowing is the rendered effect of
-      // `filteredProcesses`, not a transient loading state from a refetch.
-      applyFilters(fixture, {
-        states: [MeteringPointProcessState.Running],
-        businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
-      });
+    // Drive the real form -> valueChanges -> store bridge so the controls actually
+    // hold values that the native `type="reset"` button must clear. Setting store
+    // signals alone would not leave the form in a state reset could change. Use only
+    // the client-side filters (no period) so the narrowing is the rendered effect of
+    // `filteredProcesses`, not a transient loading state from a refetch.
+    applyFilters(fixture, {
+      states: [MeteringPointProcessState.Running],
+      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+    });
 
-      // The table is genuinely narrowed first, so the restore assertion is meaningful.
-      expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - matchingRows));
+    // The table is genuinely narrowed first, so the restore assertion is meaningful.
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - matchingRows));
 
-      await user.click(screen.getByRole('button', { name: /Reset/i }));
-      TestBed.tick();
+    await user.click(screen.getByRole('button', { name: /Reset/i }));
+    TestBed.tick();
 
-      // The rendered table is back to the full set the user started with.
-      expect(renderedRowCount()).toBe(baselineRows);
-    }
-  );
+    // The rendered table is back to the full set the user started with.
+    expect(renderedRowCount()).toBe(baselineRows);
+  });
 
   it('should show cancel button and open modal when clicked', async () => {
     // Cancel is now restricted to the responsible EnergySupplier; the default
