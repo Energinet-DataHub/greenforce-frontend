@@ -64,10 +64,6 @@ export const dhFeatureFlagsConfig = {
       DhAppEnvironment.test_001,
     ],
   },
-  'charges-missing-prices': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
-  },
   'microsoft-clarity': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.local],
