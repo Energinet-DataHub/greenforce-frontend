@@ -59,8 +59,11 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         RequestChangeCustomerCharacteristicsCommandV2? capturedCommand = null;
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
-            .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
+            .Returns((RequestChangeCustomerCharacteristicsCommandV2 cmd, CancellationToken _) =>
+            {
+                capturedCommand = cmd;
+                return Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            });
 
         // Act - send mutation with null firstCustomerCpr (private customer, no CVR)
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: null, firstCustomerName: "Test Name");
@@ -82,8 +85,11 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         RequestChangeCustomerCharacteristicsCommandV2? capturedCommand = null;
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
-            .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
+            .Returns((RequestChangeCustomerCharacteristicsCommandV2 cmd, CancellationToken _) =>
+            {
+                capturedCommand = cmd;
+                return Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            });
 
         // Act - send mutation with CPR already provided
         var result = await ExecuteMutation(server, firstCustomerCpr: "1234567890", firstCustomerCvr: null, firstCustomerName: "Test Name");
@@ -110,8 +116,11 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         RequestChangeCustomerCharacteristicsCommandV2? capturedCommand = null;
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
-            .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
+            .Returns((RequestChangeCustomerCharacteristicsCommandV2 cmd, CancellationToken _) =>
+            {
+                capturedCommand = cmd;
+                return Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            });
 
         // Act - send mutation with CVR (business customer), null CPR
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: "12345678", firstCustomerName: "Business Corp");
@@ -141,8 +150,11 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         RequestChangeCustomerCharacteristicsCommandV2? capturedCommand = null;
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
-            .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
+            .Returns((RequestChangeCustomerCharacteristicsCommandV2 cmd, CancellationToken _) =>
+            {
+                capturedCommand = cmd;
+                return Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            });
 
         // Act - null CPR for both first and second customers
         var result = await ExecuteMutation(
@@ -175,7 +187,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         // Assert - should return a GraphQL error since contacts could not be found
         var queryResult = (OperationResult)result;
         queryResult.Errors.Should().NotBeNullOrEmpty();
-        queryResult.Errors!.First().Message.Should().Contain("no customer contacts found");
+        queryResult.Errors!.First().Exception!.Message.Should().Contain("no customer contacts found");
 
         // EDI should NOT have been called
         server.EdiB2CClientMock.Verify(

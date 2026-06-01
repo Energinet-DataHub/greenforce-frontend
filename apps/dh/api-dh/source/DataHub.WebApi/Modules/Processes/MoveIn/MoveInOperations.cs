@@ -117,7 +117,7 @@ public static class MoveInOperations
         var resolvedFirstCustomerCpr = firstCustomerCpr;
         var resolvedSecondCustomerCpr = secondCustomerCpr;
 
-        var isPrivateCustomer = string.IsNullOrEmpty(firstCustomerCvr);
+        var isPrivateCustomer = string.IsNullOrEmpty(firstCustomerCvr) && !string.IsNullOrEmpty(firstCustomerName);
         var needsFirstCpr = isPrivateCustomer && string.IsNullOrEmpty(resolvedFirstCustomerCpr);
         var needsSecondCpr = isPrivateCustomer && string.IsNullOrEmpty(resolvedSecondCustomerCpr) && !string.IsNullOrEmpty(secondCustomerName);
 
