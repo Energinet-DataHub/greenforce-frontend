@@ -27,6 +27,7 @@ import { VATER } from '@energinet/watt/vater';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 
 import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
@@ -54,6 +55,7 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
     WattButtonComponent,
     WattTextFieldComponent,
     WattSeparatorComponent,
+    WattSkeletonComponent,
     DhEmDashFallbackPipe,
   ],
   styles: `
@@ -110,18 +112,22 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
 
           <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
             <watt-separator weight="bold" orientation="vertical" />
-            <div class="watt-text-s">
-              {{ meteringPointId() }}
-              <br />
-              {{ address()?.streetName }}
-              {{ address()?.buildingNumber }},
+            @if (loading()) {
+              <watt-skeleton width="200px" />
+            } @else {
+              <div class="watt-text-s">
+                {{ meteringPointId() }}
+                <br />
+                {{ address()?.streetName }}
+                {{ address()?.buildingNumber }},
 
-              @if (address()?.floor || address()?.room) {
-                {{ address()?.floor }} {{ address()?.room }}
-              }
-              <br />
-              {{ address()?.postCode }} {{ address()?.cityName }}
-            </div>
+                @if (address()?.floor || address()?.room) {
+                  {{ address()?.floor }} {{ address()?.room }}
+                }
+                <br />
+                {{ address()?.postCode }} {{ address()?.cityName }}
+              </div>
+            }
           </vater-stack>
 
           <span class="watt-label">{{ t('periodTitle') }}</span>
@@ -139,7 +145,11 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
 
           <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
             <watt-separator weight="bold" orientation="vertical" />
-            <p class="watt-text-s">{{ firstContactName() | dhEmDashFallback }}</p>
+            @if (loading()) {
+              <watt-skeleton width="200px" />
+            } @else {
+              <p class="watt-text-s">{{ firstContactName() | dhEmDashFallback }}</p>
+            }
           </vater-stack>
 
           <vater-stack direction="row" gap="s" align="center">
@@ -176,6 +186,8 @@ export class DhElectricalHeatingCorrection {
   private contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
+
+  loading = this.meteringPointQuery.loading;
 
   address = computed(() => this.meteringPoint()?.metadata?.installationAddress);
 
