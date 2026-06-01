@@ -30,7 +30,11 @@ import { WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { DhEmDashFallbackPipe, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  DhEmDashFallbackPipe,
+  DhStateBadge,
+  dhMakeFormControl,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -38,7 +42,6 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-rele
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
-import { DhProcessStateBadge } from './process-state-badge';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
@@ -62,7 +65,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
     WattDatePipe,
     WattFormChipDirective,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
     DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
@@ -114,12 +117,12 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           {{ t('processType.' + process.businessReason) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-process-state-badge
+          <dh-state-badge
             [status]="process.state"
             *transloco="let t; prefix: 'shared.states'"
           >
             {{ t(process.state) }}
-          </dh-process-state-badge>
+          </dh-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
           @if (process.initiator?.displayName; as displayName) {

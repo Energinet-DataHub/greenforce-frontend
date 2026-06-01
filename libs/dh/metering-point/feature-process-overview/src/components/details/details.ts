@@ -37,7 +37,7 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
 
-import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
@@ -52,7 +52,6 @@ import { DhActionsRegistry } from '../../actions/registry';
 import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 import { DhFasActionInfoModal } from '../fas-action-info-modal';
 import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-overview.store';
-import { DhProcessStateBadge } from '../process-state-badge';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -68,7 +67,7 @@ import { DhProcessStateBadge } from '../process-state-badge';
     WattExpandableLinkComponent,
     WattIconComponent,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
     DhMeteringPointProcessOverviewSteps,
     VaterGridComponent,
     VaterStackComponent,
@@ -134,9 +133,9 @@ import { DhProcessStateBadge } from '../process-state-badge';
       <watt-drawer-topbar>
         <vater-stack direction="row" gap="s" align="center">
           @if (isLoading() || state()) {
-            <dh-process-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+            <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
               {{ t(state() ?? 'indeterminate') }}
-            </dh-process-state-badge>
+            </dh-state-badge>
           }
           @if (cancelledByProcess(); as cancelledBy) {
             <span

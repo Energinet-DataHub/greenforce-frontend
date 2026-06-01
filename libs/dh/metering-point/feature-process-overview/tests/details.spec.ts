@@ -128,7 +128,7 @@ describe('Process overview details', () => {
 
   it('should show a state badge', async () => {
     await setup();
-    expect(document.querySelector('dh-process-state-badge')).not.toBeNull();
+    expect(document.querySelector('dh-state-badge')).not.toBeNull();
   });
 
   it('should display process steps', async () => {
