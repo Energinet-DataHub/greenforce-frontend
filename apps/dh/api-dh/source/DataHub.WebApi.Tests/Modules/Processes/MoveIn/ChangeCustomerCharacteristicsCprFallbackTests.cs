@@ -14,18 +14,23 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetContactCpr.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPoint.V2;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Framework;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using FluentAssertions;
+using HotChocolate.Execution;
+using Microsoft.AspNetCore.Http;
 using Moq;
 using Xunit;
+
+using EdiResult = Energinet.DataHub.EDI.B2CClient.Abstractions.Framework.Result<Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models.RequestChangeCustomerCharacteristicsResponseV2>;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.Processes.MoveIn;
 
@@ -55,13 +60,14 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
             .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
 
         // Act - send mutation with null firstCustomerCpr (private customer, no CVR)
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: null, firstCustomerName: "Test Name");
 
         // Assert
-        result.Errors.Should().BeNullOrEmpty();
+        var queryResult = (IQueryResult)result;
+        queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be(ExistingFirstCpr);
     }
@@ -77,13 +83,14 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
             .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
 
         // Act - send mutation with CPR already provided
         var result = await ExecuteMutation(server, firstCustomerCpr: "1234567890", firstCustomerCvr: null, firstCustomerName: "Test Name");
 
         // Assert
-        result.Errors.Should().BeNullOrEmpty();
+        var queryResult = (IQueryResult)result;
+        queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be("1234567890");
 
@@ -104,13 +111,14 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
             .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
 
         // Act - send mutation with CVR (business customer), null CPR
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: "12345678", firstCustomerName: "Business Corp");
 
         // Assert
-        result.Errors.Should().BeNullOrEmpty();
+        var queryResult = (IQueryResult)result;
+        queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().BeNull();
 
@@ -134,7 +142,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
             .Callback<RequestChangeCustomerCharacteristicsCommandV2, CancellationToken>((cmd, _) => capturedCommand = cmd)
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
 
         // Act - null CPR for both first and second customers
         var result = await ExecuteMutation(
@@ -146,7 +154,8 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
             secondCustomerName: "Secondary");
 
         // Assert
-        result.Errors.Should().BeNullOrEmpty();
+        var queryResult = (IQueryResult)result;
+        queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be(ExistingFirstCpr);
         capturedCommand.RequestChangeCustomerCharacteristicsRequest.SecondCustomerCpr.Should().Be(ExistingSecondCpr);
@@ -164,8 +173,9 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: null, firstCustomerName: "Test");
 
         // Assert - should return a GraphQL error since contacts could not be found
-        result.Errors.Should().NotBeNullOrEmpty();
-        result.Errors!.First().Message.Should().Contain("no customer contacts found");
+        var queryResult = (IQueryResult)result;
+        queryResult.Errors.Should().NotBeNullOrEmpty();
+        queryResult.Errors!.First().Message.Should().Contain("no customer contacts found");
 
         // EDI should NOT have been called
         server.EdiB2CClientMock.Verify(
@@ -197,48 +207,66 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
     {
         var contacts = new List<MeteringPointDtoV2.ContactDto>
         {
-            new()
-            {
-                Id = JuridicalContactId,
-                Name = "Primary Customer",
-                RelationType = RelationType.Juridical,
-            },
-            new()
-            {
-                Id = SecondaryContactId,
-                Name = "Secondary Customer",
-                RelationType = RelationType.Secondary,
-            },
+            new(
+                Id: JuridicalContactId,
+                IsProtectedName: false,
+                RelationType: RelationType.Juridical,
+                Name: "Primary Customer",
+                Cvr: null,
+                LegalContact: null,
+                TechnicalContact: null),
+            new(
+                Id: SecondaryContactId,
+                IsProtectedName: false,
+                RelationType: RelationType.Secondary,
+                Name: "Secondary Customer",
+                Cvr: null,
+                LegalContact: null,
+                TechnicalContact: null),
         };
 
-        var meteringPoint = new MeteringPointDtoV2
-        {
-            MeteringPointId = MeteringPointId,
-            CommercialRelation = new MeteringPointDtoV2.CommercialRelationDto
-            {
-                ActiveEnergySupplierPeriod = new MeteringPointDtoV2.EnergySupplierPeriodDto
-                {
-                    Contacts = contacts,
-                },
-            },
-        };
+        var energySupplierPeriod = new MeteringPointDtoV2.EnergySupplierPeriodDto(
+            ValidFrom: DateTimeOffset.UtcNow.AddYears(-1),
+            ValidTo: DateTimeOffset.UtcNow.AddYears(1),
+            Contacts: contacts);
+
+        var commercialRelation = new MeteringPointDtoV2.CommercialRelationDto(
+            ValidFrom: DateTimeOffset.UtcNow.AddYears(-1),
+            ValidTo: DateTimeOffset.UtcNow.AddYears(1),
+            EnergySupplierId: "5790001330552",
+            ActiveEnergySupplierPeriod: energySupplierPeriod,
+            ActiveElectricalHeatingPeriod: null,
+            EnergySupplierPeriods: [energySupplierPeriod],
+            ElectricalHeatingPeriods: []);
+
+        var meteringPointPeriod = CreateDummyMeteringPointPeriod();
+
+        var meteringPoint = new MeteringPointDtoV2(
+            MeteringPointId: MeteringPointId,
+            CurrentPeriod: meteringPointPeriod,
+            CommercialRelation: commercialRelation,
+            Periods: [meteringPointPeriod],
+            CommercialRelations: [commercialRelation]);
 
         server.ElectricityMarketClientMock
             .Setup(x => x.SendAsync(It.IsAny<GetMeteringPointQueryV2>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<GetMeteringPointResultDtoV2>.Success(new GetMeteringPointResultDtoV2 { MeteringPoint = meteringPoint }));
+            .Returns(Task.FromResult(Result<GetMeteringPointResultDtoV2>.Success(new GetMeteringPointResultDtoV2(meteringPoint))));
     }
 
     private static void SetupMeteringPointWithoutContacts(GraphQLTestService server)
     {
-        var meteringPoint = new MeteringPointDtoV2
-        {
-            MeteringPointId = MeteringPointId,
-            CommercialRelation = null,
-        };
+        var meteringPointPeriod = CreateDummyMeteringPointPeriod();
+
+        var meteringPoint = new MeteringPointDtoV2(
+            MeteringPointId: MeteringPointId,
+            CurrentPeriod: meteringPointPeriod,
+            CommercialRelation: null,
+            Periods: [meteringPointPeriod],
+            CommercialRelations: []);
 
         server.ElectricityMarketClientMock
             .Setup(x => x.SendAsync(It.IsAny<GetMeteringPointQueryV2>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<GetMeteringPointResultDtoV2>.Success(new GetMeteringPointResultDtoV2 { MeteringPoint = meteringPoint }));
+            .Returns(Task.FromResult(Result<GetMeteringPointResultDtoV2>.Success(new GetMeteringPointResultDtoV2(meteringPoint))));
     }
 
     private static void SetupCprFetch(GraphQLTestService server, Guid contactId, string cpr)
@@ -247,17 +275,47 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
             .Setup(x => x.SendAsync(
                 It.Is<GetContactCprQueryV1>(q => q.ContactId == contactId),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<GetContactCprResultDtoV1>.Success(new GetContactCprResultDtoV1(cpr)));
+            .Returns(Task.FromResult(Result<GetContactCprResultDtoV1>.Success(new GetContactCprResultDtoV1(cpr))));
     }
 
     private static void SetupEdiSuccess(GraphQLTestService server)
     {
         server.EdiB2CClientMock
             .Setup(x => x.SendAsync(It.IsAny<RequestChangeCustomerCharacteristicsCommandV2>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(Result<RequestChangeCustomerCharacteristicsResponseV2>.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok")));
+            .Returns(Task.FromResult(EdiResult.Success(new RequestChangeCustomerCharacteristicsResponseV2("ok"))));
     }
 
-    private static async Task<HotChocolate.Execution.IExecutionResult> ExecuteMutation(
+    private static MeteringPointDtoV2.MeteringPointPeriodDto CreateDummyMeteringPointPeriod()
+    {
+        return new MeteringPointDtoV2.MeteringPointPeriodDto(
+            ValidFrom: DateTimeOffset.UtcNow.AddYears(-1),
+            ValidTo: DateTimeOffset.UtcNow.AddYears(1),
+            Type: MeteringPointType.Consumption,
+            SubType: MeteringPointSubType.Physical,
+            TimeResolution: TimeResolution.QuarterHourly,
+            EnergyUnit: EnergyUnit.KWh,
+            GridAreaId: "804",
+            ConnectionState: ConnectionState.Connected,
+            ConnectionType: null,
+            DisconnectionType: null,
+            ParentMeteringPointId: null,
+            MeterId: null,
+            SettlementMethod: null,
+            Product: null,
+            ProductionObligation: null,
+            AssetType: null,
+            AssetCapacity: null,
+            PowerLimitKw: null,
+            PowerLimitAmperes: null,
+            SettlementGroup: null,
+            SettlementDate: null,
+            FromGridAreaId: null,
+            ToGridAreaId: null,
+            PowerPlantGsrn: null,
+            InstallationAddress: null);
+    }
+
+    private static async Task<IExecutionResult> ExecuteMutation(
         GraphQLTestService server,
         string? firstCustomerCpr,
         string? firstCustomerCvr,
@@ -311,4 +369,3 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
 
     #endregion
 }
-
