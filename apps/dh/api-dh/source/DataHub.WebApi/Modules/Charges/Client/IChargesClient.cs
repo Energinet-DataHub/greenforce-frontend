@@ -122,7 +122,7 @@ public interface IChargesClient
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
+        List<ChargeSeriesPointInput> points,
         CancellationToken ct = default);
 
     /// <summary>

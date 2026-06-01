@@ -2036,7 +2036,7 @@ input AddChargeSeriesInput {
   id: String!
   start: DateTime!
   end: DateTime!
-  points: [ChargePointV2Input!]!
+  points: [ChargeSeriesPointInput!]!
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -2156,9 +2156,10 @@ input ChargeOverviewQueryInput {
   missingPriceSeries: Boolean
 }
 
-input ChargePointV2Input {
+input ChargeSeriesPointInput {
   position: Int!
-  priceAmount: Decimal!
+  price: Decimal!
+  startDate: DateTime!
 }
 
 input CloseConversationInput {
