@@ -117,10 +117,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           {{ t('processType.' + process.businessReason) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
-          <dh-state-badge
-            [status]="process.state"
-            *transloco="let t; prefix: 'shared.states'"
-          >
+          <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
             {{ t(process.state) }}
           </dh-state-badge>
         </ng-container>
