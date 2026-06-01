@@ -28,7 +28,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
-import {
+import type {
   InstallationAddress,
   MeteringPointDetails,
 } from '@energinet-datahub/dh/metering-point/shared/domain';

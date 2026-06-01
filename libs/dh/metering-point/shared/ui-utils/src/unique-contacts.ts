@@ -1,4 +1,4 @@
-import { Contact } from '@energinet-datahub/dh/metering-point/shared/domain';
+import type { Contact } from '@energinet-datahub/dh/metering-point/shared/domain';
 import { ElectricityMarketViewCustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 export function uniqueContacts(contacts: Contact[]) {
