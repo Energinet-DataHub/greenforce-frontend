@@ -26,8 +26,9 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { ElectricityMarketViewCustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
+import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/shared/domain';
+import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-utils';
 
-import { Contact, MeteringPointDetails } from '../../types';
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
 import { DhCustomerCprComponent } from './dh-customer-cpr.component';
 import { DhCustomerProtectedComponent } from './dh-customer-protected.component';
@@ -121,21 +122,7 @@ export class DhCustomerOverviewComponent {
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
 
-  uniqueContacts = computed(() =>
-    this.contacts()
-      .reduce((foundValues: Contact[], nextContact) => {
-        if (!foundValues.some((contact) => contact.id === nextContact.id)) {
-          foundValues.push(nextContact);
-        }
-        return foundValues;
-      }, [])
-      .filter(
-        (x) =>
-          (x.relationType === ElectricityMarketViewCustomerRelationType.Juridical &&
-            x.name !== '') ||
-          (x.relationType === ElectricityMarketViewCustomerRelationType.Secondary && x.name !== '')
-      )
-  );
+  uniqueContacts = computed(() => uniqueContacts(this.contacts()));
 
   isEnergySupplierResponsible = computed(() => this.meteringPoint()?.isEnergySupplier);
 

@@ -31,8 +31,7 @@ import {
   ElectricityMarketMeteringPointType as MeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-
-import { MeteringPointDetails } from '../../types';
+import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/shared/domain';
 
 export type PropertyName =
   | 'energy-supplier-card'
