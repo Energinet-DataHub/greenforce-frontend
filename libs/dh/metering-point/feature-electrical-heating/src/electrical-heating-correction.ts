@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -30,10 +30,15 @@ import { WattSeparatorComponent } from '@energinet/watt/separator';
 
 import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
+  DhEmDashFallbackPipe,
   dhMakeFormControl,
   dhMeteringPointIdValidator,
   emDash,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-utils';
 
 @Component({
   selector: 'dh-electrical-heating-correction',
@@ -42,16 +47,16 @@ import {
     TranslocoDirective,
     ReactiveFormsModule,
     RouterLink,
+
     VATER,
     WATT_CARD,
     WattDatepickerComponent,
     WattButtonComponent,
     WattTextFieldComponent,
     WattSeparatorComponent,
+    DhEmDashFallbackPipe,
   ],
   styles: `
-    @use '@energinet/watt/utils' as watt;
-
     :host {
       display: block;
       width: 800px;
@@ -67,12 +72,11 @@ import {
 
     .em-dash {
       position: relative;
-      top: 12px; // Magix number
+      top: 12px; // Magic number
     }
 
     .hint {
       color: var(--watt-color-neutral-grey-700);
-      @include watt.typography-watt-text-s;
     }
 
     .no-margin {
@@ -106,25 +110,36 @@ import {
 
           <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
             <watt-separator weight="bold" orientation="vertical" />
-            {{ emDash }}
+            <div class="watt-text-s">
+              {{ meteringPointId() }}
+              <br />
+              {{ address()?.streetName }}
+              {{ address()?.buildingNumber }},
+
+              @if (address()?.floor || address()?.room) {
+                {{ address()?.floor }} {{ address()?.room }}
+              }
+              <br />
+              {{ address()?.postCode }} {{ address()?.cityName }}
+            </div>
           </vater-stack>
 
           <span class="watt-label">{{ t('periodTitle') }}</span>
           <vater-flex>
             <vater-stack direction="row" gap="m" align="start">
               <watt-datepicker [formControl]="form.controls.periodStart" />
-              <span class="em-dash">{{ emDash }}</span>
+              <span class="em-dash watt-text-s">{{ emDash }}</span>
               <watt-datepicker [formControl]="form.controls.periodEnd" />
             </vater-stack>
 
-            <span class="hint">{{ t('periodHint') }}</span>
+            <span class="hint watt-text-s">{{ t('periodHint') }}</span>
           </vater-flex>
 
           <p class="watt-text-s-highlighted">{{ t('customer') }}</p>
 
           <vater-stack direction="row" gap="m" class="watt-space-stack-ml">
             <watt-separator weight="bold" orientation="vertical" />
-            {{ emDash }}
+            <p class="watt-text-s">{{ firstContactName() | dhEmDashFallback }}</p>
           </vater-stack>
 
           <vater-stack direction="row" gap="s" align="center">
@@ -142,7 +157,33 @@ import {
   `,
 })
 export class DhElectricalHeatingCorrection {
+  private readonly actor = inject(DhActorStorage).getSelectedActor();
+
+  meteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
   internalMeteringPointId = input.required<string>();
+
+  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
+    variables: {
+      meteringPointId: this.meteringPointId(),
+      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
+      actorGln: this.actor.gln,
+    },
+  }));
+
+  private meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+
+  private contacts = computed(
+    () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
+  );
+
+  address = computed(() => this.meteringPoint()?.metadata?.installationAddress);
+
+  firstContactName = computed(() => {
+    const [firstContact] = uniqueContacts(this.contacts());
+
+    return firstContact?.name;
+  });
 
   form = new FormGroup({
     meteringPointId: dhMakeFormControl<string>('', [
