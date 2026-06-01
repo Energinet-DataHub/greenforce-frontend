@@ -614,7 +614,7 @@ function getHistoricalChargeLinkPeriods() {
               __typename: 'ChargeLinkPeriodChange',
               changeType: 'STARTED',
               created: new Date('2023-01-01T00:00:00Z'),
-              effectiveDate: new Date('2023-01-01T00:00:00Z'),
+              stopDate: new Date('2023-01-01T00:00:00Z'),
               factor: period?.amount ?? 1,
               previousFactor: null,
             },
