@@ -19,7 +19,7 @@
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import {
@@ -35,9 +35,10 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
+import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
 async function setup(
   overrides: Partial<{
@@ -58,6 +59,9 @@ async function setup(
       danishDatetimeProviders,
       provideMsalTesting(),
       WattModalService,
+      // The overview now reads its data from the store, which derives the
+      // overview query variables from inherited route data.
+      DhMeteringPointProcessOverviewStore,
       { provide: ComponentFixtureAutoDetect, useValue: true },
       {
         provide: PermissionService,
@@ -71,7 +75,14 @@ async function setup(
         useValue: {
           getSelectedActor: () => ({
             id: 'actor-1',
-            gln: '1234567890123',
+            // Deliberately NOT matching any mock initiator's GLN. The overview
+            // tests are about role-based button filtering, not the
+            // InitiatingParticipant path. If we used a GLN that overlaps a mock
+            // initiator (e.g. the by-id mock's first row), Apollo's normalised
+            // cache could leak that GLN into the overview's initiator (entities
+            // are keyed by id), making InitiatingParticipant spuriously match
+            // and showing buttons for actors that should not see them.
+            gln: '0000000000000',
             marketRole: actorMarketRole,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
@@ -80,6 +91,14 @@ async function setup(
         },
       },
     ],
+    // Stub ActivatedRoute (overridden AFTER the module-level `provideRouter([])`
+    // appended by the shared testbed) for the co-injected DhNavigationService;
+    // `children`/`firstChild` mirror an empty root route. The overview feeds the
+    // store's metering point id from its input, so no route data is needed here.
+    configureTestBed: (testBed) =>
+      testBed.overrideProvider(ActivatedRoute, {
+        useValue: { data: of({}), children: [], firstChild: null },
+      }),
     imports: [getTranslocoTestingModule()],
     componentInputs: {
       meteringPointId: 'mp-123',
@@ -209,5 +228,19 @@ describe('Process overview', () => {
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should show the translated role in the initiator column when the initiator is masked', async () => {
+    // `process-masked-initiator` has a null resolved participant but an
+    // initiatorRole of GridAccessProvider, so the initiator column falls back to
+    // the translated role ("Grid access provider") instead of a GLN.
+    await setup();
+
+    await waitForAsync(() => expect(screen.getByRole('treegrid')).toBeInTheDocument());
+
+    const grid = screen.getByRole('treegrid');
+    await waitForAsync(() =>
+      expect(within(grid).getAllByText(/Grid access provider/i).length).toBeGreaterThan(0)
+    );
   });
 });

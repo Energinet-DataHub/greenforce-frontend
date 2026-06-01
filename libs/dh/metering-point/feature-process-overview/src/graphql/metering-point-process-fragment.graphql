@@ -9,5 +9,6 @@ fragment MeteringPointProcessItem on MeteringPointProcess {
     displayName
     glnOrEicNumber
   }
+  initiatorRole
   availableActions
 }
