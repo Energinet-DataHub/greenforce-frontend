@@ -989,9 +989,9 @@
           "description": "Description"
         },
         "changeTypes": {
-          "STARTED": "Charge linked per {{date}}",
-          "STOPPED": "Charge link stopped per {{date}}",
-          "CANCELLED": "Charge link cancelled per {{date}}",
+          "STARTED": "Charge linked",
+          "STOPPED": "Charge link stopped per {{stopDate}}",
+          "CANCELLED": "Charge link cancelled",
           "EDITED": "Amount changed from {{previousFactor}} to {{factor}}"
         },
         "copyMessage": "Copy message ID",
