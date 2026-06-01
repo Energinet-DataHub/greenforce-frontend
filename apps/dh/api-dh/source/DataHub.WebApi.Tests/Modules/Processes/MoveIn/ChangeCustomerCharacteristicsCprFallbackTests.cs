@@ -66,7 +66,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: null, firstCustomerName: "Test Name");
 
         // Assert
-        var queryResult = (IQueryResult)result;
+        var queryResult = (OperationResult)result;
         queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be(ExistingFirstCpr);
@@ -89,7 +89,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         var result = await ExecuteMutation(server, firstCustomerCpr: "1234567890", firstCustomerCvr: null, firstCustomerName: "Test Name");
 
         // Assert
-        var queryResult = (IQueryResult)result;
+        var queryResult = (OperationResult)result;
         queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be("1234567890");
@@ -117,7 +117,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: "12345678", firstCustomerName: "Business Corp");
 
         // Assert
-        var queryResult = (IQueryResult)result;
+        var queryResult = (OperationResult)result;
         queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().BeNull();
@@ -154,7 +154,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
             secondCustomerName: "Secondary");
 
         // Assert
-        var queryResult = (IQueryResult)result;
+        var queryResult = (OperationResult)result;
         queryResult.Errors.Should().BeNullOrEmpty();
         capturedCommand.Should().NotBeNull();
         capturedCommand!.RequestChangeCustomerCharacteristicsRequest.FirstCustomerCpr.Should().Be(ExistingFirstCpr);
@@ -173,7 +173,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         var result = await ExecuteMutation(server, firstCustomerCpr: null, firstCustomerCvr: null, firstCustomerName: "Test");
 
         // Assert - should return a GraphQL error since contacts could not be found
-        var queryResult = (IQueryResult)result;
+        var queryResult = (OperationResult)result;
         queryResult.Errors.Should().NotBeNullOrEmpty();
         queryResult.Errors!.First().Message.Should().Contain("no customer contacts found");
 
@@ -243,9 +243,9 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
 
         var meteringPoint = new MeteringPointDtoV2(
             MeteringPointId: MeteringPointId,
-            CurrentPeriod: meteringPointPeriod,
+            MeteringPointPeriod: meteringPointPeriod,
             CommercialRelation: commercialRelation,
-            Periods: [meteringPointPeriod],
+            MeteringPointPeriods: [meteringPointPeriod],
             CommercialRelations: [commercialRelation]);
 
         server.ElectricityMarketClientMock
@@ -259,9 +259,9 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
 
         var meteringPoint = new MeteringPointDtoV2(
             MeteringPointId: MeteringPointId,
-            CurrentPeriod: meteringPointPeriod,
+            MeteringPointPeriod: meteringPointPeriod,
             CommercialRelation: null,
-            Periods: [meteringPointPeriod],
+            MeteringPointPeriods: [meteringPointPeriod],
             CommercialRelations: []);
 
         server.ElectricityMarketClientMock
