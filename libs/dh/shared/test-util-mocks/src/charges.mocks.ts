@@ -24,7 +24,7 @@ import {
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetMissingPriceSeriesPointsQuery,
-  mockGetChargeByTypeQuery,
+  mockGetChargesByTypeQuery,
   mockGetChargeLinkPeriodsQuery,
   mockGetChargeLinkPeriodByIdQuery,
   mockStopChargeLinkMutation,
@@ -626,7 +626,7 @@ function getHistoricalChargeLinkPeriods() {
 }
 
 function getChargesByType() {
-  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
+  return mockGetChargesByTypeQuery(async ({ variables: { type } }) => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     return HttpResponse.json({

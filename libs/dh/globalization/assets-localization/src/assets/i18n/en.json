@@ -124,6 +124,12 @@
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
+    "startupError": {
+      "title": "DataHub couldn't be loaded",
+      "message": "We couldn't load your information. Please try reloading the page, or sign out and sign in again.",
+      "retry": "Reload",
+      "signOut": "Sign out"
+    },
     "downloadStart": "Starting download...",
     "download": "Download",
     "exportCsv": "Export CSV",
@@ -993,7 +999,11 @@
         "actions": "Actions",
         "edit": "Edit charge link",
         "stop": "Stop charge link",
-        "cancel": "Cancel charge link"
+        "cancel": "Cancel charge link",
+        "empty": {
+          "title": "No changes received yet",
+          "text": "Changes will appear here once they have been processed."
+        }
       },
       "create": {
         "errors": {
@@ -1696,6 +1706,16 @@
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "registerElectricalHeating": "Register electrical heating",
+      "periodTitle": "Period for which reduced electricity tax is applied",
+      "periodHint": "Start date must not be before the address's eligibility date (cf. BBR)",
+      "customer": "Customer",
+      "meteringPoint": "Metering point",
+      "meteringPointIdLabel": "Electrical heating (D14) metering point ID"
     }
   },
   "messageArchive": {

@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectionStrategy } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
@@ -30,8 +31,6 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   ChargeType,
   GetChargeLinkPeriodsDocument,
@@ -42,18 +41,19 @@ import {
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
   DhChargesStatus,
   DhChargePeriodPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeLinkPeriod } from '../types';
-import { DhChargeLinkDetails } from './details';
 
-const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== ChargeType.Fee);
+const TARIFF_SUBSCRIPTIONS = [ChargeType.Tariff, ChargeType.TariffTax, ChargeType.Subscription];
 
 @Component({
-  selector: 'dh-metering-point-charge-links-tariff-subscriptions',
+  selector: 'dh-charge-links-tariff-subscriptions',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule,
@@ -67,7 +67,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
     WattSlideToggleComponent,
     WattIconComponent,
     WattTooltipDirective,
-    DhChargeLinkDetails,
+    RouterOutlet,
     DhChargesStatus,
     DhDropdownTranslatorDirective,
   ],
@@ -78,7 +78,7 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
       [enablePaginator]="false"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks'"
       [error]="chargeLinks.error()"
-      [ready]="chargeLinks.called() && !chargeLinks.loading()"
+      [ready]="chargeLinks.called()"
     >
       <watt-data-filters>
         <vater-stack direction="row" gap="m">
@@ -101,8 +101,8 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
         [columns]="columns"
         [loading]="chargeLinks.loading()"
         [resolveHeader]="resolveHeader"
-        [activeRow]="selected()"
-        (rowClick)="selected.set($event)"
+        [activeRow]="activeRow()"
+        (rowClick)="page.navigate('id', $event.id)"
       >
         <ng-container *wattTableCell="columns.type; let element">
           {{ element.charge.typeDisplayName }}
@@ -122,33 +122,35 @@ const TARIFF_SUBSCRIPTIONS = Object.values(ChargeType).filter((t) => t !== Charg
 
         <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
           {{ element.period | dhChargePeriod }}
-          @if (element.period.start.getTime() === element.period.end?.getTime()) {
+          @if (element.cancelled) {
             <dh-charges-status [status]="'CANCELLED'" />
           }
         </vater-stack>
       </watt-table>
     </watt-data-table>
-    <dh-charge-link-details [(item)]="selected" />
+    <router-outlet />
   `,
 })
-export default class DhMeteringPointChargeLinksTariffSubscriptions {
+export default class DhChargeLinksTariffSubscriptions {
+  protected page = inject(DhNavigationService);
+
   readonly meteringPointId = input.required<string>();
-  protected chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
+  readonly showClosed = signal(false);
+
+  chargeLinks = query(GetChargeLinkPeriodsDocument, () => ({
     variables: {
       meteringPointId: this.meteringPointId(),
     },
   }));
-
-  selected = signal<ChargeLinkPeriod | undefined>(undefined);
-  showClosed = signal(false);
 
   form = new FormGroup({ chargeTypes: dhMakeFormControl<ChargeType[]>() });
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType, [ChargeType.Fee]);
   chargeTypes = dhFormControlToSignal(this.form.controls.chargeTypes);
   types = computed(() => this.chargeTypes() ?? TARIFF_SUBSCRIPTIONS);
 
-  items = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
-  tariffsSubs = computed(() => this.items().filter((i) => this.types().includes(i.charge.type)));
+  periods = computed(() => this.chargeLinks.data()?.chargeLinkPeriods ?? []);
+  activeRow = computed(() => this.periods().find((i) => i.id === this.page.id()));
+  tariffsSubs = computed(() => this.periods().filter((i) => this.types().includes(i.charge.type)));
   dataSource = dataSource(() => this.tariffsSubs().filter((i) => !i.closed || this.showClosed()));
   columns: WattTableColumnDef<ChargeLinkPeriod> = {
     type: { accessor: (item) => item.charge.type },

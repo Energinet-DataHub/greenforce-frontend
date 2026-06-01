@@ -136,21 +136,34 @@ describe('Process overview details', () => {
     expect(document.querySelector('dh-metering-point-process-overview-steps')).not.toBeNull();
   });
 
-  it('should show action buttons for EndOfSupply process', async () => {
+  it('should show reject request button for GridAccessProvider on EndOfSupply process', async () => {
     await setup('process-eos-cancel');
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
   });
 
-  it('should show reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
+  it('should hide cancel button for GridAccessProvider on EndOfSupply process', async () => {
+    await setup('process-eos-cancel');
+    // Confirm at least one EndOfSupply action has rendered so the assertion
+    // below cannot pass simply because the actions row has not loaded yet.
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
+    );
+    expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should hide reject request button for responsible EnergySupplier on EndOfSupply process', async () => {
     await setup('process-eos-cancel', {
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
     });
+    // Positive control: cancel must render so the negation below proves the
+    // role gate, not just an unloaded actions row.
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
+      expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
     );
+    expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
   });
 
   it('should show request disconnection button for EndOfSupply process', async () => {
@@ -338,7 +351,7 @@ describe('Process overview details', () => {
       isEnergySupplierResponsible: false,
     });
 
-    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    await waitForAsync(() => expect(document.querySelector('watt-drawer-actions')).not.toBeNull());
 
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
     expect(screen.queryAllByRole('button', { name: /Reject request/i })).toHaveLength(0);
@@ -362,7 +375,7 @@ describe('Process overview details', () => {
       actorGln: '1234567890123',
     });
 
-    expect(document.querySelector('watt-description-list')).not.toBeNull();
+    await waitForAsync(() => expect(document.querySelector('watt-drawer-actions')).not.toBeNull());
     expect(screen.queryAllByRole('button', { name: /Send information/i })).toHaveLength(0);
   });
 

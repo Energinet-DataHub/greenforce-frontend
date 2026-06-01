@@ -49,10 +49,13 @@ export enum MutationStatus {
 }
 
 // Add the `onCompleted` and `onError` callbacks to align with `useMutation`
-export interface MutationOptions<TResult, TVariables>
-  extends Omit<ApolloMutationOptions<TResult, TVariables>, 'mutation'> {
-  onCompleted?: (data: TResult, clientOptions?: MutationOptions<TResult, TVariables>) => void;
-  onError?: (error: ApolloError, clientOptions?: MutationOptions<TResult, TVariables>) => void;
+export interface MutationOptions<TResult, TVariables> extends Omit<
+  ApolloMutationOptions<TResult, TVariables>,
+  'mutation'
+> {
+  onCompleted?: (data: TResult, clientOptions: MutationOptions<TResult, TVariables>) => void;
+  onError?: (error: ApolloError, clientOptions: MutationOptions<TResult, TVariables>) => void;
+  onStatusUpdated?: (status: MutationStatus) => void;
 }
 
 export type MutationResult<T> = FetchResult<T> & {
@@ -94,13 +97,15 @@ export function mutation<TResult, TVariables extends OperationVariables>(
       loading.set(false);
       called.set(false);
       status.set(MutationStatus.Idle);
+      options?.onStatusUpdated?.(MutationStatus.Idle);
     },
     mutate(
       options?: Partial<MutationOptions<TResult, TVariables>>
     ): Promise<MutationResult<TResult>> {
       const mergedOptions = { ...parentOptions, ...options };
-      const { onCompleted, onError, ...mutationOptions } = mergedOptions;
+      const { onCompleted, onError, onStatusUpdated, ...mutationOptions } = mergedOptions;
       status.set(MutationStatus.Loading);
+      onStatusUpdated?.(MutationStatus.Loading);
       return firstValueFrom(
         from(apollo.client.mutate({ ...mutationOptions, mutation: document })).pipe(
           // The MutationResult type is different from QueryResult in several ways
@@ -122,9 +127,11 @@ export function mutation<TResult, TVariables extends OperationVariables>(
           tap((result) => {
             if (result.error) {
               status.set(MutationStatus.Error);
+              onStatusUpdated?.(MutationStatus.Error);
               onError?.(result.error, mergedOptions);
             } else if (result.data) {
               status.set(MutationStatus.Resolved);
+              onStatusUpdated?.(MutationStatus.Resolved);
               onCompleted?.(result.data, mergedOptions);
             }
           }),

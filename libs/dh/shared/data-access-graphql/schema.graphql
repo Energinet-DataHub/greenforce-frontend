@@ -1230,7 +1230,7 @@ type Mutation {
   cancelChangeOfEnergySupplier(input: CancelChangeOfEnergySupplierInput!): CancelChangeOfEnergySupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelCustomerMoveIn(input: CancelCustomerMoveInInput!): CancelCustomerMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
