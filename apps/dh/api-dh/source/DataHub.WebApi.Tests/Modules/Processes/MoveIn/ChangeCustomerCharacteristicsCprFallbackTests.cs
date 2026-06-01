@@ -187,7 +187,7 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         // Assert - should return a GraphQL error since contacts could not be found
         var queryResult = (OperationResult)result;
         queryResult.Errors.Should().NotBeNullOrEmpty();
-        queryResult.Errors!.First().Exception!.Message.Should().Contain("no customer contacts found");
+        queryResult.Errors!.First().Message.Should().Contain("no customer contacts found");
 
         // EDI should NOT have been called
         server.EdiB2CClientMock.Verify(
@@ -207,9 +207,10 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
             new System.Security.Claims.ClaimsIdentity(
             [
                 new System.Security.Claims.Claim("azp", "5790001330552"),
-                new System.Security.Claims.Claim("marketparticipant-number", "5790001330552"),
-                new System.Security.Claims.Claim("marketparticipant-market-role", "EnergySupplier"),
-            ]));
+                new System.Security.Claims.Claim("actornumber", "5790001330552"),
+                new System.Security.Claims.Claim("marketroles", "EnergySupplier"),
+            ],
+            "MockedAuthenticationType"));
         server.HttpContextAccessorMock.Setup(x => x.HttpContext).Returns(httpContext);
 
         return server;
@@ -365,6 +366,15 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         return await server.ExecuteRequestAsync(builder =>
         {
             builder.SetDocument(operation);
+            builder.SetUser(new System.Security.Claims.ClaimsPrincipal(
+                new System.Security.Claims.ClaimsIdentity(
+                [
+                    new System.Security.Claims.Claim("azp", "5790001330552"),
+                    new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, "metering-point:move-in"),
+                    new System.Security.Claims.Claim("marketparticipant-number", "5790001330552"),
+                    new System.Security.Claims.Claim("marketparticipant-market-role", "EnergySupplier"),
+                ],
+                "MockedAuthenticationType")));
             builder.SetVariableValues(new Dictionary<string, object?>
             {
                 { "meteringPointId", MeteringPointId },
