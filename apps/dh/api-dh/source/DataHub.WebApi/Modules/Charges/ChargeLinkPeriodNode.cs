@@ -65,10 +65,7 @@ public static partial class ChargeLinkPeriodNode
         [Parent] ChargeLinkPeriod item,
         IChargesClient client,
         CancellationToken ct)
-    {
-        var periods = await client.GetHistoricalChargeLinkPeriodsByIdAsync(item.Id, ct);
-        return ChargeLinkPeriodChange.FromPeriods(periods);
-    }
+        => await client.GetHistoricalChargeLinkPeriodsByIdAsync(item.Id, ct);
 
     public static Interval GetPeriod([Parent] ChargeLinkPeriod item)
     {
