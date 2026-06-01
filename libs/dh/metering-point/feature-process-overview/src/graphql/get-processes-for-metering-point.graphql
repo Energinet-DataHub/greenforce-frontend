@@ -1,4 +1,4 @@
-query GetMeteringPointProcessOverview($meteringPointId: String!, $created: DateRange!) {
+query GetMeteringPointProcessOverview($meteringPointId: String!, $created: DateRange) {
   meteringPointProcessOverview(meteringPointId: $meteringPointId, created: $created) {
     ...MeteringPointProcessItem
   }

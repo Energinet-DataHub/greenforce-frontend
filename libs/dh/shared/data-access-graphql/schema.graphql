@@ -1519,7 +1519,7 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   meteringPointProcessById(id: String!): MeteringPointProcess
-  meteringPointProcessOverview(meteringPointId: String! created: DateRange!): [MeteringPointProcess!]!
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
@@ -1811,7 +1811,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 

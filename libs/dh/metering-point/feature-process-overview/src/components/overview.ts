@@ -18,7 +18,6 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
@@ -27,17 +26,26 @@ import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/wa
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { WattDatePipe } from '@energinet/watt/date';
+import type { WattRange } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import type { WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import {
+  DhDropdownTranslatorDirective,
   DhEmDashFallbackPipe,
+  DhResetFiltersButtonComponent,
   DhStateBadge,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
-import { WorkflowAction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  MeteringPointProcessState,
+  ProcessManagerBusinessReason,
+  WorkflowAction,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
@@ -63,8 +71,11 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
     WattDatePipe,
+    WattDropdownComponent,
     WattFormChipDirective,
+    DhDropdownTranslatorDirective,
     DhEmDashFallbackPipe,
+    DhResetFiltersButtonComponent,
     DhStateBadge,
     DhReleaseToggleDirective,
     SupportedActionsPipe,
@@ -90,9 +101,28 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           [formGroup]="form"
           *transloco="let t; prefix: 'meteringPoint.processOverview.filters'"
         >
-          <watt-date-range-chip [formControl]="form.controls.created">
-            {{ t('created') }}
+          <watt-date-range-chip [formControl]="form.controls.period">
+            {{ t('period') }}
           </watt-date-range-chip>
+          <watt-dropdown
+            [formControl]="form.controls.businessReasons"
+            [chipMode]="true"
+            [multiple]="true"
+            [options]="typeOptions()"
+            [placeholder]="t('type')"
+            dhDropdownTranslator
+            translateKey="meteringPoint.processOverview.processType"
+          />
+          <watt-dropdown
+            [formControl]="form.controls.states"
+            [chipMode]="true"
+            [multiple]="true"
+            [options]="statusOptions()"
+            [placeholder]="t('status')"
+            dhDropdownTranslator
+            translateKey="shared.states"
+          />
+          <dh-reset-filters-button />
         </form>
       </watt-data-filters>
       <watt-table
@@ -189,7 +219,20 @@ export class DhMeteringPointProcessOverviewTable {
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
-  dataSource = dataSource(() => this.store.processes());
+  dataSource = dataSource(() => this.store.filteredProcesses());
+
+  // Dropdown options are derived from the LOADED processes so the list is relevant and
+  // avoids the 60+ business-reason enum. dhDropdownTranslator overwrites displayValue from
+  // the translation and sorts by translation-key order, so value === displayValue here.
+  typeOptions = computed<WattDropdownOptions>(() => {
+    const reasons = [...new Set(this.store.processes().map((p) => p.businessReason))];
+    return reasons.map((value) => ({ value, displayValue: value }));
+  });
+
+  statusOptions = computed<WattDropdownOptions>(() => {
+    const states = [...new Set(this.store.processes().map((p) => p.state))];
+    return states.map((value) => ({ value, displayValue: value }));
+  });
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
@@ -201,7 +244,9 @@ export class DhMeteringPointProcessOverviewTable {
   };
 
   form = new FormGroup({
-    created: dhMakeFormControl(this.store.dateRange()),
+    period: dhMakeFormControl<WattRange<Date>>(null),
+    businessReasons: dhMakeFormControl<ProcessManagerBusinessReason[]>(null),
+    states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
@@ -211,14 +256,24 @@ export class DhMeteringPointProcessOverviewTable {
     // The list itself stays a pure derivation inside the store, so it cannot drift.
     effect(() => this.store.meteringPointId.set(this.meteringPointId()));
 
-    // The date-range chip is an event stream, so sync it into the store via RxJS
+    // The filter controls are event streams, so sync them into the store via RxJS
     // (the appropriate use of valueChanges, not an effect).
-    this.form.controls.created.valueChanges
-      .pipe(
-        filter((created): created is NonNullable<typeof created> => Boolean(created?.end)),
-        takeUntilDestroyed()
-      )
-      .subscribe((created) => this.store.dateRange.set(created));
+    this.form.controls.period.valueChanges.pipe(takeUntilDestroyed()).subscribe((period) => {
+      if (period?.start && period?.end) {
+        this.store.dateRange.set(period); // complete range chosen
+      } else if (!period?.start && !period?.end) {
+        this.store.dateRange.set(null); // cleared/reset -> BFF default (blank)
+      }
+      // partial (start only): ignore until end is picked
+    });
+
+    this.form.controls.businessReasons.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((v) => this.store.businessReasons.set(v ?? []));
+
+    this.form.controls.states.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((v) => this.store.states.set(v ?? []));
   }
 
   // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);
