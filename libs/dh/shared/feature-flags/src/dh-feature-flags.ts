@@ -36,8 +36,7 @@ const latestBump = '01-04-2026';
  * },
  */
 export const dhFeatureFlagsConfig = {
-  // This feature flag should be removed in favor of injected environment variables
-  // from terraform, whenever the new web application setup is ready (outlaws).
+  // This feature flag should be removed in favor of system parameters
   'quarterly-resolution-transition-datetime-override': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.preprod, DhAppEnvironment.prod],
