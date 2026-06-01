@@ -25,7 +25,6 @@ import { VaterFlexComponent } from '@energinet/watt/vater';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ElectricityMarketViewCustomerRelationType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/shared/domain';
 import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-utils';
 
