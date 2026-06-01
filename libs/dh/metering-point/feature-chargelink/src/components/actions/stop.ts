@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -29,15 +29,18 @@ import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { injectToast, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
-import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetChargeLinkPeriodByIdDocument,
+  StopChargeLinkDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
-  selector: 'dh-metering-point-stop-charge-link',
+  selector: 'dh-charge-links-stop-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -58,66 +61,68 @@ import { StopChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
   template: `
     <watt-modal
       size="small"
-      #stop
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.stop'"
-      (closed)="navigate.navigate('list')"
+      (closed)="page.navigate('id', id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
       <form
-        (ngSubmit)="stopLink()"
-        id="stop"
+        id="stop-charge-link-form"
         vater-stack
         align="start"
         direction="column"
         gap="s"
         tabindex="-1"
         [formGroup]="form"
+        (ngSubmit)="stop()"
       >
-        <watt-datepicker [formControl]="form.controls.stopDate" [label]="t('stopDate')" />
+        <watt-datepicker
+          [formControl]="form.controls.stopDate"
+          [label]="t('stopDate')"
+          [min]="min()"
+          [max]="max()"
+        />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="stop.close(false)">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" formId="stop" type="submit">
+        <watt-button variant="primary" formId="stop-charge-link-form" type="submit">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export default class DhMeteringPointStopChargeLink {
-  private readonly toast = injectToast('meteringPoint.chargeLinks.stop.toast');
-  private readonly stopChargeLink = mutation(StopChargeLinkDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
+export default class DhChargeLinksStopModal {
+  protected page = inject(DhNavigationService);
 
-  navigate = inject(DhNavigationService);
+  readonly modal = viewChild.required(WattModalComponent);
+  readonly id = input.required<string>();
+
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
+  stopChargeLink = mutation(StopChargeLinkDocument, {
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.stop.toast'),
+    onCompleted: () => this.modal().close(true),
+  });
+
   form = new FormGroup({
     stopDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  id = input.required<string>();
+  min = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.start);
+  max = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.end ?? undefined);
 
-  async stopLink() {
-    if (!this.form.valid) return;
-
+  async stop() {
     assertIsDefined(this.form.controls.stopDate.value);
-
     await this.stopChargeLink.mutate({
       variables: {
         id: this.id(),
         stopDate: this.form.controls.stopDate.value,
       },
     });
-
-    this.modal().close(true);
-  }
-
-  constructor() {
-    effect(() => this.toast(this.stopChargeLink.status()));
   }
 }

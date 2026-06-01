@@ -29,7 +29,6 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
@@ -43,7 +42,6 @@ import { ChargeLinksSubPaths, getPath } from '@energinet-datahub/dh/core/configu
     VaterUtilityDirective,
     WATT_SEGMENTED_BUTTONS,
   ],
-  providers: [DhNavigationService],
   template: `
     <vater-flex
       inset="ml"

@@ -124,6 +124,12 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
+    "startupError": {
+      "title": "DataHub kunne ikke indlæses",
+      "message": "Vi kunne ikke hente dine oplysninger. Prøv at genindlæse siden, eller log ud og log ind igen.",
+      "retry": "Genindlæs",
+      "signOut": "Log ud"
+    },
     "downloadStart": "Starter download...",
     "download": "Download",
     "exportCsv": "Eksporter CSV",
@@ -992,7 +998,11 @@
         "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
-        "cancel": "Annuller pristilknytning"
+        "cancel": "Annuller pristilknytning",
+        "empty": {
+          "title": "Ingen ændringer modtaget endnu",
+          "text": "Ændringer vises her, når de er blevet behandlet."
+        }
       },
       "create": {
         "errors": {
@@ -1665,7 +1675,7 @@
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at få afbrudt for strømmen på målepunktet.",
+      "confirmCheckbox": "Jeg er opmærksom på, at et leveranceophør medfører, at der bliver afbrudt for strømmen.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
       "submitSuccess": "Leveranceophør indsendt.",
@@ -1693,6 +1703,16 @@
       "submitSuccess": "Leverandørskifte indsendt. Du kan følge status under processer",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskifte kunne ikke indsendes"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "registerElectricalHeating": "Registrer elvarme",
+      "periodTitle": "Periode for reduceret elafgift",
+      "periodHint": "Startdato må ikke ligge før adressens berettigelsesdato (jf. BBR)",
+      "customer": "Kunde",
+      "meteringPoint": "Målepunkt",
+      "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
     }
   },
   "messageArchive": {
