@@ -28,6 +28,7 @@ import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/tabl
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -49,7 +50,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
+import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -184,7 +185,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
+  private readonly modalService = inject(WattModalService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -271,6 +272,13 @@ export class DhMeteringPointProcessOverviewTable {
 
     assertIsDefined(process.cutoffDate);
 
-    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
+    this.modalService.open({
+      component: DhRequestIncorrectMoveInModal,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        processId: process.id,
+        cutoffDate: process.cutoffDate,
+      },
+    });
   }
 }
