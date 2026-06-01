@@ -36,18 +36,26 @@ public static partial class MeteringPointProcessNode
     [Query]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
-        Interval created,
+        Interval? created,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
         var userIdentity = httpContextAccessor.CreateUserIdentity();
 
+        // Hidden default period: when the frontend sends no period it leaves the period filter
+        // visually blank, so the BFF applies a wide default window covering all relevant processes
+        // (start = 2016-01-01 UTC, end = now + 1 year, recomputed per request). This default lives
+        // only here, in the query method, as the single source of truth (see ResolveCreatedInterval).
+        // The subscription delegates to this method (see OnMeteringPointProcessUpdatedAsync), so it
+        // inherits the same default.
+        var resolvedCreated = ResolveCreatedInterval(created, SystemClock.Instance.GetCurrentInstant());
+
         var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
             userIdentity,
             meteringPointId,
-            created.Start.ToDateTimeOffset(),
-            created.End.ToDateTimeOffset());
+            resolvedCreated.Start.ToDateTimeOffset(),
+            resolvedCreated.End.ToDateTimeOffset());
 
         var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
@@ -74,7 +82,7 @@ public static partial class MeteringPointProcessNode
     [Subscribe(With = nameof(OnMeteringPointProcessUpdatedAsync))]
     public static MeteringPointProcess MeteringPointProcessUpdated(
         string meteringPointId,
-        Interval created,
+        Interval? created,
         [EventMessage] MeteringPointProcess process) => process;
 
     // This resolver fetches one extra workflow instance per parent process. It is only selected by the
@@ -149,6 +157,19 @@ public static partial class MeteringPointProcessNode
         return process.Actions is null ? [] : process.Actions.Where(a => a != WorkflowAction.NoAction);
     }
 
+    /// <summary>
+    /// Resolves the period used to search for processes. When the frontend sends no period
+    /// (<paramref name="created"/> is null), a wide hidden-default window is applied:
+    /// start = 2016-01-01 UTC, end = <paramref name="now"/> + 1 calendar year. This is the single
+    /// source of truth for that default (the query and subscription both route through it).
+    /// Pure by design: <paramref name="now"/> is passed in (no SystemClock call here) so the
+    /// date-defaulting is unit-testable for a fixed instant.
+    /// </summary>
+    internal static Interval ResolveCreatedInterval(Interval? created, Instant now) =>
+        created ?? new Interval(
+            Instant.FromUtc(2016, 1, 1, 0, 0),
+            now.InUtc().LocalDateTime.PlusYears(1).InUtc().ToInstant());
+
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
         descriptor.Name("MeteringPointProcess");
@@ -167,10 +188,13 @@ public static partial class MeteringPointProcessNode
 
     private static IObservable<MeteringPointProcess> OnMeteringPointProcessUpdatedAsync(
         string meteringPointId,
-        Interval created,
+        Interval? created,
         IProcessManagerClient processManagerClient,
         IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken) =>
+        // Pass the nullable period straight through; the hidden default period is resolved in
+        // GetMeteringPointProcessOverviewAsync (single source of truth) so it stays consistent
+        // between the initial query and subsequent subscription updates.
         Observable
             .Interval(TimeSpan.FromSeconds(10))
             .StartWith(0)

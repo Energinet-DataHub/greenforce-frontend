@@ -18,12 +18,13 @@
 //#endregion
 import { computed, effect, Injectable, signal } from '@angular/core';
 
-import { dayjs } from '@energinet/watt/date';
 import type { WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetMeteringPointProcessOverviewDocument,
+  MeteringPointProcessState,
   OnMeteringPointProcessUpdatedDocument,
+  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 /**
@@ -39,11 +40,13 @@ export class DhMeteringPointProcessOverviewStore {
   // own ActivatedRoute, so the overview (which gets it via withComponentInputBinding) feeds it.
   readonly meteringPointId = signal<string | undefined>(undefined);
 
-  // Owned filter state. Default mirrors the previous overview initialDateRange.
-  readonly dateRange = signal<WattRange<Date>>({
-    start: dayjs().subtract(3, 'months').startOf('day').toDate(),
-    end: dayjs().endOf('day').toDate(),
-  });
+  // Owned filter state. The period starts BLANK: when null, no `created` range is sent and
+  // the BFF applies its hidden default period (2016-01-01 -> now+1year).
+  readonly dateRange = signal<WattRange<Date> | null>(null);
+
+  // Client-side filters applied to the already-loaded per-metering-point list.
+  readonly businessReasons = signal<ProcessManagerBusinessReason[]>([]);
+  readonly states = signal<MeteringPointProcessState[]>([]);
 
   private readonly query = query(GetMeteringPointProcessOverviewDocument, () => {
     const meteringPointId = this.meteringPointId();
@@ -53,6 +56,18 @@ export class DhMeteringPointProcessOverviewStore {
 
   readonly processes = computed(() => this.query.data()?.meteringPointProcessOverview ?? []);
   readonly visibleProcessIds = computed(() => new Set(this.processes().map((p) => p.id)));
+
+  // Derived list for the TABLE. `processes()` / `visibleProcessIds` stay the FULL fetched set
+  // because the details drawer's cross-cancellation logic depends on the full visible list.
+  readonly filteredProcesses = computed(() => {
+    const reasons = this.businessReasons();
+    const states = this.states();
+    return this.processes().filter(
+      (p) =>
+        (reasons.length === 0 || reasons.includes(p.businessReason)) &&
+        (states.length === 0 || states.includes(p.state))
+    );
+  });
   readonly loading = computed(() => this.query.loading());
   readonly error = computed(() => this.query.error());
   readonly called = computed(() => this.query.called());
@@ -64,11 +79,13 @@ export class DhMeteringPointProcessOverviewStore {
       const meteringPointId = variables.meteringPointId;
       const created = variables.created;
 
-      if (!meteringPointId || !created) return;
+      // `created` may legitimately be null now (the BFF applies its hidden default period),
+      // so only the metering point id is required for live updates to work.
+      if (!meteringPointId) return;
 
       const unsubscribe = this.query.subscribeToMore({
         document: OnMeteringPointProcessUpdatedDocument,
-        variables: { meteringPointId, created },
+        variables: { meteringPointId, created: created ?? null },
         updateQuery: (prev, options) => ({
           ...prev,
           meteringPointProcessOverview: prev.meteringPointProcessOverview.map((x) =>

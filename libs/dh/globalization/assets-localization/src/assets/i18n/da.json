@@ -1121,7 +1121,9 @@
         "IncorrectMove": "Fejlagtig flytning (D33)"
       },
       "filters": {
-        "created": "Tidspunkt"
+        "period": "Periode",
+        "type": "Type",
+        "status": "Status"
       },
       "actions": {
         "fasGenericActions": "Mulige handlinger for aktører",
