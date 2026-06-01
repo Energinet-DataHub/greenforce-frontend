@@ -37,10 +37,10 @@ namespace Energinet.DataHub.WebApi.Tests.Modules.Processes.MoveIn;
 public class ChangeCustomerCharacteristicsCprFallbackTests
 {
     private const string MeteringPointId = "571313180000000005";
-    private static readonly Guid JuridicalContactId = Guid.Parse("11111111-1111-1111-1111-111111111111");
-    private static readonly Guid SecondaryContactId = Guid.Parse("22222222-2222-2222-2222-222222222222");
     private const string ExistingFirstCpr = "0101901234";
     private const string ExistingSecondCpr = "0202905678";
+    private static readonly Guid JuridicalContactId = Guid.Parse("11111111-1111-1111-1111-111111111111");
+    private static readonly Guid SecondaryContactId = Guid.Parse("22222222-2222-2222-2222-222222222222");
 
     [Fact]
     public async Task WhenCprIsNull_ForPrivateCustomer_FetchesExistingCpr()
@@ -295,18 +295,20 @@ public class ChangeCustomerCharacteristicsCprFallbackTests
         return await server.ExecuteRequestAsync(builder =>
         {
             builder.SetDocument(operation);
-            builder.SetVariableValue("meteringPointId", MeteringPointId);
-            builder.SetVariableValue("businessReason", "UPDATE_MASTER_DATA_CONSUMER");
-            builder.SetVariableValue("electricalHeating", false);
-            builder.SetVariableValue("firstCustomerCpr", firstCustomerCpr);
-            builder.SetVariableValue("firstCustomerCvr", firstCustomerCvr);
-            builder.SetVariableValue("firstCustomerName", firstCustomerName);
-            builder.SetVariableValue("secondCustomerCpr", secondCustomerCpr);
-            builder.SetVariableValue("secondCustomerName", secondCustomerName);
+            builder.SetVariableValues(new Dictionary<string, object?>
+            {
+                { "meteringPointId", MeteringPointId },
+                { "businessReason", "UPDATE_MASTER_DATA_CONSUMER" },
+                { "electricalHeating", false },
+                { "firstCustomerCpr", firstCustomerCpr },
+                { "firstCustomerCvr", firstCustomerCvr },
+                { "firstCustomerName", firstCustomerName },
+                { "secondCustomerCpr", secondCustomerCpr },
+                { "secondCustomerName", secondCustomerName },
+            });
         });
     }
 
     #endregion
 }
-
 
