@@ -935,6 +935,7 @@
         "no": "Nej"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
+      "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
       "yes": "Ja",
       "no": "Nej",
       "electricalHeatingInformationDate": "Elvarmedato: {{ electricalHeatingDate }}",

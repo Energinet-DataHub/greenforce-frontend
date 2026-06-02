@@ -936,6 +936,7 @@
         "no": "No"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
+      "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
       "yes": "Yes",
       "no": "No",
       "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
