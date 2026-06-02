@@ -23,6 +23,7 @@ import {
   CanActivateFn,
   RedirectFunction,
   ActivatedRouteSnapshot,
+  RedirectCommand,
 } from '@angular/router';
 
 import { inject } from '@angular/core';
@@ -206,20 +207,7 @@ export const dhMeteringPointRoutes: Routes = [
             canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
             data: { hideHeader: true },
             resolve: {
-              conversationId: (route: ActivatedRouteSnapshot) => {
-                const router = inject(Router);
-                const idParam: string = route.params[dhInternalMeteringPointIdParam];
-
-                const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
-
-                if (!conversationId) {
-                  return router.navigateByUrl(
-                    combineWithIdPaths('metering-point', idParam, 'actor-conversation')
-                  );
-                }
-
-                return conversationId;
-              },
+              conversationId: conversationIdResolver(),
             },
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
@@ -345,5 +333,24 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return dhIsEM1InternalId(idParam);
+  };
+}
+
+function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
+  return (route: ActivatedRouteSnapshot) => {
+    const router = inject(Router);
+    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+
+    const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
+
+    if (!conversationId) {
+      const redirectPath = router.parseUrl(
+        combineWithIdPaths('metering-point', idParam, 'actor-conversation')
+      );
+
+      return new RedirectCommand(redirectPath);
+    }
+
+    return conversationId;
   };
 }
