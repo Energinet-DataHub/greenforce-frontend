@@ -1263,6 +1263,7 @@ type Mutation {
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
+  registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1577,6 +1578,10 @@ type ReadinessStatusDto {
 }
 
 type RebuildProjectionsPayload {
+  boolean: Boolean
+}
+
+type RegisterElectricalHeatingPayload {
   boolean: Boolean
 }
 
@@ -2444,6 +2449,14 @@ input ReInviteUserInput {
 input RebuildProjectionsInput {
   projection: ProjectionType!
   timeout: Int!
+}
+
+input RegisterElectricalHeatingInput {
+  parentMeteringPointId: String!
+  childMeteringPointId: String!
+  actorConversationId: UUID!
+  periodStart: DateTime!
+  periodEnd: DateTime
 }
 
 input RejectEndOfSupplyInput {

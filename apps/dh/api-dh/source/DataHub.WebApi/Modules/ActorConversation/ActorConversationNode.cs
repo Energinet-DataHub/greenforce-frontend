@@ -27,7 +27,6 @@ public static partial class ActorConversationNode
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<GetConversationQueryResponse> GetConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
