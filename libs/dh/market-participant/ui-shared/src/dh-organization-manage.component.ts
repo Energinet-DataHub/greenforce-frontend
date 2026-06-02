@@ -53,7 +53,7 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
             {{ t('domainInvalid') }}
           </watt-field-error>
         }
-        <watt-button variant="text" (click)="addDomain()" icon="plus" />
+        <watt-button variant="text" (click)="addDomain()" icon="plus" [aria-label]="t('add')" />
       </watt-text-field>
       @if (domains().value.length > 0) {
         <vater-stack class="domains" wrap direction="row" gap="s">
