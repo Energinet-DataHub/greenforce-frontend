@@ -118,14 +118,12 @@ watt-field {
   --watt-field-disabled-background-color: var(--watt-color-neutral-grey-100);
   --watt-input-border-radius: 4px;
   --watt-border-color: var(--watt-on-light-low-emphasis);
-  --watt-label-text-color: var(--watt-text-color);
   --watt-field-control-height: 44px;
   --watt-field-control-inner-height: calc(var(--watt-field-control-height) - 2px);
+  --watt-label-text-color: var(--watt-text-color);
+  --watt-field-label-min-height: 27px;
   --watt-field-label-line-height: 20px;
   --watt-field-label-gap: 4px;
-  --watt-field-label-block-height: calc(
-    var(--watt-field-label-line-height) + var(--watt-field-label-gap)
-  );
   --watt-field-subscript-gap: 4px;
 
   width: 100%;
@@ -137,6 +135,7 @@ watt-field {
 
   .label {
     display: flex;
+    min-height: var(--watt-field-label-min-height);
     align-items: center;
     line-height: var(--watt-field-label-line-height);
     padding-bottom: var(--watt-field-label-gap);
