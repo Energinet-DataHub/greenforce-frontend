@@ -33,9 +33,9 @@ import {
   ElectricityMarketViewMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import type { EnergySupplier } from '@energinet-datahub/dh/metering-point/shared/domain';
 
 import { DhManageProductionObligation } from './manage-production-obligation/dh-manage-production-obligation';
-import type { EnergySupplier } from '../types';
 
 @Component({
   selector: 'dh-energy-supplier',

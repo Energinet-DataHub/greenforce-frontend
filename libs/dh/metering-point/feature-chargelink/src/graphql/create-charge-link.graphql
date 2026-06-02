@@ -17,7 +17,7 @@ mutation CreateChargeLink(
       changes {
         created
         changeType
-        effectiveDate
+        stopDate
         factor
         previousFactor
       }

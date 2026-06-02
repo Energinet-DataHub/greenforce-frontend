@@ -24,7 +24,7 @@ import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 
 import { of } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import {
   getTranslocoTestingModule,
@@ -42,6 +42,7 @@ import {
 import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
+import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
 async function setup(
   processId = 'process-eos-cancel',
@@ -65,6 +66,10 @@ async function setup(
       provideMsalTesting(),
       WattModalService,
       DhNavigationService,
+      // The store reads `meteringPointId` from inherited route data and fires the
+      // overview query; the drawer uses the resulting visible list to decide
+      // link-vs-text in the cross-cancellation banner.
+      DhMeteringPointProcessOverviewStore,
       { provide: ComponentFixtureAutoDetect, useValue: true },
       {
         provide: PermissionService,
@@ -87,6 +92,13 @@ async function setup(
         },
       },
     ],
+    // Stub ActivatedRoute (overridden AFTER the module-level `provideRouter([])`
+    // appended by the shared testbed) for the co-injected DhNavigationService;
+    // `children`/`firstChild` mirror an empty root route.
+    configureTestBed: (testBed) =>
+      testBed.overrideProvider(ActivatedRoute, {
+        useValue: { data: of({}), children: [], firstChild: null },
+      }),
     imports: [getTranslocoTestingModule()],
     componentInputs: {
       id: processId,
@@ -95,6 +107,13 @@ async function setup(
       isEnergySupplierResponsible,
     },
   });
+
+  // The drawer is rendered in isolation, so play the overview's role: feed the
+  // metering point id into the store that owns the overview query (the overview
+  // does this from its route-bound input in the real app).
+  fixture.debugElement.injector
+    .get(DhMeteringPointProcessOverviewStore)
+    .meteringPointId.set('mp-123');
 
   await waitForAsync(() => expect(document.querySelector('watt-drawer')).not.toBeNull());
 
@@ -232,6 +251,47 @@ describe('Process overview details', () => {
     expect(terms.some((term) => /Initiating participant/i.test(term.textContent || ''))).toBe(true);
   });
 
+  it('should show the initiator GLN/name when the initiator is not masked', async () => {
+    // `process-eos-cancel`'s initiator resolves to the logged-in actor's GLN
+    // (1234567890123 • Radius), so the description list shows the displayName.
+    await setup('process-eos-cancel');
+
+    const definitions = await screen.findAllByRole('definition');
+    expect(definitions.some((d) => /1234567890123/.test(d.textContent || ''))).toBe(true);
+  });
+
+  it('should show only the translated role when the initiator is masked', async () => {
+    // `process-masked-initiator` has a null resolved participant but an
+    // initiatorRole of GridAccessProvider, so the description list falls back to
+    // the translated role ("Grid access provider") and never reveals a GLN.
+    await setup('process-masked-initiator');
+
+    const definitions = await screen.findAllByRole('definition');
+    const initiatorDefinition = definitions.find((d) =>
+      /Grid access provider/i.test(d.textContent || '')
+    );
+    expect(initiatorDefinition).toBeTruthy();
+
+    // No GLN-style 13-digit number is rendered for the masked initiator.
+    expect(initiatorDefinition?.textContent ?? '').not.toMatch(/\d{13}/);
+  });
+
+  it('should show the actor GLN/name for a resolved step actor and the role for a masked one', async () => {
+    // `process-masked-initiator` (EndOfSupply) has two steps: step 1 with a
+    // resolved actor (GLN shown) and step 2 with a null actor but a SystemOperator
+    // role (translated role shown instead). Both labels are unique to the steps
+    // table in this drawer, so a global text query is unambiguous.
+    await setup('process-masked-initiator');
+
+    // Resolved actor: the step renders the GLN/name from displayName.
+    await waitForAsync(() =>
+      expect(screen.getByText(/1234567890123 • Radius/)).toBeInTheDocument()
+    );
+
+    // Masked actor: the step renders the translated role, not a GLN.
+    expect(screen.getByText(/System operator/i)).toBeInTheDocument();
+  });
+
   it.each([
     ['process-eos-cancel', /Cancel|Reject request|Request disconnection/i],
     ['process-eos-request-service', /Request service/i],
@@ -326,6 +386,100 @@ describe('Process overview details', () => {
     });
     await waitForAsync(() =>
       expect(screen.getAllByRole('button', { name: /Cancel/i }).length).toBeGreaterThan(0)
+    );
+  });
+
+  it('should show the cross-cancellation banner when the process was cancelled by another process', async () => {
+    // `process-cross-cancelled` carries a resolved `cancelledByProcess` object that
+    // gates the banner. The cancelling process (`process-cancelling`) is present in
+    // the overview list, so the process name renders as a clickable link.
+    const fixture = await setup('process-cross-cancelled');
+
+    const banner = await screen.findByRole('note');
+    expect(banner).toHaveTextContent(/Process cancelled by/i);
+    expect(banner).toHaveTextContent(/with cut-off date/i);
+
+    // Wait until the overview query has resolved and the cancelling process id is in the
+    // visible list. Only then is the link's presence meaningful: it proves the link was
+    // chosen because the store gates it, not because the template hardcodes a link (which
+    // would make the assertion pass even if the store check were removed). Mirrors the
+    // guard in the plain-text test below.
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+    await waitForAsync(() =>
+      expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
+    );
+
+    // The cancelling process is rendered as a clickable link labelled with its
+    // translated process type (SecondaryMoveIn -> "Secondary move-in (BRS-009)").
+    await waitForAsync(() =>
+      expect(within(banner).getByRole('button', { name: /Secondary move-in/i })).toBeInTheDocument()
+    );
+  });
+
+  it('should render the cancelling process as plain text when it is not in the overview list', async () => {
+    // The cancelling process (`process-cancelling-not-listed`) is not part of the
+    // overview's visible list, so the banner still shows the wording but the
+    // process name is plain text, not a link.
+    const fixture = await setup('process-cross-cancelled-not-listed');
+
+    const banner = await screen.findByRole('note');
+    expect(banner).toHaveTextContent(/Process cancelled by/i);
+    expect(banner).toHaveTextContent(/Secondary move-in/i);
+    expect(banner).toHaveTextContent(/with cut-off date/i);
+
+    // Wait until the overview query has actually resolved and populated the visible
+    // list (it contains `process-cancelling`). Only then is "no link" meaningful: it
+    // proves the plain-text branch was chosen because this id is absent, not because
+    // the list had not loaded yet (which would make the assertion a timing tautology).
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+    await waitForAsync(() =>
+      expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
+    );
+
+    // No link/button to the cancelling process is rendered, and the name is plain text.
+    expect(
+      within(banner).queryByRole('button', { name: /Secondary move-in/i })
+    ).not.toBeInTheDocument();
+    expect(within(banner).getByText(/Secondary move-in/i).tagName).toBe('SPAN');
+  });
+
+  it('should not show the cross-cancellation banner when the process was not cancelled by another process', async () => {
+    await setup('process-eos-cancel');
+
+    expect(screen.queryByRole('note')).not.toBeInTheDocument();
+  });
+
+  it('should render the cancellation step label in the step table for a cancelled process', async () => {
+    // A cancelled process carries a trailing cancellation step whose backend id is
+    // `CANCELLATION_STEP_V1_STEP_1` (BFF derives it from the "Cancellation_Step"
+    // UniqueName). It resolves through the step-name fallback to the translated
+    // label, so a wrong/removed key would surface the raw id and fail this.
+    // The label is generic on purpose: the same step can produce different RSM
+    // messages (RSM-004 / RSM-020 / RSM-025) depending on the calling workflow,
+    // so the translation does not bake the RSM number in.
+    await setup('process-cross-cancelled');
+
+    await waitForAsync(() => expect(screen.getByText(/^Process cancelled$/i)).toBeInTheDocument());
+  });
+
+  it('should navigate to the cancelling process when the banner link is clicked', async () => {
+    const fixture = await setup('process-cross-cancelled');
+    const user = userEvent.setup();
+    const router = fixture.debugElement.injector.get(Router);
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    const banner = await screen.findByRole('note');
+    // The link only renders once the overview query resolves and the cancelling
+    // process id appears in the store's visible list, so wait for it.
+    const link = await within(banner).findByRole('button', { name: /Secondary move-in/i });
+
+    await user.click(link);
+
+    await waitForAsync(() =>
+      expect(navigateSpy).toHaveBeenCalledWith(
+        ['details', 'process-cancelling'],
+        expect.any(Object)
+      )
     );
   });
 

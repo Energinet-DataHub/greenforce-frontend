@@ -989,9 +989,9 @@
           "description": "Description"
         },
         "changeTypes": {
-          "STARTED": "Charge linked per {{date}}",
-          "STOPPED": "Charge link stopped per {{date}}",
-          "CANCELLED": "Charge link cancelled per {{date}}",
+          "STARTED": "Charge linked",
+          "STOPPED": "Charge link stopped per {{stopDate}}",
+          "CANCELLED": "Charge link cancelled",
           "EDITED": "Amount changed from {{previousFactor}} to {{factor}}"
         },
         "copyMessage": "Copy message ID",
@@ -1122,9 +1122,9 @@
         "IncorrectMove": "Incorrect move (D33)"
       },
       "filters": {
-        "created": "Time",
-        "includeViews": "Include views",
-        "includeMasterMeasurementAndPriceRequests": "Include requests for master, measurement or price data"
+        "period": "Period",
+        "type": "Type",
+        "status": "Status"
       },
       "actions": {
         "fasGenericActions": "Possible actions for actors",
@@ -1204,6 +1204,7 @@
         "ChangeOfEnergySupplier": "change of energy supplier"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
@@ -1351,6 +1352,10 @@
         "noSteps": "No steps available for this process",
         "showPossibleActions": "Show possible actions",
         "hidePossibleActions": "Hide possible actions",
+        "cancelledByProcess": {
+          "prefix": "Process cancelled by",
+          "suffix": " with cut-off date {{ date }}"
+        },
         "list": {
           "createdAt": "Registered in DataHub",
           "cutoff": "Cut-off date",

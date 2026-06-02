@@ -20,21 +20,31 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeLinkPeriodChangeNode
 {
     public static DateTimeOffset GetCreated([Parent] ChargeLinkPeriodChange change)
-        => change.CurrentPeriod.Created.ToDateTimeOffset();
+        => change.Current.Created.ToDateTimeOffset();
+
+    public static DateTimeOffset? GetStopDate([Parent] ChargeLinkPeriodChange change)
+        => change.Current.To?.ToDateTimeOffset();
 
     public static int GetFactor([Parent] ChargeLinkPeriodChange change)
-        => change.CurrentPeriod.Factor;
+        => change.Current.Factor;
 
     public static int? GetPreviousFactor([Parent] ChargeLinkPeriodChange change)
-        => change.PreviousPeriod?.Factor;
+        => change.Previous?.Factor;
 
     public static string GetOrchestrationInstanceId([Parent] ChargeLinkPeriodChange change)
-        => change.CurrentPeriod.OrchestrationInstanceId;
+        => change.Current.OrchestrationInstanceId;
+
+    public static ChargeLinkPeriodChangeType GetChangeType([Parent] ChargeLinkPeriodChange change)
+    {
+        if (change.Previous is null) return ChargeLinkPeriodChangeType.Started;
+        if (change.Current.From == change.Current.To) return ChargeLinkPeriodChangeType.Cancelled;
+        if (change.Previous.From == change.Previous.To) return ChargeLinkPeriodChangeType.Started;
+        if (change.Current.Factor != change.Previous.Factor) return ChargeLinkPeriodChangeType.Edited;
+        return ChargeLinkPeriodChangeType.Stopped;
+    }
 
     static partial void Configure(IObjectTypeDescriptor<ChargeLinkPeriodChange> descriptor)
     {
         descriptor.BindFieldsExplicitly();
-        descriptor.Field(f => f.ChangeType);
-        descriptor.Field(f => f.EffectiveDate);
     }
 }

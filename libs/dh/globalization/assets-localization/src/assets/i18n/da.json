@@ -988,9 +988,9 @@
           "description": "Beskrivelse"
         },
         "changeTypes": {
-          "STARTED": "Pris tilknyttet pr. {{date}}",
-          "STOPPED": "Pristilknytning stoppet pr. {{date}}",
-          "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
+          "STARTED": "Pris tilknyttet",
+          "STOPPED": "Pristilknytning stoppet pr. {{stopDate}}",
+          "CANCELLED": "Pristilknytning annulleret",
           "EDITED": "Antal ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",
@@ -1121,9 +1121,9 @@
         "IncorrectMove": "Fejlagtig flytning (D33)"
       },
       "filters": {
-        "created": "Tidspunkt",
-        "includeViews": "Inkluder visninger",
-        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+        "period": "Periode",
+        "type": "Type",
+        "status": "Status"
       },
       "actions": {
         "fasGenericActions": "Mulige handlinger for aktører",
@@ -1203,6 +1203,7 @@
         "ChangeOfEnergySupplier": "leverandørskifte"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
@@ -1350,6 +1351,10 @@
         "noSteps": "Ingen trin tilgængelige for denne process",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
+        "cancelledByProcess": {
+          "prefix": "Proces annulleret af",
+          "suffix": " med skæringsdato {{ date }}"
+        },
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
