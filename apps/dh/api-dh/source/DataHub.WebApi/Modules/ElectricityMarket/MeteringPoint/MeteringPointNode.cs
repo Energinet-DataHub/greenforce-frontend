@@ -429,7 +429,7 @@ public static partial class MeteringPointNode
         catch (Exception)
         {
             throw new GraphQLException(
-                $"Command StartHtxElectricalHeating failed for parentMeteringPointId '{parentMeteringPointId}'");
+                $"Command StartHtxElectricalHeatingCreateWithFlagCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}'");
         }
     }
 
