@@ -202,6 +202,7 @@ export const dhMeteringPointRoutes: Routes = [
           },
           {
             path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
+            canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
             data: { hideHeader: true },
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
