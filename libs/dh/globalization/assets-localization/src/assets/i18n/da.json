@@ -988,9 +988,9 @@
           "description": "Beskrivelse"
         },
         "changeTypes": {
-          "STARTED": "Pris tilknyttet pr. {{date}}",
-          "STOPPED": "Pristilknytning stoppet pr. {{date}}",
-          "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
+          "STARTED": "Pris tilknyttet",
+          "STOPPED": "Pristilknytning stoppet pr. {{stopDate}}",
+          "CANCELLED": "Pristilknytning annulleret",
           "EDITED": "Antal ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",

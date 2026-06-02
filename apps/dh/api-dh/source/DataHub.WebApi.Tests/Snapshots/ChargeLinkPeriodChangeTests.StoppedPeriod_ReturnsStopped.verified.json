@@ -1,0 +1,24 @@
+﻿{
+  "data": {
+    "chargeLinkPeriods": [
+      {
+        "changes": [
+          {
+            "created": "2024-01-01T00:00:00.000Z",
+            "changeType": "STARTED",
+            "stopDate": null,
+            "factor": 1,
+            "previousFactor": null
+          },
+          {
+            "created": "2024-06-01T00:00:00.000Z",
+            "changeType": "STOPPED",
+            "stopDate": "2024-03-01T00:00:00.000Z",
+            "factor": 1,
+            "previousFactor": 1
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -340,11 +340,11 @@ type ChargeLinkPeriod {
 
 type ChargeLinkPeriodChange {
   created: DateTime!
+  stopDate: DateTime
   factor: Int!
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
-  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."

@@ -154,7 +154,7 @@ import { ChargeLinkPeriodChange } from '../types';
             <ng-container *wattTableCell="historyColumns.description; let change">
               {{
                 t('changeTypes.' + change.changeType, {
-                  date: change.effectiveDate | wattDate,
+                  stopDate: change.stopDate | wattDate,
                   factor: change.factor,
                   previousFactor: change.previousFactor,
                 })

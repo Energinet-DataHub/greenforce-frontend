@@ -17,33 +17,5 @@ using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeLinkPeriodChange(
-    ChargeLinkPeriodChangeType ChangeType,
-    HistoricalChargeLinkPeriodDto CurrentPeriod,
-    HistoricalChargeLinkPeriodDto? PreviousPeriod)
-{
-    public HistoricalChargeLinkPeriodDto Period => CurrentPeriod;
-
-    public DateTimeOffset EffectiveDate
-        => CurrentPeriod.To is not null && ChangeType == ChargeLinkPeriodChangeType.Stopped
-            ? CurrentPeriod.To.Value.ToDateTimeOffset()
-            : CurrentPeriod.From.ToDateTimeOffset();
-
-    public static List<ChargeLinkPeriodChange> FromPeriods(IEnumerable<HistoricalChargeLinkPeriodDto> periods)
-    {
-        var sorted = periods.OrderBy(p => p.Created).ToList();
-        var first = sorted
-            .Take(1)
-            .Select(p => new ChargeLinkPeriodChange(ChargeLinkPeriodChangeType.Started, p, null));
-
-        return [.. first, .. sorted.Zip(sorted.Skip(1), DeriveChange)];
-    }
-
-    private static ChargeLinkPeriodChange DeriveChange(
-        HistoricalChargeLinkPeriodDto previous,
-        HistoricalChargeLinkPeriodDto current)
-        => current.From == current.To
-            ? new(ChargeLinkPeriodChangeType.Cancelled, current, previous)
-            : current.To is not null && (previous.To is null || current.To < previous.To)
-            ? new(ChargeLinkPeriodChangeType.Stopped, current, previous)
-            : new(ChargeLinkPeriodChangeType.Edited, current, previous);
-}
+    HistoricalChargeLinkPeriodDto Current,
+    HistoricalChargeLinkPeriodDto? Previous);

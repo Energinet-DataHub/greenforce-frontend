@@ -320,14 +320,15 @@ public class ChargesClient(
                 .Select(p => new ChargeLinkPeriod(meteringPointId, p, cl.ChargeIdentifier)));
     }
 
-    public async Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
+    public async Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default)
     {
-        var result = await client.QueryAsync(
-            new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId)), ct);
-
-        return result.Periods.Where(p => p.From == id.From.ToInstant());
+        var query = new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId));
+        var result = await client.QueryAsync(query, ct);
+        var sorted = result.Periods.Where(p => p.From == id.From.ToInstant()).OrderBy(p => p.Created).ToList();
+        return [.. sorted.Select((current, i) =>
+            new ChargeLinkPeriodChange(current, i > 0 ? sorted[i - 1] : null))];
     }
 
     public async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
