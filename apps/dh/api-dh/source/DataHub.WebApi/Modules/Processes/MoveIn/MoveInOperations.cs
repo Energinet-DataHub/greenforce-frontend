@@ -212,34 +212,16 @@ public static class MoveInOperations
             .SendAsync(new GetMeteringPointQueryV2(meteringPointId, actorNumber, marketRole.MapToDto()), ct)
             .ConfigureAwait(false);
 
-        var meteringPoint = meteringPointResult.Data?.MeteringPoint;
-        if (meteringPoint is null)
-        {
-            throw new GraphQLException(
+        var meteringPoint = meteringPointResult.Data?.MeteringPoint
+            ?? throw new GraphQLException(
                 $"Unable to resolve existing customer CPR: metering point '{meteringPointId}' could not be loaded.");
-        }
 
-        var customers = meteringPoint.CommercialRelation?.ActiveEnergySupplierPeriod?.Contacts;
-        if (customers is null)
-        {
-            throw new GraphQLException(
+        var customers = meteringPoint.CommercialRelation?.ActiveEnergySupplierPeriod?.Contacts
+            ?? throw new GraphQLException(
                 $"Unable to resolve existing customer CPR: no customer contacts found for metering point '{meteringPointId}'.");
-        }
 
-        Guid? juridicalId = null;
-        Guid? secondaryId = null;
-
-        foreach (var contact in customers)
-        {
-            if (contact.RelationType.MapToDto() == CustomerRelationType.Juridical)
-            {
-                juridicalId = contact.Id;
-            }
-            else if (contact.RelationType.MapToDto() == CustomerRelationType.Secondary)
-            {
-                secondaryId = contact.Id;
-            }
-        }
+        var juridicalId = customers.FirstOrDefault(c => c.RelationType.MapToDto() == CustomerRelationType.Juridical)?.Id;
+        var secondaryId = customers.FirstOrDefault(c => c.RelationType.MapToDto() == CustomerRelationType.Secondary)?.Id;
 
         return (juridicalId, secondaryId);
     }
