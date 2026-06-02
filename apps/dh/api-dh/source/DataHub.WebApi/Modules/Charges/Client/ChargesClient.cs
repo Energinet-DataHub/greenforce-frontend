@@ -155,7 +155,9 @@ public class ChargesClient(
             .GroupBy(slot => CollapseKey(slot.InZone(DanishTimeZone), resolution))
             .Select(g => g.Key.AtStartOfDayInZone(DanishTimeZone).ToDateTimeOffset());
 
-        return new MissingPriceSeriesResult(gaps, lastPoint.ToDateTimeOffset().AddMilliseconds(-1));
+        return new MissingPriceSeriesResult(
+            gaps,
+            NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
