@@ -388,9 +388,9 @@ public static partial class MeteringPointNode
         Guid actorConversationId,
         DateTimeOffset periodStart,
         DateTimeOffset? periodEnd,
-        IHttpContextAccessor httpContextAccessor,
-        IProcessManagerClient processManagerClient,
-        IActorConversationClient_V1 actorConversationClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         CancellationToken ct)
     {
         var conversationResponse = await ActorConversationNode.GetConversationAsync(
