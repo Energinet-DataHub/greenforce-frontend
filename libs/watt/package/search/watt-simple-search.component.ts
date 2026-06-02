@@ -111,7 +111,7 @@ export class WattSimpleSearchComponent {
   clear(): void {
     const element = this.input().nativeElement;
     if (element.value === '') return;
-    this.search.emit('');
     element.value = '';
+    this.search.emit('');
   }
 }
