@@ -140,9 +140,9 @@ public interface IChargesClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get historical charge link period by charge link period id.
+    /// Get charge link period changes by charge link period id.
     /// </summary>
-    Task<IEnumerable<ChargeLinkPeriodChange>> GetHistoricalChargeLinkPeriodsByIdAsync(
+    Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default);
 

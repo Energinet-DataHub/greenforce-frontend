@@ -143,7 +143,7 @@ public class ChargeLinkPeriodChangeTests
             .ReturnsAsync([new Charge(ChargeId, Resolution.Daily, false, false, "Tariff", [])]);
 
         server.ChargesClientMock
-            .Setup(x => x.GetHistoricalChargeLinkPeriodsByIdAsync(
+            .Setup(x => x.GetChargeLinkPeriodChangesByIdAsync(
                 It.IsAny<ChargeLinkPeriodId>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(changes);
 

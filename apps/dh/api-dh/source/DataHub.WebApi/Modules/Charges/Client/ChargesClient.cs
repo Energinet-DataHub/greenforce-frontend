@@ -320,7 +320,7 @@ public class ChargesClient(
                 .Select(p => new ChargeLinkPeriod(meteringPointId, p, cl.ChargeIdentifier)));
     }
 
-    public async Task<IEnumerable<ChargeLinkPeriodChange>> GetHistoricalChargeLinkPeriodsByIdAsync(
+    public async Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default)
     {
