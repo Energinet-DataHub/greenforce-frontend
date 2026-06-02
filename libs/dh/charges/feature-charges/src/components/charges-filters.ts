@@ -18,7 +18,7 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, model } from '@angular/core';
+import { Component, computed, effect, inject, model, output } from '@angular/core';
 
 import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 
@@ -67,6 +67,7 @@ import { WattDateChipComponent, WattFormChipDirective } from '@energinet/watt/ch
       [formGroup]="form()"
       wattQueryParams
       *transloco="let t; prefix: 'charges.charges.table.filters'"
+      (reset)="filterReset.emit()"
     >
       <watt-dropdown
         [formControl]="this.form().controls.types"
@@ -133,6 +134,8 @@ export class DhChargesFilters {
   );
 
   filter = model<ChargeOverviewQueryInput>({});
+  filterReset = output();
+
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolutionInput);
   moreOptions = computed(() => this.getMoreOptions());
