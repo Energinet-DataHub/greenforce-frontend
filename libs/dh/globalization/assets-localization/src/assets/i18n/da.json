@@ -442,10 +442,7 @@
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
           "spotDependingPriceGroupName": "Spotafhængig pris",
           "spotDependingPrice": "Spotafhængig pris",
-          "not_spotDependingPrice": "Ikke spotafhængig pris",
-          "missingPriceSeriesGroupName": "Prisserie",
-          "missingPriceSeries": "Mangler prisserie",
-          "not_missingPriceSeries": "Har prisserie"
+          "not_spotDependingPrice": "Ikke spotafhængig pris"
         }
       }
     },

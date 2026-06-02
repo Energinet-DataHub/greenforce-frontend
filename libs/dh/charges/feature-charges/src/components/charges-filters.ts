@@ -180,7 +180,6 @@ export class DhChargesFilters {
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
         spotDependingPrice: this.getOptionFilter((o) => o.spotDependingPrice),
-        missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
       });
     });
   }
@@ -216,14 +215,10 @@ export class DhChargesFilters {
       this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('spotDependingPrice'),
-      this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }
 
-  private createGroupOption(
-    name: keyof ChargeOverviewQueryInput,
-    { noInvertedOption = false } = {}
-  ): WattDropdownOptionGroup<string> {
+  private createGroupOption(name: keyof ChargeOverviewQueryInput): WattDropdownOptionGroup<string> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
@@ -231,14 +226,10 @@ export class DhChargesFilters {
           value: JSON.stringify({ [name]: true }),
           displayValue: this.moreOptionsTranslations()[name],
         },
-        ...(noInvertedOption
-          ? []
-          : [
-              {
-                value: JSON.stringify({ [name]: false }),
-                displayValue: this.moreOptionsTranslations()[`not_${name}`],
-              },
-            ]),
+        {
+          value: JSON.stringify({ [name]: false }),
+          displayValue: this.moreOptionsTranslations()[`not_${name}`],
+        },
       ],
     };
   }
