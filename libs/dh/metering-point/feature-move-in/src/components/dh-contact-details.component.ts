@@ -39,7 +39,7 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
   ],
   styles: `
     .slide-toggle-margin-bottom {
-      margin-bottom: var(--watt-space-m);
+      margin-bottom: var(--watt-space-sm);
     }
   `,
   template: `
