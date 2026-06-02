@@ -1205,6 +1205,9 @@
       },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
+        "CANCELLATION_STEP_V1_STEP_2": "Notification of cancellation (RSM-004)",
+        "CANCELLATION_STEP_V1_STEP_3": "Rejection due to cancellation (RSM-020)",
+        "CANCELLATION_STEP_V1_STEP_4": "Information about cancellation (RSM-025)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",

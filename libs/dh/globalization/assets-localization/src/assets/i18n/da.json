@@ -1204,6 +1204,9 @@
       },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
+        "CANCELLATION_STEP_V2": "Notification omkring annullering (RSM-004)",
+        "CANCELLATION_STEP_V3": "Afvisning grundet annullering (RSM-020)",
+        "CANCELLATION_STEP_V4": "Information om annullering (RSM-025)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
