@@ -308,6 +308,27 @@ describe('Process overview', () => {
     expect(renderedRowCount()).toBe(baselineRows);
   });
 
+  it('should not render the reset button when no filter is applied', async () => {
+    await setup();
+
+    // Default blank state: nothing to reset, so the user sees no reset button.
+    expect(screen.queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
+  });
+
+  it('should render the reset button once a filter is applied and hide it again after reset', async () => {
+    const fixture = await setup();
+    const user = userEvent.setup();
+
+    // Applying a filter gives the user something to reset, so the button appears.
+    applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
+    expect(screen.getByRole('button', { name: /Reset/i })).toBeInTheDocument();
+
+    // Resetting returns to the blank default, so the button disappears again.
+    await user.click(screen.getByRole('button', { name: /Reset/i }));
+    TestBed.tick();
+    expect(screen.queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
+  });
+
   it('should show cancel button and open modal when clicked', async () => {
     // Cancel is now restricted to the responsible EnergySupplier; the default
     // GridAccessProvider actor would no longer see the button.
