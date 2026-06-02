@@ -1,0 +1,24 @@
+﻿{
+  "data": {
+    "chargeLinkPeriods": [
+      {
+        "charge": {
+          "type": "TARIFF"
+        },
+        "period": {
+          "start": "2023-01-01T00:00:00.000Z",
+          "end": "2023-01-01T00:00:00.000Z"
+        }
+      },
+      {
+        "charge": {
+          "type": "FEE"
+        },
+        "period": {
+          "start": "2023-01-01T00:00:00.000Z",
+          "end": "2023-01-01T00:00:00.000Z"
+        }
+      }
+    ]
+  }
+}

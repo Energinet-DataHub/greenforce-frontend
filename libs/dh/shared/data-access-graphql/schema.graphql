@@ -263,7 +263,7 @@ type CancelChangeOfEnergySupplierPayload {
 }
 
 type CancelChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type CancelCustomerMoveInPayload {
@@ -328,21 +328,23 @@ type Charge {
 }
 
 type ChargeLinkPeriod {
+  sortKey: String!
+  charge: Charge!
   changes: [ChargeLinkPeriodChange!]!
   period: DateRange!
+  cancelled: Boolean!
   closed: Boolean!
-  charge: Charge!
   amount: Int!
   id: String!
 }
 
 type ChargeLinkPeriodChange {
   created: DateTime!
+  stopDate: DateTime
   factor: Int!
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
-  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."
@@ -484,7 +486,7 @@ type CreateCalculationPayload {
 }
 
 type CreateChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type CreateChargePayload {
@@ -535,7 +537,7 @@ type DismissNotificationPayload {
 }
 
 type EditChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: [ChargeLinkPeriod!]
 }
 
 type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance {
@@ -1166,7 +1168,9 @@ type MeteringPointIdentificationDto {
 }
 
 type MeteringPointProcess {
+  cancelledByProcess: MeteringPointProcess
   initiator: MarketParticipant
+  initiatorRole: EicFunction
   steps: [MeteringPointProcessStep!]!
   availableActions: [WorkflowAction!]
   id: String!
@@ -1175,10 +1179,12 @@ type MeteringPointProcess {
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
+  cancellationTimestamp: DateTime
 }
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
+  actorRole: EicFunction
   """
   Generates the URL for fetching the master data document content.
   The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
@@ -1224,7 +1230,7 @@ type Mutation {
   cancelChangeOfEnergySupplier(input: CancelChangeOfEnergySupplierInput!): CancelChangeOfEnergySupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   cancelChargeLink(input: CancelChargeLinkInput!): CancelChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   cancelCustomerMoveIn(input: CancelCustomerMoveInInput!): CancelCustomerMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
-  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request", "metering-point:end-of-supply-respond" ])
+  cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
@@ -1513,7 +1519,7 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   meteringPointProcessById(id: String!): MeteringPointProcess
-  meteringPointProcessOverview(meteringPointId: String! created: DateRange!): [MeteringPointProcess!]!
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
@@ -1791,7 +1797,7 @@ type StartConversationPayload {
 }
 
 type StopChargeLinkPayload {
-  boolean: Boolean
+  chargeLinkPeriod: ChargeLinkPeriod
 }
 
 type StopChargePayload {
@@ -1805,7 +1811,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 
@@ -2030,7 +2036,7 @@ input AddChargeSeriesInput {
   id: String!
   start: DateTime!
   end: DateTime!
-  points: [ChargePointV2Input!]!
+  points: [ChargeSeriesPointInput!]!
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -2150,9 +2156,10 @@ input ChargeOverviewQueryInput {
   missingPriceSeries: Boolean
 }
 
-input ChargePointV2Input {
+input ChargeSeriesPointInput {
   position: Int!
-  priceAmount: Decimal!
+  price: Decimal!
+  startDate: DateTime!
 }
 
 input CloseConversationInput {

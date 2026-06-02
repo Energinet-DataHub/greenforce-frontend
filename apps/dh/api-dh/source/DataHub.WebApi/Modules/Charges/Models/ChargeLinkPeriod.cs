@@ -13,13 +13,14 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+using Energinet.DataHub.Charges.Abstractions.Shared;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 public record ChargeLinkPeriod(
     string MeteringPointId,
     ChargeLinkPeriodDto Period,
-    Charge Charge)
+    ChargeIdentifierDto ChargeId)
 {
-    public ChargeLinkPeriodId Id => new(MeteringPointId, Charge.Id, Period.From.ToDateTimeOffset());
+    public ChargeLinkPeriodId Id => new(MeteringPointId, ChargeId, Period.From.ToDateTimeOffset());
 }

@@ -1,0 +1,5 @@
+query GetChargeLinkPeriodById($id: String!) {
+  chargeLinkPeriodById(id: $id) {
+    ...ChargeLinkPeriodFields
+  }
+}

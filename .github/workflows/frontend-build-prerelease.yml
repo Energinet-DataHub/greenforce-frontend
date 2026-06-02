@@ -43,7 +43,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@c2fa09f4bde5ebb9d1777cf28262a3eb3db3ced7 # v5.2.0
+        uses: actions/setup-dotnet@9a946fdbd5fb07b82b2f5a4466058b876ab72bb2 # v5.3.0
 
       - name: Bun setup
         uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
@@ -73,7 +73,7 @@ jobs:
 
       - name: Get releaseversion strings
         id: get_releaseversion_strings
-        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v1
+        uses: Energinet-Datahub/.github/.github/actions/github-get-releaseversion-strings@actions/v2
         with:
           release_name_prefix: ui_frontend
 

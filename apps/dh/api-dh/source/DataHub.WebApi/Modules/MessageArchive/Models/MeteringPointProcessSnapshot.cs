@@ -25,7 +25,9 @@ public sealed record MeteringPointProcessSnapshot(
         MeteringPointProcessState State,
         string Actions,
         string WorkflowSteps,
-        string? TransactionId)
+        string? TransactionId,
+        string? CancelledByProcessId,
+        DateTimeOffset? CancellationTimestamp)
 {
     public static MeteringPointProcessSnapshot From(MeteringPointProcess process) =>
         new(
@@ -38,5 +40,7 @@ public sealed record MeteringPointProcessSnapshot(
             process.State,
             string.Join(",", (process.Actions ?? []).OrderBy(action => action.ToString())),
             string.Join(",", (process.WorkflowSteps ?? []).OrderBy(step => step.ToString())),
-            process.TransactionId);
+            process.TransactionId,
+            process.CancelledByProcessId,
+            process.CancellationTimestamp);
 }

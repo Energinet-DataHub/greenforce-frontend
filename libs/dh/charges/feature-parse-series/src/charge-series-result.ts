@@ -17,7 +17,10 @@
  */
 //#endregion
 import { dayjs } from '@energinet/watt/date';
-import { ChargePointV2Input, ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ChargeSeriesPointInput,
+  ChargeResolution,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 export type ChargeSeriesParseError = {
@@ -75,7 +78,7 @@ export class ChargeSeriesResult {
   isFatal = false;
 
   /** Array of points parsed from the CSV file. */
-  points: ChargePointV2Input[] = [];
+  points: ChargeSeriesPointInput[] = [];
 
   /** Array of errors encountered during parsing. */
   errors: ChargeSeriesParseError[] = [];
@@ -90,7 +93,7 @@ export class ChargeSeriesResult {
   fatal = (key: string) => ((this.isFatal = true), this.error(key));
 
   /** Try to set the current period, returns false if date is invalid. */
-  trySetPeriod(period: string) {
+  trySetPeriod(period: string): this is this & { last: dayjs.Dayjs } {
     // Parse in local time, since `tz` is VERY slow.
     const date = dayjs(period, this.DATETIME_FORMATS);
     if (!date.isValid()) return false;
@@ -164,8 +167,16 @@ export class ChargeSeriesResult {
     this.progress = Math.round(Math.min(cursor / this.fileSize, 1) * 100);
   };
 
+  /** Check if there is a missing point between the expected end and the current period. */
+  hasMissingPoint = (expectedEnd: dayjs.Dayjs | null) =>
+    this.resolution !== ChargeResolution.Monthly && Boolean(expectedEnd?.isBefore(this.last));
+
+  /** Check if there is an unexpected point between the expected end and the current period. */
+  hasUnexpectedPoint = (expectedEnd: dayjs.Dayjs | null) =>
+    this.resolution !== ChargeResolution.Monthly && Boolean(expectedEnd?.isAfter(this.last));
+
   /** Adds a point to the result. Chainable. */
-  addPoint = (point: ChargePointV2Input) => {
+  addPoint = (point: ChargeSeriesPointInput) => {
     this.points.push(point);
     return this;
   };

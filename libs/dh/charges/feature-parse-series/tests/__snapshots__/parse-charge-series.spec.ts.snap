@@ -54,25 +54,6 @@ exports[`parseChargeSeries > should error when price is invalid 1`] = `
 }
 `;
 
-exports[`parseChargeSeries > should error when second entry in monthly resolution is not on first of month 1`] = `
-{
-  "errors": [
-    {
-      "index": 1,
-      "key": "MISSING_POINT",
-    },
-  ],
-  "interval": {
-    "end": 2025-02-28T23:00:00.000Z,
-    "start": 2025-01-14T23:00:00.000Z,
-  },
-  "isFatal": true,
-  "points": 1,
-  "progress": 77,
-  "resolution": "MONTHLY",
-}
-`;
-
 exports[`parseChargeSeries > should error when structure is unexpected 1`] = `
 {
   "errors": [
@@ -85,25 +66,6 @@ exports[`parseChargeSeries > should error when structure is unexpected 1`] = `
   "isFatal": true,
   "points": 0,
   "progress": 26,
-  "resolution": "MONTHLY",
-}
-`;
-
-exports[`parseChargeSeries > should error when third entry in monthly resolution is not on first of month 1`] = `
-{
-  "errors": [
-    {
-      "index": 2,
-      "key": "MISSING_POINT",
-    },
-  ],
-  "interval": {
-    "end": 2025-04-14T22:00:00.000Z,
-    "start": 2025-01-14T23:00:00.000Z,
-  },
-  "isFatal": true,
-  "points": 2,
-  "progress": 100,
   "resolution": "MONTHLY",
 }
 `;
@@ -143,25 +105,6 @@ exports[`parseChargeSeries > should error with missing points in hourly resoluti
   "points": 1,
   "progress": 62,
   "resolution": "HOURLY",
-}
-`;
-
-exports[`parseChargeSeries > should error with missing points in monthly resolution 1`] = `
-{
-  "errors": [
-    {
-      "index": 2,
-      "key": "MISSING_POINT",
-    },
-  ],
-  "interval": {
-    "end": 2025-04-30T22:00:00.000Z,
-    "start": 2024-12-31T23:00:00.000Z,
-  },
-  "isFatal": true,
-  "points": 2,
-  "progress": 81,
-  "resolution": "MONTHLY",
 }
 `;
 
@@ -219,25 +162,6 @@ exports[`parseChargeSeries > should error with unexpected points in hourly resol
   "points": 1,
   "progress": 52,
   "resolution": "HOURLY",
-}
-`;
-
-exports[`parseChargeSeries > should error with unexpected points in monthly resolution 1`] = `
-{
-  "errors": [
-    {
-      "index": 5,
-      "key": "UNEXPECTED_POINT",
-    },
-  ],
-  "interval": {
-    "end": 2025-05-31T22:00:00.000Z,
-    "start": 2024-12-31T23:00:00.000Z,
-  },
-  "isFatal": true,
-  "points": 5,
-  "progress": 100,
-  "resolution": "MONTHLY",
 }
 `;
 
@@ -316,6 +240,48 @@ exports[`parseChargeSeries > should handle DST start correctly in quarter hourly
 }
 `;
 
+exports[`parseChargeSeries > should parse monthly resolution when second entry is not on first of month 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2025-03-31T22:00:00.000Z,
+    "start": 2025-01-14T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 3,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
+exports[`parseChargeSeries > should parse monthly resolution when third entry is not on first of month 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2025-04-14T22:00:00.000Z,
+    "start": 2025-01-14T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 3,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
+exports[`parseChargeSeries > should parse monthly resolution with arbitrary sub-month periods 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2025-02-28T23:00:00.000Z,
+    "start": 2024-12-31T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 3,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
 exports[`parseChargeSeries > should parse monthly resolution with first entry on last day of month 1`] = `
 {
   "errors": [],
@@ -339,6 +305,20 @@ exports[`parseChargeSeries > should parse monthly resolution with first entry st
   },
   "isFatal": false,
   "points": 5,
+  "progress": 100,
+  "resolution": "MONTHLY",
+}
+`;
+
+exports[`parseChargeSeries > should parse monthly resolution with missing months (irregular periods) 1`] = `
+{
+  "errors": [],
+  "interval": {
+    "end": 2025-05-31T22:00:00.000Z,
+    "start": 2024-12-31T23:00:00.000Z,
+  },
+  "isFatal": false,
+  "points": 4,
   "progress": 100,
   "resolution": "MONTHLY",
 }

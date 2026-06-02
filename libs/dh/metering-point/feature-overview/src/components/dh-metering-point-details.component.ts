@@ -29,8 +29,8 @@ import {
 } from '@energinet/watt/description-list';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/shared/domain';
 
-import { MeteringPointDetails } from '../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhAddressComponent } from './address/dh-address.component';
 import { DhActualAddressComponent } from './address/dh-actual-address.component';
