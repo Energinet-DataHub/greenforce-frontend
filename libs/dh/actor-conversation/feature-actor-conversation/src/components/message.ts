@@ -91,10 +91,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .grey-700 {
       color: var(--watt-color-neutral-grey-700);
     }
-
-    .register-electrical-heating-btn {
-      margin-right: var(--watt-space-sm);
-    }
   `,
   host: {
     '[style.align-self]': 'messageAlignment()',
@@ -209,13 +205,10 @@ import { injectDownloadMessageDocument } from './download-message-document';
       <vater-stack
         direction="row"
         justify="end"
+        offset="m"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <watt-button
-          size="small"
-          [routerLink]="registerElectricalHeatingLink"
-          class="register-electrical-heating-btn"
-        >
+        <watt-button size="small" [routerLink]="registerElectricalHeatingLink">
           {{ t('registerElectricalHeatingButton') }}
         </watt-button>
       </vater-stack>
