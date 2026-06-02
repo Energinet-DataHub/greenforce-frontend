@@ -16,13 +16,14 @@
  * limitations under the License.
  */
 //#endregion
-import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, input, output, viewChild, ViewEncapsulation } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
 import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattFieldComponent } from '@energinet/watt/field';
+
 @Component({
   imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
@@ -86,8 +87,14 @@ export class WattSimpleSearchComponent {
    */
   trim = input(true);
   search$ = new BehaviorSubject<string>('');
-  search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
   size = input<WattIconSize>('s');
+  search = output<string>(); // eslint-disable-line @angular-eslint/no-output-native
+
+  constructor() {
+    this.search$
+      .pipe(skip(1), debounceTime(this.debounceTime()), takeUntilDestroyed())
+      .subscribe((value) => this.search.emit(value));
+  }
 
   /**
    * Handles input event, optionally trimming the value.
@@ -104,8 +111,7 @@ export class WattSimpleSearchComponent {
   clear(): void {
     const element = this.input().nativeElement;
     if (element.value === '') return;
-
+    this.search.emit('');
     element.value = '';
-    this.onInput(element.value);
   }
 }
