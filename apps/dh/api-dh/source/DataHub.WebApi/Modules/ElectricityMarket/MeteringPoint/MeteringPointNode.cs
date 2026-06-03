@@ -27,6 +27,7 @@ using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateWithFlag.V1.Model;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
@@ -404,20 +405,15 @@ public static partial class MeteringPointNode
         var electricalHeatingUserMessage = conversationResponse.Messages
             .FirstOrDefault(m => m.MessageType == MessageType.ElectricalHeatingUserMessage);
 
-        var energySupplierId = electricalHeatingUserMessage?.ActorNumber;
-
-        if (string.IsNullOrEmpty(energySupplierId))
-        {
-            throw new GraphQLException($"Could not find energy supplier ID in conversation messages for conversation ID '{actorConversationId}'");
-        }
+        ArgumentNullException.ThrowIfNull(electricalHeatingUserMessage?.ActorNumber, $"Could not find actor number in conversation messages for conversation ID '{actorConversationId}'");
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var input = new ElectricalHeatingCreateWithFlagInputV1(
             childMeteringPointId,
             parentMeteringPointId,
-            energySupplierId,
-            periodStart.ToString("O"),
-            periodEnd?.ToString("O"));
+            ActorNumber.Create(electricalHeatingUserMessage.ActorNumber),
+            periodStart,
+            periodEnd);
 
         var command = new StartHtxElectricalHeatingCreateWithFlagCommandV1(userIdentity, input);
 
