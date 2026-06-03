@@ -442,10 +442,7 @@
           "not_transparentInvoicing": "Not subject to transparent invoicing",
           "spotDependingPriceGroupName": "Spot depending price",
           "spotDependingPrice": "Spot depending price",
-          "not_spotDependingPrice": "Non-spot depending price",
-          "missingPriceSeriesGroupName": "Price series",
-          "missingPriceSeries": "Missing price series",
-          "not_missingPriceSeries": "Has price series"
+          "not_spotDependingPrice": "Non-spot depending price"
         }
       }
     },
@@ -936,6 +933,7 @@
         "no": "No"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
+      "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
       "yes": "Yes",
       "no": "No",
       "electricalHeatingInformationDate": "Electrical heating date: {{ electricalHeatingDate }}",
@@ -1205,6 +1203,9 @@
       },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
+        "CANCELLATION_STEP_V1_STEP_2": "Notification of cancellation (RSM-004)",
+        "CANCELLATION_STEP_V1_STEP_3": "Rejection due to cancellation (RSM-020)",
+        "CANCELLATION_STEP_V1_STEP_4": "Information about cancellation (RSM-025)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Request for close-down of metering point (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Confirmation of request for close-down of metering point (RSM-021)",
@@ -1236,6 +1237,9 @@
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Reject change of customer characteristics (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_1": "Request for cancellation of change of energy supplier (RSM-024)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_2": "Confirmation of cancellation of change of energy supplier (RSM-024)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_3": "Rejection of cancellation of change of energy supplier (RSM-024)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Request end of supply (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Confirm end of supply (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Reject end of supply (RSM-005)",
