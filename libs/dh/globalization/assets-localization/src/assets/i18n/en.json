@@ -2038,7 +2038,7 @@
         "RECEIVE_METERING_POINT_DATA": "RSM-012: Send metered data timeseries to DataHub",
         "REQUEST_METERING_POINT_DATA": "RSM-015: Request for validated metered data to DataHub",
         "SEND_METERING_POINT_DATA": "RSM-012: Receive metered data timeseries from DataHub",
-        "RECEIVE_GAP_LOG": "RSM-018: Receive notify missing data from DataHub"
+        "RECEIVE_GAP_LOG": "RSM-018: Receive missing data from DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
