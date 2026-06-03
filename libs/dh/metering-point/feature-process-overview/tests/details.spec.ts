@@ -447,12 +447,8 @@ describe('Process overview details', () => {
   });
 
   it('downgrades the cancelling-process link to plain text when a filter hides it from the table', async () => {
-    // process-cross-cancelled is cancelled by process-cancelling (SecondaryMoveIn / Running),
-    // which IS loaded, so with no filter the banner renders a link (asserted as the
-    // precondition below). Once a status filter that excludes Running is applied,
-    // process-cancelling leaves the visible table, so the banner must downgrade to plain
-    // text: the overview cannot mark a row it no longer renders, so a link there would
-    // navigate to a process with no row to highlight (issue 1549's filter edge case).
+    // process-cancelling (the canceller, Running) is loaded, so the banner renders a link.
+    // Filtering it out of the table must downgrade that link to plain text (1549 edge case).
     const fixture = await setup('process-cross-cancelled');
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 

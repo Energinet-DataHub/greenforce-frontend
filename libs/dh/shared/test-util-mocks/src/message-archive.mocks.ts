@@ -163,13 +163,9 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
   });
 }
 
-// Single source of truth for the overview rows, memoized so the list (including any
-// Date.now()-based fixtures) is built once. The by-id (drawer) handler reads each process's
-// shared header fields (createdAt, cutoffDate, businessReason, state, availableActions) from
-// THIS list instead of recomputing them, so a process shows identical data in the list and in
-// its drawer. Previously the two handlers disagreed for the same id, and Apollo's normalized
-// cache (one entity per id) made the overview row visibly change, and re-sort, the instant its
-// drawer opened.
+// Single source of truth for the overview rows (memoized, built once). The by-id handler reads
+// each process's shared fields from here so list and drawer agree (Apollo normalizes by id, so
+// a mismatch makes the list row change when its drawer opens).
 let overviewProcessesCache: ReturnType<typeof buildOverviewProcesses> | undefined;
 function getOverviewProcesses() {
   return (overviewProcessesCache ??= buildOverviewProcesses());
@@ -363,11 +359,8 @@ function buildOverviewProcesses() {
     ...initiatorFields(initiators[0]),
   };
 
-  // The cancelled process itself. It MUST be in the list so the cross-cancellation flow is
-  // reachable from the UI: opening its drawer shows the "cancelled by another process"
-  // banner, whose link points at `cancellingProcess` above (also in the list, so the link
-  // is navigable and clicking it marks that row active in the overview). The drawer's
-  // `cancelledByProcess` payload comes from `knownProcesses['process-cross-cancelled']`.
+  // The cancelled process: in the list so its drawer (and the cross-cancellation banner
+  // linking to `cancellingProcess` above) is reachable by clicking a row.
   const crossCancelledProcess = {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cross-cancelled',
@@ -891,11 +884,10 @@ function getMeteringPointProcessById(apiBase: string) {
       },
     ];
 
-    // The overview row for this id (when it is one of the listed processes). Its header
-    // fields are the single source of truth, so the drawer shows EXACTLY what the row shows.
+    // The overview row for this id, the source of truth for the drawer's shared fields.
     const base = getOverviewProcesses().find((p) => p.id === processId);
 
-    // Extract index from process ID (e.g., "process-001" -> 1) for the not-in-list fallback.
+    // Index-derived fallback for ids not in the list (e.g. "process-001" -> 1).
     const numericMatch = processId.match(/\d+/);
     const processIndex = numericMatch ? Number.parseInt(numericMatch[0], 10) : 0;
     const fallbackCreatedAt = new Date('2025-01-01T10:00:00Z');
@@ -912,12 +904,10 @@ function getMeteringPointProcessById(apiBase: string) {
       MeteringPointProcessState.Rejected,
     ];
 
-    // Prefer the overview row's values; fall back to knownProcesses, then index-derived
-    // defaults, for ids that are not part of the list.
+    // Prefer the overview row's values, then knownProcesses, then index-derived defaults.
     const known = knownProcesses[processId];
     const safeIndex = Math.max(processIndex, 1) - 1;
-    // Use a ternary, not `??`: a listed Pending row legitimately has a null cutoffDate, and
-    // `?? fallbackCutoff` would replace that null and make the drawer disagree with the row.
+    // Ternary, not `??`: a Pending row's null cutoffDate is real and must not fall back.
     const createdAt = base ? base.createdAt : fallbackCreatedAt;
     const cutoffDate = base ? base.cutoffDate : fallbackCutoff;
     const businessReason =
@@ -964,9 +954,8 @@ function getMeteringPointProcessById(apiBase: string) {
                 cancelledByProcess: known?.cancelledByProcess ?? null,
               });
 
-    // The special-builder processes (customer move-in / change-of-supplier / secondary
-    // move-in) compute their own dates, so reconcile them with the overview row too. The
-    // generic path already used `createdAt`/`cutoffDate` above, so this is a no-op there.
+    // Reconcile the special builders' own dates with the overview row (no-op for the
+    // generic path, which already used these dates).
     const reconciled = base
       ? { ...meteringPointProcessById, createdAt, cutoffDate }
       : meteringPointProcessById;

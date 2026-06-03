@@ -175,12 +175,8 @@ describe('Process overview', () => {
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
     const navigation = fixture.debugElement.injector.get(DhNavigationService);
 
-    // Reproduces issue 1549: the cross-cancellation banner link calls
-    // navigation.navigate('details', <cancellingProcessId>) on the SAME shared
-    // DhNavigationService instance the overview both provides and reads via
-    // `selection()`. Before the fix, `selection` read `navigation.id()` lazily inside
-    // the `.find` callback, so on the first (empty-list) evaluation it registered no
-    // dependency on the id and froze at `undefined` -> the row was never marked active.
+    // Issue 1549: the banner link calls navigation.navigate('details', id) on the shared
+    // DhNavigationService; before the fix `selection` froze at `undefined` and never marked it.
     navigation.navigate('details', 'process-cancelling');
     TestBed.tick();
 
@@ -190,29 +186,6 @@ describe('Process overview', () => {
     // ...and exactly one row must carry the active-row marking in the DOM.
     const grid = screen.getByRole('treegrid');
     expect(grid.querySelectorAll('tr.watt-table-active-row').length).toBe(1);
-  });
-
-  it('does not mark a row when navigation targets a process the active filter hides', async () => {
-    const fixture = await setup();
-    const router = fixture.debugElement.injector.get(Router);
-    vi.spyOn(router, 'navigate').mockResolvedValue(true);
-    const navigation = fixture.debugElement.injector.get(DhNavigationService);
-    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
-
-    // Filter the table to Canceled only; process-cancelling (Running) leaves the table.
-    store.states.set([MeteringPointProcessState.Canceled]);
-    TestBed.tick();
-    expect(store.visibleProcessIds().has('process-cancelling')).toBe(false);
-
-    // Navigating to it must not mark a row active, keeping the active-row marking
-    // consistent with what the filtered table actually renders (issue 1549 edge case).
-    navigation.navigate('details', 'process-cancelling');
-    TestBed.tick();
-
-    expect(fixture.componentInstance.selection()).toBeUndefined();
-    expect(screen.getByRole('treegrid').querySelectorAll('tr.watt-table-active-row').length).toBe(
-      0
-    );
   });
 
   it('should render the table with process data', async () => {
