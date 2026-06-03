@@ -140,3 +140,6 @@ vitest.config.*.timestamp*
 
 .nx/polygraph
 .nx/self-healing
+
+# AI stuff
+.hermes

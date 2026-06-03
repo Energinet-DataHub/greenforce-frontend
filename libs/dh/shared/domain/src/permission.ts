@@ -47,6 +47,7 @@ export const permissions = [
   'metering-point:create',
   'metering-point:end-of-supply-request',
   'metering-point:end-of-supply-respond',
+  'metering-point:historical-correction-manage',
   'metering-point:move-in',
   'metering-point:search',
   'metering-point:prices',

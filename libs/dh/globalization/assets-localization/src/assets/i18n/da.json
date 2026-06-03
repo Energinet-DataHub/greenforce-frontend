@@ -442,10 +442,7 @@
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
           "spotDependingPriceGroupName": "Spotafhængig pris",
           "spotDependingPrice": "Spotafhængig pris",
-          "not_spotDependingPrice": "Ikke spotafhængig pris",
-          "missingPriceSeriesGroupName": "Prisserie",
-          "missingPriceSeries": "Mangler prisserie",
-          "not_missingPriceSeries": "Har prisserie"
+          "not_spotDependingPrice": "Ikke spotafhængig pris"
         }
       }
     },
@@ -935,6 +932,7 @@
         "no": "Nej"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
+      "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
       "yes": "Ja",
       "no": "Nej",
       "electricalHeatingInformationDate": "Elvarmedato: {{ electricalHeatingDate }}",
@@ -988,9 +986,9 @@
           "description": "Beskrivelse"
         },
         "changeTypes": {
-          "STARTED": "Pris tilknyttet pr. {{date}}",
-          "STOPPED": "Pristilknytning stoppet pr. {{date}}",
-          "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
+          "STARTED": "Pris tilknyttet",
+          "STOPPED": "Pristilknytning stoppet pr. {{stopDate}}",
+          "CANCELLED": "Pristilknytning annulleret",
           "EDITED": "Antal ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",
@@ -998,7 +996,11 @@
         "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
-        "cancel": "Annuller pristilknytning"
+        "cancel": "Annuller pristilknytning",
+        "empty": {
+          "title": "Ingen ændringer modtaget endnu",
+          "text": "Ændringer vises her, når de er blevet behandlet."
+        }
       },
       "create": {
         "errors": {
@@ -1117,9 +1119,9 @@
         "IncorrectMove": "Fejlagtig flytning (D33)"
       },
       "filters": {
-        "created": "Tidspunkt",
-        "includeViews": "Inkluder visninger",
-        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+        "period": "Periode",
+        "type": "Type",
+        "status": "Status"
       },
       "actions": {
         "fasGenericActions": "Mulige handlinger for aktører",
@@ -1199,6 +1201,10 @@
         "ChangeOfEnergySupplier": "leverandørskifte"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
+        "CANCELLATION_STEP_V1_STEP_2": "Notifikation omkring annullering (RSM-004)",
+        "CANCELLATION_STEP_V1_STEP_3": "Afvisning grundet annullering (RSM-020)",
+        "CANCELLATION_STEP_V1_STEP_4": "Information om annullering (RSM-025)",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
@@ -1230,6 +1236,9 @@
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af ændring af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_2": "Godkendelse af annullering af leverandørskifte (RSM-024)",
+        "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_3": "Afvisning af annullering af leverandørskifte (RSM-024)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1": "Anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2": "Godkend anmod om leveranceophør (RSM-005)",
         "BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_3": "Afvis anmod om leveranceophør (RSM-005)",
@@ -1346,6 +1355,10 @@
         "noSteps": "Ingen trin tilgængelige for denne process",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
+        "cancelledByProcess": {
+          "prefix": "Proces annulleret af",
+          "suffix": " med skæringsdato {{ date }}"
+        },
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
@@ -1357,17 +1370,7 @@
         "columns": {
           "step": "Trin",
           "completedAt": "Fuldført",
-          "dueDate": "Forfaldsdato",
-          "actor": "Aktør",
-          "state": "Status"
-        },
-        "stepStates": {
-          "pending": "Afventende",
-          "running": "Kører",
-          "failed": "Fejlet",
-          "skipped": "Sprunget over",
-          "canceled": "Annulleret",
-          "succeeded": "Modtaget"
+          "actor": "Aktør"
         }
       },
       "requestService": {
@@ -1704,6 +1707,9 @@
       "title": "Historisk rettelse",
       "cancel": "Afbryd",
       "registerElectricalHeating": "Registrer elvarme",
+      "periodTitle": "Periode for reduceret elafgift",
+      "periodHint": "Startdato må ikke ligge før adressens berettigelsesdato (jf. BBR)",
+      "customer": "Kunde",
       "meteringPoint": "Målepunkt",
       "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
     }

@@ -27,6 +27,8 @@ import {
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
+import { DhMeteringPointProcessOverviewStore } from './components/metering-point-process-overview.store';
+
 // The parent `:internalMeteringPointId` route resolves these values; we inherit
 // them here via `paramsInheritanceStrategy: 'always'`. Typed in one place so a
 // rename in the parent resolver fails type-checking instead of silently producing
@@ -61,6 +63,7 @@ export const meteringPointProcessOverviewRoutes: Routes = [
       dhReleaseToggleGuard('PM116-PROCESSOVERVIEW'),
     ],
     path: '',
+    providers: [DhMeteringPointProcessOverviewStore],
     resolve: {
       isEnergySupplierResponsible: isEnergySupplierResponsibleResolver(),
     },

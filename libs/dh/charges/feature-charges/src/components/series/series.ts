@@ -42,7 +42,6 @@ import {
   DhChargesIntervalField,
   DhChargeIntervalPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
-import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhChargesSeriesDetails } from './series-details';
 import { DhChargesSeriesGaps } from './series-gaps';
@@ -64,7 +63,6 @@ import { DhChargesSeriesGaps } from './series-gaps';
     DhChargesSeriesDetails,
     DhChargesSeriesGaps,
     DhDownloadButtonComponent,
-    DhFeatureFlagDirective,
   ],
   template: `
     <watt-data-table
@@ -80,12 +78,7 @@ import { DhChargesSeriesGaps } from './series-gaps';
           @if (enableHistoryToggle()) {
             <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
-          <dh-charges-series-gaps
-            *dhFeatureFlag="'charges-missing-prices'"
-            [id]="id()"
-            [resolution]="resolution()"
-            [(date)]="date"
-          />
+          <dh-charges-series-gaps [id]="id()" [resolution]="resolution()" [(date)]="date" />
           <vater-spacer />
           <dh-download-button (click)="download()" />
         </vater-stack>

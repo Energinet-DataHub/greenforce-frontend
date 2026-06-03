@@ -24,7 +24,7 @@ import {
   mockGetChargeByIdQuery,
   mockGetChargeSeriesQuery,
   mockGetMissingPriceSeriesPointsQuery,
-  mockGetChargeByTypeQuery,
+  mockGetChargesByTypeQuery,
   mockGetChargeLinkPeriodsQuery,
   mockGetChargeLinkPeriodByIdQuery,
   mockStopChargeLinkMutation,
@@ -614,7 +614,7 @@ function getHistoricalChargeLinkPeriods() {
               __typename: 'ChargeLinkPeriodChange',
               changeType: 'STARTED',
               created: new Date('2023-01-01T00:00:00Z'),
-              effectiveDate: new Date('2023-01-01T00:00:00Z'),
+              stopDate: null,
               factor: period?.amount ?? 1,
               previousFactor: null,
             },
@@ -626,7 +626,7 @@ function getHistoricalChargeLinkPeriods() {
 }
 
 function getChargesByType() {
-  return mockGetChargeByTypeQuery(async ({ variables: { type } }) => {
+  return mockGetChargesByTypeQuery(async ({ variables: { type } }) => {
     await delay(mswConfig.delay);
     const charges = makeChargesMock();
     return HttpResponse.json({

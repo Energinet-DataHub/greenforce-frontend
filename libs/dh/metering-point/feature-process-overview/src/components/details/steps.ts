@@ -77,7 +77,6 @@ type MeteringPointProcessStep = NonNullable<
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
         [dataSource]="dataSource()"
         [columns]="columns"
-        [displayedColumns]="displayedColumns()"
         [resolveHeader]="resolveHeader"
         [loading]="loading()"
         [rowClass]="getRowClass"
@@ -109,14 +108,14 @@ type MeteringPointProcessStep = NonNullable<
         <ng-container *wattTableCell="columns.completedAt; let process">
           {{ process.completedAt | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
-        <ng-container *wattTableCell="columns.dueDate; let process">
-          {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
-        </ng-container>
         <ng-container *wattTableCell="columns.actor; let process">
-          {{ process.actor?.displayName | dhEmDashFallback }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.state; let process">
-          {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}
+          @if (process.actor?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.actorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
+          }
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -135,36 +134,11 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
-    step: { accessor: 'step', size: '1fr', sort: false },
-    completedAt: { accessor: 'completedAt', sort: false },
-    dueDate: { accessor: 'dueDate', sort: false },
     actor: { accessor: 'actor', sort: false },
-    //state: { accessor: 'state', sort: false }, // Temporarily hidden until the backend/EDI supports more states
+    step: { accessor: 'step', size: '1fr', sort: false },
+    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
+    completedAt: { accessor: 'completedAt', sort: false },
   };
-
-  displayedColumns = computed(() => {
-    const businessReason = this.businessReason();
-
-    const allColumns = Object.keys(this.columns);
-
-    if (!businessReason) {
-      return allColumns;
-    }
-
-    const isShortLivedProcess =
-      businessReason === ProcessManagerBusinessReason.CustomerMoveIn ||
-      businessReason === ProcessManagerBusinessReason.SecondaryMoveIn ||
-      businessReason === ProcessManagerBusinessReason.UpdateMasterDataConsumer ||
-      businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ChangeConnectionStatus ||
-      businessReason === ProcessManagerBusinessReason.UpdateMasterDataMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ProductionObligation;
-
-    return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));
-  });
 
   getRowClass = (step: MeteringPointProcessStep) => {
     return step.state === ProcessStepState.Pending ? 'pending-step' : '';

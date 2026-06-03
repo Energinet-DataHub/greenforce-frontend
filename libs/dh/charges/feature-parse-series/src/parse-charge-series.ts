@@ -88,12 +88,13 @@ const aggregate = (result: ChargeSeriesResult, step: ParseStep, index: number) =
   if (!result.trySetPeriod(step.row.data[PERIOD])) return result.fatal('INVALID_PERIOD');
   if (typeof step.row.data[POSITION] !== 'number') return result.error('INVALID_POSITION');
   if (typeof step.row.data[PRICE] !== 'number') return result.error('INVALID_PRICE');
-  if (currentEnd?.isBefore(result.last)) return result.fatal('MISSING_POINT');
-  if (currentEnd?.isAfter(result.last)) return result.fatal('UNEXPECTED_POINT');
+  if (result.hasMissingPoint(currentEnd)) return result.fatal('MISSING_POINT');
+  if (result.hasUnexpectedPoint(currentEnd)) return result.fatal('UNEXPECTED_POINT');
 
   return result.addPoint({
     position: step.row.data[POSITION],
-    priceAmount: step.row.data[PRICE],
+    price: step.row.data[PRICE],
+    startDate: result.last.toDate(),
   });
 };
 

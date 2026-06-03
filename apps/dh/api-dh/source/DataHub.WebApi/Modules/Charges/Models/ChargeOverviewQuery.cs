@@ -27,5 +27,4 @@ public record ChargeOverviewQuery(
     DateTimeOffset? ActivePeriodEnd,
     bool? VatInclusive,
     bool? TransparentInvoicing,
-    bool? SpotDependingPrice,
-    bool? MissingPriceSeries);
+    bool? SpotDependingPrice);
