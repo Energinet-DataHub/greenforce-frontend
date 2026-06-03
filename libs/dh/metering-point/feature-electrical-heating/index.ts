@@ -16,4 +16,4 @@
  * limitations under the License.
  */
 //#endregion
-export { DhElectricalHeatingCorrection } from './src/electrical-heating-correction';
+export { DhElectricalHeatingCorrection } from './src/components/electrical-heating-correction';

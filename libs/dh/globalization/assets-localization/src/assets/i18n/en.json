@@ -1711,7 +1711,12 @@
       "periodHint": "Start date must not be before the address's eligibility date (cf. BBR)",
       "customer": "Customer",
       "meteringPoint": "Metering point",
-      "meteringPointIdLabel": "Electrical heating (D14) metering point ID"
+      "childMeteringPointIdLabel": "Electrical heating (D14) metering point ID",
+      "toast": {
+        "loading": "Registering electrical heating...",
+        "success": "Electrical heating registered",
+        "error": "An error occurred while registering electrical heating"
+      }
     }
   },
   "messageArchive": {

@@ -27,7 +27,12 @@ using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateWithFlag.V1.Model;
+using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ActorConversation;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -374,6 +379,54 @@ public static partial class MeteringPointNode
             ? true
             : throw new GraphQLException(
                 $"Command RequestEndOfSupply failed for meteringPointId '{meteringPointId}', terminationDate '{terminationDate:O}'. EDI response: {result}");
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:historical-correction-manage"])]
+    public static async Task<bool> RegisterElectricalHeatingAsync(
+        string parentMeteringPointId,
+        string childMeteringPointId,
+        Guid actorConversationId,
+        DateTimeOffset periodStart,
+        DateTimeOffset? periodEnd,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IActorConversationClient_V1 actorConversationClient,
+        CancellationToken ct)
+    {
+        var conversationResponse = await ActorConversationNode.GetConversationAsync(
+            httpContextAccessor,
+            actorConversationClient,
+            actorConversationId,
+            ct).ConfigureAwait(false);
+
+        ArgumentNullException.ThrowIfNull(conversationResponse);
+
+        var electricalHeatingUserMessage = conversationResponse.Messages
+            .FirstOrDefault(m => m.MessageType == MessageType.ElectricalHeatingUserMessage);
+
+        ArgumentNullException.ThrowIfNull(electricalHeatingUserMessage?.ActorNumber, $"Could not find actor number in conversation messages for conversation ID '{actorConversationId}'");
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var input = new ElectricalHeatingCreateWithFlagInputV1(
+            childMeteringPointId,
+            parentMeteringPointId,
+            ActorNumber.Create(electricalHeatingUserMessage.ActorNumber),
+            periodStart,
+            periodEnd);
+
+        var command = new StartHtxElectricalHeatingCreateWithFlagCommandV1(userIdentity, input);
+
+        try
+        {
+            await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
+            return true;
+        }
+        catch (Exception)
+        {
+            throw new GraphQLException(
+                $"Command StartHtxElectricalHeatingCreateWithFlagCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}'");
+        }
     }
 
     [Query]

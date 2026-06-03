@@ -1711,7 +1711,12 @@
       "periodHint": "Startdato må ikke ligge før adressens berettigelsesdato (jf. BBR)",
       "customer": "Kunde",
       "meteringPoint": "Målepunkt",
-      "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
+      "childMeteringPointIdLabel": "Elvarme (D14) målepunkts-ID",
+      "toast": {
+        "loading": "Registrerer elvarme...",
+        "success": "Elvarme registreret",
+        "error": "Der opstod en fejl under registrering af elvarme"
+      }
     }
   },
   "messageArchive": {

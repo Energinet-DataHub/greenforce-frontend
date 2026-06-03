@@ -208,7 +208,11 @@ import { injectDownloadMessageDocument } from './download-message-document';
         offset="m"
         *transloco="let t; prefix: 'meteringPoint.actorConversation'"
       >
-        <watt-button size="small" [routerLink]="registerElectricalHeatingLink">
+        <watt-button
+          size="small"
+          [routerLink]="registerElectricalHeatingLink"
+          [state]="{ conversationId: conversationId() }"
+        >
           {{ t('registerElectricalHeatingButton') }}
         </watt-button>
       </vater-stack>
@@ -221,6 +225,7 @@ export class DhActorConversationMessage {
   meteringPointId = input<string | undefined>();
   isConversationClosed = input.required<boolean>();
   message = input.required<ConversationMessage>();
+  conversationId = input.required<string>();
 
   private readonly hasHistoricalCorrectionManagePermission = toSignal(
     this.permissionService.hasPermission('metering-point:historical-correction-manage'),
