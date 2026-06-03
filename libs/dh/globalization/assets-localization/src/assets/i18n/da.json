@@ -1520,8 +1520,8 @@
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
         "nameProtection": "Navnebeskyttelse",
         "editCprModal": {
-          "title": "Rediger CPR?",
-          "description": "Fremsøgning af CPR-numre logges i henhold til gældende lovgivning. Du må kun tilgå CPR-data, når der foreligger et sagligt og lovligt formål. Vil du fortsætte?",
+          "title": "Indtast nyt CPR?",
+          "description": "Hvis du fortsætter, fjernes det nuværende CPR-nummer, og du skal indtaste et nyt. Ændringen træder først i kraft, når du opdaterer kundestamdata.",
           "yes": "Ja",
           "no": "Nej"
         }

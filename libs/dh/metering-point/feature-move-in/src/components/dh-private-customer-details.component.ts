@@ -46,12 +46,7 @@ import { DhCprFieldComponent } from './dh-cpr-field.component';
     <ng-container *transloco="let t; prefix: 'meteringPoint.moveIn.customerDetails'">
       <h4>{{ t('customer1') }}</h4>
       <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName1" />
-      <dh-cpr-field
-        [cprControl]="formGroup.controls.cpr1"
-        [contactId]="contactId1()"
-        [meteringPointId]="meteringPointId()"
-        [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
-      />
+      <dh-cpr-field [cprControl]="formGroup.controls.cpr1" [contactId]="contactId1()" />
 
       <h4>{{ t('customer2') }}</h4>
       <watt-text-field [label]="t('name')" [formControl]="formGroup.controls.customerName2" />
@@ -59,8 +54,6 @@ import { DhCprFieldComponent } from './dh-cpr-field.component';
         class="watt-space-stack-l"
         [cprControl]="formGroup.controls.cpr2"
         [contactId]="contactId2()"
-        [meteringPointId]="meteringPointId()"
-        [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
       />
 
       <watt-checkbox
@@ -75,8 +68,6 @@ import { DhCprFieldComponent } from './dh-cpr-field.component';
 })
 export class DhPrivateCustomerDetailsComponent {
   privateCustomerFormGroup = input.required<FormGroup<PrivateCustomerFormGroup>>();
-  meteringPointId = input.required<string>();
   contactId1 = input<string | null>(null);
   contactId2 = input<string | null>(null);
-  searchMigratedMeteringPoints = input.required<boolean>();
 }
