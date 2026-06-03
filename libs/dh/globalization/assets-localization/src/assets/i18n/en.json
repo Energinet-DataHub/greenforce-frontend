@@ -120,7 +120,7 @@
       "UNKNOWN": "Calculation"
     },
     "error": {
-      "title": "An unexpected error occured",
+      "title": "An unexpected error occurred",
       "message": "Unfortunately, an error occurred while retrieving the necessary information",
       "button": "Try again"
     },
@@ -146,7 +146,7 @@
         "text": "Your results will appear here"
       },
       "error": {
-        "title": "An unexpected error occured",
+        "title": "An unexpected error occurred",
         "text": "Unfortunately, an error occurred while retrieving the necessary information",
         "button": "Try again"
       },
@@ -1481,7 +1481,7 @@
         },
         "toast": {
           "loading": "Sending measurements",
-          "success": "Measurements successfully send",
+          "success": "Measurements successfully sent",
           "error": "{{shared.error.title}}"
         }
       }
@@ -1810,7 +1810,7 @@
       "D18": "Update Charge Masterdata (D18)",
       "D20": "Electrical heating (D20)",
       "D22": "Service request (D22)",
-      "D24": "Messing measurements log (D24)",
+      "D24": "Missing measurements log (D24)",
       "D29": "Secondary move-in (D29)",
       "D31": "Transfer metering point (D31)",
       "D32": "Correction settlement (D32)",
@@ -1850,7 +1850,7 @@
       "includeRelatedMessage": "Include related message (when searching Message ID)",
       "loadMore": "Load more",
       "rsm": "RSM",
-      "sender": "Aktor",
+      "sender": "Actor",
       "timeStamp": "Time",
       "httpData": "Status",
       "sent": "In",
@@ -2006,7 +2006,7 @@
       "delegations": "Delegates",
       "save": "Save set up",
       "stopDelegationSuccess": "Delegation stopped",
-      "stopNow": "Stop delgation now",
+      "stopNow": "Stop delegation now",
       "cancel": "Close",
       "stopModalTitle": "Stop delegation?",
       "stopDate": "Stop on date",
@@ -2031,14 +2031,14 @@
         }
       },
       "processTypes": {
-        "RECEIVE_ENERGY_RESULTS": "RSM-014: Recieve aggregated metered data timeseries from DataHub",
+        "RECEIVE_ENERGY_RESULTS": "RSM-014: Receive aggregated metered data timeseries from DataHub",
         "REQUEST_ENERGY_RESULTS": "RSM-016: Request for aggregated metered data to DataHub",
         "REQUEST_WHOLESALE_RESULTS": "RSM-017: Request for aggregated billing information to DataHub",
         "RECEIVE_WHOLESALE_RESULTS": "RSM-019: Sending calculated wholesale services from DataHub",
         "RECEIVE_METERING_POINT_DATA": "RSM-012: Send metered data timeseries to DataHub",
         "REQUEST_METERING_POINT_DATA": "RSM-015: Request for validated metered data to DataHub",
-        "SEND_METERING_POINT_DATA": "RSM-012: Recieve metered data timeseries from DataHub",
-        "RECEIVE_GAP_LOG": "RSM-018: Recieve notify missing data from DataHub"
+        "SEND_METERING_POINT_DATA": "RSM-012: Receive metered data timeseries from DataHub",
+        "RECEIVE_GAP_LOG": "RSM-018: Receive notify missing data from DataHub"
       },
       "statusPlaceholder": "Status",
       "status": {
@@ -2093,7 +2093,7 @@
         }
       },
       "validation": {
-        "required_permission_removed": "This operation would result in a required permission no longer being accessable, hence the operation was blocked.",
+        "required_permission_removed": "This operation would result in a required permission no longer being accessible, hence the operation was blocked.",
         "organization": {
           "business_register_identifier": {
             "reserved": "Business register identifier \"{{ identifier }}\" is already in use"
@@ -2498,8 +2498,8 @@
     },
     "mergeMarketParticipants": {
       "title": "Merge market participants",
-      "discontinuedEntity": "[EN] Ophørende netvirksomhed",
-      "survivingEntity": "[EN] Overtagende netvirksomhed",
+      "discontinuedEntity": "Discontinued grid access provider",
+      "survivingEntity": "Surviving grid access provider",
       "marketParticipantDropdown": {
         "withGridAreas": {
           "singular": "{{ marketParticipant }} (Grid area {{ gridArea }})",
@@ -2510,7 +2510,7 @@
       "mergeDate": "Merge date",
       "cancel": "Cancel",
       "save": "Merge",
-      "mergeSuccess": "Merged of market participants created",
+      "mergeSuccess": "Merge of market participants created",
       "mergeError": "Something went wrong. The merge was not created. Please try again"
     },
     "organizationsOverview": {
@@ -2814,9 +2814,9 @@
           }
         },
         "metadata": {
-          "created": "Oprettet",
-          "periode": "Beregnet periode",
-          "received": "Modtaget",
+          "created": "Created",
+          "periode": "Calculated period",
+          "received": "Received",
           "gridArea": "{{ eSett.shared.gridArea }}"
         }
       },
@@ -2876,7 +2876,7 @@
       "IN_COMPLETE": "Missing prices",
       "NO_DATA": "No prices",
       "COMPLETE": "Complete",
-      "MISSING": "Mangler"
+      "MISSING": "Missing"
     },
     "drawer": {
       "priceAreaLabel": "Price area",
@@ -2927,7 +2927,7 @@
       "noData": "No data",
       "itemsAndCount": "{{ items }}, +{{ remainingCount }} more",
       "drawer": {
-        "combined": "Kombineret",
+        "combined": "Combined",
         "gridAreas": "Grid areas"
       },
       "reportStatus": {
@@ -3572,9 +3572,9 @@
           },
           "assigned": {
             "columns": {
-              "marketRole": "Markedsrolle",
-              "name": "Navn",
-              "description": "Beskrivelse"
+              "marketRole": "Market role",
+              "name": "Name",
+              "description": "Description"
             }
           },
           "createuserrole": "New user role",
