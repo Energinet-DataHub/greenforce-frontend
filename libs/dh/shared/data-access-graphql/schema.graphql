@@ -1544,7 +1544,7 @@ type Query {
   settlementReportById(id: String!): SettlementReport
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
   settlementReports: [SettlementReport!]!
-  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
+  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:change-of-supplier", "metering-point:move-in" ])
   userById(id: UUID!): User!
   userProfile: UserProfile!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -2346,7 +2346,6 @@ input InitiateChangeOfSupplierInput {
   customerType: String!
   cpr: String
   cvr: String
-  protectedNameAndAddress: Boolean!
 }
 
 input InitiateMoveInInput {
