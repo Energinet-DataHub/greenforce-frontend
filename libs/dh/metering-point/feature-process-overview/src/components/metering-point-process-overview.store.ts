@@ -55,10 +55,8 @@ export class DhMeteringPointProcessOverviewStore {
   });
 
   readonly processes = computed(() => this.query.data()?.meteringPointProcessOverview ?? []);
-  readonly visibleProcessIds = computed(() => new Set(this.processes().map((p) => p.id)));
 
-  // Derived list for the TABLE. `processes()` / `visibleProcessIds` stay the FULL fetched set
-  // because the details drawer's cross-cancellation logic depends on the full visible list.
+  // Derived list for the TABLE: the full fetched set narrowed by the client-side filters.
   readonly filteredProcesses = computed(() => {
     const reasons = this.businessReasons();
     const states = this.states();
@@ -68,6 +66,12 @@ export class DhMeteringPointProcessOverviewStore {
         (states.length === 0 || states.includes(p.state))
     );
   });
+
+  // Ids of the rows actually VISIBLE in the table (i.e. after filtering). The drawer's
+  // cross-cancellation banner links to the cancelling process only when it is one of these
+  // rows, so following the link always lands on a row the overview can mark active. When the
+  // cancelling process is filtered out, the banner shows its name as plain text instead.
+  readonly visibleProcessIds = computed(() => new Set(this.filteredProcesses().map((p) => p.id)));
   readonly loading = computed(() => this.query.loading());
   readonly error = computed(() => this.query.error());
   readonly called = computed(() => this.query.called());

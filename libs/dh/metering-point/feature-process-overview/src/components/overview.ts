@@ -249,7 +249,17 @@ export class DhMeteringPointProcessOverviewTable {
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
-  selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
+  // Read `navigation.id()` and the signal-backed list UNCONDITIONALLY (not lazily inside
+  // `.find`). Reading the id inside the `.find` callback meant that on the first evaluation,
+  // while the query was still loading and the list was empty, the callback never ran, so the
+  // computed registered no dependency on `navigation.id()` and froze at `undefined` forever
+  // (cross-cancellation link navigation never highlighted the target row). Tracking
+  // `filteredProcesses()` (a signal) instead of the non-reactive `dataSource.data` also
+  // re-selects once the list arrives on a deep-link/reload into an open drawer.
+  selection = computed(() => {
+    const id = this.navigation.id();
+    return this.store.filteredProcesses().find((r) => r.id === id);
+  });
 
   constructor() {
     // Bridge the route-bound metering point id into the store that owns the overview query.

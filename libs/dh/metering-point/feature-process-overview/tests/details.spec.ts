@@ -17,7 +17,7 @@
  */
 //#endregion
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { Clipboard } from '@angular/cdk/clipboard';
 
 import { render, screen, within } from '@testing-library/angular';
@@ -39,7 +39,7 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import { EicFunction, MeteringPointProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
@@ -437,6 +437,40 @@ describe('Process overview details', () => {
     );
 
     // No link/button to the cancelling process is rendered, and the name is plain text.
+    expect(
+      within(banner).queryByRole('button', { name: /Secondary move-in/i })
+    ).not.toBeInTheDocument();
+    expect(within(banner).getByText(/Secondary move-in/i).tagName).toBe('SPAN');
+  });
+
+  it('downgrades the cancelling-process link to plain text when a filter hides it from the table', async () => {
+    // process-cross-cancelled is cancelled by process-cancelling (SecondaryMoveIn / Running),
+    // which IS loaded, so with no filter the banner renders a link (asserted as the
+    // precondition below). Once a status filter that excludes Running is applied,
+    // process-cancelling leaves the visible table, so the banner must downgrade to plain
+    // text: the overview cannot mark a row it no longer renders, so a link there would
+    // navigate to a process with no row to highlight (issue 1549's filter edge case).
+    const fixture = await setup('process-cross-cancelled');
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+
+    const banner = await screen.findByRole('note');
+
+    // Precondition: with no filter the cancelling process is visible and renders as a link.
+    await waitForAsync(() =>
+      expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
+    );
+    expect(
+      within(banner).getByRole('button', { name: /Secondary move-in/i })
+    ).toBeInTheDocument();
+
+    // Apply a status filter that excludes the (Running) cancelling process.
+    store.states.set([MeteringPointProcessState.Canceled]);
+    TestBed.tick();
+
+    // It has left the visible (filtered) table...
+    expect(store.visibleProcessIds().has('process-cancelling')).toBe(false);
+
+    // ...so the banner now shows the process name as plain text, not a link.
     expect(
       within(banner).queryByRole('button', { name: /Secondary move-in/i })
     ).not.toBeInTheDocument();
