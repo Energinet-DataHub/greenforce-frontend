@@ -172,7 +172,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhElectricalHeatingCorrection {
-  private router = inject(Router);
+  private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
 
   private registerElectricalHeating = mutation(RegisterElectricalHeatingDocument, {
