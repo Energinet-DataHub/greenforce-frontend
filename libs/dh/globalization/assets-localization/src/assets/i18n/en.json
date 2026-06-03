@@ -1371,17 +1371,7 @@
         "columns": {
           "step": "Step",
           "completedAt": "Completed at",
-          "dueDate": "Due date",
-          "actor": "Actor",
-          "state": "State"
-        },
-        "stepStates": {
-          "pending": "Pending",
-          "running": "Running",
-          "failed": "Failed",
-          "skipped": "Skipped",
-          "canceled": "Canceled",
-          "succeeded": "Received"
+          "actor": "Actor"
         }
       },
       "requestService": {
