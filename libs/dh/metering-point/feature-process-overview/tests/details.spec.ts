@@ -39,7 +39,10 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction, MeteringPointProcessState } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  MeteringPointProcessState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
@@ -459,9 +462,7 @@ describe('Process overview details', () => {
     await waitForAsync(() =>
       expect(store.visibleProcessIds().has('process-cancelling')).toBe(true)
     );
-    expect(
-      within(banner).getByRole('button', { name: /Secondary move-in/i })
-    ).toBeInTheDocument();
+    expect(within(banner).getByRole('button', { name: /Secondary move-in/i })).toBeInTheDocument();
 
     // Apply a status filter that excludes the (Running) cancelling process.
     store.states.set([MeteringPointProcessState.Canceled]);
