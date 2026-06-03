@@ -18,7 +18,7 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, model } from '@angular/core';
+import { Component, computed, effect, inject, model, output } from '@angular/core';
 
 import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 
@@ -67,6 +67,7 @@ import { WattDateChipComponent, WattFormChipDirective } from '@energinet/watt/ch
       [formGroup]="form()"
       wattQueryParams
       *transloco="let t; prefix: 'charges.charges.table.filters'"
+      (reset)="filterReset.emit()"
     >
       <watt-dropdown
         [formControl]="this.form().controls.types"
@@ -133,6 +134,8 @@ export class DhChargesFilters {
   );
 
   filter = model<ChargeOverviewQueryInput>({});
+  filterReset = output();
+
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
   resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolutionInput);
   moreOptions = computed(() => this.getMoreOptions());
@@ -180,7 +183,6 @@ export class DhChargesFilters {
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
         spotDependingPrice: this.getOptionFilter((o) => o.spotDependingPrice),
-        missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
       });
     });
   }
@@ -216,14 +218,10 @@ export class DhChargesFilters {
       this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('spotDependingPrice'),
-      this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }
 
-  private createGroupOption(
-    name: keyof ChargeOverviewQueryInput,
-    { noInvertedOption = false } = {}
-  ): WattDropdownOptionGroup<string> {
+  private createGroupOption(name: keyof ChargeOverviewQueryInput): WattDropdownOptionGroup<string> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
@@ -231,14 +229,10 @@ export class DhChargesFilters {
           value: JSON.stringify({ [name]: true }),
           displayValue: this.moreOptionsTranslations()[name],
         },
-        ...(noInvertedOption
-          ? []
-          : [
-              {
-                value: JSON.stringify({ [name]: false }),
-                displayValue: this.moreOptionsTranslations()[`not_${name}`],
-              },
-            ]),
+        {
+          value: JSON.stringify({ [name]: false }),
+          displayValue: this.moreOptionsTranslations()[`not_${name}`],
+        },
       ],
     };
   }

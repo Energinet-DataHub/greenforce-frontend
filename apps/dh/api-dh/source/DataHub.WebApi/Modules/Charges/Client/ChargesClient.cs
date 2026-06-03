@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
@@ -70,30 +69,11 @@ public class ChargesClient(
 
         // Flatten charge x period and apply period-level filters
         var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
-        var items = charges.SelectMany(charge => charge.Periods
+        return charges.SelectMany(charge => charge.Periods
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
             .Select(p => new ChargeOverviewItem(charge, p)));
-
-        // This filter is expensive since it has to fetch series for each charge,
-        // which is why it is deferred until after applying all other filters.
-        if (query?.MissingPriceSeries == true)
-        {
-            var chargesWithSeries = await items
-                .Select(x => x.Charge)
-                .Distinct()
-                .ToAsyncEnumerable()
-                .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
-                .Where(r => r.series.Any() != query?.MissingPriceSeries)
-                .Select(r => r.charge)
-                .ToListAsync(ct);
-
-            return items.Where(x => chargesWithSeries.Contains(x.Charge));
-        }
-
-        return items;
     }
 
     public async Task<IEnumerable<Charge>> GetChargesAsync(CancellationToken ct = default)
@@ -175,7 +155,9 @@ public class ChargesClient(
             .GroupBy(slot => CollapseKey(slot.InZone(DanishTimeZone), resolution))
             .Select(g => g.Key.AtStartOfDayInZone(DanishTimeZone).ToDateTimeOffset());
 
-        return new MissingPriceSeriesResult(gaps, lastPoint.ToDateTimeOffset());
+        return new MissingPriceSeriesResult(
+            gaps,
+            NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(

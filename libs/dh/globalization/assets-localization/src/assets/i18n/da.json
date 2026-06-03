@@ -442,10 +442,7 @@
           "not_transparentInvoicing": "Skal ikke viderefaktureres",
           "spotDependingPriceGroupName": "Spotafhængig pris",
           "spotDependingPrice": "Spotafhængig pris",
-          "not_spotDependingPrice": "Ikke spotafhængig pris",
-          "missingPriceSeriesGroupName": "Prisserie",
-          "missingPriceSeries": "Mangler prisserie",
-          "not_missingPriceSeries": "Har prisserie"
+          "not_spotDependingPrice": "Ikke spotafhængig pris"
         }
       }
     },
@@ -1373,17 +1370,7 @@
         "columns": {
           "step": "Trin",
           "completedAt": "Fuldført",
-          "dueDate": "Forfaldsdato",
-          "actor": "Aktør",
-          "state": "Status"
-        },
-        "stepStates": {
-          "pending": "Afventende",
-          "running": "Kører",
-          "failed": "Fejlet",
-          "skipped": "Sprunget over",
-          "canceled": "Annulleret",
-          "succeeded": "Modtaget"
+          "actor": "Aktør"
         }
       },
       "requestService": {

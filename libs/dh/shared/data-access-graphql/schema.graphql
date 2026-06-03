@@ -2158,7 +2158,6 @@ input ChargeOverviewQueryInput {
   vatInclusive: Boolean
   transparentInvoicing: Boolean
   spotDependingPrice: Boolean
-  missingPriceSeries: Boolean
 }
 
 input ChargeSeriesPointInput {

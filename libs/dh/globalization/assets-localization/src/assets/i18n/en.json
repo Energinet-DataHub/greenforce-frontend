@@ -442,10 +442,7 @@
           "not_transparentInvoicing": "Not subject to transparent invoicing",
           "spotDependingPriceGroupName": "Spot depending price",
           "spotDependingPrice": "Spot depending price",
-          "not_spotDependingPrice": "Non-spot depending price",
-          "missingPriceSeriesGroupName": "Price series",
-          "missingPriceSeries": "Missing price series",
-          "not_missingPriceSeries": "Has price series"
+          "not_spotDependingPrice": "Non-spot depending price"
         }
       }
     },
@@ -1374,17 +1371,7 @@
         "columns": {
           "step": "Step",
           "completedAt": "Completed at",
-          "dueDate": "Due date",
-          "actor": "Actor",
-          "state": "State"
-        },
-        "stepStates": {
-          "pending": "Pending",
-          "running": "Running",
-          "failed": "Failed",
-          "skipped": "Skipped",
-          "canceled": "Canceled",
-          "succeeded": "Received"
+          "actor": "Actor"
         }
       },
       "requestService": {

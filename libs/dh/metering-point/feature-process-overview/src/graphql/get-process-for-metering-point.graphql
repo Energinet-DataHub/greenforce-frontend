@@ -17,7 +17,6 @@ query GetMeteringPointProcessById($id: String!) {
       comment
       description
       completedAt
-      dueDate
 
       actor {
         id
