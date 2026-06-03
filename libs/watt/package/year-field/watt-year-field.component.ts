@@ -75,7 +75,7 @@ export const YEAR_FORMAT = 'YYYY';
 
         &:has(.watt-year-field__has-label) {
           .watt-year-field__step-through {
-            margin-top: 28px;
+            margin-top: calc(var(--watt-field-label-block-height, 24px) + 1px);
           }
         }
       }

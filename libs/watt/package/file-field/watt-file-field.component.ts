@@ -49,6 +49,9 @@ import { WattFieldComponent } from '@energinet/watt/field';
         <watt-button variant="icon" icon="remove" (click)="clear.emit()" />
       }
       <ng-content />
+      <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
+      <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-warning" ngProjectAs="watt-field-warning" />
     </watt-field>
   `,
 })
