@@ -1,0 +1,21 @@
+fragment ChargeLinkPeriodFields on ChargeLinkPeriod {
+  id
+  amount
+  period
+  cancelled
+  closed
+  sortKey
+  charge {
+    id
+    code
+    name
+    type
+    typeDisplayName
+    displayName
+    transparentInvoicing
+    owner {
+      id
+      displayName
+    }
+  }
+}

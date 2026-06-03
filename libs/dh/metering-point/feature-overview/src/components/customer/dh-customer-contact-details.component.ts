@@ -24,7 +24,8 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
-import { Contact } from '../../types';
+import { Contact } from '@energinet-datahub/dh/metering-point/shared/domain';
+
 import { DhCustomerContactComponent } from './dh-customer-contact.component';
 
 @Component({

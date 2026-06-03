@@ -17,7 +17,7 @@
  */
 //#endregion
 
-import { Component, effect, inject, input, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -31,14 +31,18 @@ import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
+import {
+  EditChargeLinkDocument,
+  GetChargeLinkPeriodByIdDocument,
+  GetChargeLinkPeriodsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
-  selector: 'dh-metering-point-edit-charge-link',
+  selector: 'dh-charge-links-edit-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -61,25 +65,32 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
   template: `
     <watt-modal
       size="small"
-      #edit
       autoOpen
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.edit'"
-      (closed)="navigate.navigate('list')"
+      (closed)="page.navigate('id', id())"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
         <watt-icon [style.color]="'black'" name="info" [wattTooltip]="t('tooltip')" />
       </h2>
       <form
-        id="edit"
-        (ngSubmit)="save()"
+        id="edit-charge-link-form"
         vater-stack
         align="start"
         direction="column"
         gap="s"
         tabindex="-1"
         [formGroup]="form"
+        (ngSubmit)="edit()"
       >
+        @if (chargeType() === 'SUBSCRIPTION') {
+          <watt-datepicker
+            [formControl]="form.controls.startDate"
+            [label]="t('startDate')"
+            [min]="min()"
+            [max]="max()"
+          />
+        }
         <watt-text-field [formControl]="form.controls.factor" [label]="t('factor')">
           @if (form.controls.factor.errors?.min) {
             <watt-field-error>
@@ -87,47 +98,67 @@ import { EditChargeLinkDocument } from '@energinet-datahub/dh/shared/domain/grap
             </watt-field-error>
           }
         </watt-text-field>
-        <watt-datepicker [formControl]="form.controls.startDate" [label]="t('startDate')" />
       </form>
       <watt-modal-actions>
-        <watt-button variant="secondary" (click)="edit.close(false)">
+        <watt-button variant="secondary" (click)="modal().close(false)">
           {{ t('close') }}
         </watt-button>
-        <watt-button variant="primary" type="submit" formId="edit">
+        <watt-button variant="primary" type="submit" formId="edit-charge-link-form">
           {{ t('save') }}
         </watt-button>
       </watt-modal-actions>
     </watt-modal>
   `,
 })
-export default class DhMeteringPointEditChargeLink {
-  private readonly toast = injectToast('meteringPoint.chargeLinks.edit.toast');
-  private readonly edit = mutation(EditChargeLinkDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
-  navigate = inject(DhNavigationService);
+export default class DhChargeLinksEditModal {
+  protected page = inject(DhNavigationService);
+
+  readonly id = input.required<string>();
+  readonly meteringPointId = input.required<string>();
+  readonly modal = viewChild.required(WattModalComponent);
+
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
+  editChargeLink = mutation(EditChargeLinkDocument, {
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.edit.toast'),
+    onCompleted: () => this.modal().close(true),
+    update: (cache, { data }) => {
+      const periods = data?.editChargeLink?.chargeLinkPeriod;
+      if (!periods) return;
+      const meteringPointId = this.meteringPointId();
+      cache.updateQuery(
+        { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
+        (existing) => {
+          if (!existing) return null;
+          const ids = new Set(periods.map((p) => p.id));
+          const merged = [...existing.chargeLinkPeriods.filter((p) => !ids.has(p.id)), ...periods];
+          return {
+            ...existing,
+            chargeLinkPeriods: merged.sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+          };
+        }
+      );
+    },
+  });
+
   form = new FormGroup({
     factor: dhMakeFormControl<string>(null, [Validators.required, Validators.min(1)]),
     startDate: dhMakeFormControl<Date>(null, [Validators.required]),
   });
 
-  id = input.required<string>();
+  min = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.start);
+  max = computed(() => this.period.data()?.chargeLinkPeriodById?.period?.end ?? undefined);
+  chargeType = computed(() => this.period.data()?.chargeLinkPeriodById?.charge.type);
+  updateStartDateEffect = effect(() => this.form.controls.startDate.setValue(this.min() ?? null));
 
-  save = async () => {
-    if (this.form.invalid) return;
-
+  async edit() {
     assertIsDefined(this.form.value.startDate);
     assertIsDefined(this.form.value.factor);
-
-    await this.edit.mutate({
+    await this.editChargeLink.mutate({
       variables: {
         id: this.id(),
         newStartDate: this.form.value.startDate,
-        factor: parseInt(this.form.value.factor),
+        factor: parseInt(this.form.value.factor, 10),
       },
     });
-
-    this.modal().close(true);
-  };
-
-  effect = effect(() => this.toast(this.edit.status()));
+  }
 }

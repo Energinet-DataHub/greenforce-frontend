@@ -113,7 +113,13 @@ type MeteringPointProcessStep = NonNullable<
           {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.actor; let process">
-          {{ process.actor?.displayName | dhEmDashFallback }}
+          @if (process.actor?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.actorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
+          }
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}
@@ -135,11 +141,11 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
+    actor: { accessor: 'actor', sort: false },
     step: { accessor: 'step', size: '1fr', sort: false },
+    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
     completedAt: { accessor: 'completedAt', sort: false },
     dueDate: { accessor: 'dueDate', sort: false },
-    actor: { accessor: 'actor', sort: false },
     //state: { accessor: 'state', sort: false }, // Temporarily hidden until the backend/EDI supports more states
   };
 

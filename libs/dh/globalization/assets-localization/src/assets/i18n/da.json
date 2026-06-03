@@ -124,6 +124,12 @@
       "message": "Der opstod desværre en fejl, da vi skulle hente de nødvendige oplysninger",
       "button": "Prøv igen"
     },
+    "startupError": {
+      "title": "DataHub kunne ikke indlæses",
+      "message": "Vi kunne ikke hente dine oplysninger. Prøv at genindlæse siden, eller log ud og log ind igen.",
+      "retry": "Genindlæs",
+      "signOut": "Log ud"
+    },
     "downloadStart": "Starter download...",
     "download": "Download",
     "exportCsv": "Eksporter CSV",
@@ -982,9 +988,9 @@
           "description": "Beskrivelse"
         },
         "changeTypes": {
-          "STARTED": "Pris tilknyttet pr. {{date}}",
-          "STOPPED": "Pristilknytning stoppet pr. {{date}}",
-          "CANCELLED": "Pristilknytning annulleret pr. {{date}}",
+          "STARTED": "Pris tilknyttet",
+          "STOPPED": "Pristilknytning stoppet pr. {{stopDate}}",
+          "CANCELLED": "Pristilknytning annulleret",
           "EDITED": "Antal ændret fra {{previousFactor}} til {{factor}}"
         },
         "copyMessage": "Kopier besked-ID",
@@ -992,7 +998,11 @@
         "actions": "Handlinger",
         "edit": "Rediger pristilknytning",
         "stop": "Stop pristilknytning",
-        "cancel": "Annuller pristilknytning"
+        "cancel": "Annuller pristilknytning",
+        "empty": {
+          "title": "Ingen ændringer modtaget endnu",
+          "text": "Ændringer vises her, når de er blevet behandlet."
+        }
       },
       "create": {
         "errors": {
@@ -1111,9 +1121,9 @@
         "IncorrectMove": "Fejlagtig flytning (D33)"
       },
       "filters": {
-        "created": "Tidspunkt",
-        "includeViews": "Inkluder visninger",
-        "includeMasterMeasurementAndPriceRequests": "Inkluder anmodning om stam-, måle- og prisdata"
+        "period": "Periode",
+        "type": "Type",
+        "status": "Status"
       },
       "actions": {
         "fasGenericActions": "Mulige handlinger for aktører",
@@ -1193,6 +1203,7 @@
         "ChangeOfEnergySupplier": "leverandørskifte"
       },
       "steps": {
+        "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
         "CloseDownMeteringPoint": {
           "BRS_007_008_013_V1_STEP_1": "Anmodning om nedlæggelse af målepunkt (RSM-021)",
           "BRS_007_008_013_V1_STEP_2": "Godkendelse af nedlæggelse af målepunkt (RSM-021)",
@@ -1340,6 +1351,10 @@
         "noSteps": "Ingen trin tilgængelige for denne process",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
+        "cancelledByProcess": {
+          "prefix": "Proces annulleret af",
+          "suffix": " med skæringsdato {{ date }}"
+        },
         "list": {
           "createdAt": "Registreret i DataHub",
           "cutoff": "Skæringsdato",
@@ -1665,7 +1680,7 @@
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
       "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
-      "confirmCheckbox": "Vær opmærksom på, at når du starter et leveranceophør anmoder du om at slukke strømmen på målepunktet.",
+      "confirmCheckbox": "Jeg er opmærksom på, at et leveranceophør medfører, at der bliver afbrudt for strømmen.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
       "submitSuccess": "Leveranceophør indsendt.",
@@ -1693,6 +1708,16 @@
       "submitSuccess": "Leverandørskifte indsendt. Du kan følge status under processer",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskifte kunne ikke indsendes"
+    },
+    "electricalHeatingCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "registerElectricalHeating": "Registrer elvarme",
+      "periodTitle": "Periode for reduceret elafgift",
+      "periodHint": "Startdato må ikke ligge før adressens berettigelsesdato (jf. BBR)",
+      "customer": "Kunde",
+      "meteringPoint": "Målepunkt",
+      "meteringPointIdLabel": "Elvarme (D14) målepunkts-ID"
     }
   },
   "messageArchive": {

@@ -23,15 +23,15 @@ import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-
 
 const actionRoutes = [
   {
-    path: 'edit/:id',
+    path: 'edit',
     loadComponent: () => import('./components/actions/edit'),
   },
   {
-    path: 'stop/:id',
+    path: 'stop',
     loadComponent: () => import('./components/actions/stop'),
   },
   {
-    path: 'cancel/:id',
+    path: 'cancel',
     loadComponent: () => import('./components/actions/cancel'),
   },
 ];
@@ -53,12 +53,24 @@ export const meteringPointPricesRoutes: Routes = [
       {
         path: getPath<ChargeLinksSubPaths>('tariff-and-subscription'),
         loadComponent: () => import('./components/tariff-subscriptions'),
-        children: actionRoutes,
+        children: [
+          {
+            path: ':id',
+            loadComponent: () => import('./components/details'),
+            children: actionRoutes,
+          },
+        ],
       },
       {
         path: getPath<ChargeLinksSubPaths>('fees'),
         loadComponent: () => import('./components/fees'),
-        children: actionRoutes,
+        children: [
+          {
+            path: ':id',
+            loadComponent: () => import('./components/details'),
+            children: actionRoutes,
+          },
+        ],
       },
       {
         outlet: 'create',

@@ -21,10 +21,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattIconComponent } from '@energinet/watt/icon';
+
 import { ElectricityMarketViewWashInstructions } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-
-import { MeteringPointDetails } from '../types';
+import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/shared/domain';
 
 @Component({
   selector: 'dh-metering-point-highlights',

@@ -1,7 +1,7 @@
 ﻿{
   "activity": "cancelChargeLink",
   "payload": {
-    "query": "mutation($id: String!) { cancelChargeLink(input: { id: $id }) { boolean } }",
+    "query": "mutation($id: String!) { cancelChargeLink(input: { id: $id }) { chargeLinkPeriod { id } } }",
     "variables": {
       "id": "eyJtZXRlcmluZ1BvaW50SWQiOiI1NzEzMTMxODAwMDAwMDAwMDUiLCJjaGFyZ2VJZCI6eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9fQ=="
     }

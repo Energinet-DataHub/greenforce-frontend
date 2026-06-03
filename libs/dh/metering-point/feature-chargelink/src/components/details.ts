@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -25,25 +25,30 @@ import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_MENU } from '@energinet/watt/menu';
 import { WATT_TABLE, WattTableColumnDef, dataSource } from '@energinet/watt/table';
-import { WattDataTableComponent } from '@energinet/watt/data';
+import { WattDataIntlService, WattDataTableComponent } from '@energinet/watt/data';
+import { WattEmptyStateComponent } from '@energinet/watt/empty-state';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattDatePipe } from '@energinet/watt/date';
+import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { WattHeadingComponent } from '@energinet/watt/heading';
+import { WattIconComponent } from '@energinet/watt/icon';
+
+import {
+  GetChargeLinkPeriodByIdDocument,
+  GetHistoricalChargeLinkPeriodsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+
 import {
   DhChargePeriodPipe,
   DhChargesStatus,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
-import { WattHeadingComponent } from '@energinet/watt/heading';
-import { WattIconComponent } from '@energinet/watt/icon';
-import { GetChargeLinkPeriodByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-
-import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-
-import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
+import { ChargeLinkPeriodChange } from '../types';
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'dh-charge-link-details',
+  selector: 'dh-charge-links-details',
   imports: [
     RouterLink,
     RouterOutlet,
@@ -54,6 +59,7 @@ import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
     WATT_MENU,
     WATT_TABLE,
     WattDataTableComponent,
+    WattEmptyStateComponent,
     WattDatePipe,
     DhChargePeriodPipe,
     DhChargesStatus,
@@ -62,15 +68,19 @@ import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
     WattHeadingComponent,
     DhPermissionRequiredDirective,
   ],
-
   template: `
     <watt-drawer
       size="small"
-      [autoOpen]="item()"
-      [key]="item()"
-      (closed)="item.set(undefined)"
+      autoOpen
+      [key]="id()"
+      (closed)="page.navigate('list')"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.details'"
     >
+      <watt-drawer-topbar>
+        @if (item()?.cancelled) {
+          <dh-charges-status [status]="'CANCELLED'" />
+        }
+      </watt-drawer-topbar>
       <watt-drawer-heading>
         <vater-stack align="start" gap="s">
           <h2 watt-heading size="1" fill="horizontal">
@@ -90,49 +100,51 @@ import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
                   [value]="item()?.period | dhChargePeriod"
                 />
               </watt-description-list>
-              @if (isCancelled()) {
-                <dh-charges-status [status]="'CANCELLED'" />
-              }
             </vater-stack>
-            <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
-              <watt-button variant="secondary" [wattMenuTriggerFor]="actions">
-                {{ t('actions') }}
-                <watt-icon name="moreVertical" />
-              </watt-button>
-              <watt-menu #actions>
-                @if (chargeType() !== 'TARIFF' && chargeType() !== 'TARIFF_TAX') {
-                  <watt-menu-item [routerLink]="['edit', item()?.id]">
-                    {{ t('edit') }}
-                  </watt-menu-item>
-                }
-                <watt-menu-item [routerLink]="['stop', item()?.id]">
-                  {{ t('stop') }}
-                </watt-menu-item>
-                @if (!item()?.period?.end) {
-                  <watt-menu-item [routerLink]="['cancel', item()?.id]">
+            @if (!item()?.cancelled) {
+              <ng-container *dhPermissionRequired="['metering-point:prices-manage']">
+                <watt-button
+                  variant="secondary"
+                  [wattMenuTriggerFor]="actions"
+                  [disabled]="isOptimistic()"
+                >
+                  {{ t('actions') }}
+                  <watt-icon name="moreVertical" />
+                </watt-button>
+                <watt-menu #actions>
+                  @if (canEdit()) {
+                    <watt-menu-item [routerLink]="['edit']">
+                      {{ t('edit') }}
+                    </watt-menu-item>
+                  }
+                  @if (canStop()) {
+                    <watt-menu-item [routerLink]="['stop']">
+                      {{ t('stop') }}
+                    </watt-menu-item>
+                  }
+                  <watt-menu-item [routerLink]="['cancel']">
                     {{ t('cancel') }}
                   </watt-menu-item>
-                }
-              </watt-menu>
-            </ng-container>
+                </watt-menu>
+              </ng-container>
+            }
           </vater-stack>
         </vater-stack>
       </watt-drawer-heading>
-      <router-outlet />
       <watt-drawer-content>
         <watt-data-table
           [autoSize]="true"
           [header]="false"
           [enablePaginator]="false"
-          [error]="details.error()"
-          [ready]="details.called()"
+          [error]="history.error()"
+          [ready]="history.called()"
         >
           <watt-table
             *transloco="let resolveHeader; prefix: 'meteringPoint.chargeLinks.details.columns'"
             [resolveHeader]="resolveHeader"
             [columns]="historyColumns"
             [dataSource]="historyDataSource"
-            [loading]="details.loading()"
+            [loading]="history.loading()"
             sortBy="created"
             sortDirection="desc"
           >
@@ -142,34 +154,61 @@ import { ChargeLinkPeriod, ChargeLinkPeriodChange } from '../types';
             <ng-container *wattTableCell="historyColumns.description; let change">
               {{
                 t('changeTypes.' + change.changeType, {
-                  date: change.effectiveDate | wattDate,
+                  stopDate: change.stopDate | wattDate,
                   factor: change.factor,
                   previousFactor: change.previousFactor,
                 })
               }}
             </ng-container>
           </watt-table>
+          @if (isOptimistic()) {
+            <watt-empty-state
+              icon="pendingActions"
+              [title]="t('empty.title')"
+              [message]="t('empty.text')"
+            />
+          } @else if (history.hasError()) {
+            <watt-empty-state
+              icon="custom-power"
+              [title]="wattDataIntl.errorTitle"
+              [message]="wattDataIntl.errorText"
+            />
+          }
         </watt-data-table>
       </watt-drawer-content>
     </watt-drawer>
+    <router-outlet />
   `,
 })
-export class DhChargeLinkDetails {
-  readonly item = model<ChargeLinkPeriod>();
-  readonly chargeType = computed(() => this.item()?.charge?.type);
-  readonly isCancelled = computed(
-    () => this.item()?.period?.start?.getTime() === this.item()?.period?.end?.getTime()
-  );
+export default class DhChargeLinksDetails {
+  protected wattDataIntl = inject(WattDataIntlService);
+  protected page = inject(DhNavigationService);
 
-  details = query(GetChargeLinkPeriodByIdDocument, () => {
-    const id = this.item()?.id;
-    return id ? { variables: { id } } : { skip: true };
-  });
+  readonly id = input.required<string>();
 
-  changes = computed(() => this.details.data()?.chargeLinkPeriodById?.changes ?? []);
+  period = query(GetChargeLinkPeriodByIdDocument, () => ({ variables: { id: this.id() } }));
+  history = query(GetHistoricalChargeLinkPeriodsDocument, () => ({
+    fetchPolicy: 'cache-first',
+    pollInterval: 10_000,
+    notifyOnNetworkStatusChange: false,
+    variables: { id: this.id() },
+  }));
+
+  item = computed(() => this.period.data()?.chargeLinkPeriodById);
+  chargeType = computed(() => this.item()?.charge?.type);
+  changes = computed(() => this.history.data()?.chargeLinkPeriodById?.changes ?? []);
+  isOptimistic = computed(() => this.history.status() === 'resolved' && !this.changes().length);
   historyDataSource = dataSource(() => this.changes());
   historyColumns: WattTableColumnDef<ChargeLinkPeriodChange> = {
     created: { accessor: (row) => row.created },
     description: { accessor: (row) => row.changeType, sort: false },
   };
+
+  canEdit = computed(() => this.chargeType() !== 'TARIFF' && this.chargeType() !== 'TARIFF_TAX');
+  canStop = computed(() => {
+    if (this.chargeType() === 'FEE') return false;
+    const period = this.item()?.period;
+    if (!period) return false;
+    return period?.end ? dayjs(period.end).diff(period.start, 'd') > 0 : true;
+  });
 }
