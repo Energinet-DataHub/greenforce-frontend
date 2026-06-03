@@ -78,7 +78,7 @@ import { dhCompanyNameMaxLength } from '../../../validators/dh-company-name-max-
       }}</watt-button>
     </vater-stack>
 
-    <vater-stack gap="m" align="center" direction="row">
+    <vater-stack gap="m" align="start" direction="row">
       <watt-dropdown
         translateKey="marketParticipant.actor.create.countries"
         dhDropdownTranslator
