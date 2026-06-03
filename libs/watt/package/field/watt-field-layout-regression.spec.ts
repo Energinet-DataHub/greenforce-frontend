@@ -52,10 +52,10 @@ describe('Watt field layout regressions', () => {
     );
 
     expect(messages).toHaveLength(3);
-    for (const message of messages) {
+    messages.forEach((message) => {
       expect(wrapper?.contains(message)).toBe(false);
       expect(message.parentElement?.matches('label, .watt-label')).toBe(true);
-    }
+    });
   });
 
   it('projects radio-group messages below the radio options wrapper', async () => {
@@ -89,9 +89,9 @@ describe('Watt field layout regressions', () => {
     );
 
     expect(messages).toHaveLength(3);
-    for (const message of messages) {
+    messages.forEach((message) => {
       expect(wrapper?.contains(message)).toBe(false);
       expect(message.parentElement?.matches('label, .watt-label')).toBe(true);
-    }
+    });
   });
 });
