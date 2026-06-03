@@ -23,14 +23,11 @@ import { Component, ViewEncapsulation } from '@angular/core';
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
   styles: `
+    @use './typography/typography.import' as typography;
     watt-field-error {
       color: var(--watt-color-state-danger);
       display: block;
-      font-size: 0.875rem;
-      font-weight: 400;
-      letter-spacing: 0;
-      line-height: 1.25rem;
-      text-transform: none;
+      @include typography.watt-text-s;
     }
   `,
 })
