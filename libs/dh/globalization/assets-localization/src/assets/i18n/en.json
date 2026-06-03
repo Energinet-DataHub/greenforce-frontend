@@ -1696,7 +1696,6 @@
         "allOnes": "{{ meteringPoint.moveIn.customerDetails.cprError.allOnes }}"
       },
       "cvr": "CVR",
-      "protectedNameAndAddress": "Name and address protection",
       "cancel": "Cancel",
       "submit": "Submit change of supplier",
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",

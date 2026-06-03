@@ -25,7 +25,6 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from '@energinet/watt/radio';
@@ -53,7 +52,6 @@ import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/featu
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattCheckboxComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattRadioComponent,
@@ -138,10 +136,6 @@ import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/featu
               class="cvr-field"
             />
           }
-
-          <watt-checkbox [formControl]="form.controls.protectedNameAndAddress">
-            {{ t('protectedNameAndAddress') }}
-          </watt-checkbox>
         </vater-stack>
       </form>
 
@@ -173,7 +167,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
     customerType: dhMakeFormControl<'private' | 'business'>('private'),
     cpr: dhMakeFormControl<string>('', [Validators.required, dhCprValidator()]),
     cvr: dhMakeFormControl<string>(''),
-    protectedNameAndAddress: dhMakeFormControl<boolean>(false),
   });
 
   private readonly customerTypeChanged = toSignal(this.form.controls.customerType.valueChanges, {
@@ -202,7 +195,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
   async submit() {
     if (this.form.invalid || this.initiateChangeOfSupplier.loading()) return;
 
-    const { cutOffDate, customerType, cpr, cvr, protectedNameAndAddress } = this.form.getRawValue();
+    const { cutOffDate, customerType, cpr, cvr } = this.form.getRawValue();
 
     if (!cutOffDate) return;
 
@@ -214,7 +207,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
           customerType,
           cpr: customerType === 'private' ? cpr : null,
           cvr: customerType === 'business' ? cvr : null,
-          protectedNameAndAddress: protectedNameAndAddress ?? false,
         },
       },
       onError: () => {
