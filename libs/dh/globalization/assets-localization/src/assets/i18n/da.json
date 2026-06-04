@@ -89,6 +89,12 @@
     "hours": "{{ hours }}t {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
   },
+  "validation": {
+    "meteringPoint": {
+      "meteringPointIdLength": "Målepunkts-ID består af 18 cifre",
+      "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver"
+    }
+  },
   "shared": {
     "true": "Ja",
     "false": "Nej",
@@ -637,18 +643,12 @@
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
-    "shared": {
-      "error": {
-        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
-        "meteringPointIdLength": "Målepunkts-ID består af 18 cifre"
-      }
-    },
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
       "searchMigratedMeteringPoints": "Søg i EM1",
@@ -945,9 +945,9 @@
         "type": "Målepunktstype",
         "resolution": "Tidsopløsning",
         "address": "Adresse",
-        "notValidated": "Søg venligst efter et målepunkt",
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
         "notFound": "Målepunkts-ID findes ikke",
-        "invalidLength": "Målepunkts-ID består af 18 cifre"
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
@@ -1654,8 +1654,8 @@
         "product": "Produkt-ID"
       },
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "changeConnectionState": {
