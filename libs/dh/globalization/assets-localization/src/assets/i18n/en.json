@@ -1527,8 +1527,8 @@
         "cvrInvalid": "{{ marketParticipant.actor.create.cvrInvalid }}",
         "nameProtection": "Name protection",
         "editCprModal": {
-          "title": "Edit CPR?",
-          "description": "Retrieval of CPR numbers is logged in accordance with applicable legislation. You may only access CPR data when there is a legitimate and lawful purpose. Do you want to continue?",
+          "title": "Enter new CPR number?",
+          "description": "If you continue, the current CPR number will be removed and you will need to enter a new one. The change will only take effect once you click \"Update Customer Data.\"",
           "yes": "Yes",
           "no": "No"
         }
