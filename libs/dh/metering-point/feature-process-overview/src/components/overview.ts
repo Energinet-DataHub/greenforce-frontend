@@ -251,7 +251,12 @@ export class DhMeteringPointProcessOverviewTable {
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
-  selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
+  // Read the id unconditionally (not lazily inside `.find`): a lazy read on the first,
+  // empty-list run leaves the computed dependency-less and frozen at `undefined`.
+  selection = computed(() => {
+    const id = this.navigation.id();
+    return this.store.filteredProcesses().find((r) => r.id === id);
+  });
 
   // Show the reset button only when a filter is actually applied (something to reset).
   protected readonly hasActiveFilters = computed(
