@@ -665,6 +665,7 @@ function getProjectionsStatus() {
               __typename: 'ProjectionMissingMeteringPoints',
               projectionName: 'MeteringPointWithRelations:All',
               missingMeteringPointCount: '5',
+              missingIds: ['abc123', 'def456'],
             },
           ],
           projections: [

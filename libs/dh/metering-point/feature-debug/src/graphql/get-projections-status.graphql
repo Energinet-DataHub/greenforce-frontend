@@ -7,6 +7,7 @@ query GetProjectionsStatus {
     missingMeteringPoints {
       projectionName
       missingMeteringPointCount
+      missingIds
     }
     projections {
       name
