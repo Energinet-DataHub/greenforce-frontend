@@ -853,6 +853,7 @@ type GetProjectionsStatusResultDtoV1 {
   eventSequenceNumber: Long!
   streamCount: Long!
   projections: [ProjectionStatus!]!
+  missingMeteringPoints: [ProjectionMissingMeteringPoints!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -1449,6 +1450,12 @@ type ProcessesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: OrchestrationInstance!
+}
+
+type ProjectionMissingMeteringPoints {
+  projectionName: String!
+  missingMeteringPointCount: Long!
+  missingIds: [String!]!
 }
 
 type ProjectionStatus {

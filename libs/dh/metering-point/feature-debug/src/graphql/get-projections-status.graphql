@@ -4,6 +4,10 @@ query GetProjectionsStatus {
     eventCount
     eventSequenceNumber
     streamCount
+    missingMeteringPoints {
+      projectionName
+      missingMeteringPointCount
+    }
     projections {
       name
       assignedNodeNumber
