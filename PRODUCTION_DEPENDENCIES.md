@@ -29,7 +29,6 @@
 | [@ngrx/operators](https://github.com/ngrx/platform) | 21.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
-| [chardet](https://github.com/runk/node-chardet) | 2.1.1 | MIT |
 | [dayjs](https://github.com/iamkun/dayjs) | 1.11.13 | MIT |
 | [graphql-sse](https://github.com/enisdenjo/graphql-sse) | 2.5.4 | MIT |
 | [graphql](https://github.com/graphql/graphql-js) | 16.10.0 | MIT |
