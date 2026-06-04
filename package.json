@@ -89,7 +89,6 @@
     "@ngrx/operators": "21.0.1",
     "@ngxpert/hot-toast": "5.1.1",
     "@popperjs/core": "2.11.8",
-    "chardet": "2.1.1",
     "dayjs": "1.11.13",
     "graphql": "16.10.0",
     "graphql-sse": "2.5.4",

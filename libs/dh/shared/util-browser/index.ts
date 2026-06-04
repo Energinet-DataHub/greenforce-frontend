@@ -16,4 +16,5 @@
  * limitations under the License.
  */
 //#endregion
+export { detectEncoding } from './src/detect-encoding';
 export { localStorageToken, sessionStorageToken } from './src/storage-tokens';

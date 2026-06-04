@@ -18,8 +18,8 @@
 //#endregion
 import { Observable, of, scan, switchMap, takeWhile } from 'rxjs';
 import * as Papa from 'papaparse';
-import chardet from 'chardet';
 import { ChargeResolution } from '@energinet-datahub/dh/shared/domain/graphql';
+import { detectEncoding } from '@energinet-datahub/dh/shared/util-browser';
 import { ChargeSeriesResult } from './charge-series-result';
 
 // Column names
@@ -37,10 +37,6 @@ export type ChargeSeriesCSV = {
 type ParseStep =
   | { kind: 'completed' }
   | { kind: 'step'; row: Papa.ParseStepResult<Record<string, string>> };
-
-/** Try to detect the encoding of the file, falling back to `utf-8`. */
-const detectEncoding = async (file: File) =>
-  chardet.detect(new Uint8Array(await file.slice(0, 1000).arrayBuffer())) ?? 'utf-8';
 
 /** Stream the CSV file as a sequence of rows. */
 const streamCsv = (source: File | string) => (encoding: string) =>
