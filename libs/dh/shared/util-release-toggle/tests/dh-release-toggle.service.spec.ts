@@ -82,6 +82,11 @@ describe('DhReleaseToggleService', () => {
       expect(service.isEnabled('anyToggle')).toBe(false);
     });
 
+    it('should return true when no toggle name is provided', () => {
+      expect(service.isEnabled()).toBe(true);
+      expect(service.isEnabled(undefined)).toBe(true);
+    });
+
     it('should handle hasAnyEnabled correctly with empty state', () => {
       expect(service.hasAnyEnabled(['toggle1', 'toggle2'])).toBe(false);
       expect(service.hasAnyEnabled([])).toBe(false);

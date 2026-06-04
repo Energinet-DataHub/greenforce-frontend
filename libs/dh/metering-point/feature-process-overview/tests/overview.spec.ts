@@ -42,6 +42,7 @@ import {
 import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
@@ -70,6 +71,10 @@ async function setup(
       // overview query variables from inherited route data.
       DhMeteringPointProcessOverviewStore,
       { provide: ComponentFixtureAutoDetect, useValue: true },
+      {
+        provide: DhReleaseToggleService,
+        useValue: { isEnabled: () => true, toggles: () => [] },
+      },
       {
         provide: PermissionService,
         useValue: {
