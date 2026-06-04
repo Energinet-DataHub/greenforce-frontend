@@ -19,7 +19,7 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
-const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222']);
+const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222', '33333333']);
 
 export function dhMoveInCvrValidator(): ValidatorFn {
   const baseValidator = dhCvrValidator();

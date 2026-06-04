@@ -33,6 +33,11 @@ describe('dhMoveInCvrValidator', () => {
     expect(validator(control)).toBeNull();
   });
 
+  it('allows test CVR 33333333 (checksum bypass)', () => {
+    const control = new FormControl('33333333');
+    expect(validator(control)).toBeNull();
+  });
+
   it('allows a valid CVR number', () => {
     // 12345674: weighted sum = 106, mod 11 = 7, check digit = 4 ✓
     const control = new FormControl('12345674');
