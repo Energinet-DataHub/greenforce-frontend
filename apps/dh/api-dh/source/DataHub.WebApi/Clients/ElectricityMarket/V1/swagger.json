@@ -687,6 +687,76 @@
         }
       }
     },
+    "/metering-point/export-to-eventstore": {
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "export-to-eventstore",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/query/type": {
       "post": {
         "tags": [
@@ -1239,6 +1309,16 @@
             "items": {
               "$ref": "#/components/schemas/CustomerDto"
             }
+          }
+        }
+      },
+      "ExportMeteringPointsToEventStoreResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "exportedCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1986,7 +2066,8 @@
           "ConsumptionStatementCancelsNotMarketProcess",
           "ConsumptionStatementCancelsMarketProcess",
           "CreateHistoricalMeteringPoint",
-          "EmptyTransaction"
+          "EmptyTransaction",
+          "ChangeBalanceResponsibleParty"
         ],
         "enum": [
           0,
@@ -2053,7 +2134,8 @@
           61,
           62,
           63,
-          64
+          64,
+          65
         ]
       },
       "WashInstructions": {
