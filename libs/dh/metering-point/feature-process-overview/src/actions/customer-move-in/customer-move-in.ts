@@ -89,6 +89,7 @@ export class CustomerMoveInActions {
       ),
     },
     [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+      permissions: ['metering-point:move-in'],
       roles: [ResponsibleEnergySupplier],
       callback: (ctx) => {
         if (!ctx.cutoffDate) return;

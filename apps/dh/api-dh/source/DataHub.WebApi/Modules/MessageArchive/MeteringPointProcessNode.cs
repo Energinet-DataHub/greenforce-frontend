@@ -14,6 +14,8 @@
 
 using System.Collections.Immutable;
 using System.Reactive.Linq;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Processes.BRS_011.IncorrectMoveIn.V1;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
@@ -22,7 +24,6 @@ using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using NodaTime;
@@ -58,6 +59,7 @@ public static partial class MeteringPointProcessNode
     [Query]
     public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(
         string id,
+        string meteringPointId,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
@@ -68,7 +70,7 @@ public static partial class MeteringPointProcessNode
 
         var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
 
-        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
+        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps, meteringPointId) : null;
     }
 
     [Subscription]
@@ -108,7 +110,7 @@ public static partial class MeteringPointProcessNode
 
     public static async Task<IEnumerable<MeteringPointProcessAction>> GetAvailableActionsAsync(
         [Parent] MeteringPointProcess process,
-        [Service] IIncorrectMoveInEligibilityService incorrectMoveInEligibilityService,
+        IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -124,13 +126,37 @@ public static partial class MeteringPointProcessNode
         }
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityService
-            .IsEligibleAsync(process.MeteringPointId, userIdentity.ActorNumber.Value, cancellationToken)
+        var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityDataLoader
+            .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
             .ConfigureAwait(false);
 
         return isEligibleForIncorrectMoveIn
             ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
             : actions;
+    }
+
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), bool>> GetIncorrectMoveInEligibilityAsync(
+        IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken cancellationToken)
+    {
+        // HotChocolate dedupes identical keys within a single request, so multiple
+        // CustomerMoveIn processes on the same metering point trigger one EM call.
+        // Eligibility is presence-of-any-move-in within the EM 60-day lookback window.
+        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), bool>(keys.Count);
+        foreach (var key in keys)
+        {
+            var query = new GetMoveInsByEnergySupplierIdQueryV1(
+                MeteringPointId: key.MeteringPointId,
+                EnergySupplierId: key.EnergySupplierId,
+                From: DateTimeOffset.UtcNow.AddDays(-60));
+
+            var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
+            results[key] = result.IsSuccess && result.Data is not null && result.Data.MoveIns.Any();
+        }
+
+        return results;
     }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
@@ -147,7 +173,7 @@ public static partial class MeteringPointProcessNode
             .Type<ListType<NonNullType<EnumType<MeteringPointProcessAction>>>>()
             .Resolve((ctx, ct) => GetAvailableActionsAsync(
                 ctx.Parent<MeteringPointProcess>(),
-                ctx.Service<IIncorrectMoveInEligibilityService>(),
+                ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }
@@ -205,7 +231,7 @@ public static partial class MeteringPointProcessNode
             workflowSteps: null,
             meteringPointId: meteringPointId);
 
-    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
+    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps, string meteringPointId) =>
         CreateMeteringPointProcess(
             workflowInstanceWithSteps.Id,
             null,
@@ -214,7 +240,7 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.ExpectedValidityDate,
             actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps,
-            meteringPointId: null);
+            meteringPointId: meteringPointId);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,

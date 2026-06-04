@@ -1514,7 +1514,7 @@ type Query {
   meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
-  meteringPointProcessById(id: String!): MeteringPointProcess
+  meteringPointProcessById(id: String! meteringPointId: String!): MeteringPointProcess
   meteringPointProcessOverview(meteringPointId: String! created: DateRange!): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!

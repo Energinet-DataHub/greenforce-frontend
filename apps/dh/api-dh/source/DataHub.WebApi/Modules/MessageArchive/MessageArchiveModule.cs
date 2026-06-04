@@ -22,6 +22,5 @@ public class MessageArchiveModule : IModule
     public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration) =>
         services
             .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
-            .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>()
-            .AddScoped<IIncorrectMoveInEligibilityService, IncorrectMoveInEligibilityService>();
+            .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>();
 }

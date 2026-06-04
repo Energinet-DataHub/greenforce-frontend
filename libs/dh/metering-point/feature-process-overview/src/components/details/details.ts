@@ -236,6 +236,7 @@ export class DhMeteringPointProcessOverviewDetails {
     returnPartialData: true,
     variables: {
       id: this.id(),
+      meteringPointId: this.meteringPointId(),
     },
   }));
 

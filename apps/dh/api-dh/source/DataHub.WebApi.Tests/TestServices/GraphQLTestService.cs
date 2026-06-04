@@ -28,7 +28,6 @@ using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Calculations.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.MoveIn.Client;
 using Energinet.DataHub.WebApi.Modules.Processes.Requests.Client;
@@ -129,7 +128,6 @@ public class GraphQLTestService
             .AddSingleton(ElectricityMarketClientV1Mock.Object)
             .AddSingleton(ProcessManagerClientMock.Object)
             .AddSingleton(RequestAuthorizationMock.Object)
-            .AddScoped<IIncorrectMoveInEligibilityService, IncorrectMoveInEligibilityService>()
             .AddSingleton(
                 sp => new RequestExecutorProxy(
                     sp.GetRequiredService<IRequestExecutorResolver>(),
