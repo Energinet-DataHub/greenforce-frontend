@@ -72,7 +72,7 @@ async function setup(
       { provide: ComponentFixtureAutoDetect, useValue: true },
       {
         provide: DhReleaseToggleService,
-        useValue: { isEnabled: () => true },
+        useValue: { isEnabled: () => true, toggles: () => [], loading: () => false },
       },
       {
         provide: PermissionService,
