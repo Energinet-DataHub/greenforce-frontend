@@ -49,7 +49,8 @@ export class DhReleaseToggleService {
    * @param name The name of the toggle
    * @returns true if the toggle is enabled, false otherwise
    */
-  isEnabled(name: string): boolean {
+  isEnabled(name?: string): boolean {
+    if (!name) return true;
     return this.togglesSet().has(name);
   }
 
