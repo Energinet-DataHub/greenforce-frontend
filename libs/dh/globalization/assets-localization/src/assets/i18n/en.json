@@ -1717,6 +1717,9 @@
       "customer": "Customer",
       "meteringPoint": "Metering point",
       "childMeteringPointIdLabel": "Electrical heating (D14) metering point ID",
+      "error": {
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+      },
       "toast": {
         "loading": "Registering electrical heating...",
         "success": "Electrical heating registered",
