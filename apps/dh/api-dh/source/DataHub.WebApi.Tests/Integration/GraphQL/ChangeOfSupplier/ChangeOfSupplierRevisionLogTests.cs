@@ -41,15 +41,13 @@ public class ChangeOfSupplierRevisionLogTests
                 $customerType: String!
                 $cpr: String
                 $cvr: String
-                $protectedNameAndAddress: Boolean!
               ) {
                 initiateChangeOfSupplier(input: {
                   meteringPointId: $meteringPointId,
                   startDate: $startDate,
                   customerType: $customerType,
                   cpr: $cpr,
-                  cvr: $cvr,
-                  protectedNameAndAddress: $protectedNameAndAddress
+                  cvr: $cvr
                 }) {
                   boolean
                 }
@@ -83,7 +81,6 @@ public class ChangeOfSupplierRevisionLogTests
                 { "customerType", "private" },
                 { "cpr", "1234567890" },
                 { "cvr", null },
-                { "protectedNameAndAddress", false },
             });
     }
 }

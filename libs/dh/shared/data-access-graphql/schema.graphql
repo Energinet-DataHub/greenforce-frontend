@@ -340,11 +340,11 @@ type ChargeLinkPeriod {
 
 type ChargeLinkPeriodChange {
   created: DateTime!
+  stopDate: DateTime
   factor: Int!
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
-  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."
@@ -853,6 +853,7 @@ type GetProjectionsStatusResultDtoV1 {
   eventSequenceNumber: Long!
   streamCount: Long!
   projections: [ProjectionStatus!]!
+  missingMeteringPoints: [ProjectionMissingMeteringPoints!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -1168,7 +1169,9 @@ type MeteringPointIdentificationDto {
 }
 
 type MeteringPointProcess {
+  cancelledByProcess: MeteringPointProcess
   initiator: MarketParticipant
+  initiatorRole: EicFunction
   steps: [MeteringPointProcessStep!]!
   availableActions: [MeteringPointProcessAction!]
   id: String!
@@ -1177,10 +1180,12 @@ type MeteringPointProcess {
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
+  cancellationTimestamp: DateTime
 }
 
 type MeteringPointProcessStep {
   actor: MarketParticipant
+  actorRole: EicFunction
   """
   Generates the URL for fetching the master data document content.
   The MessageId on the step contains the ArchivedMessageId (GUID) from ProcessManager.
@@ -1259,6 +1264,7 @@ type Mutation {
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
+  registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1447,6 +1453,12 @@ type ProcessesEdge {
   node: OrchestrationInstance!
 }
 
+type ProjectionMissingMeteringPoints {
+  projectionName: String!
+  missingMeteringPointCount: Long!
+  missingIds: [String!]!
+}
+
 type ProjectionStatus {
   name: String!
   assignedNodeNumber: Int!
@@ -1515,7 +1527,7 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   meteringPointProcessById(id: String! meteringPointId: String!): MeteringPointProcess
-  meteringPointProcessOverview(meteringPointId: String! created: DateRange!): [MeteringPointProcess!]!
+  meteringPointProcessOverview(meteringPointId: String! created: DateRange): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!
   operationToolsMeteringPoint(id: String!): GetMeteringPointDebugResultDtoV1 @authorize(roles: [ "operation-tools:view" ])
@@ -1540,7 +1552,7 @@ type Query {
   settlementReportById(id: String!): SettlementReport
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
   settlementReports: [SettlementReport!]!
-  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
+  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:change-of-supplier", "metering-point:move-in" ])
   userById(id: UUID!): User!
   userProfile: UserProfile!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -1573,6 +1585,10 @@ type ReadinessStatusDto {
 }
 
 type RebuildProjectionsPayload {
+  boolean: Boolean
+}
+
+type RegisterElectricalHeatingPayload {
   boolean: Boolean
 }
 
@@ -1807,7 +1823,7 @@ type StopDelegationPayload {
 
 type Subscription {
   calculationUpdated: Calculation! @authorize(roles: [ "calculations:manage", "calculations:view" ])
-  meteringPointProcessUpdated(meteringPointId: String! created: DateRange!): MeteringPointProcess!
+  meteringPointProcessUpdated(meteringPointId: String! created: DateRange): MeteringPointProcess!
   notificationAdded: NotificationDto!
 }
 
@@ -2032,7 +2048,7 @@ input AddChargeSeriesInput {
   id: String!
   start: DateTime!
   end: DateTime!
-  points: [ChargePointV2Input!]!
+  points: [ChargeSeriesPointInput!]!
 }
 
 input AddMeteringPointsToAdditionalRecipientInput {
@@ -2149,12 +2165,12 @@ input ChargeOverviewQueryInput {
   vatInclusive: Boolean
   transparentInvoicing: Boolean
   spotDependingPrice: Boolean
-  missingPriceSeries: Boolean
 }
 
-input ChargePointV2Input {
+input ChargeSeriesPointInput {
   position: Int!
-  priceAmount: Decimal!
+  price: Decimal!
+  startDate: DateTime!
 }
 
 input CloseConversationInput {
@@ -2341,7 +2357,6 @@ input InitiateChangeOfSupplierInput {
   customerType: String!
   cpr: String
   cvr: String
-  protectedNameAndAddress: Boolean!
 }
 
 input InitiateMoveInInput {
@@ -2439,6 +2454,14 @@ input ReInviteUserInput {
 input RebuildProjectionsInput {
   projection: ProjectionType!
   timeout: Int!
+}
+
+input RegisterElectricalHeatingInput {
+  parentMeteringPointId: String!
+  childMeteringPointId: String!
+  actorConversationId: UUID!
+  periodStart: DateTime!
+  periodEnd: DateTime
 }
 
 input RejectEndOfSupplyInput {
@@ -3407,6 +3430,7 @@ enum ElectricityMarketViewTransactionType {
   CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
   CREATE_HISTORICAL_METERING_POINT
   EMPTY_TRANSACTION
+  CHANGE_BALANCE_RESPONSIBLE_PARTY
 }
 
 enum ElectricityMarketViewWashInstructions {

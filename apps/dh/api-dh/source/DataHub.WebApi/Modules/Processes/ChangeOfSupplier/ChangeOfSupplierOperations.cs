@@ -33,7 +33,6 @@ public static class ChangeOfSupplierOperations
         string customerType,
         string? cpr,
         string? cvr,
-        bool protectedNameAndAddress,
         CancellationToken ct,
         [Service] IB2CClient ediB2CClient,
         [Service] IHttpContextAccessor httpContextAccessor)
@@ -53,7 +52,7 @@ public static class ChangeOfSupplierOperations
             StartDate: startDate,
             CustomerIdentification: customerIdentificationV1,
             EnergySupplier: energySupplier,
-            CustomerName: string.Empty));
+            CustomerName: null));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 

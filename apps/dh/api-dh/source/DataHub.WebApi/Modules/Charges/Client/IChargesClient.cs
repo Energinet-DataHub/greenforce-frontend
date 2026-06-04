@@ -122,7 +122,7 @@ public interface IChargesClient
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
+        List<ChargeSeriesPointInput> points,
         CancellationToken ct = default);
 
     /// <summary>
@@ -140,9 +140,9 @@ public interface IChargesClient
         CancellationToken ct = default);
 
     /// <summary>
-    /// Get historical charge link period by charge link period id.
+    /// Get charge link period changes by charge link period id.
     /// </summary>
-    Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
+    Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default);
 

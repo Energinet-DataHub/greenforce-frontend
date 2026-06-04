@@ -55,6 +55,7 @@ import {
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
   mockGetMeteringPointInfoQuery,
+  mockRegisterElectricalHeatingMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -111,6 +112,7 @@ export function meteringPointMocks(apiBase: string) {
     updateInternalConversationNoteMutation(),
     uploadMessageDocument(apiBase),
     downloadMessageDocument(apiBase),
+    registerElectricalHeating(),
   ];
 }
 
@@ -660,6 +662,14 @@ function getProjectionsStatus() {
           eventCount: '2359',
           eventSequenceNumber: '9854',
           streamCount: '1109',
+          missingMeteringPoints: [
+            {
+              __typename: 'ProjectionMissingMeteringPoints',
+              projectionName: 'MeteringPointWithRelations:All',
+              missingMeteringPointCount: '5',
+              missingIds: ['abc123', 'def456'],
+            },
+          ],
           projections: [
             {
               __typename: 'ProjectionStatus',
@@ -1343,4 +1353,20 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function registerElectricalHeating() {
+  return mockRegisterElectricalHeatingMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        registerElectricalHeating: {
+          __typename: 'RegisterElectricalHeatingPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }

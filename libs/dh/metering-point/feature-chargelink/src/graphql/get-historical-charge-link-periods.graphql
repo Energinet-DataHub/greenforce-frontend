@@ -4,7 +4,7 @@ query GetHistoricalChargeLinkPeriods($id: String!) {
     changes {
       created
       changeType
-      effectiveDate
+      stopDate
       factor
       previousFactor
     }

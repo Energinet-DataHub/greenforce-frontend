@@ -110,7 +110,7 @@ public static partial class ChargeNode
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
+        List<ChargeSeriesPointInput> points,
         CancellationToken ct)
         => await client.AddChargeSeriesAsync(id, start, end, points, ct);
 

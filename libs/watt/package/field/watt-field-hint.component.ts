@@ -16,17 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'watt-field-hint',
-  styles: [
-    `
-      :host {
-        color: var(--watt-color-neutral-grey-700);
-      }
-    `,
-  ],
   template: `<ng-content />`,
+  encapsulation: ViewEncapsulation.None,
+  styles: `
+    @use './typography/typography.import' as typography;
+    watt-field-hint {
+      color: var(--watt-color-neutral-grey-700);
+      display: block;
+      @include typography.watt-text-s;
+    }
+  `,
 })
 export class WattFieldHintComponent {}

@@ -38,6 +38,7 @@ export type MeteringPointSubPaths =
   | 'process-overview'
   | 'charge-links'
   | 'update-customer-details'
+  | 'electrical-heating-correction'
   | 'actor-conversation';
 
 export type ChargeLinksSubPaths = 'tariff-and-subscription' | 'fees' | 'create';

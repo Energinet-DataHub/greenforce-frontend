@@ -67,6 +67,7 @@ import { DhChargesFilters } from './charges-filters';
   providers: [DhNavigationService],
   template: `
     <watt-data-table
+      #dataTable
       *transloco="let t; prefix: 'charges.charges.table'"
       [enableCount]="false"
       vater
@@ -75,7 +76,12 @@ import { DhChargesFilters } from './charges-filters';
       [ready]="dataSource.called"
     >
       <watt-data-filters>
-        <dh-charges-filters vater fragment (filterChange)="fetch($event)" />
+        <dh-charges-filters
+          vater
+          fragment
+          (filterChange)="fetch($event)"
+          (filterReset)="dataTable.reset()"
+        />
       </watt-data-filters>
 
       <watt-data-actions>

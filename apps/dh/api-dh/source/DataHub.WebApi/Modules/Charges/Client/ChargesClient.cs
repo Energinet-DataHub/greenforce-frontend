@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
@@ -70,30 +69,11 @@ public class ChargesClient(
 
         // Flatten charge x period and apply period-level filters
         var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
-        var items = charges.SelectMany(charge => charge.Periods
+        return charges.SelectMany(charge => charge.Periods
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
             .Select(p => new ChargeOverviewItem(charge, p)));
-
-        // This filter is expensive since it has to fetch series for each charge,
-        // which is why it is deferred until after applying all other filters.
-        if (query?.MissingPriceSeries == true)
-        {
-            var chargesWithSeries = await items
-                .Select(x => x.Charge)
-                .Distinct()
-                .ToAsyncEnumerable()
-                .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
-                .Where(r => r.series.Any() != query?.MissingPriceSeries)
-                .Select(r => r.charge)
-                .ToListAsync(ct);
-
-            return items.Where(x => chargesWithSeries.Contains(x.Charge));
-        }
-
-        return items;
     }
 
     public async Task<IEnumerable<Charge>> GetChargesAsync(CancellationToken ct = default)
@@ -175,7 +155,9 @@ public class ChargesClient(
             .GroupBy(slot => CollapseKey(slot.InZone(DanishTimeZone), resolution))
             .Select(g => g.Key.AtStartOfDayInZone(DanishTimeZone).ToDateTimeOffset());
 
-        return new MissingPriceSeriesResult(gaps, lastPoint.ToDateTimeOffset());
+        return new MissingPriceSeriesResult(
+            gaps,
+            NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
@@ -281,10 +263,19 @@ public class ChargesClient(
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
+        List<ChargeSeriesPointInput> points,
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
+        var resolution = charge.Resolution.CastDurationTo<ResolutionV2>();
+        var seriesPeriods = charge.Resolution == Resolution.Monthly
+            ? BuildMonthlySeriesPeriods(resolution, points, end)
+            : [new ChargeSeriesPointsV2(
+                Resolution: resolution,
+                Start: start,
+                End: end,
+                Points: [.. points.Select(p => new ChargePointV2(p.Position, p.Price))])];
+
         var result = await ediClient.SendAsync(
             new UpsertChargeSeriesCommandV2(new(
                 ChargeId: id.Code,
@@ -292,14 +283,7 @@ public class ChargesClient(
                 ChargeOwnerId: id.Owner,
                 Start: start,
                 End: end,
-                Points:
-                [
-                    new(
-                        Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
-                        Start: start,
-                        End: end,
-                        Points: points),
-                ])),
+                Points: [.. seriesPeriods])),
             ct);
 
         return result.IsSuccess;
@@ -318,14 +302,15 @@ public class ChargesClient(
                 .Select(p => new ChargeLinkPeriod(meteringPointId, p, cl.ChargeIdentifier)));
     }
 
-    public async Task<IEnumerable<HistoricalChargeLinkPeriodDto>> GetHistoricalChargeLinkPeriodsByIdAsync(
+    public async Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
         ChargeLinkPeriodId id,
         CancellationToken ct = default)
     {
-        var result = await client.QueryAsync(
-            new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId)), ct);
-
-        return result.Periods.Where(p => p.From == id.From.ToInstant());
+        var query = new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId));
+        var result = await client.QueryAsync(query, ct);
+        var sorted = result.Periods.Where(p => p.From == id.From.ToInstant()).OrderBy(p => p.Created).ToList();
+        return [.. sorted.Select((current, i) =>
+            new ChargeLinkPeriodChange(current, i > 0 ? sorted[i - 1] : null))];
     }
 
     public async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
@@ -442,6 +427,18 @@ public class ChargesClient(
         ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
         ChargeTypeDto.Fee => ChargeTypeV1.Fee,
     };
+
+    private static IEnumerable<ChargeSeriesPointsV2> BuildMonthlySeriesPeriods(
+        ResolutionV2 resolution,
+        List<ChargeSeriesPointInput> points,
+        DateTimeOffset overallEnd)
+        => points.Zip(
+            points.Skip(1).Select(p => p.StartDate).Append(overallEnd),
+            (point, end) => new ChargeSeriesPointsV2(
+                Resolution: resolution,
+                Start: point.StartDate,
+                End: end,
+                Points: [new ChargePointV2(Position: 1, PriceAmount: point.Price)]));
 
     private static DateTimeZone DanishTimeZone => LocalDateExtensions.DanishTimeZone;
 

@@ -66,7 +66,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
         <vater-flex>
           <h4>{{ t('label') }}</h4>
 
-          <vater-stack direction="row" justify="space-between" gap="m">
+          <vater-stack direction="row" justify="space-between" gap="m" class="watt-space-stack-s">
             <watt-slide-toggle
               [formControl]="formGroup.controls.addressSameAsInstallation"
               size="small"
