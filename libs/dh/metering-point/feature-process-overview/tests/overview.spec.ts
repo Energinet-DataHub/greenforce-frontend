@@ -42,6 +42,8 @@ import {
 import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
+
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
@@ -167,6 +169,25 @@ function applyFilters(
 }
 
 describe('Process overview', () => {
+  it('marks the active row when navigation targets a loaded process (cross-cancellation link)', async () => {
+    const fixture = await setup();
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigation = fixture.debugElement.injector.get(DhNavigationService);
+
+    // Issue 1549: the banner link calls navigation.navigate('details', id) on the shared
+    // DhNavigationService; before the fix `selection` froze at `undefined` and never marked it.
+    navigation.navigate('details', 'process-cancelling');
+    TestBed.tick();
+
+    // The process IS in the loaded list, so it must now be the active selection...
+    expect(fixture.componentInstance.selection()?.id).toBe('process-cancelling');
+
+    // ...and exactly one row must carry the active-row marking in the DOM.
+    const grid = screen.getByRole('treegrid');
+    expect(grid.querySelectorAll('tr.watt-table-active-row').length).toBe(1);
+  });
+
   it('should render the table with process data', async () => {
     await setup();
     expect(screen.getByRole('treegrid')).toBeInTheDocument();
