@@ -254,7 +254,7 @@ public class OperationToolsMeteringPointRevisionLogTests
 
         var server = new GraphQLTestService();
         var result = Result<GetProjectionsStatusResultDtoV1>.Success(
-            new GetProjectionsStatusResultDtoV1(100, 50, 10, 5, []));
+            new GetProjectionsStatusResultDtoV1(100, 50, 10, 5, [], []));
 
         server.ElectricityMarketClientMock.Setup(
                 c => c.SendAsync(It.IsAny<GetProjectionsStatusQueryV1>(), It.IsAny<CancellationToken>()))

@@ -662,6 +662,14 @@ function getProjectionsStatus() {
           eventCount: '2359',
           eventSequenceNumber: '9854',
           streamCount: '1109',
+          missingMeteringPoints: [
+            {
+              __typename: 'ProjectionMissingMeteringPoints',
+              projectionName: 'MeteringPointWithRelations:All',
+              missingMeteringPointCount: '5',
+              missingIds: ['abc123', 'def456'],
+            },
+          ],
           projections: [
             {
               __typename: 'ProjectionStatus',
