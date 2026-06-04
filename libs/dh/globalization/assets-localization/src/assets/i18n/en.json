@@ -89,6 +89,12 @@
     "hours": "{{ hours }}h {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
   },
+  "validation": {
+    "meteringPoint": {
+      "meteringPointIdLength": "Metering point ID must be an 18-digit number",
+      "containsLetters": "Metering point ID can only contain numbers and not letters"
+    }
+  },
   "shared": {
     "true": "Yes",
     "false": "No",
@@ -638,18 +644,12 @@
   },
   "meteringPoint": {
     "breadcrumb": "Search metering point",
-    "shared": {
-      "error": {
-        "containsLetters": "Metering point ID can only contain numbers and not letters",
-        "meteringPointIdLength": "Metering point ID must be an 18-digit number"
-      }
-    },
     "search": {
       "placeholder": "Search by metering point ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       },
       "noResultFound": "No result found",
       "searchMigratedMeteringPoints": "Search in EM1",
@@ -946,9 +946,9 @@
         "type": "Metering point type",
         "resolution": "Resolution",
         "address": "Address",
-        "notValidated": "Please search for a metering point",
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
         "notFound": "Metering point ID does not exist",
-        "invalidLength": "Metering point ID consists of 18 digits"
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "relatedMeteringPointsTitle": "Related metering points",
@@ -1654,8 +1654,8 @@
         "product": "Product ID"
       },
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "changeConnectionState": {

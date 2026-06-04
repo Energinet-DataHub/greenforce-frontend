@@ -853,6 +853,7 @@ type GetProjectionsStatusResultDtoV1 {
   eventSequenceNumber: Long!
   streamCount: Long!
   projections: [ProjectionStatus!]!
+  missingMeteringPoints: [ProjectionMissingMeteringPoints!]!
 }
 
 type GridAreaAuditedChangeAuditLogDto {
@@ -1450,6 +1451,12 @@ type ProcessesEdge {
   cursor: String!
   "The item at the end of the edge."
   node: OrchestrationInstance!
+}
+
+type ProjectionMissingMeteringPoints {
+  projectionName: String!
+  missingMeteringPointCount: Long!
+  missingIds: [String!]!
 }
 
 type ProjectionStatus {
@@ -3423,6 +3430,7 @@ enum ElectricityMarketViewTransactionType {
   CONSUMPTION_STATEMENT_CANCELS_MARKET_PROCESS
   CREATE_HISTORICAL_METERING_POINT
   EMPTY_TRANSACTION
+  CHANGE_BALANCE_RESPONSIBLE_PARTY
 }
 
 enum ElectricityMarketViewWashInstructions {
