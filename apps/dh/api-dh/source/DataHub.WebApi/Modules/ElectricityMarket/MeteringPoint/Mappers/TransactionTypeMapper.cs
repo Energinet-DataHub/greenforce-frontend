@@ -87,7 +87,7 @@ public static class TransactionTypeMapper
             Clients.ElectricityMarket.v1.TransactionType.ConsumptionStatementCancelsMarketProcess => TransactionType.ConsumptionStatementCancelsMarketProcess,
             Clients.ElectricityMarket.v1.TransactionType.CreateHistoricalMeteringPoint => TransactionType.CreateHistoricalMeteringPoint,
             Clients.ElectricityMarket.v1.TransactionType.EmptyTransaction => TransactionType.EmptyTransaction,
-            Clients.ElectricityMarket.v1.TransactionType.ChangeBalanceResponsibleParty => throw new NotImplementedException(),
+            Clients.ElectricityMarket.v1.TransactionType.ChangeBalanceResponsibleParty => TransactionType.ChangeBalanceResponsibleParty,
         };
     }
 }
