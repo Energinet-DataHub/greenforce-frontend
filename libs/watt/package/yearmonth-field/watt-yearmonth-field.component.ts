@@ -77,7 +77,7 @@ import { YearMonth } from './year-month';
 
         &:has(.watt-yearmonth-field__has-label) {
           .watt-yearmonth-field__step-through {
-            margin-top: calc(var(--watt-field-label-block-height, 24px) + 1px);
+            margin-top: calc(var(--watt-field-label-block-height) + 1px);
           }
         }
       }
