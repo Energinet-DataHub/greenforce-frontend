@@ -302,8 +302,8 @@ export class DhMeteringPointProcessOverviewDetails {
     () => this.process.data()?.meteringPointProcessById?.cancelledByProcess
   );
 
-  // Navigable only when the cancelling process is a currently-shown row (after any filters);
-  // otherwise the banner renders it as plain text.
+  // The cancelling process is only navigable when it is part of the overview's
+  // visible list; otherwise the banner renders it as plain text.
   protected readonly canNavigateToCancellingProcess = computed(() => {
     const id = this.cancelledByProcess()?.id;
     return !!id && this.store.visibleProcessIds().has(id);
