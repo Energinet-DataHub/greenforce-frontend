@@ -29,6 +29,7 @@ label {
 
 input {
   @include watt.typography-watt-text-s;
+  box-sizing: border-box;
   font-family: inherit;
   width: 100%;
   height: 44px;
