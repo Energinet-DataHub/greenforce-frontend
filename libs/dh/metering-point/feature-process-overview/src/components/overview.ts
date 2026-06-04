@@ -122,7 +122,9 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
             dhDropdownTranslator
             translateKey="shared.states"
           />
-          <dh-reset-filters-button />
+          @if (hasActiveFilters()) {
+            <dh-reset-filters-button />
+          }
         </form>
       </watt-data-filters>
       <watt-table
@@ -250,6 +252,14 @@ export class DhMeteringPointProcessOverviewTable {
   });
 
   selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
+
+  // Show the reset button only when a filter is actually applied (something to reset).
+  protected readonly hasActiveFilters = computed(
+    () =>
+      this.store.dateRange() !== null ||
+      this.store.businessReasons().length > 0 ||
+      this.store.states().length > 0
+  );
 
   constructor() {
     // Bridge the route-bound metering point id into the store that owns the overview query.

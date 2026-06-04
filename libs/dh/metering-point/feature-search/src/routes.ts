@@ -23,6 +23,7 @@ import {
   CanActivateFn,
   RedirectFunction,
   ActivatedRouteSnapshot,
+  RedirectCommand,
 } from '@angular/router';
 
 import { inject } from '@angular/core';
@@ -40,6 +41,7 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
+  combineWithIdPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
@@ -204,6 +206,9 @@ export const dhMeteringPointRoutes: Routes = [
             path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
             canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
             data: { hideHeader: true },
+            resolve: {
+              conversationId: conversationIdResolver(),
+            },
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
                 (m) => m.DhElectricalHeatingCorrection
@@ -328,5 +333,24 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return dhIsEM1InternalId(idParam);
+  };
+}
+
+function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
+  return (route: ActivatedRouteSnapshot) => {
+    const router = inject(Router);
+    const idParam: string = route.params[dhInternalMeteringPointIdParam];
+
+    const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
+
+    if (!conversationId) {
+      const redirectPath = router.parseUrl(
+        combineWithIdPaths('metering-point', idParam, 'actor-conversation')
+      );
+
+      return new RedirectCommand(redirectPath);
+    }
+
+    return conversationId;
   };
 }

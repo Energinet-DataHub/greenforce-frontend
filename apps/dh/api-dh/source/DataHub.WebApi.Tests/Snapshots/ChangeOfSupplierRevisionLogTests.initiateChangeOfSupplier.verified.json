@@ -1,14 +1,13 @@
 ﻿{
   "activity": "initiateChangeOfSupplier",
   "payload": {
-    "query": "mutation($meteringPointId: String!, $startDate: DateTime!, $customerType: String!, $cpr: String, $cvr: String, $protectedNameAndAddress: Boolean!) { initiateChangeOfSupplier(input: { meteringPointId: $meteringPointId, startDate: $startDate, customerType: $customerType, cpr: $cpr, cvr: $cvr, protectedNameAndAddress: $protectedNameAndAddress }) { boolean } }",
+    "query": "mutation($meteringPointId: String!, $startDate: DateTime!, $customerType: String!, $cpr: String, $cvr: String) { initiateChangeOfSupplier(input: { meteringPointId: $meteringPointId, startDate: $startDate, customerType: $customerType, cpr: $cpr, cvr: $cvr }) { boolean } }",
     "variables": {
       "meteringPointId": "571313180400000005",
       "startDate": "2025-01-01T00:00:00Z",
       "customerType": "private",
       "cpr": "1234567890",
-      "cvr": null,
-      "protectedNameAndAddress": false
+      "cvr": null
     }
   },
   "affectedEntityType": "ChangeOfSupplier",

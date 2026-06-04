@@ -55,6 +55,7 @@ import {
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
   mockGetMeteringPointInfoQuery,
+  mockRegisterElectricalHeatingMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -111,6 +112,7 @@ export function meteringPointMocks(apiBase: string) {
     updateInternalConversationNoteMutation(),
     uploadMessageDocument(apiBase),
     downloadMessageDocument(apiBase),
+    registerElectricalHeating(),
   ];
 }
 
@@ -1351,4 +1353,20 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function registerElectricalHeating() {
+  return mockRegisterElectricalHeatingMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        registerElectricalHeating: {
+          __typename: 'RegisterElectricalHeatingPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }

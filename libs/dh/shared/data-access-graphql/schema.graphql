@@ -1264,6 +1264,7 @@ type Mutation {
   reActivateUser(input: ReActivateUserInput!): ReActivateUserPayload!
   reInviteUser(input: ReInviteUserInput!): ReInviteUserPayload!
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
+  registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1551,7 +1552,7 @@ type Query {
   settlementReportById(id: String!): SettlementReport
   settlementReportGridAreaCalculationsForPeriod(calculationType: CalculationType! gridAreaId: [String!]! calculationPeriod: DateRange!): [KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation!]!
   settlementReports: [SettlementReport!]!
-  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:move-in" ])
+  temporaryStorageData(meteringPointId: String! processId: String!): RequestTemporaryStorageResult @authorize(roles: [ "metering-point:change-of-supplier", "metering-point:move-in" ])
   userById(id: UUID!): User!
   userProfile: UserProfile!
   userRoleById(id: UUID!): UserRoleWithPermissions!
@@ -1584,6 +1585,10 @@ type ReadinessStatusDto {
 }
 
 type RebuildProjectionsPayload {
+  boolean: Boolean
+}
+
+type RegisterElectricalHeatingPayload {
   boolean: Boolean
 }
 
@@ -2160,7 +2165,6 @@ input ChargeOverviewQueryInput {
   vatInclusive: Boolean
   transparentInvoicing: Boolean
   spotDependingPrice: Boolean
-  missingPriceSeries: Boolean
 }
 
 input ChargeSeriesPointInput {
@@ -2353,7 +2357,6 @@ input InitiateChangeOfSupplierInput {
   customerType: String!
   cpr: String
   cvr: String
-  protectedNameAndAddress: Boolean!
 }
 
 input InitiateMoveInInput {
@@ -2451,6 +2454,14 @@ input ReInviteUserInput {
 input RebuildProjectionsInput {
   projection: ProjectionType!
   timeout: Int!
+}
+
+input RegisterElectricalHeatingInput {
+  parentMeteringPointId: String!
+  childMeteringPointId: String!
+  actorConversationId: UUID!
+  periodStart: DateTime!
+  periodEnd: DateTime
 }
 
 input RejectEndOfSupplyInput {

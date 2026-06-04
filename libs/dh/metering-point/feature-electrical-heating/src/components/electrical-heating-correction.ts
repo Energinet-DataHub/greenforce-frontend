@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -35,11 +35,16 @@ import {
   dhMakeFormControl,
   dhMeteringPointIdValidator,
   emDash,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  GetMeteringPointByIdDocument,
+  RegisterElectricalHeatingDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-utils';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-electrical-heating-correction',
@@ -94,7 +99,7 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
       <vater-stack direction="row" justify="space-between" class="watt-space-stack-ml">
         <h1 class="no-margin">{{ t('title') }}</h1>
 
-        <watt-button [routerLink]="cancelLink()" variant="secondary"
+        <watt-button [routerLink]="actorConversationLink()" variant="secondary"
           >{{ t('cancel') }}
         </watt-button>
       </vater-stack>
@@ -155,8 +160,8 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
           <vater-stack direction="row" gap="s" align="center">
             <watt-text-field
               maxLength="18"
-              [formControl]="form.controls.meteringPointId"
-              [label]="t('meteringPointIdLabel')"
+              [formControl]="form.controls.childMeteringPointId"
+              [label]="t('childMeteringPointIdLabel')"
             />
           </vater-stack>
         </watt-card>
@@ -167,11 +172,18 @@ import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-u
   `,
 })
 export class DhElectricalHeatingCorrection {
+  private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
+
+  private registerElectricalHeating = mutation(RegisterElectricalHeatingDocument, {
+    onStatusUpdated: injectToast('meteringPoint.electricalHeatingCorrection.toast'),
+    onCompleted: () => this.router.navigateByUrl(this.actorConversationLink()),
+  });
 
   meteringPointId = input.required<string>();
   searchMigratedMeteringPoints = input.required<boolean>();
   internalMeteringPointId = input.required<string>();
+  conversationId = input.required<string>();
 
   private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
@@ -198,7 +210,7 @@ export class DhElectricalHeatingCorrection {
   });
 
   form = new FormGroup({
-    meteringPointId: dhMakeFormControl<string>('', [
+    childMeteringPointId: dhMakeFormControl<string>('', [
       Validators.required,
       dhMeteringPointIdValidator(),
     ]),
@@ -208,11 +220,27 @@ export class DhElectricalHeatingCorrection {
 
   emDash = emDash;
 
-  cancelLink = computed(() =>
+  actorConversationLink = computed(() =>
     combineWithIdPaths('metering-point', this.internalMeteringPointId(), 'actor-conversation')
   );
 
-  submit() {
-    console.log('submit', this.form.value);
+  async submit() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    const { childMeteringPointId, periodStart, periodEnd } = this.form.getRawValue();
+
+    assertIsDefined(periodStart);
+
+    await this.registerElectricalHeating.mutate({
+      variables: {
+        parentMeteringPointId: this.meteringPointId(),
+        childMeteringPointId,
+        actorConversationId: this.conversationId(),
+        periodStart,
+        periodEnd,
+      },
+    });
   }
 }

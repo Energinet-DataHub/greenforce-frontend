@@ -56,10 +56,6 @@ form.ng-submitted watt-field:has(.ng-invalid),
     }
   }
 
-  &.watt-field--show-errors:has(watt-field-error, watt-field-warning) {
-    padding-bottom: 0;
-  }
-
   &.watt-field--show-errors:has(watt-field-warning):not(:has(watt-field-error)) {
     & .label {
       color: var(--watt-text-color);
@@ -122,19 +118,28 @@ watt-field {
   --watt-field-disabled-background-color: var(--watt-color-neutral-grey-100);
   --watt-input-border-radius: 4px;
   --watt-border-color: var(--watt-on-light-low-emphasis);
+  --watt-field-control-height: 44px;
+  --watt-field-control-inner-height: calc(var(--watt-field-control-height) - 2px);
   --watt-label-text-color: var(--watt-text-color);
+  --watt-field-label-line-height: 20px;
+  --watt-field-label-gap: 4px;
+  --watt-field-label-block-height: calc(
+    var(--watt-field-label-line-height) + var(--watt-field-label-gap)
+  );
+  --watt-field-subscript-gap: 4px;
 
   width: 100%;
   display: block;
 
-  &:not(.watt-field--chip, :has(watt-field-hint)) {
-    padding-bottom: 20px;
+  &:not(.watt-field--chip) {
+    margin-bottom: var(--watt-field-bottom-spacing, var(--watt-space-ml));
   }
 
   .label {
-    min-height: 27px;
     display: flex;
     align-items: center;
+    line-height: var(--watt-field-label-line-height);
+    padding-bottom: var(--watt-field-label-gap);
 
     watt-icon {
       margin-left: var(--watt-space-s);
@@ -157,6 +162,7 @@ watt-field {
 
     .watt-field-wrapper {
       @include watt.typography-watt-text-s;
+      box-sizing: border-box;
       display: flex;
       position: relative;
       width: 100%;
@@ -173,16 +179,12 @@ watt-field {
         --watt-border-color: var(--watt-color-primary);
       }
     }
+  }
 
-    watt-field-hint,
-    watt-field-error,
-    watt-field-warning {
-      @include watt.typography-watt-text-s;
-    }
-
-    :not(.watt-field--chip) :is(watt-field-hint, watt-field-error, watt-field-warning) {
-      padding: 0 var(--watt-space-s);
-    }
+  &:not(.watt-field--chip)
+    > :is(label, .watt-label)
+    > :is(watt-field-hint, watt-field-error, watt-field-warning) {
+    margin-top: var(--watt-field-subscript-gap);
   }
 
   &:not(.watt-field--box) > :is(label, .watt-label) > vater-flex > .watt-field-wrapper {
@@ -199,6 +201,14 @@ watt-field {
   }
 
   &.watt-field--box .watt-field-wrapper {
-    min-height: 46px;
+    min-height: var(--watt-field-control-height);
+
+    > watt-button[variant="icon"] {
+      height: var(--watt-field-control-inner-height);
+
+      > .mat-mdc-button.mat-icon {
+        height: var(--watt-field-control-inner-height);
+      }
+    }
   }
 }
