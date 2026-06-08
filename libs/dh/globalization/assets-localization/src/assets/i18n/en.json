@@ -2631,7 +2631,7 @@
           "pending": "Validating period",
           "empty": "Period required",
           "warning": {
-            "AGGREGATION": "Existing calculations have been carried out for the period",
+            "AGGREGATION": "Existing balance fixings have been carried out for the period",
             "BALANCE_FIXING": "Balance fixing has been carried out for the period",
             "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
             "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
@@ -2656,7 +2656,7 @@
         "errors": {
           "resolutionTransition": "Calculation cannot be initiated. The selected date range crosses the {{transitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{transitionDate}} to proceed.",
           "existing": {
-            "AGGREGATION": "There are existing calculations in the chosen period! Latest calculation was executed {{period}}.",
+            "AGGREGATION": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
             "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
             "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{period}}.",
@@ -2688,7 +2688,7 @@
             }
           },
           "body": {
-            "AGGREGATION": "You are about to issue new data for already settled periods. This will invalidate previous calculations and new data will be issued to the actors.",
+            "AGGREGATION": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
             "BALANCE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
             "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
             "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 1. correction settlements and new data will be issued to the actors.",
@@ -2715,7 +2715,15 @@
             "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN 3. CORRECTION SETTLEMENT",
             "CAPACITY_SETTLEMENT": "I WANT TO RERUN CAPACITY SETTLEMENT"
           },
-          "confirm": "Rerun",
+          "confirm": {
+            "AGGREGATION": "Run",
+            "BALANCE_FIXING": "Rerun",
+            "WHOLESALE_FIXING": "Rerun",
+            "FIRST_CORRECTION_SETTLEMENT": "Rerun",
+            "SECOND_CORRECTION_SETTLEMENT": "Rerun",
+            "THIRD_CORRECTION_SETTLEMENT": "Rerun",
+            "CAPACITY_SETTLEMENT": "Rerun"
+          },
           "cancel": "Cancel"
         },
         "toast": {

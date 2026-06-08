@@ -2631,7 +2631,7 @@
           "pending": "Validerer periode",
           "empty": "Periode påkrævet",
           "warning": {
-            "AGGREGATION": "Der findes kørte beregninger for perioden",
+            "AGGREGATION": "Der findes kørte balancefikseringer for perioden",
             "BALANCE_FIXING": "Der er kørt balancefiksering for perioden",
             "WHOLESALE_FIXING": "Der er kørt engrosfiksering for perioden",
             "FIRST_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
@@ -2656,7 +2656,7 @@
         "errors": {
           "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
           "existing": {
-            "AGGREGATION": "Der findes kørte beregninger i den valgte periode! Senest kørte beregning er {{period}}.",
+            "AGGREGATION": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
             "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
             "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
@@ -2688,7 +2688,7 @@
             }
           },
           "body": {
-            "AGGREGATION": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte beregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "AGGREGATION": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
@@ -2715,7 +2715,15 @@
             "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING",
             "CAPACITY_SETTLEMENT": "JEG VIL GENKØRE EFFEKTBETALING"
           },
-          "confirm": "Genkør",
+          "confirm": {
+            "AGGREGATION": "Kør",
+            "BALANCE_FIXING": "Genkør",
+            "WHOLESALE_FIXING": "Genkør",
+            "FIRST_CORRECTION_SETTLEMENT": "Genkør",
+            "SECOND_CORRECTION_SETTLEMENT": "Genkør",
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør",
+            "CAPACITY_SETTLEMENT": "Genkør"
+          },
           "cancel": "Kør ikke"
         },
         "toast": {
