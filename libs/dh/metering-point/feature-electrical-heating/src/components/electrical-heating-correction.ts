@@ -133,10 +133,10 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               <div class="watt-text-s">
                 {{ meteringPointIdFromConversation() }}
                 <br />
-                {{ installationAddress()?.streetName }}
-                {{ installationAddress()?.buildingNumber }},
+                {{ address()?.streetName }}
+                {{ address()?.buildingNumber }},
                 <br />
-                {{ installationAddress()?.municipalityCode }} {{ installationAddress()?.cityName }}
+                {{ address()?.municipalityCode }} {{ address()?.cityName }}
               </div>
             }
           </vater-stack>
@@ -226,7 +226,7 @@ export class DhElectricalHeatingCorrection {
         ?.electricalHeatingUserMessage
   );
 
-  installationAddress = computed(
+  address = computed(
     () => this.meteringPointConversationInfoQuery.data()?.meteringPoint.metadata.installationAddress
   );
 
