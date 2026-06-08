@@ -86,7 +86,7 @@ export interface RequestIncorrectMoveInModalData {
             [maxLength]="maxReasonLength"
           />
 
-          <watt-checkbox [formControl]="form.controls.conditionsMet">
+          <watt-checkbox [formControl]="form.controls.termsAndConditions">
             <small>
               <a
                 href="https://energinet.dk/regler/el/elmarked/"
@@ -123,7 +123,7 @@ export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorre
 
   readonly form = new FormGroup({
     reason: dhMakeFormControl<string | null>(null, Validators.maxLength(this.maxReasonLength)),
-    conditionsMet: dhMakeFormControl(false, Validators.requiredTrue),
+    termsAndConditions: dhMakeFormControl(false, Validators.requiredTrue),
   });
 
   async submit() {
