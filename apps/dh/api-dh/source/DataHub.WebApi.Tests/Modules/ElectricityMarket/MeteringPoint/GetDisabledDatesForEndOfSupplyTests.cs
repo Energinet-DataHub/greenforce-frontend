@@ -52,30 +52,31 @@ public class GetSelectableDatesForEndOfSupplyTests
     }
 
     [Fact]
-    public void ExcludesFirst3WorkingDaysAsGapPeriod()
+    public void ExcludesFirst4WorkingDaysAsGapPeriod()
     {
         // Arrange - Wednesday Jan 15
-        // Working days: Jan 16 (Thu), Jan 17 (Fri), Jan 20 (Mon) = 3 working day gap
-        // First selectable: Jan 21 (Tue)
+        // Working days: Jan 16 (Thu), Jan 17 (Fri), Jan 20 (Mon), Jan 21 (Tue) = 4 working day gap
+        // First selectable: Jan 22 (Wed)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
 
         // Act
         var result = MeteringPointNode.GetSelectableDatesForEndOfSupply(calendar).ToList();
         var selectableLocalDates = result.Select(ToLocalDate).ToHashSet();
 
-        // Assert - the first 3 working days should NOT be selectable
+        // Assert - the first 4 working days should NOT be selectable
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 16), "1st working day in gap (Thursday)");
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 17), "2nd working day in gap (Friday)");
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 20), "3rd working day in gap (Monday)");
+        selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 21), "4th working day in gap (Tuesday)");
 
         // First selectable date should be included
-        selectableLocalDates.Should().Contain(new LocalDate(2025, 1, 21), "4th working day = first selectable (Tuesday)");
+        selectableLocalDates.Should().Contain(new LocalDate(2025, 1, 22), "5th working day = first selectable (Wednesday)");
     }
 
     [Fact]
     public void IncludesAllWorkingDaysAfterGap()
     {
-        // Arrange - Wednesday Jan 15, first selectable = Jan 21 (Tue)
+        // Arrange - Wednesday Jan 15, first selectable = Jan 22 (Wed)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 15));
 
         // Act
@@ -83,7 +84,7 @@ public class GetSelectableDatesForEndOfSupplyTests
         var selectableLocalDates = result.Select(ToLocalDate).ToHashSet();
 
         // Assert - all working days from first selectable date onward should be included
-        var start = new LocalDate(2025, 1, 21); // first selectable (4th working day)
+        var start = new LocalDate(2025, 1, 22); // first selectable (5th working day)
         var end = new LocalDate(2025, 3, 16);   // day 60
 
         var current = start;
@@ -107,8 +108,8 @@ public class GetSelectableDatesForEndOfSupplyTests
     [Fact]
     public void DSTSpringForward_DoesNotSkipDates()
     {
-        // Arrange - Clock at Feb 15 (Saturday), working days: Mon 17, Tue 18, Wed 19 = gap
-        // First selectable: Feb 20 (Thursday)
+        // Arrange - Clock at Feb 15 (Saturday), working days: Mon 17, Tue 18, Wed 19, Thu 20 = gap
+        // First selectable: Feb 21 (Friday)
         var calendar = CreateCalendar(new LocalDate(2025, 2, 15));
 
         // Act
@@ -127,8 +128,8 @@ public class GetSelectableDatesForEndOfSupplyTests
     [Fact]
     public void DSTFallBack_DoesNotDuplicateDates()
     {
-        // Arrange - Clock at Sep 1 (Monday), working days: Tue 2, Wed 3, Thu 4 = gap
-        // First selectable: Sep 5 (Friday)
+        // Arrange - Clock at Sep 1 (Monday), working days: Tue 2, Wed 3, Thu 4, Fri 5 = gap
+        // First selectable: Sep 8 (Monday)
         var calendar = CreateCalendar(new LocalDate(2025, 9, 1));
 
         // Act
@@ -147,8 +148,8 @@ public class GetSelectableDatesForEndOfSupplyTests
     public void CurrentDayIsNonWorkingDay_ReturnsExpectedDates()
     {
         // Arrange - set current day to a Saturday (Jan 18)
-        // Working days: Mon 20 (wd1), Tue 21 (wd2), Wed 22 (wd3)
-        // First selectable: Thu 23 (wd4)
+        // Working days: Mon 20 (wd1), Tue 21 (wd2), Wed 22 (wd3), Thu 23 (wd4)
+        // First selectable: Fri 24 (wd5)
         var calendar = CreateCalendar(new LocalDate(2025, 1, 18)); // Saturday
 
         // Act
@@ -158,13 +159,14 @@ public class GetSelectableDatesForEndOfSupplyTests
         // Assert
         result.Should().NotBeEmpty();
 
-        // First selectable should be Thursday Jan 23
-        selectableLocalDates.First().Should().Be(new LocalDate(2025, 1, 23));
+        // First selectable should be Friday Jan 24
+        selectableLocalDates.First().Should().Be(new LocalDate(2025, 1, 24));
 
         // Gap working days should NOT be selectable
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 20), "1st working day in gap (Monday)");
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 21), "2nd working day in gap (Tuesday)");
         selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 22), "3rd working day in gap (Wednesday)");
+        selectableLocalDates.Should().NotContain(new LocalDate(2025, 1, 23), "4th working day in gap (Thursday)");
     }
 
     [Fact]
@@ -233,11 +235,11 @@ public class GetSelectableDatesForEndOfSupplyTests
     }
 
     [Fact]
-    public void ThursdayThe12th_FirstSelectableIsWednesdayThe18th()
+    public void ThursdayThe12th_FirstSelectableIsThursdayThe19th()
     {
         // Arrange - Thursday Feb 12, 2026
-        // Working days in gap: Fri 13 (wd1), Mon 16 (wd2), Tue 17 (wd3)
-        // First selectable: Wed 18 (wd4)
+        // Working days in gap: Fri 13 (wd1), Mon 16 (wd2), Tue 17 (wd3), Wed 18 (wd4)
+        // First selectable: Thu 19 (wd5)
         var calendar = CreateCalendar(new LocalDate(2026, 2, 12));
 
         // Act
@@ -245,12 +247,13 @@ public class GetSelectableDatesForEndOfSupplyTests
         var selectableLocalDates = result.Select(ToLocalDate).ToList();
 
         // Assert
-        selectableLocalDates.First().Should().Be(new LocalDate(2026, 2, 18), "Wednesday = first selectable date");
+        selectableLocalDates.First().Should().Be(new LocalDate(2026, 2, 19), "Thursday = first selectable date");
 
         // Gap days should not be selectable
         selectableLocalDates.Should().NotContain(new LocalDate(2026, 2, 13), "Friday (1st working day in gap)");
         selectableLocalDates.Should().NotContain(new LocalDate(2026, 2, 16), "Monday (2nd working day in gap)");
         selectableLocalDates.Should().NotContain(new LocalDate(2026, 2, 17), "Tuesday (3rd working day in gap)");
+        selectableLocalDates.Should().NotContain(new LocalDate(2026, 2, 18), "Wednesday (4th working day in gap)");
     }
 
     [Fact]
