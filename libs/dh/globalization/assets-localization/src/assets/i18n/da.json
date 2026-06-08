@@ -89,6 +89,12 @@
     "hours": "{{ hours }}t {{ duration.minutes }}",
     "days": "{{ days }}d {{ duration.hours }}"
   },
+  "validation": {
+    "meteringPoint": {
+      "meteringPointIdLength": "Målepunkts-ID består af 18 cifre",
+      "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver"
+    }
+  },
   "shared": {
     "true": "Ja",
     "false": "Nej",
@@ -637,18 +643,12 @@
   },
   "meteringPoint": {
     "breadcrumb": "Søg målepunkt",
-    "shared": {
-      "error": {
-        "containsLetters": "Målepunkts-ID kan kun bestå af tal og ikke bogstaver",
-        "meteringPointIdLength": "Målepunkts-ID består af 18 cifre"
-      }
-    },
     "search": {
       "placeholder": "Søg på Målepunkts-ID",
       "createMeteringPoint": "{{ meteringPoint.create.create }}",
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       },
       "noResultFound": "Intet resultat fundet",
       "searchMigratedMeteringPoints": "Søg i EM1",
@@ -945,9 +945,9 @@
         "type": "Målepunktstype",
         "resolution": "Tidsopløsning",
         "address": "Adresse",
-        "notValidated": "Søg venligst efter et målepunkt",
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
         "notFound": "Målepunkts-ID findes ikke",
-        "invalidLength": "Målepunkts-ID består af 18 cifre"
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "relatedMeteringPointsTitle": "Relaterede målepunkter",
@@ -1231,9 +1231,9 @@
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Information om pristilknytninger til fremtidig elleverandør (RSM-031)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Anmodning om ændring af kundestamdata (RSM-027)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Godkendelse af ændring af kundestamdata (RSM-027)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af ændring af kundestamdata (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
@@ -1346,6 +1346,7 @@
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_3": "Afvisning af annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_4": "Information om annullering af serviceydelse (RSM-025)",
         "BRS_039_REQUESTFORSERVICE_V1_STEP_1": "Anmodning om serviceydelse (RSM-020)",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_2": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
@@ -1654,8 +1655,8 @@
         "product": "Produkt-ID"
       },
       "error": {
-        "containsLetters": "{{ meteringPoint.shared.error.containsLetters }}",
-        "meteringPointIdLength": "{{ meteringPoint.shared.error.meteringPointIdLength }}"
+        "containsLetters": "{{ validation.meteringPoint.containsLetters }}",
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
       }
     },
     "changeConnectionState": {
@@ -1717,6 +1718,9 @@
       "customer": "Kunde",
       "meteringPoint": "Målepunkt",
       "childMeteringPointIdLabel": "Elvarme (D14) målepunkts-ID",
+      "error": {
+        "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+      },
       "toast": {
         "loading": "Registrerer elvarme...",
         "success": "Elvarme registreret",
