@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { detectEncoding } from '../src/detect-encoding';
+import { detectEncoding, SAMPLE_BYTES } from '../src/detect-encoding';
 
 const sample = 'Position,Periode,Værdi,Kvantum status\r\n1,28.4.2025 0.00,8,Målt\r\n';
 
@@ -43,6 +43,13 @@ describe(detectEncoding, () => {
   it('detects a UTF-8 file with a byte order mark', async () => {
     const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
     const bytes = new Uint8Array([...bom, ...new TextEncoder().encode(sample)]);
+    expect(await detectEncoding(fileFrom(bytes))).toBe('utf-8');
+  });
+
+  it('detects UTF-8 when a multi-byte character is split across the sample boundary', async () => {
+    // Pad with ASCII so the 2-byte "æ" straddles the SAMPLE_BYTES cut-off. The decoder must
+    // buffer the dangling lead byte (stream mode) instead of reporting it as invalid UTF-8.
+    const bytes = new TextEncoder().encode('a'.repeat(SAMPLE_BYTES - 1) + 'æ' + 'rest');
     expect(await detectEncoding(fileFrom(bytes))).toBe('utf-8');
   });
 });
