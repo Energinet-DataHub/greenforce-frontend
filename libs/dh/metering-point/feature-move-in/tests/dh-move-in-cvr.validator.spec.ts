@@ -28,9 +28,7 @@ function createValidator(env: DhAppEnvironment) {
     providers: [{ provide: dhAppEnvironmentToken, useValue: { current: env } }],
   });
 
-  return TestBed.runInInjectionContext(() =>
-    dhMoveInCvrValidator(TestBed.inject(Injector))
-  );
+  return TestBed.runInInjectionContext(() => dhMoveInCvrValidator(TestBed.inject(Injector)));
 }
 
 describe('dhMoveInCvrValidator', () => {
@@ -108,4 +106,3 @@ describe('dhMoveInCvrValidator', () => {
     });
   });
 });
-
