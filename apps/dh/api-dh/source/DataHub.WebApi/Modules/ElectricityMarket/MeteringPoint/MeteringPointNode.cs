@@ -431,7 +431,7 @@ public static partial class MeteringPointNode
         var conversationMessageInput = new SendActorConversationMessageInput
         {
             ConversationId = actorConversationId,
-            Content = $"Registrering af elvarme er startet",
+            Content = "Registrering af elvarme er startet",
             Anonymous = true,
         };
 
