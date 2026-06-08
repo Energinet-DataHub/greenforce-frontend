@@ -127,7 +127,12 @@ limitations under the License.
       >
         <vater-stack direction="column" gap="m">
           @for (message of conversation.messages; track message) {
-            <dh-actor-conversation-message [message]="message" />
+            <dh-actor-conversation-message
+              [message]="message"
+              [meteringPointId]="meteringPointId()"
+              [isConversationClosed]="conversation.closed"
+              [conversationId]="conversationId()"
+            />
           }
         </vater-stack>
         <div #scrollAnchor></div>

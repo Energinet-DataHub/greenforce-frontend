@@ -121,7 +121,6 @@ public static partial class ActorConversationOperations
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> SendActorConversationMessageAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
         SendActorConversationMessageInput sendActorConversationMessageInput,
         CancellationToken ct)

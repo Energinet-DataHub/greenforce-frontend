@@ -189,6 +189,7 @@ import { DhMeteringPointActionsComponent } from './dh-metering-point-actions.com
             [subType]="metadata()?.subType"
             [connectionState]="metadata()?.connectionState"
             [isEnergySupplierResponsible]="isEnergySupplierResponsible()"
+            [isChildMeteringPoint]="meteringPoint()?.isChild ?? false"
             [installationAddress]="metadata()?.installationAddress"
             [createdDate]="meteringPoint()?.createdDate"
             [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"

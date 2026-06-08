@@ -42,30 +42,48 @@ import { dhDomainValidator } from '@energinet-datahub/dh/shared/ui-validators';
   ],
   template: `
     <ng-container *transloco="let t; prefix: 'marketParticipant.actor.create'">
-      <vater-stack direction="row" gap="m" fill="horizontal">
-        <watt-text-field [prefix]="'alternateEmail'" [formControl]="domain" [label]="t('domain')">
-          @if (domain.hasError('pattern')) {
-            <watt-field-error>
-              {{ t('domainInvalid') }}
-            </watt-field-error>
-          }
-        </watt-text-field>
-        <watt-button variant="text" (click)="addDomain()">{{ t('add') }}</watt-button>
-      </vater-stack>
-      <vater-stack wrap direction="row" gap="s">
-        @for (domain of domains().value; track domain) {
-          <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
-            domain
-          }}</watt-action-chip>
+      <watt-text-field
+        class="domain-field"
+        [prefix]="'alternateEmail'"
+        [formControl]="domain"
+        [label]="t('domain')"
+      >
+        @if (domain.hasError('pattern')) {
+          <watt-field-error>
+            {{ t('domainInvalid') }}
+          </watt-field-error>
         }
-      </vater-stack>
+        <watt-button variant="text" (click)="addDomain()" icon="plus" [aria-label]="t('add')" />
+      </watt-text-field>
+      @if (domains().value.length > 0) {
+        <vater-stack class="domains" wrap direction="row" gap="s">
+          @for (domain of domains().value; track domain) {
+            <watt-action-chip icon="remove" (action)="removeDomain(domain)">{{
+              domain
+            }}</watt-action-chip>
+          }
+        </vater-stack>
+      }
 
       @if (domains().touched && domains().hasError('required')) {
-        <watt-field-error>
+        <watt-field-error class="domains-error">
           {{ t('minimumOneDomain') }}
         </watt-field-error>
       }
     </ng-container>
+  `,
+  styles: `
+    watt-text-field.domain-field {
+      --watt-field-bottom-spacing: 0;
+    }
+
+    .domains-error {
+      margin-top: 4px;
+    }
+
+    .domains {
+      margin-top: var(--watt-space-s);
+    }
   `,
 })
 export class DhOrganizationManageComponent {

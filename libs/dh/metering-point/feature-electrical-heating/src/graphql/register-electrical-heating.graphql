@@ -1,0 +1,19 @@
+mutation RegisterElectricalHeating(
+  $parentMeteringPointId: String!
+  $childMeteringPointId: String!
+  $actorConversationId: UUID!
+  $periodStart: DateTime!
+  $periodEnd: DateTime
+) {
+  registerElectricalHeating(
+    input: {
+      parentMeteringPointId: $parentMeteringPointId
+      childMeteringPointId: $childMeteringPointId
+      actorConversationId: $actorConversationId
+      periodStart: $periodStart
+      periodEnd: $periodEnd
+    }
+  ) {
+    success: boolean
+  }
+}

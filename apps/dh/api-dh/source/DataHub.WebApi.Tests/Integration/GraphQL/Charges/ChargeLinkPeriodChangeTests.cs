@@ -13,9 +13,19 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
-
+using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Tests.Extensions;
+using Energinet.DataHub.WebApi.Tests.Mocks;
+using Energinet.DataHub.WebApi.Tests.TestServices;
+using HotChocolate.Execution;
+using Moq;
 using NodaTime;
 using Xunit;
 
@@ -23,120 +33,125 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Charges;
 
 public class ChargeLinkPeriodChangeTests
 {
+    private static readonly string MeteringPointId = "571313180000000005";
+
     private static readonly Instant T0 = Instant.FromUtc(2024, 1, 1, 0, 0);
     private static readonly Instant T1 = Instant.FromUtc(2024, 6, 1, 0, 0);
     private static readonly Instant T2 = Instant.FromUtc(2024, 3, 1, 0, 0);
 
+    private static readonly string Query =
+    """
+    query ($meteringPointId: String!) {
+      chargeLinkPeriods(meteringPointId: $meteringPointId) {
+        changes {
+          created
+          changeType
+          stopDate
+          factor
+          previousFactor
+        }
+      }
+    }
+    """;
+
+    private static readonly ChargeIdentifierDto ChargeId =
+        new("TAR001", "1234567890", ChargeTypeDto.Tariff);
+
     [Fact]
-    public void SinglePeriod_ReturnsStarted()
+    public async Task SinglePeriod_ReturnsStarted()
     {
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
-            MakePeriod(1, T0, T1, T0),
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Single(changes);
-        Assert.Equal(ChargeLinkPeriodChangeType.Started, changes[0].ChangeType);
-        Assert.Equal(T0.ToDateTimeOffset(), changes[0].EffectiveDate);
-        Assert.Equal(1, changes[0].Period.Factor);
-        Assert.Null(changes[0].PreviousPeriod);
+        var changes = PairPeriods(MakePeriod(1, T0, T1, T0));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
     }
 
     [Fact]
-    public void CancelledPeriod_FromEqualsTo_ReturnsCancelled()
+    public async Task CancelledPeriod_ReturnsCancelled()
     {
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
+        var changes = PairPeriods(
             MakePeriod(1, T0, T1, T0),
-            MakePeriod(1, T0, T0, T1),
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Equal(2, changes.Count);
-        Assert.Equal(ChargeLinkPeriodChangeType.Started, changes[0].ChangeType);
-        Assert.Equal(ChargeLinkPeriodChangeType.Cancelled, changes[1].ChangeType);
-        Assert.Equal(T0.ToDateTimeOffset(), changes[1].EffectiveDate);
-        Assert.NotNull(changes[1].PreviousPeriod);
+            MakePeriod(1, T0, T0, T1));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
     }
 
     [Fact]
-    public void StoppedPeriod_ToShortenedFromNull_ReturnsStopped()
+    public async Task StoppedPeriod_ReturnsStopped()
     {
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
+        var changes = PairPeriods(
             MakePeriod(1, T0, null, T0),
-            MakePeriod(1, T0, T2, T1),
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Equal(2, changes.Count);
-        Assert.Equal(ChargeLinkPeriodChangeType.Stopped, changes[1].ChangeType);
-        Assert.Equal(T2.ToDateTimeOffset(), changes[1].EffectiveDate);
-        Assert.NotNull(changes[1].PreviousPeriod);
+            MakePeriod(1, T0, T2, T1));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
     }
 
     [Fact]
-    public void StoppedPeriod_ToShortenedFromLater_ReturnsStopped()
+    public async Task EditedPeriod_ReturnsEdited()
     {
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
+        var changes = PairPeriods(
             MakePeriod(1, T0, T1, T0),
-            MakePeriod(1, T0, T2, T1),
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Equal(2, changes.Count);
-        Assert.Equal(ChargeLinkPeriodChangeType.Stopped, changes[1].ChangeType);
-        Assert.Equal(T2.ToDateTimeOffset(), changes[1].EffectiveDate);
+            MakePeriod(3, T0, T1, T1));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
     }
 
     [Fact]
-    public void EditedPeriod_FactorChanged_ReturnsEditedWithNewFactor()
-    {
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
-            MakePeriod(1, T0, T1, T0),
-            MakePeriod(3, T0, T1, T1),
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Equal(2, changes.Count);
-        Assert.Equal(ChargeLinkPeriodChangeType.Edited, changes[1].ChangeType);
-        Assert.Equal(3, changes[1].Period.Factor);
-        Assert.Equal(1, changes[1].PreviousPeriod?.Factor);
-        Assert.Equal(T0.ToDateTimeOffset(), changes[1].EffectiveDate);
-    }
-
-    [Fact]
-    public void MultipleChanges_FullLifecycle()
+    public async Task RestartAfterCancel_ReturnsStarted()
     {
         var t3 = Instant.FromUtc(2024, 9, 1, 0, 0);
         var t4 = Instant.FromUtc(2024, 12, 1, 0, 0);
-
-        var periods = new List<HistoricalChargeLinkPeriodDto>
-        {
-            MakePeriod(1, T0, null, T0),          // Started
-            MakePeriod(2, T0, null, T1),           // Edited (factor 1 → 2)
-            MakePeriod(2, T0, t3, t3),              // Stopped at t3
-            MakePeriod(2, T0, T0, t4),             // Cancelled
-        };
-
-        var changes = ChargeLinkPeriodChange.FromPeriods(periods);
-
-        Assert.Equal(4, changes.Count);
-        Assert.Equal(ChargeLinkPeriodChangeType.Started, changes[0].ChangeType);
-        Assert.Equal(ChargeLinkPeriodChangeType.Edited, changes[1].ChangeType);
-        Assert.Equal(ChargeLinkPeriodChangeType.Stopped, changes[2].ChangeType);
-        Assert.Equal(ChargeLinkPeriodChangeType.Cancelled, changes[3].ChangeType);
+        var changes = PairPeriods(
+            MakePeriod(1, T0, T1, T0),
+            MakePeriod(1, T0, T0, T1),
+            MakePeriod(1, T0, t3, t4));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
     }
 
-    private static HistoricalChargeLinkPeriodDto MakePeriod(
-        int factor, Instant from, Instant? to, Instant created, bool isActual = false)
-        => new(factor, from, to, created, string.Empty, isActual);
+    [Fact]
+    public async Task FullLifecycle()
+    {
+        var t3 = Instant.FromUtc(2024, 9, 1, 0, 0);
+        var t4 = Instant.FromUtc(2024, 12, 1, 0, 0);
+        var changes = PairPeriods(
+            MakePeriod(1, T0, null, T0),
+            MakePeriod(2, T0, null, T1),
+            MakePeriod(2, T0, t3, t3),
+            MakePeriod(2, T0, T0, t4));
+        var result = await ExecuteAsync(changes);
+        await result.MatchSnapshotAsync();
+    }
+
+    private static HistoricalChargeLinkPeriodDto MakePeriod(int factor, Instant from, Instant? to, Instant created)
+        => new(factor, from, to, created, string.Empty, false);
+
+    private static List<ChargeLinkPeriodChange> PairPeriods(
+        params HistoricalChargeLinkPeriodDto[] periods)
+        => [.. periods.Select((p, i) => new ChargeLinkPeriodChange(p, i > 0 ? periods[i - 1] : null))];
+
+    private static async Task<IExecutionResult> ExecuteAsync(List<ChargeLinkPeriodChange> changes)
+    {
+        var linkPeriod = new ChargeLinkPeriodDto(1, T0, T1);
+        var server = new GraphQLTestService();
+
+        server.ChargesClientMock
+            .Setup(x => x.GetChargeLinkPeriodsAsync(MeteringPointId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync([new ChargeLinkPeriod(MeteringPointId, linkPeriod, ChargeId)]);
+
+        server.ChargesClientMock
+            .Setup(x => x.GetChargesAsync(It.IsAny<CancellationToken>()))
+            .ReturnsAsync([new Charge(ChargeId, Resolution.Daily, false, false, "Tariff", [])]);
+
+        server.ChargesClientMock
+            .Setup(x => x.GetChargeLinkPeriodChangesByIdAsync(
+                It.IsAny<ChargeLinkPeriodId>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(changes);
+
+        return await server.ExecuteRequestAsync(
+            b => b
+                .SetDocument(Query)
+                .SetVariableValues(new Dictionary<string, object?> { { "meteringPointId", MeteringPointId } })
+                .SetUser(ClaimsPrincipalMocks.CreateAdministrator()),
+            CancellationToken.None);
+    }
 }

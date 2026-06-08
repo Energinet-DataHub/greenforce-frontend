@@ -1,12 +1,5 @@
 query GetChargeLinkPeriodById($id: String!) {
   chargeLinkPeriodById(id: $id) {
     ...ChargeLinkPeriodFields
-    changes {
-      created
-      changeType
-      effectiveDate
-      factor
-      previousFactor
-    }
   }
 }

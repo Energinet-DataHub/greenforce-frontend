@@ -17,31 +17,34 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
+import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/watt/data';
-import { dayjs, WattDatePipe } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
+import type { WattRange } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattModalService } from '@energinet/watt/modal';
+import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import type { WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  DhDropdownTranslatorDirective,
   DhEmDashFallbackPipe,
+  DhResetFiltersButtonComponent,
   DhStateBadge,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
-  GetMeteringPointProcessOverviewDocument,
-  OnMeteringPointProcessUpdatedDocument,
+  MeteringPointProcessState,
+  ProcessManagerBusinessReason,
   WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
@@ -51,6 +54,7 @@ import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal';
+import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
 
 @Component({
   selector: 'dh-metering-point-process-overview-table',
@@ -59,6 +63,7 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
     ReactiveFormsModule,
     RouterOutlet,
     TranslocoDirective,
+    TranslocoPipe,
     VaterUtilityDirective,
     VaterStackComponent,
     WATT_TABLE,
@@ -67,8 +72,11 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
     WattDataFiltersComponent,
     WattDateRangeChipComponent,
     WattDatePipe,
+    WattDropdownComponent,
     WattFormChipDirective,
+    DhDropdownTranslatorDirective,
     DhEmDashFallbackPipe,
+    DhResetFiltersButtonComponent,
     DhStateBadge,
     DhReleaseToggleDirective,
     SupportedActionsPipe,
@@ -79,8 +87,8 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
       *transloco="let t; prefix: 'meteringPoint.processOverview'"
       vater
       inset="ml"
-      [error]="query.error()"
-      [ready]="query.called() && !query.loading()"
+      [error]="store.error()"
+      [ready]="store.called() && !store.loading()"
       [header]="false"
       [pageSize]="100"
     >
@@ -94,17 +102,30 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
           [formGroup]="form"
           *transloco="let t; prefix: 'meteringPoint.processOverview.filters'"
         >
-          <watt-date-range-chip [formControl]="form.controls.created">
-            {{ t('created') }}
+          <watt-date-range-chip [formControl]="form.controls.period">
+            {{ t('period') }}
           </watt-date-range-chip>
-          <vater-stack direction="row" offset="ml" gap="l">
-            <!--<watt-checkbox [formControl]="form.controls.includeViews">
-              {{ t('includeViews') }}
-            </watt-checkbox>-->
-            <!--<watt-checkbox [formControl]="form.controls.includeMasterMeasurementAndPriceRequests">
-              {{ t('includeMasterMeasurementAndPriceRequests') }}
-            </watt-checkbox>-->
-          </vater-stack>
+          <watt-dropdown
+            [formControl]="form.controls.businessReasons"
+            [chipMode]="true"
+            [multiple]="true"
+            [options]="typeOptions()"
+            [placeholder]="t('type')"
+            dhDropdownTranslator
+            translateKey="meteringPoint.processOverview.processType"
+          />
+          <watt-dropdown
+            [formControl]="form.controls.states"
+            [chipMode]="true"
+            [multiple]="true"
+            [options]="statusOptions()"
+            [placeholder]="t('status')"
+            dhDropdownTranslator
+            translateKey="shared.states"
+          />
+          @if (hasActiveFilters()) {
+            <dh-reset-filters-button />
+          }
         </form>
       </watt-data-filters>
       <watt-table
@@ -114,7 +135,7 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.columns'"
         [dataSource]="dataSource"
         [columns]="columns"
-        [loading]="query.loading()"
+        [loading]="store.loading()"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
         (rowClick)="navigation.navigate('details', $event.id)"
@@ -134,7 +155,13 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
           </dh-state-badge>
         </ng-container>
         <ng-container *wattTableCell="columns.initiator; let process">
-          {{ process.initiator?.displayName | dhEmDashFallback }}
+          @if (process.initiator?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.initiatorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.initiatorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
+          }
         </ng-container>
         <ng-container *wattTableCell="columns.actions; let process">
           <vater-stack
@@ -183,6 +210,7 @@ import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal
 })
 export class DhMeteringPointProcessOverviewTable {
   protected readonly navigation = inject(DhNavigationService);
+  protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);
@@ -194,61 +222,84 @@ export class DhMeteringPointProcessOverviewTable {
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
-  initialDateRange = {
-    start: dayjs().subtract(3, 'months').startOf('day').toDate(),
-    end: dayjs().endOf('day').toDate(),
-  };
+  dataSource = dataSource(() => this.store.filteredProcesses());
 
-  query = query(GetMeteringPointProcessOverviewDocument, () => ({
-    variables: {
-      ...this.filters(),
-      meteringPointId: this.meteringPointId(),
-      created: this.filters()?.created ?? this.initialDateRange,
-    },
-  }));
+  // Dropdown options are derived from the LOADED processes so the list is relevant and
+  // avoids the 60+ business-reason enum. dhDropdownTranslator overwrites displayValue from
+  // the translation and sorts by translation-key order, so value === displayValue here.
+  typeOptions = computed<WattDropdownOptions>(() => {
+    const reasons = [...new Set(this.store.processes().map((p) => p.businessReason))];
+    return reasons.map((value) => ({ value, displayValue: value }));
+  });
 
-  dataSource = dataSource(() => this.query.data()?.meteringPointProcessOverview ?? []);
+  statusOptions = computed<WattDropdownOptions>(() => {
+    const states = [...new Set(this.store.processes().map((p) => p.state))];
+    return states.map((value) => ({ value, displayValue: value }));
+  });
 
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
     businessReason: { accessor: 'businessReason' },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
-    initiator: { accessor: (process) => process.initiator?.displayName },
+    initiator: { accessor: (process) => this.initiatorLabel(process) },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
   };
 
   form = new FormGroup({
-    created: dhMakeFormControl(this.initialDateRange),
-    includeViews: dhMakeFormControl(false),
-    includeMasterMeasurementAndPriceRequests: dhMakeFormControl(false),
+    period: dhMakeFormControl<WattRange<Date>>(null),
+    businessReasons: dhMakeFormControl<ProcessManagerBusinessReason[]>(null),
+    states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
-  selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
-  filters = toSignal(this.form.valueChanges.pipe(filter((v) => Boolean(v.created?.end))));
+  // Read the id unconditionally (not lazily inside `.find`): a lazy read on the first,
+  // empty-list run leaves the computed dependency-less and frozen at `undefined`.
+  selection = computed(() => {
+    const id = this.navigation.id();
+    return this.store.filteredProcesses().find((r) => r.id === id);
+  });
+
+  // Show the reset button only when a filter is actually applied (something to reset).
+  protected readonly hasActiveFilters = computed(
+    () =>
+      this.store.dateRange() !== null ||
+      this.store.businessReasons().length > 0 ||
+      this.store.states().length > 0
+  );
 
   constructor() {
-    effect((onCleanup) => {
-      const variables = this.query.variables();
-      const meteringPointId = variables.meteringPointId;
-      const created = variables.created;
+    // Bridge the route-bound metering point id into the store that owns the overview query.
+    // The list itself stays a pure derivation inside the store, so it cannot drift.
+    effect(() => this.store.meteringPointId.set(this.meteringPointId()));
 
-      if (!meteringPointId || !created) return;
-
-      const unsubscribe = this.query.subscribeToMore({
-        document: OnMeteringPointProcessUpdatedDocument,
-        variables: { meteringPointId, created },
-        updateQuery: (prev, options) => ({
-          ...prev,
-          meteringPointProcessOverview: prev.meteringPointProcessOverview.map((x) =>
-            x.id === options.subscriptionData.data.meteringPointProcessUpdated.id
-              ? options.subscriptionData.data.meteringPointProcessUpdated
-              : x
-          ),
-        }),
-      });
-      onCleanup(unsubscribe);
+    // The filter controls are event streams, so sync them into the store via RxJS
+    // (the appropriate use of valueChanges, not an effect).
+    this.form.controls.period.valueChanges.pipe(takeUntilDestroyed()).subscribe((period) => {
+      if (period?.start && period?.end) {
+        this.store.dateRange.set(period); // complete range chosen
+      } else if (!period?.start && !period?.end) {
+        this.store.dateRange.set(null); // cleared/reset -> BFF default (blank)
+      }
+      // partial (start only): ignore until end is picked
     });
+
+    this.form.controls.businessReasons.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((v) => this.store.businessReasons.set(v ?? []));
+
+    this.form.controls.states.valueChanges
+      .pipe(takeUntilDestroyed())
+      .subscribe((v) => this.store.states.set(v ?? []));
+  }
+
+  // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);
+  // otherwise fall back to the translated initiator role for masked actors.
+  initiatorLabel(process: MeteringPointProcess): string | undefined {
+    if (process.initiator?.displayName) return process.initiator.displayName;
+    if (process.initiatorRole) {
+      return translate('marketParticipant.marketRoles.' + process.initiatorRole);
+    }
+    return undefined;
   }
 
   onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {

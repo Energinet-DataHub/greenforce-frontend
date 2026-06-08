@@ -146,10 +146,8 @@ import {
             } @else {
               <dh-private-customer-details
                 [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
-                [meteringPointId]="meteringPointId()"
                 [contactId1]="legalCustomerId()"
                 [contactId2]="secondaryCustomerId()"
-                [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
               />
             }
           }
