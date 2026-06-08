@@ -199,6 +199,7 @@ export class DhElectricalHeatingCorrection {
   });
 
   conversationId = input.required<string>();
+  internalMeteringPointId = input.required<string>();
 
   private conversationQuery = query(GetConversationDocument, () => ({
     variables: {
