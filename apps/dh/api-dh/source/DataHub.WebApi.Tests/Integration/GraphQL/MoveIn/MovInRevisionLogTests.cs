@@ -126,7 +126,7 @@ public class MoveInRevisionLogTests
                 $processId: UUID!
                 $meteringPointId: String!
                 $cutoffDate: DateTime!
-                $reason: String!
+                $reason: String
               ) {
                 requestIncorrectMoveIn(input: {
                   processId: $processId,

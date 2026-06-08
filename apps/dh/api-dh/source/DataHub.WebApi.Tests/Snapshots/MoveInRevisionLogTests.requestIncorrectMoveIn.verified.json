@@ -1,7 +1,7 @@
 ﻿{
   "activity": "requestIncorrectMoveIn",
   "payload": {
-    "query": "mutation($processId: UUID!, $meteringPointId: String!, $cutoffDate: DateTime!, $reason: String!) { requestIncorrectMoveIn(input: { processId: $processId, meteringPointId: $meteringPointId, cutoffDate: $cutoffDate, reason: $reason }) { boolean } }",
+    "query": "mutation($processId: UUID!, $meteringPointId: String!, $cutoffDate: DateTime!, $reason: String) { requestIncorrectMoveIn(input: { processId: $processId, meteringPointId: $meteringPointId, cutoffDate: $cutoffDate, reason: $reason }) { boolean } }",
     "variables": {
       "processId": "504821ca-8a67-448b-8b34-4488f23b819f",
       "meteringPointId": "571313180000000005",
