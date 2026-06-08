@@ -351,15 +351,17 @@ describe('Process overview', () => {
   it('should render the reset button once a filter is applied and hide it again after reset', async () => {
     const { fixture } = await setup();
     const user = userEvent.setup();
+    const filterBar = document.querySelector('watt-data-filters') as HTMLElement;
 
     // Applying a filter gives the user something to reset, so the button appears.
     applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
-    expect(screen.getByRole('button', { name: /Reset/i })).toBeInTheDocument();
+    const resetButton = within(filterBar).getByRole('button', { name: /Reset/i });
+    expect(resetButton).toBeInTheDocument();
 
     // Resetting returns to the blank default, so the button disappears again.
-    await user.click(screen.getByRole('button', { name: /Reset/i }));
+    await user.click(resetButton);
     TestBed.tick();
-    expect(screen.queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
+    expect(within(filterBar).queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
   });
 
   it('should show cancel button and open modal when clicked', async () => {
