@@ -75,7 +75,9 @@ export interface RequestIncorrectMoveInModalData {
     >
       <form id="request-incorrect-move-in-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" align="start" gap="xs">
-          <p><small>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</small></p>
+          <p>
+            <small>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</small>
+          </p>
 
           <watt-textarea-field
             [label]="t('reasonLabel')"
@@ -102,11 +104,7 @@ export interface RequestIncorrectMoveInModalData {
           {{ t('cancel') }}
         </watt-button>
 
-        <watt-button
-          type="submit"
-          formId="request-incorrect-move-in-form"
-          [loading]="loading()"
-        >
+        <watt-button type="submit" formId="request-incorrect-move-in-form" [loading]="loading()">
           {{ t('confirm') }}
         </watt-button>
       </watt-modal-actions>
