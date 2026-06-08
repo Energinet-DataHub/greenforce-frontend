@@ -277,7 +277,10 @@ function buildOverviewProcesses() {
     createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow
     state: MeteringPointProcessState.Pending,
-    availableActions: [MeteringPointProcessAction.SendInformation, MeteringPointProcessAction.CancelWorkflow],
+    availableActions: [
+      MeteringPointProcessAction.SendInformation,
+      MeteringPointProcessAction.CancelWorkflow,
+    ],
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
@@ -311,7 +314,10 @@ function buildOverviewProcesses() {
     createdAt: new Date(Date.now() - 864e5), // yesterday (864e5 = 1 day in ms)
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow
     state: MeteringPointProcessState.Pending,
-    availableActions: [MeteringPointProcessAction.SendInformation, MeteringPointProcessAction.CancelWorkflow],
+    availableActions: [
+      MeteringPointProcessAction.SendInformation,
+      MeteringPointProcessAction.CancelWorkflow,
+    ],
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
