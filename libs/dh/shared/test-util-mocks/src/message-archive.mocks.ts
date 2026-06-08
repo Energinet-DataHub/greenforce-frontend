@@ -250,7 +250,8 @@ function getMeteringPointProcessOverview() {
       createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
       cutoffDate: new Date(Date.now() + 864e5), // tomorrow
       state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+      // BRS-009 only surfaces the "request correction" action (a separate button)
+      availableActions: [],
       initiator: {
         __typename: 'MarketParticipant' as const,
         id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
@@ -380,8 +381,6 @@ function getAvailableActions(
       WorkflowAction.ConfirmWorkflow,
       WorkflowAction.RejectRequest,
     ];
-  if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
-    return [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow];
   if (businessReason === ProcessManagerBusinessReason.SecondaryMoveIn)
     return [WorkflowAction.SendInformation];
   if (businessReason === ProcessManagerBusinessReason.ChangeOfEnergySupplier)
