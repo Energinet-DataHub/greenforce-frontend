@@ -41,7 +41,6 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-  combineWithIdPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
@@ -337,16 +336,13 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
 }
 
 function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
-  return (route: ActivatedRouteSnapshot) => {
+  return () => {
     const router = inject(Router);
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
 
     if (!conversationId) {
-      const redirectPath = router.parseUrl(
-        combineWithIdPaths('metering-point', idParam, 'actor-conversation')
-      );
+      const redirectPath = router.parseUrl(combinePaths('metering-point', 'search'));
 
       return new RedirectCommand(redirectPath);
     }
