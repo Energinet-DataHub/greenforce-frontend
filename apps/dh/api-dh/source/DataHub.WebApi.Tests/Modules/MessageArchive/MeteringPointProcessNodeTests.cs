@@ -93,15 +93,53 @@ public class MeteringPointProcessNodeTests
             Times.Never);
     }
 
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_CustomerMoveInWithinWindow_IncludesInitiateIncorrectMoveInWithoutCallingDataLoader()
+    {
+        // FAS has no supplier GLN to scope EM against; we surface the action whenever the
+        // process's own cutoff is inside the 60-day window. Strict mock fails if the data
+        // loader is touched.
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
+        var process = CreateProcess(BusinessReason.CustomerMoveIn, MeteringPointId, cutoff);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_CustomerMoveInOutsideWindow_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-61);
+        var process = CreateProcess(BusinessReason.CustomerMoveIn, MeteringPointId, cutoff);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
     private static MeteringPointProcess CreateCustomerMoveInProcess() =>
         CreateProcess(BusinessReason.CustomerMoveIn, meteringPointId: MeteringPointId);
 
-    private static MeteringPointProcess CreateProcess(BusinessReason businessReason, string? meteringPointId) =>
+    private static MeteringPointProcess CreateProcess(
+        BusinessReason businessReason,
+        string? meteringPointId,
+        DateTimeOffset? cutoffDate = null) =>
         new(
             Id: _processOrchestrationId.ToString(),
             TransactionId: "transaction-id",
             CreatedAt: new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero),
-            CutoffDate: null,
+            CutoffDate: cutoffDate,
             BusinessReason: businessReason,
             ActorNumber: EnergySupplierGln,
             ActorRole: ActorRole.EnergySupplier.Name,
@@ -130,6 +168,20 @@ public class MeteringPointProcessNodeTests
                 new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
                 new Claim("actornumber", EnergySupplierGln),
                 new Claim("marketroles", ActorRole.EnergySupplier.Name),
+            },
+            "MockedAuthenticationType"));
+        httpContextAccessor.Setup(x => x.HttpContext).Returns(new DefaultHttpContext { User = user });
+        return httpContextAccessor;
+    }
+
+    private static Mock<IHttpContextAccessor> CreateFasHttpContextAccessor()
+    {
+        var httpContextAccessor = new Mock<IHttpContextAccessor>();
+        var user = new ClaimsPrincipal(new ClaimsIdentity(
+            new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString()),
+                new Claim("multitenancy", "true"),
             },
             "MockedAuthenticationType"));
         httpContextAccessor.Setup(x => x.HttpContext).Returns(new DefaultHttpContext { User = user });

@@ -171,6 +171,17 @@ public static partial class MeteringPointProcessNode
             return actions;
         }
 
+        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN
+        // to scope the EM query, so eligibility is reduced to the process's own cutoff
+        // falling inside the same 60-day window the supplier-scoped EM query enforces.
+        if (httpContextAccessor.HttpContext?.User.IsFas() == true)
+        {
+            return process.CutoffDate.HasValue
+                   && process.CutoffDate.Value >= DateTimeOffset.UtcNow.AddDays(-60)
+                ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
+                : actions;
+        }
+
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityDataLoader
             .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
