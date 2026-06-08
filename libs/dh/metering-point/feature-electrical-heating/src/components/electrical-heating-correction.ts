@@ -25,7 +25,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -39,7 +39,6 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/core/date';
 
-import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
   DhEmDashFallbackPipe,
   dhMakeFormControl,
@@ -61,7 +60,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RouterLink,
 
     VATER,
     WATT_CARD,
@@ -109,8 +107,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       <vater-stack direction="row" justify="space-between" class="watt-space-stack-ml">
         <h1 class="no-margin">{{ t('title') }}</h1>
 
-        <watt-button [routerLink]="actorConversationLink()" variant="secondary"
-          >{{ t('cancel') }}
+        <watt-button (click)="location.back()" variant="secondary">
+          {{ t('cancel') }}
         </watt-button>
       </vater-stack>
 
@@ -188,18 +186,17 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhElectricalHeatingCorrection {
-  private readonly router = inject(Router);
+  readonly location = inject(Location);
 
   private readonly startDatepicker = viewChild<WattDatepickerComponent>('startDatepicker');
   private readonly endDatepicker = viewChild<WattDatepickerComponent>('endDatepicker');
 
   private registerElectricalHeating = mutation(RegisterElectricalHeatingDocument, {
     onStatusUpdated: injectToast('meteringPoint.electricalHeatingCorrection.toast'),
-    onCompleted: () => this.router.navigateByUrl(this.actorConversationLink()),
+    onCompleted: () => this.location.back(),
   });
 
   conversationId = input.required<string>();
-  internalMeteringPointId = input.required<string>();
 
   private conversationQuery = query(GetConversationDocument, () => ({
     variables: {
@@ -299,10 +296,6 @@ export class DhElectricalHeatingCorrection {
   });
 
   emDash = emDash;
-
-  actorConversationLink = computed(() =>
-    combineWithIdPaths('metering-point', this.internalMeteringPointId(), 'actor-conversation')
-  );
 
   async submit() {
     if (this.form.invalid) {
