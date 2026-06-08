@@ -422,7 +422,7 @@ public static partial class MeteringPointNode
         {
             await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
         }
-        catch (Exception)
+        catch
         {
             throw new GraphQLException(
                 $"Command StartHtxElectricalHeatingCreateWithFlagCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}'");
@@ -435,11 +435,20 @@ public static partial class MeteringPointNode
             Anonymous = true,
         };
 
-        await ActorConversationOperations.SendActorConversationMessageAsync(
-            httpContextAccessor,
-            actorConversationClient,
-            conversationMessageInput,
-            ct).ConfigureAwait(false);
+        try
+        {
+            await ActorConversationOperations.SendActorConversationMessageAsync(
+                httpContextAccessor,
+                actorConversationClient,
+                conversationMessageInput,
+                ct).ConfigureAwait(false);
+        }
+        catch
+        {
+            // If sending the message fails, we do nothing,
+            // as the main operation (starting the orchestration) has succeeded,
+            // and sending the message is a nice-to-have for the user experience.
+        }
 
         return true;
     }
