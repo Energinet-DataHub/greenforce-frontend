@@ -222,7 +222,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
 export class DhActorConversationMessage {
   private readonly permissionService = inject(PermissionService);
 
-  meteringPointId = input<string | undefined>();
   isConversationClosed = input.required<boolean>();
   message = input.required<ConversationMessage>();
   conversationId = input.required<string>();
@@ -234,9 +233,6 @@ export class DhActorConversationMessage {
 
   showRegisterElectricalHeatingButton = computed(() => {
     return (
-      // Only show the button if actor conversations in the context of a metering point
-      // Another PR will show the button in the standalone actor conversations view
-      !!this.meteringPointId() &&
       this.isConversationClosed() === false &&
       this.message().messageType === 'ELECTRICAL_HEATING_USER_MESSAGE' &&
       this.hasHistoricalCorrectionManagePermission()

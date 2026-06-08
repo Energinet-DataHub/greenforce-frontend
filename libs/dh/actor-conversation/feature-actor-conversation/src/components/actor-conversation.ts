@@ -189,7 +189,6 @@ import { DhActorConversationNewConversation } from './new-conversation';
                   vater
                   fill="both"
                   [conversationId]="conversationId"
-                  [meteringPointId]="meteringPointId()"
                 />
               } @else {
                 <watt-spinner vater center />

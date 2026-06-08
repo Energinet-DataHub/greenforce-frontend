@@ -129,7 +129,6 @@ limitations under the License.
           @for (message of conversation.messages; track message) {
             <dh-actor-conversation-message
               [message]="message"
-              [meteringPointId]="meteringPointId()"
               [isConversationClosed]="conversation.closed"
               [conversationId]="conversationId()"
             />
@@ -138,8 +137,8 @@ limitations under the License.
         <div #scrollAnchor></div>
       </vater-flex>
     }
-    <!-- Footer - Message input form -->
 
+    <!-- Footer - Message input form -->
     <form
       vater
       sticky="bottom"

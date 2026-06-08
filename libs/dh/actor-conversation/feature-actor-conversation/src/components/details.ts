@@ -137,7 +137,6 @@ export class DhActorConversationDetails {
   toastEffect = effect(() => this.toast(this.sendActorConversationMessageMutation.status()));
   unreadConversationMutation = mutation(MarkConversationUnReadDocument);
   conversationId = input.required<string>();
-  meteringPointId = input<string | undefined>();
 
   conversationQuery = query(GetConversationDocument, () => ({
     returnPartialData: true,
@@ -149,7 +148,7 @@ export class DhActorConversationDetails {
 
   conversation = computed(() => this.conversationQuery.data()?.conversation);
 
-  meteringPointIdFromConversation = computed(
+  private meteringPointIdFromConversation = computed(
     () => this.conversation()?.meteringPointIdentification
   );
 
