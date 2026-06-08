@@ -33,7 +33,11 @@ function createValidator(env: DhAppEnvironment) {
 
 describe('dhMoveInCvrValidator', () => {
   describe('non-production environments (local, dev, test)', () => {
-    const validator = createValidator(DhAppEnvironment.local);
+    let validator: ReturnType<typeof createValidator>;
+
+    beforeEach(() => {
+      validator = createValidator(DhAppEnvironment.local);
+    });
 
     it('allows test CVR 11111111', () => {
       expect(validator(new FormControl('11111111'))).toBeNull();
@@ -81,7 +85,11 @@ describe('dhMoveInCvrValidator', () => {
   });
 
   describe('base validator behaviour (any environment)', () => {
-    const validator = createValidator(DhAppEnvironment.local);
+    let validator: ReturnType<typeof createValidator>;
+
+    beforeEach(() => {
+      validator = createValidator(DhAppEnvironment.local);
+    });
 
     it('allows a valid CVR number', () => {
       // 12345674: weighted sum = 106, mod 11 = 7, check digit = 4 ✓
