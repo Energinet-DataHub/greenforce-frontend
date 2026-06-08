@@ -16,7 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -28,6 +36,8 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattSkeletonComponent } from '@energinet/watt/skeleton';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
+import { dayjs } from '@energinet/watt/core/date';
 
 import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
@@ -39,6 +49,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  GetConversationDocument,
   GetMeteringPointByIdDocument,
   RegisterElectricalHeatingDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -62,6 +73,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
     WattSeparatorComponent,
     WattSkeletonComponent,
     DhEmDashFallbackPipe,
+    WattFieldErrorComponent,
   ],
   styles: `
     :host {
@@ -79,7 +91,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
     .em-dash {
       position: relative;
-      top: 12px; // Magic number
+      top: 12px;
     }
 
     .hint {
@@ -138,9 +150,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           <span class="watt-label">{{ t('periodTitle') }}</span>
           <vater-flex>
             <vater-stack direction="row" gap="m" align="start">
-              <watt-datepicker [formControl]="form.controls.periodStart" />
+              <watt-datepicker
+                #startDatepicker
+                [formControl]="form.controls.periodStart"
+                [min]="periodStartMin()"
+              />
               <span class="em-dash watt-text-s">{{ emDash }}</span>
-              <watt-datepicker [formControl]="form.controls.periodEnd" />
+              <watt-datepicker #endDatepicker [formControl]="form.controls.periodEnd" />
             </vater-stack>
 
             <span class="hint watt-text-s">{{ t('periodHint') }}</span>
@@ -162,7 +178,13 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               maxLength="18"
               [formControl]="form.controls.childMeteringPointId"
               [label]="t('childMeteringPointIdLabel')"
-            />
+            >
+              @if (form.controls.childMeteringPointId.hasError('meteringPointIdLength')) {
+                <watt-field-error>
+                  {{ t('error.meteringPointIdLength') }}
+                </watt-field-error>
+              }
+            </watt-text-field>
           </vater-stack>
         </watt-card>
 
@@ -174,6 +196,9 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 export class DhElectricalHeatingCorrection {
   private readonly router = inject(Router);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
+
+  private readonly startDatepicker = viewChild<WattDatepickerComponent>('startDatepicker');
+  private readonly endDatepicker = viewChild<WattDatepickerComponent>('endDatepicker');
 
   private registerElectricalHeating = mutation(RegisterElectricalHeatingDocument, {
     onStatusUpdated: injectToast('meteringPoint.electricalHeatingCorrection.toast'),
@@ -193,11 +218,27 @@ export class DhElectricalHeatingCorrection {
     },
   }));
 
+  private conversationQuery = query(GetConversationDocument, () => ({
+    variables: {
+      conversationId: this.conversationId(),
+    },
+  }));
+
+  private electricalHeatingUserMessage = computed(
+    () =>
+      this.conversationQuery
+        .data()
+        ?.conversation?.messages.find((message) => message.electricalHeatingUserMessage != null)
+        ?.electricalHeatingUserMessage
+  );
+
   private meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
 
   private contacts = computed(
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
   );
+
+  private dataHubElectricalHeatingCutOffDate = dayjs().subtract(1092, 'days').toDate();
 
   loading = this.meteringPointQuery.loading;
 
@@ -216,6 +257,52 @@ export class DhElectricalHeatingCorrection {
     ]),
     periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
     periodEnd: dhMakeFormControl<Date | null>(null),
+  });
+
+  periodStartMin = computed(() => {
+    const electricalHeatingFrom = this.electricalHeatingUserMessage()?.electricalHeatingFrom;
+
+    if (!electricalHeatingFrom) {
+      return undefined;
+    }
+
+    if (dayjs(electricalHeatingFrom).isBefore(this.dataHubElectricalHeatingCutOffDate)) {
+      return this.dataHubElectricalHeatingCutOffDate;
+    }
+
+    return dayjs(electricalHeatingFrom).toDate();
+  });
+
+  periodStartSyncEffect = effect(() => {
+    const reductionPeriodFrom = this.electricalHeatingUserMessage()?.reductionPeriod.from;
+
+    if (!reductionPeriodFrom) {
+      return;
+    }
+
+    if (dayjs(reductionPeriodFrom).isBefore(this.dataHubElectricalHeatingCutOffDate)) {
+      this.startDatepicker()?.selectDate(this.dataHubElectricalHeatingCutOffDate);
+    } else {
+      this.startDatepicker()?.selectDate(reductionPeriodFrom);
+    }
+  });
+
+  periodEndSyncEffect = effect(() => {
+    const reductionPeriodTo = this.electricalHeatingUserMessage()?.reductionPeriod.to;
+
+    if (!reductionPeriodTo) {
+      return;
+    }
+
+    // Do not set end date if reduction period end date is in the future.
+    // This is the case if reduction period end date was not set when the "electricalHeatingUserMessage" message
+    // was created in Actor conversation.
+    // The default end date in that case is set to "01-01-10000".
+    if (dayjs(reductionPeriodTo).isAfter(new Date())) {
+      return;
+    }
+
+    this.endDatepicker()?.selectDate(reductionPeriodTo);
   });
 
   emDash = emDash;

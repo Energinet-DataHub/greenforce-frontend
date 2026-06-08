@@ -893,11 +893,11 @@ function getConversation() {
               anonymous: false,
               electricalHeatingUserMessage: {
                 __typename: 'ElectricalHeatingUserMessage',
-                electricalHeatingFrom: new Date(),
+                electricalHeatingFrom: new Date('2010-01-01'),
                 reductionPeriod: {
                   __typename: 'ElectricityHeatingMessagePeriod',
-                  from: new Date(),
-                  to: new Date(),
+                  from: dayjs().subtract(1, 'month').startOf('month').toDate(),
+                  to: dayjs().subtract(1, 'month').endOf('month').toDate(),
                 },
                 content:
                   'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',

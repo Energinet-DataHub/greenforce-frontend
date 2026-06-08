@@ -89,6 +89,7 @@ export class CustomerMoveInActions {
       ),
     },
     [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+      releaseToggle: 'BRS011-INCOMING-MESSAGES',
       permissions: ['metering-point:move-in'],
       roles: [ResponsibleEnergySupplier],
       callback: (ctx) => {

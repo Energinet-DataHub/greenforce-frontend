@@ -20,6 +20,7 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
   DhActorStorage,
   PermissionService,
@@ -57,6 +58,7 @@ export const INITIATOR_ROLE_UNIVERSE: readonly EicFunction[] = [
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
+  releaseToggle?: string;
   permissions?: Permission[];
   roles?: ActionRole[];
   callback: (context: ProcessActionContext) => void;
@@ -79,6 +81,7 @@ function collectPermissions(
 @Injectable({ providedIn: 'root' })
 export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
+  private readonly releaseToggles = inject(DhReleaseToggleService);
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);
 
@@ -131,7 +134,9 @@ export class DhActionsRegistry {
   ): MeteringPointProcessAction[] {
     const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
-      if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      if (!handler) return false;
+      if (!this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      if (!this.releaseToggles.isEnabled(handler.releaseToggle)) return false;
       // FAS users see every supported action (info row in the table, disabled
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
