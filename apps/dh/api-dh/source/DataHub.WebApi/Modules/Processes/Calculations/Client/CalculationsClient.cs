@@ -81,6 +81,11 @@ public class CalculationsClient(
             PeriodEndDate = interval.End.ToDateTimeOffset(),
             LifecycleStates = [OrchestrationInstanceLifecycleState.Terminated],
             TerminationState = OrchestrationInstanceTerminationState.Succeeded,
+            IsInternalCalculation = false,
+            // For aggregation, find any existing external calculation (not just aggregations),
+            // since the `startCalculationType` parameter is used for finding calculations that
+            // may already exist in the given period and specifically for external aggregations,
+            // this should match any calculation type.
             CalculationTypes = startCalculationType == StartCalculationType.Aggregation
                 ? null
                 : [startCalculationType.ToQueryParameterV1()],
