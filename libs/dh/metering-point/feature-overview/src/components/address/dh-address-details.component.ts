@@ -28,11 +28,13 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 
 import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import type {
+  InstallationAddress,
+  MeteringPointDetails,
+} from '@energinet-datahub/dh/metering-point/shared/domain';
 
 import { DhActualAddressComponent } from './dh-actual-address.component';
-
 import { DhCanSeeDirective } from '../can-see/dh-can-see.directive';
-import type { InstallationAddress, MeteringPointDetails } from '../../types';
 import { DhAddressComponent } from './dh-address.component';
 
 @Component({
@@ -61,7 +63,7 @@ import { DhAddressComponent } from './dh-address.component';
       [title]="t('title')"
       #modal
     >
-      <watt-description-list variant="stack" [itemSeparators]="false">
+      <watt-description-list variant="stack" [itemSeparators]="false" class="watt-space-stack-m">
         <watt-description-list-item [label]="t('address')">
           <dh-address [address]="modalData.installationAddress" />
         </watt-description-list-item>

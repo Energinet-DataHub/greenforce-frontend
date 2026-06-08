@@ -1,0 +1,9 @@
+﻿{
+  "activity": "projectionsStatus",
+  "payload": {
+    "query": "{ projectionsStatus { projections { name } } }",
+    "variables": {}
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}

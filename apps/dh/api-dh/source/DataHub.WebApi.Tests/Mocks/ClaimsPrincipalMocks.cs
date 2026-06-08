@@ -38,9 +38,17 @@ public static class ClaimsPrincipalMocks
                     new Claim(ClaimTypes.Role, "calculations:view"),
                     new Claim(ClaimTypes.Role, "calculations:manage"),
                     new Claim(ClaimTypes.Role, "metering-point:search"),
+                    new Claim(ClaimTypes.Role, "metering-point:move-in"),
+                    new Claim(ClaimTypes.Role, "metering-point:change-of-supplier"),
                     new Claim(ClaimTypes.Role, "measurements:manage"),
                     new Claim(ClaimTypes.Role, "missing-measurements-log:view"),
+                    new Claim(ClaimTypes.Role, "cpr:view"),
                     new Claim(ClaimTypes.Role, "charges:view"),
+                    new Claim(ClaimTypes.Role, "charges:manage"),
+                    new Claim(ClaimTypes.Role, "metering-point:prices"),
+                    new Claim(ClaimTypes.Role, "metering-point:prices-manage"),
+                    new Claim(ClaimTypes.Role, "operation-tools:view"),
+                    new Claim(ClaimTypes.Role, "operation-tools:manage"),
                 },
                 "MockedAuthenticationType"));
 

@@ -21,11 +21,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
+import { VATER } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-esett-shell',
   template: `
-    <watt-link-tabs *transloco="let t; prefix: 'eSett.tabs'">
+    <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'eSett.tabs'">
       <watt-link-tab
         [label]="t('outgoingMessages.tabLabel')"
         [link]="getLink('outgoing-messages')"
@@ -38,10 +39,9 @@ import { ESettSubPaths, combinePaths } from '@energinet-datahub/dh/core/configur
         [label]="t('balanceResponsible.tabLabel')"
         [link]="getLink('balance-responsible')"
       />
-      ></watt-link-tabs
-    >
+    </watt-link-tabs>
   `,
-  imports: [TranslocoDirective, WATT_LINK_TABS],
+  imports: [TranslocoDirective, WATT_LINK_TABS, VATER],
 })
 export class DhESettShellComponent {
   getLink = (path: ESettSubPaths) => combinePaths('esett', path);

@@ -27,10 +27,9 @@ import { WATT_TABLE } from '@energinet/watt/table';
 import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';
 
 import { UpdateUserRoles } from '@energinet-datahub/dh/admin/ui-shared';
-import { ActorUserRoles } from '@energinet-datahub/dh/admin/data-access-api';
 
 import { DhBasicUserRolesTableComponent } from './basic-user-roles-table.component';
-import { DhUserByIdMarketParticipant } from './types';
+import { ActorUserRoles, DhUserByIdMarketParticipant } from './types';
 
 @Component({
   selector: 'dh-user-roles',

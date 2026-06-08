@@ -47,7 +47,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('message-archive'),
-        loadChildren: () => import('@energinet-datahub/dh/message-archive/shell'),
+        loadChildren: () => import('@energinet-datahub/dh/message-archive/feature-search'),
         canActivate: [MsalGuard],
       },
       {
@@ -109,6 +109,11 @@ export const dhCoreShellRoutes: Routes = [
         path: getPath<BasePaths>('actor-conversation'),
         loadChildren: () =>
           import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation'),
+        canActivate: [MsalGuard],
+      },
+      {
+        path: getPath<BasePaths>('message-queue'),
+        loadChildren: () => import('@energinet-datahub/dh/message-queue/feature-overview'),
         canActivate: [MsalGuard],
       },
       { path: '**', component: Dh404Component },

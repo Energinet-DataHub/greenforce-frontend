@@ -19,22 +19,36 @@
 import { Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattMenuItemComponent } from '@energinet/watt/menu';
+
+export type DhDownloadButtonMode = 'button' | 'menuItem';
 
 @Component({
   selector: 'dh-download-button',
   template: `
-    <watt-button icon="download" variant="secondary" [disabled]="disabled()" [loading]="loading()">
-      @if (alternateText()) {
-        {{ alternateText() }}
-      } @else {
-        {{ 'shared.download' | transloco }}
-      }
-    </watt-button>
+    @if (mode() === 'menuItem') {
+      <watt-menu-item [disabled]="disabled()">
+        @if (alternateText()) {
+          {{ alternateText() }}
+        } @else {
+          {{ 'shared.exportCsv' | transloco }}
+        }
+      </watt-menu-item>
+    } @else {
+      <watt-button variant="secondary" [disabled]="disabled()" [loading]="loading()">
+        @if (alternateText()) {
+          {{ alternateText() }}
+        } @else {
+          {{ 'shared.exportCsv' | transloco }}
+        }
+      </watt-button>
+    }
   `,
-  imports: [TranslocoPipe, WattButtonComponent],
+  imports: [TranslocoPipe, WattButtonComponent, WattMenuItemComponent],
 })
 export class DhDownloadButtonComponent {
   loading = input<boolean>(false);
   alternateText = input<string | undefined>(undefined);
   disabled = input<boolean>(false);
+  mode = input<DhDownloadButtonMode>('button');
 }

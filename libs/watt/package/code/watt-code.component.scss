@@ -26,17 +26,15 @@ watt-code {
     padding: 0;
     height: calc(100% - 60px); /* Adjust for search container */
     width: 100%;
-    word-wrap: break-word;
 
     .cdk-virtual-scroll-content-wrapper {
-      width: 100%;
-
       code {
         padding: 2px 8px;
         line-height: 20px;
         font-family: monospace;
         white-space: pre;
-        width: 100%;
+        min-width: 100%;
+        width: max-content;
         display: block;
         font-size: 14px;
 

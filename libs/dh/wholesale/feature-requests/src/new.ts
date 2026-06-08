@@ -49,7 +49,7 @@ import {
   dhEnumToWattDropdownOptions,
   dhFormControlToSignal,
   dhMakeFormControl,
-  setControlRequired,
+  dhSyncControlValidators,
   injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -211,7 +211,11 @@ export class DhWholesaleRequestsNew {
 
   // Update form controls based on options
   gridArea = this.form.controls.gridArea;
-  setGridAreaRequired = effect(() => setControlRequired(this.gridArea, this.isGridAreaRequired()));
+  setGridAreaRequired = dhSyncControlValidators(
+    () => this.gridArea,
+    Validators.required,
+    () => this.isGridAreaRequired()
+  );
   firstCalculationType = computed(() => this.calculationTypes().find(Boolean)?.value ?? null);
   updateCalculationType = effect(() => this.calculationType.set(this.firstCalculationType()));
 

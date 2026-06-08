@@ -16,10 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-import { test, vi } from 'vitest';
+import { test } from 'vitest';
 import { TestBed } from '@angular/core/testing';
 import { ApolloError, NetworkStatus, gql } from '@apollo/client/core';
-import { query } from '../src/lib/query';
+import { query } from '../src/query';
 import { withApollo } from './with-apollo';
 
 const MOCK_DATA = { __type: { name: 'Query' } };

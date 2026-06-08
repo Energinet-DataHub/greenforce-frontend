@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   input,
   model,
@@ -27,9 +27,11 @@ import {
   ViewEncapsulation,
   viewChild,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
+import { contains } from '@energinet/watt/core/date';
 import { WATT_MODAL, WattModalComponent } from '@energinet/watt/modal';
 import { WattIconComponent } from '@energinet/watt/icon';
 import { VaterStackComponent } from '@energinet/watt/vater';
@@ -40,19 +42,25 @@ import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
-import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  dhFormControlToSignal,
+  dhMakeFormControl,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesTypeSelection } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import {
   ChargeType,
-  GetChargeByTypeDocument,
+  GetChargesByTypeDocument,
   CreateChargeLinkDocument,
+  GetChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
 @Component({
-  selector: 'dh-metering-point-create-charge-link',
+  selector: 'dh-charge-links-create-modal',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
@@ -69,7 +77,7 @@ import {
   ],
   encapsulation: ViewEncapsulation.None,
   styles: `
-    dh-metering-point-create-charge-link {
+    dh-charge-links-create-modal {
       watt-datepicker,
       watt-text-field {
         width: 50%;
@@ -78,11 +86,10 @@ import {
   `,
   template: `
     <watt-modal
-      #create
       size="small"
       autoOpen
+      (closed)="onClosed($event)"
       *transloco="let t; prefix: 'meteringPoint.chargeLinks.create'"
-      (closed)="navigate.navigate('list')"
     >
       <h2 class="watt-modal-title watt-modal-title-icon">
         {{ t('title') }}
@@ -99,8 +106,9 @@ import {
             tabindex="-1"
             id="create-charge-link-form"
             [formGroup]="form()"
-            (ngSubmit)="createLink()"
+            (ngSubmit)="create()"
           >
+            <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
             <watt-dropdown
               [formControl]="form().controls.chargeId"
               [options]="chargeOptions()"
@@ -116,21 +124,24 @@ import {
                 }
               </watt-text-field>
             }
-
-            <watt-datepicker [formControl]="form().controls.startDate" [label]="t('startDate')" />
           </form>
         }
       </dh-charges-type-selection>
       <watt-modal-actions>
         @if (!selectedType()) {
-          <watt-button variant="secondary" (click)="create.close(false)">
+          <watt-button variant="secondary" (click)="modal().close(false)">
             {{ t('close') }}
           </watt-button>
         } @else {
           <watt-button variant="secondary" (click)="selectedType.set(null)">
             {{ t('back') }}
           </watt-button>
-          <watt-button variant="primary" type="submit" formId="create-charge-link-form">
+          <watt-button
+            variant="primary"
+            type="submit"
+            formId="create-charge-link-form"
+            [disabled]="createChargeLink.loading()"
+          >
             {{ t('actions.' + selectedType()) }}
           </watt-button>
         }
@@ -138,67 +149,101 @@ import {
     </watt-modal>
   `,
 })
-export default class DhMeteringPointCreateChargeLink {
-  private readonly toast = injectToast('meteringPoint.chargeLinks.create.toast');
-  private readonly createChargeLink = mutation(CreateChargeLinkDocument);
-  private readonly fb = inject(NonNullableFormBuilder);
-  private readonly chargesQuery = lazyQuery(GetChargeByTypeDocument);
-  private readonly modal = viewChild.required(WattModalComponent);
+export default class DhChargeLinksCreateModal {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
 
-  navigate = inject(DhNavigationService);
+  readonly meteringPointId = input.required<string>();
+  readonly selectedType = model<ChargeType | null>(null);
+  readonly modal = viewChild.required(WattModalComponent);
 
-  form = computed(() =>
-    this.fb.group({
-      chargeId: this.fb.control<string>('', Validators.required),
-      factor: this.fb.control<string | null>(
-        null,
-        this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
-          ? [Validators.required, Validators.min(1)]
-          : null
-      ),
-      startDate: this.fb.control<Date | null>(null, Validators.required),
-    })
+  charges = query(GetChargesByTypeDocument, () => {
+    const type = this.selectedType();
+    return type ? { variables: { type } } : { skip: true };
+  });
+
+  chargeOptions = computed<WattDropdownOptions>(() => {
+    const opts = this.charges.data()?.chargesByType ?? [];
+    const date = this.selectedDate();
+    return !date ? [] : opts.filter((o) => o.periods.some((p) => contains(p.period, date)));
+  });
+
+  createChargeLink = mutation(CreateChargeLinkDocument, {
+    onStatusUpdated: injectToast('meteringPoint.chargeLinks.create.toast'),
+    onCompleted: () => this.modal().close(true),
+    update: (cache, { data }) => {
+      const period = data?.createChargeLink?.chargeLinkPeriod;
+      const meteringPointId = this.meteringPointId();
+      if (!period) return;
+      cache.updateQuery(
+        { query: GetChargeLinkPeriodsDocument, variables: { meteringPointId } },
+        (existing) => {
+          if (!existing) return null;
+          const periods = [period, ...existing.chargeLinkPeriods.filter((p) => p.id !== period.id)];
+          return {
+            ...existing,
+            chargeLinkPeriods: periods.sort((a, b) => a.sortKey.localeCompare(b.sortKey)),
+          };
+        }
+      );
+    },
+  });
+
+  form = computed(
+    () =>
+      new FormGroup({
+        chargeId: dhMakeFormControl('', Validators.required),
+        startDate: dhMakeFormControl<Date>(null, Validators.required),
+        factor: dhMakeFormControl<string>(
+          null,
+          this.selectedType() !== 'TARIFF' && this.selectedType() !== 'TARIFF_TAX'
+            ? [Validators.required, Validators.min(1)]
+            : []
+        ),
+      })
   );
 
-  meteringPointId = input.required<string>();
+  selectedDate = dhFormControlToSignal(() => this.form().controls.startDate);
+  resetChargeIdOnDateChangeEffect = effect(() => {
+    this.selectedDate();
+    this.form().controls.chargeId.reset();
+  });
 
-  selectedType = model<ChargeType | null>(null);
-
-  chargeOptions = computed<WattDropdownOptions>(
-    () => this.chargesQuery.data()?.chargesByType ?? []
-  );
-
-  async createLink() {
-    const form = this.form();
-
-    if (form.invalid) return;
-
-    const { chargeId, startDate, factor } = form.getRawValue();
-
+  async create() {
+    const { chargeId, startDate, factor } = this.form().getRawValue();
     assertIsDefined(chargeId);
     assertIsDefined(startDate);
-
     await this.createChargeLink.mutate({
       variables: {
         chargeId,
         meteringPointId: this.meteringPointId(),
         newStartDate: startDate,
-        factor: parseInt(factor ?? '1'),
+        factor: parseInt(factor ?? '1', 10),
       },
     });
-
-    this.modal().close(true);
   }
 
-  constructor() {
-    effect(() => {
-      const type = this.selectedType();
+  onClosed(created: boolean) {
+    const path = created
+      ? { outlets: { create: null, primary: this.getRedirectPath() } }
+      : { outlets: { create: null } };
 
-      if (type) {
-        this.chargesQuery.refetch({ type });
-      }
-    });
+    this.router.navigate([path], { relativeTo: this.route.parent });
+  }
 
-    effect(() => this.toast(this.createChargeLink.status()));
+  getRedirectPath() {
+    const createdPeriod = this.createChargeLink.data()?.createChargeLink.chargeLinkPeriod;
+    if (!createdPeriod) return null;
+    const id = createdPeriod.id;
+    const type = createdPeriod.charge.type;
+    switch (type) {
+      case 'FEE':
+        return [getPath('fees'), id];
+      case 'SUBSCRIPTION':
+      case 'TARIFF':
+      case 'TARIFF_TAX':
+      case null:
+        return [getPath('tariff-and-subscription'), id];
+    }
   }
 }

@@ -15,6 +15,7 @@
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
+using VerifyTests;
 using VerifyXunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Extensions;

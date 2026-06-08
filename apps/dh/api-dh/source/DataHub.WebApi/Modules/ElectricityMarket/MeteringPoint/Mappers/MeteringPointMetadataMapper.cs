@@ -39,7 +39,7 @@ public static class MeteringPointMetadataMapper
             ConnectionType = meteringPoint.ConnectionType?.MapToDto(),
             DisconnectionType = meteringPoint.DisconnectionType?.MapToDto(),
             Product = meteringPoint.Product?.MapToDto(),
-            ProductObligation = meteringPoint.ProductObligation,
+            ProductObligation = meteringPoint.ProductionObligation,
             MeasureUnit = meteringPoint.EnergyUnit.MapToDto(),
             AssetType = meteringPoint.AssetType?.MapToDto(),
             EnvironmentalFriendly = null,
@@ -156,7 +156,7 @@ public static class MeteringPointMetadataMapper
             Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, electricalHeatingPeriod.ValidFrom, electricalHeatingPeriod.ValidTo),
             ValidFrom = electricalHeatingPeriod.ValidFrom,
             ValidTo = electricalHeatingPeriod.ValidTo,
-            IsActive = false, // TODO: We don't have this value from the backend yet
+            IsActive = electricalHeatingPeriod.IsActive,
             TransactionType = null, // TODO: We don't have this value from the backend yet
         };
     }
@@ -177,7 +177,7 @@ public static class MeteringPointMetadataMapper
     {
         return new CustomerDto
         {
-            Id = IdentifierEncoder.EncodeMeteringPointId(meteringPointId, "Cus" + index),
+            Id = contactDto.Id.ToString(),
             Name = contactDto.Name ?? string.Empty,
             Cvr = contactDto.Cvr,
             IsProtectedName = contactDto.IsProtectedName,

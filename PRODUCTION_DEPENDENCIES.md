@@ -2,18 +2,18 @@
 
   | Name | Version | License |
   | ---- | ------- | ------- |
-  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 2.2.3 | MIT |
-| [@angular/animations](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/cdk](https://github.com/angular/components) | 21.1.5 | MIT |
-| [@angular/common](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/compiler](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/core](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/forms](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/material](https://github.com/angular/components) | 21.1.5 | MIT |
-| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/platform-browser](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/router](https://github.com/angular/angular) | 21.1.5 | MIT |
-| [@angular/service-worker](https://github.com/angular/angular) | 21.1.5 | MIT |
+  | [@analogjs/vite-plugin-angular](https://github.com/analogjs/analog) | 2.4.0 | MIT |
+| [@angular/animations](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/cdk](https://github.com/angular/components) | 21.2.3 | MIT |
+| [@angular/common](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/compiler](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/core](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/forms](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/material](https://github.com/angular/components) | 21.2.3 | MIT |
+| [@angular/platform-browser-dynamic](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/platform-browser](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/router](https://github.com/angular/angular) | 21.2.5 | MIT |
+| [@angular/service-worker](https://github.com/angular/angular) | 21.2.5 | MIT |
 | [@apollo/client](https://github.com/apollographql/apollo-client) | 3.13.8 | MIT |
 | [@azure/msal-angular](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.0.19 | MIT |
 | [@azure/msal-browser](https://github.com/AzureAD/microsoft-authentication-library-for-js) | 4.21.0 | MIT |
@@ -22,11 +22,11 @@
 | [@maskito/core](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/kit](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
 | [@maskito/phone](https://github.com/taiga-family/maskito) | 2.5.0 | Apache-2.0 |
-| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.3.8 | MIT |
-| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.3.11 | MIT |
+| [@microsoft/applicationinsights-angularplugin-js](https://github.com/microsoft/applicationinsights-angularplugin-js) | 15.4.0 | MIT |
+| [@microsoft/applicationinsights-web](https://github.com/microsoft/ApplicationInsights-JS) | 3.4.1 | MIT |
 | [@microsoft/clarity](undefined) | 1.0.2 | MIT |
 | [@ngneat/overview](https://github.com/ngneat/overview) | 6.1.1 | MIT |
-| [@ngrx/operators](https://github.com/ngrx/platform) | 19.0.1 | MIT |
+| [@ngrx/operators](https://github.com/ngrx/platform) | 21.0.1 | MIT |
 | [@ngxpert/hot-toast](https://github.com/ngxpert/hot-toast) | 5.1.1 | MIT |
 | [@popperjs/core](https://github.com/popperjs/popper-core) | 2.11.8 | MIT |
 | [chardet](https://github.com/runk/node-chardet) | 2.1.1 | MIT |

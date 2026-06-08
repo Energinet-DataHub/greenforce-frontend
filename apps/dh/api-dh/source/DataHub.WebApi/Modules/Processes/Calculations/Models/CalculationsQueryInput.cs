@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.Calculations.Models;
 
 public record CalculationsQueryInput(
     string[]? GridAreaCodes = null,
-    ProcessState? State = null,
+    OrchestrationState? State = null,
     CalculationExecutionType? ExecutionType = null,
     CalculationTypeQueryParameterV1[]? CalculationTypes = null,
     Interval? Period = null);

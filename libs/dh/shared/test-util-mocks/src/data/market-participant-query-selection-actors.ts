@@ -31,6 +31,7 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       actorName: 'Energinet DataHub A/S',
       organizationName: 'Test organization 12',
       marketRole: EicFunction.DataHubAdministrator,
+      displayName: '5799999933317 • Energinet DataHub A/S (DataHubAdministrator)',
     },
     {
       __typename: 'SelectionActorDto',
@@ -39,6 +40,7 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       actorName: 'Test Actor',
       organizationName: 'Test organization 22',
       marketRole: EicFunction.BalanceResponsibleParty,
+      displayName: '5799999933318 • Test Actor (BalanceResponsibleParty)',
     },
     {
       __typename: 'SelectionActorDto',
@@ -47,6 +49,7 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       actorName: 'EDI - Netvirksomhed',
       organizationName: 'Mosaic Energy',
       marketRole: EicFunction.GridAccessProvider,
+      displayName: '5790000610976 • EDI - Netvirksomhed (GridAccessProvider)',
     },
     {
       __typename: 'SelectionActorDto',
@@ -55,6 +58,7 @@ export const marketParticipantQuerySelection: GetSelectionMarketParticipantsQuer
       actorName: 'Test Actor 6',
       organizationName: 'Test Organization 1',
       marketRole: EicFunction.EnergySupplier,
+      displayName: '5790000555588 • Test Actor 6 (EnergySupplier)',
     },
   ],
 };

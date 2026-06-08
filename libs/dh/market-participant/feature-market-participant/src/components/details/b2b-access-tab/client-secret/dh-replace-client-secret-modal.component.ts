@@ -38,7 +38,7 @@ import { DhCertificateUploaderComponent } from '../certificate/dh-certificate-up
       #modal
       *transloco="
         let t;
-        read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.replaceSecretModal'
+        prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.replaceSecretModal'
       "
       [title]="t('title')"
     >

@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { ActivatedRoute, Router } from '@angular/router';
 import { Component, computed, effect, inject, input, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -35,10 +34,11 @@ import {
   GetAuditLogByOrganizationIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { lazyQuery, mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, query, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { readApiErrorResponse } from '@energinet-datahub/dh/market-participant/domain';
 import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-participant/ui-shared';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-organization-edit-modal',
@@ -53,6 +53,7 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
   template: `
     <watt-modal
       size="small"
+      autoOpen
       [title]="organization()?.name ?? ''"
       [loading]="loading()"
       (closed)="handleClosed()"
@@ -75,13 +76,14 @@ import { DhOrganizationManageComponent } from '@energinet-datahub/dh/market-part
   `,
 })
 export class DhOrganizationEditModalComponent {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
+  private navigationService = inject(DhNavigationService);
   private transloco = inject(TranslocoService);
   private toastService = inject(WattToastService);
 
   private updateOrganizationMutation = mutation(UpdateOrganizationDocument);
-  private getOrganizationByIdQuery = lazyQuery(GetOrganizationEditDocument);
+  private getOrganizationByIdQuery = query(GetOrganizationEditDocument, () => ({
+    variables: { id: this.id() },
+  }));
 
   domains = new FormControl<string[]>([], {
     nonNullable: true,
@@ -101,16 +103,10 @@ export class DhOrganizationEditModalComponent {
 
   constructor() {
     effect(() => {
-      const id = this.id();
-      this.getOrganizationByIdQuery.query({ variables: { id } });
-    });
-
-    effect(() => {
       const org = this.organization();
 
       if (org) {
         this.domains.patchValue(org.domains);
-        this.modal().open();
       }
     });
   }
@@ -120,7 +116,7 @@ export class DhOrganizationEditModalComponent {
   }
 
   handleClosed() {
-    this.router.navigate(['../'], { relativeTo: this.route });
+    this.navigationService.navigate('details', this.id());
   }
 
   save(): void {

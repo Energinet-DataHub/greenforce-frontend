@@ -17,7 +17,6 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { describe, it, beforeEach, expect, vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 
@@ -81,6 +80,11 @@ describe('DhReleaseToggleService', () => {
 
     it('should return false for any toggle check initially', () => {
       expect(service.isEnabled('anyToggle')).toBe(false);
+    });
+
+    it('should return true when no toggle name is provided', () => {
+      expect(service.isEnabled()).toBe(true);
+      expect(service.isEnabled(undefined)).toBe(true);
     });
 
     it('should handle hasAnyEnabled correctly with empty state', () => {

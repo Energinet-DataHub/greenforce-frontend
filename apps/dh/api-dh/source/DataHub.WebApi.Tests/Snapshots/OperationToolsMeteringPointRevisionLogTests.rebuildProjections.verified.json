@@ -1,0 +1,14 @@
+﻿{
+  "activity": "rebuildProjections",
+  "payload": {
+    "query": "mutation($input: RebuildProjectionsInput!) { rebuildProjections(input: $input) { boolean } }",
+    "variables": {
+      "input": {
+        "projection": "METERING_POINT",
+        "timeout": 60
+      }
+    }
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}

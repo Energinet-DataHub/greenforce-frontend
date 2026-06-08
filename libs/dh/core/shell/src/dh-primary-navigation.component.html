@@ -55,6 +55,13 @@ limitations under the License.
       >
         {{ transloco("messageArchive.requestCalculation") }}
       </watt-nav-list-item>
+
+      <watt-nav-list-item
+        *dhPermissionRequired="['actor-message-queue:view']"
+        [link]="getLink('message-queue')"
+      >
+        {{ transloco("messageArchive.messageQueue") }}
+      </watt-nav-list-item>
     </watt-nav-list>
 
     <watt-nav-list>
@@ -130,19 +137,11 @@ limitations under the License.
     <watt-nav-list
       [title]="transloco('developer.operationTools.menuGroupLabel')"
       [expandable]="true"
-      *dhPermissionRequired="[
-        'fas',
-        'metering-point:operation-tools-view',
-        'metering-point:operation-tools-manage',
-      ]"
+      *dhPermissionRequired="['operation-tools:view']"
     >
       <watt-nav-list-item
         [link]="getOperationToolsLink('metering-point')"
-        *dhPermissionRequired="[
-          'fas',
-          'metering-point:operation-tools-view',
-          'metering-point:operation-tools-manage',
-        ]"
+        *dhPermissionRequired="['operation-tools:view']"
       >
         {{ transloco("developer.operationTools.meteringPoint") }}
       </watt-nav-list-item>

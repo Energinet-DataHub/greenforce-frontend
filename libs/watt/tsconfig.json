@@ -14,7 +14,7 @@
     }
   ],
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2022",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,

@@ -22,12 +22,6 @@ limitations under the License.
   [error]="dataSource.error"
   [enableCount]="false"
 >
-  <watt-menu #menu>
-    <watt-menu-item (click)="uploader.selectFile()">
-      <span>{{ t("capacitySettlements.uploadButton") }}</span>
-    </watt-menu-item>
-  </watt-menu>
-
   <dh-capacity-settlements-uploader
     [uploadUrl]="dataSource.query.data()?.calculations?.capacitySettlementsUploadUrl ?? ''"
     #uploader
@@ -39,16 +33,15 @@ limitations under the License.
 
   <watt-data-actions>
     <vater-stack direction="row" gap="m">
-      <watt-button variant="secondary" data-testid="newCalculation.add" [routerLink]="['new']">
-        {{ t("new") }}
-      </watt-button>
       <watt-button
         *dhPermissionRequired="['dh2-bridge:import']"
         variant="secondary"
-        [wattMenuTriggerFor]="menu"
+        (click)="uploader.selectFile()"
       >
-        {{ t("actionsButton") }}
-        <watt-icon name="moreVertical" />
+        {{ t("capacitySettlements.uploadButton") }}
+      </watt-button>
+      <watt-button variant="primary" data-testid="newCalculation.add" [routerLink]="['new']">
+        {{ t("new") }}
       </watt-button>
     </vater-stack>
   </watt-data-actions>
@@ -101,9 +94,9 @@ limitations under the License.
 
     <!-- Status -->
     <ng-container *wattTableCell="columns.status; let row">
-      <dh-process-state-badge [status]="row.state">
+      <dh-state-badge [status]="row.state">
         {{ "shared.states." + row.state | transloco }}
-      </dh-process-state-badge>
+      </dh-state-badge>
     </ng-container>
   </watt-table>
 </watt-data-table>

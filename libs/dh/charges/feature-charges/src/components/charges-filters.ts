@@ -18,16 +18,15 @@
 //#endregion
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, model, untracked } from '@angular/core';
+import { Component, computed, effect, inject, model, output } from '@angular/core';
 
 import { TranslocoDirective, translateObjectSignal } from '@jsverse/transloco';
 
 import {
   ChargeType,
   EicFunction,
-  ChargeStatus,
-  ChargeResolution,
-  ChargesQueryInput,
+  ChargeResolutionInput,
+  ChargeOverviewQueryInput,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { getActorOptions } from '@energinet-datahub/dh/shared/data-access-graphql';
@@ -37,32 +36,38 @@ import {
   dhMakeFormControl,
   dhEnumToWattDropdownOptions,
   DhDropdownTranslatorDirective,
+  DhResetFiltersButtonComponent,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { VaterStackComponent } from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WattQueryParamsDirective } from '@energinet/watt/query-params';
 import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/dropdown';
+import { WattDateChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
 
 @Component({
   selector: 'dh-charges-filters',
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
+    VATER,
+    WattDateChipComponent,
     WattDropdownComponent,
-    VaterStackComponent,
+    WattFormChipDirective,
     WattQueryParamsDirective,
     DhDropdownTranslatorDirective,
+    DhResetFiltersButtonComponent,
   ],
   template: `
     <form
       vater-stack
-      scrollable
+      wrap
       direction="row"
       gap="s"
       tabindex="-1"
       [formGroup]="form()"
       wattQueryParams
       *transloco="let t; prefix: 'charges.charges.table.filters'"
+      (reset)="filterReset.emit()"
     >
       <watt-dropdown
         [formControl]="this.form().controls.types"
@@ -74,6 +79,18 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         translateKey="charges.chargeTypes"
       />
 
+      <watt-date-chip
+        [formControl]="form().controls.activePeriodStart"
+        [placeholder]="t('activePeriodStart')"
+        [max]="form().controls.activePeriodEnd.value"
+      />
+
+      <watt-date-chip
+        [formControl]="form().controls.activePeriodEnd"
+        [placeholder]="t('activePeriodEnd')"
+        [min]="form().controls.activePeriodStart.value"
+      />
+
       @if (selectedActor.marketRole !== 'SystemOperator') {
         <watt-dropdown
           [formControl]="this.form().controls.owners"
@@ -83,16 +100,6 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
           [placeholder]="t('owners')"
         />
       }
-
-      <watt-dropdown
-        [formControl]="this.form().controls.status"
-        [chipMode]="true"
-        [multiple]="true"
-        [options]="statusOptions"
-        [placeholder]="t('status')"
-        dhDropdownTranslator
-        translateKey="charges.charges.table.chargeStatus"
-      />
 
       <watt-dropdown
         [formControl]="this.form().controls.resolution"
@@ -113,6 +120,8 @@ import { WattDropdownComponent, WattDropdownOptionGroup } from '@energinet/watt/
         [options]="moreOptions()"
         [placeholder]="t('moreOptions')"
       />
+
+      <dh-reset-filters-button />
     </form>
   `,
 })
@@ -124,11 +133,11 @@ export class DhChargesFilters {
     'charges.charges.table.moreOptions'
   );
 
-  filter = model<ChargesQueryInput>({ status: [ChargeStatus.Current] });
+  filter = model<ChargeOverviewQueryInput>({});
+  filterReset = output();
 
   chargeTypeOptions = dhEnumToWattDropdownOptions(ChargeType);
-  statusOptions = dhEnumToWattDropdownOptions(ChargeStatus);
-  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolution, ['QUARTER_HOURLY']);
+  resolutionOptions = dhEnumToWattDropdownOptions(ChargeResolutionInput);
   moreOptions = computed(() => this.getMoreOptions());
   owners = computed(() => {
     const options = this.actorOptions();
@@ -138,7 +147,7 @@ export class DhChargesFilters {
         ...options,
         {
           value: this.selectedActor.gln,
-          displayValue: `${this.selectedActor.gln} • ${this.selectedActor.actorName}`,
+          displayValue: this.selectedActor.displayName,
         },
       ];
     }
@@ -147,7 +156,6 @@ export class DhChargesFilters {
   });
 
   form = computed(() => {
-    const initial = untracked(() => this.filter());
     return new FormGroup({
       types: dhMakeFormControl(),
       owners: dhMakeFormControl(
@@ -155,9 +163,10 @@ export class DhChargesFilters {
           ? [this.selectedActor.gln]
           : null
       ),
-      status: dhMakeFormControl(initial.status),
-      resolution: dhMakeFormControl<ChargeResolution[]>(),
-      moreOptions: dhMakeFormControl<ChargesQueryInput[] | null>(null),
+      activePeriodStart: dhMakeFormControl<Date>(),
+      activePeriodEnd: dhMakeFormControl<Date>(),
+      resolution: dhMakeFormControl<ChargeResolutionInput[]>(),
+      moreOptions: dhMakeFormControl<string[] | null>(null),
     });
   });
 
@@ -166,23 +175,26 @@ export class DhChargesFilters {
   constructor() {
     effect(() => {
       this.filter.set({
-        status: this.valuesChanges().status,
         owners: this.valuesChanges().owners,
         types: this.valuesChanges().types,
+        activePeriodStart: this.valuesChanges().activePeriodStart,
+        activePeriodEnd: this.valuesChanges().activePeriodEnd,
         resolution: this.valuesChanges().resolution,
         vatInclusive: this.getOptionFilter((o) => o.vatInclusive),
         transparentInvoicing: this.getOptionFilter((o) => o.transparentInvoicing),
         spotDependingPrice: this.getOptionFilter((o) => o.spotDependingPrice),
-        missingPriceSeries: this.getOptionFilter((o) => o.missingPriceSeries),
       });
     });
   }
 
   // Gets the boolean value for an option filter defined in `moreOptions`. When both
   // `true` and `false` exists for the same filter, then `null` is returned instead.
-  private getOptionFilter = (selector: (input: ChargesQueryInput) => boolean | null | undefined) =>
+  private getOptionFilter = (
+    selector: (input: ChargeOverviewQueryInput) => boolean | null | undefined
+  ) =>
     this.valuesChanges()
-      .moreOptions?.map(selector)
+      .moreOptions?.map((x) => JSON.parse(x))
+      .map(selector)
       .filter((x) => x !== undefined)
       .reduce((acc, next) => (acc === !next ? null : next), null);
 
@@ -206,29 +218,21 @@ export class DhChargesFilters {
       this.createGroupOption('vatInclusive'),
       this.createGroupOption('transparentInvoicing'),
       this.createGroupOption('spotDependingPrice'),
-      this.createGroupOption('missingPriceSeries', { noInvertedOption: true }),
     ];
   }
 
-  private createGroupOption(
-    name: keyof ChargesQueryInput,
-    { noInvertedOption = false } = {}
-  ): WattDropdownOptionGroup<ChargesQueryInput> {
+  private createGroupOption(name: keyof ChargeOverviewQueryInput): WattDropdownOptionGroup<string> {
     return {
       label: this.moreOptionsTranslations()[`${name}GroupName`],
       options: [
         {
-          value: { [name]: true },
+          value: JSON.stringify({ [name]: true }),
           displayValue: this.moreOptionsTranslations()[name],
         },
-        ...(noInvertedOption
-          ? []
-          : [
-              {
-                value: { [name]: false },
-                displayValue: this.moreOptionsTranslations()[`not_${name}`],
-              },
-            ]),
+        {
+          value: JSON.stringify({ [name]: false }),
+          displayValue: this.moreOptionsTranslations()[`not_${name}`],
+        },
       ],
     };
   }

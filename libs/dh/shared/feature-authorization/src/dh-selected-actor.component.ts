@@ -32,13 +32,11 @@ import { GetSelectionMarketParticipantsDocument } from '@energinet-datahub/dh/sh
 
 import { windowLocationToken } from './window-location';
 import { DhActorStorage } from './dh-actor-storage';
+import { DhPageLeaveRedirectService } from './dh-page-leave-redirect.service';
 
 export type SelectionMarketParticipant = ResultOf<
   typeof GetSelectionMarketParticipantsDocument
 >['selectionMarketParticipants'][0];
-
-const em1MeteringPointSubPathRegex = /^\/metering-point\/\d+\//;
-const em2MeteringPointSubPathRegex = /^\/metering-point\/[a-zA-Z0-9]{10,}\//;
 
 @Component({
   selector: 'dh-selected-actor',
@@ -50,6 +48,7 @@ export class DhSelectedActorComponent {
   private readonly router = inject(Router);
   private readonly location = inject(windowLocationToken);
   private readonly actorStorage = inject(DhActorStorage);
+  private readonly pageLeaveRedirectService = inject(DhPageLeaveRedirectService);
 
   private query = query(GetSelectionMarketParticipantsDocument);
   private memberOfMarketParticipants = computed(
@@ -102,24 +101,28 @@ export class DhSelectedActorComponent {
 
       // If no selected market participant is set in the storage, set the selected market participant.
       if (marketParticipant && !hasSelectedMarketParticipantInStorage) {
-        this.selectMarketParticipant(marketParticipant);
+        this.selectMarketParticipant(marketParticipant, 'effect');
       }
     });
   }
 
-  selectMarketParticipant = async (marketParticipant: SelectionMarketParticipant) => {
+  selectMarketParticipant = async (
+    marketParticipant: SelectionMarketParticipant,
+    source: 'effect' | 'template'
+  ) => {
     this.actorStorage.setSelectedActor(marketParticipant);
 
-    if (this.isMeteringPointSubPath(this.router.url)) {
-      await this.router.navigate(['/metering-point/search']);
+    const maybeRedirectUrl = this.pageLeaveRedirectService.getRedirectUrl();
+
+    if (maybeRedirectUrl) {
+      await this.router.navigate([maybeRedirectUrl]);
     }
 
-    this.location.reload();
+    if (source === 'template') {
+      this.location.reload();
+    }
   };
 
   isMarketParticipantSelected = (marketParticipant: SelectionMarketParticipant) =>
     marketParticipant.id === this.actorStorage.getSelectedActorId();
-
-  private isMeteringPointSubPath = (url: string) =>
-    em1MeteringPointSubPathRegex.test(url) || em2MeteringPointSubPathRegex.test(url);
 }

@@ -16,10 +16,13 @@
 :root {
   --watt-button-color: var(--watt-color-primary);
   --watt-button-text-hover-color: var(--watt-color-primary-dark);
-  --watt-button-text-focus-color: var(--watt-color-primary);
   --watt-button-text-transform: none;
   --watt-button-primary-disabled-color: var(--watt-color-neutral-grey-500);
   --mat-button-text-with-icon-horizontal-padding: var(--watt-space-m);
+  --watt-button-focus-color: var(--watt-color-primary-darker);
+  --watt-button-focus-width: 2px;
+  --watt-button-focus-offset: 4px;
+  --watt-button-focus-radius: var(--watt-radius-m);
 }
 
 @mixin primary-hover {
@@ -28,7 +31,6 @@
 
 @mixin primary-focus {
   @include primary-hover;
-  outline: 2px solid var(--watt-color-secondary);
 }
 
 @mixin secondary-hover {
@@ -37,7 +39,6 @@
 
 @mixin secondary-focus {
   @include secondary-hover;
-  outline: 1px solid var(--watt-color-primary);
 }
 
 @mixin text-hover {
@@ -46,7 +47,6 @@
 
 @mixin text-focus {
   @include text-hover;
-  outline: 2px solid var(--watt-button-text-focus-color);
 }
 
 @mixin icon-hover {
@@ -55,11 +55,22 @@
 
 @mixin icon-focus {
   @include icon-hover;
-  outline: 2px solid var(--watt-color-primary);
 }
 
 watt-button {
   display: inline-block;
+  position: relative;
+
+  // Focus ring rendered on the host so it can have an independent
+  // border-radius from the button itself.
+  &:has(.mat-mdc-button:focus-visible)::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--watt-button-focus-offset) * -1);
+    border: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
+    border-radius: var(--watt-button-focus-radius);
+    pointer-events: none;
+  }
 
   &.watt-button--primary {
     &.watt-button--disabled .mat-mdc-button.mat-primary {
@@ -119,7 +130,6 @@ watt-button {
     .mat-mdc-button.mat-text {
       color: var(--watt-button-color);
       text-transform: var(--watt-button-text-transform);
-      outline: 2px solid transparent;
 
       &:focus-visible {
         @include text-focus;
@@ -135,8 +145,8 @@ watt-button {
   &.watt-button--selection {
     .mat-mdc-button.mat-selection {
       @include watt.typography-watt-text-m;
-      border-radius: 4px;
       border: 1px solid var(--watt-color-neutral-grey-500);
+      border-radius: 4px;
 
       &:hover {
         background-color: var(--watt-color-neutral-grey-100);
@@ -154,15 +164,16 @@ watt-button {
           .content-wrapper {
             width: 100%;
             display: flex;
-
-            watt-icon {
-              order: 2;
-              margin-left: auto;
-            }
           }
         }
       }
     }
+  }
+
+  &.watt-button--selection watt-icon,
+  & watt-icon.watt-icon-trailing {
+    order: 2;
+    margin-left: auto;
   }
 
   &.watt-button--icon {
@@ -198,6 +209,7 @@ watt-button {
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
+      border-radius: var(--watt-radius-s);
       --mat-button-text-label-text-tracking: 0;
       --mat-button-text-state-layer-color: var(--watt-ripple-color);
       --mat-button-text-ripple-color: var(--watt-ripple-color);
@@ -220,10 +232,21 @@ watt-button {
         display: flex;
         gap: var(--watt-space-s);
         white-space: nowrap;
+
+        .text-content {
+          display: contents;
+        }
       }
 
       .content-wrapper--loading {
         visibility: hidden;
+      }
+    }
+
+    &:has(.content-wrapper .text-content:empty) {
+      padding: 0;
+      .content-wrapper {
+        gap: 0;
       }
     }
   }

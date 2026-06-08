@@ -1,8 +1,0 @@
-{
-  "name": "dh-market-participant-feature-organizations",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/market-participant/feature-organizations/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:market-participant", "type:feature"]
-}

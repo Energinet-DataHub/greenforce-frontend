@@ -24,33 +24,21 @@ limitations under the License.
   (closed)="navigation.navigate('list')"
 >
   <watt-drawer-heading>
-    <h2 class="message-heading">{{ message?.energySupplierName }}</h2>
+    <h2 class="message-heading">{{ message?.energySupplierName?.displayName }}</h2>
 
     @if (message) {
       <watt-description-list [groupsPerRow]="4" variant="flow">
         <watt-description-list-item
           [label]="t('electricitySupplier')"
-          [value]="
-            message.energySupplierName
-              ? message.supplier + ' • ' + message.energySupplierName
-              : message.supplier
-          "
+          [value]="message.energySupplierName?.displayName"
         />
         <watt-description-list-item
           [label]="t('balanceResponsible')"
-          [value]="
-            message.balanceResponsibleName
-              ? message.balanceResponsible + ' • ' + message.balanceResponsibleName
-              : message.balanceResponsible
-          "
+          [value]="message.balanceResponsibleName?.displayName"
         />
         <watt-description-list-item
           [label]="t('gridArea')"
-          [value]="
-            message.gridArea
-              ? message.gridArea.name + ' • ' + message.gridArea.code
-              : message.gridArea
-          "
+          [value]="message.gridArea?.displayName"
         />
         <watt-description-list-item
           [label]="t('meteringPointType')"

@@ -1,0 +1,5 @@
+mutation RebuildProjections($input: RebuildProjectionsInput!) {
+  rebuildProjections(input: $input) {
+    success: boolean
+  }
+}

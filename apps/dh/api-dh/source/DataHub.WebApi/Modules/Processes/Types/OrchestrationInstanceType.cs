@@ -56,7 +56,7 @@ public class OrchestrationInstanceType : InterfaceType<OrchestrationInstanceType
 
         descriptor
             .Field("state")
-            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.ToProcessState());
+            .Resolve(c => c.Parent<OrchestrationInstanceTypedDto>().Lifecycle.ToOrchestrationState());
 
         descriptor
             .Field("steps")

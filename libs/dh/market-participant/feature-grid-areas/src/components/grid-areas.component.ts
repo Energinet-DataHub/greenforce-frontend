@@ -99,7 +99,7 @@ export class DhGridAreasComponent {
   navigation = inject(DhNavigationService);
   columns: WattTableColumnDef<GridArea> = {
     code: { accessor: 'code' },
-    actor: { accessor: 'actor' },
+    owner: { accessor: (gridArea) => gridArea.owner?.displayNameWithoutMarketRole ?? '' },
     organization: { accessor: 'organizationName' },
     priceArea: { accessor: 'priceAreaCode' },
     type: { accessor: 'type' },
@@ -135,7 +135,10 @@ export class DhGridAreasComponent {
     this.generateCSV
       .addVariables({
         ...this.dataSource.query.getOptions().variables,
+        after: null,
+        before: null,
         first: 10_000,
+        last: null,
       })
       .addHeaders([
         `"${translate(columnsPath + '.code')}"`,
@@ -148,7 +151,7 @@ export class DhGridAreasComponent {
       .mapLines((gridAreas) =>
         gridAreas.map((gridArea) => [
           `"${gridArea.code}"`,
-          `"${gridArea.actor}"`,
+          `"${gridArea.owner?.displayNameWithoutMarketRole ?? ''}"`,
           `"${gridArea.organizationName}"`,
           `"${gridArea.priceAreaCode}"`,
           `"${translate(typesPath + '.' + gridArea.type)}"`,

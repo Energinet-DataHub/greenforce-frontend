@@ -34,7 +34,6 @@ import {
   ChangeOfSupplierBusinessReason,
   InitiateMoveInDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-start-move-in-modal',
@@ -62,7 +61,6 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   meteringPointId: string;
   energySupplier: string;
 }> {
-  private readonly appEnv = inject(dhAppEnvironmentToken).current;
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
@@ -87,15 +85,13 @@ export class DhStartMoveInComponent extends WattTypedModal<{
     customerType: this.fb.control(this.customerTypeInitialValue),
   });
 
-  readonly isForeignCompanyFormControl = this.fb.control<boolean>(false);
+  readonly isFictitiousCvrFormControl = this.fb.control<boolean>(false);
 
   private customerTypeChanged = toSignal(this.startMoveInForm.controls.customerType.valueChanges, {
     initialValue: this.customerTypeInitialValue,
   });
 
-  private isForeignCompanyChanged = toSignal<boolean>(
-    this.isForeignCompanyFormControl.valueChanges
-  );
+  private isFictitiousCvrChanged = toSignal<boolean>(this.isFictitiousCvrFormControl.valueChanges);
 
   private customerTypeEffect = effect(() => {
     const customerType = this.customerTypeChanged();
@@ -108,24 +104,24 @@ export class DhStartMoveInComponent extends WattTypedModal<{
         'businessCustomer',
         this.fb.group({
           companyName: this.fb.control<string>('', Validators.required),
-          cvr: this.fb.control<string>('', [
-            Validators.required,
-            dhMoveInCvrValidator(this.appEnv),
-          ]),
-          isForeignCompany: this.isForeignCompanyFormControl,
+          cvr: this.fb.control<string>('', [Validators.required, dhMoveInCvrValidator()]),
+          isFictitiousCvr: this.isFictitiousCvrFormControl,
         })
       );
+
+      this.isFictitiousCvrFormControl.reset();
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();
 
       this.startMoveInForm.removeControl('privateCustomer');
       this.privateCustomerForm.reset();
     }
   });
 
-  private isForeignCompanyEffect = effect(() => {
-    const isForeignCompany = this.isForeignCompanyChanged();
-    if (isForeignCompany) {
+  private isFictitiousCvrEffect = effect(() => {
+    const isFictitiousCvr = this.isFictitiousCvrChanged();
+    if (isFictitiousCvr) {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.disable();
-      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('1111110000');
+      this.startMoveInForm.controls.businessCustomer?.controls.cvr.setValue('11111111');
     } else {
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.enable();
       this.startMoveInForm.controls.businessCustomer?.controls.cvr.reset();

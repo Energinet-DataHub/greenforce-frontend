@@ -18,3 +18,4 @@
 //#endregion
 export { DhLanguageService } from './src/language-service/dh-language.service';
 export { dhLanguageServiceInitializer } from './src/language-service/dh-language.initializer';
+export { dhLanguageInterceptor } from './src/dh-language.interceptor';

@@ -1,0 +1,14 @@
+fragment MeteringPointProcessItem on MeteringPointProcess {
+  id
+  createdAt
+  cutoffDate
+  businessReason
+  state
+  initiator {
+    id
+    displayName
+    glnOrEicNumber
+  }
+  initiatorRole
+  availableActions
+}

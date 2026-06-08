@@ -19,7 +19,11 @@
 
 import { Routes } from '@angular/router';
 
-import { AdminSubPaths, getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import {
+  AdminSubPaths,
+  combinePaths,
+  getPath,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { DhAdminShellComponent } from './dh-admin-shell.component';
@@ -51,6 +55,9 @@ export const dhAdminShellRoutes: Routes = [
               import('@energinet-datahub/dh/admin/feature-user-management').then(
                 (m) => m.DhUserDetailsComponent
               ),
+            data: {
+              pageLeaveRedirectUrl: combinePaths('admin', 'users'),
+            },
             children: [
               {
                 path: editPath,

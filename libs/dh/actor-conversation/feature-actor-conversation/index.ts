@@ -16,5 +16,5 @@
  * limitations under the License.
  */
 //#endregion
-export { DhActorConversationShellComponent } from './src/components/actor-conversation-shell.component';
+export { DhActorConversation } from './src/components/actor-conversation';
 export { default } from './src/routes';

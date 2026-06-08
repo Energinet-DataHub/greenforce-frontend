@@ -40,9 +40,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
         @case ('AWAITING') {
           <watt-badge type="info">{{ t(status()) }}</watt-badge>
         }
-        @case ('EXPIRED') {
-          <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
-        }
+        @case ('EXPIRED')
         @case ('CANCELLED') {
           <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
         }

@@ -40,8 +40,8 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
-import { dhMeteringPointIdValidator } from './dh-metering-point.validator';
 import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component';
+import { dhMeteringPointIdValidator } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   selector: 'dh-search',
@@ -85,6 +85,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
             [placeholder]="t('placeholder')"
             [autoFocus]="true"
             (keydown.enter)="onSubmit()"
+            (paste)="onPaste($event)"
             [showErrors]="submitted()"
           >
             @if (loading()) {
@@ -132,7 +133,7 @@ import { DhCreateMeteringPointModalComponent } from './dh-create-modal.component
       @if (searchControl.value && meteringPointNotFound()) {
         <watt-empty-state size="small" icon="custom-no-results" [title]="t('noResultFound')" />
 
-        <ng-container *dhPermissionRequired="['fas', 'metering-point:operation-tools-view']">
+        <ng-container *dhPermissionRequired="['operation-tools:view']">
           <watt-button
             variant="secondary"
             icon="contentCopy"
@@ -183,6 +184,14 @@ export class DhSearchComponent {
     this.modalService.open({
       component: DhCreateMeteringPointModalComponent,
     });
+  }
+
+  onPaste(event: ClipboardEvent) {
+    const pasted = event.clipboardData?.getData('text');
+    if (!pasted) return;
+
+    event.preventDefault();
+    this.searchControl.setValue(pasted.replace(/\D/g, '').substring(0, 18));
   }
 
   async onSubmit() {

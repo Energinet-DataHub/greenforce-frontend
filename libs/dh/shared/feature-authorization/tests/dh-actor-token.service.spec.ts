@@ -16,7 +16,6 @@
  * limitations under the License.
  */
 //#endregion
-import { vi } from 'vitest';
 import { DhActorTokenService } from '../src/dh-actor-token.service';
 import { TestBed } from '@angular/core/testing';
 import {
@@ -32,8 +31,9 @@ import { LocalStorageFake, SessionStorageFake } from '@energinet-datahub/gf/test
 import { provideMsalTesting } from '@energinet-datahub/dh/shared/test-util';
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { localStorageToken, sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
-import { DhActorStorage, localStorageToken, sessionStorageToken } from '../src/dh-actor-storage';
+import { DhActorStorage } from '../src/dh-actor-storage';
 
 describe(DhActorTokenService, () => {
   const createActorsRequest = () =>

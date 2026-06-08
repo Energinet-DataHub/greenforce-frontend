@@ -16,4 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-export default ['**/vite.config.{mjs,js,ts,mts}', '**/vitest.config.{mjs,js,ts,mts}'];
+export default [
+  // App — has its own MSW polyfill + resolve.alias; kept as-is
+  'apps/dh/app-dh/vite.config.mts',
+  // watt — buildable ng-packagr library with its own vitest config
+  'libs/watt/vitest.config.mts',
+];

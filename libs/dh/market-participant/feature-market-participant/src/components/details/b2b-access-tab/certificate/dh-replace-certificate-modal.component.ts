@@ -38,7 +38,7 @@ import { DhGenerateClientSecretComponent } from '../client-secret/dh-generate-cl
       #modal
       *transloco="
         let t;
-        read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.certificate.replaceCertificateModal'
+        prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.certificate.replaceCertificateModal'
       "
       [title]="t('title')"
     >

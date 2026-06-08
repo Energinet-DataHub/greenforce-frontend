@@ -1,0 +1,6 @@
+mutation ClearMigrationEventsDlq {
+  clearMigrationEventsDeadLetterQueue {
+    dlqCount
+    processedCount
+  }
+}

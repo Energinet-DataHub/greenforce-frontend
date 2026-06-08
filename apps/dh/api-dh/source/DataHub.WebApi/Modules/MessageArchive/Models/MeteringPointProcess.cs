@@ -13,17 +13,21 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
-using Energinet.DataHub.WebApi.Modules.Processes.Types;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 
 public record MeteringPointProcess(
     string Id,
+    string? TransactionId,
     DateTimeOffset CreatedAt,
     DateTimeOffset? CutoffDate,
-    string ReasonCode,
+    BusinessReason BusinessReason,
     string ActorNumber,
     string ActorRole,
-    ProcessState State,
-    WorkflowAction? Action = null,
+    MeteringPointProcessState State,
+    string? CancelledByProcessId = null,
+    DateTimeOffset? CancellationTimestamp = null,
+    WorkflowAction[]? Actions = null,
     IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null);

@@ -1,0 +1,11 @@
+﻿{
+  "activity": "chargeOverview",
+  "payload": {
+    "query": "query($first: Int!) { chargeOverview(first: $first) { nodes { charge { id } } } }",
+    "variables": {
+      "first": 1
+    }
+  },
+  "affectedEntityType": "ChargeOverviewItem",
+  "affectedEntityKey": null
+}

@@ -26,12 +26,12 @@ import { VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattTableColumnDef, WATT_TABLE } from '@energinet/watt/table';
 import { WattDataActionsComponent, WattDataTableComponent } from '@energinet/watt/data';
 
-import { Permission } from '@energinet-datahub/dh/admin/data-access-api';
 import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 import { GetFilteredPermissionsDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 
 import { DhPermissionsDownloadComponent } from './download.component';
+import { Permission } from './types';
 
 @Component({
   selector: 'dh-permissions-table',

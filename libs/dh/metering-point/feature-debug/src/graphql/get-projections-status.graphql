@@ -1,0 +1,24 @@
+query GetProjectionsStatus {
+  projectionsStatus {
+    daemonHighWaterMark
+    eventCount
+    eventSequenceNumber
+    streamCount
+    missingMeteringPoints {
+      projectionName
+      missingMeteringPointCount
+      missingIds
+    }
+    projections {
+      name
+      assignedNodeNumber
+      action
+      exception
+      previousGoodMark
+      mode
+      rebuildThreshold
+      sequence
+      timestamp
+    }
+  }
+}

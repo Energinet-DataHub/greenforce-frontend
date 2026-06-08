@@ -70,7 +70,7 @@ public class MarketParticipantGridAreasQueryTest
             .Setup(x => x.GetGridAreasAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(_gridAreas);
 
-        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_marketParticipantByIdQuery));
+        var result = await server.ExecuteRequestAsync(b => b.SetDocument(_marketParticipantByIdQuery), CancellationToken.None);
 
         await result.MatchSnapshotAsync();
     }

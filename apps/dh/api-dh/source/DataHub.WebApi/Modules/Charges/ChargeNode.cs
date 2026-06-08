@@ -18,9 +18,14 @@ using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.M
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
+using Energinet.DataHub.WebApi.Modules.Charges.Types;
+using Energinet.DataHub.WebApi.Modules.Common.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
+using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using NodaTime;
+using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
@@ -29,84 +34,119 @@ namespace Energinet.DataHub.WebApi.Modules.Charges;
 public static partial class ChargeNode
 {
     [Query]
-    [UsePaging]
-    [UseSorting]
-    [Authorize(Roles = ["charges:view"])]
-    public static async Task<IEnumerable<Charge>> GetChargesAsync(
-        string? filter,
-        ChargesQuery? query,
-        IChargesClient client,
-        CancellationToken ct) =>
-            await client.GetChargesAsync(
-                filter,
-                query?.Owners,
-                query?.Types,
-                query?.Status,
-                query?.Resolution,
-                query?.VatInclusive,
-                query?.TransparentInvoicing,
-                query?.SpotDependingPrice,
-                query?.MissingPriceSeries,
-                ct);
-
-    [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<Charge?> GetChargeByIdAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
-        CancellationToken ct) =>
-            await client.GetChargeByIdAsync(id, ct);
+        CancellationToken ct)
+        => await client.GetChargeByIdAsync(id, ct);
 
     [Query]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:view"])]
     public static async Task<IEnumerable<Charge>> GetChargesByTypeAsync(
         IChargesClient client,
         ChargeType type,
-        CancellationToken ct) =>
-            await client.GetChargesByTypeAsync(type, ct);
+        CancellationToken ct)
+        => await client.GetChargesByTypeAsync(type, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> CreateChargeAsync(
         IChargesClient client,
-        CreateChargeInput input,
-        CancellationToken ct) =>
-            await client.CreateChargeAsync(input, ct);
+        string code,
+        string name,
+        string description,
+        ChargeType type,
+        [GraphQLType(typeof(NonNullType<ChargeResolutionInputEnumType>))] Resolution resolution,
+        DateTimeOffset validFrom,
+        bool vat,
+        bool? transparentInvoicing,
+        bool? spotDependingPrice,
+        CancellationToken ct)
+        => await client.CreateChargeAsync(
+            code,
+            name,
+            description,
+            type,
+            resolution,
+            validFrom,
+            vat,
+            transparentInvoicing,
+            spotDependingPrice,
+            ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> UpdateChargeAsync(
         IChargesClient client,
-        UpdateChargeInput input,
-        CancellationToken ct) =>
-            await client.UpdateChargeAsync(input, ct);
+        ChargeIdentifierDto id,
+        string name,
+        string description,
+        DateTimeOffset cutoffDate,
+        bool vat,
+        bool transparentInvoicing,
+        CancellationToken ct)
+        => await client.UpdateChargeAsync(id, name, description, cutoffDate, vat, transparentInvoicing, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> StopChargeAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
         DateTimeOffset terminationDate,
-        CancellationToken ct) =>
-            await client.StopChargeAsync(id, terminationDate, ct);
+        CancellationToken ct)
+        => await client.StopChargeAsync(id, terminationDate, ct);
 
     [Mutation]
+    [UseRevisionLog]
     [Authorize(Roles = ["charges:manage"])]
     public static async Task<bool> AddChargeSeriesAsync(
         IChargesClient client,
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
-        CancellationToken ct) =>
-            await client.AddChargeSeriesAsync(id, start, end, points, ct);
+        List<ChargeSeriesPointInput> points,
+        CancellationToken ct)
+        => await client.AddChargeSeriesAsync(id, start, end, points, ct);
+
+    public static async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
+        [Parent] Charge charge,
+        IChargesClient client,
+        CancellationToken ct)
+    {
+        var periods = charge.Periods.Where(p => p.Status != ChargeStatus.Cancelled).ToList();
+        if (periods.Count == 0) return new MissingPriceSeriesResult(Gaps: [], EndsAt: null);
+
+        var tz = LocalDateExtensions.DanishTimeZone;
+        var today = DateTimeOffset.Now.ToInstant().InZone(tz).Date;
+        var lookback = today
+            .PlusMonths(-3)
+            .With(DateAdjusters.StartOfMonth)
+            .AtStartOfDayInZone(tz)
+            .ToInstant();
+
+        var maxEnd = DateTimeOffset.UtcNow.AddYears(10).ToInstant();
+        var start = Instant.Max(lookback, periods.Min(p => p.Period.Start));
+        var end = periods.Max(p => p.Period.HasEnd ? p.Period.End : maxEnd);
+
+        return await client.GetMissingPriceSeriesPointsAsync(
+            charge.Id,
+            charge.Resolution,
+            new(start, end),
+            ct);
+    }
 
     public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
-        CancellationToken ct) =>
-            await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
+        CancellationToken ct)
+        => await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
 
     public static async Task<ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
@@ -125,7 +165,8 @@ public static partial class ChargeNode
         descriptor.Field(f => f.Code);
         descriptor.Field(f => f.Name);
         descriptor.Field(f => f.Type);
-        descriptor.Field(f => $"{f.Code} - {f.Name}").Name("displayName");
+        descriptor.Field(f => f.TypeDisplayName);
+        descriptor.Field(f => $"{f.Code} • {f.Name}").Name("displayName");
         descriptor.Field(f => f.Description);
         descriptor.Field(f => f.Periods);
         descriptor.Field(f => f.Resolution);

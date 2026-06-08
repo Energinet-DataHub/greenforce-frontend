@@ -31,6 +31,7 @@ export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selecti
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
+export type WattButtonIconPosition = 'leading' | 'trailing';
 
 @Component({
   selector: 'watt-button',
@@ -51,16 +52,17 @@ export type WattButtonSize = 'small' | 'medium';
       [type]="type()"
       [color]="variant()"
       [attr.form]="type() === 'submit' ? formId() : null"
+      [attr.aria-label]="ariaLabel()"
     >
       @if (loading()) {
         <watt-spinner [diameter]="18" />
       }
       <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
-          <watt-icon [name]="icon()" />
+          <watt-icon [name]="icon()" [class.watt-icon-trailing]="hasTrailingIcon()" />
         }
         @if (variant() !== 'icon') {
-          <ng-content />
+          <span class="text-content"><ng-content /></span>
         }
       </div>
     </button>
@@ -68,12 +70,19 @@ export type WattButtonSize = 'small' | 'medium';
 })
 export class WattButtonComponent {
   icon = input<WattIcon>();
+  iconPosition = input<WattButtonIconPosition>('leading');
   variant = input<WattButtonVariant>('primary');
   size = input<WattButtonSize>('medium');
   type = input<WattButtonType>('button');
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
+  /**
+   * Forwards an accessible label to the inner native `<button>`. Required when the button has
+   * no visible text content (e.g. icon-only variants), so screen readers and role-based
+   * locators can identify it.
+   */
+  ariaLabel = input<string | null>(null, { alias: 'aria-label' });
 
   classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
 
@@ -87,4 +96,5 @@ export class WattButtonComponent {
    * @ignore
    */
   hasIcon = computed(() => !!this.icon());
+  hasTrailingIcon = computed(() => this.hasIcon() && this.iconPosition() === 'trailing');
 }

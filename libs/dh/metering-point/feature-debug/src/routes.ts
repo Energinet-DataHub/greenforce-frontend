@@ -30,6 +30,7 @@ import { DhMeteringPointMigrationComponent } from './debug-metering-point-migrat
 import { DhMeteringPointsDebugComponent } from './debug-metering-points/metering-points.component';
 import { DhMeteringPointFailedMeasurementsComponent } from './debug-metering-points/failed-measurements.component';
 import { DhMeteringPointActionsComponent } from './debug-metering-point-actions/metering-point-actions.component';
+import { PermissionGuard } from '@energinet-datahub/dh/shared/feature-authorization';
 
 export const dhMeteringPointDebugRoutes: Routes = [
   {
@@ -70,6 +71,7 @@ export const dhMeteringPointDebugRoutes: Routes = [
           {
             path: getPath<MeteringPointDebugSubPaths>('actions'),
             component: DhMeteringPointActionsComponent,
+            canActivate: [PermissionGuard(['operation-tools:manage'])],
           },
         ],
       },

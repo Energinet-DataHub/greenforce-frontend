@@ -44,4 +44,8 @@ export class WattToastService {
     if (!this.ref) return;
     this.ref.dismiss();
   }
+
+  get isOpen() {
+    return !!this.ref;
+  }
 }

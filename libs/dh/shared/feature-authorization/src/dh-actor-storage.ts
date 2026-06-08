@@ -16,16 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { Injectable, InjectionToken, inject } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+
+import { localStorageToken, sessionStorageToken } from '@energinet-datahub/dh/shared/util-browser';
+
 import { SelectionMarketParticipant } from './dh-selected-actor.component';
-
-export const localStorageToken = new InjectionToken('localStorageToken', {
-  factory: (): Storage => localStorage,
-});
-
-export const sessionStorageToken = new InjectionToken('sessionStorageToken', {
-  factory: (): Storage => sessionStorage,
-});
 
 @Injectable({
   providedIn: 'root',

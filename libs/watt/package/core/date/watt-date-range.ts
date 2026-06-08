@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 //#endregion
+import { dayjs } from './dayjs';
+
 export interface WattRange<T> {
   start: T;
   end: T | null;
@@ -26,3 +28,14 @@ export interface WattRange<T> {
  * @deprecated Avoid using strings as dates, use Date objects instead.
  */
 export type WattDateRange = WattRange<string>;
+
+/**
+ * Checks if a given date is within a specified date range.
+ */
+export function contains(interval: WattRange<Date>, date: Date) {
+  const day = dayjs(date);
+  const isSameOrAfterStart = day.isSame(interval.start) || day.isAfter(interval.start);
+  if (!interval.end) return isSameOrAfterStart;
+  const isSameOrBeforeEnd = day.isSame(interval.end) || day.isBefore(interval.end);
+  return isSameOrAfterStart && isSameOrBeforeEnd;
+}

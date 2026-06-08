@@ -16,7 +16,22 @@
  * limitations under the License.
  */
 //#endregion
+import { globSync } from 'glob';
 import { CreateNodesV2 } from '@nx/devkit';
+
+/**
+ * Returns true if the lib directory contains at least one spec file.
+ * Used to skip generating a `test` target for libs that have no tests,
+ * avoiding ~8s of vitest startup overhead per empty lib in CI.
+ */
+function hasSpecFiles(projectRoot: string): boolean {
+  const matches = globSync('**/*.spec.ts', {
+    cwd: projectRoot,
+    ignore: ['node_modules/**'],
+    nodir: true,
+  });
+  return matches.length > 0;
+}
 
 /**
  * Ordered list of known type prefixes, longest-first so that
@@ -52,6 +67,43 @@ function deriveType(name: string): string {
   return name;
 }
 
+/**
+ * Whether to enable the Angular Vitest plugin for a lib.
+ * - configuration / assets → false by default (no Angular compilation needed)
+ * - explicit Angular overrides for configuration libs that use TestBed in tests
+ * - explicit no-Angular libs (dh/shared/util-text, dh/wholesale/domain) → false
+ * - everything else → true
+ */
+function useAngular(type: string, product: string, domain: string, name: string): boolean {
+  if (type === 'configuration' || type === 'assets') {
+    // These configuration libs use Angular TestBed in their tests
+    if (product === 'gf' && domain === 'globalization' && name === 'configuration-danish-locale')
+      return true;
+    if (product === 'dh' && domain === 'globalization' && name === 'configuration-localization')
+      return true;
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Determines the Vitest environment for a lib.
+ * - happy-dom whenever Angular plugin is active (TestBed requires a DOM)
+ * - node otherwise (pure TS / non-Angular libs)
+ */
+function vitestEnvironment(angular: boolean): 'happy-dom' | 'node' {
+  return angular ? 'happy-dom' : 'node';
+}
+
+/**
+ * Returns implicit dependencies for a lib.
+ * - data-access-graphql libs depend on api-dh (the .NET API that generates the GraphQL schema)
+ */
+function implicitDependencies(name: string): string[] {
+  if (name === 'data-access-graphql') return ['api-dh'];
+  return [];
+}
+
 export const createNodesV2: CreateNodesV2 = [
   // Match all libs at the standard 3-level depth: libs/{product}/{domain}/{name}/index.ts
   // Products covered: dh, gf  (watt is excluded — it is a buildable ng-packagr library)
@@ -73,6 +125,12 @@ export const createNodesV2: CreateNodesV2 = [
         const projectRoot = `${libs}/${product}/${domain}/${name}`;
         const projectName = `${product}-${domain}-${name}`;
         const type = deriveType(name);
+        const angular = useAngular(type, product, domain, name);
+        const environment = vitestEnvironment(angular);
+        const implicitDeps = implicitDependencies(name);
+        // Path from the lib root (cwd) to the shared product-level config
+        const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
+        const specFilesExist = hasSpecFiles(projectRoot);
 
         return [
           indexPath,
@@ -83,6 +141,7 @@ export const createNodesV2: CreateNodesV2 = [
                 sourceRoot: `${projectRoot}/src`,
                 projectType: 'library' as const,
                 tags: [`product:${product}`, `domain:${domain}`, `type:${type}`],
+                ...(implicitDeps.length > 0 && { implicitDependencies: implicitDeps }),
                 targets: {
                   lint: {
                     command: 'eslint .',
@@ -103,26 +162,31 @@ export const createNodesV2: CreateNodesV2 = [
                     ],
                     outputs: ['{options.outputFile}'],
                   },
-                  test: {
-                    command: 'vitest',
-                    options: {
-                      cwd: projectRoot,
-                      root: '.',
+                  ...(specFilesExist && {
+                    test: {
+                      command: `vitest --config ${sharedConfig}`,
+                      options: {
+                        cwd: projectRoot,
+                        env: {
+                          VITEST_ENVIRONMENT: environment,
+                          VITEST_USE_ANGULAR: String(angular),
+                        },
+                      },
+                      metadata: { technologies: ['vitest'] },
+                      cache: true,
+                      inputs: [
+                        'default',
+                        '^production',
+                        {
+                          externalDependencies: ['vitest'],
+                        },
+                        {
+                          env: 'CI',
+                        },
+                      ],
+                      outputs: [`{workspaceRoot}/coverage/${libs}/${product}/${domain}/${name}`],
                     },
-                    metadata: { technologies: ['vitest'] },
-                    cache: true,
-                    inputs: [
-                      'default',
-                      '^production',
-                      {
-                        externalDependencies: ['vitest'],
-                      },
-                      {
-                        env: 'CI',
-                      },
-                    ],
-                    outputs: [`{workspaceRoot}/coverage/${libs}/${product}/${domain}/${name}`],
-                  },
+                  }),
                 },
               },
             },

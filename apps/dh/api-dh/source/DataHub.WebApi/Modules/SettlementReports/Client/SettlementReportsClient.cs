@@ -82,7 +82,7 @@ public class SettlementReportsClient(
 
         var calculationsQuery = new CalculationsQueryInput(
             gridAreaId,
-            ProcessState.Succeeded,
+            OrchestrationState.Succeeded,
             CalculationExecutionType.External,
             [calculationTypeQueryParameter],
             calculationPeriod);

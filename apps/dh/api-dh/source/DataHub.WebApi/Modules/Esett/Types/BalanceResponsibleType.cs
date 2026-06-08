@@ -40,15 +40,15 @@ public static partial class BalanceResponsibleType
         IGridAreaByCodeDataLoader dataLoader) =>
         await dataLoader.LoadAsync(result.GridArea).ConfigureAwait(false);
 
-    public static async Task<string?> GetEnergySupplierNameAsync(
+    public static async Task<ActorDto?> GetEnergySupplierNameAsync(
         [Parent] BalanceResponsibleResult result,
         IMarketParticipantNameByMarketRoleDataLoader dataLoader) =>
-           (await dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier)))?.Value;
+           await dataLoader.LoadAsync((result.Supplier, EicFunction.EnergySupplier));
 
-    public static async Task<string?> GetBalanceResponsibleNameAsync(
+    public static async Task<ActorDto?> GetBalanceResponsibleNameAsync(
         [Parent] BalanceResponsibleResult result,
         IMarketParticipantNameByMarketRoleDataLoader dataLoader) =>
-            (await dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty)))?.Value;
+            await dataLoader.LoadAsync((result.BalanceResponsible, EicFunction.BalanceResponsibleParty));
 
     static partial void Configure(
         IObjectTypeDescriptor<BalanceResponsibleResult> descriptor)

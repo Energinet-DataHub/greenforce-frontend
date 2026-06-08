@@ -28,7 +28,7 @@ public class CalculationSortInputType : SortInputType<ICalculationsQueryResultV1
             .BindFieldsExplicitly();
 
         descriptor.Field(f => f.GetCalculationType()).Name("calculationType");
-        descriptor.Field(f => f.GetLifecycle().ToProcessState()).Name("status");
+        descriptor.Field(f => f.GetLifecycle().ToOrchestrationState()).Name("status");
         descriptor.Field(f => f.GetExecutionType()).Name("executionType");
         descriptor.Field(f => f.GetPeriodSortProperty()).Name("period");
         descriptor

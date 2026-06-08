@@ -17,8 +17,8 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { input, signal, computed, Component, ChangeDetectionStrategy } from '@angular/core';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
@@ -27,23 +27,24 @@ import { WattSlideToggleComponent } from '@energinet/watt/slide-toggle';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
-  ChargeResolution,
   ChargeSeriesPoint,
   GetChargeSeriesDocument,
   ChargeSeriesPointChange,
+  GetChargeByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  DhCircleComponent,
+  // DhCircleComponent,
   DhDownloadButtonComponent,
   GenerateCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
 import {
   DhChargesIntervalField,
-  DhChargesPeriodPipe,
+  DhChargeIntervalPipe,
 } from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { DhChargesSeriesDetails } from './series-details';
+import { DhChargesSeriesGaps } from './series-gaps';
 
 @Component({
   selector: 'dh-charges-series-table',
@@ -56,33 +57,28 @@ import { DhChargesSeriesDetails } from './series-details';
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    DhCircleComponent,
+    // DhCircleComponent,
     DhChargesIntervalField,
-    DhChargesPeriodPipe,
+    DhChargeIntervalPipe,
     DhChargesSeriesDetails,
+    DhChargesSeriesGaps,
     DhDownloadButtonComponent,
   ],
   template: `
     <watt-data-table
-      vater
-      inset="ml"
-      [error]="query.error()"
-      [ready]="query.called()"
+      [error]="chargeSeriesQuery.error()"
+      [ready]="ready()"
       [enablePaginator]="false"
       [header]="false"
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack fill="horizontal" wrap direction="row" align="baseline" gap="m">
-          <dh-charges-interval-field
-            [resolution]="resolution()"
-            (intervalChange)="query.refetch({ interval: $event })"
-          />
+        <vater-stack fill="horizontal" wrap direction="row" align="start" gap="m">
+          <dh-charges-interval-field [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
-            <watt-slide-toggle [(checked)]="showHistory">
-              {{ t('showHistory') }}
-            </watt-slide-toggle>
+            <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
+          <dh-charges-series-gaps [id]="id()" [resolution]="resolution()" [(date)]="date" />
           <vater-spacer />
           <dh-download-button (click)="download()" />
         </vater-stack>
@@ -93,23 +89,23 @@ import { DhChargesSeriesDetails } from './series-details';
         [resolveHeader]="resolveHeader"
         [columns]="columns"
         [dataSource]="dataSource"
-        [loading]="query.loading()"
+        [loading]="chargeSeriesQuery.loading()"
         (rowClick)="activeRow.set($event)"
         [activeRow]="activeRow()"
         [stickyFooter]="true"
       >
-        @let dateHeader = t('resolution.' + resolution());
+        @let dateHeader = t('resolution.' + (resolution() ?? 'UNKNOWN'));
         <ng-container *wattTableCell="columns.date; header: dateHeader; let series">
-          {{ series.period | dhChargesPeriod: resolution() }}
+          {{ series.interval | dhChargeInterval: resolution() }}
         </ng-container>
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
         </ng-container>
-        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+        <!-- <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
             <dh-circle />
           }
-        </ng-container>
+        </ng-container> -->
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
@@ -132,18 +128,43 @@ import { DhChargesSeriesDetails } from './series-details';
 })
 export class DhChargesSeriesTable {
   id = input.required<string>();
-  resolution = input.required<ChargeResolution>();
 
-  private transloco = inject(TranslocoService);
-  protected query = query(GetChargeSeriesDocument, () => ({
-    skip: true,
-    variables: {
-      chargeId: this.id(),
-    },
+  protected chargeByIdQuery = query(GetChargeByIdDocument, () => ({
+    variables: { id: this.id() },
   }));
 
-  charge = computed(() => this.query.data()?.chargeById);
-  series = computed(() => this.charge()?.series ?? []);
+  protected date = signal<Date>(new Date());
+  protected interval = computed(() => {
+    const start = this.date();
+    const resolution = this.resolution();
+    if (!resolution) return undefined;
+    switch (resolution) {
+      case 'DAILY':
+        return { start, end: dayjs(start).endOf('month').toDate() };
+      case 'MONTHLY':
+        return { start, end: dayjs(start).endOf('year').toDate() };
+      case 'HOURLY':
+      case 'QUARTER_HOURLY':
+        return { start, end: dayjs(start).endOf('day').toDate() };
+    }
+  });
+
+  protected chargeSeriesQuery = query(GetChargeSeriesDocument, () => {
+    const interval = this.interval();
+    if (!interval) return { skip: true };
+    return {
+      variables: {
+        interval,
+        chargeId: this.id(),
+      },
+    };
+  });
+
+  ready = computed(() => this.chargeByIdQuery.called() && this.chargeSeriesQuery.called());
+
+  charge = computed(() => this.chargeByIdQuery.data()?.chargeById);
+  resolution = computed(() => this.charge()?.resolution);
+  series = computed(() => this.chargeSeriesQuery.data()?.chargeById?.series ?? []);
 
   activeRow = signal<ChargeSeriesPoint | undefined>(undefined);
   enableHistoryToggle = computed(() => this.series().some((point) => point.hasChanged));
@@ -159,13 +180,13 @@ export class DhChargesSeriesTable {
       size: 'minmax(200px, auto)',
       sort: false,
     },
-    hasChanged: {
-      accessor: 'hasChanged',
-      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
-      size: 'min-content',
-      align: 'center',
-      sort: false,
-    },
+    // hasChanged: {
+    //   accessor: 'hasChanged',
+    //   tooltip: this.transloco.translate('charges.series.columns.tooltip'),
+    //   size: 'min-content',
+    //   align: 'center',
+    //   sort: false,
+    // },
     history: { accessor: null, size: '1fr', sort: false },
   };
 
@@ -186,11 +207,11 @@ export class DhChargesSeriesTable {
         series.map((x) => [
           `"${this.charge()?.owner?.name}"`,
           `"${this.charge()?.owner?.glnOrEicNumber}"`,
-          `"${translate('charges.chargeTypes.' + this.charge()?.type)}"`,
+          `"${this.charge()?.typeDisplayName}"`,
           `"${this.charge()?.code}"`,
           `"${translate('charges.resolutions.' + this.charge()?.resolution)}"`,
-          `"${dayjs(x.period.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
-          `"${dayjs(x.period.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.interval.start).format('YYYY-MM-DDTHH:mm:ss')}"`,
+          `"${dayjs(x.interval.end).format('YYYY-MM-DDTHH:mm:ss')}"`,
           `"${x.price?.toFixed(6)}"`,
         ])
       )

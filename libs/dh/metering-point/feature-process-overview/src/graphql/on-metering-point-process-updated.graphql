@@ -1,0 +1,5 @@
+subscription OnMeteringPointProcessUpdated($meteringPointId: String!, $created: DateRange) {
+  meteringPointProcessUpdated(meteringPointId: $meteringPointId, created: $created) {
+    ...MeteringPointProcessItem
+  }
+}

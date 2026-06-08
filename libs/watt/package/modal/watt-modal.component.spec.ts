@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 
 import { WattButtonComponent } from '../button';
@@ -46,10 +47,23 @@ interface Properties {
 
 function setup(componentProperties?: Properties) {
   return render(template, {
-    imports: [WattButtonComponent, WATT_MODAL],
+    imports: [WattButtonComponent, ...WATT_MODAL],
     providers: [WattModalService],
     componentProperties,
   });
+}
+
+// MatDialog filters Escape by the deprecated `keyCode === 27`, which neither
+// the KeyboardEvent constructor nor user-event v14 populates. Dispatch a
+// synthetic event with `keyCode` defined explicitly so the filter triggers.
+function dispatchEscape(target: Element) {
+  const event = new KeyboardEvent('keydown', {
+    key: 'Escape',
+    code: 'Escape',
+    bubbles: true,
+  });
+  Object.defineProperty(event, 'keyCode', { get: () => 27 });
+  target.dispatchEvent(event);
 }
 
 describe(WattModalComponent, () => {
@@ -59,69 +73,111 @@ describe(WattModalComponent, () => {
   });
 
   it('opens on button click', async () => {
-    await setup();
-    userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await setup({
+      closed: () => {
+        /* noop */
+      },
+    });
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    await user.click(screen.getByLabelText('Close'));
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('closes when rejected', async () => {
     const closed = vi.fn();
     await setup({ closed });
-    userEvent.click(screen.getByRole('button'));
-    userEvent.click(screen.getByText('No'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByText('No'));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('closes when accepted', async () => {
     const closed = vi.fn();
     await setup({ closed });
-    userEvent.click(screen.getByRole('button'));
-    userEvent.click(screen.getByText('Yes'));
-    await waitFor(() => expect(closed).toBeCalledWith(true));
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    await user.click(screen.getByText('Yes'));
+    await waitForAsync(() => expect(closed).toBeCalledWith(true));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('closes on ESC', async () => {
     const closed = vi.fn();
     await setup({ closed });
-    userEvent.click(screen.getByRole('button'));
-    userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    dispatchEscape(await screen.findByRole('dialog'));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('closes on close button click', async () => {
     const closed = vi.fn();
     await setup({ closed });
-    userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
 
-    userEvent.click(screen.getByLabelText('Close'));
-    await waitFor(() => expect(closed).toBeCalledWith(false));
+    await user.click(screen.getByLabelText('Close'));
+    await waitForAsync(() => expect(closed).toBeCalledWith(false));
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
   });
 
   it('disables close button', async () => {
     const closed = vi.fn();
     await setup({ closed, disableClose: true });
-    userEvent.click(screen.getByRole('button'));
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
     expect(screen.queryByLabelText('Close')).not.toBeInTheDocument();
+    // Close via service to avoid NG0953 (closed OutputRef emit after destroy)
+    await user.click(screen.getByText('No'));
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('disables ESC', async () => {
     const closed = vi.fn();
     await setup({ closed, disableClose: true });
-    userEvent.click(screen.getByRole('button'));
-    userEvent.keyboard('[Escape]');
-    await waitFor(() => expect(closed).not.toBeCalled());
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    dispatchEscape(await screen.findByRole('dialog'));
+    await waitForAsync(() => expect(closed).not.toBeCalled());
     expect(screen.queryByRole('dialog')).toBeInTheDocument();
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    await user.click(screen.getByText('No'));
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 
   it('displays title', async () => {
-    await setup();
-    userEvent.click(screen.getByRole('button'));
-    await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());
+    await setup({
+      closed: () => {
+        /* noop */
+      },
+    });
+    const user = userEvent.setup();
+    await user.click(screen.getByRole('button'));
+    await waitForAsync(() => {
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
+    });
     expect(screen.getByRole('heading')).toHaveTextContent('Test Modal');
+    // Close before teardown to avoid NG0953 (closed OutputRef emit after destroy)
+    await user.click(screen.getByLabelText('Close'));
+    await waitForAsync(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
   });
 });

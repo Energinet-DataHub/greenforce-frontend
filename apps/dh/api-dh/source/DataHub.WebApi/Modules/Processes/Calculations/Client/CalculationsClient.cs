@@ -54,15 +54,15 @@ public class CalculationsClient(
             PeriodStartDate = input.Period?.Start.ToDateTimeOffset(),
             PeriodEndDate = input.Period?.End.ToDateTimeOffset(),
             IsInternalCalculation = isInternalCalculation,
-            ScheduledAtOrLater = input.State == ProcessState.Scheduled ? DateTime.UtcNow : null,
+            ScheduledAtOrLater = input.State == OrchestrationState.Scheduled ? DateTime.UtcNow : null,
         };
 
         var results = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);
 
         // Filter out scheduled calculations when querying for pending state
-        if (input.State == ProcessState.Pending)
+        if (input.State == OrchestrationState.Pending)
         {
-            return results.Where(r => r.GetLifecycle().ToProcessState() == ProcessState.Pending);
+            return results.Where(r => r.GetLifecycle().ToOrchestrationState() == OrchestrationState.Pending);
         }
 
         return results;

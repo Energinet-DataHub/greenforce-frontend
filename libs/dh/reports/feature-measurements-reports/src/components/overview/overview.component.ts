@@ -65,7 +65,7 @@ export class DhOverview {
 
   columns: WattTableColumnDef<DhMeasurementsReport> = {
     startedAt: { accessor: 'createdDateTime' },
-    actorName: { accessor: (report) => report.actor?.name },
+    actorName: { accessor: (report) => report.actor?.displayName },
     meteringPoints: { accessor: (report) => report.meteringPointIds ?? report.meteringPointTypes },
     gridAreas: { accessor: 'gridAreaCodes' },
     period: { accessor: (report) => report.period.start },

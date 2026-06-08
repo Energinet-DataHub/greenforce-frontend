@@ -16,10 +16,12 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
+import { WattModalService } from '@energinet/watt/modal';
+import { VaterFlexComponent } from '@energinet/watt/vater';
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
@@ -30,8 +32,10 @@ import {
   ElectricityMarketViewConnectionState,
   ElectricityMarketViewMeteringPointType,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import type { EnergySupplier } from '@energinet-datahub/dh/metering-point/shared/domain';
 
-import type { EnergySupplier } from '../types';
+import { DhManageProductionObligation } from './manage-production-obligation/dh-manage-production-obligation';
 
 @Component({
   selector: 'dh-energy-supplier',
@@ -44,6 +48,8 @@ import type { EnergySupplier } from '../types';
     WattDescriptionListComponent,
     WattDescriptionListItemComponent,
     DhEmDashFallbackPipe,
+    DhPermissionRequiredDirective,
+    VaterFlexComponent,
   ],
   styles: `
     :host {
@@ -58,11 +64,10 @@ import type { EnergySupplier } from '../types';
 
       <watt-description-list variant="stack" [itemSeparators]="false">
         <watt-description-list-item [label]="t('energySupplierLabel')">
-          {{ energySupplier()?.gln | dhEmDashFallback }}
-
-          @if (energySupplier()?.name) {
-            • {{ energySupplier()?.name }}
-          }
+          {{
+            energySupplier()?.displayNameWithoutMarketRole || energySupplier()?.gln
+              | dhEmDashFallback
+          }}
         </watt-description-list-item>
 
         <watt-description-list-item
@@ -72,7 +77,17 @@ import type { EnergySupplier } from '../types';
 
         @if (showProductObligation()) {
           <watt-description-list-item [label]="t('productObligationLabel')">
-            {{ (productObligation() ? 'yes' : 'no') | transloco }}
+            <vater-flex direction="row" gap="ml">
+              {{ (productObligation() ? 'yes' : 'no') | transloco }}
+
+              <a
+                *dhPermissionRequired="['metering-point:production-obligation-manage']"
+                (click)="$event.preventDefault(); manageProductionObligation()"
+                class="watt-link-s"
+              >
+                {{ t('changeProductObligationLink') }}
+              </a>
+            </vater-flex>
           </watt-description-list-item>
 
           <watt-description-list-item
@@ -85,6 +100,9 @@ import type { EnergySupplier } from '../types';
   `,
 })
 export class DhEnergySupplierComponent {
+  private modalService = inject(WattModalService);
+
+  meteringPointId = input<string>();
   energySupplier = input<EnergySupplier | undefined | null>();
   productObligation = input<boolean | undefined | null>();
   meteringPointType = input<ElectricityMarketViewMeteringPointType | undefined>();
@@ -95,4 +113,14 @@ export class DhEnergySupplierComponent {
       this.meteringPointType() === 'Production' &&
       this.meteringPointConnectionState() !== 'CLOSED_DOWN'
   );
+
+  manageProductionObligation(): void {
+    this.modalService.open({
+      component: DhManageProductionObligation,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        currentProductionObligation: this.productObligation(),
+      },
+    });
+  }
 }

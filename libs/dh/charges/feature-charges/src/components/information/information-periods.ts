@@ -23,7 +23,7 @@ import { GetChargeByIdDocument } from '@energinet-datahub/dh/shared/domain/graph
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { VaterStackComponent } from '@energinet/watt/vater';
-import { WattDatePipe } from '@energinet/watt/date';
+import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared';
@@ -36,7 +36,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
     VaterStackComponent,
     WATT_CARD,
     WATT_DESCRIPTION_LIST,
-    WattDatePipe,
+    DhChargePeriodPipe,
     DhChargesStatus,
   ],
   template: `
@@ -46,7 +46,7 @@ import { DhChargesStatus } from '@energinet-datahub/dh/charges/feature-ui-shared
           <watt-card-title>
             <vater-stack gap="m" align="center" direction="row">
               <h3>
-                {{ period.period | wattDate }}
+                {{ period.period | dhChargePeriod }}
               </h3>
               @if (period.status === 'CURRENT' || period.status === 'CANCELLED') {
                 <dh-charges-status [status]="period.status" />

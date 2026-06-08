@@ -24,6 +24,7 @@ public record Charge(
     Resolution Resolution,
     bool TaxIndicator,
     bool SpotDependingPrice,
+    string TypeDisplayName,
     IReadOnlyCollection<ChargeInformationPeriodDto> PeriodDtos)
 {
     public string Code => Id.Code;

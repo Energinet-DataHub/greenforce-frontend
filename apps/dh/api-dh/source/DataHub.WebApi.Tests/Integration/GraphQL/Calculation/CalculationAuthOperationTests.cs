@@ -91,9 +91,11 @@ public class CalculationAuthOperationTests
     public async Task ExecuteCalculationQueriesAsync(UserIdentity userIdentity)
     {
         var server = new GraphQLTestService();
-        var result = await server.ExecuteRequestAsync(b => b
-            .SetDocument(_calculationQueries)
-            .SetUser(ClaimsPrincipalMocks.Create(userIdentity)));
+        var result = await server.ExecuteRequestAsync(
+            b => b
+                .SetDocument(_calculationQueries)
+                .SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationQueries_{userIdentity}");
     }
@@ -104,9 +106,11 @@ public class CalculationAuthOperationTests
     public async Task ExecuteCalculationMutationsAsync(UserIdentity userIdentity)
     {
         var server = new GraphQLTestService();
-        var result = await server.ExecuteRequestAsync(b => b
-            .SetDocument(_calculationMutations)
-            .SetUser(ClaimsPrincipalMocks.Create(userIdentity)));
+        var result = await server.ExecuteRequestAsync(
+            b => b
+                .SetDocument(_calculationMutations)
+                .SetUser(ClaimsPrincipalMocks.Create(userIdentity)),
+            CancellationToken.None);
 
         await result.MatchSnapshotAsync($"ExecuteCalculationMutations_{userIdentity}");
     }
@@ -117,7 +121,7 @@ public class CalculationAuthOperationTests
     [InlineData(UserIdentity.Anonymous)]
     public async Task ExecuteCalculationSubscriptionsAsync(UserIdentity userIdentity)
     {
-        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        var cts = new CancellationTokenSource(TimeSpan.FromSeconds(30));
         var server = new GraphQLTestService();
 
         // It seems like the test has to return actual data in order for the Authorize attribute

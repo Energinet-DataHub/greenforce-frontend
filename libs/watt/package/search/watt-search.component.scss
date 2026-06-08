@@ -14,6 +14,7 @@
 @use "@energinet/watt/utils" as watt;
 
 :host {
+  min-width: 260px;
   height: 44px; /* Magix UX number (replace with variable) */
 }
 
@@ -28,6 +29,7 @@ label {
 
 input {
   @include watt.typography-watt-text-s;
+  box-sizing: border-box;
   font-family: inherit;
   width: 100%;
   height: 44px;
@@ -106,7 +108,7 @@ input {
 }
 
 input:focus {
-  border: 1px solid var(--watt-color-primary);
+  border: 2px solid var(--watt-color-primary-dark);
 }
 
 input:not(:placeholder-shown),

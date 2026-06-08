@@ -44,7 +44,7 @@ import { WattSearchComponent } from '@energinet/watt/search';
 import { WattDropdownComponent, WattDropdownOptions } from '@energinet/watt/dropdown';
 
 import { DhMarketParticipantExtended } from '@energinet-datahub/dh/market-participant/domain';
-import { DhBalanceResponsibleRelationFilters } from './dh-balance-responsible-relation';
+import { DhBalanceResponsibleRelationFilters } from './types';
 
 // Map query variables type to object of form controls type
 type FormControls<T> = { [P in keyof T]: FormControl<T[P] | null> };
@@ -74,7 +74,7 @@ type Filters = FormControls<DhBalanceResponsibleRelationFilters>;
     fill="horizontal"
     *transloco="
       let t;
-      read: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
+      prefix: 'marketParticipant.actorsOverview.drawer.tabs.balanceResponsibleRelation'
     "
     [formGroup]="filtersForm"
   >

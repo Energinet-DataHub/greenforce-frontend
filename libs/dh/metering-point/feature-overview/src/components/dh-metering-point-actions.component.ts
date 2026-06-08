@@ -49,8 +49,9 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
+import { DhChangeOfSupplierComponent } from '@energinet-datahub/dh/metering-point/feature-change-of-supplier';
+import { InstallationAddress } from '@energinet-datahub/dh/metering-point/shared/domain';
 
-import { InstallationAddress } from '../types';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
 import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
 import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
@@ -95,11 +96,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           <watt-menu-item (click)="startMoveIn()">
             {{ t('moveIn') }}
           </watt-menu-item>
-          @if (isEnergySupplierResponsible()) {
-            <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
-              {{ t('updateCustomerData') }}
-            </watt-menu-item>
-          }
+        }
+
+        @if (isEnergySupplierResponsible()) {
+          <watt-menu-item [routerLink]="getUpdateCustomerDetailsLink">
+            {{ t('updateCustomerData') }}
+          </watt-menu-item>
         }
 
         @if (showCreateChargeLinkButton()) {
@@ -119,6 +121,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
         @if (showEndOfSupplyButton()) {
           <watt-menu-item (click)="startEndOfSupply()">
             {{ t('endOfSupply') }}
+          </watt-menu-item>
+        }
+
+        @if (showChangeOfSupplierButton()) {
+          <watt-menu-item (click)="startChangeOfSupplier()">
+            {{ t('changeOfSupplier') }}
           </watt-menu-item>
         }
 
@@ -153,6 +161,17 @@ export class DhMeteringPointActionsComponent {
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
   isEnergySupplierResponsible = input.required<boolean>();
+  isChildMeteringPoint = input<boolean | null>(false);
+  searchMigratedMeteringPoints = input.required<boolean>();
+
+  // Change-of-supplier and move-in can only be initiated on a parent metering
+  // point of type Consumption (E17) or Production (E18).
+  private readonly isEligibleForCustomerProcesses = computed(
+    () =>
+      !this.isChildMeteringPoint() &&
+      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
+        this.type() === ElectricityMarketMeteringPointType.Production)
+  );
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -184,8 +203,13 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
-  private readonly hasEnergySupplierRole = toSignal(
-    this.permissionService.hasMarketRole(EicFunction.EnergySupplier),
+  private readonly hasMeteringPointEndOfSupplyRequestPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:end-of-supply-request'),
+    { initialValue: false }
+  );
+
+  private readonly hasMeteringPointChangeOfSupplierPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:change-of-supplier'),
     { initialValue: false }
   );
 
@@ -203,9 +227,9 @@ export class DhMeteringPointActionsComponent {
       this.hasMeteringPointMoveInPermission() &&
       this.releaseToggleService.isEnabled('MoveInBrs009') &&
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||
-        this.connectionState() === ElectricityMarketViewConnectionState.Connected) &&
-      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
-        this.type() === ElectricityMarketMeteringPointType.Production)
+        this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
+        this.connectionState() === ElectricityMarketViewConnectionState.Disconnected) &&
+      this.isEligibleForCustomerProcesses()
     );
   });
 
@@ -224,23 +248,36 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
-  showManualCorrectionButtons = computed(() => this.hasDh3SkalpellenPermission());
+  showManualCorrectionButtons = computed(
+    () => this.hasDh3SkalpellenPermission() && this.searchMigratedMeteringPoints()
+  );
 
   showEndOfSupplyButton = computed(
     () =>
-      this.hasEnergySupplierRole() &&
+      this.hasMeteringPointEndOfSupplyRequestPermission() &&
       this.isEnergySupplierResponsible() &&
       this.featureFlagsService.isEnabled('end-of-supply')
+  );
+
+  // Change-of-supplier is initiated by the incoming (new) supplier, not the current responsible one.
+  showChangeOfSupplierButton = computed(
+    () =>
+      this.hasMeteringPointChangeOfSupplierPermission() &&
+      !this.isEnergySupplierResponsible() &&
+      this.isEligibleForCustomerProcesses() &&
+      this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
   );
 
   showActionsButton = computed(() => {
     return (
       this.showMeasurementsUploadButton() ||
       this.showMoveInButton() ||
+      this.isEnergySupplierResponsible() ||
       this.showCreateChargeLinkButton() ||
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
-      this.showEndOfSupplyButton()
+      this.showEndOfSupplyButton() ||
+      this.showChangeOfSupplierButton()
     );
   });
 
@@ -262,6 +299,17 @@ export class DhMeteringPointActionsComponent {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
       },
+    });
+  }
+
+  startChangeOfSupplier() {
+    this.modalService.open({
+      component: DhChangeOfSupplierComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+      },
+      disableClose: true,
     });
   }
 

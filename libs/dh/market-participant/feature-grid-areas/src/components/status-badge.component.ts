@@ -28,20 +28,16 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
   template: `
     <ng-container *transloco="let t; prefix: 'marketParticipant.gridAreas.status'">
       @switch (status()) {
-        @case ('Created') {
-          <watt-badge type="neutral">{{ t('Created') }}</watt-badge>
+        @case ('Created')
+        @case ('Archived')
+        @case ('ToBeDiscontinued') {
+          <watt-badge type="neutral">{{ t(status()) }}</watt-badge>
         }
         @case ('Active') {
-          <watt-badge type="success">{{ t('Active') }}</watt-badge>
+          <watt-badge type="success">{{ t(status()) }}</watt-badge>
         }
         @case ('Expired') {
-          <watt-badge type="warning">{{ t('Expired') }}</watt-badge>
-        }
-        @case ('Archived') {
-          <watt-badge type="neutral">{{ t('Archived') }}</watt-badge>
-        }
-        @case ('ToBeDiscontinued') {
-          <watt-badge type="neutral">{{ t('ToBeDiscontinued') }}</watt-badge>
+          <watt-badge type="warning">{{ t(status()) }}</watt-badge>
         }
         @default {
           {{ status() | dhEmDashFallback }}

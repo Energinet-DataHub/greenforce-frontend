@@ -22,11 +22,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WATT_LINK_TABS } from '@energinet/watt/tabs';
 import { AdminSubPaths, combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
+import { VATER } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-admin-shell',
   template: `
-    <watt-link-tabs *transloco="let t; prefix: 'admin.userManagement.tabs'">
+    <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'admin.userManagement.tabs'">
       <watt-link-tab [label]="t('users.tabLabel')" [link]="getLink('users')" />
       <watt-link-tab [label]="t('roles.tabLabel')" [link]="getLink('roles')" />
       <watt-link-tab
@@ -36,7 +37,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
       />
     </watt-link-tabs>
   `,
-  imports: [TranslocoDirective, DhPermissionRequiredDirective, WATT_LINK_TABS],
+  imports: [TranslocoDirective, DhPermissionRequiredDirective, WATT_LINK_TABS, VATER],
 })
 export class DhAdminShellComponent {
   getLink = (path: AdminSubPaths) => combinePaths('admin', path);

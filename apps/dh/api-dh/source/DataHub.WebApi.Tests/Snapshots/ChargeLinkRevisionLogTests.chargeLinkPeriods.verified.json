@@ -1,0 +1,11 @@
+﻿{
+  "activity": "chargeLinkPeriods",
+  "payload": {
+    "query": "query($meteringPointId: String!) { chargeLinkPeriods(meteringPointId: $meteringPointId) { charge { id } } }",
+    "variables": {
+      "meteringPointId": "571313180000000005"
+    }
+  },
+  "affectedEntityType": "ChargeLinkPeriod",
+  "affectedEntityKey": null
+}

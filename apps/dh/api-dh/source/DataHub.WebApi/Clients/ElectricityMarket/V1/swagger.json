@@ -459,6 +459,92 @@
         }
       }
     },
+    "/metering-point/count": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "count",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MeteringPointCountDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/metering-point/debug-json": {
+      "get": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "summary": "This endpoint returns the meteringpoint in JSON, with property names mapped to EM2 naming conventions.\r\nThe endpoint is used on the operations page, to make it easier to compare migrated meteringpoints between EM1 and EM2.",
+        "operationId": "debug-json",
+        "parameters": [
+          {
+            "name": "identification",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/{identification}/manual-correction": {
       "get": {
         "tags": [
@@ -601,6 +687,76 @@
         }
       }
     },
+    "/metering-point/export-to-eventstore": {
+      "post": {
+        "tags": [
+          "MeteringPoint"
+        ],
+        "operationId": "export-to-eventstore",
+        "parameters": [
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "text/json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "type": "array",
+                "items": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportMeteringPointsToEventStoreResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/metering-point/query/type": {
       "post": {
         "tags": [
@@ -673,6 +829,36 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/syncjob/set-job-version/event-store-export": {
+      "post": {
+        "tags": [
+          "SyncJob"
+        ],
+        "operationId": "event-store-export",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "api-version",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -1126,6 +1312,16 @@
           }
         }
       },
+      "ExportMeteringPointsToEventStoreResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "exportedCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
       "InstallationAddressDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1185,6 +1381,20 @@
           "locationDescription": {
             "type": "string",
             "nullable": true
+          }
+        }
+      },
+      "MeteringPointCountDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "totalCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "quarantinedCount": {
+            "type": "integer",
+            "format": "int64"
           }
         }
       },
@@ -1856,7 +2066,8 @@
           "ConsumptionStatementCancelsNotMarketProcess",
           "ConsumptionStatementCancelsMarketProcess",
           "CreateHistoricalMeteringPoint",
-          "EmptyTransaction"
+          "EmptyTransaction",
+          "ChangeBalanceResponsibleParty"
         ],
         "enum": [
           0,
@@ -1923,7 +2134,8 @@
           61,
           62,
           63,
-          64
+          64,
+          65
         ]
       },
       "WashInstructions": {

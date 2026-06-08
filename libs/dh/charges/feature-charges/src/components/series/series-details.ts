@@ -32,7 +32,7 @@ import {
   ChargeSeriesPoint,
   ChargeSeriesPointChange,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhChargesPeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import { DhChargeIntervalPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
 import { WattCardComponent } from '@energinet/watt/card';
 import { WattBadgeComponent } from '@energinet/watt/badge';
 
@@ -49,7 +49,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
     WattButtonComponent,
     WattCardComponent,
     WattDatePipe,
-    DhChargesPeriodPipe,
+    DhChargeIntervalPipe,
   ],
   template: `
     <watt-drawer
@@ -63,7 +63,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
         @switch (resolution()) {
           @case ('MONTHLY') {
             <h1>
-              {{ series()?.period | dhChargesPeriod: resolution() }}
+              {{ series()?.interval | dhChargeInterval: resolution() }}
               {{ start() | wattDate: 'year' }}
             </h1>
           }
@@ -73,8 +73,8 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
           @default {
             <h1>{{ start() | wattDate }}</h1>
             <watt-description-list variant="inline-flow">
-              <watt-description-list-item [label]="t('resolution.' + resolution())">
-                {{ series()?.period | dhChargesPeriod: resolution() }}
+              <watt-description-list-item [label]="t('resolution.' + (resolution() ?? 'UNKNOWN'))">
+                {{ series()?.interval | dhChargeInterval: resolution() }}
               </watt-description-list-item>
             </watt-description-list>
           }
@@ -112,11 +112,13 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
   `,
 })
 export class DhChargesSeriesDetails {
-  readonly resolution = input.required<ChargeResolution>();
+  readonly resolution = input<ChargeResolution>();
   readonly series = model<ChargeSeriesPoint>();
+
   protected changes = computed(() => this.series()?.changes ?? []);
-  protected start = computed(() => this.series()?.period.start);
+  protected start = computed(() => this.series()?.interval.start);
   protected dataSource = dataSource(() => this.changes());
+
   protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
     price: { accessor: 'price', size: 'min-content' },
     isCurrent: { accessor: null, header: '' },

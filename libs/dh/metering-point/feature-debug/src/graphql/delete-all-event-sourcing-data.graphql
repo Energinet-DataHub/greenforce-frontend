@@ -1,0 +1,5 @@
+mutation DeleteAllEventSourcingData {
+  deleteAllEventSourcingData {
+    success: boolean
+  }
+}

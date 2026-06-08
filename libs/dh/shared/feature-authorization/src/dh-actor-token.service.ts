@@ -32,6 +32,7 @@ import { SeverityLevel } from '@microsoft/applicationinsights-web';
 
 import { dhApiEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { localStorageToken } from '@energinet-datahub/dh/shared/util-browser';
 
 import { DhActorStorage } from './dh-actor-storage';
 
@@ -48,6 +49,7 @@ export class DhActorTokenService {
   private apiToken = inject(dhApiEnvironmentToken);
   private httpClient = inject(HttpClient);
   private appInsights = inject(DhApplicationInsights);
+  private localStorage = inject(localStorageToken);
 
   private logoutInProgress = false;
 
@@ -94,19 +96,19 @@ export class DhActorTokenService {
               null
             )
             .pipe(
-              tapResponse(
-                () => {
+              tapResponse({
+                next: () => {
                   const account = this.msalService.instance.getActiveAccount();
                   if (account?.idTokenClaims) {
                     const givenName = account?.idTokenClaims['given_name'];
                     if (!givenName) {
-                      localStorage.setItem('mitIdRelogin', 'true');
+                      this.localStorage.setItem('mitIdRelogin', 'true');
                       this.msalService.instance.logoutRedirect();
                     }
                   }
                 },
                 // Error callback called for every failed request to the token endpoint
-                (error) => {
+                error: (error) => {
                   // Prevent multiple logs of the same event in AppInsights
                   if (this.logoutInProgress === false) {
                     if (error instanceof Error) {
@@ -126,15 +128,18 @@ export class DhActorTokenService {
                       }
                     }
 
-                    this.appInsights.flush();
-
-                    // Delay redirect to logout so AppInsights has a chance to flush
-                    setTimeout(() => this.msalService.instance.logoutRedirect(), 2_000);
-
                     this.logoutInProgress = true;
+
+                    const logout = () => this.msalService.instance.logoutRedirect();
+
+                    try {
+                      this.appInsights.flush()?.then(logout);
+                    } catch {
+                      logout();
+                    }
                   }
-                }
-              ),
+                },
+              }),
               map(({ token }) => token)
             )
         )

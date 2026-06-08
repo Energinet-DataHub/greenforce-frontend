@@ -40,7 +40,7 @@ import { GetUsersDataSource } from '@energinet-datahub/dh/shared/domain/graphql/
 import { DhUserLatestLoginComponent } from '../user-latest-login.component';
 import { DhUsersOverviewFiltersComponent } from '../filters/filters.component';
 import { DhDownloadUsersCsvComponent } from './download-users-csv.component';
-import { DhUser } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUser } from '../types';
 
 type Variables = Partial<GetUsersQueryVariables>;
 
@@ -74,11 +74,11 @@ type Variables = Partial<GetUsersQueryVariables>;
   >
     <watt-data-actions>
       <vater-stack direction="row" gap="m">
-        <dh-download-users-csv *dhPermissionRequired="['fas']" [variables]="variables()" />
+        <dh-download-users-csv *dhPermissionRequired="['users:manage']" [variables]="variables()" />
 
         <watt-button
           *dhPermissionRequired="['users:manage']"
-          variant="secondary"
+          variant="primary"
           [title]="t('inviteUser')"
           (click)="invite.emit()"
           >{{ t('inviteUser') }}

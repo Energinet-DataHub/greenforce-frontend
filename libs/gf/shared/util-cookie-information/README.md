@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
 
 ## Add support for other languages
 
-Add the culture to `src/lib/supported-cultures.ts`.
+Add the culture to `src/supported-cultures.ts`.
 
 >**Note:** available cultures can be found [here](https://support.cookieinformation.com/en/articles/5444177-pop-up-implementation#h_8e9379fa2f).
 

@@ -147,7 +147,11 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
 
   private readonly requestReportMutation = mutation(RequestMeasurementsReportDocument);
 
-  private energySupplierOptionsSignal = getActorOptions([EicFunction.EnergySupplier]);
+  private energySupplierOptionsSignal = getActorOptions(
+    [EicFunction.EnergySupplier],
+    'glnOrEicNumber',
+    'displayNameWithoutMarketRole'
+  );
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -307,7 +311,6 @@ export class DhRequestReportModal extends WattTypedModal<MeasurementsReportReque
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;

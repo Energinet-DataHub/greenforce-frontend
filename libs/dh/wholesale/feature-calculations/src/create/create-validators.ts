@@ -60,8 +60,8 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
     control: AbstractControl<PeriodInput | null>
   ): Promise<ExistingCalculationError | null> => {
     const period = control.value;
-    const calculationType = control.parent?.get('calculationType')?.value;
-    const executionType = control.parent?.get('executionType')?.value;
+    const calculationType: StartCalculationType = control.parent?.get('calculationType')?.value;
+    const executionType: CalculationExecutionType = control.parent?.get('executionType')?.value;
 
     // Skip validation for internal calculations
     if (executionType === CalculationExecutionType.Internal) return null;

@@ -65,10 +65,10 @@
 }
 
 // Inset Reverse Stretch
-.watt-space-inset-reverse-stretch-s {
-  @include space.inset-reverse-stretch-s;
+.watt-space-reverse-inset-stretch-s {
+  @include space.reverse-inset-stretch-s;
 }
 
-.watt-space-inset-reverse-stretch-m {
-  @include space.inset-reverse-stretch-m;
+.watt-space-reverse-inset-stretch-m {
+  @include space.reverse-inset-stretch-m;
 }

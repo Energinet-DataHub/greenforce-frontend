@@ -1,8 +1,0 @@
-{
-  "name": "dh-charges-feature-charges",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/dh/charges/feature-charges/src",
-  "prefix": "dh",
-  "projectType": "library",
-  "tags": ["product:dh", "domain:charges", "type:feature"]
-}

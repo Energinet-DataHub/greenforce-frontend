@@ -1,0 +1,10 @@
+query GetChargeWeekSeries($chargeId: String!, $interval: DateRange!) {
+  chargeById(id: $chargeId) {
+    id
+    series(interval: $interval) {
+      interval
+      price
+      hasChanged
+    }
+  }
+}

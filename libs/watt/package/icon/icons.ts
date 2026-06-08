@@ -63,6 +63,8 @@ export const WattIconMap = {
   arrowDropDown: 'arrow_drop_down',
   arrowRightAlt: 'arrow_right_alt',
   arrowLeftAlt: 'arrow_left_alt',
+  keyboardDoubleArrowLeft: 'keyboard_double_arrow_left',
+  keyboardDoubleArrowRight: 'keyboard_double_arrow_right',
   // Alerts
   danger: 'dangerous',
   warning: 'report_problem',
@@ -102,4 +104,6 @@ export const WattIconMap = {
   factory: 'factory',
   nest_eco_leaf: 'nest_eco_leaf',
   flash_on: 'flash_on',
+  matchCase: 'match_case',
+  share: 'share',
 };

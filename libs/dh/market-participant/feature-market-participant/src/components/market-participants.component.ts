@@ -17,17 +17,16 @@
  */
 //#endregion
 import { RouterOutlet } from '@angular/router';
-import { Component, computed, inject } from '@angular/core';
+import { afterNextRender, Component, computed, inject, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattModalService } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 import { WATT_MENU } from '@energinet/watt/menu';
-import { WattIconComponent } from '@energinet/watt/icon';
 
 import {
   WattDataTableComponent,
@@ -72,12 +71,12 @@ import { DhMarketParticipantsFiltersComponent } from './market-participants-filt
     WATT_CARD,
     WATT_TABLE,
     WATT_MENU,
-    WattIconComponent,
     WattButtonComponent,
     WattDataTableComponent,
     WattDataActionsComponent,
     WattDataFiltersComponent,
     VaterUtilityDirective,
+    VaterStackComponent,
     DhEmDashFallbackPipe,
     DownloadMarketParticipants,
     DhPermissionRequiredDirective,
@@ -89,6 +88,15 @@ export class DhMarketParticipantsComponent {
   private readonly navigationService = inject(DhNavigationService);
   private readonly modalService = inject(WattModalService);
   private readonly appInsights = inject(DhApplicationInsights);
+  private readonly dataTable = viewChild(WattDataTableComponent);
+
+  constructor() {
+    afterNextRender(() => {
+      if (!this.navigationService.id()) {
+        this.dataTable()?.focusSearch();
+      }
+    });
+  }
 
   dataSource = new GetPaginatedMarketParticipantsDataSource();
 

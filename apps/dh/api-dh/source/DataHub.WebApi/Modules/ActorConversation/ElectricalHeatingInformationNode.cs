@@ -1,4 +1,4 @@
-﻿// Copyright 2020 Energinet DataHub A/S
+// Copyright 2020 Energinet DataHub A/S
 //
 // Licensed under the Apache License, Version 2.0 (the "License2");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
 using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
@@ -30,7 +29,7 @@ public static partial class ElectricalHeatingInformationNode
     public static async Task<GetElectricalHeatingInformationQueryResponse?> GetElectricalHeatingInformationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         string meteringPointIdentification,
         CancellationToken ct)
     {
@@ -49,18 +48,7 @@ public static partial class ElectricalHeatingInformationNode
             UserId = userId,
         };
 
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException(
-                "User is not authorized to access electrical heating information for the requested metering point.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        var electricalHeatingInformation = await authClient.ApiGetElectricalHeatingInformationAsync(
+        var electricalHeatingInformation = await actorConversationClient.ApiGetElectricalHeatingInformationAsync(
             meteringPointIdentification,
             userId.ToString(),
             marketParticipantNumber,

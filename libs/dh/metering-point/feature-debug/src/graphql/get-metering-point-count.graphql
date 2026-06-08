@@ -1,0 +1,6 @@
+query GetMeteringPointCount {
+  meteringPointCount {
+    totalCount
+    quarantinedCount
+  }
+}

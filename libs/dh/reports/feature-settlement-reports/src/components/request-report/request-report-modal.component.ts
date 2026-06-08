@@ -137,7 +137,11 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
 
   private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);
-  private readonly actorOptions = getActorOptions([EicFunction.EnergySupplier]);
+  private readonly actorOptions = getActorOptions(
+    [EicFunction.EnergySupplier],
+    'glnOrEicNumber',
+    'displayNameWithoutMarketRole'
+  );
 
   private modal = viewChild.required(WattModalComponent);
 
@@ -200,7 +204,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
   submitInProgress = signal(false);
   noCalculationsFound = signal(false);
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   async submit() {
     if (this.form.invalid || this.submitInProgress()) {
       return;
@@ -270,7 +273,6 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
     }
   }
 
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   private requestSettlementReport() {
     const {
       calculationType,

@@ -31,7 +31,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import {
   CancelScheduledCalculationDocument,
   GetCalculationByIdDocument,
-  ProcessState,
+  OrchestrationState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { lazyQuery, mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
@@ -44,7 +44,7 @@ import {
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattToastService } from '@energinet/watt/toast';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/modal';
-import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
+import { DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 
 @Component({
   imports: [
@@ -63,7 +63,7 @@ import { DhProcessStateBadge } from '@energinet-datahub/dh/wholesale/ui-shared';
     VaterUtilityDirective,
     DhCalculationsGridAreasTableComponent,
     DhEmDashFallbackPipe,
-    DhProcessStateBadge,
+    DhStateBadge,
   ],
   selector: 'dh-calculations-details',
   templateUrl: './details.component.html',
@@ -86,7 +86,7 @@ export class DhCalculationsDetailsComponent {
   type = computed(() => this.result()?.calculationType ?? 'UNKNOWN');
   executionType = computed(() => this.result()?.executionType);
   state = computed(() => this.result()?.state);
-  cancelable = computed(() => this.state() === ProcessState.Scheduled);
+  cancelable = computed(() => this.state() === OrchestrationState.Scheduled);
   startedAtOrScheduledAt = computed(() => this.result()?.startedAt ?? this.result()?.scheduledAt);
 
   cancelCalculation = mutation(CancelScheduledCalculationDocument, {

@@ -27,6 +27,7 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { VATER } from '@energinet/watt/vater';
 
 @Component({
   selector: 'dh-reports',
@@ -36,9 +37,10 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-rele
     WATT_LINK_TABS,
     DhPermissionRequiredDirective,
     DhReleaseToggleDirective,
+    VATER,
   ],
   template: `
-    <watt-link-tabs *transloco="let t; prefix: 'reports.tabs'">
+    <watt-link-tabs vater inset="0" *transloco="let t; prefix: 'reports.tabs'">
       <ng-container *dhReleaseToggle="'PM31-REPORTS'">
         <watt-link-tab
           *dhPermissionRequired="['measurements-reports:manage']"

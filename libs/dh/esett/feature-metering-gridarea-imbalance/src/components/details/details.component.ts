@@ -18,7 +18,7 @@
 //#endregion
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, inject, input, computed } from '@angular/core';
-import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { tap } from 'rxjs';
 
@@ -68,6 +68,7 @@ import { DhDrawerImbalanceTableComponent } from './imbalances.component';
     `,
   ],
   imports: [
+    TranslocoPipe,
     TranslocoDirective,
     WATT_TABS,
     WATT_DRAWER,

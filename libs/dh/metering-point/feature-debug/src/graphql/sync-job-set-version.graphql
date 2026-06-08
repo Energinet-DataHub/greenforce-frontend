@@ -1,0 +1,5 @@
+mutation SyncJobSetVersion($input: SyncJobSetJobVersionEventStoreExportInput!) {
+  syncJobSetJobVersionEventStoreExport(input: $input) {
+    success: boolean
+  }
+}

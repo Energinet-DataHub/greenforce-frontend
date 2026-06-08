@@ -1,0 +1,13 @@
+﻿{
+  "activity": "syncJobSetJobVersionEventStoreExport",
+  "payload": {
+    "query": "mutation($input: SyncJobSetJobVersionEventStoreExportInput!) { syncJobSetJobVersionEventStoreExport(input: $input) { boolean } }",
+    "variables": {
+      "input": {
+        "version": "2024-01-15T10:30:00Z"
+      }
+    }
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}

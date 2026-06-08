@@ -23,6 +23,7 @@ public static class TimeResolutionMapper
             DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.QuarterHourly => "PT15M",
             DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Hourly => "PT1H",
             DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Monthly => "P1M",
+            DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Other => "OTHER",
             DataHub.ElectricityMarket.Abstractions.Shared.TimeResolution.Unknown => throw new InvalidOperationException("Invalid TimeResolution"),
         };
     }

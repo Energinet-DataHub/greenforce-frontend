@@ -21,3 +21,6 @@ export * from './src/set-up-angular-testing-library';
 
 // Angular testbed
 export * from './src/set-up-testbed';
+
+// waitFor replacement that does not rely on MutationObserver
+export * from './src/wait-for-async';

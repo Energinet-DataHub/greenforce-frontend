@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+if git diff-tree -r --name-only --no-commit-id HEAD@{1} HEAD | grep --quiet "bun.lock"; then
+  echo " * changes detected in bun.lock"
+  echo " * running bun install"
+  bun install --save-text-lockfile
+fi

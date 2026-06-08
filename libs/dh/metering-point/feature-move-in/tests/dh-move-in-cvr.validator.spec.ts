@@ -17,66 +17,46 @@
  */
 //#endregion
 import { FormControl } from '@angular/forms';
-import { describe, expect, it } from 'vitest';
-import { Injector } from '@angular/core';
-
-import {
-  DhAppEnvironment,
-  dhAppEnvironmentToken,
-  type DhAppEnvironmentConfig,
-} from '@energinet-datahub/dh/shared/environments';
 
 import { dhMoveInCvrValidator } from '../src/validators/dh-move-in-cvr.validator';
 
-function createAppEnvInjector(current: DhAppEnvironment): Injector {
-  const config: DhAppEnvironmentConfig = {
-    current,
-    applicationInsights: { connectionString: '' },
-  };
-
-  return Injector.create({
-    providers: [{ provide: dhAppEnvironmentToken, useValue: config }],
-  });
-}
-
 describe('dhMoveInCvrValidator', () => {
-  it('allows 11111111 in non-prod/non-preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.test_001);
-    const validator = dhMoveInCvrValidator(injector);
+  const validator = dhMoveInCvrValidator();
 
+  it('allows test CVR 11111111 (checksum bypass)', () => {
     const control = new FormControl('11111111');
     expect(validator(control)).toBeNull();
   });
 
-  it('allows 22222222 in non-prod/non-preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.dev_001);
-    const validator = dhMoveInCvrValidator(injector);
-
+  it('allows test CVR 22222222 (checksum bypass)', () => {
     const control = new FormControl('22222222');
     expect(validator(control)).toBeNull();
   });
 
-  it('rejects invalid CVR values that are not allowlisted', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.test_001);
-    const validator = dhMoveInCvrValidator(injector);
+  it('allows a valid CVR number', () => {
+    // 12345674: weighted sum = 106, mod 11 = 7, check digit = 4 ✓
+    const control = new FormControl('12345674');
+    expect(validator(control)).toBeNull();
+  });
 
+  it('allows an empty value', () => {
+    const control = new FormControl('');
+    expect(validator(control)).toBeNull();
+  });
+
+  it('rejects a CVR with an invalid checksum', () => {
+    // 12345678: expected check digit is 4, not 8
     const control = new FormControl('12345678');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
   });
 
-  it('does NOT allow 11111111 in preprod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.preprod);
-    const validator = dhMoveInCvrValidator(injector);
-
-    const control = new FormControl('11111111');
+  it('rejects a CVR that is too short', () => {
+    const control = new FormControl('1234567');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
   });
 
-  it('does NOT allow 11111111 in prod', () => {
-    const injector = createAppEnvInjector(DhAppEnvironment.prod);
-    const validator = dhMoveInCvrValidator(injector);
-
-    const control = new FormControl('11111111');
+  it('rejects a CVR that is too long', () => {
+    const control = new FormControl('123456789');
     expect(validator(control)).toEqual({ invalidCvrNumber: true });
   });
 });

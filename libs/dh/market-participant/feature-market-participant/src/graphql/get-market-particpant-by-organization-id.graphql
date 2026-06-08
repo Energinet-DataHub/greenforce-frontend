@@ -1,9 +1,0 @@
-query GetMarketParticipantsByOrganizationId($organizationId: UUID!) {
-  marketParticipantsByOrganizationId(organizationId: $organizationId) {
-    id
-    glnOrEicNumber
-    name
-    marketRole
-    status
-  }
-}

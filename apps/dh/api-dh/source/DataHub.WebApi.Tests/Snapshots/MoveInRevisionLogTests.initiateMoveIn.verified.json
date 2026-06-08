@@ -1,0 +1,19 @@
+﻿{
+  "activity": "initiateMoveIn",
+  "payload": {
+    "query": "mutation($meteringPointId: String!, $businessReason: ChangeOfSupplierBusinessReason!, $startDate: DateTime!, $customerIdentification: CustomerIdentificationInput!, $customerName: String!, $energySupplier: String!) { initiateMoveIn(input: { meteringPointId: $meteringPointId, businessReason: $businessReason, startDate: $startDate, customerIdentification: $customerIdentification, customerName: $customerName, energySupplier: $energySupplier }) { boolean } }",
+    "variables": {
+      "meteringPointId": "571313180000000005",
+      "businessReason": "CUSTOMER_MOVE_IN",
+      "startDate": "2025-01-01T00:00:00Z",
+      "customerIdentification": {
+        "id": "1234567890",
+        "type": "cpr"
+      },
+      "customerName": "Test Customer",
+      "energySupplier": "5790001330552"
+    }
+  },
+  "affectedEntityType": "MoveIn",
+  "affectedEntityKey": null
+}

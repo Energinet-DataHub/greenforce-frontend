@@ -12,6 +12,15 @@ mutation CreateChargeLink(
       factor: $factor
     }
   ) {
-    success: boolean
+    chargeLinkPeriod {
+      ...ChargeLinkPeriodFields
+      changes {
+        created
+        changeType
+        stopDate
+        factor
+        previousFactor
+      }
+    }
   }
 }

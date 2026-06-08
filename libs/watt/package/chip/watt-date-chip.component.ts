@@ -32,7 +32,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
   styles: [
     `
       watt-date-chip {
-        input {
+        input.cdk-visually-hidden {
           top: 0;
           bottom: 0;
           height: auto;
@@ -46,7 +46,7 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
     `,
   ],
   template: `
-    <mat-datepicker #picker />
+    <mat-datepicker #picker panelClass="watt-date-chip__panel" />
     <watt-field [control]="formControl()" [chipMode]="true">
       <watt-menu-chip
         hasPopup="dialog"
@@ -61,6 +61,8 @@ import { WattMenuChipComponent } from './watt-menu-chip.component';
           type="text"
           [value]="value()"
           [matDatepicker]="picker"
+          [min]="min()"
+          [max]="max()"
           (dateChange)="value.set($event.value)"
           (dateChange)="selectionChange.emit($event.value)"
         />
@@ -86,4 +88,6 @@ export class WattDateChipComponent {
   formControl = input.required<FormControl>();
   value = model<string | null>(null);
   selectionChange = output<Date>();
+  min = input<Date | null>();
+  max = input<Date | null>();
 }

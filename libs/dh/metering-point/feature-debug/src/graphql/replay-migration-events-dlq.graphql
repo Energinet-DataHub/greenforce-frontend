@@ -1,0 +1,6 @@
+mutation ReplayMigrationEventsDlq {
+  replayMigrationEventsDeadLetterQueue {
+    dlqCount
+    processedCount
+  }
+}

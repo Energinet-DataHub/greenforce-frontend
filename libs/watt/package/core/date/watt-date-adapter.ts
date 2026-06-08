@@ -16,11 +16,13 @@
  * limitations under the License.
  */
 //#endregion
+import { Injectable } from '@angular/core';
 import { NativeDateAdapter } from '@angular/material/core';
 
 export type WattSupportedLocales = 'da' | 'en';
 const danishLocale = 'da';
 
+@Injectable()
 export class WattDateAdapter extends NativeDateAdapter {
   setActiveLocale(language: WattSupportedLocales): void {
     this.setLocale(language === danishLocale ? danishLocale : 'en-GB');

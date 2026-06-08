@@ -1,0 +1,9 @@
+query GetChargesByType($type: ChargeType!) {
+  chargesByType(type: $type) {
+    value: id
+    displayValue: displayName
+    periods {
+      period
+    }
+  }
+}

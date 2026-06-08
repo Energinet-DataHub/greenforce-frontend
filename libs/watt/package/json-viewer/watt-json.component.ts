@@ -67,22 +67,24 @@ export type TreeState = {
   template: `
     @if (!isRoot()) {
       <vater-flex class="watt-json-row" direction="row" (click)="toggleExpanded()">
-        <watt-json-row
-          [label]="label()"
-          [isOriginal]="true"
-          [isSame]="isSame()"
-          [expanded]="expanded()"
-          [value]="left()"
-        />
         @if (diff()) {
           <watt-json-row
             [label]="label()"
-            [isOriginal]="false"
+            [isBaseline]="true"
             [isSame]="isSame()"
             [expanded]="expanded()"
-            [value]="right()"
+            [value]="baseline()"
+            [diff]="diff()"
           />
         }
+        <watt-json-row
+          [label]="label()"
+          [isBaseline]="false"
+          [isSame]="isSame()"
+          [expanded]="expanded()"
+          [value]="json()"
+          [diff]="diff()"
+        />
       </vater-flex>
     }
     @defer (when expanded()) {
@@ -90,9 +92,10 @@ export type TreeState = {
         <watt-json
           [hidden]="!expanded()"
           [label]="child.key"
-          [left]="child.left"
-          [right]="child.right"
+          [json]="child.json"
+          [baseline]="child.baseline"
           [diff]="diff()"
+          [ignoreCase]="ignoreCase()"
           [tree]="tree()"
           [level]="level() + 1"
         />
@@ -102,24 +105,28 @@ export type TreeState = {
 })
 export class WattJson {
   readonly label = input<string>();
-  readonly left = input<unknown>();
-  readonly right = input<unknown>();
+  readonly json = input<unknown>();
+  readonly baseline = input<unknown>();
   readonly diff = input(false);
+  readonly ignoreCase = input(false);
   readonly tree = input.required<TreeState>();
   readonly level = input(0);
 
   protected readonly toMap = (v: unknown) => new Map(Object.entries(isNonEmpty(v) ? v : []));
   protected readonly children = computed(() => {
-    const left = this.toMap(this.left());
-    const right = this.toMap(this.right());
-    const keys = new Set(interleave([...left.keys()], [...right.keys()]));
-    return [...keys].map((key) => ({ key, left: left.get(key), right: right.get(key) }));
+    const json = this.toMap(this.json());
+    const baseline = this.toMap(this.baseline());
+    const keys = new Set(interleave([...json.keys()], [...baseline.keys()]));
+    return [...keys].map((key) => ({ key, json: json.get(key), baseline: baseline.get(key) }));
   });
 
   protected readonly isRoot = computed(() => this.level() === 0);
   protected readonly isSame = computed(() => {
     if (!this.diff()) return true;
-    return isEqual(this.left(), this.right(), { deep: !this.expanded() });
+    return isEqual(this.baseline(), this.json(), {
+      deep: !this.expanded(),
+      ignoreCase: this.ignoreCase(),
+    });
   });
 
   protected readonly expandable = computed(() => this.children().length > 0);

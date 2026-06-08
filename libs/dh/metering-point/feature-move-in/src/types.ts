@@ -25,6 +25,8 @@ import {
   GetMeteringPointByIdDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
+export type ContactType = 'legalContact' | 'technicalContact';
+
 export type StartMoveInFormType = {
   cutOffDate: FormControl<Date>;
   businessReason: FormControl<ChangeOfSupplierBusinessReason>;
@@ -36,7 +38,7 @@ export type StartMoveInFormType = {
   businessCustomer?: FormGroup<{
     companyName: FormControl<string>;
     cvr: FormControl<string>;
-    isForeignCompany: FormControl<boolean>;
+    isFictitiousCvr: FormControl<boolean>;
   }>;
 };
 
@@ -76,9 +78,9 @@ export type AddressGroup = {
 
 export type PrivateCustomerFormGroup = {
   customerName1: FormControl<string>;
-  cpr1: FormControl<string>;
+  cpr1: FormControl<string | null>;
   customerName2: FormControl<string>;
-  cpr2: FormControl<string>;
+  cpr2: FormControl<string | null>;
   nameProtection: FormControl<boolean>;
 };
 
@@ -108,12 +110,6 @@ type Metadata = NonNullable<MeteringPointDetails['metadata']>;
 
 export type InstallationAddress = Metadata['installationAddress'];
 
-export type EnergySupplier = {
-  gln?: CommercialRelation['energySupplier'];
-  name?: NonNullable<CommercialRelation['energySupplierName']>['value'];
-  validFrom?: ActiveEnergySupplyPeriod['validFrom'];
-};
-
 export type CustomerWithContacts = ActiveEnergySupplyPeriod['customers'][0];
 export type Customer = Omit<CustomerWithContacts, 'legalContact' | 'technicalContact'>;
 export type Contact =
@@ -122,3 +118,30 @@ export type Contact =
 
 export type UpdateCustomer = ChangeCustomerCharacteristicsInput;
 export type Location = NonNullable<UpdateCustomer['usagePointLocations']>[0];
+
+export interface FormValues {
+  businessCustomerDetails: {
+    companyName: string;
+    cvr: string;
+    nameProtection: boolean;
+  };
+  privateCustomerDetails: {
+    customerName1: string;
+    cpr1: string | null;
+    customerName2: string;
+    cpr2: string | null;
+    nameProtection: boolean;
+  };
+  legalContactDetails: ContactDetailsValues;
+  legalContactAddressDetails: AddressDetailsValues;
+  technicalContactDetails: ContactDetailsValues;
+  technicalContactAddressDetails: AddressDetailsValues;
+}
+
+export interface CustomerIdentity {
+  firstCustomerName: string | undefined;
+  firstCustomerCpr: string | null | undefined;
+  secondCustomerName: string | undefined;
+  secondCustomerCpr: string | null | undefined;
+  firstCustomerCvr: string | undefined;
+}

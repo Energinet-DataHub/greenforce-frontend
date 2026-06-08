@@ -12,9 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
-using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using HotChocolate.Authorization;
@@ -29,10 +26,8 @@ public static partial class ActorConversationNode
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<GetConversationQueryResponse> GetConversationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
-        [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
+        [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
-        string meteringPointIdentification,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -42,25 +37,7 @@ public static partial class ActorConversationNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        var authRequest = new ReadActorConversationRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            MarketRole = marketRole,
-            MeteringPointId = meteringPointIdentification,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to access the requested conversation.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
-
-        return await authClient.ApiGetConversationAsync(
+        return await actorConversationClient.ApiGetConversationAsync(
             conversationId,
             userId.ToString(),
             marketParticipantNumber,
@@ -112,6 +89,9 @@ public static partial class ActorConversationNode
         descriptor.Field(f => f.Subject);
         descriptor.Field(f => f.Closed);
         descriptor.Field(f => f.Messages);
+        descriptor.Field(f => f.Participants);
+        descriptor.Field(f => f.PartOfConversations);
+        descriptor.Field(f => f.MeteringPointIdentification);
     }
 
     private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)

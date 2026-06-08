@@ -84,10 +84,10 @@ export class DhCapacitySettlementsUploaderComponent {
     this.httpClient
       .post(this.uploadUrl(), formData)
       .pipe(
-        tapResponse(
-          () => this.onUploadSuccessFn(),
-          () => this.onUploadErrorFn()
-        )
+        tapResponse({
+          next: () => this.onUploadSuccessFn(),
+          error: () => this.onUploadErrorFn(),
+        })
       )
       .subscribe();
   }

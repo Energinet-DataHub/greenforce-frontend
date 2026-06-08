@@ -36,7 +36,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
       #modal
       *transloco="
         let t;
-        read: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal'
+        prefix: 'marketParticipant.actorsOverview.drawer.tabs.b2bAccess.clientSecret.removeSecretModal'
       "
       [title]="t('title')"
     >

@@ -24,9 +24,7 @@ import {
   input,
 } from '@angular/core';
 import { WattIconComponent } from '@energinet/watt/icon';
-import { isNonEmpty } from './watt-json.utils';
-
-const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/g;
+import { isNonEmpty, tokenize } from './watt-json.utils';
 
 @Component({
   selector: 'watt-json-row',
@@ -55,8 +53,13 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
       background-color: var(--watt-color-state-danger-light);
     }
 
-    .watt-json-invalid {
+    .watt-json-function,
+    .watt-json-undefined {
       color: var(--watt-on-light-low-emphasis);
+    }
+
+    .watt-json-punctuation {
+      color: var(--watt-on-light-medium-emphasis);
     }
 
     .watt-json-key {
@@ -71,13 +74,14 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
       color: var(--watt-color-state-warning);
     }
 
-    .watt-json-keyword {
+    .watt-json-boolean,
+    .watt-json-null {
       color: var(--watt-color-state-danger);
     }
   `,
   host: {
-    '[class.watt-json-row-added]': '!isOriginal() && !isSame()',
-    '[class.watt-json-row-removed]': 'isOriginal() && !isSame()',
+    '[class.watt-json-row-added]': '!isBaseline() && !isSame()',
+    '[class.watt-json-row-removed]': 'isBaseline() && !isSame()',
   },
   template: `
     @if (value() !== undefined) {
@@ -85,37 +89,25 @@ const JSON_TOKEN_REGEX = /"(?:[^"\\]|\\.)*":?|-?\d+\.?\d*|\b(true|false|null)\b/
         <watt-icon size="s" [name]="expanded() ? 'down' : 'right'" />
       }
       <span>{{ label() }}: </span>
-      <span [hidden]="expandable() && expanded()" [innerHTML]="colorized()"></span>
+      <span [hidden]="expandable() && expanded()">
+        @for (token of tokens(); track $index) {
+          <span [class]="'watt-json-' + token.kind">{{ token.value }}</span>
+        }
+      </span>
     }
   `,
 })
 export class WattJsonRow {
   readonly label = input<string>();
-  readonly isOriginal = input.required<boolean>();
+  readonly isBaseline = input.required<boolean>();
   readonly isSame = input.required<boolean>();
   readonly expanded = input.required<boolean>();
   readonly value = input<unknown>();
+  readonly diff = input(false);
 
   protected readonly expandable = computed(() => isNonEmpty(this.value()));
-  protected readonly colorized = computed(() => {
-    try {
-      const json = JSON.stringify(this.value(), null, ' ');
-      return json === undefined
-        ? `<span class='watt-json-invalid'>${this.value()?.toString() || typeof this.value()}</span>`
-        : json.replace(JSON_TOKEN_REGEX, (match) => {
-            switch (true) {
-              case match.endsWith(':'):
-                return `<span class='watt-json-key'>${match.slice(1, -2)}</span>:`;
-              case match.startsWith('"'):
-                return `<span class='watt-json-string'>${match}</span>`;
-              case /\d/.test(match):
-                return `<span class='watt-json-number'>${match}</span>`;
-              default:
-                return `<span class='watt-json-keyword'>${match}</span>`;
-            }
-          });
-    } catch {
-      return `<span class='watt-json-invalid'>[Circular]</span>`;
-    }
-  });
+  protected readonly budget = computed(() => (this.diff() ? 40 : 80));
+  protected readonly tokens = computed(() => [
+    ...tokenize(this.value(), this.expandable() ? this.budget() : Infinity),
+  ]);
 }

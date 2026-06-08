@@ -21,3 +21,4 @@ export * from './src/permission-dto';
 export * from './src/range';
 export * from './src/dh-settlement-report';
 export * from './src/dh-measurements-report';
+export * from './src/metering-point-subpath';

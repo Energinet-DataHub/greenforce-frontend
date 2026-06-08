@@ -73,6 +73,7 @@ export const filteredMarketParticipants: MarketParticipant[] = [
     gridAreas: [],
     marketRole: EicFunction.DataHubAdministrator,
     displayName: 'Energinet DataHub A/S • DataHubAdministrator',
+    displayNameWithoutMarketRole: 'Energinet DataHub A/S',
     auditLogs: [auditLog],
     credentials,
     contact: {
@@ -110,6 +111,7 @@ export const filteredMarketParticipants: MarketParticipant[] = [
     credentials,
     marketRole: EicFunction.EnergySupplier,
     displayName: 'Sort Størm A/S • EnergySupplier',
+    displayNameWithoutMarketRole: 'Sort Størm A/S',
     auditLogs: [auditLog],
     contact: {
       __typename: 'ActorContactDto',

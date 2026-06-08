@@ -144,11 +144,9 @@ limitations under the License.
     *matRowDef="let row; columns: renderedColumns()"
     [attr.aria-selected]="row === activeRow()"
     [class]="getRowClass(row)"
-    [class]="{
-      'watt-table-highlight-row': !disabled() && !suppressRowHoverHighlight(),
-      'watt-table-clickable-row': !disabled() && rowClick$.observed,
-      'watt-table-active-row': isActiveRow(row),
-    }"
+    [class.watt-table-highlight-row]="!disabled() && !suppressRowHoverHighlight()"
+    [class.watt-table-clickable-row]="!disabled() && rowClick$.observed"
+    [class.watt-table-active-row]="isActiveRow(row)"
   ></tr>
 
   @if (toolbar()) {

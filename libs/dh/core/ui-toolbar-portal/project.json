@@ -1,7 +1,0 @@
-{
-  "name": "dh-ui-toolbar-portal",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/core/ui-toolbar-portal/src",
-  "tags": ["product:dh", "domain:core", "type:ui"]
-}

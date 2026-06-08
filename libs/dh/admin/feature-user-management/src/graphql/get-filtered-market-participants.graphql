@@ -1,0 +1,11 @@
+query GetFilteredMarketParticipants {
+  filteredMarketParticipants {
+    id
+    displayName
+    marketRole
+    organization {
+      id
+      domains
+    }
+  }
+}

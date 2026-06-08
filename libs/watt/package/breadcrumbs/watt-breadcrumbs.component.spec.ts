@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { render, screen, waitFor } from '@testing-library/angular';
+import { render, screen } from '@testing-library/angular';
+import { waitForAsync } from '@energinet-datahub/gf/test-util-staging';
 import userEvent from '@testing-library/user-event';
 import { Component } from '@angular/core';
 import { Router, RouterModule, provideRouter } from '@angular/router';
@@ -28,16 +29,19 @@ import { WATT_BREADCRUMBS, WattBreadcrumbsComponent } from './watt-breadcrumbs.c
 const ROUTE_PREFIX = 'Route:';
 
 @Component({
+  selector: 'watt-test-overview',
   template: `${ROUTE_PREFIX}Overview`,
 })
 class OverviewComponent {}
 
 @Component({
+  selector: 'watt-test-components',
   template: `${ROUTE_PREFIX}Components`,
 })
 class ComponentsComponent {}
 
 @Component({
+  selector: 'watt-test-breadcrumbs-route',
   template: `${ROUTE_PREFIX}Breadcrumbs`,
 })
 class BreadcrumbsRouteComponent {}
@@ -121,16 +125,17 @@ describe(WattBreadcrumbsComponent.name, () => {
 
   it('should navigate on click, when routerLink is added', async () => {
     await setup();
+    const user = userEvent.setup();
 
     // Initially should show overview route
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Overview`)).toBeInTheDocument();
     });
 
-    userEvent.click(getBreadcrumbWithRouterLink() as HTMLElement);
+    await user.click(getBreadcrumbWithRouterLink() as HTMLElement);
 
     // Should navigate to breadcrumbs route
-    await waitFor(() => {
+    await waitForAsync(() => {
       expect(screen.getByText(`${ROUTE_PREFIX}Breadcrumbs`)).toBeInTheDocument();
     });
 
@@ -141,8 +146,9 @@ describe(WattBreadcrumbsComponent.name, () => {
   it('should trigger click callback, when (click) is added', async () => {
     const mockFn = vi.fn();
     await setup(mockFn);
+    const user = userEvent.setup();
 
-    userEvent.click(getBreadcrumbWithClick() as HTMLElement);
+    await user.click(getBreadcrumbWithClick() as HTMLElement);
 
     expect(mockFn).toHaveBeenCalled();
   });

@@ -24,8 +24,7 @@ import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
-
-import { DhUserRoleWithPermissions } from '@energinet-datahub/dh/admin/data-access-api';
+import { DhUserRoleWithPermissions } from '../../types';
 
 @Component({
   selector: 'dh-role-master-data',

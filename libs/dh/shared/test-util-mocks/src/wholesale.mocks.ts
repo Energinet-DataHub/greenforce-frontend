@@ -28,7 +28,7 @@ import {
   CalculationExecutionType,
   GridAreaStatus,
   GridAreaType,
-  ProcessState,
+  OrchestrationState,
   ProcessStepState,
   WholesaleAndEnergyCalculation,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -140,12 +140,14 @@ export const mockedGridAreas: GridAreaDto[] = [
     type: GridAreaType.Distribution,
     includedInCalculation: true,
     toBeDiscontinued: false,
+    displayCodeGlnActor: '001 • 123 • hello',
   },
   {
     __typename: 'GridAreaDto',
     id: '2',
     code: '002',
     name: 'hello again',
+    displayCodeGlnActor: '002 • 123 • hello again',
     displayName: '002 • hello again',
     priceAreaCode: PriceAreaCode.Dk1,
     status: GridAreaStatus.Created,
@@ -175,17 +177,17 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
     steps: [
       {
         isCurrent: true,
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         __typename: 'OrchestrationInstanceStep',
       },
       {
         isCurrent: false,
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         __typename: 'OrchestrationInstanceStep',
       },
       {
         isCurrent: false,
-        state: ProcessState.Pending,
+        state: ProcessStepState.Pending,
         __typename: 'OrchestrationInstanceStep',
       },
     ],
@@ -208,7 +210,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: ProcessState.Pending,
+    state: OrchestrationState.Pending,
     scheduledAt: null,
     steps: [
       {
@@ -244,7 +246,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: '',
     },
     scheduledAt: null,
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -279,7 +281,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Succeeded,
+    state: OrchestrationState.Succeeded,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -314,7 +316,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Failed,
+    state: OrchestrationState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -349,7 +351,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Pending,
+    state: OrchestrationState.Pending,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -384,7 +386,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -419,7 +421,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Succeeded,
+    state: OrchestrationState.Succeeded,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -449,7 +451,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Failed,
+    state: OrchestrationState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -484,7 +486,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Pending,
+    state: OrchestrationState.Pending,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -519,7 +521,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Running,
+    state: OrchestrationState.Running,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',
@@ -553,7 +555,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       auditIdentityId,
       displayName: fakeUserEmail,
     },
-    state: ProcessState.Succeeded,
+    state: OrchestrationState.Succeeded,
     scheduledAt: null,
     steps: [
       {
@@ -589,7 +591,7 @@ const mockedCalculations: WholesaleAndEnergyCalculation[] = [
       displayName: fakeUserEmail,
     },
     scheduledAt: null,
-    state: ProcessState.Failed,
+    state: OrchestrationState.Failed,
     steps: [
       {
         __typename: 'OrchestrationInstanceStep',

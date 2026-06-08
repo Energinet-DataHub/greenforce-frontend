@@ -25,8 +25,8 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
 import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
 import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import type { EnergySupplier } from '@energinet-datahub/dh/metering-point/shared/domain';
 
-import { EnergySupplier } from './../types';
 import { DhCanSeeDirective } from './can-see/dh-can-see.directive';
 import { DhEnergySupplierComponent } from './dh-energy-supplier.component';
 import { DhCustomerOverviewComponent } from './customer/dh-customer-overview.component';
@@ -133,11 +133,13 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
             <dh-customer-overview
               *dhCanSee="'customer-overview-card'; meteringPoint: meteringPoint()"
               [meteringPoint]="meteringPoint()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
             />
 
             <dh-energy-supplier
               *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
               [energySupplier]="energySupplier()"
+              [meteringPointId]="meteringPointId()"
               [productObligation]="meteringPoint()?.metadata?.productObligation"
               [meteringPointType]="meteringPoint()?.metadata?.type"
               [meteringPointConnectionState]="meteringPoint()?.metadata?.connectionState"
@@ -173,7 +175,8 @@ export class DhMeteringPointMasterDataComponent {
 
   energySupplier = computed<EnergySupplier>(() => ({
     gln: this.meteringPoint()?.commercialRelation?.energySupplier,
-    name: this.meteringPoint()?.commercialRelation?.energySupplierName?.value,
+    displayNameWithoutMarketRole:
+      this.meteringPoint()?.commercialRelation?.energySupplierName?.displayNameWithoutMarketRole,
     validFrom: this.meteringPoint()?.commercialRelation?.startDate,
   }));
 }

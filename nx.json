@@ -14,7 +14,7 @@
       "style": "scss",
       "linter": "eslint",
       "unitTestRunner": "vitest-analog",
-      "e2eTestRunner": "cypress"
+      "e2eTestRunner": "playwright"
     },
     "@nx/angular:library": {
       "linter": "eslint",
@@ -118,16 +118,6 @@
       ],
       "cache": true
     },
-    "component-test": {
-      "dependsOn": [
-        {
-          "projects": ["dh-shared-domain"],
-          "target": "generate"
-        }
-      ],
-      "inputs": ["default", "^production"],
-      "cache": true
-    },
     "lint": {
       "dependsOn": [
         {
@@ -141,20 +131,27 @@
   },
   "namedInputs": {
     "default": ["{projectRoot}/**/*", "sharedGlobals"],
-    "sharedGlobals": [],
+    "sharedGlobals": [
+      "{workspaceRoot}/tools/plugins/implicit-libs.ts",
+      "{workspaceRoot}/libs/dh/vite.config.mts",
+      "{workspaceRoot}/libs/gf/vite.config.mts"
+    ],
     "production": [
       "default",
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vite.config.mts",
+      "!{projectRoot}/vitest.config.mts",
       "!{projectRoot}/.eslintrc.json",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
-      "!{projectRoot}/cypress/**/*",
-      "!{projectRoot}/**/*.cy.[jt]s?(x)",
-      "!{projectRoot}/cypress.config.[jt]s",
+      "!{projectRoot}/playwright.config.[jt]s",
       "!{projectRoot}/tsconfig.storybook.json",
-      "!{projectRoot}/src/test-setup.[jt]s"
+      "!{projectRoot}/src/test-setup.[jt]s",
+      "!{projectRoot}/tests/test-setup.[jt]s",
+      "!{projectRoot}/**/*.Tests/**/*",
+      "!{projectRoot}/**/bin/**/*",
+      "!{projectRoot}/**/obj/**/*"
     ]
   },
   "defaultBase": "main",
@@ -170,15 +167,15 @@
     },
     {
       "plugin": "@nx/vite/plugin",
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"],
       "options": {
         "testTargetName": "test"
       }
     },
     {
-      "plugin": "@nx/cypress/plugin",
+      "plugin": "@nx/playwright/plugin",
       "options": {
-        "targetName": "e2e",
-        "componentTestingTargetName": "component-test"
+        "targetName": "e2e"
       }
     },
     {
@@ -187,6 +184,27 @@
         "serveStorybookTargetName": "storybook",
         "buildStorybookTargetName": "build-storybook"
       }
+    },
+    {
+      "plugin": "@nx/dotnet",
+      "options": {
+        "build": {
+          "outputs": [
+            "{projectRoot}/bin",
+            "{projectRoot}/obj",
+            "{projectRoot}/bin/Debug/net10.0",
+            "{projectRoot}/obj/Debug/net10.0/ref",
+            "{workspaceRoot}/libs/dh/shared/data-access-graphql/schema.graphql"
+          ]
+        },
+        "watch": {
+          "targetName": "serve"
+        },
+        "restore": {
+          "cache": false
+        }
+      }
     }
-  ]
+  ],
+  "analytics": false
 }

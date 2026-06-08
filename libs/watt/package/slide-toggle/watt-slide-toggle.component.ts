@@ -22,6 +22,7 @@ import {
   input,
   model,
   signal,
+  computed,
   Component,
   forwardRef,
   ElementRef,
@@ -30,6 +31,8 @@ import {
 } from '@angular/core';
 
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
+export type WattSlideToggleSize = 'small' | 'medium';
 
 /**
  * Slide toggle
@@ -45,6 +48,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
       multi: true,
     },
   ],
+  host: { '[class]': 'classes()' },
   selector: 'watt-slide-toggle',
   styleUrls: ['./watt-slide-toggle.component.scss'],
   template: `<mat-slide-toggle
@@ -62,6 +66,8 @@ export class WattSlideToggleComponent implements ControlValueAccessor {
   checked = model(false);
   isDisabled = signal(false);
   required = input(false);
+  size = input<WattSlideToggleSize>('medium');
+  classes = computed(() => `watt-slide-toggle-size--${this.size()}`);
 
   writeValue(checked: boolean): void {
     this.checked.set(checked);

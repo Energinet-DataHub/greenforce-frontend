@@ -1,8 +1,0 @@
-{
-  "name": "dh-globalization-feature-language-picker",
-  "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "library",
-  "sourceRoot": "libs/dh/globalization/feature-language-picker/src",
-  "prefix": "dh",
-  "tags": ["product:dh", "domain:globalization", "type:feature"]
-}
