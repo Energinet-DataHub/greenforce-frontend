@@ -2,7 +2,7 @@ mutation RequestIncorrectMoveIn(
   $processId: UUID!
   $meteringPointId: String!
   $cutoffDate: DateTime!
-  $reason: String!
+  $reason: String
 ) {
   requestIncorrectMoveIn(
     input: {

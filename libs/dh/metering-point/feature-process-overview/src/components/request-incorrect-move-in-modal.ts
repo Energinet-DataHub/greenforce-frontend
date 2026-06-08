@@ -55,10 +55,6 @@ export interface RequestIncorrectMoveInModalData {
     VaterStackComponent,
   ],
   styles: `
-    form {
-      margin-top: var(--watt-space-m);
-    }
-
     p {
       width: 100%;
       margin: 0;
@@ -133,10 +129,7 @@ export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorre
     .format('DD-MM-YYYY');
 
   readonly form = new FormGroup({
-    reason: dhMakeFormControl<string | null>(null, [
-      Validators.required,
-      Validators.maxLength(this.maxReasonLength),
-    ]),
+    reason: dhMakeFormControl<string | null>(null, Validators.maxLength(this.maxReasonLength)),
     conditionsMet: dhMakeFormControl(false, Validators.requiredTrue),
   });
 
@@ -144,7 +137,6 @@ export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorre
     if (this.form.invalid) return;
 
     const { reason } = this.form.getRawValue();
-    if (!reason) return;
 
     await this.requestIncorrectMoveInMutation.mutate({
       refetchQueries: [

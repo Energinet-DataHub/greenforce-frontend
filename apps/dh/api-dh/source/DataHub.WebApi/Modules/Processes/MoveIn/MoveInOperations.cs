@@ -135,7 +135,7 @@ public static class MoveInOperations
         Guid processId,
         string meteringPointId,
         DateTimeOffset cutoffDate,
-        string reason,
+        string? reason,
         [Service] IB2CClient ediB2CClient,
         CancellationToken ct)
     {

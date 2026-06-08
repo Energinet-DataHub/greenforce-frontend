@@ -86,19 +86,14 @@ describe('Request incorrect move-in modal', () => {
     );
   });
 
-  it('keeps the request correction action disabled until a reason is given and the conditions are confirmed', async () => {
+  it('enables the request correction action once the conditions are confirmed, without requiring a reason', async () => {
     const { dialog } = await setup();
     const user = userEvent.setup();
 
     const submit = within(dialog).getByRole('button', { name: /Request correction/i });
     expect(submit).toBeDisabled();
 
-    await user.type(
-      within(dialog).getByRole('textbox', { name: /reason for request/i }),
-      'Wrong tenant'
-    );
-    expect(submit).toBeDisabled();
-
+    // Confirming the conditions alone enables the action; the reason is optional.
     await user.click(within(dialog).getByRole('checkbox'));
     await waitForAsync(() => expect(submit).toBeEnabled());
   });
