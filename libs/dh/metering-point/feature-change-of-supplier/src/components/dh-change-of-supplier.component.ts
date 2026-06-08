@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, Injector, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -157,6 +157,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
 }> {
   private readonly router = inject(Router);
   private readonly toastService = inject(WattToastService);
+  private readonly injector = inject(Injector);
   private readonly initiateChangeOfSupplier = mutation(InitiateChangeOfSupplierDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -183,7 +184,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
       this.form.controls.cvr.clearValidators();
     } else {
       this.form.controls.cvr.enable();
-      this.form.controls.cvr.setValidators([Validators.required, dhMoveInCvrValidator()]);
+      this.form.controls.cvr.setValidators([Validators.required, dhMoveInCvrValidator(this.injector)]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();
     }

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, Injector, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -192,6 +192,7 @@ import {
 })
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
   private readonly actor = inject(DhActorStorage).getSelectedActor();
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
@@ -299,7 +300,7 @@ export class DhUpdateCustomerDataComponent {
           ),
           cvr: dhMakeFormControl<string>(
             this.effectiveCustomerCvr(),
-            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
+            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator(this.injector)] : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false

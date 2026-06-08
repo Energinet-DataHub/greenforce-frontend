@@ -16,52 +16,96 @@
  * limitations under the License.
  */
 //#endregion
+import { Injector } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 
+import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { dhMoveInCvrValidator } from '../src/validators/dh-move-in-cvr.validator';
 
+function createValidator(env: DhAppEnvironment) {
+  TestBed.configureTestingModule({
+    providers: [{ provide: dhAppEnvironmentToken, useValue: { current: env } }],
+  });
+
+  return TestBed.runInInjectionContext(() =>
+    dhMoveInCvrValidator(TestBed.inject(Injector))
+  );
+}
+
 describe('dhMoveInCvrValidator', () => {
-  const validator = dhMoveInCvrValidator();
+  describe('non-production environments (local, dev, test)', () => {
+    const validator = createValidator(DhAppEnvironment.local);
 
-  it('allows test CVR 11111111 (checksum bypass)', () => {
-    const control = new FormControl('11111111');
-    expect(validator(control)).toBeNull();
+    it('allows test CVR 11111111', () => {
+      expect(validator(new FormControl('11111111'))).toBeNull();
+    });
+
+    it('allows test CVR 22222222', () => {
+      expect(validator(new FormControl('22222222'))).toBeNull();
+    });
+
+    it('allows test CVR 33333333', () => {
+      expect(validator(new FormControl('33333333'))).toBeNull();
+    });
   });
 
-  it('allows test CVR 22222222 (checksum bypass)', () => {
-    const control = new FormControl('22222222');
-    expect(validator(control)).toBeNull();
+  describe('restricted environments (prod, preprod)', () => {
+    it('allows test CVR 11111111 in prod', () => {
+      const validator = createValidator(DhAppEnvironment.prod);
+      expect(validator(new FormControl('11111111'))).toBeNull();
+    });
+
+    it('rejects test CVR 22222222 in prod', () => {
+      const validator = createValidator(DhAppEnvironment.prod);
+      expect(validator(new FormControl('22222222'))).toEqual({ invalidCvrNumber: true });
+    });
+
+    it('rejects test CVR 33333333 in prod', () => {
+      const validator = createValidator(DhAppEnvironment.prod);
+      expect(validator(new FormControl('33333333'))).toEqual({ invalidCvrNumber: true });
+    });
+
+    it('allows test CVR 11111111 in preprod', () => {
+      const validator = createValidator(DhAppEnvironment.preprod);
+      expect(validator(new FormControl('11111111'))).toBeNull();
+    });
+
+    it('rejects test CVR 22222222 in preprod', () => {
+      const validator = createValidator(DhAppEnvironment.preprod);
+      expect(validator(new FormControl('22222222'))).toEqual({ invalidCvrNumber: true });
+    });
+
+    it('rejects test CVR 33333333 in preprod', () => {
+      const validator = createValidator(DhAppEnvironment.preprod);
+      expect(validator(new FormControl('33333333'))).toEqual({ invalidCvrNumber: true });
+    });
   });
 
-  it('allows test CVR 33333333 (checksum bypass)', () => {
-    const control = new FormControl('33333333');
-    expect(validator(control)).toBeNull();
-  });
+  describe('base validator behaviour (any environment)', () => {
+    const validator = createValidator(DhAppEnvironment.local);
 
-  it('allows a valid CVR number', () => {
-    // 12345674: weighted sum = 106, mod 11 = 7, check digit = 4 ✓
-    const control = new FormControl('12345674');
-    expect(validator(control)).toBeNull();
-  });
+    it('allows a valid CVR number', () => {
+      // 12345674: weighted sum = 106, mod 11 = 7, check digit = 4 ✓
+      expect(validator(new FormControl('12345674'))).toBeNull();
+    });
 
-  it('allows an empty value', () => {
-    const control = new FormControl('');
-    expect(validator(control)).toBeNull();
-  });
+    it('allows an empty value', () => {
+      expect(validator(new FormControl(''))).toBeNull();
+    });
 
-  it('rejects a CVR with an invalid checksum', () => {
-    // 12345678: expected check digit is 4, not 8
-    const control = new FormControl('12345678');
-    expect(validator(control)).toEqual({ invalidCvrNumber: true });
-  });
+    it('rejects a CVR with an invalid checksum', () => {
+      // 12345678: expected check digit is 4, not 8
+      expect(validator(new FormControl('12345678'))).toEqual({ invalidCvrNumber: true });
+    });
 
-  it('rejects a CVR that is too short', () => {
-    const control = new FormControl('1234567');
-    expect(validator(control)).toEqual({ invalidCvrNumber: true });
-  });
+    it('rejects a CVR that is too short', () => {
+      expect(validator(new FormControl('1234567'))).toEqual({ invalidCvrNumber: true });
+    });
 
-  it('rejects a CVR that is too long', () => {
-    const control = new FormControl('123456789');
-    expect(validator(control)).toEqual({ invalidCvrNumber: true });
+    it('rejects a CVR that is too long', () => {
+      expect(validator(new FormControl('123456789'))).toEqual({ invalidCvrNumber: true });
+    });
   });
 });
+
