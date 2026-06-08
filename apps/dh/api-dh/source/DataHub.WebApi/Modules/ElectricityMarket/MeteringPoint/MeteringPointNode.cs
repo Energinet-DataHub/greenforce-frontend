@@ -33,6 +33,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.Electrica
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ActorConversation;
+using Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -420,13 +421,27 @@ public static partial class MeteringPointNode
         try
         {
             await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
-            return true;
         }
         catch (Exception)
         {
             throw new GraphQLException(
                 $"Command StartHtxElectricalHeatingCreateWithFlagCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}'");
         }
+
+        var conversationMessageInput = new SendActorConversationMessageInput
+        {
+            ConversationId = actorConversationId,
+            Content = $"Registrering af elvarme er startet",
+            Anonymous = true,
+        };
+
+        await ActorConversationOperations.SendActorConversationMessageAsync(
+            httpContextAccessor,
+            actorConversationClient,
+            conversationMessageInput,
+            ct).ConfigureAwait(false);
+
+        return true;
     }
 
     [Query]
