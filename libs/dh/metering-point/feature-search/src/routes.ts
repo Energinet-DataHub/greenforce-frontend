@@ -96,6 +96,17 @@ export const dhMeteringPointRoutes: Routes = [
         component: DhCreateMeteringPoint,
       },
       {
+        path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
+        canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
+        resolve: {
+          conversationId: conversationIdResolver(),
+        },
+        loadComponent: () =>
+          import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
+            (m) => m.DhElectricalHeatingCorrection
+          ),
+      },
+      {
         path: `:${dhInternalMeteringPointIdParam}`,
         canActivate: [dhCanActivateMeteringPointOverview],
         resolve: {
@@ -199,18 +210,6 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
                 (m) => m.DhUploadMeasurementsPage
-              ),
-          },
-          {
-            path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
-            canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
-            data: { hideHeader: true },
-            resolve: {
-              conversationId: conversationIdResolver(),
-            },
-            loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
-                (m) => m.DhElectricalHeatingCorrection
               ),
           },
           {

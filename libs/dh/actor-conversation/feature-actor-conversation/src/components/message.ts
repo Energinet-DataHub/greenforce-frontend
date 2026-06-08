@@ -28,7 +28,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattButtonComponent } from '@energinet/watt/button';
 
-import { getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import { combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { injectDownloadMessageDocument } from './download-message-document';
@@ -243,7 +243,7 @@ export class DhActorConversationMessage {
     );
   });
 
-  registerElectricalHeatingLink = `../${getPath('electrical-heating-correction')}`;
+  registerElectricalHeatingLink = `${combinePaths('metering-point', 'electrical-heating-correction')}`;
 
   messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>
