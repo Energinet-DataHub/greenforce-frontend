@@ -56,15 +56,22 @@ export interface RequestIncorrectMoveInModalData {
   ],
   styles: `
     form {
-      margin-top: var(--watt-space-l);
+      margin-top: var(--watt-space-m);
+    }
+
+    p {
+      width: 100%;
+      margin: 0;
     }
 
     watt-textarea-field {
+      width: 100%;
+      --watt-textarea-min-height: 80px;
       --watt-textarea-max-height: 200px;
     }
 
-    .field {
-      width: 320px;
+    watt-checkbox {
+      width: 100%;
     }
 
     .conditions-prefix {
@@ -79,18 +86,19 @@ export interface RequestIncorrectMoveInModalData {
     >
       <form id="request-incorrect-move-in-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" align="start" gap="m">
-          <p>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</p>
+          <p><small>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</small></p>
 
           <watt-textarea-field
-            class="field"
             [label]="t('reasonLabel')"
             [formControl]="form.controls.reason"
             [maxLength]="maxReasonLength"
           />
 
           <watt-checkbox [formControl]="form.controls.conditionsMet">
-            <span class="conditions-prefix">{{ t('conditionsPrefix') }}</span>
-            {{ t('conditionsSuffix') }}
+            <span>
+              <span class="conditions-prefix">{{ t('conditionsPrefix') }}</span>
+              {{ t('conditionsSuffix') }}
+            </span>
           </watt-checkbox>
         </vater-stack>
       </form>
