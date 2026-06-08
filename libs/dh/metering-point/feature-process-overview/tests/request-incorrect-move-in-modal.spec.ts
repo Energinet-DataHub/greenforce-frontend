@@ -86,16 +86,50 @@ describe('Request incorrect move-in modal', () => {
     );
   });
 
-  it('enables the request correction action once the conditions are confirmed, without requiring a reason', async () => {
+  it('renders the conditions as a link to the external rules page in a new tab', async () => {
+    const { dialog } = await setup();
+
+    // The conditions prefix is a real anchor (role "link"), not plain label text.
+    // Being interactive content inside the checkbox label is what makes a real
+    // browser open the rules page instead of toggling the checkbox. This no-toggle
+    // behavior is verified in-browser (happy-dom models label clicks differently),
+    // so here we guard the structural cause: it stays a link with the right target.
+    const conditionsLink = within(dialog).getByRole('link', { name: /conditions/i });
+    expect(conditionsLink).toHaveAttribute('href', 'https://energinet.dk/regler/el/elmarked/');
+    expect(conditionsLink).toHaveAttribute('target', '_blank');
+    expect(conditionsLink).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('does not submit until the conditions are confirmed, and allows an empty reason', async () => {
+    let submissions = 0;
+    let submittedReason: string | null | undefined;
+    server.use(
+      graphql.mutation('RequestIncorrectMoveIn', ({ variables }) => {
+        submissions += 1;
+        submittedReason = variables['reason'];
+        return HttpResponse.json({
+          data: {
+            __typename: 'Mutation',
+            requestIncorrectMoveIn: { __typename: 'RequestIncorrectMoveInPayload', success: true },
+          },
+        });
+      })
+    );
+
     const { dialog } = await setup();
     const user = userEvent.setup();
-
     const submit = within(dialog).getByRole('button', { name: /Request correction/i });
-    expect(submit).toBeDisabled();
 
-    // Confirming the conditions alone enables the action; the reason is optional.
+    // Submitting before confirming the conditions does nothing.
+    await user.click(submit);
+    expect(submissions).toBe(0);
+
+    // After confirming the conditions, submission goes through even without a reason.
     await user.click(within(dialog).getByRole('checkbox'));
-    await waitForAsync(() => expect(submit).toBeEnabled());
+    await user.click(submit);
+
+    await waitForAsync(() => expect(submissions).toBe(1));
+    expect(submittedReason).toBeFalsy();
   });
 
   it('sends the entered reason when submitting', async () => {
@@ -123,10 +157,7 @@ describe('Request incorrect move-in modal', () => {
       'Wrong tenant'
     );
     await user.click(within(dialog).getByRole('checkbox'));
-
-    const submit = within(dialog).getByRole('button', { name: /Request correction/i });
-    await waitForAsync(() => expect(submit).toBeEnabled());
-    await user.click(submit);
+    await user.click(within(dialog).getByRole('button', { name: /Request correction/i }));
 
     await waitForAsync(() => expect(sentReason).toBe('Wrong tenant'));
   });

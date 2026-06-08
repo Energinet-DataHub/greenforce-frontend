@@ -57,21 +57,26 @@ export interface RequestIncorrectMoveInModalData {
   styles: `
     p {
       width: 100%;
-      margin: 0;
+      margin-top: 0;
+      margin-bottom: var(--watt-space-sm);
     }
 
     watt-textarea-field {
       width: 100%;
       --watt-textarea-min-height: 80px;
-      --watt-textarea-max-height: 200px;
     }
 
     watt-checkbox {
       width: 100%;
     }
 
-    .conditions-prefix {
-      color: var(--fg-primary);
+    .conditions-link {
+      color: var(--watt-color-primary);
+      text-decoration: none;
+    }
+
+    .conditions-link:hover {
+      text-decoration: underline;
     }
   `,
   template: `
@@ -81,7 +86,7 @@ export interface RequestIncorrectMoveInModalData {
       size="small"
     >
       <form id="request-incorrect-move-in-form" [formGroup]="form" (ngSubmit)="submit()">
-        <vater-stack direction="column" align="start" gap="m">
+        <vater-stack direction="column" align="start" gap="xs">
           <p><small>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</small></p>
 
           <watt-textarea-field
@@ -91,10 +96,16 @@ export interface RequestIncorrectMoveInModalData {
           />
 
           <watt-checkbox [formControl]="form.controls.conditionsMet">
-            <span>
-              <span class="conditions-prefix">{{ t('conditionsPrefix') }}</span>
+            <small>
+              <a
+                class="conditions-link"
+                href="https://energinet.dk/regler/el/elmarked/"
+                target="_blank"
+                rel="noopener noreferrer"
+                >{{ t('conditionsPrefix') }}</a
+              >
               {{ t('conditionsSuffix') }}
-            </span>
+            </small>
           </watt-checkbox>
         </vater-stack>
       </form>
@@ -107,7 +118,6 @@ export interface RequestIncorrectMoveInModalData {
         <watt-button
           type="submit"
           formId="request-incorrect-move-in-form"
-          [disabled]="form.invalid"
           [loading]="loading()"
         >
           {{ t('confirm') }}
