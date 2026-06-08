@@ -56,27 +56,15 @@ export interface RequestIncorrectMoveInModalData {
   ],
   styles: `
     p {
-      width: 100%;
-      margin-top: 0;
-      margin-bottom: var(--watt-space-sm);
+      margin: 0 0 var(--watt-space-sm) 0;
     }
 
     watt-textarea-field {
-      width: 100%;
       --watt-textarea-min-height: 80px;
     }
 
-    watt-checkbox {
-      width: 100%;
-    }
-
-    .conditions-link {
-      color: var(--watt-color-primary);
-      text-decoration: none;
-    }
-
-    .conditions-link:hover {
-      text-decoration: underline;
+    .ng-submitted.ng-invalid a {
+      color: var(--watt-color-state-danger);
     }
   `,
   template: `
@@ -98,7 +86,6 @@ export interface RequestIncorrectMoveInModalData {
           <watt-checkbox [formControl]="form.controls.conditionsMet">
             <small>
               <a
-                class="conditions-link"
                 href="https://energinet.dk/regler/el/elmarked/"
                 target="_blank"
                 rel="noopener noreferrer"
