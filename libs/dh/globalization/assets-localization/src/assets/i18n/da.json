@@ -1346,6 +1346,7 @@
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_3": "Afvisning af annullering af serviceydelse (RSM-024)",
         "BRS_039_REQUESTFORCANCELLATIONFORSERVICE_V1_STEP_4": "Information om annullering af serviceydelse (RSM-025)",
         "BRS_039_REQUESTFORSERVICE_V1_STEP_1": "Anmodning om serviceydelse (RSM-020)",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_2": "Afvisning af anmodning om serviceydelse (RSM-020)",
         "BRS_039_REQUESTFORSERVICE_V1_STEP_3": "Anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_1": "Godkendelse af anmodning om serviceydelse (RSM-020)",
         "BRS_039_CONFIRMATIONOFREQUESTFORSERVICE_V1_STEP_2": "Godkendelse af anmodning om serviceydelse (RSM-020)",
