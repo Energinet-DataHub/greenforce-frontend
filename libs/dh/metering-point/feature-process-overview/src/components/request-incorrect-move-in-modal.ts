@@ -20,7 +20,7 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
-import { dayjs } from '@energinet/watt/date';
+import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
@@ -53,6 +53,7 @@ export interface RequestIncorrectMoveInModalData {
     WattCheckboxComponent,
     WattTextAreaFieldComponent,
     VaterStackComponent,
+    WattDatePipe,
   ],
   styles: `
     p {
@@ -76,7 +77,7 @@ export interface RequestIncorrectMoveInModalData {
       <form id="request-incorrect-move-in-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" align="start" gap="xs">
           <p>
-            <small>{{ t('description', { cutoffDate: formattedCutoffDate }) }}</small>
+            <small>{{ t('description', { cutoffDate: modalData.cutoffDate | wattDate }) }}</small>
           </p>
 
           <watt-textarea-field
@@ -119,9 +120,6 @@ export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorre
   readonly modal = viewChild.required(WattModalComponent);
   readonly loading = this.requestIncorrectMoveInMutation.loading;
   readonly maxReasonLength = 500;
-  readonly formattedCutoffDate = dayjs(this.modalData.cutoffDate)
-    .tz('Europe/Copenhagen')
-    .format('DD-MM-YYYY');
 
   readonly form = new FormGroup({
     reason: dhMakeFormControl<string | null>(null, Validators.maxLength(this.maxReasonLength)),
