@@ -19,14 +19,15 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslocoPipe } from '@jsverse/transloco';
 
+import { VaterStackComponent } from '@energinet/watt/vater';
+
 @Component({
   selector: 'dh-step-reason',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [TranslocoPipe],
+  imports: [TranslocoPipe, VaterStackComponent],
   styles: `
-    .step-reason {
-      display: flex;
-      flex-direction: column;
+    p {
+      margin: var(--watt-space-m) 0 0;
     }
   `,
   template: `
@@ -40,7 +41,7 @@ import { TranslocoPipe } from '@jsverse/transloco';
         rendering a raw key. A new step opts in by adding a stepReasonLabels translation.
       -->
       @if (reasonLabel !== reasonLabelKey) {
-        <p class="watt-text-s step-reason">
+        <p vater-stack align="start" class="watt-text-s">
           <strong class="watt-text-s-highlighted">{{ reasonLabel }}</strong>
           {{ commentText }}
         </p>
