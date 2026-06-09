@@ -95,7 +95,7 @@ limitations under the License.
         [class.watt-table-cell--expanded]="expanded().includes(row)"
         [class.watt-table-cell--expandable]="column.value.expandable"
         class="watt-table-align-{{ column.value.align ?? 'left' }} watt-table-valign-{{
-          column.value.verticalAlign ?? 'center'
+          column.value.verticalAlign ?? verticalAlign()
         }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && onRowClick(row)"
       >
@@ -126,7 +126,7 @@ limitations under the License.
           *matFooterCellDef
           class="{{ column.value.footer?.class }} watt-table-align-{{
             column.value.align ?? 'left'
-          }} watt-table-valign-{{ column.value.verticalAlign ?? 'center' }} "
+          }} watt-table-valign-{{ column.value.verticalAlign ?? verticalAlign() }} "
         >
           {{ column.value.footer?.value?.() }}
         </td>

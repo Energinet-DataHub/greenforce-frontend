@@ -92,6 +92,7 @@ const selector = 'dh-metering-point-process-overview-steps';
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
         [dataSource]="dataSource()"
         [columns]="columns"
+        verticalAlign="flex-start"
         [resolveHeader]="resolveHeader"
         [loading]="loading()"
         [rowClass]="getRowClass"
@@ -152,15 +153,10 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    actor: { accessor: 'actor', sort: false, verticalAlign: 'flex-start' },
-    step: { accessor: 'step', size: '1fr', sort: false, verticalAlign: 'flex-start' },
-    documentUrl: {
-      accessor: 'documentUrl',
-      sort: false,
-      header: '',
-      verticalAlign: 'flex-start',
-    },
-    completedAt: { accessor: 'completedAt', sort: false, verticalAlign: 'flex-start' },
+    actor: { accessor: 'actor', sort: false },
+    step: { accessor: 'step', size: '1fr', sort: false },
+    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
+    completedAt: { accessor: 'completedAt', sort: false },
   };
 
   getRowClass = (step: MeteringPointProcessStep) => {
