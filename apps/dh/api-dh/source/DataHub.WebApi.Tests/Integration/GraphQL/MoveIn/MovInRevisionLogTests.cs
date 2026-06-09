@@ -126,11 +126,13 @@ public class MoveInRevisionLogTests
                 $processId: UUID!
                 $meteringPointId: String!
                 $cutoffDate: DateTime!
+                $reason: String
               ) {
                 requestIncorrectMoveIn(input: {
                   processId: $processId,
                   meteringPointId: $meteringPointId,
-                  cutoffDate: $cutoffDate
+                  cutoffDate: $cutoffDate,
+                  reason: $reason
                 }) {
                   boolean
                 }
@@ -150,6 +152,7 @@ public class MoveInRevisionLogTests
                 { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
                 { "meteringPointId", "571313180000000005" },
                 { "cutoffDate", "2025-12-31T23:00:00Z" },
+                { "reason", "Incorrect move-in reason" },
             });
     }
 }

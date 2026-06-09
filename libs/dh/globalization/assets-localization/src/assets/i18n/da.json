@@ -1145,6 +1145,13 @@
         }
       },
       "incorrectMoveIn": {
+        "title": "Anmod om korrektion: Fejlagtig flytning",
+        "description": "Anmod om korrektion af flytning med skæringsdato d. {{ cutoffDate }}?",
+        "reasonLabel": "Årsag til anmodning",
+        "conditionsPrefix": "Betingelser",
+        "conditionsSuffix": "for korrektion af fejlagtig flytning er opfyldt",
+        "cancel": "Luk",
+        "confirm": "Anmod om korrektion",
         "toast": {
           "loading": "Opretter anmodning...",
           "success": "Anmodning er registreret i DataHub",

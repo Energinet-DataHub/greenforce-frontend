@@ -1146,6 +1146,13 @@
         }
       },
       "incorrectMoveIn": {
+        "title": "Request correction: Incorrect move",
+        "description": "Request correction of move with cut-off date {{ cutoffDate }}?",
+        "reasonLabel": "Reason for request",
+        "conditionsPrefix": "Conditions",
+        "conditionsSuffix": "for correction of incorrect move are met",
+        "cancel": "Close",
+        "confirm": "Request correction",
         "toast": {
           "loading": "Submitting the request...",
           "success": "The request has been registered in DataHub",
