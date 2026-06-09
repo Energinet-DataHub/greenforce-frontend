@@ -25,7 +25,7 @@ import {
   input,
   viewChild,
 } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -39,7 +39,6 @@ import { WattSkeletonComponent } from '@energinet/watt/skeleton';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { dayjs } from '@energinet/watt/core/date';
 
-import { combineWithIdPaths } from '@energinet-datahub/dh/core/configuration-routing';
 import {
   DhEmDashFallbackPipe,
   dhMakeFormControl,
@@ -50,11 +49,9 @@ import {
 import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   GetConversationDocument,
-  GetMeteringPointByIdDocument,
+  GetMeteringPointConversationInfoDocument,
   RegisterElectricalHeatingDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
-import { uniqueContacts } from '@energinet-datahub/dh/metering-point/shared/ui-utils';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
@@ -63,7 +60,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   imports: [
     TranslocoDirective,
     ReactiveFormsModule,
-    RouterLink,
 
     VATER,
     WATT_CARD,
@@ -111,8 +107,8 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
       <vater-stack direction="row" justify="space-between" class="watt-space-stack-ml">
         <h1 class="no-margin">{{ t('title') }}</h1>
 
-        <watt-button [routerLink]="actorConversationLink()" variant="secondary"
-          >{{ t('cancel') }}
+        <watt-button (click)="location.back()" variant="secondary">
+          {{ t('cancel') }}
         </watt-button>
       </vater-stack>
 
@@ -133,16 +129,12 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
               <watt-skeleton width="200px" />
             } @else {
               <div class="watt-text-s">
-                {{ meteringPointId() }}
+                {{ meteringPointIdFromConversation() }}
                 <br />
                 {{ address()?.streetName }}
                 {{ address()?.buildingNumber }},
-
-                @if (address()?.floor || address()?.room) {
-                  {{ address()?.floor }} {{ address()?.room }}
-                }
                 <br />
-                {{ address()?.postCode }} {{ address()?.cityName }}
+                {{ address()?.municipalityCode }} {{ address()?.cityName }}
               </div>
             }
           </vater-stack>
@@ -169,7 +161,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             @if (loading()) {
               <watt-skeleton width="200px" />
             } @else {
-              <p class="watt-text-s">{{ firstContactName() | dhEmDashFallback }}</p>
+              <p class="watt-text-s">{{ customerName() | dhEmDashFallback }}</p>
             }
           </vater-stack>
 
@@ -194,29 +186,17 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhElectricalHeatingCorrection {
-  private readonly router = inject(Router);
-  private readonly actor = inject(DhActorStorage).getSelectedActor();
+  readonly location = inject(Location);
 
   private readonly startDatepicker = viewChild<WattDatepickerComponent>('startDatepicker');
   private readonly endDatepicker = viewChild<WattDatepickerComponent>('endDatepicker');
 
   private registerElectricalHeating = mutation(RegisterElectricalHeatingDocument, {
     onStatusUpdated: injectToast('meteringPoint.electricalHeatingCorrection.toast'),
-    onCompleted: () => this.router.navigateByUrl(this.actorConversationLink()),
+    onCompleted: () => this.location.back(),
   });
 
-  meteringPointId = input.required<string>();
-  searchMigratedMeteringPoints = input.required<boolean>();
-  internalMeteringPointId = input.required<string>();
   conversationId = input.required<string>();
-
-  private meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
-    variables: {
-      meteringPointId: this.meteringPointId(),
-      searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      actorGln: this.actor.gln,
-    },
-  }));
 
   private conversationQuery = query(GetConversationDocument, () => ({
     variables: {
@@ -224,31 +204,41 @@ export class DhElectricalHeatingCorrection {
     },
   }));
 
+  private conversation = computed(() => this.conversationQuery.data()?.conversation);
+
+  meteringPointIdFromConversation = computed(
+    () => this.conversation()?.meteringPointIdentification
+  );
+
+  private meteringPointConversationInfoQuery = query(
+    GetMeteringPointConversationInfoDocument,
+    () => {
+      const meteringPointId = this.meteringPointIdFromConversation();
+      return meteringPointId ? { variables: { meteringPointId } } : { skip: true };
+    }
+  );
+
   private electricalHeatingUserMessage = computed(
     () =>
-      this.conversationQuery
-        .data()
-        ?.conversation?.messages.find((message) => message.electricalHeatingUserMessage != null)
+      this.conversation()?.messages.find((message) => message.electricalHeatingUserMessage != null)
         ?.electricalHeatingUserMessage
   );
 
-  private meteringPoint = computed(() => this.meteringPointQuery.data()?.meteringPoint);
+  address = computed(
+    () => this.meteringPointConversationInfoQuery.data()?.meteringPoint.metadata.installationAddress
+  );
 
-  private contacts = computed(
-    () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers ?? []
+  customerName = computed(
+    () =>
+      this.conversation()?.messages.find((message) => message.electricalHeatingInformation != null)
+        ?.electricalHeatingInformation?.customerName
   );
 
   private dataHubElectricalHeatingCutOffDate = dayjs().subtract(1092, 'days').toDate();
 
-  loading = this.meteringPointQuery.loading;
-
-  address = computed(() => this.meteringPoint()?.metadata?.installationAddress);
-
-  firstContactName = computed(() => {
-    const [firstContact] = uniqueContacts(this.contacts());
-
-    return firstContact?.name;
-  });
+  loading = computed(
+    () => this.conversationQuery.loading() || this.meteringPointConversationInfoQuery.loading()
+  );
 
   form = new FormGroup({
     childMeteringPointId: dhMakeFormControl<string>('', [
@@ -307,22 +297,21 @@ export class DhElectricalHeatingCorrection {
 
   emDash = emDash;
 
-  actorConversationLink = computed(() =>
-    combineWithIdPaths('metering-point', this.internalMeteringPointId(), 'actor-conversation')
-  );
-
   async submit() {
     if (this.form.invalid) {
       return;
     }
 
+    const meteringPointIdFromConversation = this.meteringPointIdFromConversation();
+
     const { childMeteringPointId, periodStart, periodEnd } = this.form.getRawValue();
 
+    assertIsDefined(meteringPointIdFromConversation);
     assertIsDefined(periodStart);
 
     await this.registerElectricalHeating.mutate({
       variables: {
-        parentMeteringPointId: this.meteringPointId(),
+        parentMeteringPointId: meteringPointIdFromConversation,
         childMeteringPointId,
         actorConversationId: this.conversationId(),
         periodStart,
