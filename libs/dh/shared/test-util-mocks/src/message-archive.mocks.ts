@@ -542,6 +542,7 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -614,6 +615,7 @@ function buildChangeOfEnergySupplierProcess(
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -722,6 +724,7 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -794,7 +797,7 @@ function buildGenericProcess({
       {
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-1`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1',
         comment: 'OBS: Sendt til foged',
         completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
@@ -814,7 +817,7 @@ function buildGenericProcess({
         // participant is null because this actor differs from the logged-in actor.
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-2`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2',
         comment: 'Afventer bekræftelse',
         completedAt: null,
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
@@ -855,9 +858,9 @@ function getMeteringPointProcessById(apiBase: string) {
 
     const processId = args.variables.id;
 
-    // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
+    // Note: the GLN for the first initiator (fb575, Radius) intentionally differs from the
     // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
-    // path against a test actor's default GLN. This is a dev-only override — not a data error.
+    // path against a test actor's default GLN. This is a dev-only override, not a data error.
     const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
