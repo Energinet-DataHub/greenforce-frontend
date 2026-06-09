@@ -157,6 +157,7 @@ public static partial class MeteringPointProcessNode
     public static async Task<IEnumerable<MeteringPointProcessAction>> GetAvailableActionsAsync(
         [Parent] MeteringPointProcess process,
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
+        ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -167,6 +168,27 @@ public static partial class MeteringPointProcessNode
                 .Select(MapWorkflowActionToMeteringPointProcessAction);
 
         if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
+        {
+            return actions;
+        }
+
+        // InitiateIncorrectMoveIn corrects a customer move-in that has already completed,
+        // so only Succeeded processes are candidates. Anything still pending/running, or
+        // terminated with a non-success state, must not surface the action.
+        if (process.State != MeteringPointProcessState.Succeeded)
+        {
+            return actions;
+        }
+
+        // Only the latest succeeded CustomerMoveIn on the metering point can be corrected:
+        // an older move-in has been superseded by a newer one, so correcting it would not
+        // restore the current responsibility. The latest loader queries PM with a wide
+        // window so the result is independent of the user's overview date filter.
+        var latestProcessId = await latestCustomerMoveInProcessIdDataLoader
+            .LoadAsync(process.MeteringPointId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (latestProcessId != process.Id)
         {
             return actions;
         }
@@ -216,6 +238,45 @@ public static partial class MeteringPointProcessNode
         return results;
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<string, string?>> GetLatestCustomerMoveInProcessIdAsync(
+        IReadOnlyList<string> meteringPointIds,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var results = new Dictionary<string, string?>(meteringPointIds.Count);
+
+        // PM lookup is done with a wide range so the "latest" check is independent of the
+        // overview user-supplied date filter; the rule says "latest ever", not "latest visible".
+        var earliest = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        var farFuture = DateTimeOffset.UtcNow.AddYears(10);
+
+        foreach (var meteringPointId in meteringPointIds)
+        {
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                userIdentity,
+                meteringPointId,
+                earliest,
+                farFuture);
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var latest = instances
+                .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
+                .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
+                .ThenByDescending(x => x.Id)
+                .FirstOrDefault();
+
+            results[meteringPointId] = latest?.Id.ToString();
+        }
+
+        return results;
+    }
+
     /// <summary>
     /// Resolves the period used to search for processes. When the frontend sends no period
     /// (<paramref name="created"/> is null), a wide hidden-default window is applied:
@@ -245,6 +306,7 @@ public static partial class MeteringPointProcessNode
             .Resolve((ctx, ct) => GetAvailableActionsAsync(
                 ctx.Parent<MeteringPointProcess>(),
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
+                ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }

@@ -33,16 +33,19 @@ public class MeteringPointProcessNodeTests
     private const string MeteringPointId = "571313180400000005";
     private const string EnergySupplierGln = "5790001330552";
     private static readonly Guid _processOrchestrationId = Guid.Parse("6f1d24c8-8f64-4e9f-85ee-637de6d61512");
+    private static readonly Guid _otherProcessOrchestrationId = Guid.Parse("aa1d24c8-8f64-4e9f-85ee-637de6d6151a");
 
     [Fact]
     public async Task GetAvailableActionsAsync_EligibleCustomerMoveIn_IncludesInitiateIncorrectMoveIn()
     {
         var process = CreateCustomerMoveInProcess();
         var dataLoader = CreateEligibilityDataLoader(isEligible: true);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
             process,
             dataLoader.Object,
+            latestLoader.Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -63,10 +66,12 @@ public class MeteringPointProcessNodeTests
         // move-in exists in EM within the 60-day lookback window.
         var process = CreateCustomerMoveInProcess();
         var dataLoader = CreateEligibilityDataLoader(isEligible: false);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
             process,
             dataLoader.Object,
+            latestLoader.Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -78,10 +83,12 @@ public class MeteringPointProcessNodeTests
     {
         var process = CreateProcess(BusinessReason.EndOfSupply, meteringPointId: MeteringPointId);
         var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
             process,
             dataLoader.Object,
+            latestLoader.Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -100,12 +107,18 @@ public class MeteringPointProcessNodeTests
         // process's own cutoff is inside the 60-day window. Strict mock fails if the data
         // loader is touched.
         var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
-        var process = CreateProcess(BusinessReason.CustomerMoveIn, MeteringPointId, cutoff);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
         var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
             process,
             dataLoader.Object,
+            latestLoader.Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -116,12 +129,84 @@ public class MeteringPointProcessNodeTests
     public async Task GetAvailableActionsAsync_FasUser_CustomerMoveInOutsideWindow_DoesNotIncludeInitiateIncorrectMoveIn()
     {
         var cutoff = DateTimeOffset.UtcNow.AddDays(-61);
-        var process = CreateProcess(BusinessReason.CustomerMoveIn, MeteringPointId, cutoff);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
         var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
             process,
             dataLoader.Object,
+            latestLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_PendingCustomerMoveIn_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // A still-pending CustomerMoveIn cannot be corrected, so the action must not appear.
+        // Strict mocks on both loaders prove the short-circuit happens before any data is loaded.
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            state: MeteringPointProcessState.Pending);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_SucceededButNotLatest_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // The process is Succeeded but a newer CustomerMoveIn supersedes it on the same
+        // metering point, so InitiateIncorrectMoveIn must not be offered. The EM loader is
+        // strict to prove the latest gate short-circuits before per-supplier eligibility is checked.
+        var process = CreateCustomerMoveInProcess();
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _otherProcessOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_NotLatest_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // Same "latest" gate as the non-FAS path. The cutoff is inside the 60-day FAS
+        // window so the only reason the action should not appear is the latest check.
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _otherProcessOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -129,12 +214,16 @@ public class MeteringPointProcessNodeTests
     }
 
     private static MeteringPointProcess CreateCustomerMoveInProcess() =>
-        CreateProcess(BusinessReason.CustomerMoveIn, meteringPointId: MeteringPointId);
+        CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            meteringPointId: MeteringPointId,
+            state: MeteringPointProcessState.Succeeded);
 
     private static MeteringPointProcess CreateProcess(
         BusinessReason businessReason,
         string? meteringPointId,
-        DateTimeOffset? cutoffDate = null) =>
+        DateTimeOffset? cutoffDate = null,
+        MeteringPointProcessState state = MeteringPointProcessState.Pending) =>
         new(
             Id: _processOrchestrationId.ToString(),
             TransactionId: "transaction-id",
@@ -143,7 +232,7 @@ public class MeteringPointProcessNodeTests
             BusinessReason: businessReason,
             ActorNumber: EnergySupplierGln,
             ActorRole: ActorRole.EnergySupplier.Name,
-            State: MeteringPointProcessState.Pending,
+            State: state,
             Actions: [WorkflowAction.CancelWorkflow],
             WorkflowSteps: null,
             MeteringPointId: meteringPointId);
@@ -156,6 +245,17 @@ public class MeteringPointProcessNodeTests
                 It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(isEligible);
+        return dataLoader;
+    }
+
+    private static Mock<ILatestCustomerMoveInProcessIdDataLoader> CreateLatestDataLoader(string? latestProcessId)
+    {
+        var dataLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>();
+        dataLoader
+            .Setup(x => x.LoadAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(latestProcessId);
         return dataLoader;
     }
 

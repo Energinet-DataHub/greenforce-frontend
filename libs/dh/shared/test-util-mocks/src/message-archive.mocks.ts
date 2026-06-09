@@ -295,8 +295,8 @@ function buildOverviewProcesses() {
     id: 'process-cmi-incorrect-move-in',
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     createdAt: new Date(Date.now() - 3 * 864e5), // 3 days ago
-    cutoffDate: new Date(Date.now() + 864e5), // tomorrow
-    state: MeteringPointProcessState.Pending,
+    cutoffDate: new Date(Date.now() + 2 * 864e5), // 2 days from now (latest CustomerMoveIn)
+    state: MeteringPointProcessState.Succeeded,
     availableActions: [MeteringPointProcessAction.InitiateIncorrectMoveIn],
     initiator: {
       __typename: 'MarketParticipant' as const,
@@ -470,7 +470,7 @@ export const knownProcesses: Record<
   },
   'process-cmi-incorrect-move-in': {
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    state: MeteringPointProcessState.Pending,
+    state: MeteringPointProcessState.Succeeded,
     availableActions: [MeteringPointProcessAction.InitiateIncorrectMoveIn],
     initiatorGln: processCmiInfoInitiatorGln,
   },
