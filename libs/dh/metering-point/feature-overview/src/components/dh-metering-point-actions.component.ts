@@ -161,7 +161,17 @@ export class DhMeteringPointActionsComponent {
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
   isEnergySupplierResponsible = input.required<boolean>();
+  isChildMeteringPoint = input<boolean | null>(false);
   searchMigratedMeteringPoints = input.required<boolean>();
+
+  // Change-of-supplier and move-in can only be initiated on a parent metering
+  // point of type Consumption (E17) or Production (E18).
+  private readonly isEligibleForCustomerProcesses = computed(
+    () =>
+      !this.isChildMeteringPoint() &&
+      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
+        this.type() === ElectricityMarketMeteringPointType.Production)
+  );
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -219,8 +229,7 @@ export class DhMeteringPointActionsComponent {
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||
         this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected) &&
-      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
-        this.type() === ElectricityMarketMeteringPointType.Production)
+      this.isEligibleForCustomerProcesses()
     );
   });
 
@@ -255,6 +264,7 @@ export class DhMeteringPointActionsComponent {
     () =>
       this.hasMeteringPointChangeOfSupplierPermission() &&
       !this.isEnergySupplierResponsible() &&
+      this.isEligibleForCustomerProcesses() &&
       this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
   );
 

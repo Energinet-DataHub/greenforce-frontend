@@ -60,6 +60,30 @@ function initiatorFields(initiator: Initiator) {
   };
 }
 
+// Dedicated initiator for `process-eos-cancel`, shared by the overview list and the
+// by-id drawer so both queries normalize the SAME MarketParticipant entity. Its id is
+// unique (no other row/query writes it), so the GLN is deterministic regardless of which
+// query resolves last. The GLN is the test actor's default (1234567890123), which lets
+// dev mode demonstrate the InitiatingParticipant path against the logged-in actor.
+const endOfSupplyInitiator: Initiator = {
+  id: '0199ed3d-f1b2-7180-9546-39b5836fb5e0',
+  displayName: '1234567890123 • Radius',
+  glnOrEicNumber: '1234567890123',
+  role: EicFunction.GridAccessProvider,
+};
+
+// Dedicated resolved actor for the by-id drawer's first process step. Steps are only
+// returned by the by-id query (the overview list has no steps), and this id is unique,
+// so no overview row writes the same MarketParticipant entity. Its display name carries
+// the test actor's default GLN (1234567890123) so the drawer demonstrates a resolved
+// step actor against the logged-in actor.
+const resolvedStepActor = {
+  __typename: 'MarketParticipant' as const,
+  id: '0199ed3d-f1b2-7180-9546-39b5836fb5e1',
+  displayName: '1234567890123 • Radius',
+  role: EicFunction.GridAccessProvider,
+};
+
 export function messageArchiveMocks(apiBase: string) {
   return [
     getDocumentById(apiBase),
@@ -163,207 +187,226 @@ function getArchivedMessagesForMeteringPoint(apiBase: string) {
   });
 }
 
+// Single source of truth for the overview rows (memoized, built once). The by-id handler reads
+// each process's shared fields from here so list and drawer agree (Apollo normalizes by id, so
+// a mismatch makes the list row change when its drawer opens).
+let overviewProcessesCache: ReturnType<typeof buildOverviewProcesses> | undefined;
+function getOverviewProcesses() {
+  return (overviewProcessesCache ??= buildOverviewProcesses());
+}
+
 function getMeteringPointProcessOverview() {
   return mockGetMeteringPointProcessOverviewQuery(async () => {
     await delay(mswConfig.delay);
-
-    const states = [
-      MeteringPointProcessState.Pending,
-      MeteringPointProcessState.Running,
-      MeteringPointProcessState.Succeeded,
-      MeteringPointProcessState.Failed,
-      MeteringPointProcessState.Canceled,
-      MeteringPointProcessState.Rejected,
-    ];
-
-    const initiators: Initiator[] = [
-      {
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-        displayName: '905495045940594 • Radius',
-        glnOrEicNumber: '905495045940594',
-        role: EicFunction.GridAccessProvider,
-      },
-      {
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-        displayName: '5790001330552 • Energinet',
-        glnOrEicNumber: '5790001330552',
-        role: EicFunction.SystemOperator,
-      },
-      {
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb577',
-        displayName: '7080005056076 • Andel',
-        glnOrEicNumber: '7080005056076',
-        role: EicFunction.EnergySupplier,
-      },
-      {
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb578',
-        displayName: '5790001687137 • Ørsted',
-        glnOrEicNumber: '5790001687137',
-        role: EicFunction.EnergySupplier,
-      },
-      {
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
-        displayName: '5706552000028 • Clever Energy',
-        glnOrEicNumber: '5706552000028',
-        role: EicFunction.EnergySupplier,
-      },
-    ];
-
-    const baseDate = new Date('2025-01-01T10:00:00Z');
-
-    const mockProcesses = Array.from(
-      { length: translatedBusinessReasons.length * 3 },
-      (_, index) => {
-        const daysOffset = Math.floor(index * 2);
-        const hoursOffset = (index * 3) % 24;
-        const createdAt = new Date(baseDate);
-        createdAt.setDate(createdAt.getDate() + daysOffset);
-        createdAt.setHours(createdAt.getHours() + hoursOffset);
-
-        const currentState = states[index % states.length];
-        const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
-        const availableActions = getAvailableActions(businessReason, currentState);
-
-        let cutoffDate = null;
-        if (currentState !== MeteringPointProcessState.Pending) {
-          cutoffDate = new Date(createdAt);
-          cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
-        }
-
-        return {
-          __typename: 'MeteringPointProcess' as const,
-          id: `process-${String(index + 1).padStart(3, '0')}`,
-          businessReason,
-          createdAt,
-          cutoffDate,
-          state: currentState,
-          availableActions,
-          ...initiatorFields(initiators[index % initiators.length]),
-        };
-      }
-    );
-
-    // Explicit processes with actions for testing
-    const endOfSupplyProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-eos-cancel',
-      businessReason: ProcessManagerBusinessReason.EndOfSupply,
-      createdAt: new Date('2025-02-15T10:00:00Z'),
-      cutoffDate: new Date('2025-02-20T10:00:00Z'),
-      state: MeteringPointProcessState.Running,
-      availableActions: [
-        WorkflowAction.CancelWorkflow,
-        WorkflowAction.ConfirmWorkflow,
-        WorkflowAction.RejectRequest,
-      ],
-      ...initiatorFields(initiators[0]),
-    };
-
-    const customerMoveInProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-cmi-info',
-      businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-      createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
-      cutoffDate: new Date(Date.now() + 864e5), // tomorrow
-      state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
-      initiator: {
-        __typename: 'MarketParticipant' as const,
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
-        displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
-        glnOrEicNumber: processCmiInfoInitiatorGln,
-      },
-      initiatorRole: EicFunction.EnergySupplier,
-    };
-
-    const changeOfEnergySupplierProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-cos-info',
-      businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-      createdAt: new Date(Date.now() - 864e5), // yesterday (864e5 = 1 day in ms)
-      cutoffDate: new Date(Date.now() + 864e5), // tomorrow
-      state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
-      initiator: {
-        __typename: 'MarketParticipant' as const,
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
-        displayName: `${processCosInfoInitiatorGln} • NRGi (Elleverandør)`,
-        glnOrEicNumber: processCosInfoInitiatorGln,
-      },
-      initiatorRole: EicFunction.EnergySupplier,
-    };
-
-    const secondaryMoveInProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-smi-info',
-      businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-      createdAt: new Date('2026-05-15T11:00:00Z'),
-      cutoffDate: new Date('2026-05-15T00:00:00Z'),
-      state: MeteringPointProcessState.Pending,
-      availableActions: [WorkflowAction.SendInformation],
-      initiator: {
-        __typename: 'MarketParticipant' as const,
-        id: '0199ed3d-f1b2-7180-9546-39b5836fb580',
-        displayName: `${processSecondaryMoveInInitiatorGln} • RSI 01 (Elleverandør)`,
-        glnOrEicNumber: processSecondaryMoveInInitiatorGln,
-      },
-      initiatorRole: EicFunction.EnergySupplier,
-    };
-
-    const endOfSupplyRequestServiceProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-eos-request-service',
-      businessReason: ProcessManagerBusinessReason.EndOfSupply,
-      createdAt: new Date('2025-02-17T10:00:00Z'),
-      cutoffDate: new Date('2025-02-22T10:00:00Z'),
-      state: MeteringPointProcessState.Running,
-      availableActions: [WorkflowAction.SendInformation],
-      ...initiatorFields(initiators[2]),
-    };
-
-    // Masked initiator: the resolved participant is null, so the initiator column
-    // falls back to the translated role (GridAccessProvider -> "Grid access provider").
-    const maskedInitiatorProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-masked-initiator',
-      businessReason: ProcessManagerBusinessReason.EndOfSupply,
-      createdAt: new Date('2025-03-01T10:00:00Z'),
-      cutoffDate: new Date('2025-03-05T10:00:00Z'),
-      state: MeteringPointProcessState.Running,
-      availableActions: [],
-      initiator: null,
-      initiatorRole: EicFunction.GridAccessProvider,
-    };
-
-    // The process that cross-cancelled `process-cross-cancelled`. Being present in
-    // the overview list is what makes the cancellation banner render a link to it.
-    const cancellingProcess = {
-      __typename: 'MeteringPointProcess' as const,
-      id: 'process-cancelling',
-      businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-      createdAt: new Date('2026-02-15T10:00:00Z'),
-      cutoffDate: new Date('2026-02-17T00:00:00Z'),
-      state: MeteringPointProcessState.Running,
-      availableActions: [WorkflowAction.SendInformation],
-      ...initiatorFields(initiators[0]),
-    };
-
     return HttpResponse.json({
-      data: {
-        __typename: 'Query',
-        meteringPointProcessOverview: [
-          endOfSupplyProcess,
-          customerMoveInProcess,
-          changeOfEnergySupplierProcess,
-          secondaryMoveInProcess,
-          endOfSupplyRequestServiceProcess,
-          maskedInitiatorProcess,
-          cancellingProcess,
-          ...mockProcesses,
-        ],
-      },
+      data: { __typename: 'Query', meteringPointProcessOverview: getOverviewProcesses() },
     });
   });
+}
+
+function buildOverviewProcesses() {
+  const states = [
+    MeteringPointProcessState.Pending,
+    MeteringPointProcessState.Running,
+    MeteringPointProcessState.Succeeded,
+    MeteringPointProcessState.Failed,
+    MeteringPointProcessState.Canceled,
+    MeteringPointProcessState.Rejected,
+  ];
+
+  const initiators: Initiator[] = [
+    {
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
+      displayName: '905495045940594 • Radius',
+      glnOrEicNumber: '905495045940594',
+      role: EicFunction.GridAccessProvider,
+    },
+    {
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+      displayName: '5790001330552 • Energinet',
+      glnOrEicNumber: '5790001330552',
+      role: EicFunction.SystemOperator,
+    },
+    {
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb577',
+      displayName: '7080005056076 • Andel',
+      glnOrEicNumber: '7080005056076',
+      role: EicFunction.EnergySupplier,
+    },
+    {
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb578',
+      displayName: '5790001687137 • Ørsted',
+      glnOrEicNumber: '5790001687137',
+      role: EicFunction.EnergySupplier,
+    },
+    {
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
+      displayName: '5706552000028 • Clever Energy',
+      glnOrEicNumber: '5706552000028',
+      role: EicFunction.EnergySupplier,
+    },
+  ];
+
+  const baseDate = new Date('2025-01-01T10:00:00Z');
+
+  const mockProcesses = Array.from({ length: translatedBusinessReasons.length * 3 }, (_, index) => {
+    const daysOffset = Math.floor(index * 2);
+    const hoursOffset = (index * 3) % 24;
+    const createdAt = new Date(baseDate);
+    createdAt.setDate(createdAt.getDate() + daysOffset);
+    createdAt.setHours(createdAt.getHours() + hoursOffset);
+
+    const currentState = states[index % states.length];
+    const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
+    const availableActions = getAvailableActions(businessReason, currentState);
+
+    let cutoffDate = null;
+    if (currentState !== MeteringPointProcessState.Pending) {
+      cutoffDate = new Date(createdAt);
+      cutoffDate.setDate(cutoffDate.getDate() + ((index % 5) + 1));
+    }
+
+    return {
+      __typename: 'MeteringPointProcess' as const,
+      id: `process-${String(index + 1).padStart(3, '0')}`,
+      businessReason,
+      createdAt,
+      cutoffDate,
+      state: currentState,
+      availableActions,
+      ...initiatorFields(initiators[index % initiators.length]),
+    };
+  });
+
+  // Explicit processes with actions for testing
+  const endOfSupplyProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-eos-cancel',
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    createdAt: new Date('2025-02-15T10:00:00Z'),
+    cutoffDate: new Date('2025-02-20T10:00:00Z'),
+    state: MeteringPointProcessState.Running,
+    availableActions: [
+      WorkflowAction.CancelWorkflow,
+      WorkflowAction.ConfirmWorkflow,
+      WorkflowAction.RejectRequest,
+    ],
+    ...initiatorFields(endOfSupplyInitiator),
+  };
+
+  const customerMoveInProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-cmi-info',
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
+    cutoffDate: new Date(Date.now() + 864e5), // tomorrow
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+      displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+      glnOrEicNumber: processCmiInfoInitiatorGln,
+    },
+    initiatorRole: EicFunction.EnergySupplier,
+  };
+
+  const changeOfEnergySupplierProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-cos-info',
+    businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
+    createdAt: new Date(Date.now() - 864e5), // yesterday (864e5 = 1 day in ms)
+    cutoffDate: new Date(Date.now() + 864e5), // tomorrow
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
+      displayName: `${processCosInfoInitiatorGln} • NRGi (Elleverandør)`,
+      glnOrEicNumber: processCosInfoInitiatorGln,
+    },
+    initiatorRole: EicFunction.EnergySupplier,
+  };
+
+  const secondaryMoveInProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-smi-info',
+    businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
+    createdAt: new Date('2026-05-15T11:00:00Z'),
+    cutoffDate: new Date('2026-05-15T00:00:00Z'),
+    state: MeteringPointProcessState.Pending,
+    availableActions: [WorkflowAction.SendInformation],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb580',
+      displayName: `${processSecondaryMoveInInitiatorGln} • RSI 01 (Elleverandør)`,
+      glnOrEicNumber: processSecondaryMoveInInitiatorGln,
+    },
+    initiatorRole: EicFunction.EnergySupplier,
+  };
+
+  const endOfSupplyRequestServiceProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-eos-request-service',
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    createdAt: new Date('2025-02-17T10:00:00Z'),
+    cutoffDate: new Date('2025-02-22T10:00:00Z'),
+    state: MeteringPointProcessState.Running,
+    availableActions: [WorkflowAction.SendInformation],
+    ...initiatorFields(initiators[2]),
+  };
+
+  // Masked initiator: the resolved participant is null, so the initiator column
+  // falls back to the translated role (GridAccessProvider -> "Grid access provider").
+  const maskedInitiatorProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-masked-initiator',
+    businessReason: ProcessManagerBusinessReason.EndOfSupply,
+    createdAt: new Date('2025-03-01T10:00:00Z'),
+    cutoffDate: new Date('2025-03-05T10:00:00Z'),
+    state: MeteringPointProcessState.Running,
+    availableActions: [],
+    initiator: null,
+    initiatorRole: EicFunction.GridAccessProvider,
+  };
+
+  // The process that cross-cancelled `process-cross-cancelled`. Being present in
+  // the overview list is what makes the cancellation banner render a link to it.
+  const cancellingProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-cancelling',
+    businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
+    createdAt: new Date('2026-02-15T10:00:00Z'),
+    cutoffDate: new Date('2026-02-17T00:00:00Z'),
+    state: MeteringPointProcessState.Running,
+    availableActions: [WorkflowAction.SendInformation],
+    ...initiatorFields(initiators[0]),
+  };
+
+  // The cancelled process: in the list so its drawer (and the cross-cancellation banner
+  // linking to `cancellingProcess` above) is reachable by clicking a row.
+  const crossCancelledProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-cross-cancelled',
+    businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
+    createdAt: new Date('2026-02-14T10:00:00Z'),
+    cutoffDate: new Date('2026-02-17T00:00:00Z'),
+    state: MeteringPointProcessState.Canceled,
+    availableActions: [],
+    ...initiatorFields(initiators[1]),
+  };
+
+  return [
+    endOfSupplyProcess,
+    customerMoveInProcess,
+    changeOfEnergySupplierProcess,
+    secondaryMoveInProcess,
+    endOfSupplyRequestServiceProcess,
+    maskedInitiatorProcess,
+    crossCancelledProcess,
+    cancellingProcess,
+    ...mockProcesses,
+  ];
 }
 
 export const processCmiInfoInitiatorGln = '5790000555588';
@@ -522,6 +565,7 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -594,6 +638,7 @@ function buildChangeOfEnergySupplierProcess(
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -702,6 +747,7 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
     state: MeteringPointProcessState.Pending,
     availableActions: [WorkflowAction.SendInformation],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -725,8 +771,6 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
 function buildGenericProcess({
   processId,
   apiBase,
-  processIndex,
-  initiators,
   createdAt,
   cutoffDate,
   businessReason,
@@ -738,10 +782,8 @@ function buildGenericProcess({
 }: {
   processId: string;
   apiBase: string;
-  processIndex: number;
-  initiators: Initiator[];
   createdAt: Date;
-  cutoffDate: Date;
+  cutoffDate: Date | null;
   businessReason: ProcessManagerBusinessReason;
   state: MeteringPointProcessState;
   availableActions: WorkflowAction[];
@@ -774,7 +816,7 @@ function buildGenericProcess({
       {
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-1`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1',
         comment: 'OBS: Sendt til foged',
         completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
@@ -783,18 +825,18 @@ function buildGenericProcess({
           'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
         documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
         actor: {
-          __typename: 'MarketParticipant' as const,
-          id: initiators[processIndex % initiators.length].id,
-          displayName: initiators[processIndex % initiators.length].displayName,
+          __typename: resolvedStepActor.__typename,
+          id: resolvedStepActor.id,
+          displayName: resolvedStepActor.displayName,
         },
-        actorRole: initiators[processIndex % initiators.length].role,
+        actorRole: resolvedStepActor.role,
       },
       {
         // Masked step actor: the role is always populated, but the resolved
         // participant is null because this actor differs from the logged-in actor.
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-2`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2',
         comment: 'Afventer bekræftelse',
         completedAt: null,
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
@@ -835,14 +877,17 @@ function getMeteringPointProcessById(apiBase: string) {
 
     const processId = args.variables.id;
 
-    // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
-    // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
-    // path against a test actor's default GLN. This is a dev-only override — not a data error.
+    // Index-derived initiators for ids that are NOT explicit overview rows (e.g.
+    // "process-001"). For explicit rows the initiator is taken from the overview row
+    // itself (see `baseInitiator` below) so the list and the drawer normalize the SAME
+    // MarketParticipant entity. Apollo keys participants by id, so a row and its drawer
+    // returning different fields for the same id would let one query's value leak into
+    // the other depending on resolution order.
     const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-        displayName: '1234567890123 • Radius',
-        glnOrEicNumber: '1234567890123',
+        displayName: '905495045940594 • Radius',
+        glnOrEicNumber: '905495045940594',
         role: EicFunction.GridAccessProvider,
       },
       {
@@ -865,14 +910,16 @@ function getMeteringPointProcessById(apiBase: string) {
       },
     ];
 
-    // Extract index from process ID (e.g., "process-001" -> 1)
+    // The overview row for this id, the source of truth for the drawer's shared fields.
+    const base = getOverviewProcesses().find((p) => p.id === processId);
+
+    // Index-derived fallback for ids not in the list (e.g. "process-001" -> 1).
     const numericMatch = processId.match(/\d+/);
     const processIndex = numericMatch ? Number.parseInt(numericMatch[0], 10) : 0;
-    const createdAt = new Date('2025-01-01T10:00:00Z');
-    createdAt.setDate(createdAt.getDate() + processIndex * 2);
-
-    const cutoffDate = new Date(createdAt);
-    cutoffDate.setDate(cutoffDate.getDate() + 3);
+    const fallbackCreatedAt = new Date('2025-01-01T10:00:00Z');
+    fallbackCreatedAt.setDate(fallbackCreatedAt.getDate() + processIndex * 2);
+    const fallbackCutoff = new Date(fallbackCreatedAt);
+    fallbackCutoff.setDate(fallbackCutoff.getDate() + 3);
 
     const allStates = [
       MeteringPointProcessState.Pending,
@@ -883,16 +930,35 @@ function getMeteringPointProcessById(apiBase: string) {
       MeteringPointProcessState.Rejected,
     ];
 
-    // Derive businessReason and state consistently with overview mock
+    // Prefer the overview row's values, then knownProcesses, then index-derived defaults.
     const known = knownProcesses[processId];
     const safeIndex = Math.max(processIndex, 1) - 1;
+    // Ternary, not `??`: a Pending row's null cutoffDate is real and must not fall back.
+    const createdAt = base ? base.createdAt : fallbackCreatedAt;
+    const cutoffDate = base ? base.cutoffDate : fallbackCutoff;
     const businessReason =
+      base?.businessReason ??
       known?.businessReason ??
       translatedBusinessReasons[safeIndex % translatedBusinessReasons.length];
-    const state = known?.state ?? allStates[safeIndex % allStates.length];
-    const availableActions = known?.availableActions ?? getAvailableActions(businessReason, state);
+    const state = base?.state ?? known?.state ?? allStates[safeIndex % allStates.length];
+    const availableActions =
+      base?.availableActions ??
+      known?.availableActions ??
+      getAvailableActions(businessReason, state);
 
-    const baseInitiator = initiators[processIndex % initiators.length];
+    // Prefer the overview row's resolved initiator so the drawer normalizes the SAME
+    // MarketParticipant entity as the list (real backends return one entity per id).
+    // Masked rows (`base.initiator === null`) keep only the role; fall back to the
+    // index-derived initiator for ids that are not explicit overview rows.
+    const baseInitiator: Initiator =
+      base?.initiator != null
+        ? {
+            id: base.initiator.id,
+            displayName: base.initiator.displayName,
+            glnOrEicNumber: base.initiator.glnOrEicNumber,
+            role: base.initiatorRole,
+          }
+        : initiators[processIndex % initiators.length];
     const initiatorWithGln = known?.initiatorGln
       ? {
           ...baseInitiator,
@@ -914,8 +980,6 @@ function getMeteringPointProcessById(apiBase: string) {
             : buildGenericProcess({
                 processId,
                 apiBase,
-                processIndex,
-                initiators,
                 createdAt,
                 cutoffDate,
                 businessReason,
@@ -926,10 +990,16 @@ function getMeteringPointProcessById(apiBase: string) {
                 cancelledByProcess: known?.cancelledByProcess ?? null,
               });
 
+    // Reconcile the special builders' own dates with the overview row (no-op for the
+    // generic path, which already used these dates).
+    const reconciled = base
+      ? { ...meteringPointProcessById, createdAt, cutoffDate }
+      : meteringPointProcessById;
+
     return HttpResponse.json({
       data: {
         __typename: 'Query',
-        meteringPointProcessById,
+        meteringPointProcessById: reconciled,
       },
     });
   });

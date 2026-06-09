@@ -42,6 +42,9 @@ import {
 import { of } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
+
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
@@ -68,6 +71,10 @@ async function setup(
       // overview query variables from inherited route data.
       DhMeteringPointProcessOverviewStore,
       { provide: ComponentFixtureAutoDetect, useValue: true },
+      {
+        provide: DhReleaseToggleService,
+        useValue: { isEnabled: () => true, toggles: () => [] },
+      },
       {
         provide: PermissionService,
         useValue: {
@@ -167,6 +174,25 @@ function applyFilters(
 }
 
 describe('Process overview', () => {
+  it('marks the active row when navigation targets a loaded process (cross-cancellation link)', async () => {
+    const fixture = await setup();
+    const router = fixture.debugElement.injector.get(Router);
+    vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const navigation = fixture.debugElement.injector.get(DhNavigationService);
+
+    // Issue 1549: the banner link calls navigation.navigate('details', id) on the shared
+    // DhNavigationService; before the fix `selection` froze at `undefined` and never marked it.
+    navigation.navigate('details', 'process-cancelling');
+    TestBed.tick();
+
+    // The process IS in the loaded list, so it must now be the active selection...
+    expect(fixture.componentInstance.selection()?.id).toBe('process-cancelling');
+
+    // ...and exactly one row must carry the active-row marking in the DOM.
+    const grid = screen.getByRole('treegrid');
+    expect(grid.querySelectorAll('tr.watt-table-active-row').length).toBe(1);
+  });
+
   it('should render the table with process data', async () => {
     await setup();
     expect(screen.getByRole('treegrid')).toBeInTheDocument();
@@ -306,6 +332,29 @@ describe('Process overview', () => {
 
     // The rendered table is back to the full set the user started with.
     expect(renderedRowCount()).toBe(baselineRows);
+  });
+
+  it('should not render the reset button when no filter is applied', async () => {
+    await setup();
+
+    // Default blank state: nothing to reset, so the user sees no reset button.
+    expect(screen.queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
+  });
+
+  it('should render the reset button once a filter is applied and hide it again after reset', async () => {
+    const fixture = await setup();
+    const user = userEvent.setup();
+    const filterBar = document.querySelector('watt-data-filters') as HTMLElement;
+
+    // Applying a filter gives the user something to reset, so the button appears.
+    applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
+    const resetButton = within(filterBar).getByRole('button', { name: /Reset/i });
+    expect(resetButton).toBeInTheDocument();
+
+    // Resetting returns to the blank default, so the button disappears again.
+    await user.click(resetButton);
+    TestBed.tick();
+    expect(within(filterBar).queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
   });
 
   it('should show cancel button and open modal when clicked', async () => {

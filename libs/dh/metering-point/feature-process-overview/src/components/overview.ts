@@ -28,6 +28,7 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/wat
 import { WattDatePipe } from '@energinet/watt/date';
 import type { WattRange } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
+import { WattModalService } from '@energinet/watt/modal';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import type { WattDropdownOptions } from '@energinet/watt/dropdown';
 
@@ -52,7 +53,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
+import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal';
 import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
 
 @Component({
@@ -122,7 +123,9 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
             dhDropdownTranslator
             translateKey="shared.states"
           />
-          <dh-reset-filters-button />
+          @if (hasActiveFilters()) {
+            <dh-reset-filters-button />
+          }
         </form>
       </watt-data-filters>
       <watt-table
@@ -210,7 +213,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
+  private readonly modalService = inject(WattModalService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -249,7 +252,20 @@ export class DhMeteringPointProcessOverviewTable {
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
-  selection = computed(() => this.dataSource.data.find((r) => r.id === this.navigation.id()));
+  // Read the id unconditionally (not lazily inside `.find`): a lazy read on the first,
+  // empty-list run leaves the computed dependency-less and frozen at `undefined`.
+  selection = computed(() => {
+    const id = this.navigation.id();
+    return this.store.filteredProcesses().find((r) => r.id === id);
+  });
+
+  // Show the reset button only when a filter is actually applied (something to reset).
+  protected readonly hasActiveFilters = computed(
+    () =>
+      this.store.dateRange() !== null ||
+      this.store.businessReasons().length > 0 ||
+      this.store.states().length > 0
+  );
 
   constructor() {
     // Bridge the route-bound metering point id into the store that owns the overview query.
@@ -307,6 +323,13 @@ export class DhMeteringPointProcessOverviewTable {
 
     assertIsDefined(process.cutoffDate);
 
-    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
+    this.modalService.open({
+      component: DhRequestIncorrectMoveInModal,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        processId: process.id,
+        cutoffDate: process.cutoffDate,
+      },
+    });
   }
 }

@@ -189,7 +189,6 @@ import { DhActorConversationNewConversation } from './new-conversation';
                   vater
                   fill="both"
                   [conversationId]="conversationId"
-                  [meteringPointId]="meteringPointId()"
                 />
               } @else {
                 <watt-spinner vater center />
@@ -222,6 +221,8 @@ export class DhActorConversation {
   }));
   readConversationMutation = mutation(MarkConversationReadDocument);
 
+  // Note: If this input is undefined, it means we are in the context of the "standalone" actor conversation view
+  // If it has a value, we are in the context of the metering point details view
   meteringPointId = input<string | undefined>();
   newConversationVisible = signal(false);
 
