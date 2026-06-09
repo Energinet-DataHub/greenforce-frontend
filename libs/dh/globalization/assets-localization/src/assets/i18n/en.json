@@ -1334,6 +1334,8 @@
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_9": "Notification of customer master data (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
