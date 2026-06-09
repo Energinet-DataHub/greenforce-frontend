@@ -33,7 +33,9 @@ const RESTRICTED_ENVIRONMENTS = new Set<DhAppEnvironment>([
 export function dhMoveInCvrValidator(currentEnv: DhAppEnvironment): ValidatorFn {
   const baseValidator = dhCvrValidator();
 
-  const bypassCvrs = RESTRICTED_ENVIRONMENTS.has(currentEnv) ? TEST_CVR_PROD_PREPROD : TEST_CVR_ALL_ENVS;
+  const bypassCvrs = RESTRICTED_ENVIRONMENTS.has(currentEnv)
+    ? TEST_CVR_PROD_PREPROD
+    : TEST_CVR_ALL_ENVS;
 
   return (control: AbstractControl): ValidationErrors | null => {
     const value = String(control.value ?? '');

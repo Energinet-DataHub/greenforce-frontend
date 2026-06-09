@@ -16,13 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
