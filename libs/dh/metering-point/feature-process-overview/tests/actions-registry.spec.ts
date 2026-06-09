@@ -1079,5 +1079,27 @@ describe('DhActionsRegistry', () => {
 
       expect(result).toEqual([]);
     });
+
+    it('should intersect role expansions when requireAllRoles is set', () => {
+      // ResponsibleEnergySupplier expands to [EnergySupplier]; InitiatingParticipant expands to
+      // [EnergySupplier, GridAccessProvider]. With AND-gate the intersection is [EnergySupplier],
+      // so the FAS drawer must not render a GridAccessProvider group for this action.
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+            roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+            requireAllRoles: true,
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.InitiateIncorrectMoveIn,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
   });
 });

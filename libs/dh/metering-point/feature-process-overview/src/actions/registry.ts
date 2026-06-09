@@ -184,17 +184,20 @@ export class DhActionsRegistry {
   ): EicFunction[] {
     const handler = this.registry[businessReason]?.[action];
     if (!handler?.roles?.length) return [];
-    const actorRoles = new Set<EicFunction>();
-    for (const role of handler.roles) {
-      if (role === ResponsibleEnergySupplier) {
-        actorRoles.add(EicFunction.EnergySupplier);
-      } else if (role === InitiatingParticipant) {
-        INITIATOR_ROLE_UNIVERSE.forEach((r) => actorRoles.add(r));
-      } else {
-        actorRoles.add(role);
-      }
-    }
-    return [...actorRoles];
+
+    const expand = (role: ActionRole): Set<EicFunction> => {
+      if (role === ResponsibleEnergySupplier) return new Set([EicFunction.EnergySupplier]);
+      if (role === InitiatingParticipant) return new Set(INITIATOR_ROLE_UNIVERSE);
+      return new Set([role]);
+    };
+
+    const expanded = handler.roles.map(expand);
+    // With requireAllRoles the actor must satisfy every constraint, so only roles in the
+    // intersection of all expansions qualify. The default (OR) keeps the union.
+    const combined = handler.requireAllRoles
+      ? expanded.reduce((acc, set) => new Set([...acc].filter((r) => set.has(r))))
+      : expanded.reduce((acc, set) => new Set([...acc, ...set]), new Set<EicFunction>());
+    return [...combined];
   }
 
   execute(
