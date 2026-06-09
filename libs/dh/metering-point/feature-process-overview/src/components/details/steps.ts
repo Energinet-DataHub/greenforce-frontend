@@ -67,7 +67,6 @@ const selector = 'dh-metering-point-process-overview-steps';
         color: var(--watt-on-light-low-emphasis);
       }
 
-      // Tighter cell padding than the Watt default, via the table's overridable variable.
       watt-table {
         --watt-table-cell-padding: var(--watt-space-sm) var(--watt-space-s);
       }
