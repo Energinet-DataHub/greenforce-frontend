@@ -27,7 +27,6 @@ import { TranslocoPipe } from '@jsverse/transloco';
     .step-reason {
       display: flex;
       flex-direction: column;
-      margin: 0;
     }
   `,
   template: `
