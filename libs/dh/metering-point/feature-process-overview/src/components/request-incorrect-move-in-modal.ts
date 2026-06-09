@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
-import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
 import {
@@ -33,8 +32,8 @@ import {
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 export interface RequestIncorrectMoveInModalData {
   meteringPointId: string;
@@ -114,8 +113,11 @@ export interface RequestIncorrectMoveInModalData {
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorrectMoveInModalData> {
-  private readonly toastService = inject(WattToastService);
-  private readonly requestIncorrectMoveInMutation = mutation(RequestIncorrectMoveInDocument);
+  private readonly requestIncorrectMoveInMutation = mutation(RequestIncorrectMoveInDocument, {
+    onStatusUpdated: injectToast('meteringPoint.processOverview.incorrectMoveIn.toast', [
+      MutationStatus.Loading,
+    ]),
+  });
 
   readonly modal = viewChild.required(WattModalComponent);
   readonly loading = this.requestIncorrectMoveInMutation.loading;
@@ -142,20 +144,8 @@ export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorre
         cutoffDate: this.modalData.cutoffDate,
         reason,
       },
-      onError: () => {
-        this.modal().close(false);
-        this.toastService.open({
-          type: 'danger',
-          message: translate('meteringPoint.processOverview.incorrectMoveIn.errorToast'),
-        });
-      },
-      onCompleted: () => {
-        this.modal().close(true);
-        this.toastService.open({
-          type: 'success',
-          message: translate('meteringPoint.processOverview.incorrectMoveIn.successToast'),
-        });
-      },
+      onError: () => this.modal().close(false),
+      onCompleted: () => this.modal().close(true),
     });
   }
 }

@@ -1152,8 +1152,11 @@
         "conditionsSuffix": "for korrektion af fejlagtig flytning er opfyldt",
         "cancel": "Luk",
         "confirm": "Anmod om korrektion",
-        "successToast": "Anmodning er registreret i DataHub",
-        "errorToast": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        "toast": {
+          "loading": "Opretter anmodning...",
+          "success": "Anmodning er registreret i DataHub",
+          "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
       },
       "rejectProcess": {
         "title": "Leveranceophør - serviceanmodning afvist",
