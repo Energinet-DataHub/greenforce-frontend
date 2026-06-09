@@ -21,7 +21,6 @@ import {
   Component,
   effect,
   inject,
-  Injector,
   viewChild,
 } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -31,6 +30,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { WattToastService } from '@energinet/watt/toast';
 
 import { StartMoveInFormType } from '../types';
@@ -71,7 +71,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);
   private readonly toastService = inject(WattToastService);
-  private readonly injector = inject(Injector);
+  private readonly currentEnv = inject(dhAppEnvironmentToken).current;
 
   readonly modal = viewChild.required(WattModalComponent);
 
@@ -114,7 +114,7 @@ export class DhStartMoveInComponent extends WattTypedModal<{
           companyName: this.fb.control<string>('', Validators.required),
           cvr: this.fb.control<string>('', [
             Validators.required,
-            dhMoveInCvrValidator(this.injector),
+            dhMoveInCvrValidator(this.currentEnv),
           ]),
           isFictitiousCvr: this.isFictitiousCvrFormControl,
         })

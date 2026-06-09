@@ -21,7 +21,6 @@ import {
   Component,
   effect,
   inject,
-  Injector,
   viewChild,
 } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -48,6 +47,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -164,7 +164,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
 }> {
   private readonly router = inject(Router);
   private readonly toastService = inject(WattToastService);
-  private readonly injector = inject(Injector);
+  private readonly currentEnv = inject(dhAppEnvironmentToken).current;
   private readonly initiateChangeOfSupplier = mutation(InitiateChangeOfSupplierDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -193,7 +193,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
       this.form.controls.cvr.enable();
       this.form.controls.cvr.setValidators([
         Validators.required,
-        dhMoveInCvrValidator(this.injector),
+        dhMoveInCvrValidator(this.currentEnv),
       ]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();

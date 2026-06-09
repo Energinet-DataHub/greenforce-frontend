@@ -16,19 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { Injector } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 
-import { DhAppEnvironment, dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
+import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 import { dhMoveInCvrValidator } from '../src/validators/dh-move-in-cvr.validator';
 
 function createValidator(env: DhAppEnvironment) {
-  TestBed.configureTestingModule({
-    providers: [{ provide: dhAppEnvironmentToken, useValue: { current: env } }],
-  });
-
-  return TestBed.runInInjectionContext(() => dhMoveInCvrValidator(TestBed.inject(Injector)));
+  return dhMoveInCvrValidator(env);
 }
 
 describe('dhMoveInCvrValidator', () => {
