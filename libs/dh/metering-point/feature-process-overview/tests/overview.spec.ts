@@ -493,9 +493,7 @@ describe('Process overview', () => {
     });
 
     await waitForAsync(() =>
-      expect(
-        screen.queryAllByRole('button', { name: /Request correction/i }).length
-      ).toBe(0)
+      expect(screen.queryAllByRole('button', { name: /Request correction/i }).length).toBe(0)
     );
   });
 
