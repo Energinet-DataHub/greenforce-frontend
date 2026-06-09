@@ -95,6 +95,12 @@ export interface WattTableColumn<T> {
   align?: 'left' | 'right' | 'center';
 
   /**
+   * Vertically align the contents of the column within the cell, using `align-items`
+   * values. Defaults to `"center"`.
+   */
+  verticalAlign?: 'flex-start' | 'center' | 'flex-end';
+
+  /**
    * Helper icon will be shown in the header cell, with an click event.
    */
   helperAction?: () => void;

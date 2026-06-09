@@ -1201,6 +1201,9 @@
         "CustomerMoveIn": "move-in",
         "ChangeOfEnergySupplier": "change of energy supplier"
       },
+      "stepReasonLabels": {
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
+      },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
         "CANCELLATION_STEP_V1_STEP_2": "Notification of cancellation (RSM-004)",
@@ -1365,6 +1368,7 @@
       "details": {
         "notFound": "Process not found",
         "noSteps": "No steps available for this process",
+        "openMessage": "Open message",
         "showPossibleActions": "Show possible actions",
         "hidePossibleActions": "Hide possible actions",
         "cancelledByProcess": {

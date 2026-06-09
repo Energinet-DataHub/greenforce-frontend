@@ -1200,6 +1200,9 @@
         "CustomerMoveIn": "tilflytning",
         "ChangeOfEnergySupplier": "leverandørskift"
       },
+      "stepReasonLabels": {
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
+      },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
         "CANCELLATION_STEP_V1_STEP_2": "Notifikation omkring annullering (RSM-004)",
@@ -1364,6 +1367,7 @@
       "details": {
         "notFound": "Proces ikke fundet",
         "noSteps": "Ingen trin tilgængelige for denne proces",
+        "openMessage": "Åbn besked",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
         "cancelledByProcess": {
