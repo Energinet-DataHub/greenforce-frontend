@@ -33,6 +33,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.Electrica
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ActorConversation;
+using Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Helpers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Mappers;
 using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
@@ -420,30 +421,49 @@ public static partial class MeteringPointNode
         try
         {
             await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
-            return true;
         }
-        catch (Exception)
+        catch
         {
             throw new GraphQLException(
                 $"Command StartHtxElectricalHeatingCreateWithFlagCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}'");
         }
+
+        var conversationMessageInput = new SendActorConversationMessageInput
+        {
+            ConversationId = actorConversationId,
+            Content = "Registrering af elvarme er startet",
+            Anonymous = true,
+        };
+
+        try
+        {
+            await ActorConversationOperations.SendActorConversationMessageAsync(
+                httpContextAccessor,
+                actorConversationClient,
+                conversationMessageInput,
+                ct).ConfigureAwait(false);
+        }
+        catch
+        {
+            // If sending the message fails, we do nothing,
+            // as the main operation (starting the orchestration) has succeeded,
+            // and sending the message is a nice-to-have for the user experience.
+        }
+
+        return true;
     }
 
     [Query]
     public static IEnumerable<DateTimeOffset> GetSelectableDatesForEndOfSupply(
         [Service] DataHubCalendar calendar)
     {
-        var requiredWorkingDaysGap = 3;
         var lastPossibleDay = 60;
 
         var tomorrow = calendar.GetDateRelativeToCurrentDate(1);
         var end = calendar.GetDateRelativeToCurrentDate(lastPossibleDay);
 
-        // First selectable date is after 3 working days have passed
-        var allWorkingDays = calendar.GetWorkingDaysInPeriod(tomorrow, end);
-
-        return allWorkingDays
-            .Skip(requiredWorkingDaysGap)
+        return calendar
+            .GetWorkingDaysInPeriod(tomorrow, end)
             .Select(date => date.ToDateTimeOffset());
     }
 
