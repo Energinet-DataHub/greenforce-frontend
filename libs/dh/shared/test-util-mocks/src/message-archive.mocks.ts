@@ -60,6 +60,30 @@ function initiatorFields(initiator: Initiator) {
   };
 }
 
+// Dedicated initiator for `process-eos-cancel`, shared by the overview list and the
+// by-id drawer so both queries normalize the SAME MarketParticipant entity. Its id is
+// unique (no other row/query writes it), so the GLN is deterministic regardless of which
+// query resolves last. The GLN is the test actor's default (1234567890123), which lets
+// dev mode demonstrate the InitiatingParticipant path against the logged-in actor.
+const endOfSupplyInitiator: Initiator = {
+  id: '0199ed3d-f1b2-7180-9546-39b5836fb5e0',
+  displayName: '1234567890123 • Radius',
+  glnOrEicNumber: '1234567890123',
+  role: EicFunction.GridAccessProvider,
+};
+
+// Dedicated resolved actor for the by-id drawer's first process step. Steps are only
+// returned by the by-id query (the overview list has no steps), and this id is unique,
+// so no overview row writes the same MarketParticipant entity. Its display name carries
+// the test actor's default GLN (1234567890123) so the drawer demonstrates a resolved
+// step actor against the logged-in actor.
+const resolvedStepActor = {
+  __typename: 'MarketParticipant' as const,
+  id: '0199ed3d-f1b2-7180-9546-39b5836fb5e1',
+  displayName: '1234567890123 • Radius',
+  role: EicFunction.GridAccessProvider,
+};
+
 export function messageArchiveMocks(apiBase: string) {
   return [
     getDocumentById(apiBase),
@@ -267,7 +291,7 @@ function buildOverviewProcesses() {
       MeteringPointProcessAction.ConfirmWorkflow,
       MeteringPointProcessAction.RejectRequest,
     ],
-    ...initiatorFields(initiators[0]),
+    ...initiatorFields(endOfSupplyInitiator),
   };
 
   const customerMoveInProcess = {
@@ -580,6 +604,7 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
       MeteringPointProcessAction.SendInformation,
       MeteringPointProcessAction.CancelWorkflow,
     ],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -655,6 +680,7 @@ function buildChangeOfEnergySupplierProcess(
       MeteringPointProcessAction.SendInformation,
       MeteringPointProcessAction.CancelWorkflow,
     ],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -763,6 +789,7 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
     state: MeteringPointProcessState.Pending,
     availableActions: [MeteringPointProcessAction.SendInformation],
+    cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: initiatorId,
@@ -786,8 +813,6 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
 function buildGenericProcess({
   processId,
   apiBase,
-  processIndex,
-  initiators,
   createdAt,
   cutoffDate,
   businessReason,
@@ -799,8 +824,6 @@ function buildGenericProcess({
 }: {
   processId: string;
   apiBase: string;
-  processIndex: number;
-  initiators: Initiator[];
   createdAt: Date;
   cutoffDate: Date | null;
   businessReason: ProcessManagerBusinessReason;
@@ -835,7 +858,7 @@ function buildGenericProcess({
       {
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-1`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_1',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1',
         comment: 'OBS: Sendt til foged',
         completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
@@ -844,18 +867,18 @@ function buildGenericProcess({
           'Første step i processen, hvor vi har sendt en anmodning om end of supply til den relevante aktør.',
         documentUrl: `${apiBase}/v1/MessageArchive/MasterDataDocument?id=38374f50-f00c-4e2a-aec1-70d391cade06`,
         actor: {
-          __typename: 'MarketParticipant' as const,
-          id: initiators[processIndex % initiators.length].id,
-          displayName: initiators[processIndex % initiators.length].displayName,
+          __typename: resolvedStepActor.__typename,
+          id: resolvedStepActor.id,
+          displayName: resolvedStepActor.displayName,
         },
-        actorRole: initiators[processIndex % initiators.length].role,
+        actorRole: resolvedStepActor.role,
       },
       {
         // Masked step actor: the role is always populated, but the resolved
         // participant is null because this actor differs from the logged-in actor.
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-2`,
-        step: 'BRS_002_REQUESTENDOFSUPPLY_V1_STEP_2',
+        step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2',
         comment: 'Afventer bekræftelse',
         completedAt: null,
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
@@ -896,14 +919,17 @@ function getMeteringPointProcessById(apiBase: string) {
 
     const processId = args.variables.id;
 
-    // Note: the GLN for the first initiator (…fb575, Radius) intentionally differs from the
-    // overview mock (905495045940594) so that dev mode can demonstrate the InitiatingParticipant
-    // path against a test actor's default GLN. This is a dev-only override — not a data error.
+    // Index-derived initiators for ids that are NOT explicit overview rows (e.g.
+    // "process-001"). For explicit rows the initiator is taken from the overview row
+    // itself (see `baseInitiator` below) so the list and the drawer normalize the SAME
+    // MarketParticipant entity. Apollo keys participants by id, so a row and its drawer
+    // returning different fields for the same id would let one query's value leak into
+    // the other depending on resolution order.
     const initiators: Initiator[] = [
       {
         id: '0199ed3d-f1b2-7180-9546-39b5836fb575',
-        displayName: '1234567890123 • Radius',
-        glnOrEicNumber: '1234567890123',
+        displayName: '905495045940594 • Radius',
+        glnOrEicNumber: '905495045940594',
         role: EicFunction.GridAccessProvider,
       },
       {
@@ -962,7 +988,19 @@ function getMeteringPointProcessById(apiBase: string) {
       known?.availableActions ??
       getAvailableActions(businessReason, state);
 
-    const baseInitiator = initiators[processIndex % initiators.length];
+    // Prefer the overview row's resolved initiator so the drawer normalizes the SAME
+    // MarketParticipant entity as the list (real backends return one entity per id).
+    // Masked rows (`base.initiator === null`) keep only the role; fall back to the
+    // index-derived initiator for ids that are not explicit overview rows.
+    const baseInitiator: Initiator =
+      base?.initiator != null
+        ? {
+            id: base.initiator.id,
+            displayName: base.initiator.displayName,
+            glnOrEicNumber: base.initiator.glnOrEicNumber,
+            role: base.initiatorRole,
+          }
+        : initiators[processIndex % initiators.length];
     const initiatorWithGln = known?.initiatorGln
       ? {
           ...baseInitiator,
@@ -984,8 +1022,6 @@ function getMeteringPointProcessById(apiBase: string) {
             : buildGenericProcess({
                 processId,
                 apiBase,
-                processIndex,
-                initiators,
                 createdAt,
                 cutoffDate,
                 businessReason,

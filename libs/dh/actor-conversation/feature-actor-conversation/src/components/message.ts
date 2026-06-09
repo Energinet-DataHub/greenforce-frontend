@@ -28,7 +28,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
 import { WattButtonComponent } from '@energinet/watt/button';
 
-import { getPath } from '@energinet-datahub/dh/core/configuration-routing';
+import { combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 
 import { injectDownloadMessageDocument } from './download-message-document';
@@ -222,7 +222,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
 export class DhActorConversationMessage {
   private readonly permissionService = inject(PermissionService);
 
-  meteringPointId = input<string | undefined>();
   isConversationClosed = input.required<boolean>();
   message = input.required<ConversationMessage>();
   conversationId = input.required<string>();
@@ -234,16 +233,13 @@ export class DhActorConversationMessage {
 
   showRegisterElectricalHeatingButton = computed(() => {
     return (
-      // Only show the button if actor conversations in the context of a metering point
-      // Another PR will show the button in the standalone actor conversations view
-      !!this.meteringPointId() &&
       this.isConversationClosed() === false &&
       this.message().messageType === 'ELECTRICAL_HEATING_USER_MESSAGE' &&
       this.hasHistoricalCorrectionManagePermission()
     );
   });
 
-  registerElectricalHeatingLink = `../${getPath('electrical-heating-correction')}`;
+  registerElectricalHeatingLink = `${combinePaths('metering-point', 'electrical-heating-correction')}`;
 
   messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>

@@ -46,7 +46,6 @@ import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-releas
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
-import { RequestIncorrectMoveIn } from '../src/actions/customer-move-in/request-incorrect-move-in';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
 async function setup(
@@ -61,8 +60,6 @@ async function setup(
     actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
   } = overrides;
-
-  const requestIncorrectMoveInSpy = vi.fn();
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
     providers: [
@@ -105,10 +102,6 @@ async function setup(
           }),
         },
       },
-      {
-        provide: RequestIncorrectMoveIn,
-        useValue: { request: requestIncorrectMoveInSpy },
-      },
     ],
     // Stub ActivatedRoute (overridden AFTER the module-level `provideRouter([])`
     // appended by the shared testbed) for the co-injected DhNavigationService;
@@ -130,7 +123,7 @@ async function setup(
     expect(document.querySelector('[role="treegrid"] [role="gridcell"]')).not.toBeNull()
   );
 
-  return { fixture, requestIncorrectMoveInSpy };
+  return { fixture };
 }
 
 /**
@@ -482,8 +475,8 @@ describe('Process overview', () => {
     );
   });
 
-  it('should call RequestIncorrectMoveIn.request when "Request correction" is clicked', async () => {
-    const { requestIncorrectMoveInSpy } = await setup({
+  it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
+    await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
     });
@@ -498,13 +491,11 @@ describe('Process overview', () => {
     const button = screen.getAllByRole('button', { name: /Request correction/i })[0];
     await user.click(button);
 
-    await waitForAsync(() =>
-      expect(requestIncorrectMoveInSpy).toHaveBeenCalledWith(
-        'process-cmi-incorrect-move-in',
-        'mp-123',
-        expect.any(Date)
-      )
-    );
+    await waitForAsync(() => {
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+      expect(dialog).toHaveTextContent(/Request correction: Incorrect move/i);
+    });
   });
 
   it('should show the translated role in the initiator column when the initiator is masked', async () => {

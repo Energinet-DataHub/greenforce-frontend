@@ -19,6 +19,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { WattModalService } from '@energinet/watt/modal';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CancelCustomerMoveInDocument,
@@ -41,12 +43,12 @@ import {
   type ActionHandlerMap,
 } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
-import { RequestIncorrectMoveIn } from './request-incorrect-move-in';
+import { DhRequestIncorrectMoveInModal } from '../../components/request-incorrect-move-in-modal';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
   private readonly router = inject(Router);
-  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
+  private readonly modalService = inject(WattModalService);
   private readonly cancelCustomerMoveIn = mutation(CancelCustomerMoveInDocument);
 
   readonly handlers: ActionHandlerMap = {
@@ -94,7 +96,14 @@ export class CustomerMoveInActions {
       roles: [ResponsibleEnergySupplier],
       callback: (ctx) => {
         if (!ctx.cutoffDate) return;
-        this.requestIncorrectMoveIn.request(ctx.processId, ctx.meteringPointId, ctx.cutoffDate);
+        this.modalService.open({
+          component: DhRequestIncorrectMoveInModal,
+          data: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            cutoffDate: ctx.cutoffDate,
+          },
+        });
       },
     },
   };
