@@ -97,7 +97,10 @@ export const dhMeteringPointRoutes: Routes = [
       },
       {
         path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
-        canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
+        canActivate: [
+          dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+          PermissionGuard(['metering-point:historical-correction-manage']),
+        ],
         resolve: {
           conversationId: conversationIdResolver(),
         },
