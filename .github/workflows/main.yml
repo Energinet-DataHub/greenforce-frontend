@@ -24,6 +24,7 @@ permissions:
   contents: write
   id-token: write
   pull-requests: read
+  artifact-metadata: write
 on:
   push:
     branches:
