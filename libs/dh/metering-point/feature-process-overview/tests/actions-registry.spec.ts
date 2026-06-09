@@ -800,6 +800,150 @@ describe('DhActionsRegistry', () => {
 
       expect(result).toEqual([MeteringPointProcessAction.InitiateIncorrectMoveIn]);
     });
+
+    describe('requireAllRoles AND-gate', () => {
+      // Truth table for roles: [ResponsibleEnergySupplier, InitiatingParticipant]
+      // with requireAllRoles: true. The actor's GLN is fixed at '1234567890123'
+      // by the setupRegistry DhActorStorage mock; we toggle the initiator GLN
+      // by passing it (or a non-matching value) as the 4th argument to
+      // getSupportedActions.
+
+      const matchingInitiatorGln = '1234567890123';
+      const nonMatchingInitiatorGln = '9999999999999';
+
+      it('AND-gate cell 1: responsible=true + initiator matches -> action IS supported', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              requireAllRoles: true,
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          true,
+          matchingInitiatorGln
+        );
+
+        expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('AND-gate cell 2: responsible=true + initiator does NOT match -> action is NOT supported', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              requireAllRoles: true,
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          true,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('AND-gate cell 3: responsible=false + initiator matches -> action is NOT supported', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              requireAllRoles: true,
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          false,
+          matchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('AND-gate cell 4: responsible=false + initiator does NOT match -> action is NOT supported', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              requireAllRoles: true,
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          false,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('default OR sanity: responsible=true + initiator does NOT match -> action IS supported (OR semantics)', () => {
+        // Same roles array, but without requireAllRoles. Mirrors cell 2's input
+        // (responsible=true, initiator GLN does NOT match) and must produce the
+        // OPPOSITE result, proving the flag is the discriminator.
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          true,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('default OR sanity: responsible=false + initiator does NOT match -> action is NOT supported', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          false,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+    });
   });
 
   describe('execute', () => {
@@ -1100,6 +1244,173 @@ describe('DhActionsRegistry', () => {
       );
 
       expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
+
+    // -- Regression sweep: every concrete handler configuration declared across all action files
+    // must produce the same EicFunction[] result that the original union-only code produced.
+    // If any of these assertions break, a handler's actor-role display has silently changed shape.
+
+    it('regression: EndOfSupply SendInformation / CancelWorkflow [ResponsibleEnergySupplier] -> [EnergySupplier]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
+
+    it('regression: EndOfSupply ConfirmWorkflow / RejectRequest [GridAccessProvider] -> [GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [MeteringPointProcessAction.ConfirmWorkflow]: {
+            roles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.ConfirmWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.GridAccessProvider]);
+    });
+
+    it('regression: CustomerMoveIn SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: CustomerMoveIn CancelWorkflow [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.CancelWorkflow,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: SecondaryMoveIn SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.SecondaryMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: ChangeOfEnergySupplier SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        changeOfEnergySupplierHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.ChangeOfEnergySupplier
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: ChangeOfEnergySupplier CancelWorkflow [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        changeOfEnergySupplierHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.CancelWorkflow,
+        ProcessManagerBusinessReason.ChangeOfEnergySupplier
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('smoke: CustomerMoveIn InitiateIncorrectMoveIn [ResponsibleEnergySupplier, InitiatingParticipant] with requireAllRoles -> [EnergySupplier] only', () => {
+      // Documents the desired behavior of the intersection branch end-to-end via the registered
+      // CustomerMoveIn business reason. Overlaps with the earlier intersect test but kept for intent.
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+            roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+            requireAllRoles: true,
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.InitiateIncorrectMoveIn,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+      expect(result).not.toContain(EicFunction.GridAccessProvider);
     });
   });
 });
