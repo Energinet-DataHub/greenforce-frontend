@@ -30,6 +30,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import { combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 import { injectDownloadMessageDocument } from './download-message-document';
 
@@ -221,6 +222,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
 })
 export class DhActorConversationMessage {
   private readonly permissionService = inject(PermissionService);
+  private readonly releaseToggleService = inject(DhReleaseToggleService);
 
   isConversationClosed = input.required<boolean>();
   message = input.required<ConversationMessage>();
@@ -233,6 +235,7 @@ export class DhActorConversationMessage {
 
   showRegisterElectricalHeatingButton = computed(() => {
     return (
+      this.releaseToggleService.isEnabled('PM63-HISTORICAL-CORRECTIONS-UI') &&
       this.isConversationClosed() === false &&
       this.message().messageType === 'ELECTRICAL_HEATING_USER_MESSAGE' &&
       this.hasHistoricalCorrectionManagePermission()
