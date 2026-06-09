@@ -18,16 +18,28 @@
 //#endregion
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { DhAppEnvironment } from '@energinet-datahub/dh/shared/environments';
 
-const MOVE_IN_TEST_CVRS = new Set(['11111111', '22222222']);
+// In prod/preprod only the first test CVR is allowed as a bypass.
+// In all other environments (local, dev, test) all three are allowed.
+const TEST_CVR_PROD_PREPROD = new Set(['11111111']);
+const TEST_CVR_ALL_ENVS = new Set(['11111111', '22222222', '33333333']);
 
-export function dhMoveInCvrValidator(): ValidatorFn {
+const RESTRICTED_ENVIRONMENTS = new Set<DhAppEnvironment>([
+  DhAppEnvironment.prod,
+  DhAppEnvironment.preprod,
+]);
+
+export function dhMoveInCvrValidator(currentEnv: DhAppEnvironment): ValidatorFn {
   const baseValidator = dhCvrValidator();
+
+  const bypassCvrs = RESTRICTED_ENVIRONMENTS.has(currentEnv)
+    ? TEST_CVR_PROD_PREPROD
+    : TEST_CVR_ALL_ENVS;
 
   return (control: AbstractControl): ValidationErrors | null => {
     const value = String(control.value ?? '');
-
-    if (MOVE_IN_TEST_CVRS.has(value)) {
+    if (bypassCvrs.has(value)) {
       return null;
     }
 
