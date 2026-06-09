@@ -93,7 +93,8 @@ export class CustomerMoveInActions {
     [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
       releaseToggle: 'BRS011-INCOMING-MESSAGES',
       permissions: ['metering-point:move-in'],
-      roles: [ResponsibleEnergySupplier],
+      roles: [ResponsibleEnergySupplier, InitiatingParticipant],
+      requireAllRoles: true,
       callback: (ctx) => {
         if (!ctx.cutoffDate) return;
         this.modalService.open({

@@ -45,6 +45,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
+import { processCmiInfoInitiatorGln } from '@energinet-datahub/dh/shared/test-util-mocks';
+
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
@@ -53,12 +55,15 @@ async function setup(
     isFas: boolean;
     actorMarketRole: EicFunction;
     isEnergySupplierResponsible: boolean;
+    actorGln: string;
   }> = {}
 ) {
   const {
     isFas = false,
     actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
+    // See the comment on `gln` below for why the default deliberately overlaps no initiator.
+    actorGln = '0000000000000',
   } = overrides;
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
@@ -94,7 +99,7 @@ async function setup(
             // cache could leak that GLN into the overview's initiator (entities
             // are keyed by id), making InitiatingParticipant spuriously match
             // and showing buttons for actors that should not see them.
-            gln: '0000000000000',
+            gln: actorGln,
             marketRole: actorMarketRole,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
@@ -463,9 +468,12 @@ describe('Process overview', () => {
   });
 
   it('should show "Request correction" button when BFF flags InitiateIncorrectMoveIn as available', async () => {
+    // The handler requires BOTH ResponsibleEnergySupplier AND InitiatingParticipant, so the
+    // actor's GLN must match the process initiator's GLN in addition to being responsible.
     await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
+      actorGln: processCmiInfoInitiatorGln,
     });
 
     await waitForAsync(() =>
@@ -475,10 +483,27 @@ describe('Process overview', () => {
     );
   });
 
+  it('should hide "Request correction" when responsible supplier is NOT the process initiator', async () => {
+    // requireAllRoles: AND-gate must reject when the actor is responsible but did not initiate.
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      isEnergySupplierResponsible: true,
+      // GLN does not match processCmiInfoInitiatorGln, so InitiatingParticipant fails.
+      actorGln: '9999999999999',
+    });
+
+    await waitForAsync(() =>
+      expect(
+        screen.queryAllByRole('button', { name: /Request correction/i }).length
+      ).toBe(0)
+    );
+  });
+
   it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
     await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       isEnergySupplierResponsible: true,
+      actorGln: processCmiInfoInitiatorGln,
     });
     const user = userEvent.setup();
 

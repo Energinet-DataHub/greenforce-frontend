@@ -61,6 +61,12 @@ export interface ActionHandler {
   releaseToggle?: string;
   permissions?: Permission[];
   roles?: ActionRole[];
+  /**
+   * When true, every entry in `roles` must match (AND). Default is OR (any one match).
+   * Use this for actions that combine an actor-state check (e.g. ResponsibleEnergySupplier)
+   * with a process-ownership check (InitiatingParticipant) and need both to hold.
+   */
+  requireAllRoles?: boolean;
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -116,14 +122,15 @@ export class DhActionsRegistry {
   ): boolean {
     if (!handler.roles?.length) return true;
     const actor = this.actorStorage.getSelectedActor();
-    return handler.roles.some((role) => {
+    const check = (role: ActionRole) => {
       if (role === ResponsibleEnergySupplier) return isResponsible;
       // actor.gln can hold either a GLN or EIC (mirrors GraphQL glnOrEicNumber);
       // initiatorGlnOrEic is sourced from the same field, so the comparison is semantically correct
       if (role === InitiatingParticipant)
         return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
       return actor.marketRole === role;
-    });
+    };
+    return handler.requireAllRoles ? handler.roles.every(check) : handler.roles.some(check);
   }
 
   getSupportedActions(
