@@ -80,4 +80,5 @@ public enum TransactionType
     ConsumptionStatementCancelsMarketProcess = 62,
     CreateHistoricalMeteringPoint = 63,
     EmptyTransaction = 64,
+    ChangeBalanceResponsibleParty = 65,
 }

@@ -26,6 +26,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
   DhActorStorage,
   PermissionService,
@@ -62,6 +63,7 @@ describe('DhActionsRegistry', () => {
 
   function setupRegistry(
     options: {
+      releaseTogglesEnabled?: boolean;
       featureFlagsEnabled?: boolean;
       hasEndOfSupplyRespondPermission?: boolean;
       hasEndOfSupplyRequestPermission?: boolean;
@@ -76,6 +78,7 @@ describe('DhActionsRegistry', () => {
     } = {}
   ) {
     const {
+      releaseTogglesEnabled = true,
       featureFlagsEnabled = true,
       hasEndOfSupplyRespondPermission = true,
       hasEndOfSupplyRequestPermission = false,
@@ -107,6 +110,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: DhFeatureFlagsService,
           useValue: { isEnabled: () => featureFlagsEnabled },
+        },
+        {
+          provide: DhReleaseToggleService,
+          useValue: { isEnabled: () => releaseTogglesEnabled },
         },
         {
           provide: PermissionService,
@@ -206,6 +213,47 @@ describe('DhActionsRegistry', () => {
       );
 
       expect(result).toEqual([]);
+    });
+
+    it('should return empty array when release toggle is disabled', () => {
+      const registry = setupRegistry({
+        releaseTogglesEnabled: false,
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM99-SOME-TOGGLE',
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should return action when both feature flag and release toggle are enabled', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [WorkflowAction.CancelWorkflow]: {
+            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM99-SOME-TOGGLE',
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [WorkflowAction.CancelWorkflow],
+        ProcessManagerBusinessReason.EndOfSupply,
+        false
+      );
+
+      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
     });
 
     it('should return empty array for unregistered business reason', () => {
