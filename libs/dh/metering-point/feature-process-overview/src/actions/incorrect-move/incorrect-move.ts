@@ -26,7 +26,7 @@ import {
   RejectIncorrectMoveDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { type ActionHandlerMap } from '../registry';
@@ -45,7 +45,7 @@ export class IncorrectMoveActions {
   });
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.ConfirmWorkflow]: {
+    [MeteringPointProcessAction.ConfirmWorkflow]: {
       permissions: ['metering-point:move-in'],
       roles: [EicFunction.EnergySupplier],
       callback: confirmAction({
@@ -60,7 +60,7 @@ export class IncorrectMoveActions {
         },
       }),
     },
-    [WorkflowAction.RejectRequest]: {
+    [MeteringPointProcessAction.RejectRequest]: {
       permissions: ['metering-point:move-in'],
       roles: [EicFunction.EnergySupplier],
       callback: confirmAction({
