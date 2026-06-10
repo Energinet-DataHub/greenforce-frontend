@@ -182,11 +182,12 @@ public static class MoveInOperations
         Guid processId,
         string meteringPointId,
         DateTimeOffset cutoffDate,
+        string? reason,
         [Service] IB2CClient ediB2CClient,
         CancellationToken ct)
     {
         var command = new RequestIncorrectMoveInCommandV1(
-            new RequestIncorrectMoveInRequestV1(processId.ToString(), meteringPointId, cutoffDate, "some-reason"));
+            new RequestIncorrectMoveInRequestV1(processId.ToString(), meteringPointId, cutoffDate, reason));
 
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 

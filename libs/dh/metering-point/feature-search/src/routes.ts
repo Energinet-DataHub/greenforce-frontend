@@ -41,7 +41,6 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-  combineWithIdPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
@@ -95,6 +94,20 @@ export const dhMeteringPointRoutes: Routes = [
           meteringPointCreateGuard(),
         ],
         component: DhCreateMeteringPoint,
+      },
+      {
+        path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
+        canActivate: [
+          dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+          PermissionGuard(['metering-point:historical-correction-manage']),
+        ],
+        resolve: {
+          conversationId: conversationIdResolver(),
+        },
+        loadComponent: () =>
+          import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
+            (m) => m.DhElectricalHeatingCorrection
+          ),
       },
       {
         path: `:${dhInternalMeteringPointIdParam}`,
@@ -200,18 +213,6 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/metering-point/feature-upload-measurements').then(
                 (m) => m.DhUploadMeasurementsPage
-              ),
-          },
-          {
-            path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
-            canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
-            data: { hideHeader: true },
-            resolve: {
-              conversationId: conversationIdResolver(),
-            },
-            loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
-                (m) => m.DhElectricalHeatingCorrection
               ),
           },
           {
@@ -337,16 +338,13 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
 }
 
 function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
-  return (route: ActivatedRouteSnapshot) => {
+  return () => {
     const router = inject(Router);
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
 
     if (!conversationId) {
-      const redirectPath = router.parseUrl(
-        combineWithIdPaths('metering-point', idParam, 'actor-conversation')
-      );
+      const redirectPath = router.parseUrl(combinePaths('metering-point', 'search'));
 
       return new RedirectCommand(redirectPath);
     }

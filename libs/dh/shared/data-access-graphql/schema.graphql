@@ -2531,6 +2531,7 @@ input RequestIncorrectMoveInInput {
   processId: UUID!
   meteringPointId: String!
   cutoffDate: DateTime!
+  reason: String
 }
 
 input RequestInput @oneOf {

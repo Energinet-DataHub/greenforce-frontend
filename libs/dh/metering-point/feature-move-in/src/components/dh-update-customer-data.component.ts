@@ -52,6 +52,7 @@ import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-
 import { clearAddressFields } from '../util/clear-address-fields';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
 import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details.component';
 import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
@@ -192,6 +193,7 @@ import {
 })
 export class DhUpdateCustomerDataComponent {
   private readonly router = inject(Router);
+  private readonly currentEnv = inject(dhAppEnvironmentToken).current;
   private readonly actor = inject(DhActorStorage).getSelectedActor();
   private readonly toast = injectToast('meteringPoint.moveIn.updateCustomer.toast');
   private readonly effectToast = effect(() =>
@@ -299,7 +301,9 @@ export class DhUpdateCustomerDataComponent {
           ),
           cvr: dhMakeFormControl<string>(
             this.effectiveCustomerCvr(),
-            this.isBusinessCustomer() ? [Validators.required, dhMoveInCvrValidator()] : []
+            this.isBusinessCustomer()
+              ? [Validators.required, dhMoveInCvrValidator(this.currentEnv)]
+              : []
           ),
           nameProtection: dhMakeFormControl<boolean>(
             this.legalCustomer()?.isProtectedName ?? false
