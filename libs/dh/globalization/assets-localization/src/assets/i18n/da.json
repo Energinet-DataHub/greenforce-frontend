@@ -1142,6 +1142,10 @@
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Annuller"
+        },
+        "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
         }
       },
       "incorrectMoveIn": {
@@ -1149,6 +1153,30 @@
           "loading": "Opretter anmodning...",
           "success": "Anmodning er registreret i DataHub",
           "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
+      },
+      "acceptIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil acceptere?",
+          "confirm": "Accepter",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Accepterer genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance accepteret",
+          "error": "Acceptering af genoptagelse fejlede"
+        }
+      },
+      "rejectIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil afvise?",
+          "confirm": "Afvis",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Afviser genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance afvist",
+          "error": "Afvisning af genoptagelse fejlede"
         }
       },
       "rejectProcess": {
