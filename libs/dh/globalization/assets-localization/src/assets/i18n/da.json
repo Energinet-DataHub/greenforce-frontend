@@ -1762,9 +1762,18 @@
       "title": "Historisk rettelse",
       "cancel": "Afbryd",
       "correctionToChooseFrom": "Hvilken historisk rettelse vil du foretage?",
-      "newElectricalHeatingMP": "Opret Elvarme (D14) målepunkt",
+      "newElectricalHeatingMp": "Opret Elvarme (D14) målepunkt",
       "editBtn": "Ret",
-      "continueToDetails": "Fortsæt til detaljer"
+      "continueToDetails": "Fortsæt til detaljer",
+      "newElectricalHeatingMeteringPoint": {
+        "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
+        "validityDate": "Gyldighedsdato",
+        "closeDownDate": "Nedlæggelsesdato",
+        "error": {
+          "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+        },
+        "create": "Opret målepunkt"
+      }
     },
     "electricalHeatingCorrection": {
       "title": "Historisk rettelse",
