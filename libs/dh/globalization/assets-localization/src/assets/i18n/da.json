@@ -1133,8 +1133,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Anmod om korrektion",
-          "CANCEL_WORKFLOW": "Annuller"
+          "CANCEL_WORKFLOW": "Annuller",
+          "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"

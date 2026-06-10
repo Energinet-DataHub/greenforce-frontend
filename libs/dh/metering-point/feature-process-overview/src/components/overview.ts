@@ -28,7 +28,6 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/wat
 import { WattDatePipe } from '@energinet/watt/date';
 import type { WattRange } from '@energinet/watt/date';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattModalService } from '@energinet/watt/modal';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import type { WattDropdownOptions } from '@energinet/watt/dropdown';
 
@@ -43,17 +42,14 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
+  MeteringPointProcessAction,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { DhRequestIncorrectMoveInModal } from './request-incorrect-move-in-modal';
 import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
 
 @Component({
@@ -78,7 +74,6 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
     DhEmDashFallbackPipe,
     DhResetFiltersButtonComponent,
     DhStateBadge,
-    DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
@@ -189,17 +184,6 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
                   {{ t(process.businessReason + '.' + action) }}
                 </watt-button>
               }
-
-              <ng-container *dhReleaseToggle="'BRS011-INCOMING-MESSAGES'">
-                @if (isEnergySupplierResponsible() && process.businessReason === 'CustomerMoveIn') {
-                  <watt-button
-                    variant="secondary"
-                    size="small"
-                    (click)="onRequestCorrectionClick($event, process)"
-                    >{{ t('CustomerMoveIn.REQUEST_CORRECTION') }}</watt-button
-                  >
-                }
-              </ng-container>
             }
           </vater-stack>
         </ng-container>
@@ -213,7 +197,6 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly modalService = inject(WattModalService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -302,7 +285,7 @@ export class DhMeteringPointProcessOverviewTable {
     return undefined;
   }
 
-  onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
+  onActionClick(event: Event, process: MeteringPointProcess, action: MeteringPointProcessAction) {
     event.stopPropagation();
     this.actionService.execute(
       action,
@@ -316,20 +299,5 @@ export class DhMeteringPointProcessOverviewTable {
       this.isEnergySupplierResponsible(),
       process.initiator?.glnOrEicNumber
     );
-  }
-
-  onRequestCorrectionClick(event: Event, process: MeteringPointProcess) {
-    event.stopPropagation();
-
-    assertIsDefined(process.cutoffDate);
-
-    this.modalService.open({
-      component: DhRequestIncorrectMoveInModal,
-      data: {
-        meteringPointId: this.meteringPointId(),
-        processId: process.id,
-        cutoffDate: process.cutoffDate,
-      },
-    });
   }
 }
