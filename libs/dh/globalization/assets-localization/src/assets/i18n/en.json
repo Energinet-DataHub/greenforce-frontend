@@ -1772,7 +1772,12 @@
         "error": {
           "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
         },
-        "create": "Create metering point"
+        "create": "Create metering point",
+        "toast": {
+          "loading": "Creating electrical heating (D14) metering point...",
+          "success": "Electrical heating (D14) metering point created",
+          "error": "An error occurred while creating electrical heating (D14) metering point"
+        }
       }
     },
     "electricalHeatingCorrection": {
