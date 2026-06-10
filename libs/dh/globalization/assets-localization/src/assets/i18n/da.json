@@ -1772,7 +1772,12 @@
         "error": {
           "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
         },
-        "create": "Opret målepunkt"
+        "create": "Opret målepunkt",
+        "toast": {
+          "loading": "Opretter elvarme (D14) målepunkt...",
+          "success": "Elvarme (D14) målepunkt oprettet",
+          "error": "Der opstod en fejl under oprettelse af elvarme (D14) målepunkt"
+        }
       }
     },
     "electricalHeatingCorrection": {

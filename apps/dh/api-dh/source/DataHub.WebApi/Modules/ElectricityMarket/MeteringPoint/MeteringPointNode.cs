@@ -29,6 +29,7 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateChildOnly.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateWithFlag.V1.Model;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -451,6 +452,48 @@ public static partial class MeteringPointNode
         }
 
         return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:historical-correction-manage"])]
+    public static async Task<bool> CreateElectricalHeatingMeteringPointAsync(
+        string parentMeteringPointId,
+        string childMeteringPointId,
+        DateTimeOffset validityDate,
+        DateTimeOffset? closeDownDate,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IProcessManagerClient processManagerClient,
+        CancellationToken ct)
+    {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var user = httpContextAccessor.HttpContext.User;
+
+        var actorNumber = user.GetMarketParticipantNumber();
+
+        var input = new ElectricalHeatingCreateChildOnlyInputV1(
+            childMeteringPointId,
+            parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
+            validityDate,
+            closeDownDate);
+
+        var command = new StartHtxElectricalHeatingCreateChildOnlyCommandV1(userIdentity, input);
+
+        try
+        {
+            await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
+            return true;
+        }
+        catch
+        {
+            throw new GraphQLException(
+                $"Command StartHtxElectricalHeatingCreateChildOnlyCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPointId}'");
+        }
     }
 
     [Query]

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -27,11 +27,21 @@ import { VATER } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
+import { dayjs } from '@energinet/watt/core/date';
 
 import {
+  dhFormControlToSignal,
   dhMakeFormControl,
   dhMeteringPointIdValidator,
+  injectRelativeNavigate,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import {
+  CreateElectricalHeatingMeteringPointDocument,
+  GetRelatedMeteringPointsByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-new-electrical-heating-metering-point',
@@ -70,7 +80,7 @@ import {
       "
     >
       <watt-card>
-        <form [formGroup]="form" id="create-form" vater-stack align="start">
+        <form [formGroup]="form" (ngSubmit)="submit()" id="create-form" vater-stack align="start">
           <watt-text-field
             maxLength="18"
             [formControl]="form.controls.meteringPointId"
@@ -89,6 +99,7 @@ import {
           <watt-datepicker
             [label]="t('closeDownDate')"
             [formControl]="form.controls.closeDownDate"
+            [min]="closeDownDateMin()"
           />
         </form>
       </watt-card>
@@ -100,12 +111,49 @@ import {
   `,
 })
 export class DhNewElectricalHeatingMeteringPoint {
+  private readonly navigate = injectRelativeNavigate();
+
+  private create = mutation(CreateElectricalHeatingMeteringPointDocument, {
+    onStatusUpdated: injectToast(
+      'meteringPoint.historicalCorrection.newElectricalHeatingMeteringPoint.toast'
+    ),
+    onCompleted: () => this.navigate(['../']),
+    refetchQueries: [GetRelatedMeteringPointsByIdDocument],
+  });
+
+  parentMeteringPointId = input.required<string>();
+
   form = new FormGroup({
     meteringPointId: dhMakeFormControl<string>('', [
       Validators.required,
       dhMeteringPointIdValidator(),
     ]),
     validityDate: dhMakeFormControl<Date | null>(null, Validators.required),
-    closeDownDate: dhMakeFormControl<Date | null>(null, Validators.required),
+    closeDownDate: dhMakeFormControl<Date | null>(null),
   });
+
+  private validityDateChanged = dhFormControlToSignal(this.form.controls.validityDate);
+
+  closeDownDateMin = computed(() => {
+    const validityDate = this.validityDateChanged();
+
+    return validityDate ? dayjs(validityDate).toDate() : undefined;
+  });
+
+  async submit() {
+    if (this.form.invalid) return;
+
+    const { meteringPointId, validityDate, closeDownDate } = this.form.getRawValue();
+
+    assertIsDefined(validityDate);
+
+    await this.create.mutate({
+      variables: {
+        parentMeteringPointId: this.parentMeteringPointId(),
+        childMeteringPointId: meteringPointId,
+        validityDate,
+        closeDownDate,
+      },
+    });
+  }
 }

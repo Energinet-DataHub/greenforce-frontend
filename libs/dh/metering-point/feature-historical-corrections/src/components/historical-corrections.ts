@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -105,7 +105,7 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
 
         @switch (form.controls.type.value) {
           @case ('newElectricalHeatingMp') {
-            <dh-new-electrical-heating-metering-point />
+            <dh-new-electrical-heating-metering-point [parentMeteringPointId]="meteringPointId()" />
           }
         }
       </vater-flex>
@@ -113,6 +113,8 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
   `,
 })
 export class DhHistoricalCorrections {
+  meteringPointId = input.required<string>();
+
   form = new FormGroup(
     {
       type: dhMakeFormControl<string>('', Validators.required),
