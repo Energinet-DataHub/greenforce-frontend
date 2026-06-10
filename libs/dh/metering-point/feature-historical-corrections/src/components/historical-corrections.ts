@@ -27,6 +27,8 @@ import { VATER } from '@energinet/watt/vater';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
+import { DhNewElectricalHeatingMeteringPoint } from './create-electrical-heating-metering-point';
+
 @Component({
   selector: 'dh-historical-corrections',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,6 +40,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     WATT_CARD,
     WATT_RADIO,
     WattButtonComponent,
+    DhNewElectricalHeatingMeteringPoint,
   ],
   styles: `
     :host {
@@ -62,8 +65,8 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
       </vater-stack>
 
       <vater-flex gap="ml">
-        <form #form="ngForm" id="historicalCorrectionForm" [formGroup]="historicalCorrectionForm">
-          @let isSubmitted = form.submitted;
+        <form #formDirective="ngForm" id="historical-correction-form" [formGroup]="form">
+          @let isSubmitted = formDirective.submitted;
 
           <watt-card>
             @if (isSubmitted && form.valid) {
@@ -72,11 +75,11 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
                   <h3 class="no-margin">{{ t('title') }}</h3>
 
                   <h2 class="no-margin selected-correction-title">
-                    {{ t(historicalCorrectionForm.controls.type.value) }}
+                    {{ t(form.controls.type.value) }}
                   </h2>
                 </vater-flex>
 
-                <watt-button variant="text" (click)="form.resetForm()">
+                <watt-button variant="text" (click)="formDirective.resetForm()">
                   {{ t('editBtn') }}
                 </watt-button>
               </vater-stack>
@@ -85,9 +88,9 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
                 {{ t('correctionToChooseFrom') }}
               </h3>
 
-              <watt-radio-group [formControl]="historicalCorrectionForm.controls.type">
-                <watt-radio [value]="'newElectricalHeatingMP'">
-                  {{ t('newElectricalHeatingMP') }}
+              <watt-radio-group [formControl]="form.controls.type">
+                <watt-radio [value]="'newElectricalHeatingMp'">
+                  {{ t('newElectricalHeatingMp') }}
                 </watt-radio>
               </watt-radio-group>
             }
@@ -95,16 +98,22 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
         </form>
 
         @if (form.invalid) {
-          <watt-button type="submit" formId="historicalCorrectionForm">
+          <watt-button type="submit" formId="historical-correction-form">
             {{ t('continueToDetails') }}
           </watt-button>
+        }
+
+        @switch (form.controls.type.value) {
+          @case ('newElectricalHeatingMp') {
+            <dh-new-electrical-heating-metering-point />
+          }
         }
       </vater-flex>
     </ng-container>
   `,
 })
 export class DhHistoricalCorrections {
-  historicalCorrectionForm = new FormGroup(
+  form = new FormGroup(
     {
       type: dhMakeFormControl<string>('', Validators.required),
     },
