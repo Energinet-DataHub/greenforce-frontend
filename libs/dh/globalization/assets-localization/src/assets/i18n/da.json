@@ -1355,6 +1355,7 @@
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_041_V1_STEP_5": "Information om pristilknytninger (RSM-031/D20)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
