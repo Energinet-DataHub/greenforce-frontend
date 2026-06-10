@@ -1729,6 +1729,14 @@
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskift kunne ikke indsendes"
     },
+    "historicalCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "correctionToChooseFrom": "Hvilken historisk rettelse vil du foretage?",
+      "newElectricalHeatingMP": "Opret Elvarme (D14) målepunkt",
+      "editBtn": "Ret",
+      "continueToDetails": "Fortsæt til detaljer"
+    },
     "electricalHeatingCorrection": {
       "title": "Historisk rettelse",
       "cancel": "Afbryd",
