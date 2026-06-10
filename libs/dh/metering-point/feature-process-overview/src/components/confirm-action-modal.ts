@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
@@ -24,6 +24,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 @Component({
   selector: 'dh-confirm-action-modal',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [TranslocoDirective, WATT_MODAL, WattButtonComponent],
   template: `
     <watt-modal
