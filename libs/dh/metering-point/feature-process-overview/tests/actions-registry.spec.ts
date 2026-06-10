@@ -21,8 +21,8 @@ import { of } from 'rxjs';
 
 import {
   EicFunction,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
@@ -89,19 +89,19 @@ describe('DhActionsRegistry', () => {
       isFas = false,
       actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
-        [WorkflowAction.CancelWorkflow]: {
+        [MeteringPointProcessAction.CancelWorkflow]: {
           featureFlag: 'end-of-supply',
           callback: vi.fn(),
         },
       },
       customerMoveInHandlers = {
-        [WorkflowAction.SendInformation]: {
+        [MeteringPointProcessAction.SendInformation]: {
           callback: vi.fn(),
         },
       },
       secondaryMoveInHandlers = {} as ActionHandlerMap,
       changeOfEnergySupplierHandlers = {
-        [WorkflowAction.SendInformation]: {
+        [MeteringPointProcessAction.SendInformation]: {
           callback: vi.fn(),
         },
       } as ActionHandlerMap,
@@ -178,43 +178,43 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry();
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should return SendInformation for CustomerMoveIn (no feature flag required)', () => {
       const registry = setupRegistry();
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.CustomerMoveIn,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should filter out actions not registered for the business reason', () => {
       const registry = setupRegistry();
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.CancelWorkflow, MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should return empty array when feature flag is disabled', () => {
       const registry = setupRegistry({ featureFlagsEnabled: false });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -226,7 +226,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         releaseTogglesEnabled: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             featureFlag: 'end-of-supply',
             releaseToggle: 'PM99-SOME-TOGGLE',
             callback: vi.fn(),
@@ -235,7 +235,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -246,7 +246,7 @@ describe('DhActionsRegistry', () => {
     it('should return action when both feature flag and release toggle are enabled', () => {
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             featureFlag: 'end-of-supply',
             releaseToggle: 'PM99-SOME-TOGGLE',
             callback: vi.fn(),
@@ -255,19 +255,19 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should return empty array for unregistered business reason', () => {
       const registry = setupRegistry();
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.NewMeteringPoint,
         false
       );
@@ -291,7 +291,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         hasEndOfSupplyRespondPermission: true,
         endOfSupplyHandlers: {
-          [WorkflowAction.RejectRequest]: {
+          [MeteringPointProcessAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
             permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
@@ -300,19 +300,19 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.RejectRequest],
+        [MeteringPointProcessAction.RejectRequest],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.RejectRequest]);
+      expect(result).toEqual([MeteringPointProcessAction.RejectRequest]);
     });
 
     it('should filter out action when user lacks required permission', () => {
       const registry = setupRegistry({
         hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.RejectRequest]: {
+          [MeteringPointProcessAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
             permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
@@ -321,7 +321,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.RejectRequest],
+        [MeteringPointProcessAction.RejectRequest],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -335,12 +335,12 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should return action when user has end-of-supply permission and action allows it', () => {
@@ -348,7 +348,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: false,
         hasEndOfSupplyRequestPermission: true,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             permissions: [
               'metering-point:end-of-supply-request',
@@ -360,12 +360,12 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should return action when user has end-of-supply-respond permission and action allows both', () => {
@@ -373,7 +373,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: true,
         hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             permissions: [
               'metering-point:end-of-supply-request',
@@ -385,12 +385,12 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should filter out action when user has neither required permission', () => {
@@ -398,7 +398,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: false,
         hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             permissions: [
               'metering-point:end-of-supply-request',
@@ -410,7 +410,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -422,7 +422,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.GridAccessProvider,
         endOfSupplyHandlers: {
-          [WorkflowAction.ConfirmWorkflow]: {
+          [MeteringPointProcessAction.ConfirmWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -431,19 +431,19 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.ConfirmWorkflow],
+        [MeteringPointProcessAction.ConfirmWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.ConfirmWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.ConfirmWorkflow]);
     });
 
     it('should exclude action when actor role is not in handler.roles', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.ConfirmWorkflow]: {
+          [MeteringPointProcessAction.ConfirmWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -452,7 +452,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.ConfirmWorkflow],
+        [MeteringPointProcessAction.ConfirmWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -464,7 +464,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
@@ -473,19 +473,19 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         true
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should exclude action for ResponsibleEnergySupplier when actor is supplier but not responsible', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
@@ -494,7 +494,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -506,7 +506,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -515,20 +515,20 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false,
         '1234567890123'
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should exclude action for InitiatingParticipant when actor GLN does not match initiator GLN', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -537,7 +537,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false,
         '9999999999999'
@@ -550,7 +550,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -559,7 +559,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
@@ -571,7 +571,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.GridAccessProvider,
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
             callback: vi.fn(),
@@ -580,12 +580,12 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should include all actions for FAS regardless of roles', () => {
@@ -593,7 +593,7 @@ describe('DhActionsRegistry', () => {
         isFas: true,
         actorMarketRole: EicFunction.DataHubAdministrator,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
@@ -602,12 +602,12 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation],
+        [MeteringPointProcessAction.SendInformation],
         ProcessManagerBusinessReason.EndOfSupply,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.SendInformation]);
+      expect(result).toEqual([MeteringPointProcessAction.SendInformation]);
     });
 
     it('should return CancelWorkflow for CustomerMoveIn when permission and initiator match', () => {
@@ -615,10 +615,10 @@ describe('DhActionsRegistry', () => {
         hasMoveInPermission: true,
         actorMarketRole: EicFunction.EnergySupplier,
         customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:move-in'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -627,13 +627,13 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.CustomerMoveIn,
         false,
         '1234567890123'
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should exclude CancelWorkflow for CustomerMoveIn when initiator GLN does not match', () => {
@@ -641,10 +641,10 @@ describe('DhActionsRegistry', () => {
         hasMoveInPermission: true,
         actorMarketRole: EicFunction.EnergySupplier,
         customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:move-in'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -653,7 +653,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.CustomerMoveIn,
         false,
         '9999999999999'
@@ -667,10 +667,10 @@ describe('DhActionsRegistry', () => {
         hasMoveInPermission: false,
         actorMarketRole: EicFunction.EnergySupplier,
         customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:move-in'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -679,7 +679,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.CustomerMoveIn,
         false,
         '1234567890123'
@@ -693,10 +693,10 @@ describe('DhActionsRegistry', () => {
         hasChangeOfSupplierPermission: true,
         actorMarketRole: EicFunction.EnergySupplier,
         changeOfEnergySupplierHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:change-of-supplier'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -705,13 +705,13 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.ChangeOfEnergySupplier,
         false,
         '1234567890123'
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow]);
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
     });
 
     it('should exclude CancelWorkflow for ChangeOfEnergySupplier when initiator GLN does not match', () => {
@@ -719,10 +719,10 @@ describe('DhActionsRegistry', () => {
         hasChangeOfSupplierPermission: true,
         actorMarketRole: EicFunction.EnergySupplier,
         changeOfEnergySupplierHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:change-of-supplier'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -731,7 +731,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.ChangeOfEnergySupplier,
         false,
         '9999999999999'
@@ -744,10 +744,10 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         changeOfEnergySupplierHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             permissions: ['metering-point:change-of-supplier'],
             roles: [InitiatingParticipant],
             callback: vi.fn(),
@@ -756,7 +756,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.ChangeOfEnergySupplier,
         false,
         '1234567890123'
@@ -768,22 +768,120 @@ describe('DhActionsRegistry', () => {
     it('should return actions sorted in canonical display order regardless of input order', () => {
       const registry = setupRegistry({
         customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             callback: vi.fn(),
           },
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             callback: vi.fn(),
           },
         },
       });
 
       const result = registry.getSupportedActions(
-        [WorkflowAction.SendInformation, WorkflowAction.CancelWorkflow],
+        [MeteringPointProcessAction.SendInformation, MeteringPointProcessAction.CancelWorkflow],
         ProcessManagerBusinessReason.CustomerMoveIn,
         false
       );
 
-      expect(result).toEqual([WorkflowAction.CancelWorkflow, WorkflowAction.SendInformation]);
+      expect(result).toEqual([
+        MeteringPointProcessAction.CancelWorkflow,
+        MeteringPointProcessAction.SendInformation,
+      ]);
+    });
+
+    it('should include InitiateIncorrectMoveIn for CustomerMoveIn without role or permission gates', () => {
+      const registry = setupRegistry({
+        actorMarketRole: EicFunction.EnergySupplier,
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+        ProcessManagerBusinessReason.CustomerMoveIn,
+        false
+      );
+
+      expect(result).toEqual([MeteringPointProcessAction.InitiateIncorrectMoveIn]);
+    });
+
+    describe('InitiatingParticipant gate (BRS-011 ownership rule)', () => {
+      // The BRS-011 button is gated by InitiatingParticipant alone: only the
+      // actor that initiated the move-in process can request its correction.
+      // The actor's GLN is fixed at '1234567890123' by the setupRegistry
+      // DhActorStorage mock; we toggle the initiator GLN by passing it (or a
+      // non-matching value) as the 4th argument to getSupportedActions.
+
+      const matchingInitiatorGln = '1234567890123';
+      const nonMatchingInitiatorGln = '9999999999999';
+
+      it('should include the action when actor.gln matches the process initiator', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [InitiatingParticipant],
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          true,
+          matchingInitiatorGln
+        );
+
+        expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('should exclude the action when actor.gln does NOT match the process initiator', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [InitiatingParticipant],
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          true,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+
+      it('should not consult isResponsible: actor.gln match alone decides visibility', () => {
+        // Responsibility is irrelevant for the new rule. Same matching GLN with
+        // responsibility flipped to false must still produce the action.
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          customerMoveInHandlers: {
+            [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+              roles: [InitiatingParticipant],
+              callback: vi.fn(),
+            },
+          },
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn],
+          ProcessManagerBusinessReason.CustomerMoveIn,
+          false,
+          matchingInitiatorGln
+        );
+
+        expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
     });
   });
 
@@ -792,12 +890,12 @@ describe('DhActionsRegistry', () => {
       const callback = vi.fn();
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: { callback },
+          [MeteringPointProcessAction.CancelWorkflow]: { callback },
         },
       });
 
       registry.execute(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
@@ -811,7 +909,7 @@ describe('DhActionsRegistry', () => {
 
       expect(() =>
         registry.execute(
-          WorkflowAction.CancelWorkflow,
+          MeteringPointProcessAction.CancelWorkflow,
           ProcessManagerBusinessReason.NewMeteringPoint,
           mockContext,
           false
@@ -824,7 +922,7 @@ describe('DhActionsRegistry', () => {
 
       expect(() =>
         registry.execute(
-          WorkflowAction.SendInformation,
+          MeteringPointProcessAction.SendInformation,
           ProcessManagerBusinessReason.EndOfSupply,
           mockContext,
           false
@@ -837,7 +935,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
-          [WorkflowAction.RejectRequest]: {
+          [MeteringPointProcessAction.RejectRequest]: {
             featureFlag: 'end-of-supply',
             permissions: ['metering-point:end-of-supply-respond'],
             callback,
@@ -846,7 +944,7 @@ describe('DhActionsRegistry', () => {
       });
 
       registry.execute(
-        WorkflowAction.RejectRequest,
+        MeteringPointProcessAction.RejectRequest,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
@@ -860,12 +958,12 @@ describe('DhActionsRegistry', () => {
       const onSuccess = vi.fn();
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: { callback },
+          [MeteringPointProcessAction.CancelWorkflow]: { callback },
         },
       });
 
       registry.execute(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         {
           ...mockContext,
@@ -882,7 +980,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.ConfirmWorkflow]: {
+          [MeteringPointProcessAction.ConfirmWorkflow]: {
             featureFlag: 'end-of-supply',
             roles: [EicFunction.GridAccessProvider],
             callback,
@@ -891,7 +989,7 @@ describe('DhActionsRegistry', () => {
       });
 
       registry.execute(
-        WorkflowAction.ConfirmWorkflow,
+        MeteringPointProcessAction.ConfirmWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
@@ -903,14 +1001,14 @@ describe('DhActionsRegistry', () => {
     it('should not call handler for FAS users even when action would otherwise be supported', () => {
       const callback = vi.fn();
       const baseSetup = {
-        endOfSupplyHandlers: { [WorkflowAction.CancelWorkflow]: { callback } },
+        endOfSupplyHandlers: { [MeteringPointProcessAction.CancelWorkflow]: { callback } },
       };
 
       // Sanity: without FAS, the same setup DOES invoke the handler.
       // This proves the trigger is wired up before we assert the FAS-block.
       const nonFas = setupRegistry(baseSetup);
       nonFas.execute(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
@@ -922,7 +1020,7 @@ describe('DhActionsRegistry', () => {
       TestBed.resetTestingModule();
       const fas = setupRegistry({ ...baseSetup, isFas: true });
       fas.execute(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false
@@ -935,7 +1033,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
             callback,
@@ -944,7 +1042,7 @@ describe('DhActionsRegistry', () => {
       });
 
       registry.execute(
-        WorkflowAction.SendInformation,
+        MeteringPointProcessAction.SendInformation,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         false,
@@ -959,7 +1057,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             featureFlag: 'end-of-supply',
             roles: [InitiatingParticipant],
             callback,
@@ -968,7 +1066,7 @@ describe('DhActionsRegistry', () => {
       });
 
       registry.execute(
-        WorkflowAction.SendInformation,
+        MeteringPointProcessAction.SendInformation,
         ProcessManagerBusinessReason.EndOfSupply,
         mockContext,
         true,
@@ -983,7 +1081,7 @@ describe('DhActionsRegistry', () => {
     it('should derive [EnergySupplier] from [ResponsibleEnergySupplier]', () => {
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
           },
@@ -991,7 +1089,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getActorRolesForAction(
-        WorkflowAction.SendInformation,
+        MeteringPointProcessAction.SendInformation,
         ProcessManagerBusinessReason.EndOfSupply
       );
 
@@ -1001,7 +1099,7 @@ describe('DhActionsRegistry', () => {
     it('should derive [EnergySupplier, GridAccessProvider] from [InitiatingParticipant]', () => {
       const registry = setupRegistry({
         customerMoveInHandlers: {
-          [WorkflowAction.SendInformation]: {
+          [MeteringPointProcessAction.SendInformation]: {
             roles: [InitiatingParticipant],
             callback: vi.fn(),
           },
@@ -1009,7 +1107,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getActorRolesForAction(
-        WorkflowAction.SendInformation,
+        MeteringPointProcessAction.SendInformation,
         ProcessManagerBusinessReason.CustomerMoveIn
       );
 
@@ -1019,7 +1117,7 @@ describe('DhActionsRegistry', () => {
     it('should deduplicate when concrete and sentinel roles overlap', () => {
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             roles: [EicFunction.GridAccessProvider, EicFunction.EnergySupplier],
             callback: vi.fn(),
           },
@@ -1027,7 +1125,7 @@ describe('DhActionsRegistry', () => {
       });
 
       const result = registry.getActorRolesForAction(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply
       );
 
@@ -1040,14 +1138,14 @@ describe('DhActionsRegistry', () => {
     it('should return [] when handler has no roles', () => {
       const registry = setupRegistry({
         endOfSupplyHandlers: {
-          [WorkflowAction.CancelWorkflow]: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
             callback: vi.fn(),
           },
         },
       });
 
       const result = registry.getActorRolesForAction(
-        WorkflowAction.CancelWorkflow,
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.EndOfSupply
       );
 
@@ -1058,11 +1156,179 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry();
 
       const result = registry.getActorRolesForAction(
-        WorkflowAction.RejectRequest,
+        MeteringPointProcessAction.RejectRequest,
         ProcessManagerBusinessReason.EndOfSupply
       );
 
       expect(result).toEqual([]);
+    });
+
+    // -- Regression sweep: every concrete handler configuration declared across all action files
+    // must produce the same EicFunction[] result that the original union-only code produced.
+    // If any of these assertions break, a handler's actor-role display has silently changed shape.
+
+    it('regression: EndOfSupply SendInformation / CancelWorkflow [ResponsibleEnergySupplier] -> [EnergySupplier]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [ResponsibleEnergySupplier],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.EnergySupplier]);
+    });
+
+    it('regression: EndOfSupply ConfirmWorkflow / RejectRequest [GridAccessProvider] -> [GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        endOfSupplyHandlers: {
+          [MeteringPointProcessAction.ConfirmWorkflow]: {
+            roles: [EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.ConfirmWorkflow,
+        ProcessManagerBusinessReason.EndOfSupply
+      );
+
+      expect(result).toEqual([EicFunction.GridAccessProvider]);
+    });
+
+    it('regression: CustomerMoveIn SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: CustomerMoveIn CancelWorkflow [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.CancelWorkflow,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: SecondaryMoveIn SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.SecondaryMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: ChangeOfEnergySupplier SendInformation [InitiatingParticipant, GridAccessProvider] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        changeOfEnergySupplierHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.ChangeOfEnergySupplier
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: ChangeOfEnergySupplier CancelWorkflow [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        changeOfEnergySupplierHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.CancelWorkflow,
+        ProcessManagerBusinessReason.ChangeOfEnergySupplier
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('smoke: CustomerMoveIn InitiateIncorrectMoveIn [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      // The BRS-011 button is gated by InitiatingParticipant alone, so the FAS drawer
+      // groups it under both initiator-eligible roles per INITIATOR_ROLE_UNIVERSE.
+      const registry = setupRegistry({
+        customerMoveInHandlers: {
+          [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.InitiateIncorrectMoveIn,
+        ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
     });
   });
 });
