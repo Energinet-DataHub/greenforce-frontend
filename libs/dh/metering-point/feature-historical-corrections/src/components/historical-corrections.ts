@@ -27,7 +27,7 @@ import { VATER } from '@energinet/watt/vater';
 
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhNewElectricalHeatingMeteringPoint } from './create-electrical-heating-metering-point';
+import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-metering-point';
 
 @Component({
   selector: 'dh-historical-corrections',
