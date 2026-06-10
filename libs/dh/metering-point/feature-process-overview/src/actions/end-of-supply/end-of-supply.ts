@@ -77,6 +77,7 @@ export class EndOfSupplyActions {
             meteringPointId: ctx.meteringPointId,
             processId: ctx.processId,
             validityDate: result.validityDate,
+            currentConnectionState: ctx.connectionState,
           },
           onCompleted,
           onError,

@@ -39,7 +39,10 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  ElectricityMarketViewConnectionState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
@@ -105,6 +108,7 @@ async function setup(
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-123',
       isEnergySupplierResponsible,
+      connectionState: ElectricityMarketViewConnectionState.Disconnected,
     },
   });
 

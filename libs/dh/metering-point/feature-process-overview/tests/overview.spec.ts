@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -121,6 +122,7 @@ async function setup(
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-456',
       isEnergySupplierResponsible,
+      connectionState: ElectricityMarketViewConnectionState.Disconnected,
     },
   });
 
