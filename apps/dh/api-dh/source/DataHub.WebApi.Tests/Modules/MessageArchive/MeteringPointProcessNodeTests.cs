@@ -13,11 +13,15 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
+using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
+using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Modules.MessageArchive;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
@@ -213,6 +217,120 @@ public class MeteringPointProcessNodeTests
         actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
     }
 
+    [Fact]
+    public async Task GetAvailableActionsAsync_AllWorkflowActionsExceptNoAction_MapWithoutThrowing()
+    {
+        // Converts a future additive WorkflowAction package bump into a test failure here
+        // instead of a runtime serialization error in production. EndOfSupply short-circuits
+        // before any loader (strict mocks prove it), so only the enum mapping is exercised.
+        var allActions = Enum.GetValues<WorkflowAction>()
+            .Where(a => a != WorkflowAction.NoAction)
+            .ToArray();
+        var process = CreateProcess(BusinessReason.EndOfSupply, MeteringPointId, actions: allActions);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = (await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None)).ToList();
+
+        actions.Should().HaveCount(allActions.Length);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_UnknownWorkflowAction_IsSilentlyFiltered()
+    {
+        // Forward compatibility: if PM ships a new WorkflowAction before this BFF learns to
+        // map it, the unknown value must be skipped silently. Throwing would surface a
+        // serialization error on the entire availableActions field for every process that
+        // carries the new action, taking down the overview for the affected user.
+        const WorkflowAction unknownAction = (WorkflowAction)9999;
+        var process = CreateProcess(
+            BusinessReason.EndOfSupply,
+            MeteringPointId,
+            actions: [WorkflowAction.SendInformation, unknownAction]);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = (await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None)).ToList();
+
+        actions.Should().BeEquivalentTo([MeteringPointProcessAction.SendInformation]);
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_NewerRejectedMoveIn_SupersedesOlderSucceededMoveIn()
+    {
+        // Product rule: "latest" is computed across ALL lifecycle states, not only succeeded
+        // ones. A newer CustomerMoveIn in any state (here: rejected) intentionally suppresses
+        // correction of older move-ins, so the loader returns the newer, non-succeeded id.
+        // The even newer EndOfSupply instance is noise proving other business reasons are ignored.
+        var olderSucceededMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerRejectedMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Rejected);
+        var newestEndOfSupply = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000cc"),
+            businessReason: BusinessReason.EndOfSupply,
+            expectedValidityDate: new DateTimeOffset(2026, 3, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 2, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveIn,
+            newerRejectedMoveIn,
+            newestEndOfSupply);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(newerRejectedMoveIn.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_EqualExpectedValidityDate_LaterCreatedAtWins()
+    {
+        // The ids are chosen so the final Id tiebreak alone would pick the earlier-created
+        // instance, proving Lifecycle.CreatedAt decides before Id.
+        var expectedValidityDate = new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero);
+        var createdLater = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: expectedValidityDate,
+            createdAt: new DateTimeOffset(2026, 1, 20, 0, 0, 0, TimeSpan.Zero));
+        var createdEarlier = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-000000000002"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: expectedValidityDate,
+            createdAt: new DateTimeOffset(2026, 1, 10, 0, 0, 0, TimeSpan.Zero));
+        var processManagerClient = CreateProcessManagerClient(createdEarlier, createdLater);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(createdLater.Id.ToString());
+    }
+
     private static MeteringPointProcess CreateCustomerMoveInProcess() =>
         CreateProcess(
             BusinessReason.CustomerMoveIn,
@@ -223,7 +341,8 @@ public class MeteringPointProcessNodeTests
         BusinessReason businessReason,
         string? meteringPointId,
         DateTimeOffset? cutoffDate = null,
-        MeteringPointProcessState state = MeteringPointProcessState.Pending) =>
+        MeteringPointProcessState state = MeteringPointProcessState.Pending,
+        WorkflowAction[]? actions = null) =>
         new(
             Id: _processOrchestrationId.ToString(),
             TransactionId: "transaction-id",
@@ -233,9 +352,43 @@ public class MeteringPointProcessNodeTests
             ActorNumber: EnergySupplierGln,
             ActorRole: ActorRole.EnergySupplier.Name,
             State: state,
-            Actions: [WorkflowAction.CancelWorkflow],
+            Actions: actions ?? [WorkflowAction.CancelWorkflow],
             WorkflowSteps: null,
             MeteringPointId: meteringPointId);
+
+    private static WorkflowInstanceDto CreateWorkflowInstance(
+        Guid id,
+        BusinessReason businessReason,
+        DateTimeOffset? expectedValidityDate,
+        DateTimeOffset createdAt,
+        WorkflowInstanceTerminationState terminationState = WorkflowInstanceTerminationState.Succeeded) =>
+        new(
+            Id: id,
+            BusinessReason: businessReason,
+            ExpectedValidityDate: expectedValidityDate,
+            TransactionId: "transaction-id",
+            Lifecycle: new WorkflowInstanceLifecycleDto(
+                CreatedBy: new MaskedActorIdentityDto(
+                    ActorNumber.Create(EnergySupplierGln),
+                    ActorRole.EnergySupplier),
+                State: WorkflowInstanceLifecycleState.Terminated,
+                TerminationState: terminationState,
+                CreatedAt: createdAt,
+                TerminatedAt: createdAt,
+                CanceledByWorkflowInstanceId: null),
+            Action: WorkflowAction.NoAction,
+            Actions: []);
+
+    private static Mock<IProcessManagerClient> CreateProcessManagerClient(params WorkflowInstanceDto[] instances)
+    {
+        var processManagerClient = new Mock<IProcessManagerClient>();
+        processManagerClient
+            .Setup(x => x.SearchWorkflowInstancesByMeteringPointIdQueryAsync(
+                It.IsAny<SearchWorkflowInstancesByMeteringPointIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(instances);
+        return processManagerClient;
+    }
 
     private static Mock<IIncorrectMoveInEligibilityDataLoader> CreateEligibilityDataLoader(bool isEligible)
     {

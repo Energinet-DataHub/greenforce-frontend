@@ -42,10 +42,12 @@ function getReleaseTogglesQuery() {
           'PM58-PRICES-UI',
           'PM58-PRICES-WEEK-VIEW-UI',
           'PM60-CHARGE-LINKS-UI',
+          'BRS011-INCOMING-MESSAGES',
           'PM120-DH3-METERING-POINTS-UI',
           'PM62-ACTOR-CONVERSATION',
           'PM62-ACTOR-CONVERSATION-CENTRAL',
           'PM50-CHANGE-OF-SUPPLIER-UI',
+          'PM63-HISTORICAL-CORRECTIONS-UI',
         ],
       },
     });

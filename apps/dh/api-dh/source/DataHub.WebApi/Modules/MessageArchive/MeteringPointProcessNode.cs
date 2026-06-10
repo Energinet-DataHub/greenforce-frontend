@@ -161,11 +161,15 @@ public static partial class MeteringPointProcessNode
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
+        // Unknown PM actions are skipped silently so the overview keeps working when PM
+        // introduces a new WorkflowAction value before this BFF learns to map it.
         var actions = process.Actions is null
             ? Enumerable.Empty<MeteringPointProcessAction>()
             : process.Actions
                 .Where(a => a != WorkflowAction.NoAction)
-                .Select(MapWorkflowActionToMeteringPointProcessAction);
+                .Select(MapWorkflowActionToMeteringPointProcessAction)
+                .Where(a => a.HasValue)
+                .Select(a => a!.Value);
 
         if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
         {
@@ -180,9 +184,10 @@ public static partial class MeteringPointProcessNode
             return actions;
         }
 
-        // Only the latest succeeded CustomerMoveIn on the metering point can be corrected:
-        // an older move-in has been superseded by a newer one, so correcting it would not
-        // restore the current responsibility. The latest loader queries PM with a wide
+        // The action is offered only on the single latest CustomerMoveIn on the metering point
+        // (latest across all lifecycle states), and only when that latest process itself
+        // succeeded. A newer move-in in any state, including rejected or pending, intentionally
+        // suppresses correction of older move-ins. The latest loader queries PM with a wide
         // window so the result is independent of the user's overview date filter.
         var latestProcessId = await latestCustomerMoveInProcessIdDataLoader
             .LoadAsync(process.MeteringPointId, cancellationToken)
@@ -232,6 +237,9 @@ public static partial class MeteringPointProcessNode
                 From: DateTimeOffset.UtcNow.AddDays(-60));
 
             var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
+
+            // Intentionally fail closed: this gates a display-only action, so an EM transport
+            // failure hides the button instead of erroring the whole availableActions field.
             results[key] = result.IsSuccess && result.Data is not null && result.Data.MoveIns.Any();
         }
 
@@ -268,6 +276,7 @@ public static partial class MeteringPointProcessNode
             var latest = instances
                 .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
                 .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
+                .ThenByDescending(x => x.Lifecycle.CreatedAt)
                 .ThenByDescending(x => x.Id)
                 .FirstOrDefault();
 
@@ -311,14 +320,14 @@ public static partial class MeteringPointProcessNode
                 ct));
     }
 
-    private static MeteringPointProcessAction MapWorkflowActionToMeteringPointProcessAction(WorkflowAction action) =>
+    private static MeteringPointProcessAction? MapWorkflowActionToMeteringPointProcessAction(WorkflowAction action) =>
         action switch
         {
             WorkflowAction.SendInformation => MeteringPointProcessAction.SendInformation,
             WorkflowAction.CancelWorkflow => MeteringPointProcessAction.CancelWorkflow,
             WorkflowAction.ConfirmWorkflow => MeteringPointProcessAction.ConfirmWorkflow,
             WorkflowAction.RejectRequest => MeteringPointProcessAction.RejectRequest,
-            _ => throw new ArgumentOutOfRangeException(nameof(action), action, $"Unmapped WorkflowAction '{action}'."),
+            _ => null,
         };
 
     private static IObservable<MeteringPointProcess> OnMeteringPointProcessUpdatedAsync(
