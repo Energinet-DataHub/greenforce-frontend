@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -66,7 +66,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
           @let isSubmitted = form.submitted;
 
           <watt-card>
-            @if (isSubmitted) {
+            @if (isSubmitted && form.valid) {
               <vater-stack direction="row" justify="space-between">
                 <vater-flex direction="column">
                   <h3 class="no-margin">{{ t('title') }}</h3>
@@ -94,7 +94,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
           </watt-card>
         </form>
 
-        @if (isSubmitted === false) {
+        @if (form.invalid) {
           <watt-button type="submit" formId="historicalCorrectionForm">
             {{ t('continueToDetails') }}
           </watt-button>
@@ -106,7 +106,7 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 export class DhHistoricalCorrections {
   historicalCorrectionForm = new FormGroup(
     {
-      type: dhMakeFormControl<string>(''),
+      type: dhMakeFormControl<string>('', Validators.required),
     },
     { updateOn: 'submit' }
   );
