@@ -210,7 +210,9 @@ public static class MoveInOperations
         CancellationToken ct)
         => await client
             .SendAsync(new ConfirmIncorrectMoveInCommandV1(new(meteringPointId, processId.ToString())), ct)
-            .Then(r => r.IsSuccess);
+            .Then(r => r.IsSuccess
+                ? true
+                : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
 
     [Mutation]
     [Authorize(Roles = ["metering-point:move-in"])]
@@ -222,7 +224,9 @@ public static class MoveInOperations
         CancellationToken ct)
         => await client
             .SendAsync(new RejectIncorrectMoveInCommandV1(new(meteringPointId, processId.ToString())), ct)
-            .Then(r => r.IsSuccess);
+            .Then(r => r.IsSuccess
+                ? true
+                : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
 
     private static async Task<(Guid? JuridicalContactId, Guid? SecondaryContactId)> GetCustomerContactsAsync(
         string meteringPointId,
