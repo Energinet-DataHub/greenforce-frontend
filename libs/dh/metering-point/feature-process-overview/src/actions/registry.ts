@@ -61,12 +61,6 @@ export interface ActionHandler {
   releaseToggle?: string;
   permissions?: Permission[];
   roles?: ActionRole[];
-  /**
-   * When true, every entry in `roles` must match (AND). Default is OR (any one match).
-   * Use this for actions that combine an actor-state check (e.g. ResponsibleEnergySupplier)
-   * with a process-ownership check (InitiatingParticipant) and need both to hold.
-   */
-  requireAllRoles?: boolean;
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -122,15 +116,14 @@ export class DhActionsRegistry {
   ): boolean {
     if (!handler.roles?.length) return true;
     const actor = this.actorStorage.getSelectedActor();
-    const check = (role: ActionRole) => {
+    return handler.roles.some((role) => {
       if (role === ResponsibleEnergySupplier) return isResponsible;
       // actor.gln can hold either a GLN or EIC (mirrors GraphQL glnOrEicNumber);
       // initiatorGlnOrEic is sourced from the same field, so the comparison is semantically correct
       if (role === InitiatingParticipant)
         return !!initiatorGlnOrEic && actor.gln === initiatorGlnOrEic;
       return actor.marketRole === role;
-    };
-    return handler.requireAllRoles ? handler.roles.every(check) : handler.roles.some(check);
+    });
   }
 
   getSupportedActions(
@@ -184,20 +177,17 @@ export class DhActionsRegistry {
   ): EicFunction[] {
     const handler = this.registry[businessReason]?.[action];
     if (!handler?.roles?.length) return [];
-
-    const expand = (role: ActionRole): Set<EicFunction> => {
-      if (role === ResponsibleEnergySupplier) return new Set([EicFunction.EnergySupplier]);
-      if (role === InitiatingParticipant) return new Set(INITIATOR_ROLE_UNIVERSE);
-      return new Set([role]);
-    };
-
-    const expanded = handler.roles.map(expand);
-    // With requireAllRoles the actor must satisfy every constraint, so only roles in the
-    // intersection of all expansions qualify. The default (OR) keeps the union.
-    const combined = handler.requireAllRoles
-      ? expanded.reduce((acc, set) => new Set([...acc].filter((r) => set.has(r))))
-      : expanded.reduce((acc, set) => new Set([...acc, ...set]), new Set<EicFunction>());
-    return [...combined];
+    const actorRoles = new Set<EicFunction>();
+    for (const role of handler.roles) {
+      if (role === ResponsibleEnergySupplier) {
+        actorRoles.add(EicFunction.EnergySupplier);
+      } else if (role === InitiatingParticipant) {
+        INITIATOR_ROLE_UNIVERSE.forEach((r) => actorRoles.add(r));
+      } else {
+        actorRoles.add(role);
+      }
+    }
+    return [...actorRoles];
   }
 
   execute(

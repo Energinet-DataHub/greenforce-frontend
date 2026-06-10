@@ -467,12 +467,10 @@ describe('Process overview', () => {
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
   });
 
-  it('should show "Request correction" button when BFF flags InitiateIncorrectMoveIn as available', async () => {
-    // The handler requires BOTH ResponsibleEnergySupplier AND InitiatingParticipant, so the
-    // actor's GLN must match the process initiator's GLN in addition to being responsible.
+  it('should show "Request correction" button when actor owns the process', async () => {
+    // The handler gates on InitiatingParticipant: actor.gln must match the process initiator.
     await setup({
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: true,
       actorGln: processCmiInfoInitiatorGln,
     });
 
@@ -483,11 +481,10 @@ describe('Process overview', () => {
     );
   });
 
-  it('should hide "Request correction" when responsible supplier is NOT the process initiator', async () => {
-    // requireAllRoles: AND-gate must reject when the actor is responsible but did not initiate.
+  it('should hide "Request correction" when actor does NOT own the process', async () => {
+    // Process ownership is the only gate now. Responsibility is no longer consulted.
     await setup({
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: true,
       // GLN does not match processCmiInfoInitiatorGln, so InitiatingParticipant fails.
       actorGln: '9999999999999',
     });
@@ -500,7 +497,6 @@ describe('Process overview', () => {
   it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
     await setup({
       actorMarketRole: EicFunction.EnergySupplier,
-      isEnergySupplierResponsible: true,
       actorGln: processCmiInfoInitiatorGln,
     });
     const user = userEvent.setup();

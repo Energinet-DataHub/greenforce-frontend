@@ -37,11 +37,7 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import {
-  InitiatingParticipant,
-  ResponsibleEnergySupplier,
-  type ActionHandlerMap,
-} from '../registry';
+import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
 import { DhRequestIncorrectMoveInModal } from '../../components/request-incorrect-move-in-modal';
 
@@ -93,8 +89,7 @@ export class CustomerMoveInActions {
     [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
       releaseToggle: 'BRS011-INCOMING-MESSAGES',
       permissions: ['metering-point:move-in'],
-      roles: [ResponsibleEnergySupplier, InitiatingParticipant],
-      requireAllRoles: true,
+      roles: [InitiatingParticipant],
       callback: (ctx) => {
         if (!ctx.cutoffDate) return;
         this.modalService.open({
