@@ -242,6 +242,18 @@ export const dhMeteringPointRoutes: Routes = [
                 (m) => m.DhActorConversation
               ),
           },
+          {
+            path: `${getPath<MeteringPointSubPaths>('historical-corrections')}`,
+            canActivate: [
+              dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+              PermissionGuard(['metering-point:historical-correction-manage']),
+            ],
+            data: { hideHeader: true },
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-historical-corrections').then(
+                (m) => m.DhHistoricalCorrections
+              ),
+          },
         ],
       },
     ],

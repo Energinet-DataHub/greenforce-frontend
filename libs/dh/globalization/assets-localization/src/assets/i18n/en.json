@@ -1134,8 +1134,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Request correction",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
@@ -1143,6 +1143,10 @@
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Cancel"
+        },
+        "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accept",
+          "REJECT_REQUEST": "Reject"
         }
       },
       "incorrectMoveIn": {
@@ -1157,6 +1161,30 @@
           "loading": "Submitting the request...",
           "success": "The request has been registered in DataHub",
           "error": "Something went wrong. The request could not be completed. Please try again."
+        }
+      },
+      "acceptIncorrectMove": {
+        "confirm": {
+          "title": "Are you sure you want to accept the resumption of supply?",
+          "confirm": "Accept",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Accepting resumption of supply...",
+          "success": "Resumption of supply accepted",
+          "error": "Acceptance of resumption failed"
+        }
+      },
+      "rejectIncorrectMove": {
+        "confirm": {
+          "title": "Are you sure you want to reject the resumption of supply?",
+          "confirm": "Reject",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Rejecting resumption of supply...",
+          "success": "Resumption of supply rejected",
+          "error": "Rejection of resumption failed"
         }
       },
       "rejectProcess": {
@@ -1356,6 +1384,7 @@
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028/D20)",
+        "BRS_041_V1_STEP_5": "Notification of charge links (RSM-031/D20)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Rejection of request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Notification of charge links (RSM-031)",
@@ -1728,6 +1757,23 @@
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
+    },
+    "historicalCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "correctionToChooseFrom": "Which historical correction would you like to make?",
+      "newElectricalHeatingMp": "Create electrical heating (D14) metering point",
+      "editBtn": "Edit",
+      "continueToDetails": "Continue to details",
+      "newElectricalHeatingMeteringPoint": {
+        "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
+        "validityDate": "Validity date",
+        "closeDownDate": "Close down date",
+        "error": {
+          "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+        },
+        "create": "Create metering point"
+      }
     },
     "electricalHeatingCorrection": {
       "title": "Historical correction",

@@ -1133,8 +1133,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Anmod om korrektion",
-          "CANCEL_WORKFLOW": "Annuller"
+          "CANCEL_WORKFLOW": "Annuller",
+          "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
@@ -1142,6 +1142,10 @@
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Annuller"
+        },
+        "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
         }
       },
       "incorrectMoveIn": {
@@ -1156,6 +1160,30 @@
           "loading": "Opretter anmodning...",
           "success": "Anmodning er registreret i DataHub",
           "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
+      },
+      "acceptIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil acceptere?",
+          "confirm": "Accepter",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Accepterer genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance accepteret",
+          "error": "Acceptering af genoptagelse fejlede"
+        }
+      },
+      "rejectIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil afvise?",
+          "confirm": "Afvis",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Afviser genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance afvist",
+          "error": "Afvisning af genoptagelse fejlede"
         }
       },
       "rejectProcess": {
@@ -1355,6 +1383,7 @@
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_041_V1_STEP_5": "Information om pristilknytninger (RSM-031/D20)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
@@ -1728,6 +1757,23 @@
       "submitSuccess": "Leverandørskift indsendt. Du kan følge status under processer",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskift kunne ikke indsendes"
+    },
+    "historicalCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "correctionToChooseFrom": "Hvilken historisk rettelse vil du foretage?",
+      "newElectricalHeatingMp": "Opret Elvarme (D14) målepunkt",
+      "editBtn": "Ret",
+      "continueToDetails": "Fortsæt til detaljer",
+      "newElectricalHeatingMeteringPoint": {
+        "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
+        "validityDate": "Gyldighedsdato",
+        "closeDownDate": "Nedlæggelsesdato",
+        "error": {
+          "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+        },
+        "create": "Opret målepunkt"
+      }
     },
     "electricalHeatingCorrection": {
       "title": "Historisk rettelse",

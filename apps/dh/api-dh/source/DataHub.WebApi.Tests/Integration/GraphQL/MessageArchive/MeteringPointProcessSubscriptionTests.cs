@@ -101,7 +101,7 @@ public class MeteringPointProcessSubscriptionTests
             .ToHashSet();
 
         // if intentional
-        var intentionallyExcluded = new HashSet<string> { "TransactionId", "WorkflowSteps" };
+        var intentionallyExcluded = new HashSet<string> { "TransactionId", "WorkflowSteps", "MeteringPointId" };
 
         Assert.True(sourceProperties.SetEquals(snapshotProperties.Union(intentionallyExcluded)));
     }
