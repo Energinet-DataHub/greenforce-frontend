@@ -1730,6 +1730,14 @@
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
     },
+    "historicalCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "correctionToChooseFrom": "Which historical correction would you like to make?",
+      "newElectricalHeatingMP": "Create electrical heating (D14) metering point",
+      "editBtn": "Edit",
+      "continueToDetails": "Continue to details"
+    },
     "electricalHeatingCorrection": {
       "title": "Historical correction",
       "cancel": "Cancel",
