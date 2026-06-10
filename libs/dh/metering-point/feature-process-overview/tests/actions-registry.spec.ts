@@ -42,6 +42,7 @@ import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
+import { IncorrectMoveActions } from '../src/actions/incorrect-move/incorrect-move';
 import { ProcessActionContext } from '../src/actions/context';
 
 // -- Test helpers --
@@ -75,6 +76,7 @@ describe('DhActionsRegistry', () => {
       customerMoveInHandlers?: ActionHandlerMap;
       secondaryMoveInHandlers?: ActionHandlerMap;
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
+      incorrectMoveHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
@@ -103,6 +105,7 @@ describe('DhActionsRegistry', () => {
           callback: vi.fn(),
         },
       } as ActionHandlerMap,
+      incorrectMoveHandlers = {} as ActionHandlerMap,
     } = options;
 
     TestBed.configureTestingModule({
@@ -159,6 +162,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: ChangeOfEnergySupplierActions,
           useValue: createMockHandlers(changeOfEnergySupplierHandlers),
+        },
+        {
+          provide: IncorrectMoveActions,
+          useValue: createMockHandlers(incorrectMoveHandlers),
         },
       ],
     });
