@@ -41,7 +41,7 @@ import { getCustomerPrefillSource } from '../util/customer-prefill-source';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
 import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 
-import type { CustomerDataPrefillVm } from './customer-data-prefill.vm';
+import type { CustomerDataPrefill } from './customer-data-prefill.types';
 import {
   CustomerDataFormSubmitEvent,
   DhUpdateCustomerDataFormComponent,
@@ -54,7 +54,7 @@ import {
  *  - Fetches the metering point and (when applicable) the temporary storage
  *    payload for the current process.
  *  - Resolves the prefill source per BRS via `getCustomerPrefillSource` and
- *    reduces the raw data into a `CustomerDataPrefillVm`.
+ *    reduces the raw data into a `CustomerDataPrefill`.
  *  - Submits the mutation, surfaces toast feedback and navigates on
  *    completion.
  *
@@ -152,7 +152,7 @@ export class DhUpdateCustomerDataComponent {
   );
 
   /** Single reduction into the view-model consumed by the form component. */
-  readonly prefill = computed<CustomerDataPrefillVm>(() => {
+  readonly prefill = computed<CustomerDataPrefill>(() => {
     const legalCustomer = this.legalCustomer();
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
     const legalContact = this.shouldClearMpDerivedData()

@@ -49,7 +49,7 @@ import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details
 import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 
-import type { CustomerDataPrefillVm } from './customer-data-prefill.vm';
+import type { CustomerDataPrefill } from './customer-data-prefill.types';
 
 export interface CustomerDataFormSubmitEvent {
   values: FormValues;
@@ -184,7 +184,7 @@ export class DhUpdateCustomerDataFormComponent {
   private readonly currentEnv = inject(dhAppEnvironmentToken).current;
 
   /** Prefill data resolved by the container. */
-  prefill = input.required<CustomerDataPrefillVm>();
+  prefill = input.required<CustomerDataPrefill>();
   /** Disables interactivity while the container loads its data. */
   isLoading = input.required<boolean>();
   /** Disables the submit button while the mutation is in flight. */
