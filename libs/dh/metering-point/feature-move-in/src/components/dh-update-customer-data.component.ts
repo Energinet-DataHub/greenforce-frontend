@@ -163,9 +163,9 @@ export class DhUpdateCustomerDataComponent {
       ? null
       : (this.technicalCustomer()?.technicalContact ?? null);
 
-const isBusinessCustomer = this.useTemporaryStorage()
-  ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr != null)
-  : legalCustomer?.cvr != null;
+    const isBusinessCustomer = this.useTemporaryStorage()
+      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr != null)
+      : legalCustomer?.cvr != null;
 
     return {
       isBusinessCustomer,
