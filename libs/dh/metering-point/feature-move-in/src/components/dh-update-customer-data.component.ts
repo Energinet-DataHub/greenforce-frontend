@@ -136,10 +136,9 @@ export class DhUpdateCustomerDataComponent {
   );
 
   /**
-   * When sourcing from temporary storage, block the metering point's existing
-   * contact / secondary-customer data from reaching the form while the
-   * temporary storage query is in-flight. Once it resolves, those fields
-   * remain empty (temporary storage does not currently carry them).
+   * When sourcing from temporary storage, block metering point contact / secondary
+   * data while the temporary storage query is in-flight. If the query returns a
+   * payload, those fields remain empty; if it returns `null`, we fall back to MP.
    */
   private readonly shouldClearMpDerivedData = computed(
     () =>
