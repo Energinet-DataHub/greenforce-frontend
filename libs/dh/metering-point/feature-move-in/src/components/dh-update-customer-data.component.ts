@@ -257,4 +257,3 @@ export class DhUpdateCustomerDataComponent {
     this.router.navigate([getPath<BasePaths>('metering-point'), this.internalMeteringPointId()]);
   }
 }
-

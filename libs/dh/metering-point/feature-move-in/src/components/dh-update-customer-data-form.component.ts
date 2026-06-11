@@ -378,6 +378,3 @@ export class DhUpdateCustomerDataFormComponent {
     clearAddressFields(formGroup);
   }
 }
-
-
-

@@ -47,4 +47,3 @@ export interface CustomerDataPrefillVm {
   technicalContact: Contact;
   installationAddress: InstallationAddress | undefined;
 }
-

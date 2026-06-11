@@ -47,4 +47,3 @@ export function getCustomerPrefillSource(
 ): CustomerPrefillSource {
   return (reason && PREFILL_SOURCE[reason]) ?? 'metering-point';
 }
-
