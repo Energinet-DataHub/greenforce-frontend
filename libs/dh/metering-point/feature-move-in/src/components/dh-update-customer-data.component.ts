@@ -181,7 +181,9 @@ export class DhUpdateCustomerDataComponent {
       },
       legalCustomer,
       legalContact,
-installationAddress: this.meteringPoint()?.metadata?.installationAddress ?? null,
+      technicalContact,
+      installationAddress: this.meteringPoint()?.metadata?.installationAddress,
+    };
   });
 
   /**
