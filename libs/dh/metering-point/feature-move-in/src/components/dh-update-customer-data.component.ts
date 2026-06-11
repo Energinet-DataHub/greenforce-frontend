@@ -97,9 +97,9 @@ export class DhUpdateCustomerDataComponent {
    * point) for the current business process. See `customer-prefill-source.ts`
    * for the BRS → source registry.
    */
-  private readonly useTemporaryStorage = computed(
-    () => getCustomerPrefillSource(this.businessReason()) === 'temporary-storage'
-  );
+private readonly useTemporaryStorage = computed(
+  () => getCustomerPrefillSource(this.resolveBusinessReason()) === 'temporary-storage'
+);
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
     variables: {
