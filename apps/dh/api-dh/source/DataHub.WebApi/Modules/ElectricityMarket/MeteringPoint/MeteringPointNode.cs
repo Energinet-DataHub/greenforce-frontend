@@ -531,10 +531,10 @@ public static partial class MeteringPointNode
         var childMeteringPoints = relatedMeteringPoints.RelatedMeteringPoints
             .Concat(relatedMeteringPoints.HistoricalMeteringPoints);
 
-        var childMeteringPointId = FindElectricalHeatingMeteringPoint(childMeteringPoints, cutOffDate) ?? throw new GraphQLException($"No child metering point with electrical heating found for parentMeteringPointId '{parentMeteringPointId}'.");
+        var childMeteringPoint = FindElectricalHeatingMeteringPoint(childMeteringPoints, cutOffDate) ?? throw new GraphQLException($"No child metering point with electrical heating found for parentMeteringPointId '{parentMeteringPointId}'.");
 
         var input = new ElectricalHeatingRemoveInputV1(
-            childMeteringPointId.MeteringPointIdentification,
+            childMeteringPoint.MeteringPointIdentification,
             parentMeteringPointId,
             ActorNumber.Create(actorNumber),
             cutOffDate);
@@ -549,7 +549,7 @@ public static partial class MeteringPointNode
         catch
         {
             throw new GraphQLException(
-                $"Command StartHtxElectricalHeatingRemoveCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPointId.MeteringPointIdentification}'");
+                $"Command StartHtxElectricalHeatingRemoveCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPoint.MeteringPointIdentification}'");
         }
     }
 
@@ -687,6 +687,10 @@ public static partial class MeteringPointNode
     {
         return relatedMeteringPoints
             .Where(mp => mp.Type == MeteringPointType.ElectricalHeating)
-            .FirstOrDefault(mp => mp.ConnectionDate <= cutOffDate && (mp.ClosedDownDate > cutOffDate || mp.DisconnectionDate > cutOffDate));
+            .FirstOrDefault(mp =>
+                mp.ConnectionDate is not null
+                && mp.ConnectionDate <= cutOffDate
+                && (mp.ClosedDownDate is null || mp.ClosedDownDate > cutOffDate)
+                && (mp.DisconnectionDate is null || mp.DisconnectionDate > cutOffDate));
     }
 }
