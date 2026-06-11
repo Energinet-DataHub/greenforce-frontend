@@ -137,7 +137,7 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
         }
 
         @if (showHistoricalCorrectionButton()) {
-          <watt-menu-item [routerLink]="getHistoricalCorrectionsLink">
+          <watt-menu-item [routerLink]="getHistoricalCorrectionLink">
             {{ t('historicalCorrection') }}
           </watt-menu-item>
         }
@@ -158,7 +158,7 @@ export class DhMeteringPointActionsComponent {
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
-  getHistoricalCorrectionsLink = `${getPath<MeteringPointSubPaths>('historical-corrections')}`;
+  getHistoricalCorrectionLink = `${getPath<MeteringPointSubPaths>('historical-correction')}`;
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();

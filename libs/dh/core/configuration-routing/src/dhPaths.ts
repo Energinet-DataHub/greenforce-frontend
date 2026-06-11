@@ -38,7 +38,7 @@ export type MeteringPointSubPaths =
   | 'process-overview'
   | 'charge-links'
   | 'update-customer-details'
-  | 'historical-corrections'
+  | 'historical-correction'
   | 'electrical-heating-correction'
   | 'actor-conversation';
 
