@@ -1,14 +1,9 @@
 mutation RemoveElectricalHeatingMeteringPoint(
   $parentMeteringPointId: String!
-  $searchMigratedMeteringPoints: Boolean!
   $cutOffDate: DateTime!
 ) {
   removeElectricalHeatingMeteringPoint(
-    input: {
-      parentMeteringPointId: $parentMeteringPointId
-      searchMigratedMeteringPoints: $searchMigratedMeteringPoints
-      cutOffDate: $cutOffDate
-    }
+    input: { parentMeteringPointId: $parentMeteringPointId, cutOffDate: $cutOffDate }
   ) {
     success: boolean
   }

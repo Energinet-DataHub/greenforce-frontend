@@ -502,12 +502,9 @@ public static partial class MeteringPointNode
     public static async Task<bool> RemoveElectricalHeatingMeteringPointAsync(
         string parentMeteringPointId,
         DateTimeOffset cutOffDate,
-        bool? searchMigratedMeteringPoints,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IProcessManagerClient processManagerClient,
-        [Service] Clients.ElectricityMarket.v1.IElectricityMarketClient_V1 em1Client,
         [Service] IElectricityMarketClient electricityMarketClient,
-        [Service] IFeatureManagerSnapshot featureManager,
         CancellationToken ct)
     {
         if (httpContextAccessor.HttpContext == null)
@@ -516,17 +513,11 @@ public static partial class MeteringPointNode
         }
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var user = httpContextAccessor.HttpContext.User;
 
+        var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
 
-        var relatedMeteringPoints = await GetRelatedMeteringPointsAsync(
-            parentMeteringPointId,
-            searchMigratedMeteringPoints,
-            ct,
-            em1Client,
-            electricityMarketClient,
-            featureManager).ConfigureAwait(false);
+        var relatedMeteringPoints = await GetRelatedMeteringPointsAsync(parentMeteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
 
         var childMeteringPoints = relatedMeteringPoints.RelatedMeteringPoints
             .Concat(relatedMeteringPoints.HistoricalMeteringPoints);
