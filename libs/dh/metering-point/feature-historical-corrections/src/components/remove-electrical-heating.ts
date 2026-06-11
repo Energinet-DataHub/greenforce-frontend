@@ -25,8 +25,14 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { VATER } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import {
+  dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
+} from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { RemoveElectricalHeatingMeteringPointDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({
   selector: 'dh-remove-electrical-heating',
@@ -67,6 +73,15 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
   `,
 })
 export class DhRemoveElectricalHeating {
+  private readonly navigate = injectRelativeNavigate();
+
+  private remove = mutation(RemoveElectricalHeatingMeteringPointDocument, {
+    onStatusUpdated: injectToast(
+      'meteringPoint.historicalCorrection.removeElectricalHeating.toast'
+    ),
+    onCompleted: () => this.navigate(['../']),
+  });
+
   parentMeteringPointId = input.required<string>();
 
   form = new FormGroup({
@@ -80,6 +95,14 @@ export class DhRemoveElectricalHeating {
 
     assertIsDefined(cutOffDate);
 
-    console.log(cutOffDate);
+    const hadcodedChildMeteringPointId = '000000000000000000';
+
+    await this.remove.mutate({
+      variables: {
+        parentMeteringPointId: this.parentMeteringPointId(),
+        childMeteringPointId: hadcodedChildMeteringPointId,
+        cutOffDate,
+      },
+    });
   }
 }

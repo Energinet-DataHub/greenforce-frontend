@@ -1,0 +1,15 @@
+mutation RemoveElectricalHeatingMeteringPoint(
+  $parentMeteringPointId: String!
+  $childMeteringPointId: String!
+  $cutOffDate: DateTime!
+) {
+  removeElectricalHeatingMeteringPoint(
+    input: {
+      parentMeteringPointId: $parentMeteringPointId
+      childMeteringPointId: $childMeteringPointId
+      cutOffDate: $cutOffDate
+    }
+  ) {
+    success: boolean
+  }
+}

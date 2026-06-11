@@ -1769,7 +1769,12 @@
       "removeElectricalHeating": {
         "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
         "cutOffDate": "Cut-off date",
-        "remove": "Remove electrical heating"
+        "remove": "Remove electrical heating",
+        "toast": {
+          "loading": "Removing electrical heating...",
+          "success": "Electrical heating removed",
+          "error": "An error occurred while removing electrical heating"
+        }
       },
       "newElectricalHeatingMeteringPoint": {
         "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",
