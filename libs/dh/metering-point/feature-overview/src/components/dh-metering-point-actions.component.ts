@@ -136,9 +136,9 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
           </watt-menu-item>
         }
 
-        @if (showHistoricalCorrectionsButton()) {
+        @if (showHistoricalCorrectionButton()) {
           <watt-menu-item [routerLink]="getHistoricalCorrectionsLink">
-            {{ t('historicalCorrections') }}
+            {{ t('historicalCorrection') }}
           </watt-menu-item>
         }
       </watt-menu>
@@ -260,7 +260,7 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
-  showHistoricalCorrectionsButton = computed(
+  showHistoricalCorrectionButton = computed(
     () =>
       this.type() === ElectricityMarketMeteringPointType.Consumption &&
       this.hasMeteringPointHistoricalCorrectionPermission() &&
@@ -297,7 +297,7 @@ export class DhMeteringPointActionsComponent {
       this.showConnectionStateManageButton() ||
       this.showEndOfSupplyButton() ||
       this.showChangeOfSupplierButton() ||
-      this.showHistoricalCorrectionsButton()
+      this.showHistoricalCorrectionButton()
     );
   });
 

@@ -746,7 +746,7 @@
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
         "changeOfSupplier": "Leverandørskift",
-        "historicalCorrections": "Historisk rettelse"
+        "historicalCorrection": "Historisk rettelse"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
