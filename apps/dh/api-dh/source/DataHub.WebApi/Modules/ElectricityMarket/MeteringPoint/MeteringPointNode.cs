@@ -397,6 +397,11 @@ public static partial class MeteringPointNode
         [Service] IActorConversationClient_V1 actorConversationClient,
         CancellationToken ct)
     {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
         var conversationResponse = await ActorConversationNode.GetConversationAsync(
             httpContextAccessor,
             actorConversationClient,
@@ -410,10 +415,14 @@ public static partial class MeteringPointNode
 
         ArgumentNullException.ThrowIfNull(electricalHeatingUserMessage?.ActorNumber, $"Could not find actor number in conversation messages for conversation ID '{actorConversationId}'");
 
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var input = new ElectricalHeatingCreateWithFlagInputV1(
             childMeteringPointId,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(electricalHeatingUserMessage.ActorNumber),
             periodStart,
             periodEnd);
@@ -472,13 +481,14 @@ public static partial class MeteringPointNode
         }
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var user = httpContextAccessor.HttpContext.User;
 
+        var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
 
         var input = new ElectricalHeatingCreateChildOnlyInputV1(
             childMeteringPointId,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(actorNumber),
             validityDate,
             closeDownDate);
@@ -527,6 +537,7 @@ public static partial class MeteringPointNode
         var input = new ElectricalHeatingRemoveInputV1(
             childMeteringPoint.MeteringPointIdentification,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(actorNumber),
             cutOffDate);
 
