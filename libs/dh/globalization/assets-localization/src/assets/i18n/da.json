@@ -1762,10 +1762,17 @@
       "title": "Historisk rettelse",
       "cancel": "Afbryd",
       "correctionToChooseFrom": "Hvilken historisk rettelse vil du foretage?",
-      "newElectricalHeatingMp": "Opret Elvarme (D14) målepunkt",
+      "removeElectricalHeatingLabel": "Fjern elvarme",
+      "createElectricalHeatingMpLabel": "Opret elvarme (D14) målepunkt",
       "editBtn": "Ret",
       "continueToDetails": "Fortsæt til detaljer",
+      "removeElectricalHeating": {
+        "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
+        "cutOffDate": "Fjern elvarme på dato",
+        "remove": "Fjern elvarme"
+      },
       "newElectricalHeatingMeteringPoint": {
+        "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",
         "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
         "validityDate": "Gyldighedsdato",
         "closeDownDate": "Nedlæggelsesdato",

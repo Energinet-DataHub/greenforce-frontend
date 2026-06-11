@@ -1762,10 +1762,17 @@
       "title": "Historical correction",
       "cancel": "Cancel",
       "correctionToChooseFrom": "Which historical correction would you like to make?",
-      "newElectricalHeatingMp": "Create electrical heating (D14) metering point",
+      "removeElectricalHeatingLabel": "Remove electrical heating",
+      "createElectricalHeatingMpLabel": "Create electrical heating (D14) metering point",
       "editBtn": "Edit",
       "continueToDetails": "Continue to details",
+      "removeElectricalHeating": {
+        "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
+        "cutOffDate": "Cut-off date",
+        "remove": "Remove electrical heating"
+      },
       "newElectricalHeatingMeteringPoint": {
+        "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",
         "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
         "validityDate": "Validity date",
         "closeDownDate": "Close down date",
