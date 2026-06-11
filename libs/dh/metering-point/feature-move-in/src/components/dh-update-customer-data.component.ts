@@ -50,6 +50,7 @@ import { sync } from '../util/sync-controls';
 import { FormValues } from '../types';
 import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 import { clearAddressFields } from '../util/clear-address-fields';
+import { getCustomerPrefillSource } from '../util/customer-prefill-source';
 import { DhContactDetailsComponent } from './dh-contact-details.component';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
@@ -207,8 +208,23 @@ export class DhUpdateCustomerDataComponent {
       actorGln: this.actor.gln,
     },
   }));
+  meteringPointId = input.required<string>();
+  processId = input<string>();
+  businessReason = input<ChangeCustomerCharacteristicsBusinessReason>();
+  internalMeteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
+
+  /**
+   * Whether the form should prefill from temporary storage (vs. the metering
+   * point) for the current business process. See `customer-prefill-source.ts`
+   * for the BRS → source registry.
+   */
+  private readonly useTemporaryStorage = computed(
+    () => getCustomerPrefillSource(this.businessReason()) === 'temporary-storage'
+  );
+
   temporaryStorageCustomerQuery = query(GetTemporaryStorageDataDocument, () => ({
-    skip: !this.processId(),
+    skip: !this.processId() || !this.useTemporaryStorage(),
     variables: {
       meteringPointId: this.meteringPointId(),
       processId: this.processId() ?? '',
@@ -238,8 +254,16 @@ export class DhUpdateCustomerDataComponent {
   private readonly technicalContact = computed(() => this.technicalCustomer()?.technicalContact);
   private readonly legalContact = computed(() => this.legalCustomer()?.legalContact);
 
+  /**
+   * When sourcing from temporary storage, block the metering point's existing
+   * contact data from reaching the form while the temporary storage query is
+   * still in-flight. Once it completes the gate opens; temporary storage does
+   * not currently carry contact or secondary-customer details, so those
+   * fields stay empty.
+   */
   private readonly shouldClearContacts = computed(
     () =>
+      this.useTemporaryStorage() &&
       !!this.processId() &&
       (this.temporaryStorageCustomerQuery.loading() || !!this.temporaryStorageCustomer())
   );
@@ -253,41 +277,39 @@ export class DhUpdateCustomerDataComponent {
   );
 
   private readonly effectiveSecondaryCustomer = computed(() =>
-    this.shouldClearContacts() ? undefined : this.secondaryCustomer()
+    this.useTemporaryStorage() ? undefined : this.secondaryCustomer()
   );
 
-  isBusinessCustomer = computed(
-    () => this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null
+  isBusinessCustomer = computed(() =>
+    this.useTemporaryStorage()
+      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? this.legalCustomer()?.cvr !== null)
+      : this.legalCustomer()?.cvr != null
   );
-  legalCustomerId = computed(() => (this.processId() ? null : (this.legalCustomer()?.id ?? null)));
+  legalCustomerId = computed(() =>
+    this.useTemporaryStorage() ? null : (this.legalCustomer()?.id ?? null)
+  );
   secondaryCustomerId = computed(() => {
-    if (this.processId()) return null;
     const customer = this.effectiveSecondaryCustomer();
     return customer?.name ? customer.id : null;
   });
   isLoading = computed(
     () => this.getMeteringPointQuery.loading() || this.temporaryStorageCustomerQuery.loading()
   );
-  meteringPointId = input.required<string>();
-  processId = input<string>();
-  businessReason = input<ChangeCustomerCharacteristicsBusinessReason>();
-  internalMeteringPointId = input.required<string>();
-  searchMigratedMeteringPoints = input.required<boolean>();
 
   /**
-   * When in a move-in flow (processId is set), block the metering point's
-   * existing customer data from reaching the form while the temporary storage
-   * query is still in-flight. Once it completes — whether it returns data or
-   * null — the gate opens and we either use temporary storage or fall back
-   * to the metering point customer.
+   * Primary customer name prefill. While the temporary storage query is
+   * loading we return an empty string to avoid flashing the metering point
+   * value when temporary storage is the chosen source.
    */
   private readonly effectiveCustomerName = computed(() => {
-    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    if (!this.useTemporaryStorage()) return this.legalCustomer()?.name ?? '';
+    if (this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerName ?? this.legalCustomer()?.name ?? '';
   });
 
   private readonly effectiveCustomerCvr = computed(() => {
-    if (this.processId() && this.temporaryStorageCustomerQuery.loading()) return '';
+    if (!this.useTemporaryStorage()) return this.legalCustomer()?.cvr ?? '';
+    if (this.temporaryStorageCustomerQuery.loading()) return '';
     return this.temporaryStorageCustomer()?.firstCustomerCvr ?? this.legalCustomer()?.cvr ?? '';
   });
 
