@@ -26,7 +26,7 @@ import type { Contact, Customer, InstallationAddress } from '../types';
  * (metering point vs. temporary storage) and reducing it into this shape;
  * the form component only knows how to render and validate it.
  */
-export interface CustomerDataPrefillVm {
+export interface CustomerDataPrefillTypes {
   isBusinessCustomer: boolean;
   primary: {
     name: string;
