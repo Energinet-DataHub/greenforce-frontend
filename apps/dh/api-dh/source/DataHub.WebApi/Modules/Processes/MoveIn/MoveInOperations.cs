@@ -209,7 +209,11 @@ public static class MoveInOperations
         IB2CClient client,
         CancellationToken ct)
         => await client
-            .SendAsync(new ConfirmIncorrectMoveInCommandV1(new(meteringPointId, processId.ToString())), ct)
+            .SendAsync(
+                new ConfirmIncorrectMoveInCommandV1(new(
+                    MeteringPointId: meteringPointId,
+                    ProcessId: processId.ToString())),
+                ct)
             .Then(r => r.IsSuccess
                 ? true
                 : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
@@ -223,7 +227,11 @@ public static class MoveInOperations
         IB2CClient client,
         CancellationToken ct)
         => await client
-            .SendAsync(new RejectIncorrectMoveInCommandV1(new(meteringPointId, processId.ToString())), ct)
+            .SendAsync(
+                new RejectIncorrectMoveInCommandV1(new(
+                    MeteringPointId: meteringPointId,
+                    ProcessId: processId.ToString())),
+                ct)
             .Then(r => r.IsSuccess
                 ? true
                 : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
