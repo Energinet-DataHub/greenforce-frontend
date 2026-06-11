@@ -28,6 +28,7 @@ import { VATER } from '@energinet/watt/vater';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-metering-point';
+import { DhRemoveElectricalHeating } from './remove-electrical-heating';
 
 @Component({
   selector: 'dh-historical-corrections',
@@ -40,6 +41,7 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
     WATT_CARD,
     WATT_RADIO,
     WattButtonComponent,
+    DhRemoveElectricalHeating,
     DhNewElectricalHeatingMeteringPoint,
   ],
   styles: `
@@ -75,7 +77,7 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
                   <h3 class="no-margin">{{ t('title') }}</h3>
 
                   <h2 class="no-margin selected-correction-title">
-                    {{ t(form.controls.type.value) }}
+                    {{ t(form.controls.type.value + '.title') }}
                   </h2>
                 </vater-flex>
 
@@ -89,9 +91,15 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
               </h3>
 
               <watt-radio-group [formControl]="form.controls.type">
-                <watt-radio [value]="'newElectricalHeatingMp'">
-                  {{ t('newElectricalHeatingMp') }}
-                </watt-radio>
+                <vater-stack align="start">
+                  <watt-radio [value]="'removeElectricalHeating'">
+                    {{ t('removeElectricalHeatingLabel') }}
+                  </watt-radio>
+
+                  <watt-radio [value]="'newElectricalHeatingMeteringPoint'">
+                    {{ t('createElectricalHeatingMpLabel') }}
+                  </watt-radio>
+                </vater-stack>
               </watt-radio-group>
             }
           </watt-card>
@@ -104,7 +112,10 @@ import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-me
         }
 
         @switch (form.controls.type.value) {
-          @case ('newElectricalHeatingMp') {
+          @case ('removeElectricalHeating') {
+            <dh-remove-electrical-heating [parentMeteringPointId]="meteringPointId()" />
+          }
+          @case ('newElectricalHeatingMeteringPoint') {
             <dh-new-electrical-heating-metering-point [parentMeteringPointId]="meteringPointId()" />
           }
         }
