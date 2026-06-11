@@ -1,0 +1,5 @@
+mutation RejectIncorrectMove($meteringPointId: String!, $processId: UUID!) {
+  rejectIncorrectMove(input: { meteringPointId: $meteringPointId, processId: $processId }) {
+    boolean
+  }
+}

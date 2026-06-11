@@ -82,7 +82,8 @@ public class MoveInClient(
             userIdentity,
             userIdentity.ActorNumber,
             meteringPointId,
-            instance.TransactionId);
+            instance.TransactionId,
+            instance.Id);
 
         return await processManagerClient
             .SearchWorkflowInstanceByCustomQueryAsync(query, ct);

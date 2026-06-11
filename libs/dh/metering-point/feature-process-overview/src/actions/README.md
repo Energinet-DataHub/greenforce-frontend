@@ -26,7 +26,7 @@ export class EndOfSupplyActions {
   private readonly cancelEndOfSupply = mutation(CancelEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.CancelWorkflow]: {
+    [MeteringPointProcessAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
       callback: cancelProcessAction(
         'meteringPoint.processOverview.processTypeName.EndOfSupply',

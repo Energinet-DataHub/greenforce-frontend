@@ -37,13 +37,16 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { DhStepName } from './step-name';
+import { DhStepReason } from './step-reason';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
 >['steps'][number];
 
+const selector = 'dh-metering-point-process-overview-steps';
+
 @Component({
-  selector: 'dh-metering-point-process-overview-steps',
+  selector,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
@@ -56,10 +59,22 @@ type MeteringPointProcessStep = NonNullable<
     WattIconComponent,
     DhEmDashFallbackPipe,
     DhStepName,
+    DhStepReason,
   ],
   styles: `
-    tr.pending-step {
-      color: var(--watt-on-light-low-emphasis);
+    ${selector} {
+      tr.pending-step {
+        color: var(--watt-on-light-low-emphasis);
+      }
+
+      watt-table {
+        --watt-table-cell-padding: var(--watt-space-sm) var(--watt-space-s);
+      }
+
+      // Nudge the document icon to line up with the top-aligned step text.
+      td.mat-mdc-cell watt-icon {
+        margin-top: 1px;
+      }
     }
   `,
   encapsulation: ViewEncapsulation.None,
@@ -77,17 +92,21 @@ type MeteringPointProcessStep = NonNullable<
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
         [dataSource]="dataSource()"
         [columns]="columns"
+        verticalAlign="flex-start"
         [resolveHeader]="resolveHeader"
         [loading]="loading()"
         [rowClass]="getRowClass"
       >
-        <ng-container *wattTableCell="columns.documentUrl; let process">
-          @if (process.documentUrl; as documentUrl) {
-            <a href="#" (click)="openRawMessage(documentUrl, $event)">
-              <watt-icon size="xs" name="email" />
-            </a>
+        <ng-container *wattTableCell="columns.actor; let process">
+          @if (process.actor?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.actorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
           }
         </ng-container>
+
         <ng-container *wattTableCell="columns.step; let process">
           <vater-flex
             fill="horizontal"
@@ -99,23 +118,23 @@ type MeteringPointProcessStep = NonNullable<
             <div vater fill="horizontal">
               <dh-step-name [businessReason]="businessReason()" [step]="process.step" />
 
-              @if (process.comment) {
-                <div class="watt-text-s-highlighted">{{ process.comment }}</div>
-              }
+              <dh-step-reason [step]="process.step" [comment]="process.comment" />
             </div>
           </vater-flex>
         </ng-container>
+        <ng-container *wattTableCell="columns.documentUrl; let process">
+          @if (process.documentUrl; as documentUrl) {
+            <a href="#" (click)="openRawMessage(documentUrl, $event)">
+              <watt-icon
+                size="xs"
+                name="email"
+                [label]="'meteringPoint.processOverview.details.openMessage' | transloco"
+              />
+            </a>
+          }
+        </ng-container>
         <ng-container *wattTableCell="columns.completedAt; let process">
           {{ process.completedAt | wattDate: 'long' | dhEmDashFallback }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.actor; let process">
-          @if (process.actor?.displayName; as displayName) {
-            {{ displayName }}
-          } @else if (process.actorRole) {
-            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
-          } @else {
-            {{ null | dhEmDashFallback }}
-          }
         </ng-container>
       </watt-table>
     </watt-data-table>

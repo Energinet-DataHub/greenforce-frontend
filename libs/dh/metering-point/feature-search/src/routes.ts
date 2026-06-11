@@ -97,7 +97,10 @@ export const dhMeteringPointRoutes: Routes = [
       },
       {
         path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
-        canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
+        canActivate: [
+          dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+          PermissionGuard(['metering-point:historical-correction-manage']),
+        ],
         resolve: {
           conversationId: conversationIdResolver(),
         },
@@ -237,6 +240,18 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
                 (m) => m.DhActorConversation
+              ),
+          },
+          {
+            path: `${getPath<MeteringPointSubPaths>('historical-corrections')}`,
+            canActivate: [
+              dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+              PermissionGuard(['metering-point:historical-correction-manage']),
+            ],
+            data: { hideHeader: true },
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-historical-corrections').then(
+                (m) => m.DhHistoricalCorrections
               ),
           },
         ],
