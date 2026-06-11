@@ -156,12 +156,12 @@ export class DhUpdateCustomerDataComponent {
   readonly prefill = computed<CustomerDataPrefillVm>(() => {
     const legalCustomer = this.legalCustomer();
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
-const legalContact = this.shouldClearMpDerivedData()
-  ? null
-  : (legalCustomer?.legalContact ?? null);
-const technicalContact = this.shouldClearMpDerivedData()
-  ? null
-  : (this.technicalCustomer()?.technicalContact ?? null);
+    const legalContact = this.shouldClearMpDerivedData()
+      ? null
+      : (legalCustomer?.legalContact ?? null);
+    const technicalContact = this.shouldClearMpDerivedData()
+      ? null
+      : (this.technicalCustomer()?.technicalContact ?? null);
 
     const isBusinessCustomer = this.useTemporaryStorage()
       ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr !== null)
