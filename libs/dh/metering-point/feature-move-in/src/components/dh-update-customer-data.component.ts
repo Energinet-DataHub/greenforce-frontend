@@ -98,7 +98,7 @@ export class DhUpdateCustomerDataComponent {
    * for the BRS → source registry.
    */
   private readonly useTemporaryStorage = computed(
-    () => getCustomerPrefillSource(this.businessReason()) === 'temporary-storage'
+    () => getCustomerPrefillSource(this.resolveBusinessReason()) === 'temporary-storage'
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -136,10 +136,9 @@ export class DhUpdateCustomerDataComponent {
   );
 
   /**
-   * When sourcing from temporary storage, block the metering point's existing
-   * contact / secondary-customer data from reaching the form while the
-   * temporary storage query is in-flight. Once it resolves, those fields
-   * remain empty (temporary storage does not currently carry them).
+   * When sourcing from temporary storage, block metering point contact / secondary
+   * data while the temporary storage query is in-flight. If the query returns a
+   * payload, those fields remain empty; if it returns `null`, we fall back to MP.
    */
   private readonly shouldClearMpDerivedData = computed(
     () =>
@@ -156,13 +155,15 @@ export class DhUpdateCustomerDataComponent {
   readonly prefill = computed<CustomerDataPrefillVm>(() => {
     const legalCustomer = this.legalCustomer();
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
-    const legalContact = this.shouldClearMpDerivedData() ? undefined : legalCustomer?.legalContact;
+    const legalContact = this.shouldClearMpDerivedData()
+      ? null
+      : (legalCustomer?.legalContact ?? null);
     const technicalContact = this.shouldClearMpDerivedData()
-      ? undefined
-      : this.technicalCustomer()?.technicalContact;
+      ? null
+      : (this.technicalCustomer()?.technicalContact ?? null);
 
     const isBusinessCustomer = this.useTemporaryStorage()
-      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr !== null)
+      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr != null)
       : legalCustomer?.cvr != null;
 
     return {
@@ -180,9 +181,7 @@ export class DhUpdateCustomerDataComponent {
       },
       legalCustomer,
       legalContact,
-      technicalContact,
-      installationAddress: this.meteringPoint()?.metadata?.installationAddress,
-    };
+installationAddress: this.meteringPoint()?.metadata?.installationAddress ?? null,
   });
 
   /**
