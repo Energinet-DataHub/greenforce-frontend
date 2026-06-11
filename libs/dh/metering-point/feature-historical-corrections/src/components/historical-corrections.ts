@@ -113,7 +113,10 @@ import { DhRemoveElectricalHeating } from './remove-electrical-heating';
 
         @switch (form.controls.type.value) {
           @case ('removeElectricalHeating') {
-            <dh-remove-electrical-heating [parentMeteringPointId]="meteringPointId()" />
+            <dh-remove-electrical-heating
+              [parentMeteringPointId]="meteringPointId()"
+              [searchMigratedMeteringPoints]="searchMigratedMeteringPoints()"
+            />
           }
           @case ('newElectricalHeatingMeteringPoint') {
             <dh-new-electrical-heating-metering-point [parentMeteringPointId]="meteringPointId()" />
@@ -127,6 +130,7 @@ export class DhHistoricalCorrections {
   readonly navigate = injectRelativeNavigate();
 
   meteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   form = new FormGroup(
     {

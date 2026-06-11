@@ -2511,8 +2511,8 @@ input RejectIncorrectMoveInput {
 
 input RemoveElectricalHeatingMeteringPointInput {
   parentMeteringPointId: String!
-  childMeteringPointId: String!
   cutOffDate: DateTime!
+  searchMigratedMeteringPoints: Boolean
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {

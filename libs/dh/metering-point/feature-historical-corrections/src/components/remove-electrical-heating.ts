@@ -83,6 +83,7 @@ export class DhRemoveElectricalHeating {
   });
 
   parentMeteringPointId = input.required<string>();
+  searchMigratedMeteringPoints = input.required<boolean>();
 
   form = new FormGroup({
     cutOffDate: dhMakeFormControl<Date | null>(null, Validators.required),
@@ -95,12 +96,10 @@ export class DhRemoveElectricalHeating {
 
     assertIsDefined(cutOffDate);
 
-    const hadcodedChildMeteringPointId = '000000000000000000';
-
     await this.remove.mutate({
       variables: {
         parentMeteringPointId: this.parentMeteringPointId(),
-        childMeteringPointId: hadcodedChildMeteringPointId,
+        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
         cutOffDate,
       },
     });
