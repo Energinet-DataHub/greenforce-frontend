@@ -95,12 +95,9 @@ export class DhRemoveElectricalHeating {
 
     assertIsDefined(cutOffDate);
 
-    const hadcodedChildMeteringPointId = '000000000000000000';
-
     await this.remove.mutate({
       variables: {
         parentMeteringPointId: this.parentMeteringPointId(),
-        childMeteringPointId: hadcodedChildMeteringPointId,
         cutOffDate,
       },
     });

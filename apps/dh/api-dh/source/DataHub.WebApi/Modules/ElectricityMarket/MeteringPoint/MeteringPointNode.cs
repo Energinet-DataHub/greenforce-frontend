@@ -397,6 +397,11 @@ public static partial class MeteringPointNode
         [Service] IActorConversationClient_V1 actorConversationClient,
         CancellationToken ct)
     {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
         var conversationResponse = await ActorConversationNode.GetConversationAsync(
             httpContextAccessor,
             actorConversationClient,
@@ -410,10 +415,14 @@ public static partial class MeteringPointNode
 
         ArgumentNullException.ThrowIfNull(electricalHeatingUserMessage?.ActorNumber, $"Could not find actor number in conversation messages for conversation ID '{actorConversationId}'");
 
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var input = new ElectricalHeatingCreateWithFlagInputV1(
             childMeteringPointId,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(electricalHeatingUserMessage.ActorNumber),
             periodStart,
             periodEnd);
@@ -472,13 +481,14 @@ public static partial class MeteringPointNode
         }
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var user = httpContextAccessor.HttpContext.User;
 
+        var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
 
         var input = new ElectricalHeatingCreateChildOnlyInputV1(
             childMeteringPointId,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(actorNumber),
             validityDate,
             closeDownDate);
@@ -501,10 +511,10 @@ public static partial class MeteringPointNode
     [Authorize(Roles = ["metering-point:historical-correction-manage"])]
     public static async Task<bool> RemoveElectricalHeatingMeteringPointAsync(
         string parentMeteringPointId,
-        string childMeteringPointId,
         DateTimeOffset cutOffDate,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IProcessManagerClient processManagerClient,
+        [Service] IElectricityMarketClient electricityMarketClient,
         CancellationToken ct)
     {
         if (httpContextAccessor.HttpContext == null)
@@ -513,13 +523,21 @@ public static partial class MeteringPointNode
         }
 
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var user = httpContextAccessor.HttpContext.User;
 
+        var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
 
+        var relatedMeteringPoints = await GetRelatedMeteringPointsAsync(parentMeteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
+
+        var childMeteringPoints = relatedMeteringPoints.RelatedMeteringPoints
+            .Concat(relatedMeteringPoints.HistoricalMeteringPoints);
+
+        var childMeteringPoint = FindElectricalHeatingMeteringPoint(childMeteringPoints, cutOffDate) ?? throw new GraphQLException($"No child metering point with electrical heating found for parentMeteringPointId '{parentMeteringPointId}'.");
+
         var input = new ElectricalHeatingRemoveInputV1(
-            childMeteringPointId,
+            childMeteringPoint.MeteringPointIdentification,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(actorNumber),
             cutOffDate);
 
@@ -533,7 +551,7 @@ public static partial class MeteringPointNode
         catch
         {
             throw new GraphQLException(
-                $"Command StartHtxElectricalHeatingRemoveCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPointId}'");
+                $"Command StartHtxElectricalHeatingRemoveCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPoint.MeteringPointIdentification}'");
         }
     }
 
@@ -665,5 +683,16 @@ public static partial class MeteringPointNode
             ConnectionDate: meteringPointData.ConnectionDate,
             ClosedDownDate: meteringPointData.ClosedDownDate,
             DisconnectionDate: meteringPointData.DisconnectionDate);
+    }
+
+    private static RelatedMeteringPointDto? FindElectricalHeatingMeteringPoint(IEnumerable<RelatedMeteringPointDto> relatedMeteringPoints, DateTimeOffset cutOffDate)
+    {
+        return relatedMeteringPoints
+            .Where(mp => mp.Type == MeteringPointType.ElectricalHeating)
+            .FirstOrDefault(mp =>
+                mp.ConnectionDate is not null
+                && mp.ConnectionDate <= cutOffDate
+                && (mp.ClosedDownDate is null || mp.ClosedDownDate > cutOffDate)
+                && (mp.DisconnectionDate is null || mp.DisconnectionDate > cutOffDate));
     }
 }
