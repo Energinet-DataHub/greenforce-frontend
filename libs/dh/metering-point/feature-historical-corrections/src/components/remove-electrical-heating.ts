@@ -22,7 +22,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
-import { WATT_RADIO } from '@energinet/watt/radio';
 import { VATER } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 
@@ -38,7 +37,6 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
     VATER,
     WATT_CARD,
-    WATT_RADIO,
     WattButtonComponent,
     WattDatepickerComponent,
   ],
