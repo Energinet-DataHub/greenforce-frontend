@@ -1769,7 +1769,12 @@
       "removeElectricalHeating": {
         "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
         "cutOffDate": "Fjern elvarme på dato",
-        "remove": "Fjern elvarme"
+        "remove": "Fjern elvarme",
+        "toast": {
+          "loading": "Fjerner elvarme...",
+          "success": "Elvarme fjernet",
+          "error": "Der opstod en fejl under fjernelse af elvarme"
+        }
       },
       "newElectricalHeatingMeteringPoint": {
         "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",

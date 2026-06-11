@@ -25,7 +25,7 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { WATT_RADIO } from '@energinet/watt/radio';
 import { VATER } from '@energinet/watt/vater';
 
-import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
+import { dhMakeFormControl, injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhNewElectricalHeatingMeteringPoint } from './new-electrical-heating-metering-point';
 import { DhRemoveElectricalHeating } from './remove-electrical-heating';
@@ -63,7 +63,7 @@ import { DhRemoveElectricalHeating } from './remove-electrical-heating';
       <vater-stack direction="row" justify="space-between" class="watt-space-stack-ml">
         <h1 class="no-margin">{{ t('title') }}</h1>
 
-        <watt-button variant="secondary">{{ t('cancel') }}</watt-button>
+        <watt-button variant="secondary" (click)="navigate('../')">{{ t('cancel') }}</watt-button>
       </vater-stack>
 
       <vater-flex gap="ml">
@@ -124,6 +124,8 @@ import { DhRemoveElectricalHeating } from './remove-electrical-heating';
   `,
 })
 export class DhHistoricalCorrections {
+  readonly navigate = injectRelativeNavigate();
+
   meteringPointId = input.required<string>();
 
   form = new FormGroup(
