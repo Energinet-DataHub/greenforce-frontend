@@ -26,8 +26,8 @@ import {
   EicFunction,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -44,7 +44,7 @@ export class ChangeOfEnergySupplierActions {
   private readonly cancelChangeOfEnergySupplier = mutation(CancelChangeOfEnergySupplierDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.SendInformation]: {
+    [MeteringPointProcessAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate(
@@ -61,7 +61,7 @@ export class ChangeOfEnergySupplierActions {
           }
         ),
     },
-    [WorkflowAction.CancelWorkflow]: {
+    [MeteringPointProcessAction.CancelWorkflow]: {
       permissions: ['metering-point:change-of-supplier'],
       roles: [InitiatingParticipant],
       callback: cancelProcessAction(

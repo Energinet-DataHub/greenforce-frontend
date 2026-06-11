@@ -64,9 +64,9 @@ import { lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
         >
           <watt-button icon="search" variant="icon" (click)="search()" />
           @if (searchControl().hasError('meteringPointIdLength')) {
-            <watt-field-error>{{ t('meteringPointInfo.invalidLength') }}</watt-field-error>
+            <watt-field-error>{{ t('meteringPointInfo.meteringPointIdLength') }}</watt-field-error>
           } @else if (searchControl().hasError('containsLetters')) {
-            <watt-field-error>{{ t('meteringPointInfo.notValidated') }}</watt-field-error>
+            <watt-field-error>{{ t('meteringPointInfo.containsLetters') }}</watt-field-error>
           } @else if (searchControl().hasError('notFound')) {
             <watt-field-error>{{ t('meteringPointInfo.notFound') }}</watt-field-error>
           }

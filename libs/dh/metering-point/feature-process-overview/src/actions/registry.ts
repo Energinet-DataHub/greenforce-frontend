@@ -20,6 +20,7 @@ import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
   DhActorStorage,
   PermissionService,
@@ -27,8 +28,8 @@ import {
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
   EicFunction,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ProcessActionContext } from './context';
@@ -36,6 +37,7 @@ import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
+import { IncorrectMoveActions } from './incorrect-move/incorrect-move';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
@@ -57,12 +59,13 @@ export const INITIATOR_ROLE_UNIVERSE: readonly EicFunction[] = [
 
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
+  releaseToggle?: string;
   permissions?: Permission[];
   roles?: ActionRole[];
   callback: (context: ProcessActionContext) => void;
 }
 
-export type ActionHandlerMap = Partial<Record<WorkflowAction, ActionHandler>>;
+export type ActionHandlerMap = Partial<Record<MeteringPointProcessAction, ActionHandler>>;
 
 function collectPermissions(
   registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>>
@@ -79,6 +82,7 @@ function collectPermissions(
 @Injectable({ providedIn: 'root' })
 export class DhActionsRegistry {
   private readonly featureFlags = inject(DhFeatureFlagsService);
+  private readonly releaseToggles = inject(DhReleaseToggleService);
   private readonly permissionService = inject(PermissionService);
   private readonly actorStorage = inject(DhActorStorage);
 
@@ -88,6 +92,7 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
     [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
+    [ProcessManagerBusinessReason.IncorrectMove]: inject(IncorrectMoveActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
       .handlers,
   };
@@ -124,14 +129,16 @@ export class DhActionsRegistry {
   }
 
   getSupportedActions(
-    availableActions: WorkflowAction[],
+    availableActions: MeteringPointProcessAction[],
     businessReason: ProcessManagerBusinessReason,
     isEnergySupplierResponsible: boolean,
     initiatorGlnOrEic?: string
-  ): WorkflowAction[] {
+  ): MeteringPointProcessAction[] {
     const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
-      if (!handler || !this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      if (!handler) return false;
+      if (!this.featureFlags.isEnabled(handler.featureFlag)) return false;
+      if (!this.releaseToggles.isEnabled(handler.releaseToggle)) return false;
       // FAS users see every supported action (info row in the table, disabled
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
@@ -140,9 +147,9 @@ export class DhActionsRegistry {
     });
 
     // Canonical display order — actions not listed here sort to the end.
-    const ACTION_DISPLAY_ORDER: readonly WorkflowAction[] = [
-      WorkflowAction.CancelWorkflow,
-      WorkflowAction.RejectRequest,
+    const ACTION_DISPLAY_ORDER: readonly MeteringPointProcessAction[] = [
+      MeteringPointProcessAction.CancelWorkflow,
+      MeteringPointProcessAction.RejectRequest,
     ];
 
     return supported.sort((a, b) => {
@@ -167,7 +174,7 @@ export class DhActionsRegistry {
    * both roles even if the universe later narrows.
    */
   getActorRolesForAction(
-    action: WorkflowAction,
+    action: MeteringPointProcessAction,
     businessReason: ProcessManagerBusinessReason
   ): EicFunction[] {
     const handler = this.registry[businessReason]?.[action];
@@ -186,7 +193,7 @@ export class DhActionsRegistry {
   }
 
   execute(
-    action: WorkflowAction,
+    action: MeteringPointProcessAction,
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext,
     isEnergySupplierResponsible: boolean,

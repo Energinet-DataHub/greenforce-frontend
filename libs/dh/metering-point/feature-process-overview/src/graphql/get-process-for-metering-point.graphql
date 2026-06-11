@@ -1,23 +1,28 @@
-query GetMeteringPointProcessById($id: String!) {
-  meteringPointProcessById(id: $id) {
+query GetMeteringPointProcessById($id: String!, $meteringPointId: String!) {
+  meteringPointProcessById(id: $id, meteringPointId: $meteringPointId) {
     id
     createdAt
     cutoffDate
     businessReason
     state
     availableActions
+    cancelledByProcess {
+      id
+      businessReason
+      cutoffDate
+    }
     steps {
       id
       step
       comment
       description
       completedAt
-      dueDate
 
       actor {
         id
         displayName
       }
+      actorRole
       state
       documentUrl
     }
@@ -26,5 +31,6 @@ query GetMeteringPointProcessById($id: String!) {
       displayName
       glnOrEicNumber
     }
+    initiatorRole
   }
 }

@@ -21,7 +21,7 @@ namespace Energinet.DataHub.WebApi.Modules.Processes.MoveIn;
 public static class MoveInNode
 {
     [Query]
-    [Authorize(Roles = ["metering-point:move-in"])]
+    [Authorize(Roles = ["metering-point:move-in", "metering-point:change-of-supplier"])]
     public static async Task<RequestTemporaryStorageResult?> GetTemporaryStorageDataAsync(
         string meteringPointId,
         string processId,

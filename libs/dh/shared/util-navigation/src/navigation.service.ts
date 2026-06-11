@@ -53,6 +53,8 @@ export class DhNavigationService {
       .subscribe(() => {
         if (this.route.children.length === 0) {
           this._id.set(undefined);
+        } else {
+          this._id.set(this.route.firstChild?.snapshot.params['id']);
         }
       });
   }

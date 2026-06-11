@@ -18,3 +18,7 @@
 //#endregion
 export { dhCoreShellRoutes } from './src/dh-core-shell.routes';
 export { dhCoreShellProviders } from './src/dh-core-shell.providers';
+export {
+  DhStartupErrorComponent,
+  DhStartupErrorService,
+} from '@energinet-datahub/dh/shared/feature-authorization';

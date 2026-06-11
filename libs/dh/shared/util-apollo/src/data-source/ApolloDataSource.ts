@@ -20,7 +20,6 @@ import { OperationVariables, TypedDocumentNode } from '@apollo/client/core';
 import {
   BehaviorSubject,
   connectable,
-  debounceTime,
   filter,
   map,
   mergeWith,
@@ -57,12 +56,12 @@ export type Pageable<TNode, TPageInfo> = {
 };
 
 export abstract class ApolloDataSource<
-    TResult,
-    TVariables extends TPagingVariables,
-    TNode,
-    TPageInfo,
-    TPagingVariables extends CommonVariables,
-  >
+  TResult,
+  TVariables extends TPagingVariables,
+  TNode,
+  TPageInfo,
+  TPagingVariables extends CommonVariables,
+>
   extends DataSource<TNode>
   implements IWattTableDataSource<TNode>
 {
@@ -212,7 +211,6 @@ export abstract class ApolloDataSource<
 
     const inputChange = this._filter.pipe(
       skip(1),
-      debounceTime(100),
       map((filter) => ({ filter })),
       mergeWith(this._inputChange),
       map((variables) => ({ variables }))

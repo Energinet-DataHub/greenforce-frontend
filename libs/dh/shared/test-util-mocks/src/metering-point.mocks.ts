@@ -55,6 +55,9 @@ import {
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
   mockGetMeteringPointInfoQuery,
+  mockRegisterElectricalHeatingMutation,
+  mockCreateElectricalHeatingMeteringPointMutation,
+  mockRemoveElectricalHeatingMeteringPointMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -111,6 +114,9 @@ export function meteringPointMocks(apiBase: string) {
     updateInternalConversationNoteMutation(),
     uploadMessageDocument(apiBase),
     downloadMessageDocument(apiBase),
+    registerElectricalHeating(),
+    createElectricalHeatingMeteringPoint(),
+    removeElectricalHeatingMeteringPoint(),
   ];
 }
 
@@ -660,6 +666,14 @@ function getProjectionsStatus() {
           eventCount: '2359',
           eventSequenceNumber: '9854',
           streamCount: '1109',
+          missingMeteringPoints: [
+            {
+              __typename: 'ProjectionMissingMeteringPoints',
+              projectionName: 'MeteringPointWithRelations:All',
+              missingMeteringPointCount: '5',
+              missingIds: ['abc123', 'def456'],
+            },
+          ],
           projections: [
             {
               __typename: 'ProjectionStatus',
@@ -883,11 +897,11 @@ function getConversation() {
               anonymous: false,
               electricalHeatingUserMessage: {
                 __typename: 'ElectricalHeatingUserMessage',
-                electricalHeatingFrom: new Date(),
+                electricalHeatingFrom: new Date('2010-01-01'),
                 reductionPeriod: {
                   __typename: 'ElectricityHeatingMessagePeriod',
-                  from: new Date(),
-                  to: new Date(),
+                  from: dayjs().subtract(1, 'month').startOf('month').toDate(),
+                  to: dayjs().subtract(1, 'month').endOf('month').toDate(),
                 },
                 content:
                   'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',
@@ -1343,4 +1357,52 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function registerElectricalHeating() {
+  return mockRegisterElectricalHeatingMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        registerElectricalHeating: {
+          __typename: 'RegisterElectricalHeatingPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function createElectricalHeatingMeteringPoint() {
+  return mockCreateElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createElectricalHeatingMeteringPoint: {
+          __typename: 'CreateElectricalHeatingMeteringPointPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function removeElectricalHeatingMeteringPoint() {
+  return mockRemoveElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        removeElectricalHeatingMeteringPoint: {
+          __typename: 'RemoveElectricalHeatingMeteringPointPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }

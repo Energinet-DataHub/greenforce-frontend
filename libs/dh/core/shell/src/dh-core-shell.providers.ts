@@ -52,7 +52,10 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
 import { applicationInsightsProviders } from '@energinet-datahub/dh/shared/util-application-insights';
-import { dhAuthorizationInterceptor } from '@energinet-datahub/dh/shared/feature-authorization';
+import {
+  dhActorTokenInitializer,
+  dhAuthorizationInterceptor,
+} from '@energinet-datahub/dh/shared/feature-authorization';
 import { danishLocalProviders } from '@energinet-datahub/gf/globalization/configuration-danish-locale';
 import { microsoftClarityProviders } from '@energinet-datahub/dh/shared/feature-microsoft-clarity';
 import { WattModalService } from '@energinet/watt/modal';
@@ -103,6 +106,7 @@ export const dhCoreShellProviders = [
   interceptors,
   msalProviders,
   dhLanguageServiceInitializer,
+  dhActorTokenInitializer,
   dhNewVersionManagerInitializer,
   provideHotToastConfig(),
   highlightWorkerProvider,

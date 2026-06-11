@@ -17,8 +17,8 @@
  */
 //#endregion
 import {
-  GetChargeLinkPeriodByIdDocument,
   GetChargeLinkPeriodsDocument,
+  GetHistoricalChargeLinkPeriodsDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
@@ -28,5 +28,5 @@ export type ChargeLinkPeriod = ResultOf<
 >['chargeLinkPeriods'][0];
 
 export type ChargeLinkPeriodChange = NonNullable<
-  ResultOf<typeof GetChargeLinkPeriodByIdDocument>['chargeLinkPeriodById']
+  ResultOf<typeof GetHistoricalChargeLinkPeriodsDocument>['chargeLinkPeriodById']
 >['changes'][0];

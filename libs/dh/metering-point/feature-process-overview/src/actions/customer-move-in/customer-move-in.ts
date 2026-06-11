@@ -19,6 +19,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { WattModalService } from '@energinet/watt/modal';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CancelCustomerMoveInDocument,
@@ -26,8 +28,8 @@ import {
   EicFunction,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -37,14 +39,16 @@ import {
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { DhRequestIncorrectMoveInModal } from '../../components/request-incorrect-move-in-modal';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerMoveInActions {
   private readonly router = inject(Router);
+  private readonly modalService = inject(WattModalService);
   private readonly cancelCustomerMoveIn = mutation(CancelCustomerMoveInDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.SendInformation]: {
+    [MeteringPointProcessAction.SendInformation]: {
       roles: [InitiatingParticipant, EicFunction.GridAccessProvider],
       callback: (ctx) =>
         this.router.navigate(
@@ -61,7 +65,7 @@ export class CustomerMoveInActions {
           }
         ),
     },
-    [WorkflowAction.CancelWorkflow]: {
+    [MeteringPointProcessAction.CancelWorkflow]: {
       permissions: ['metering-point:move-in'],
       roles: [InitiatingParticipant],
       callback: cancelProcessAction(
@@ -81,6 +85,22 @@ export class CustomerMoveInActions {
           });
         }
       ),
+    },
+    [MeteringPointProcessAction.InitiateIncorrectMoveIn]: {
+      releaseToggle: 'BRS011-INCOMING-MESSAGES',
+      permissions: ['metering-point:move-in'],
+      roles: [InitiatingParticipant],
+      callback: (ctx) => {
+        if (!ctx.cutoffDate) return;
+        this.modalService.open({
+          component: DhRequestIncorrectMoveInModal,
+          data: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            cutoffDate: ctx.cutoffDate,
+          },
+        });
+      },
     },
   };
 }

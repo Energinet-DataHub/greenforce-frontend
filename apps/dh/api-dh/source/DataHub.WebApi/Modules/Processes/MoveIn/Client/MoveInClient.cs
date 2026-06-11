@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
+using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.Processes.BRS_015.CustomQueries;
 using Energinet.DataHub.WebApi.Extensions;
@@ -24,6 +25,13 @@ public class MoveInClient(
     IProcessManagerClient processManagerClient)
     : IMoveInClient
 {
+    private static readonly IReadOnlySet<BusinessReason> AllowedTemporaryStorageBusinessReasons =
+        new HashSet<BusinessReason>
+        {
+            BusinessReason.CustomerMoveIn,
+            BusinessReason.ChangeOfEnergySupplier,
+        };
+
     public async Task<RequestTemporaryStorageResult?> GetTemporaryStorageDataAsync(
         string meteringPointId,
         string processId,
@@ -40,9 +48,32 @@ public class MoveInClient(
 
         var instances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(searchQuery, ct);
         var processGuid = Guid.Parse(processId);
-        var transactionId = instances.FirstOrDefault(i => i.Id == processGuid)?.TransactionId;
+        var instance = instances.FirstOrDefault(i => i.Id == processGuid);
 
-        if (transactionId is null)
+        if (instance is null)
+        {
+            return null;
+        }
+
+        // Defense in depth: even though SearchWorkflowInstancesByMeteringPointIdQuery already
+        // searches across all workflow types, we only expose temporary-storage data for
+        // processes that semantically use it (CustomerMoveIn / ChangeOfEnergySupplier) and
+        // only when the calling actor is the one that initiated the workflow. This prevents
+        // an authorized actor from passing an arbitrary processId for an unrelated process
+        // type (or for another actor's workflow) to fish for customer data.
+        if (!AllowedTemporaryStorageBusinessReasons.Contains(instance.BusinessReason))
+        {
+            return null;
+        }
+
+        var createdByActorNumber = instance.Lifecycle.CreatedBy.ActorNumber?.Value;
+        if (createdByActorNumber is null ||
+            !string.Equals(createdByActorNumber, userIdentity.ActorNumber.Value, StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        if (instance.TransactionId is null)
         {
             return null;
         }
@@ -51,7 +82,8 @@ public class MoveInClient(
             userIdentity,
             userIdentity.ActorNumber,
             meteringPointId,
-            transactionId);
+            instance.TransactionId,
+            instance.Id);
 
         return await processManagerClient
             .SearchWorkflowInstanceByCustomQueryAsync(query, ct);

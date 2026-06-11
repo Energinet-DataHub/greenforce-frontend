@@ -71,8 +71,18 @@ watt-table .mat-mdc-table {
     display: flex;
     align-items: center;
     min-height: 48px; /* Magic UX number */
-    padding: var(--watt-space-xs) var(--watt-space-m);
+    padding: var(--watt-table-cell-padding, var(--watt-space-xs) var(--watt-space-m));
     line-height: 18px;
+  }
+
+  td.mat-mdc-cell.watt-table-valign-flex-start,
+  td.mat-mdc-footer-cell.watt-table-valign-flex-start {
+    align-items: flex-start;
+  }
+
+  td.mat-mdc-cell.watt-table-valign-flex-end,
+  td.mat-mdc-footer-cell.watt-table-valign-flex-end {
+    align-items: flex-end;
   }
 
   td.mat-mdc-cell.watt-table-cell--expandable {
