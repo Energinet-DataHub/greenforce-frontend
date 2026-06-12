@@ -1361,6 +1361,7 @@
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for complex handling of move cancellation",
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Request for resumption of supply (RSM-003)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_4": "Confirmation of request for resumption of supply (RSM-003)",
+        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatic resumption of supply after the deadline is exceeded",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_6": "Notification of acceptance of correction (RSM-004)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_7": "Notification of metering point master data (RSM-022)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
