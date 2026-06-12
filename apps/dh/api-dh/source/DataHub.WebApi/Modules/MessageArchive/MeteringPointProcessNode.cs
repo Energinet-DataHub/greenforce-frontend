@@ -153,7 +153,7 @@ public static partial class MeteringPointProcessNode
             ActorNumber: step.Actor?.ActorNumber?.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
-            MessageId: step.ArchivedMessageId?.ToString(),
+            MessageId: step.ArchivedMessageId == Guid.Empty ? null : step.ArchivedMessageId?.ToString(),
             Description: step.Description));
     }
 
