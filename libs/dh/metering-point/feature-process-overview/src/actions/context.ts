@@ -16,10 +16,13 @@
  * limitations under the License.
  */
 //#endregion
+import type { ElectricityMarketViewConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
+
 export interface ProcessActionContext {
   meteringPointId: string;
   internalMeteringPointId: string;
   processId: string;
+  connectionState: ElectricityMarketViewConnectionState;
   cutoffDate?: Date | null;
   onSuccess?: () => void;
 }

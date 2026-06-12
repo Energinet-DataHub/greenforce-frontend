@@ -2316,6 +2316,7 @@ input DisconnectMeteringPointInput {
   meteringPointId: String!
   processId: UUID!
   validityDate: DateTime!
+  currentConnectionState: ElectricityMarketViewConnectionState!
 }
 
 input DismissAllNotificationsInput {
