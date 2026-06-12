@@ -29,7 +29,7 @@ interface Typography {
   letterSpacing: string;
 }
 
-const typeScaleSmall: Typography[] = [
+const typeScale: Typography[] = [
   {
     html: typographyHtmlSnippets.h1.tag,
     size: 'XL',
@@ -146,12 +146,7 @@ const typeScaleSmall: Typography[] = [
   imports: [MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {
-  /**
-   * @ignore
-   */
   displayedColumns: string[] = ['name', 'size', 'weight', 'letterCase', 'letterSpacing'];
-  /**
-   * @ignore
-   */
-  dataSourceSmall = typeScaleSmall;
+
+  dataSource = typeScale;
 }

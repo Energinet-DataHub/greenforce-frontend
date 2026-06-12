@@ -54,7 +54,7 @@ limitations under the License.
 </section>
 
 <section>
-  <table mat-table [dataSource]="dataSourceSmall" style="width: 100%">
+  <table mat-table [dataSource]="dataSource" style="width: 100%">
     <caption>
       <h3>Type Scale</h3>
     </caption>
@@ -87,12 +87,6 @@ limitations under the License.
     <ng-container matColumnDef="letterSpacing">
       <th mat-header-cell *matHeaderCellDef>Letter Spacing</th>
       <td mat-cell *matCellDef="let element">{{ element.letterSpacing }}</td>
-    </ng-container>
-
-    <!-- Line height Column -->
-    <ng-container matColumnDef="lineHeight">
-      <th mat-header-cell *matHeaderCellDef>Line Height</th>
-      <td mat-cell *matCellDef="let element">{{ element.lineHeight }}</td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
