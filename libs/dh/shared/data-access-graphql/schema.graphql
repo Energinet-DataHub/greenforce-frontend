@@ -1277,6 +1277,7 @@ type Mutation {
   registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   rejectIncorrectMove(input: RejectIncorrectMoveInput!): RejectIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
+  removeElectricalHeatingMeteringPoint(input: RemoveElectricalHeatingMeteringPointInput!): RemoveElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1634,6 +1635,10 @@ type RelatedMeteringPointsDto {
   relatedMeteringPoints: [RelatedMeteringPointDto!]!
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
+}
+
+type RemoveElectricalHeatingMeteringPointPayload {
+  boolean: Boolean
 }
 
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
@@ -2502,6 +2507,11 @@ input RejectEndOfSupplyInput {
 input RejectIncorrectMoveInput {
   meteringPointId: String!
   processId: UUID!
+}
+
+input RemoveElectricalHeatingMeteringPointInput {
+  parentMeteringPointId: String!
+  cutOffDate: DateTime!
 }
 
 input RemoveMeteringPointsFromAdditionalRecipientInput {
