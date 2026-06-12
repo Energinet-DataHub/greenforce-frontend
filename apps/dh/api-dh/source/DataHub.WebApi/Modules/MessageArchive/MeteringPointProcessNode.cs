@@ -144,10 +144,7 @@ public static partial class MeteringPointProcessNode
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.ToString(),
             Step: GetStepIdentifier(step),
-            // Carries the free-text reason from the orchestration input (e.g. BRS-011 "Årsag til korrektion").
-            // Process Manager surfaces it on every step of the reason-bearing orchestration; the frontend
-            // decides which step actually displays it, via a per-step reason-label translation.
-            Comment: step.Reason,
+            Comment: step.PreviewField,
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber?.Value ?? string.Empty,
