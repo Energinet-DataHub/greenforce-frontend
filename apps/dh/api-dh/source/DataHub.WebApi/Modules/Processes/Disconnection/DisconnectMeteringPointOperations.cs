@@ -15,6 +15,7 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeAccountingPointCharacteristics.V1.Models;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.MeteringPoint.Models;
 using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes.Disconnection;
@@ -27,16 +28,21 @@ public static class DisconnectMeteringPointOperations
         string meteringPointId,
         Guid processId,
         DateTimeOffset validityDate,
+        ConnectionState currentConnectionState,
         IB2CClient ediB2CClient,
         CancellationToken ct)
     {
+        var connectionState = currentConnectionState == ConnectionState.New
+            ? ConnectionStateV1.New
+            : ConnectionStateV1.Disconnected;
+
         var command = new RequestForChangeOfConnectionStatusCommandV1(
             new RequestForChangeOfConnectionStatusV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: BusinessReasonV1.EndOfSupply,
                 ProcessReference: processId,
                 ValidityDate: validityDate,
-                ConnectionState: ConnectionStateV1.Disconnected));
+                ConnectionState: connectionState));
 
         var result = await ediB2CClient.SendAsync(command, ct);
 

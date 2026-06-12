@@ -42,6 +42,7 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
+  ElectricityMarketViewConnectionState,
   MeteringPointProcessAction,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
@@ -201,6 +202,7 @@ export class DhMeteringPointProcessOverviewTable {
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
+  readonly connectionState = input.required<ElectricityMarketViewConnectionState>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
@@ -294,6 +296,7 @@ export class DhMeteringPointProcessOverviewTable {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: process.id,
+        connectionState: this.connectionState(),
         cutoffDate: process.cutoffDate,
       },
       this.isEnergySupplierResponsible(),

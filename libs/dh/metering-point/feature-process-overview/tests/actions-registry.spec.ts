@@ -21,6 +21,7 @@ import { of } from 'rxjs';
 
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   MeteringPointProcessAction,
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -51,6 +52,7 @@ const mockContext: ProcessActionContext = {
   meteringPointId: 'mp-1',
   internalMeteringPointId: 'imp-1',
   processId: 'process-1',
+  connectionState: ElectricityMarketViewConnectionState.Disconnected,
 };
 
 function createMockHandlers(handlers: ActionHandlerMap) {
