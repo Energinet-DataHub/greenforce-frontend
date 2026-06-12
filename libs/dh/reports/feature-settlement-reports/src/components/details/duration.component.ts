@@ -41,7 +41,7 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     }
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhDuration {
   value = input.required<WattRange<Date>>();
 

@@ -36,7 +36,7 @@ interface Color {
 }
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+   
   selector: 'storybook-colors-overview',
   templateUrl: './storybook-colors-overview.component.html',
   styleUrls: ['./storybook-colors-overview.component.scss'],

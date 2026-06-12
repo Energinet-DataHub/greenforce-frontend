@@ -103,7 +103,7 @@ import {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhSetUpAccessToMeasurements extends WattTypedModal<DhMarketParticipantExtended> {
   private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);

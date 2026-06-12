@@ -101,7 +101,7 @@ import { NgTemplateOutlet } from '@angular/common';
     </ng-container>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhCalculationsPeriodField implements ControlValueAccessor {
   calculationType = input.required<StartCalculationType | RequestCalculationType>();
   executionType = input<CalculationExecutionType | null>(null);

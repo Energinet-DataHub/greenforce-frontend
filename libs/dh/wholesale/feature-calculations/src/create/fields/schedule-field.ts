@@ -25,7 +25,7 @@ import { WattRadioComponent } from '@energinet/watt/radio';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
+ 
 @Component({
   imports: [
     ReactiveFormsModule,

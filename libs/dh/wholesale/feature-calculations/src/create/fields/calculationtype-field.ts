@@ -30,7 +30,7 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 import { externalOnly } from '@energinet-datahub/dh/wholesale/domain';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
+ 
 @Component({
   imports: [
     ReactiveFormsModule,

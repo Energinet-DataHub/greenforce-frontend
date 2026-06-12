@@ -122,7 +122,7 @@ export interface RejectProcessModalData {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);

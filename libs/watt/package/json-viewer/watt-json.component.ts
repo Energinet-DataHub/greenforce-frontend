@@ -34,7 +34,7 @@ export type TreeState = {
 };
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+   
   selector: 'watt-json',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

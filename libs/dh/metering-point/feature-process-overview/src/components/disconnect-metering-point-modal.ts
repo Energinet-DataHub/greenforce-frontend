@@ -76,7 +76,7 @@ export interface DisconnectMeteringPointModalData {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhDisconnectMeteringPointModal extends WattTypedModal<DisconnectMeteringPointModalData> {
   readonly modal = viewChild.required(WattModalComponent);
   readonly submitting = signal(false);

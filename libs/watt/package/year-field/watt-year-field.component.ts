@@ -45,7 +45,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 export const YEAR_FORMAT = 'YYYY';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
+ 
 @Component({
   selector: 'watt-year-field',
   encapsulation: ViewEncapsulation.None,

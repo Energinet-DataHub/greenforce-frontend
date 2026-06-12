@@ -175,9 +175,11 @@ export class DhInviteUserComponent extends WattTypedModal {
     effect(() => {
       const actorId = this.actorIdChanged();
 
-      actorId !== null
-        ? this.baseInfo.controls.email.enable()
-        : this.baseInfo.controls.email.disable();
+      if (actorId !== null) {
+        this.baseInfo.controls.email.enable();
+      } else {
+        this.baseInfo.controls.email.disable();
+      }
 
       if (!actorId) return;
 

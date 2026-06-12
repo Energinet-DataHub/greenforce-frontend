@@ -39,7 +39,7 @@ interface IconGroup {
 }
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+   
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],

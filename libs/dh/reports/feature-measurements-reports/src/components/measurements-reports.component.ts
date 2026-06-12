@@ -89,7 +89,7 @@ import { DhOverview } from './overview/overview.component';
     </watt-card>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhMeasurementsReports {
   private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
     fetchPolicy: 'network-only',

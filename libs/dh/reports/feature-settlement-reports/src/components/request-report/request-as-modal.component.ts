@@ -60,7 +60,7 @@ type DhFormType = FormGroup<{
   ],
   templateUrl: './request-as-modal.component.html',
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhRequestAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);

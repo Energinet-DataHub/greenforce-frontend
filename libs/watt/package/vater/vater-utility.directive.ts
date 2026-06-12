@@ -19,7 +19,7 @@
 import { booleanAttribute, computed, Directive, input } from '@angular/core';
 import { Anchor, Fill, Inset } from './types';
 
-/* eslint-disable @angular-eslint/no-input-rename */
+ 
 @Directive({
   selector: '[vater]',
   host: {
