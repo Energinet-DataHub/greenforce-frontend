@@ -49,7 +49,7 @@ import { DhPrivateCustomerDetailsComponent } from './dh-private-customer-details
 import { DhCustomerAddressDetailsComponent } from './dh-customer-address-details.component';
 import { DhBusinessCustomerDetailsFormComponent } from './dh-business-customer-details-form.component';
 
-import type { CustomerDataPrefill } from './customer-data-prefill.types';
+import type { CustomerDataPrefill } from './types';
 
 export interface CustomerDataFormSubmitEvent {
   values: FormValues;

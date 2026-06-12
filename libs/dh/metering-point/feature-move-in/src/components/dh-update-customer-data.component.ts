@@ -41,7 +41,7 @@ import { getCustomerPrefillSource } from '../util/customer-prefill-source';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
 import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 
-import type { CustomerDataPrefill } from './customer-data-prefill.types';
+import type { CustomerDataPrefill } from './types';
 import {
   CustomerDataFormSubmitEvent,
   DhUpdateCustomerDataFormComponent,
