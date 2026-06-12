@@ -16,11 +16,10 @@
  * limitations under the License.
  */
 //#endregion
-export * from './src/dhPaths';
-export {
-  REDACTED_SEGMENT,
-  ROUTER_URL_KEY,
-  StateLocationStrategy,
-  provideStateLocationStrategy,
-} from './src/state-location-strategy';
-export { dhRedactionPatterns } from './src/dhUrlRules';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+import '@angular/compiler';
+
+import { setUpTestbed } from '@energinet-datahub/gf/test-util-staging';
+
+setUpTestbed();
