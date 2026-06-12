@@ -21,6 +21,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Framework;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.DeleteAllEventSourcingData.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.GetProjectionsStatus.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RebuildProjections.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RewindMeteringPointUpdatedSubscription.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ClearMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.GetMeteringPointMigratedCount.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ReplayMigrationEventsDeadLetterQueue.V1;
@@ -141,6 +142,30 @@ public class OperationToolsMeteringPointRevisionLogTests
                     }
                 },
             });
+    }
+
+    [Fact]
+    [RevisionLogTest("OperationToolsMeteringPointNode.RewindMeteringPointUpdatedSubscriptionAsync")]
+    public async Task RewindMeteringPointUpdatedSubscription()
+    {
+        var operation =
+            """
+                mutation {
+                  rewindMeteringPointUpdatedSubscription {
+                    boolean
+                  }
+                }
+            """;
+
+        var server = new GraphQLTestService();
+        server.ElectricityMarketClientMock.Setup(
+                c => c.SendAsync(It.IsAny<RewindMeteringPointUpdatedSubscriptionCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result.Success());
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            []);
     }
 
     [Fact]

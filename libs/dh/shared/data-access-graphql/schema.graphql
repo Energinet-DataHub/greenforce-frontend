@@ -1292,6 +1292,7 @@ type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
+  rewindMeteringPointUpdatedSubscription: RewindMeteringPointUpdatedSubscriptionPayload! @authorize(roles: [ "operation-tools:manage" ])
   sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1770,6 +1771,10 @@ type ResetMitIdPayload {
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
+}
+
+type RewindMeteringPointUpdatedSubscriptionPayload {
+  boolean: Boolean
 }
 
 type SelectionActorDto {
