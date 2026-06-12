@@ -1359,7 +1359,7 @@
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for kompleks håndtering af annullering af flytning",
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Anmodning om genoptagelse af leverance (RSM-003)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_4": "Godkendelse af genoptagelse af leverance (RSM-003)",
-        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatisk genoptagelse af leverance ved fristoverskridelse",
+        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatisk genoptagelse af leverance efter fristoverskridelse",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_6": "Information om accept af korrektion (RSM-004)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_7": "Information om målepunktsstamdata (RSM-022)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Information om kundestamdata (RSM-028)",
