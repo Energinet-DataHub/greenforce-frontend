@@ -745,7 +745,8 @@
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
-        "changeOfSupplier": "Leverandørskift"
+        "changeOfSupplier": "Leverandørskift",
+        "historicalCorrection": "Historisk rettelse"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",

@@ -746,7 +746,8 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
-        "changeOfSupplier": "Change of supplier"
+        "changeOfSupplier": "Change of supplier",
+        "historicalCorrection": "Historical correction"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
