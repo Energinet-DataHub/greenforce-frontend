@@ -50,8 +50,8 @@ import {
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
 import { DhChangeOfSupplierComponent } from '@energinet-datahub/dh/metering-point/feature-change-of-supplier';
+import { InstallationAddress } from '@energinet-datahub/dh/metering-point/shared/domain';
 
-import { InstallationAddress } from '../types';
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
 import { DhGetMeteringPointForManualCorrectionComponent } from './manual-correction/dh-get-metering-point-for-manual-correction.component';
 import { DhExecuteMeteringPointManualCorrectionComponent } from './manual-correction/dh-execute-metering-point-manual-correction.component';
@@ -135,6 +135,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
             {{ t('changeConnectionStatus') }}
           </watt-menu-item>
         }
+
+        @if (showHistoricalCorrectionButton()) {
+          <watt-menu-item [routerLink]="getHistoricalCorrectionLink">
+            {{ t('historicalCorrection') }}
+          </watt-menu-item>
+        }
       </watt-menu>
     </ng-container>
   `,
@@ -152,6 +158,7 @@ export class DhMeteringPointActionsComponent {
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
+  getHistoricalCorrectionLink = `${getPath<MeteringPointSubPaths>('historical-correction')}`;
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
@@ -161,7 +168,17 @@ export class DhMeteringPointActionsComponent {
   createdDate = input<Date | null>();
   installationAddress = input<InstallationAddress | null>();
   isEnergySupplierResponsible = input.required<boolean>();
+  isChildMeteringPoint = input<boolean | null>(false);
   searchMigratedMeteringPoints = input.required<boolean>();
+
+  // Change-of-supplier and move-in can only be initiated on a parent metering
+  // point of type Consumption (E17) or Production (E18).
+  private readonly isEligibleForCustomerProcesses = computed(
+    () =>
+      !this.isChildMeteringPoint() &&
+      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
+        this.type() === ElectricityMarketMeteringPointType.Production)
+  );
 
   private readonly hasGridAccessProviderRole = toSignal(
     this.permissionService.hasMarketRole(EicFunction.GridAccessProvider),
@@ -203,6 +220,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasMeteringPointHistoricalCorrectionPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:historical-correction-manage'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -219,8 +241,7 @@ export class DhMeteringPointActionsComponent {
       (this.connectionState() === ElectricityMarketViewConnectionState.New ||
         this.connectionState() === ElectricityMarketViewConnectionState.Connected ||
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected) &&
-      (this.type() === ElectricityMarketMeteringPointType.Consumption ||
-        this.type() === ElectricityMarketMeteringPointType.Production)
+      this.isEligibleForCustomerProcesses()
     );
   });
 
@@ -239,6 +260,13 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
+  showHistoricalCorrectionButton = computed(
+    () =>
+      this.type() === ElectricityMarketMeteringPointType.Consumption &&
+      this.hasMeteringPointHistoricalCorrectionPermission() &&
+      this.releaseToggleService.isEnabled('PM63-HISTORICAL-CORRECTIONS-UI')
+  );
+
   showManualCorrectionButtons = computed(
     () => this.hasDh3SkalpellenPermission() && this.searchMigratedMeteringPoints()
   );
@@ -255,6 +283,7 @@ export class DhMeteringPointActionsComponent {
     () =>
       this.hasMeteringPointChangeOfSupplierPermission() &&
       !this.isEnergySupplierResponsible() &&
+      this.isEligibleForCustomerProcesses() &&
       this.releaseToggleService.isEnabled('PM50-CHANGE-OF-SUPPLIER-UI')
   );
 
@@ -267,7 +296,8 @@ export class DhMeteringPointActionsComponent {
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
       this.showEndOfSupplyButton() ||
-      this.showChangeOfSupplierButton()
+      this.showChangeOfSupplierButton() ||
+      this.showHistoricalCorrectionButton()
     );
   });
 

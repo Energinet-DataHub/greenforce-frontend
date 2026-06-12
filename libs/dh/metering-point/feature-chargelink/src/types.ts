@@ -16,10 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargeLinkOverviewDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetChargeLinkPeriodsDocument,
+  GetHistoricalChargeLinkPeriodsDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import type { ResultOf } from '@graphql-typed-document-node/core';
 
-export type ChargeLinkOverview = ResultOf<
-  typeof GetChargeLinkOverviewDocument
->['chargeLinkOverview'][0];
+export type ChargeLinkPeriod = ResultOf<
+  typeof GetChargeLinkPeriodsDocument
+>['chargeLinkPeriods'][0];
+
+export type ChargeLinkPeriodChange = NonNullable<
+  ResultOf<typeof GetHistoricalChargeLinkPeriodsDocument>['chargeLinkPeriodById']
+>['changes'][0];

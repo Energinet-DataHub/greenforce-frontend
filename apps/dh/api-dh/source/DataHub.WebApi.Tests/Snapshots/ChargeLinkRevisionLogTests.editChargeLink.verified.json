@@ -1,7 +1,7 @@
 ﻿{
   "activity": "editChargeLink",
   "payload": {
-    "query": "mutation($id: String!, $newStartDate: DateTime!, $factor: Int!) { editChargeLink(input: { id: $id, newStartDate: $newStartDate, factor: $factor }) { boolean } }",
+    "query": "mutation($id: String!, $newStartDate: DateTime!, $factor: Int!) { editChargeLink(input: { id: $id, newStartDate: $newStartDate, factor: $factor }) { chargeLinkPeriod { id } } }",
     "variables": {
       "id": "eyJtZXRlcmluZ1BvaW50SWQiOiI1NzEzMTMxODAwMDAwMDAwMDUiLCJjaGFyZ2VJZCI6eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9fQ==",
       "newStartDate": "2025-01-01T00:00:00Z",
@@ -9,5 +9,5 @@
     }
   },
   "affectedEntityType": "ChargeLink",
-  "affectedEntityKey": "ChargeLinkId { MeteringPointId = 571313180000000005, ChargeId = ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 } }"
+  "affectedEntityKey": "ChargeLinkPeriodId { MeteringPointId = 571313180000000005, ChargeId = ChargeIdentifierDto { Code = TEST, Owner = 1234567890, TypeDto = 0 }, From = 01/01/0001 00:00:00 \u002B00:00 }"
 }

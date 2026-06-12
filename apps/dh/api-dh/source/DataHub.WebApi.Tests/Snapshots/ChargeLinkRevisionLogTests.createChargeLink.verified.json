@@ -1,7 +1,7 @@
 ﻿{
   "activity": "createChargeLink",
   "payload": {
-    "query": "mutation($chargeId: String!, $meteringPointId: String!, $newStartDate: DateTime!, $factor: Int!) { createChargeLink(input: { chargeId: $chargeId, meteringPointId: $meteringPointId, newStartDate: $newStartDate, factor: $factor }) { boolean } }",
+    "query": "mutation($chargeId: String!, $meteringPointId: String!, $newStartDate: DateTime!, $factor: Int!) { createChargeLink(input: { chargeId: $chargeId, meteringPointId: $meteringPointId, newStartDate: $newStartDate, factor: $factor }) { chargeLinkPeriod { id } } }",
     "variables": {
       "chargeId": "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9",
       "meteringPointId": "571313180000000005",

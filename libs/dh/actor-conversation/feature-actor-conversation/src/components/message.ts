@@ -16,25 +16,35 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { RouterLink } from '@angular/router';
+
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDatePipe } from '@energinet/watt/date';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { ConversationMessage } from '@energinet-datahub/dh/shared/domain/graphql';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { WattSeparatorComponent } from '@energinet/watt/separator';
+import { WattButtonComponent } from '@energinet/watt/button';
+
+import { combinePaths } from '@energinet-datahub/dh/core/configuration-routing';
+import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
+import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 import { injectDownloadMessageDocument } from './download-message-document';
 
 @Component({
   selector: 'dh-actor-conversation-message',
   imports: [
+    RouterLink,
     VaterStackComponent,
     WattDatePipe,
     WattSpinnerComponent,
     TranslocoDirective,
     VaterUtilityDirective,
     WattSeparatorComponent,
+    WattButtonComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -90,6 +100,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
   template: `
     <vater-stack
       class="message-container watt-text-s"
+      [class.watt-space-stack-m]="showRegisterElectricalHeatingButton()"
       [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -111,9 +122,9 @@ import { injectDownloadMessageDocument } from './download-message-document';
       <vater-stack align="start" fill="horizontal" class="message-content-padding">
         @switch (message().messageType) {
           @case ('USER_MESSAGE') {
-            <span vater fill="horizontal" class="display-line-break">
-              {{ message().userMessage?.content }}
-            </span>
+            <span vater fill="horizontal" class="display-line-break">{{
+              message().userMessage?.content
+            }}</span>
           }
           @case ('ELECTRICAL_HEATING_INFORMATION') {
             <span class="italic">{{
@@ -190,10 +201,49 @@ import { injectDownloadMessageDocument } from './download-message-document';
         </vater-stack>
       }
     </vater-stack>
+
+    @if (showRegisterElectricalHeatingButton()) {
+      <vater-stack
+        direction="row"
+        justify="end"
+        offset="m"
+        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
+      >
+        <watt-button
+          size="small"
+          [routerLink]="registerElectricalHeatingLink"
+          [state]="{ conversationId: conversationId() }"
+        >
+          {{ t('registerElectricalHeatingButton') }}
+        </watt-button>
+      </vater-stack>
+    }
   `,
 })
 export class DhActorConversationMessage {
+  private readonly permissionService = inject(PermissionService);
+  private readonly releaseToggleService = inject(DhReleaseToggleService);
+
+  isConversationClosed = input.required<boolean>();
   message = input.required<ConversationMessage>();
+  conversationId = input.required<string>();
+
+  private readonly hasHistoricalCorrectionManagePermission = toSignal(
+    this.permissionService.hasPermission('metering-point:historical-correction-manage'),
+    { initialValue: false }
+  );
+
+  showRegisterElectricalHeatingButton = computed(() => {
+    return (
+      this.releaseToggleService.isEnabled('PM63-HISTORICAL-CORRECTIONS-UI') &&
+      this.isConversationClosed() === false &&
+      this.message().messageType === 'ELECTRICAL_HEATING_USER_MESSAGE' &&
+      this.hasHistoricalCorrectionManagePermission()
+    );
+  });
+
+  registerElectricalHeatingLink = `${combinePaths('metering-point', 'electrical-heating-correction')}`;
+
   messageAlignment = computed(() => (this.message().isSentByCurrentActor ? 'end' : 'start'));
   backgroundColor = computed(() =>
     this.message().isSentByCurrentActor

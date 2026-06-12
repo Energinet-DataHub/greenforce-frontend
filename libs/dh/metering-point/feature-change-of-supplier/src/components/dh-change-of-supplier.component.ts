@@ -25,7 +25,6 @@ import { translate, TranslocoDirective } from '@jsverse/transloco';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
-import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattRadioComponent } from '@energinet/watt/radio';
@@ -40,7 +39,9 @@ import {
 import { InitiateChangeOfSupplierDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
+import { dhMoveInCvrValidator } from '@energinet-datahub/dh/metering-point/feature-move-in';
+import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
 
 @Component({
   selector: 'dh-change-of-supplier',
@@ -52,7 +53,6 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
     WATT_MODAL,
     WattButtonComponent,
     WattDatepickerComponent,
-    WattCheckboxComponent,
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattRadioComponent,
@@ -137,10 +137,6 @@ import { dhCprValidator, dhCvrValidator } from '@energinet-datahub/dh/shared/ui-
               class="cvr-field"
             />
           }
-
-          <watt-checkbox [formControl]="form.controls.protectedNameAndAddress">
-            {{ t('protectedNameAndAddress') }}
-          </watt-checkbox>
         </vater-stack>
       </form>
 
@@ -162,6 +158,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
 }> {
   private readonly router = inject(Router);
   private readonly toastService = inject(WattToastService);
+  private readonly currentEnv = inject(dhAppEnvironmentToken).current;
   private readonly initiateChangeOfSupplier = mutation(InitiateChangeOfSupplierDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -172,7 +169,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
     customerType: dhMakeFormControl<'private' | 'business'>('private'),
     cpr: dhMakeFormControl<string>('', [Validators.required, dhCprValidator()]),
     cvr: dhMakeFormControl<string>(''),
-    protectedNameAndAddress: dhMakeFormControl<boolean>(false),
   });
 
   private readonly customerTypeChanged = toSignal(this.form.controls.customerType.valueChanges, {
@@ -189,7 +185,10 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
       this.form.controls.cvr.clearValidators();
     } else {
       this.form.controls.cvr.enable();
-      this.form.controls.cvr.setValidators([Validators.required, dhCvrValidator()]);
+      this.form.controls.cvr.setValidators([
+        Validators.required,
+        dhMoveInCvrValidator(this.currentEnv),
+      ]);
       this.form.controls.cpr.disable();
       this.form.controls.cpr.clearValidators();
     }
@@ -201,7 +200,7 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
   async submit() {
     if (this.form.invalid || this.initiateChangeOfSupplier.loading()) return;
 
-    const { cutOffDate, customerType, cpr, cvr, protectedNameAndAddress } = this.form.getRawValue();
+    const { cutOffDate, customerType, cpr, cvr } = this.form.getRawValue();
 
     if (!cutOffDate) return;
 
@@ -213,7 +212,6 @@ export class DhChangeOfSupplierComponent extends WattTypedModal<{
           customerType,
           cpr: customerType === 'private' ? cpr : null,
           cvr: customerType === 'business' ? cvr : null,
-          protectedNameAndAddress: protectedNameAndAddress ?? false,
         },
       },
       onError: () => {

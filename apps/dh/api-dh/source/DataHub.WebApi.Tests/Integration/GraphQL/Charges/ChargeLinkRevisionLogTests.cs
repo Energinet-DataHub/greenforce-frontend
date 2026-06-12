@@ -24,13 +24,13 @@ namespace Energinet.DataHub.WebApi.Tests.Integration.GraphQL.Charges;
 public class ChargeLinkRevisionLogTests
 {
     [Fact]
-    [RevisionLogTest("ChargeLinkOverviewItemNode.GetChargeLinkOverviewAsync")]
-    public async Task GetChargeLinkOverviewAsync()
+    [RevisionLogTest("ChargeLinkPeriodNode.GetChargeLinkPeriodsAsync")]
+    public async Task GetChargeLinkPeriodsAsync()
     {
         var operation =
             $$"""
               query ($meteringPointId: String!) {
-                chargeLinkOverview(meteringPointId: $meteringPointId) {
+                chargeLinkPeriods(meteringPointId: $meteringPointId) {
                   charge {
                     id
                   }
@@ -59,7 +59,7 @@ public class ChargeLinkRevisionLogTests
                   id: $id,
                   stopDate: $stopDate
                 }) {
-                  boolean
+                  chargeLinkPeriod { id }
                 }
               }
             """;
@@ -91,7 +91,7 @@ public class ChargeLinkRevisionLogTests
                   newStartDate: $newStartDate,
                   factor: $factor
                 }) {
-                  boolean
+                  chargeLinkPeriod { id }
                 }
               }
             """;
@@ -126,7 +126,7 @@ public class ChargeLinkRevisionLogTests
                   newStartDate: $newStartDate,
                   factor: $factor
                 }) {
-                  boolean
+                  chargeLinkPeriod { id }
                 }
               }
             """;
@@ -154,7 +154,7 @@ public class ChargeLinkRevisionLogTests
                 cancelChargeLink(input: {
                   id: $id
                 }) {
-                  boolean
+                  chargeLinkPeriod { id }
                 }
               }
             """;

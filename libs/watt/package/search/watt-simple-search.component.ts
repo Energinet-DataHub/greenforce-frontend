@@ -16,42 +16,49 @@
  * limitations under the License.
  */
 //#endregion
-import { outputFromObservable } from '@angular/core/rxjs-interop';
-import { Component, ElementRef, input, viewChild } from '@angular/core';
+import { Component, ElementRef, input, output, viewChild, ViewEncapsulation } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { BehaviorSubject, debounceTime, skip } from 'rxjs';
 
 import { WattIconComponent, WattIconSize } from '@energinet/watt/icon';
 import { WattFieldComponent } from '@energinet/watt/field';
+
 @Component({
   imports: [WattIconComponent, WattFieldComponent],
   selector: 'watt-simple-search',
+  encapsulation: ViewEncapsulation.None,
   styles: `
-    :host {
+    watt-simple-search {
+      min-width: 260px;
       height: 44px; /* Magix UX number (replace with variable) */
       min-height: 44px; /* Magix UX number (replace with variable) */
-    }
 
-    .clear {
-      position: absolute;
-      top: 50%;
-      right: var(--watt-space-s);
-      padding: var(--watt-space-xs);
-      border: none;
-      border-radius: 4px;
-      background: none;
-      color: var(--watt-color-primary);
-      transform: translateY(-50%);
-      cursor: pointer;
-      pointer-events: auto;
-    }
+      .watt-field-wrapper:focus-within {
+        border: 2px solid var(--watt-color-primary-dark);
+      }
 
-    .clear:focus-visible {
-      outline: 2px solid var(--watt-color-primary);
-    }
+      .clear {
+        position: absolute;
+        top: 50%;
+        right: var(--watt-space-s);
+        padding: var(--watt-space-xs);
+        border: none;
+        border-radius: 4px;
+        background: none;
+        color: var(--watt-color-primary);
+        transform: translateY(-50%);
+        cursor: pointer;
+        pointer-events: auto;
+      }
 
-    input:placeholder-shown ~ .clear {
-      display: none;
+      .clear:focus-visible {
+        outline: 2px solid var(--watt-color-primary);
+      }
+
+      input:placeholder-shown ~ .clear {
+        display: none;
+      }
     }
   `,
   template: `
@@ -80,8 +87,14 @@ export class WattSimpleSearchComponent {
    */
   trim = input(true);
   search$ = new BehaviorSubject<string>('');
-  search = outputFromObservable(this.search$.pipe(skip(1), debounceTime(this.debounceTime())));
   size = input<WattIconSize>('s');
+  search = output<string>(); // eslint-disable-line @angular-eslint/no-output-native
+
+  constructor() {
+    this.search$
+      .pipe(skip(1), debounceTime(this.debounceTime()), takeUntilDestroyed())
+      .subscribe((value) => this.search.emit(value));
+  }
 
   /**
    * Handles input event, optionally trimming the value.
@@ -98,8 +111,7 @@ export class WattSimpleSearchComponent {
   clear(): void {
     const element = this.input().nativeElement;
     if (element.value === '') return;
-
     element.value = '';
-    this.onInput(element.value);
+    this.search.emit('');
   }
 }

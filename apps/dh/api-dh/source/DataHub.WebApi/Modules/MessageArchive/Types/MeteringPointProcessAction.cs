@@ -12,11 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
+namespace Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 
-namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
-
-public record ChargeLinkOverviewItem(
-    string MeteringPointId,
-    ChargeLinkPeriodDto Period,
-    Charge Charge);
+/// <summary>
+/// Available actions that the current actor can perform on a metering point process.
+/// Superset of <see cref="Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model.WorkflowAction"/>,
+/// extended with BFF-only actions that are derived from cross-subsystem data.
+/// </summary>
+public enum MeteringPointProcessAction
+{
+    SendInformation,
+    CancelWorkflow,
+    ConfirmWorkflow,
+    RejectRequest,
+    InitiateIncorrectMoveIn,
+}

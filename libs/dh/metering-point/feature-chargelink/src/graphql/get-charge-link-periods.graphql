@@ -1,0 +1,5 @@
+query GetChargeLinkPeriods($meteringPointId: String!) {
+  chargeLinkPeriods(meteringPointId: $meteringPointId) {
+    ...ChargeLinkPeriodFields
+  }
+}

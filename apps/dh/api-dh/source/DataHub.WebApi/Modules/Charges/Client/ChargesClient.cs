@@ -13,8 +13,8 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeLink;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
@@ -69,30 +69,25 @@ public class ChargesClient(
 
         // Flatten charge x period and apply period-level filters
         var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
-        var items = charges.SelectMany(charge => charge.Periods
+        return charges.SelectMany(charge => charge.Periods
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
             .Select(p => new ChargeOverviewItem(charge, p)));
+    }
 
-        // This filter is expensive since it has to fetch series for each charge,
-        // which is why it is deferred until after applying all other filters.
-        if (query?.MissingPriceSeries == true)
-        {
-            var chargesWithSeries = await items
-                .Select(x => x.Charge)
-                .Distinct()
-                .ToAsyncEnumerable()
-                .Where(charge => charge.Status != ChargeStatus.Cancelled)
-                .Select(async (charge, ct) => (charge, series: await GetChargeSeriesAsync(charge, ct)))
-                .Where(r => r.series.Any() != query?.MissingPriceSeries)
-                .Select(r => r.charge)
-                .ToListAsync(ct);
+    public async Task<IEnumerable<Charge>> GetChargesAsync(CancellationToken ct = default)
+    {
+        var result = await client.GetChargeInformationAsync(
+            new(0, 10000, new(string.Empty, [], []), ChargeInformationSortProperty.Type, false),
+            ct);
 
-            return items.Where(x => chargesWithSeries.Contains(x.Charge));
-        }
-
-        return items;
+        var charges = result.Data ?? [];
+        return !result.IsSuccess
+            ? throw new GraphQLException(result.DiagnosticMessage)
+            : charges
+                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
+                .Select(MapChargeInformationDtoToCharge);
     }
 
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
@@ -160,7 +155,9 @@ public class ChargesClient(
             .GroupBy(slot => CollapseKey(slot.InZone(DanishTimeZone), resolution))
             .Select(g => g.Key.AtStartOfDayInZone(DanishTimeZone).ToDateTimeOffset());
 
-        return new MissingPriceSeriesResult(gaps, lastPoint.ToDateTimeOffset());
+        return new MissingPriceSeriesResult(
+            gaps,
+            NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
@@ -266,10 +263,19 @@ public class ChargesClient(
         ChargeIdentifierDto id,
         DateTimeOffset start,
         DateTimeOffset end,
-        List<ChargePointV2> points,
+        List<ChargeSeriesPointInput> points,
         CancellationToken ct = default)
     {
         var charge = await GetChargeByIdAsync(id, ct) ?? throw new GraphQLException("Charge not found");
+        var resolution = charge.Resolution.CastDurationTo<ResolutionV2>();
+        var seriesPeriods = charge.Resolution == Resolution.Monthly
+            ? BuildMonthlySeriesPeriods(resolution, points, end)
+            : [new ChargeSeriesPointsV2(
+                Resolution: resolution,
+                Start: start,
+                End: end,
+                Points: [.. points.Select(p => new ChargePointV2(p.Position, p.Price))])];
+
         var result = await ediClient.SendAsync(
             new UpsertChargeSeriesCommandV2(new(
                 ChargeId: id.Code,
@@ -277,90 +283,46 @@ public class ChargesClient(
                 ChargeOwnerId: id.Owner,
                 Start: start,
                 End: end,
-                Points:
-                [
-                    new(
-                        Resolution: charge.Resolution.CastDurationTo<ResolutionV2>(),
-                        Start: start,
-                        End: end,
-                        Points: points),
-                ])),
+                Points: [.. seriesPeriods])),
             ct);
 
         return result.IsSuccess;
     }
 
-    public async Task<IEnumerable<ChargeLinkOverviewItem>> GetChargeLinkOverviewAsync(
+    public async Task<IEnumerable<ChargeLinkPeriod>> GetChargeLinkPeriodsAsync(
         string meteringPointId,
         CancellationToken ct = default)
     {
         var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
         if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
         var chargeLinks = result.Data ?? [];
-        var distinctChargeIds = chargeLinks.Select(cl => cl.ChargeIdentifier).Distinct();
-        var charges = await Task.WhenAll(distinctChargeIds.Select(id => GetChargeByIdAsync(id, ct)));
-        var chargeMap = charges.OfType<Charge>().ToDictionary(c => c.Id);
         return chargeLinks
-            .Where(cl => chargeMap.ContainsKey(cl.ChargeIdentifier))
-            .SelectMany(cl => cl.ChargeLinkPeriods.Select(p =>
-                new ChargeLinkOverviewItem(meteringPointId, p, chargeMap[cl.ChargeIdentifier])));
+            .SelectMany(cl => cl.ChargeLinkPeriods
+                .DistinctBy(p => p.From) // From *should* be unique, but some garbage data exists
+                .Select(p => new ChargeLinkPeriod(meteringPointId, p, cl.ChargeIdentifier)));
     }
 
-    public async Task<bool> StopChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset stopDate,
+    public async Task<IEnumerable<ChargeLinkPeriodChange>> GetChargeLinkPeriodChangesByIdAsync(
+        ChargeLinkPeriodId id,
         CancellationToken ct = default)
     {
-        var period = await GetChargeLinkPeriodAsync(id, ct);
-        var result = await ediClient.SendAsync(
-            new StopChargeLinkCommandV1(new(
-                id.ChargeId.Code,
-                id.ChargeId.Owner,
-                ToChargeLinkChargeType(id.ChargeId.TypeDto),
-                id.MeteringPointId,
-                stopDate,
-                period.Factor.ToString())),
-            ct);
-
-        return result.IsSuccess;
+        var query = new GetHistoricalChargeLinksQueryV1(Guid.Empty, new(id.MeteringPointId, id.ChargeId));
+        var result = await client.QueryAsync(query, ct);
+        var sorted = result.Periods.Where(p => p.From == id.From.ToInstant()).OrderBy(p => p.Created).ToList();
+        return [.. sorted.Select((current, i) =>
+            new ChargeLinkPeriodChange(current, i > 0 ? sorted[i - 1] : null))];
     }
 
-    public async Task<bool> CancelChargeLinkAsync(ChargeLinkId id, CancellationToken ct = default)
-    {
-        var period = await GetChargeLinkPeriodAsync(id, ct);
-        var result = await ediClient.SendAsync(
-            new StopChargeLinkCommandV1(new(
-                id.ChargeId.Code,
-                id.ChargeId.Owner,
-                ToChargeLinkChargeType(id.ChargeId.TypeDto),
-                id.MeteringPointId,
-                period.From.ToDateTimeOffset(),
-                period.Factor.ToString())),
-            ct);
-
-        return result.IsSuccess;
-    }
-
-    public async Task<bool> EditChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset newStartDate,
-        int factor,
+    public async Task<ChargeLinkPeriod?> GetChargeLinkPeriodByIdAsync(
+        ChargeLinkPeriodId id,
         CancellationToken ct = default)
     {
-        var result = await ediClient.SendAsync(
-            new UpsertChargeLinkCommandV1(new(
-                id.ChargeId.Code,
-                id.ChargeId.Owner,
-                ToChargeLinkChargeType(id.ChargeId.TypeDto),
-                id.MeteringPointId,
-                newStartDate,
-                factor.ToString())),
-            ct);
-
-        return result.IsSuccess;
+        var items = await GetChargeLinkPeriodsAsync(id.MeteringPointId, ct);
+        return items.FirstOrDefault(p =>
+            new ChargeLinkPeriodId(p.MeteringPointId, p.ChargeId, p.Period.From.ToDateTimeOffset()) == id);
     }
 
-    public async Task<bool> CreateChargeLinkAsync(
+    public async Task<ChargeLinkPeriod> CreateChargeLinkAsync(
         ChargeIdentifierDto chargeId,
         string meteringPointId,
         DateTimeOffset newStartDate,
@@ -377,19 +339,86 @@ public class ChargesClient(
                 factor.ToString())),
             ct);
 
-        return result.IsSuccess;
+        return result.IsSuccess
+            ? new(meteringPointId, new(factor, newStartDate.ToInstant(), null), chargeId)
+            : throw new GraphQLException("Failed to create charge link");
     }
 
-    private async Task<ChargeLinkPeriodDto> GetChargeLinkPeriodAsync(ChargeLinkId id, CancellationToken ct)
+    public async Task<IEnumerable<ChargeLinkPeriod>> EditChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        CancellationToken ct = default)
     {
-        var result = await client.GetChargeLinksAsync(new(id.MeteringPointId), ct);
-        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
-        var chargeLink = result.Data?.FirstOrDefault(cl => cl.ChargeIdentifier == id.ChargeId)
-            ?? throw new GraphQLException($"Charge link with id {id} not found.");
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
 
-        return chargeLink.ChargeLinkPeriods
-            .OrderByDescending(p => p.From)
-            .First();
+        var result = await ediClient.SendAsync(
+            new UpsertChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                newStartDate,
+                factor.ToString())),
+            ct);
+
+        if (!result.IsSuccess)
+            throw new GraphQLException("Failed to edit charge link");
+
+        var start = newStartDate.ToInstant();
+
+        if (start == chargeLink.Period.From)
+        {
+            return [new ChargeLinkPeriod(id.MeteringPointId, chargeLink.Period with { Factor = factor }, id.ChargeId)];
+        }
+
+        var updated = new ChargeLinkPeriod(id.MeteringPointId, chargeLink.Period with { To = start }, id.ChargeId);
+        var created = new ChargeLinkPeriod(id.MeteringPointId, new(factor, start, chargeLink.Period.To), id.ChargeId);
+        return [updated, created];
+    }
+
+    public async Task<ChargeLinkPeriod> StopChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset stopDate,
+        CancellationToken ct = default)
+    {
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
+
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                stopDate,
+                chargeLink.Period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess
+            ? new(id.MeteringPointId, chargeLink.Period with { To = stopDate.ToInstant() }, id.ChargeId)
+            : throw new GraphQLException("Failed to stop charge link");
+    }
+
+    public async Task<ChargeLinkPeriod> CancelChargeLinkAsync(ChargeLinkPeriodId id, CancellationToken ct = default)
+    {
+        var chargeLink = await GetChargeLinkPeriodByIdAsync(id, ct)
+            ?? throw new GraphQLException("Charge link not found");
+
+        var result = await ediClient.SendAsync(
+            new StopChargeLinkCommandV1(new(
+                id.ChargeId.Code,
+                id.ChargeId.Owner,
+                ToChargeLinkChargeType(id.ChargeId.TypeDto),
+                id.MeteringPointId,
+                id.From,
+                chargeLink.Period.Factor.ToString())),
+            ct);
+
+        return result.IsSuccess
+            ? new(id.MeteringPointId, chargeLink.Period with { To = id.From.ToInstant() }, id.ChargeId)
+            : throw new GraphQLException("Failed to cancel charge link");
     }
 
     private static ChargeTypeV1 ToChargeLinkChargeType(ChargeTypeDto type) => type switch
@@ -398,6 +427,18 @@ public class ChargesClient(
         ChargeTypeDto.Subscription => ChargeTypeV1.Subscription,
         ChargeTypeDto.Fee => ChargeTypeV1.Fee,
     };
+
+    private static IEnumerable<ChargeSeriesPointsV2> BuildMonthlySeriesPeriods(
+        ResolutionV2 resolution,
+        List<ChargeSeriesPointInput> points,
+        DateTimeOffset overallEnd)
+        => points.Zip(
+            points.Skip(1).Select(p => p.StartDate).Append(overallEnd),
+            (point, end) => new ChargeSeriesPointsV2(
+                Resolution: resolution,
+                Start: point.StartDate,
+                End: end,
+                Points: [new ChargePointV2(Position: 1, PriceAmount: point.Price)]));
 
     private static DateTimeZone DanishTimeZone => LocalDateExtensions.DanishTimeZone;
 

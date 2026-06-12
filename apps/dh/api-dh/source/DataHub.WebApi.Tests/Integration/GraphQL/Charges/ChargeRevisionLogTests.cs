@@ -190,7 +190,7 @@ public class ChargeRevisionLogTests
                 $id: String!
                 $start: DateTime!
                 $end: DateTime!
-                $points: [ChargePointV2Input!]!
+                $points: [ChargeSeriesPointInput!]!
               ) {
                 addChargeSeries(input: {
                   id: $id,
@@ -212,7 +212,7 @@ public class ChargeRevisionLogTests
                 { "id", "eyJ0eXBlIjowLCJjb2RlIjoiVEVTVCIsIm93bmVyIjoiMTIzNDU2Nzg5MCJ9" },
                 { "start", "2025-01-01T00:00:00Z" },
                 { "end", "2025-01-02T00:00:00Z" },
-                { "points", new List<Dictionary<string, object?>> { new() { { "position", 1 }, { "priceAmount", 1.5m } } } },
+                { "points", new List<Dictionary<string, object?>> { new() { { "position", 1 }, { "price", 1.5m }, { "startDate", "2025-01-01T00:00:00Z" } } } },
             });
     }
 

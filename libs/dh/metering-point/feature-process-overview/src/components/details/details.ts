@@ -25,7 +25,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
@@ -37,13 +37,14 @@ import { WattIconComponent } from '@energinet/watt/icon';
 import { WattModalService } from '@energinet/watt/modal';
 import { VaterGridComponent, VaterStackComponent } from '@energinet/watt/vater';
 
-import { DhStateBadge, DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
+import { DhEmDashFallbackPipe, DhStateBadge } from '@energinet-datahub/dh/shared/ui-util';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   GetMeteringPointProcessByIdDocument,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
@@ -51,6 +52,7 @@ import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhActionsRegistry } from '../../actions/registry';
 import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
 import { DhFasActionInfoModal } from '../fas-action-info-modal';
+import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-overview.store';
 
 @Component({
   selector: 'dh-metering-point-process-overview-details',
@@ -110,15 +112,58 @@ import { DhFasActionInfoModal } from '../fas-action-info-modal';
       align-items: center;
       gap: var(--watt-space-xs);
     }
+
+    dh-metering-point-process-overview-details .dh-cancelled-by {
+      color: var(--watt-on-light-medium-emphasis);
+    }
+
+    dh-metering-point-process-overview-details .dh-cancelled-by::before {
+      // Middot separator between the status badge and the cancellation text.
+      content: '·';
+      margin-right: var(--watt-space-s);
+    }
+
+    dh-metering-point-process-overview-details .dh-cancelled-by__link {
+      border: 0;
+      background: transparent;
+      padding: 0;
+    }
   `,
   template: `
     <watt-drawer size="large" autoOpen [key]="id()" (closed)="navigation.navigate('list')">
       <watt-drawer-topbar>
-        @if (isLoading() || state()) {
-          <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
-            {{ t(state() ?? 'indeterminate') }}
-          </dh-state-badge>
-        }
+        <vater-stack direction="row" gap="s" align="center">
+          @if (isLoading() || state()) {
+            <dh-state-badge [status]="state()" *transloco="let t; prefix: 'shared.states'">
+              {{ t(state() ?? 'indeterminate') }}
+            </dh-state-badge>
+          }
+          @if (cancelledByProcess(); as cancelledBy) {
+            <span
+              role="note"
+              class="dh-cancelled-by watt-text-s"
+              *transloco="let t; prefix: 'meteringPoint.processOverview'"
+            >
+              {{ t('details.cancelledByProcess.prefix') }}
+              @if (canNavigateToCancellingProcess()) {
+                <button
+                  type="button"
+                  class="watt-link-s dh-cancelled-by__link"
+                  (click)="goToCancellingProcess()"
+                >
+                  {{ t('processType.' + cancelledBy.businessReason) }}
+                </button>
+              } @else {
+                <span class="dh-cancelled-by__name">{{
+                  t('processType.' + cancelledBy.businessReason)
+                }}</span>
+              }
+              {{
+                t('details.cancelledByProcess.suffix', { date: cancelledBy.cutoffDate | wattDate })
+              }}
+            </span>
+          }
+        </vater-stack>
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
@@ -224,10 +269,12 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
-  protected navigation = inject(DhNavigationService);
+  readonly connectionState = input.required<ElectricityMarketViewConnectionState>();
+  protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);
+  private readonly store = inject(DhMeteringPointProcessOverviewStore);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -236,6 +283,7 @@ export class DhMeteringPointProcessOverviewDetails {
     returnPartialData: true,
     variables: {
       id: this.id(),
+      meteringPointId: this.meteringPointId(),
     },
   }));
 
@@ -243,10 +291,26 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
-  initiator = computed(() => this.process.data()?.meteringPointProcessById?.initiator?.displayName);
+  initiator = computed(() => {
+    const p = this.process.data()?.meteringPointProcessById;
+    return (
+      p?.initiator?.displayName ??
+      (p?.initiatorRole ? translate('marketParticipant.marketRoles.' + p.initiatorRole) : undefined)
+    );
+  });
   initiatorGlnOrEic = computed(
     () => this.process.data()?.meteringPointProcessById?.initiator?.glnOrEicNumber
   );
+  cancelledByProcess = computed(
+    () => this.process.data()?.meteringPointProcessById?.cancelledByProcess
+  );
+
+  // The cancelling process is only navigable when it is part of the overview's
+  // visible list; otherwise the banner renders it as plain text.
+  protected readonly canNavigateToCancellingProcess = computed(() => {
+    const id = this.cancelledByProcess()?.id;
+    return !!id && this.store.visibleProcessIds().has(id);
+  });
 
   steps = computed(() => {
     const data = this.process.data();
@@ -263,7 +327,7 @@ export class DhMeteringPointProcessOverviewDetails {
    * Rendered in the fixed order [EnergySupplier, GridAccessProvider]. An action that
    * belongs to multiple roles appears under each role's group (no deduplication).
    */
-  fasActionGroups = computed<{ role: EicFunction; actions: WorkflowAction[] }[]>(() => {
+  fasActionGroups = computed<{ role: EicFunction; actions: MeteringPointProcessAction[] }[]>(() => {
     const reason = this.businessReason();
     if (!reason) return [];
 
@@ -290,11 +354,18 @@ export class DhMeteringPointProcessOverviewDetails {
       .filter((group) => group.actions.length > 0);
   });
 
+  goToCancellingProcess() {
+    const cancellingProcessId = this.cancelledByProcess()?.id;
+    if (!cancellingProcessId) return;
+
+    this.navigation.navigate('details', cancellingProcessId);
+  }
+
   openFasActionInfoModal() {
     this.modalService.open({ component: DhFasActionInfoModal });
   }
 
-  executeAction(action: WorkflowAction) {
+  executeAction(action: MeteringPointProcessAction) {
     const reason = this.businessReason();
     if (!reason) return;
 
@@ -305,6 +376,7 @@ export class DhMeteringPointProcessOverviewDetails {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: this.id(),
+        connectionState: this.connectionState(),
         cutoffDate: this.cutoffDate(),
         onSuccess: () => this.navigation.navigate('list'),
       },

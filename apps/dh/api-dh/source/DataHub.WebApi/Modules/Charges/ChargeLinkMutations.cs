@@ -25,28 +25,7 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> StopChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset stopDate,
-        IChargesClient client,
-        CancellationToken ct)
-        => await client.StopChargeLinkAsync(id, stopDate, ct);
-
-    [Mutation]
-    [UseRevisionLog]
-    [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> EditChargeLinkAsync(
-        ChargeLinkId id,
-        DateTimeOffset newStartDate,
-        int factor,
-        IChargesClient client,
-        CancellationToken ct)
-        => await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
-
-    [Mutation]
-    [UseRevisionLog]
-    [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> CreateChargeLinkAsync(
+    public static async Task<ChargeLinkPeriod> CreateChargeLinkAsync(
         ChargeIdentifierDto chargeId,
         string meteringPointId,
         DateTimeOffset newStartDate,
@@ -58,8 +37,29 @@ public static class ChargeLinkMutations
     [Mutation]
     [UseRevisionLog]
     [Authorize(Roles = ["metering-point:prices-manage"])]
-    public static async Task<bool> CancelChargeLinkAsync(
-        ChargeLinkId id,
+    public static async Task<IEnumerable<ChargeLinkPeriod>> EditChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset newStartDate,
+        int factor,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.EditChargeLinkAsync(id, newStartDate, factor, ct);
+
+    [Mutation]
+    [UseRevisionLog]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
+    public static async Task<ChargeLinkPeriod> StopChargeLinkAsync(
+        ChargeLinkPeriodId id,
+        DateTimeOffset stopDate,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.StopChargeLinkAsync(id, stopDate, ct);
+
+    [Mutation]
+    [UseRevisionLog]
+    [Authorize(Roles = ["metering-point:prices-manage"])]
+    public static async Task<ChargeLinkPeriod> CancelChargeLinkAsync(
+        ChargeLinkPeriodId id,
         IChargesClient client,
         CancellationToken ct)
         => await client.CancelChargeLinkAsync(id, ct);

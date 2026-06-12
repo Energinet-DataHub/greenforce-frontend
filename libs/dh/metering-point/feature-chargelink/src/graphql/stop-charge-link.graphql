@@ -1,5 +1,7 @@
 mutation StopChargeLink($id: String!, $stopDate: DateTime!) {
   stopChargeLink(input: { id: $id, stopDate: $stopDate }) {
-    success: boolean
+    chargeLinkPeriod {
+      ...ChargeLinkPeriodFields
+    }
   }
 }

@@ -58,6 +58,9 @@ import { WattRadioComponent } from './watt-radio.component';
   template: `
     <watt-field [label]="label()" [control]="formControl()" displayMode="content">
       <ng-content />
+      <ng-content select="watt-field-hint" ngProjectAs="watt-field-hint" />
+      <ng-content select="watt-field-error" ngProjectAs="watt-field-error" />
+      <ng-content select="watt-field-warning" ngProjectAs="watt-field-warning" />
     </watt-field>
   `,
   encapsulation: ViewEncapsulation.None,

@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { InstallationAddress } from '../../types';
+import { InstallationAddress } from '@energinet-datahub/dh/metering-point/shared/domain';
 import { ElectricityMarketViewCustomerContactDto } from '@energinet-datahub/dh/shared/domain/graphql';
 
 @Component({

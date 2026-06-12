@@ -16,18 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattButtonComponent } from '@energinet/watt/button';
-import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WATT_MODAL } from '@energinet/watt/modal';
 
-import { GetContactCprDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 
@@ -59,7 +56,6 @@ const MASKED_CPR = '0000000000';
     WattTextFieldComponent,
     WattFieldErrorComponent,
     WattButtonComponent,
-    WattSpinnerComponent,
     WATT_MODAL,
   ],
   template: `
@@ -82,11 +78,7 @@ const MASKED_CPR = '0000000000';
         </watt-text-field>
       } @else {
         <watt-text-field [type]="'password'" [label]="t('cpr')" [formControl]="maskedControl">
-          @if (cprQuery.loading()) {
-            <watt-spinner class="descriptor" [diameter]="18" />
-          } @else {
-            <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal.open()" />
-          }
+          <watt-button class="descriptor" variant="icon" icon="edit" (click)="modal.open()" />
         </watt-text-field>
       }
 
@@ -112,46 +104,19 @@ const MASKED_CPR = '0000000000';
 export class DhCprFieldComponent {
   cprControl = input.required<FormControl<string | null>>();
   contactId = input<string | null>(null);
-  meteringPointId = input.required<string>();
-  searchMigratedMeteringPoints = input.required<boolean>();
 
   private readonly unlocked = signal(false);
-  private readonly loaded = signal(false);
-
-  protected readonly cprQuery = query(GetContactCprDocument, () => {
-    const contactId = this.contactId();
-    const unlocked = this.unlocked();
-
-    if (!unlocked || !contactId) return { skip: true as const };
-
-    return {
-      variables: {
-        meteringPointId: this.meteringPointId(),
-        contactId,
-        searchMigratedMeteringPoints: this.searchMigratedMeteringPoints(),
-      },
-    };
-  });
 
   protected readonly maskedControl = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
-  protected readonly showCprField = computed(
-    () => !this.contactId() || (this.unlocked() && this.loaded())
-  );
-
-  private readonly fillCpr = effect(() => {
-    const cpr = this.cprQuery.data()?.meteringPointContactCpr.result;
-    if (cpr) {
-      this.cprControl().setValue(cpr);
-      this.loaded.set(true);
-    }
-  });
+  protected readonly showCprField = computed(() => !this.contactId() || this.unlocked());
 
   protected onModalClosed(accepted: boolean): void {
     if (!accepted) return;
 
     this.unlocked.set(true);
     const control = this.cprControl();
+    control.setValue(null);
     control.setValidators([Validators.required, dhCprValidator()]);
     control.updateValueAndValidity();
   }

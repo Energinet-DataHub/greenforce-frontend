@@ -37,13 +37,16 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { DhStepName } from './step-name';
+import { DhStepReason } from './step-reason';
 
 type MeteringPointProcessStep = NonNullable<
   GetMeteringPointProcessByIdQuery['meteringPointProcessById']
 >['steps'][number];
 
+const selector = 'dh-metering-point-process-overview-steps';
+
 @Component({
-  selector: 'dh-metering-point-process-overview-steps',
+  selector,
   imports: [
     TranslocoDirective,
     TranslocoPipe,
@@ -56,10 +59,22 @@ type MeteringPointProcessStep = NonNullable<
     WattIconComponent,
     DhEmDashFallbackPipe,
     DhStepName,
+    DhStepReason,
   ],
   styles: `
-    tr.pending-step {
-      color: var(--watt-on-light-low-emphasis);
+    ${selector} {
+      tr.pending-step {
+        color: var(--watt-on-light-low-emphasis);
+      }
+
+      watt-table {
+        --watt-table-cell-padding: var(--watt-space-sm) var(--watt-space-s);
+      }
+
+      // Nudge the document icon to line up with the top-aligned step text.
+      td.mat-mdc-cell watt-icon {
+        margin-top: 1px;
+      }
     }
   `,
   encapsulation: ViewEncapsulation.None,
@@ -77,18 +92,21 @@ type MeteringPointProcessStep = NonNullable<
         *transloco="let resolveHeader; prefix: 'meteringPoint.processOverview.details.columns'"
         [dataSource]="dataSource()"
         [columns]="columns"
-        [displayedColumns]="displayedColumns()"
+        verticalAlign="flex-start"
         [resolveHeader]="resolveHeader"
         [loading]="loading()"
         [rowClass]="getRowClass"
       >
-        <ng-container *wattTableCell="columns.documentUrl; let process">
-          @if (process.documentUrl; as documentUrl) {
-            <a href="#" (click)="openRawMessage(documentUrl, $event)">
-              <watt-icon size="xs" name="email" />
-            </a>
+        <ng-container *wattTableCell="columns.actor; let process">
+          @if (process.actor?.displayName; as displayName) {
+            {{ displayName }}
+          } @else if (process.actorRole) {
+            {{ 'marketParticipant.marketRoles.' + process.actorRole | transloco }}
+          } @else {
+            {{ null | dhEmDashFallback }}
           }
         </ng-container>
+
         <ng-container *wattTableCell="columns.step; let process">
           <vater-flex
             fill="horizontal"
@@ -100,23 +118,23 @@ type MeteringPointProcessStep = NonNullable<
             <div vater fill="horizontal">
               <dh-step-name [businessReason]="businessReason()" [step]="process.step" />
 
-              @if (process.comment) {
-                <div class="watt-text-s-highlighted">{{ process.comment }}</div>
-              }
+              <dh-step-reason [step]="process.step" [comment]="process.comment" />
             </div>
           </vater-flex>
         </ng-container>
+        <ng-container *wattTableCell="columns.documentUrl; let process">
+          @if (process.documentUrl; as documentUrl) {
+            <a href="#" (click)="openRawMessage(documentUrl, $event)">
+              <watt-icon
+                size="xs"
+                name="email"
+                [label]="'meteringPoint.processOverview.details.openMessage' | transloco"
+              />
+            </a>
+          }
+        </ng-container>
         <ng-container *wattTableCell="columns.completedAt; let process">
           {{ process.completedAt | wattDate: 'long' | dhEmDashFallback }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.dueDate; let process">
-          {{ process.dueDate | wattDate: 'long' | dhEmDashFallback }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.actor; let process">
-          {{ process.actor?.displayName | dhEmDashFallback }}
-        </ng-container>
-        <ng-container *wattTableCell="columns.state; let process">
-          {{ 'meteringPoint.processOverview.details.stepStates.' + process.state | transloco }}
         </ng-container>
       </watt-table>
     </watt-data-table>
@@ -135,36 +153,11 @@ export class DhMeteringPointProcessOverviewSteps {
   dataSource = computed(() => new WattTableDataSource<MeteringPointProcessStep>(this.steps()));
 
   columns: WattTableColumnDef<MeteringPointProcessStep> = {
-    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
-    step: { accessor: 'step', size: '1fr', sort: false },
-    completedAt: { accessor: 'completedAt', sort: false },
-    dueDate: { accessor: 'dueDate', sort: false },
     actor: { accessor: 'actor', sort: false },
-    //state: { accessor: 'state', sort: false }, // Temporarily hidden until the backend/EDI supports more states
+    step: { accessor: 'step', size: '1fr', sort: false },
+    documentUrl: { accessor: 'documentUrl', sort: false, header: '' },
+    completedAt: { accessor: 'completedAt', sort: false },
   };
-
-  displayedColumns = computed(() => {
-    const businessReason = this.businessReason();
-
-    const allColumns = Object.keys(this.columns);
-
-    if (!businessReason) {
-      return allColumns;
-    }
-
-    const isShortLivedProcess =
-      businessReason === ProcessManagerBusinessReason.CustomerMoveIn ||
-      businessReason === ProcessManagerBusinessReason.SecondaryMoveIn ||
-      businessReason === ProcessManagerBusinessReason.UpdateMasterDataConsumer ||
-      businessReason === ProcessManagerBusinessReason.NewMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ConnectMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.CloseDownMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ChangeConnectionStatus ||
-      businessReason === ProcessManagerBusinessReason.UpdateMasterDataMeteringPoint ||
-      businessReason === ProcessManagerBusinessReason.ProductionObligation;
-
-    return allColumns.filter((column) => !(isShortLivedProcess && column === 'dueDate'));
-  });
 
   getRowClass = (step: MeteringPointProcessStep) => {
     return step.state === ProcessStepState.Pending ? 'pending-step' : '';

@@ -22,12 +22,13 @@ import { Component, ViewEncapsulation } from '@angular/core';
   selector: 'watt-field-error',
   template: `<ng-content />`,
   encapsulation: ViewEncapsulation.None,
-  styles: [
-    `
-      watt-field-error {
-        color: var(--watt-color-state-danger);
-      }
-    `,
-  ],
+  styles: `
+    @use './typography/typography.import' as typography;
+    watt-field-error {
+      color: var(--watt-color-state-danger);
+      display: block;
+      @include typography.watt-text-s;
+    }
+  `,
 })
 export class WattFieldErrorComponent {}

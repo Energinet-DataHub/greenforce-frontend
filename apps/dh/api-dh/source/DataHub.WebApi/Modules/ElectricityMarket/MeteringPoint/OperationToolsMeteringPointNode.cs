@@ -13,12 +13,12 @@
 // limitations under the License.
 
 using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.GetMeteringPointDebug.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ClearMigrationEventsDeadLetterQueue.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.DeleteAllEventSourcingData.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetMeteringPointMigratedCount.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.GetProjectionsStatus.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.RebuildProjections.V1;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.ReplayMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.DeleteAllEventSourcingData.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.GetProjectionsStatus.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RebuildProjections.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ClearMigrationEventsDeadLetterQueue.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.GetMeteringPointMigratedCount.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ReplayMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;

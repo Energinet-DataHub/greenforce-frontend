@@ -54,6 +54,10 @@ import {
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
   mockUpdateInternalConversationNoteMutation,
+  mockGetMeteringPointInfoQuery,
+  mockRegisterElectricalHeatingMutation,
+  mockCreateElectricalHeatingMeteringPointMutation,
+  mockRemoveElectricalHeatingMeteringPointMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -70,6 +74,7 @@ import { meteringPointsByGridAreaCode } from './data/metering-point/metering-poi
 import { childMeteringPoint } from './data/metering-point/child-metering-point';
 import { operationToolsMeteringPoint } from './data/metering-point/operation-tools-metering-point';
 import { conversations } from './data/metering-point/conversations';
+import { dayjs } from '@energinet/watt/core/date';
 
 export function meteringPointMocks(apiBase: string) {
   return [
@@ -100,6 +105,7 @@ export function meteringPointMocks(apiBase: string) {
     getConversation(),
     getMeteringPointConversationInformation(),
     getMeteringPointNewConversationInformation(),
+    getMeteringPointInfo(),
     getElectricalHeatingInformation(),
     sendMessage(),
     closeConversation(),
@@ -108,6 +114,9 @@ export function meteringPointMocks(apiBase: string) {
     updateInternalConversationNoteMutation(),
     uploadMessageDocument(apiBase),
     downloadMessageDocument(apiBase),
+    registerElectricalHeating(),
+    createElectricalHeatingMeteringPoint(),
+    removeElectricalHeatingMeteringPoint(),
   ];
 }
 
@@ -657,6 +666,14 @@ function getProjectionsStatus() {
           eventCount: '2359',
           eventSequenceNumber: '9854',
           streamCount: '1109',
+          missingMeteringPoints: [
+            {
+              __typename: 'ProjectionMissingMeteringPoints',
+              projectionName: 'MeteringPointWithRelations:All',
+              missingMeteringPointCount: '5',
+              missingIds: ['abc123', 'def456'],
+            },
+          ],
           projections: [
             {
               __typename: 'ProjectionStatus',
@@ -740,12 +757,14 @@ function getConversation() {
           participants: [
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '1',
               type: 'INITIATOR',
               role: 'ENERGY_SUPPLIER',
               actorName: 'Sort Strøm',
             },
             {
               __typename: 'GetConversationQueryResponseParticipant',
+              id: '2',
               type: 'RECEIVER',
               role: 'GRID_ACCESS_PROVIDER',
               actorName: 'Grøn Strøm',
@@ -766,6 +785,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -788,6 +809,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [
                 {
                   __typename: 'ConversationAttachment',
@@ -815,6 +838,8 @@ function getConversation() {
               userName: 'Hanne Hansen',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -831,6 +856,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -841,8 +868,8 @@ function getConversation() {
               actorName: 'Sort Strøm',
               userName: 'Hanne Hansen',
               isSentByCurrentActor: true,
-
               anonymous: false,
+              electricalHeatingUserMessage: null,
               electricalHeatingInformation: {
                 __typename: 'ElectricalHeatingMessage',
                 isElectricalHeatingActive: true,
@@ -856,6 +883,7 @@ function getConversation() {
                   },
                 ],
               },
+              userMessage: null,
               attachments: [],
             },
             {
@@ -869,15 +897,17 @@ function getConversation() {
               anonymous: false,
               electricalHeatingUserMessage: {
                 __typename: 'ElectricalHeatingUserMessage',
-                electricalHeatingFrom: new Date(),
+                electricalHeatingFrom: new Date('2010-01-01'),
                 reductionPeriod: {
                   __typename: 'ElectricityHeatingMessagePeriod',
-                  from: new Date(),
-                  to: new Date(),
+                  from: dayjs().subtract(1, 'month').startOf('month').toDate(),
+                  to: dayjs().subtract(1, 'month').endOf('month').toDate(),
                 },
                 content:
                   'Forresten, kunden har også elektrisk opvarmning. Kan I se, om det er aktivt?',
               },
+              electricalHeatingInformation: null,
+              userMessage: null,
               attachments: [],
             },
             {
@@ -893,6 +923,8 @@ function getConversation() {
               userName: 'Niels Pedersen',
               isSentByCurrentActor: true,
               anonymous: true,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
             {
@@ -908,6 +940,8 @@ function getConversation() {
               userName: '',
               isSentByCurrentActor: false,
               anonymous: false,
+              electricalHeatingInformation: null,
+              electricalHeatingUserMessage: null,
               attachments: [],
             },
           ],
@@ -973,6 +1007,42 @@ function getMeteringPointNewConversationInformation() {
             },
             type: ElectricityMarketMeteringPointType.Consumption,
           },
+        },
+      },
+    });
+  });
+}
+
+function getMeteringPointInfo() {
+  return mockGetMeteringPointInfoQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        meteringPoint: {
+          __typename: 'ElectricityMarketViewMeteringPointDto',
+          id: '1',
+          meteringPointId: '222222222222222222',
+          metadata: {
+            __typename: 'ElectricityMarketViewMeteringPointMetadataDto',
+            id: '1',
+            type: ElectricityMarketMeteringPointType.Consumption,
+          },
+          commercialRelationTimeline: [
+            {
+              __typename: 'ElectricityMarketViewCommercialRelationDto',
+              id: '1',
+              energySupplyPeriodTimeline: [
+                {
+                  __typename: 'ElectricityMarketViewEnergySupplyPeriodDto',
+                  id: '1',
+                  validFrom: dayjs().subtract(1, 'week').toDate(),
+                  validTo: new Date('9999-12-31'),
+                },
+              ],
+            },
+          ],
         },
       },
     });
@@ -1287,4 +1357,52 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function registerElectricalHeating() {
+  return mockRegisterElectricalHeatingMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        registerElectricalHeating: {
+          __typename: 'RegisterElectricalHeatingPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function createElectricalHeatingMeteringPoint() {
+  return mockCreateElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createElectricalHeatingMeteringPoint: {
+          __typename: 'CreateElectricalHeatingMeteringPointPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function removeElectricalHeatingMeteringPoint() {
+  return mockRemoveElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        removeElectricalHeatingMeteringPoint: {
+          __typename: 'RemoveElectricalHeatingMeteringPointPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }

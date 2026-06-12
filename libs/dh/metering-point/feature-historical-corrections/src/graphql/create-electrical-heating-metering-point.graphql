@@ -1,0 +1,17 @@
+mutation CreateElectricalHeatingMeteringPoint(
+  $parentMeteringPointId: String!
+  $childMeteringPointId: String!
+  $validityDate: DateTime!
+  $closeDownDate: DateTime
+) {
+  createElectricalHeatingMeteringPoint(
+    input: {
+      parentMeteringPointId: $parentMeteringPointId
+      childMeteringPointId: $childMeteringPointId
+      validityDate: $validityDate
+      closeDownDate: $closeDownDate
+    }
+  ) {
+    success: boolean
+  }
+}

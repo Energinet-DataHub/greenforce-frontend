@@ -23,6 +23,7 @@ import {
   CanActivateFn,
   RedirectFunction,
   ActivatedRouteSnapshot,
+  RedirectCommand,
 } from '@angular/router';
 
 import { inject } from '@angular/core';
@@ -93,6 +94,20 @@ export const dhMeteringPointRoutes: Routes = [
           meteringPointCreateGuard(),
         ],
         component: DhCreateMeteringPoint,
+      },
+      {
+        path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
+        canActivate: [
+          dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+          PermissionGuard(['metering-point:historical-correction-manage']),
+        ],
+        resolve: {
+          conversationId: conversationIdResolver(),
+        },
+        loadComponent: () =>
+          import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
+            (m) => m.DhElectricalHeatingCorrection
+          ),
       },
       {
         path: `:${dhInternalMeteringPointIdParam}`,
@@ -227,6 +242,18 @@ export const dhMeteringPointRoutes: Routes = [
                 (m) => m.DhActorConversation
               ),
           },
+          {
+            path: `${getPath<MeteringPointSubPaths>('historical-correction')}`,
+            canActivate: [
+              dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+              PermissionGuard(['metering-point:historical-correction-manage']),
+            ],
+            data: { hideHeader: true },
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-historical-corrections').then(
+                (m) => m.DhHistoricalCorrections
+              ),
+          },
         ],
       },
     ],
@@ -319,5 +346,21 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
     const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     return dhIsEM1InternalId(idParam);
+  };
+}
+
+function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
+  return () => {
+    const router = inject(Router);
+
+    const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
+
+    if (!conversationId) {
+      const redirectPath = router.parseUrl(combinePaths('metering-point', 'search'));
+
+      return new RedirectCommand(redirectPath);
+    }
+
+    return conversationId;
   };
 }
