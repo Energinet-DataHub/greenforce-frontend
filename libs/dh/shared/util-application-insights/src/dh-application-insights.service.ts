@@ -19,16 +19,23 @@
 import { ErrorHandler, Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import type { AngularPlugin } from '@microsoft/applicationinsights-angularplugin-js';
-import {
-  type ApplicationInsights,
-  DistributedTracingModes,
-  SeverityLevel,
-} from '@microsoft/applicationinsights-web';
+import type { ApplicationInsights } from '@microsoft/applicationinsights-web';
 
 import {
   DhAppEnvironmentConfig,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
+
+// Mirrors @microsoft/applicationinsights-web SeverityLevel to avoid eager-loading the
+// package just for the enum values. Keep in sync with the upstream enum.
+export const DhSeverityLevel = {
+  Verbose: 0,
+  Information: 1,
+  Warning: 2,
+  Error: 3,
+  Critical: 4,
+} as const;
+export type DhSeverityLevel = (typeof DhSeverityLevel)[keyof typeof DhSeverityLevel];
 
 @Injectable({
   providedIn: 'root',
@@ -41,17 +48,21 @@ export class DhApplicationInsights {
   private appInsights: ApplicationInsights | undefined = undefined;
 
   /**
-   * Initialize Application Insights
+   * Initialize Application Insights. Returns the loaded angularplugin-js
+   * module so the APP_INITIALIZER can adopt its ErrorService without a
+   * second dynamic import.
    */
   async init() {
     if (this.appInsights?.appInsights.isInitialized()) {
-      return;
+      return undefined;
     }
 
-    const { ApplicationInsights } = await import('@microsoft/applicationinsights-web');
-    const { AngularPlugin } = await import('@microsoft/applicationinsights-angularplugin-js');
+    const [{ ApplicationInsights, DistributedTracingModes }, angularpluginJs] = await Promise.all([
+      import('@microsoft/applicationinsights-web'),
+      import('@microsoft/applicationinsights-angularplugin-js'),
+    ]);
 
-    this.angularPlugin = new AngularPlugin();
+    this.angularPlugin = new angularpluginJs.AngularPlugin();
     this.appInsights = new ApplicationInsights({
       config: {
         connectionString: this.dhAppConfig.applicationInsights.connectionString,
@@ -69,6 +80,7 @@ export class DhApplicationInsights {
     });
 
     this.appInsights.loadAppInsights();
+    return angularpluginJs;
   }
 
   setCookiesUsage(enabled: boolean) {
@@ -110,7 +122,7 @@ export class DhApplicationInsights {
    * Log an exception that you have caught.
    * @param exception
    */
-  trackException(exception: Error, severityLevel: SeverityLevel): void {
+  trackException(exception: Error, severityLevel: DhSeverityLevel): void {
     this.appInsights?.trackException({ exception, severityLevel });
   }
 
