@@ -29,7 +29,9 @@ using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRe
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateChildOnly.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateWithFlag.V1.Model;
+using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.Remove.V1.Model;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ActorConversation;
@@ -395,6 +397,11 @@ public static partial class MeteringPointNode
         [Service] IActorConversationClient_V1 actorConversationClient,
         CancellationToken ct)
     {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
         var conversationResponse = await ActorConversationNode.GetConversationAsync(
             httpContextAccessor,
             actorConversationClient,
@@ -408,10 +415,14 @@ public static partial class MeteringPointNode
 
         ArgumentNullException.ThrowIfNull(electricalHeatingUserMessage?.ActorNumber, $"Could not find actor number in conversation messages for conversation ID '{actorConversationId}'");
 
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+
         var userIdentity = httpContextAccessor.CreateUserIdentity();
         var input = new ElectricalHeatingCreateWithFlagInputV1(
             childMeteringPointId,
             parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
             ActorNumber.Create(electricalHeatingUserMessage.ActorNumber),
             periodStart,
             periodEnd);
@@ -451,6 +462,97 @@ public static partial class MeteringPointNode
         }
 
         return true;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:historical-correction-manage"])]
+    public static async Task<bool> CreateElectricalHeatingMeteringPointAsync(
+        string parentMeteringPointId,
+        string childMeteringPointId,
+        DateTimeOffset validityDate,
+        DateTimeOffset? closeDownDate,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IProcessManagerClient processManagerClient,
+        CancellationToken ct)
+    {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+
+        var input = new ElectricalHeatingCreateChildOnlyInputV1(
+            childMeteringPointId,
+            parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
+            ActorNumber.Create(actorNumber),
+            validityDate,
+            closeDownDate);
+
+        var command = new StartHtxElectricalHeatingCreateChildOnlyCommandV1(userIdentity, input);
+
+        try
+        {
+            await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
+            return true;
+        }
+        catch
+        {
+            throw new GraphQLException(
+                $"Command StartHtxElectricalHeatingCreateChildOnlyCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPointId}'");
+        }
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:historical-correction-manage"])]
+    public static async Task<bool> RemoveElectricalHeatingMeteringPointAsync(
+        string parentMeteringPointId,
+        DateTimeOffset cutOffDate,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct)
+    {
+        if (httpContextAccessor.HttpContext == null)
+        {
+            throw new InvalidOperationException("Http context is not available.");
+        }
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+
+        var user = httpContextAccessor.HttpContext.User;
+        var actorNumber = user.GetMarketParticipantNumber();
+
+        var relatedMeteringPoints = await GetRelatedMeteringPointsAsync(parentMeteringPointId, ct, electricityMarketClient).ConfigureAwait(false);
+
+        var childMeteringPoints = relatedMeteringPoints.RelatedMeteringPoints
+            .Concat(relatedMeteringPoints.HistoricalMeteringPoints);
+
+        var childMeteringPoint = FindElectricalHeatingMeteringPoint(childMeteringPoints, cutOffDate) ?? throw new GraphQLException($"No child metering point with electrical heating found for parentMeteringPointId '{parentMeteringPointId}'.");
+
+        var input = new ElectricalHeatingRemoveInputV1(
+            childMeteringPoint.MeteringPointIdentification,
+            parentMeteringPointId,
+            ActorNumber.Create(actorNumber),
+            ActorNumber.Create(actorNumber),
+            cutOffDate);
+
+        var command = new StartHtxElectricalHeatingRemoveCommandV1(userIdentity, input);
+
+        try
+        {
+            await processManagerClient.StartNewOrchestrationInstanceAsync(command, ct).ConfigureAwait(false);
+            return true;
+        }
+        catch
+        {
+            throw new GraphQLException(
+                $"Command StartHtxElectricalHeatingRemoveCommandV1 failed for parentMeteringPointId '{parentMeteringPointId}' and childMeteringPointId '{childMeteringPoint.MeteringPointIdentification}'");
+        }
     }
 
     [Query]
@@ -581,5 +683,16 @@ public static partial class MeteringPointNode
             ConnectionDate: meteringPointData.ConnectionDate,
             ClosedDownDate: meteringPointData.ClosedDownDate,
             DisconnectionDate: meteringPointData.DisconnectionDate);
+    }
+
+    private static RelatedMeteringPointDto? FindElectricalHeatingMeteringPoint(IEnumerable<RelatedMeteringPointDto> relatedMeteringPoints, DateTimeOffset cutOffDate)
+    {
+        return relatedMeteringPoints
+            .Where(mp => mp.Type == MeteringPointType.ElectricalHeating)
+            .FirstOrDefault(mp =>
+                mp.ConnectionDate is not null
+                && mp.ConnectionDate <= cutOffDate
+                && (mp.ClosedDownDate is null || mp.ClosedDownDate > cutOffDate)
+                && (mp.DisconnectionDate is null || mp.DisconnectionDate > cutOffDate));
     }
 }

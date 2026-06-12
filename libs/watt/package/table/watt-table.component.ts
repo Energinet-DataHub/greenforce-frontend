@@ -95,6 +95,12 @@ export interface WattTableColumn<T> {
   align?: 'left' | 'right' | 'center';
 
   /**
+   * Vertically align the contents of this column, overriding the table's `verticalAlign`.
+   * Uses `align-items` values.
+   */
+  verticalAlign?: 'flex-start' | 'center' | 'flex-end';
+
+  /**
    * Helper icon will be shown in the header cell, with an click event.
    */
   helperAction?: () => void;
@@ -239,6 +245,12 @@ export class WattTableComponent<T> {
    * `displayedColumns` input.
    */
   readonly columns = input<WattTableColumnDef<T>>({});
+
+  /**
+   * Vertically align the contents of all cells, using `align-items` values. Defaults to
+   * `"center"`. Can be overridden per column via the column's own `verticalAlign`.
+   */
+  readonly verticalAlign = input<'flex-start' | 'center' | 'flex-end'>('center');
 
   /**
    * Used for hiding or reordering columns defined in the `columns` input.

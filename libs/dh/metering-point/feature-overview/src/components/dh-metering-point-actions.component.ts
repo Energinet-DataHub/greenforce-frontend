@@ -135,6 +135,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
             {{ t('changeConnectionStatus') }}
           </watt-menu-item>
         }
+
+        @if (showHistoricalCorrectionButton()) {
+          <watt-menu-item [routerLink]="getHistoricalCorrectionLink">
+            {{ t('historicalCorrection') }}
+          </watt-menu-item>
+        }
       </watt-menu>
     </ng-container>
   `,
@@ -152,6 +158,7 @@ export class DhMeteringPointActionsComponent {
   getMeasurementsUploadLink = `${getPath<MeteringPointSubPaths>('measurements')}/${getPath<MeasurementsSubPaths>('upload')}`;
   getUpdateCustomerDetailsLink = `${getPath<MeteringPointSubPaths>('update-customer-details')}`;
   createChargeLinkLink = `${getPath<MeteringPointSubPaths>('charge-links')}`;
+  getHistoricalCorrectionLink = `${getPath<MeteringPointSubPaths>('historical-correction')}`;
 
   meteringPointId = input.required<string>();
   internalMeteringPointId = input.required<string>();
@@ -213,6 +220,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasMeteringPointHistoricalCorrectionPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:historical-correction-manage'),
+    { initialValue: false }
+  );
+
   showMeasurementsUploadButton = computed(() => {
     return (
       this.hasMessurementsManagePermission() &&
@@ -248,6 +260,13 @@ export class DhMeteringPointActionsComponent {
         this.connectionState() === ElectricityMarketViewConnectionState.Disconnected)
   );
 
+  showHistoricalCorrectionButton = computed(
+    () =>
+      this.type() === ElectricityMarketMeteringPointType.Consumption &&
+      this.hasMeteringPointHistoricalCorrectionPermission() &&
+      this.releaseToggleService.isEnabled('PM63-HISTORICAL-CORRECTIONS-UI')
+  );
+
   showManualCorrectionButtons = computed(
     () => this.hasDh3SkalpellenPermission() && this.searchMigratedMeteringPoints()
   );
@@ -277,7 +296,8 @@ export class DhMeteringPointActionsComponent {
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
       this.showEndOfSupplyButton() ||
-      this.showChangeOfSupplierButton()
+      this.showChangeOfSupplierButton() ||
+      this.showHistoricalCorrectionButton()
     );
   });
 

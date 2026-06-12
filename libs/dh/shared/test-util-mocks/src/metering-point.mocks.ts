@@ -56,6 +56,8 @@ import {
   mockUpdateInternalConversationNoteMutation,
   mockGetMeteringPointInfoQuery,
   mockRegisterElectricalHeatingMutation,
+  mockCreateElectricalHeatingMeteringPointMutation,
+  mockRemoveElectricalHeatingMeteringPointMutation,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -113,6 +115,8 @@ export function meteringPointMocks(apiBase: string) {
     uploadMessageDocument(apiBase),
     downloadMessageDocument(apiBase),
     registerElectricalHeating(),
+    createElectricalHeatingMeteringPoint(),
+    removeElectricalHeatingMeteringPoint(),
   ];
 }
 
@@ -1364,6 +1368,38 @@ function registerElectricalHeating() {
         __typename: 'Mutation',
         registerElectricalHeating: {
           __typename: 'RegisterElectricalHeatingPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function createElectricalHeatingMeteringPoint() {
+  return mockCreateElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        createElectricalHeatingMeteringPoint: {
+          __typename: 'CreateElectricalHeatingMeteringPointPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
+function removeElectricalHeatingMeteringPoint() {
+  return mockRemoveElectricalHeatingMeteringPointMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        removeElectricalHeatingMeteringPoint: {
+          __typename: 'RemoveElectricalHeatingMeteringPointPayload',
           success: true,
         },
       },

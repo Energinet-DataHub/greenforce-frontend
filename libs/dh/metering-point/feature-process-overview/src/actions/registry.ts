@@ -28,8 +28,8 @@ import {
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import {
   EicFunction,
+  MeteringPointProcessAction,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ProcessActionContext } from './context';
@@ -37,6 +37,7 @@ import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
+import { IncorrectMoveActions } from './incorrect-move/incorrect-move';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
@@ -64,7 +65,7 @@ export interface ActionHandler {
   callback: (context: ProcessActionContext) => void;
 }
 
-export type ActionHandlerMap = Partial<Record<WorkflowAction, ActionHandler>>;
+export type ActionHandlerMap = Partial<Record<MeteringPointProcessAction, ActionHandler>>;
 
 function collectPermissions(
   registry: Partial<Record<ProcessManagerBusinessReason, ActionHandlerMap>>
@@ -91,6 +92,7 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
     [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
+    [ProcessManagerBusinessReason.IncorrectMove]: inject(IncorrectMoveActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
       .handlers,
   };
@@ -127,11 +129,11 @@ export class DhActionsRegistry {
   }
 
   getSupportedActions(
-    availableActions: WorkflowAction[],
+    availableActions: MeteringPointProcessAction[],
     businessReason: ProcessManagerBusinessReason,
     isEnergySupplierResponsible: boolean,
     initiatorGlnOrEic?: string
-  ): WorkflowAction[] {
+  ): MeteringPointProcessAction[] {
     const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler) return false;
@@ -145,9 +147,9 @@ export class DhActionsRegistry {
     });
 
     // Canonical display order — actions not listed here sort to the end.
-    const ACTION_DISPLAY_ORDER: readonly WorkflowAction[] = [
-      WorkflowAction.CancelWorkflow,
-      WorkflowAction.RejectRequest,
+    const ACTION_DISPLAY_ORDER: readonly MeteringPointProcessAction[] = [
+      MeteringPointProcessAction.CancelWorkflow,
+      MeteringPointProcessAction.RejectRequest,
     ];
 
     return supported.sort((a, b) => {
@@ -172,7 +174,7 @@ export class DhActionsRegistry {
    * both roles even if the universe later narrows.
    */
   getActorRolesForAction(
-    action: WorkflowAction,
+    action: MeteringPointProcessAction,
     businessReason: ProcessManagerBusinessReason
   ): EicFunction[] {
     const handler = this.registry[businessReason]?.[action];
@@ -191,7 +193,7 @@ export class DhActionsRegistry {
   }
 
   execute(
-    action: WorkflowAction,
+    action: MeteringPointProcessAction,
     businessReason: ProcessManagerBusinessReason,
     context: ProcessActionContext,
     isEnergySupplierResponsible: boolean,
