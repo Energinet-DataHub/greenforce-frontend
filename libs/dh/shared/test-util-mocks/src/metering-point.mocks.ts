@@ -39,6 +39,7 @@ import {
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
   mockGetProjectionsStatusQuery,
+  mockRewindMeteringPointUpdatedSubscriptionMutation,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
@@ -91,6 +92,7 @@ export function meteringPointMocks(apiBase: string) {
     getOperationToolsMeteringPoint(),
     disconnectMeteringPoint(),
     getProjectionsStatus(),
+    rewindMeteringPointUpdatedSubscription(),
     requestConnectionStateChange(),
     changeProductionObligation(),
     requestEndOfSupply(),
@@ -1357,6 +1359,22 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function rewindMeteringPointUpdatedSubscription() {
+  return mockRewindMeteringPointUpdatedSubscriptionMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        rewindMeteringPointUpdatedSubscription: {
+          __typename: 'RewindMeteringPointUpdatedSubscriptionPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }
 
 function registerElectricalHeating() {

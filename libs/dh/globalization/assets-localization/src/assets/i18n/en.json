@@ -3895,6 +3895,14 @@
         "title": "Projections Status",
         "button": "Get projections status"
       },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Rewind Metering Point Updated Subscription",
+        "button": "Rewind subscription",
+        "modal": {
+          "title": "Rewind Metering Point Updated Subscription",
+          "message": "Are you sure you want to rewind the metering point updated subscription?"
+        }
+      },
       "dangerZone": {
         "title": "Danger Zone"
       },

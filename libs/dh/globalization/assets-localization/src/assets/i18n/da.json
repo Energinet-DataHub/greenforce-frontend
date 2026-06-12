@@ -3894,6 +3894,14 @@
         "title": "Projektionsstatus",
         "button": "Hent projektionsstatus"
       },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Nulstil målepunkt opdateret subscription",
+        "button": "Nulstil subscription",
+        "modal": {
+          "title": "Nulstil målepunkt opdateret subscription",
+          "message": "Er du sikker på, at du vil nulstille målepunkt opdateret subscriptionen?"
+        }
+      },
       "dangerZone": {
         "title": "Farezone"
       },
