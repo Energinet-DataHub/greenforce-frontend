@@ -1,0 +1,5 @@
+mutation RewindMeteringPointUpdatedSubscription {
+  rewindMeteringPointUpdatedSubscription {
+    success: boolean
+  }
+}

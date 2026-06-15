@@ -1,0 +1,9 @@
+﻿{
+  "activity": "rewindMeteringPointUpdatedSubscription",
+  "payload": {
+    "query": "mutation { rewindMeteringPointUpdatedSubscription { boolean } }",
+    "variables": {}
+  },
+  "affectedEntityType": "OperationToolsMeteringPoint",
+  "affectedEntityKey": null
+}
