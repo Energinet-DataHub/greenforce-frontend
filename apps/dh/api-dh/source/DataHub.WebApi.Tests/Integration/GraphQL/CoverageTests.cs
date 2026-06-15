@@ -26,7 +26,7 @@ public class CoverageTests
     [Fact]
     public void EnsureCoverageForMethodsWithUseRevisionLogAttribute()
     {
-        var operations = typeof(IModule).Assembly
+        var operations = typeof(Program).Assembly
             .GetTypes()
             .SelectMany(t => t.GetMethods())
             .Where(m => m.CustomAttributes.Any(a => a.AttributeType == typeof(UseRevisionLogAttribute)))
