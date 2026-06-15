@@ -28,7 +28,7 @@ module.exports = [
       reportUnusedDisableDirectives: 'warn',
     },
   },
-  { ignores: ['**/obj/**', '**/bin/**', '**/eslint.config.{js,cjs,mjs}'] },
+  { ignores: ['**/obj/**', '**/bin/**'] },
   ...nx.configs['flat/base'],
   ...storybook.configs['flat/recommended'],
 
