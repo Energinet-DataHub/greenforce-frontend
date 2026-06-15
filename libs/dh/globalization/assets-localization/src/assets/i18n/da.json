@@ -1277,6 +1277,7 @@
         "BRS_001_VALIDITYDATE_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_001_VALIDITYDATE_V1_STEP_13": "Information om annullering pga. misligholdt proces (RSM-004)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af annullering af leverandørskifte (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af annullering af leverandørskifte (RSM-024)",
