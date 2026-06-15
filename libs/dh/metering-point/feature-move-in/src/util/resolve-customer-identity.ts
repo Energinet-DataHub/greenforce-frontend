@@ -34,11 +34,20 @@ export function resolveCustomerIdentity(
 
   const { cpr1, cpr2, customerName1, customerName2 } = values.privateCustomerDetails;
 
+  // Trim whitespace and treat empty strings as undefined
+  const name2Trimmed = (customerName2 ?? '').trim();
+
+  // Only send secondCustomerName if it's not empty
+  // Only send secondCustomerCpr if secondCustomerName is not empty
+  // This ensures we can clear a secondary customer by sending both as undefined
+  const secondCustomerName = name2Trimmed || undefined;
+  const secondCustomerCpr = secondCustomerName ? (cpr2 || undefined) : undefined;
+
   return {
     firstCustomerName: customerName1 || undefined,
     firstCustomerCpr: cpr1 || undefined,
-    secondCustomerName: customerName2 || undefined,
-    secondCustomerCpr: cpr2 || undefined,
+    secondCustomerName,
+    secondCustomerCpr,
     firstCustomerCvr: undefined,
   };
 }
