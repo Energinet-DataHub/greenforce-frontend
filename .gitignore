@@ -143,3 +143,8 @@ vitest.config.*.timestamp*
 
 # AI stuff
 .hermes
+
+# Temporary Nx plugin migration artifacts (local only)
+/tools/plugins/compile-plugin.js
+/tools/plugins/implicit-libs.js
+/libs/dh/shared/data-access-graphql/project.json
