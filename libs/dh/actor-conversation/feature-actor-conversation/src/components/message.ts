@@ -208,10 +208,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
       @if (showRegisterElectricalHeatingButton()) {
         <watt-separator />
 
-        <div
-          class="register-electrical-heating-btn watt-space-inset-squish-m"
-          *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-        >
+        <div class="register-electrical-heating-btn watt-space-inset-squish-m">
           <watt-button
             size="small"
             [routerLink]="registerElectricalHeatingLink"
