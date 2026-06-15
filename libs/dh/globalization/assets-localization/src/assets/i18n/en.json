@@ -1235,7 +1235,8 @@
       "processTypeName": {
         "EndOfSupply": "end of supply",
         "CustomerMoveIn": "move-in",
-        "ChangeOfEnergySupplier": "change of energy supplier"
+        "ChangeOfEnergySupplier": "change of energy supplier",
+        "ServiceRequest": "Service request"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
@@ -1450,6 +1451,32 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Bailiffs court must be involved in disconnection",
           "OTHER_REASON": "Other reason"
         }
+      },
+      "serviceRequest": {
+        "title": "Request service",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Select",
+        "startDateLabel": "Effective date",
+        "descriptionLabel": "Remarks",
+        "cancel": "Cancel",
+        "confirm": "Submit",
+        "successToast": "Request sent",
+        "errorToast": "Service request failed",
+        "serviceKinds": {
+          "DISCONNECT": "Disconnection",
+          "CONNECT": "Reconnection",
+          "METER_CHECK": "Meter investigation"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Approve service request",
+        "serviceKindLabel": "Requested service",
+        "startDateLabel": "Effective date",
+        "descriptionLabel": "Remark",
+        "cancel": "Close window",
+        "confirm": "Approve",
+        "successToast": "Service approved",
+        "errorToast": "Approving the service failed"
       }
     },
     "measurements": {

@@ -1234,7 +1234,8 @@
       "processTypeName": {
         "EndOfSupply": "leveranceophør",
         "CustomerMoveIn": "tilflytning",
-        "ChangeOfEnergySupplier": "leverandørskift"
+        "ChangeOfEnergySupplier": "leverandørskift",
+        "ServiceRequest": "Anmodning om serviceydelse"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
@@ -1449,6 +1450,32 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen",
           "OTHER_REASON": "Anden årsag"
         }
+      },
+      "serviceRequest": {
+        "title": "Anmod om serviceydelse",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Vælg",
+        "startDateLabel": "Skæringsdato",
+        "descriptionLabel": "Bemærkninger",
+        "cancel": "Annuller",
+        "confirm": "Indsend",
+        "successToast": "Anmodning sendt",
+        "errorToast": "Anmodning om serviceydelse fejlede",
+        "serviceKinds": {
+          "DISCONNECT": "Afbrydelse",
+          "CONNECT": "Genåbning",
+          "METER_CHECK": "Målerundersøgelse"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Godkend anmodning af serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "startDateLabel": "Skæringsdato",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Godkend",
+        "successToast": "Serviceydelse godkendt",
+        "errorToast": "Godkendelse af serviceydelse fejlede"
       }
     },
     "measurements": {
