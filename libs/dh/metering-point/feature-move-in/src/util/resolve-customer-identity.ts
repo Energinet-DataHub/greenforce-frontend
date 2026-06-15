@@ -41,7 +41,7 @@ export function resolveCustomerIdentity(
   // Only send secondCustomerCpr if secondCustomerName is not empty
   // This ensures we can clear a secondary customer by sending both as undefined
   const secondCustomerName = name2Trimmed || undefined;
-  const secondCustomerCpr = secondCustomerName ? (cpr2 || undefined) : undefined;
+  const secondCustomerCpr = secondCustomerName ? cpr2 || undefined : undefined;
 
   return {
     firstCustomerName: customerName1 || undefined,
