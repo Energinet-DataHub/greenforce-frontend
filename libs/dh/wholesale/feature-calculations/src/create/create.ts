@@ -84,7 +84,7 @@ import { DhCreateCalculationService } from './create-service';
               [disabled]="confirmText() !== t('validation.' + form.calculationType())"
               (click)="form.submit()"
             >
-              {{ t('confirm') }}
+              {{ t('confirm.' + form.calculationType()) }}
             </watt-button>
           </watt-modal-actions>
         </vater-flex>
