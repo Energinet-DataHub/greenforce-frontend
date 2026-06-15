@@ -1236,7 +1236,7 @@
         "CustomerMoveIn": "tilflytning",
         "ChangeOfEnergySupplier": "leverandørskift"
       },
-      "stepReasonLabels": {
+      "stepPreviewFieldLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
       },
       "steps": {
