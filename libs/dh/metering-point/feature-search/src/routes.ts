@@ -41,7 +41,6 @@ import {
   combinePaths,
   MeasurementsSubPaths,
   MeteringPointSubPaths,
-  combineWithIdPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import {
@@ -95,6 +94,20 @@ export const dhMeteringPointRoutes: Routes = [
           meteringPointCreateGuard(),
         ],
         component: DhCreateMeteringPoint,
+      },
+      {
+        path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
+        canActivate: [
+          dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+          PermissionGuard(['metering-point:historical-correction-manage']),
+        ],
+        resolve: {
+          conversationId: conversationIdResolver(),
+        },
+        loadComponent: () =>
+          import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
+            (m) => m.DhElectricalHeatingCorrection
+          ),
       },
       {
         path: `:${dhInternalMeteringPointIdParam}`,
@@ -203,18 +216,6 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: `${getPath<MeteringPointSubPaths>('electrical-heating-correction')}`,
-            canActivate: [PermissionGuard(['metering-point:historical-correction-manage'])],
-            data: { hideHeader: true },
-            resolve: {
-              conversationId: conversationIdResolver(),
-            },
-            loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-electrical-heating').then(
-                (m) => m.DhElectricalHeatingCorrection
-              ),
-          },
-          {
             path: `${getPath<MeteringPointSubPaths>('update-customer-details')}`,
             data: { hideHeader: true },
             loadComponent: () =>
@@ -239,6 +240,18 @@ export const dhMeteringPointRoutes: Routes = [
             loadComponent: () =>
               import('@energinet-datahub/dh/actor-conversation/feature-actor-conversation').then(
                 (m) => m.DhActorConversation
+              ),
+          },
+          {
+            path: `${getPath<MeteringPointSubPaths>('historical-correction')}`,
+            canActivate: [
+              dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
+              PermissionGuard(['metering-point:historical-correction-manage']),
+            ],
+            data: { hideHeader: true },
+            loadComponent: () =>
+              import('@energinet-datahub/dh/metering-point/feature-historical-corrections').then(
+                (m) => m.DhHistoricalCorrections
               ),
           },
         ],
@@ -337,16 +350,13 @@ function searchMigratedMeteringPointsResolver(): ResolveFn<boolean> {
 }
 
 function conversationIdResolver(): ResolveFn<string | RedirectCommand> {
-  return (route: ActivatedRouteSnapshot) => {
+  return () => {
     const router = inject(Router);
-    const idParam: string = route.params[dhInternalMeteringPointIdParam];
 
     const conversationId = router.currentNavigation()?.extras?.state?.conversationId;
 
     if (!conversationId) {
-      const redirectPath = router.parseUrl(
-        combineWithIdPaths('metering-point', idParam, 'actor-conversation')
-      );
+      const redirectPath = router.parseUrl(combinePaths('metering-point', 'search'));
 
       return new RedirectCommand(redirectPath);
     }

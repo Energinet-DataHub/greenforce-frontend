@@ -47,6 +47,10 @@ interface OrchestrationInstance {
   steps: [OrchestrationInstanceStep!]!
 }
 
+type AcceptIncorrectMovePayload {
+  boolean: Boolean
+}
+
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
   consolidation: MarketParticipantConsolidationAuditLog
@@ -496,6 +500,10 @@ type CreateChargePayload {
 type CreateDelegationsForMarketParticipantPayload {
   boolean: Boolean
   errors: [CreateDelegationsForMarketParticipantError!]
+}
+
+type CreateElectricalHeatingMeteringPointPayload {
+  boolean: Boolean
 }
 
 type CreateMarketParticipantPayload {
@@ -1173,7 +1181,7 @@ type MeteringPointProcess {
   initiator: MarketParticipant
   initiatorRole: EicFunction
   steps: [MeteringPointProcessStep!]!
-  availableActions: [WorkflowAction!]
+  availableActions: [MeteringPointProcessAction!]
   id: String!
   transactionId: String
   businessReason: ProcessManagerBusinessReason!
@@ -1225,6 +1233,7 @@ type MissingPriceSeriesResult {
 }
 
 type Mutation {
+  acceptIncorrectMove(input: AcceptIncorrectMoveInput!): AcceptIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
   addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1243,6 +1252,7 @@ type Mutation {
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
   createDelegationsForMarketParticipant(input: CreateDelegationsForMarketParticipantInput!): CreateDelegationsForMarketParticipantPayload!
+  createElectricalHeatingMeteringPoint(input: CreateElectricalHeatingMeteringPointInput!): CreateElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   createMarketParticipant(input: CreateMarketParticipantInput!): CreateMarketParticipantPayload!
   createUserRole(input: CreateUserRoleInput!): CreateUserRolePayload!
   deactivateUser(input: DeactivateUserInput!): DeactivateUserPayload!
@@ -1266,6 +1276,8 @@ type Mutation {
   rebuildProjections(input: RebuildProjectionsInput!): RebuildProjectionsPayload! @authorize(roles: [ "operation-tools:manage" ])
   registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
+  rejectIncorrectMove(input: RejectIncorrectMoveInput!): RejectIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
+  removeElectricalHeatingMeteringPoint(input: RemoveElectricalHeatingMeteringPointInput!): RemoveElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   request(input: RequestInput!): RequestPayload! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
@@ -1280,6 +1292,7 @@ type Mutation {
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
   resetTwoFactorAuthentication(input: ResetTwoFactorAuthenticationInput!): ResetTwoFactorAuthenticationPayload!
+  rewindMeteringPointUpdatedSubscription: RewindMeteringPointUpdatedSubscriptionPayload! @authorize(roles: [ "operation-tools:manage" ])
   sendActorConversationMessage(sendActorConversationMessageInput: SendActorConversationMessageInput!): SendActorConversationMessagePayload! @authorize(roles: [ "metering-point:actor-conversation" ])
   sendMeasurements(input: SendMeasurementsRequestV2Input!): Boolean! @authorize(roles: [ "measurements:manage" ])
   simulateMeteringPointManualCorrection(input: SimulateMeteringPointManualCorrectionInput!): SimulateMeteringPointManualCorrectionPayload! @authorize(roles: [ "dh3-skalpellen" ])
@@ -1526,7 +1539,7 @@ type Query {
   meteringPointExists(searchMigratedMeteringPoints: Boolean! internalMeteringPointId: String meteringPointId: String): ElectricityMarketViewMeteringPointDto! @authorize(roles: [ "metering-point:search" ])
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
-  meteringPointProcessById(id: String!): MeteringPointProcess
+  meteringPointProcessById(id: String! meteringPointId: String!): MeteringPointProcess
   meteringPointProcessOverview(meteringPointId: String! created: DateRange): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!
@@ -1596,6 +1609,10 @@ type RejectEndOfSupplyPayload {
   boolean: Boolean
 }
 
+type RejectIncorrectMovePayload {
+  boolean: Boolean
+}
+
 "Represents a metering point's data"
 type RelatedMeteringPointDto {
   """
@@ -1619,6 +1636,10 @@ type RelatedMeteringPointsDto {
   relatedMeteringPoints: [RelatedMeteringPointDto!]!
   relatedByGsrn: [RelatedMeteringPointDto!]!
   historicalMeteringPoints: [RelatedMeteringPointDto!]!
+}
+
+type RemoveElectricalHeatingMeteringPointPayload {
+  boolean: Boolean
 }
 
 type RemoveMeteringPointsFromAdditionalRecipientPayload {
@@ -1750,6 +1771,10 @@ type ResetMitIdPayload {
 type ResetTwoFactorAuthenticationPayload {
   boolean: Boolean
   errors: [ResetTwoFactorAuthenticationError!]
+}
+
+type RewindMeteringPointUpdatedSubscriptionPayload {
+  boolean: Boolean
 }
 
 type SelectionActorDto {
@@ -2031,6 +2056,11 @@ union UpdateUserRoleAssignmentError = ApiError
 
 union UpdateUserRoleError = ApiError
 
+input AcceptIncorrectMoveInput {
+  meteringPointId: String!
+  processId: UUID!
+}
+
 input ActorMarketRoleDtoSortInput {
   eicFunction: SortEnumType
   comment: SortEnumType
@@ -2221,6 +2251,13 @@ input CreateDelegationsForMarketParticipantInput {
   delegations: CreateProcessDelegationsInput!
 }
 
+input CreateElectricalHeatingMeteringPointInput {
+  parentMeteringPointId: String!
+  childMeteringPointId: String!
+  validityDate: DateTime!
+  closeDownDate: DateTime
+}
+
 input CreateMarketParticipantDtoInput {
   organizationId: UUID!
   name: ActorNameDtoInput!
@@ -2284,6 +2321,7 @@ input DisconnectMeteringPointInput {
   meteringPointId: String!
   processId: UUID!
   validityDate: DateTime!
+  currentConnectionState: ElectricityMarketViewConnectionState!
 }
 
 input DismissAllNotificationsInput {
@@ -2472,6 +2510,16 @@ input RejectEndOfSupplyInput {
   description: String
 }
 
+input RejectIncorrectMoveInput {
+  meteringPointId: String!
+  processId: UUID!
+}
+
+input RemoveElectricalHeatingMeteringPointInput {
+  parentMeteringPointId: String!
+  cutOffDate: DateTime!
+}
+
 input RemoveMeteringPointsFromAdditionalRecipientInput {
   marketParticipantId: UUID!
   meteringPointIds: [String!]!
@@ -2511,6 +2559,7 @@ input RequestIncorrectMoveInInput {
   processId: UUID!
   meteringPointId: String!
   cutoffDate: DateTime!
+  reason: String
 }
 
 input RequestInput @oneOf {
@@ -3596,6 +3645,19 @@ enum MeteringPointDocumentType {
   REJECT_REQUEST_MEASUREMENTS
 }
 
+"""
+Available actions that the current actor can perform on a metering point process.
+Superset of WorkflowAction,
+extended with BFF-only actions that are derived from cross-subsystem data.
+"""
+enum MeteringPointProcessAction {
+  SEND_INFORMATION
+  CANCEL_WORKFLOW
+  CONFIRM_WORKFLOW
+  REJECT_REQUEST
+  INITIATE_INCORRECT_MOVE_IN
+}
+
 enum MeteringPointProcessState {
   pending
   running
@@ -3954,14 +4016,6 @@ enum UserStatus {
   INACTIVE
   INVITED
   INVITE_EXPIRED
-}
-
-enum WorkflowAction {
-  NO_ACTION
-  SEND_INFORMATION
-  CANCEL_WORKFLOW
-  CONFIRM_WORKFLOW
-  REJECT_REQUEST
 }
 
 "The authorize directive."

@@ -746,7 +746,8 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
-        "changeOfSupplier": "Change of supplier"
+        "changeOfSupplier": "Change of supplier",
+        "historicalCorrection": "Historical correction"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1094,7 +1095,7 @@
         "ProductionObligation": "Change of production obligation (BRS-036)",
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
         "CustomerMoveOut": "Move-out (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)",
+        "DataAlignmentForMasterDataMeteringPoint": "Request for master data (BRS-005)",
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
@@ -1134,8 +1135,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Request correction",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
@@ -1143,13 +1144,48 @@
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Cancel"
+        },
+        "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accept",
+          "REJECT_REQUEST": "Reject"
         }
       },
       "incorrectMoveIn": {
+        "title": "Request correction: Incorrect move",
+        "description": "Request correction of move with cut-off date {{ cutoffDate }}?",
+        "reasonLabel": "Reason for request",
+        "conditionsPrefix": "Conditions",
+        "conditionsSuffix": "for correction of incorrect move are met",
+        "cancel": "Close",
+        "confirm": "Request correction",
         "toast": {
           "loading": "Submitting the request...",
           "success": "The request has been registered in DataHub",
           "error": "Something went wrong. The request could not be completed. Please try again."
+        }
+      },
+      "acceptIncorrectMove": {
+        "confirm": {
+          "title": "Are you sure you want to accept the resumption of supply?",
+          "confirm": "Accept",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Accepting resumption of supply...",
+          "success": "Resumption of supply accepted",
+          "error": "Acceptance of resumption failed"
+        }
+      },
+      "rejectIncorrectMove": {
+        "confirm": {
+          "title": "Are you sure you want to reject the resumption of supply?",
+          "confirm": "Reject",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Rejecting resumption of supply...",
+          "success": "Resumption of supply rejected",
+          "error": "Rejection of resumption failed"
         }
       },
       "rejectProcess": {
@@ -1201,6 +1237,9 @@
         "CustomerMoveIn": "move-in",
         "ChangeOfEnergySupplier": "change of energy supplier"
       },
+      "stepReasonLabels": {
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
+      },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
         "CANCELLATION_STEP_V1_STEP_2": "Notification of cancellation (RSM-004)",
@@ -1224,19 +1263,24 @@
           "BRS_007_008_013_V1_STEP_3": "Rejection of request for change of connection status (RSM-021)",
           "BRS_007_008_013_V1_STEP_4": "Notification of change of connections status (RSM-022)"
         },
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1": "Request change of energy supplier (RSM-001)",
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2": "Confirm request change of energy supplier (RSM-001)",
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_3": "Reject request change of energy supplier (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1": "Request for change of supplier (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2": "Confirmation of request for change of supplier (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_3": "Rejection of request for change of supplier (RSM-001)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4": "Notification of metering point master data to future energy supplier (RSM-022)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5": "Notification of customer master data to future energy supplier (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Notification of charge links to future energy supplier (RSM-031)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Request change of customer characteristics (RSM-027)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Approve change of customer characteristics (RSM-027)",
-        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Reject change of customer characteristics (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Request for update of customer master data (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Confirmation of request for update of customer master data (RSM-027)",
+        "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
+        "BRS_001_VALIDITYDATE_V1_STEP_3": "Rejection of request for change of supplier (RSM-001)",
+        "BRS_001_VALIDITYDATE_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Request for cancellation of change of energy supplier (RSM-024)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Confirmation of cancellation of change of energy supplier (RSM-024)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Rejection of cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_1": "Request for cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_2": "Confirmation of cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_3": "Rejection of cancellation of change of energy supplier (RSM-024)",
@@ -1271,37 +1315,39 @@
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_4": "Notification of metering point master data (RSM-022)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_5": "Notification of charge links (RSM-031)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_6": "Notification of unlinking of child metering point (RSM-004)",
-        "BRS_009_MOVEIN_V1_STEP_1": "Request Change of Supplier (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_2": "Confirm request Change of Supplier (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_3": "Reject request Change of Supplier (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_1": "Request for move-in (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Confirmation of request for move-in (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Rejection of request for move-in (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_4": "Notification of metering point master data (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_5": "Notification of customer master data (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_6": "Notification of charge links (RSM-031)",
-        "BRS_009_MOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
-        "BRS_009_MOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
-        "BRS_009_MOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_7": "Request for update of customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_8": "Confirmation of request for update of customer master data (RSM-027)",
+        "BRS_009_MOVEIN_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_10": "Notification of move-in (RSM-004)",
-        "BRS_009_AUTOTERMINATION_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_AUTOTERMINATION_V1_STEP_11": "Notification of customer master data (RSM-028)",
         "BRS_009_MOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
-        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_7": "Request change customer characteristics (RSM-027)",
-        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Approve change customer characteristics (RSM-027)",
-        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_9": "Reject change customer characteristics (RSM-027)",
-        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_7": "Request for update of customer master data (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Confirmation of request for update of customer master data (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
+        "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_11": "Notification of customer master data (RSM-028)",
+        "BRS_009_VALIDITYDATE_V1_STEP_3": "Rejection of request for move-in (RSM-001)",
         "BRS_009_VALIDITYDATE_V1_STEP_10": "Notification of move-in (RSM-004)",
-        "BRS_009_VALIDITYDATE_V1_STEP_11": "Characteristics of a Customer at an AP (RSM-028)",
+        "BRS_009_VALIDITYDATE_V1_STEP_11": "Notification of customer master data (RSM-028)",
         "BRS_009_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_009_VALIDITYDATE_V1_STEP_13": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_1": "Request for cancellation of move-in (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_2": "Confirmation of cancellation of move-in (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_3": "Rejection of cancellation of move-in (RSM-024)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Request secondary move-in (RSM-001)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Confirm request secondary move-in (RSM-001)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Reject request secondary move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Request for move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Confirmation of request for move-in (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Rejection of request for move-in (RSM-001)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_4": "Notification of metering point master data (RSM-022)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_5": "Notification of customer master data (RSM-028)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_6": "Notification of charge links (RSM-031)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_7": "Request update customer master data (RSM-027)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_8": "Approve update customer master data (RSM-027)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_9": "Reject update customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_7": "Request for update of customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_8": "Confirmation of request for update of customer master data (RSM-027)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_10": "Notification of secondary move-in (RSM-004)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_12": "Notification of end of supply (RSM-004)",
         "BRS_010_REQUESTFORMOVEOUT_V1_STEP_1": "Request for move-out (RSM-005)",
@@ -1315,11 +1361,14 @@
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for complex handling of move cancellation",
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Request for resumption of supply (RSM-003)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_4": "Confirmation of request for resumption of supply (RSM-003)",
+        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatic resumption of supply after the deadline is exceeded",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_6": "Notification of acceptance of correction (RSM-004)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_7": "Notification of metering point master data (RSM-022)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_9": "Notification of customer master data (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
@@ -1336,7 +1385,8 @@
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
-        "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028/D20)",
+        "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028)",
+        "BRS_041_V1_STEP_5": "Notification of charge links (RSM-031)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Rejection of request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Notification of charge links (RSM-031)",
@@ -1361,6 +1411,7 @@
       "details": {
         "notFound": "Process not found",
         "noSteps": "No steps available for this process",
+        "openMessage": "Open message",
         "showPossibleActions": "Show possible actions",
         "hidePossibleActions": "Hide possible actions",
         "cancelledByProcess": {
@@ -1680,7 +1731,7 @@
     "endOfSupply": {
       "modalTitle": "Start end of supply",
       "dateLabel": "Specify cut-off date",
-      "dateHint": "The cut-off date must be between 3 days from today and 60 days ahead.",
+      "dateHint": "The cut-off date must be between tomorrow and 60 days ahead.",
       "confirmCheckbox": "Please note that when you initiate an end of supply, you are requesting to disconnect the electricity at the metering point.",
       "cancel": "Cancel",
       "submit": "Start end of supply",
@@ -1708,6 +1759,40 @@
       "submitSuccess": "Change of supplier submitted. You can follow the status under processes",
       "submitSuccessAction": "See status under processes",
       "submitError": "Change of supplier could not be submitted"
+    },
+    "historicalCorrection": {
+      "title": "Historical correction",
+      "cancel": "Cancel",
+      "correctionToChooseFrom": "Which historical correction would you like to make?",
+      "removeElectricalHeatingLabel": "Remove electrical heating",
+      "createElectricalHeatingMpLabel": "Create electrical heating (D14) metering point",
+      "editBtn": "Edit",
+      "continueToDetails": "Continue to details",
+      "removeElectricalHeating": {
+        "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
+        "cutOffDate": "Cut-off date",
+        "remove": "Remove electrical heating",
+        "toast": {
+          "loading": "Removing electrical heating...",
+          "success": "Electrical heating removed",
+          "error": "An error occurred while removing electrical heating"
+        }
+      },
+      "newElectricalHeatingMeteringPoint": {
+        "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",
+        "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
+        "validityDate": "Validity date",
+        "closeDownDate": "Close down date",
+        "error": {
+          "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+        },
+        "create": "Create metering point",
+        "toast": {
+          "loading": "Creating electrical heating (D14) metering point...",
+          "success": "Electrical heating (D14) metering point created",
+          "error": "An error occurred while creating electrical heating (D14) metering point"
+        }
+      }
     },
     "electricalHeatingCorrection": {
       "title": "Historical correction",
@@ -3824,6 +3909,14 @@
       "projectionsStatus": {
         "title": "Projections Status",
         "button": "Get projections status"
+      },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Rewind Metering Point Updated Subscription",
+        "button": "Rewind subscription",
+        "modal": {
+          "title": "Rewind Metering Point Updated Subscription",
+          "message": "Are you sure you want to rewind the metering point updated subscription?"
+        }
       },
       "dangerZone": {
         "title": "Danger Zone"

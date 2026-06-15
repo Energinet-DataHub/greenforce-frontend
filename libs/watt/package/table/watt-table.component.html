@@ -94,7 +94,9 @@ limitations under the License.
         [attr.data-row-index]="index"
         [class.watt-table-cell--expanded]="expanded().includes(row)"
         [class.watt-table-cell--expandable]="column.value.expandable"
-        class="watt-table-align-{{ column.value.align ?? 'left' }} {{ column.value.dataCellClass }}"
+        class="watt-table-align-{{ column.value.align ?? 'left' }} watt-table-valign-{{
+          column.value.verticalAlign ?? verticalAlign()
+        }} {{ column.value.dataCellClass }}"
         (click)="!column.value.expandable && onRowClick(row)"
       >
         @if (isExpandable()) {
@@ -124,7 +126,7 @@ limitations under the License.
           *matFooterCellDef
           class="{{ column.value.footer?.class }} watt-table-align-{{
             column.value.align ?? 'left'
-          }} "
+          }} watt-table-valign-{{ column.value.verticalAlign ?? verticalAlign() }} "
         >
           {{ column.value.footer?.value?.() }}
         </td>

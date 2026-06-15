@@ -42,8 +42,9 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   GetMeteringPointProcessByIdDocument,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
@@ -268,6 +269,7 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
+  readonly connectionState = input.required<ElectricityMarketViewConnectionState>();
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
@@ -281,6 +283,7 @@ export class DhMeteringPointProcessOverviewDetails {
     returnPartialData: true,
     variables: {
       id: this.id(),
+      meteringPointId: this.meteringPointId(),
     },
   }));
 
@@ -324,7 +327,7 @@ export class DhMeteringPointProcessOverviewDetails {
    * Rendered in the fixed order [EnergySupplier, GridAccessProvider]. An action that
    * belongs to multiple roles appears under each role's group (no deduplication).
    */
-  fasActionGroups = computed<{ role: EicFunction; actions: WorkflowAction[] }[]>(() => {
+  fasActionGroups = computed<{ role: EicFunction; actions: MeteringPointProcessAction[] }[]>(() => {
     const reason = this.businessReason();
     if (!reason) return [];
 
@@ -362,7 +365,7 @@ export class DhMeteringPointProcessOverviewDetails {
     this.modalService.open({ component: DhFasActionInfoModal });
   }
 
-  executeAction(action: WorkflowAction) {
+  executeAction(action: MeteringPointProcessAction) {
     const reason = this.businessReason();
     if (!reason) return;
 
@@ -373,6 +376,7 @@ export class DhMeteringPointProcessOverviewDetails {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: this.id(),
+        connectionState: this.connectionState(),
         cutoffDate: this.cutoffDate(),
         onSuccess: () => this.navigation.navigate('list'),
       },

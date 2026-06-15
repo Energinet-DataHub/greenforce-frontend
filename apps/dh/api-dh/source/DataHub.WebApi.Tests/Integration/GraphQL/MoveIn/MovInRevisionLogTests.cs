@@ -16,7 +16,11 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ConfirmIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ConfirmIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RejectIncorrectMoveIn.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RejectIncorrectMoveIn.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeCustomerCharacteristics.V2.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
@@ -126,11 +130,13 @@ public class MoveInRevisionLogTests
                 $processId: UUID!
                 $meteringPointId: String!
                 $cutoffDate: DateTime!
+                $reason: String
               ) {
                 requestIncorrectMoveIn(input: {
                   processId: $processId,
                   meteringPointId: $meteringPointId,
-                  cutoffDate: $cutoffDate
+                  cutoffDate: $cutoffDate,
+                  reason: $reason
                 }) {
                   boolean
                 }
@@ -150,6 +156,75 @@ public class MoveInRevisionLogTests
                 { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
                 { "meteringPointId", "571313180000000005" },
                 { "cutoffDate", "2025-12-31T23:00:00Z" },
+                { "reason", "Incorrect move-in reason" },
+            });
+    }
+
+    [Fact]
+    [RevisionLogTest("MoveInOperations.AcceptIncorrectMoveAsync")]
+    public async Task AcceptIncorrectMoveAsync()
+    {
+        var operation =
+            $$"""
+              mutation (
+                $meteringPointId: String!
+                $processId: UUID!
+              ) {
+                acceptIncorrectMove(input: {
+                  meteringPointId: $meteringPointId,
+                  processId: $processId
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var server = new GraphQLTestService();
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<ConfirmIncorrectMoveInCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<ConfirmIncorrectMoveInResponseV1>.Success(new ConfirmIncorrectMoveInResponseV1("test")));
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                { "meteringPointId", "571313180000000005" },
+                { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
+            });
+    }
+
+    [Fact]
+    [RevisionLogTest("MoveInOperations.RejectIncorrectMoveAsync")]
+    public async Task RejectIncorrectMoveAsync()
+    {
+        var operation =
+            $$"""
+              mutation (
+                $meteringPointId: String!
+                $processId: UUID!
+              ) {
+                rejectIncorrectMove(input: {
+                  meteringPointId: $meteringPointId,
+                  processId: $processId
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var server = new GraphQLTestService();
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<RejectIncorrectMoveInCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RejectIncorrectMoveInResponseV1>.Success(new RejectIncorrectMoveInResponseV1("test")));
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                { "meteringPointId", "571313180000000005" },
+                { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
             });
     }
 }

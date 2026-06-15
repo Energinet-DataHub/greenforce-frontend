@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -45,6 +46,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
+import { processCmiInfoInitiatorGln } from '@energinet-datahub/dh/shared/test-util-mocks';
+
 import { DhMeteringPointProcessOverviewTable } from '../src/components/overview';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
 
@@ -53,12 +56,15 @@ async function setup(
     isFas: boolean;
     actorMarketRole: EicFunction;
     isEnergySupplierResponsible: boolean;
+    actorGln: string;
   }> = {}
 ) {
   const {
     isFas = false,
     actorMarketRole = EicFunction.GridAccessProvider,
     isEnergySupplierResponsible = false,
+    // See the comment on `gln` below for why the default deliberately overlaps no initiator.
+    actorGln = '0000000000000',
   } = overrides;
 
   const { fixture } = await render(DhMeteringPointProcessOverviewTable, {
@@ -94,7 +100,7 @@ async function setup(
             // cache could leak that GLN into the overview's initiator (entities
             // are keyed by id), making InitiatingParticipant spuriously match
             // and showing buttons for actors that should not see them.
-            gln: '0000000000000',
+            gln: actorGln,
             marketRole: actorMarketRole,
             actorName: 'Test Actor',
             organizationName: 'Test Org',
@@ -116,6 +122,7 @@ async function setup(
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-456',
       isEnergySupplierResponsible,
+      connectionState: ElectricityMarketViewConnectionState.Disconnected,
     },
   });
 
@@ -123,7 +130,7 @@ async function setup(
     expect(document.querySelector('[role="treegrid"] [role="gridcell"]')).not.toBeNull()
   );
 
-  return fixture;
+  return { fixture };
 }
 
 /**
@@ -175,7 +182,7 @@ function applyFilters(
 
 describe('Process overview', () => {
   it('marks the active row when navigation targets a loaded process (cross-cancellation link)', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
     const navigation = fixture.debugElement.injector.get(DhNavigationService);
@@ -214,7 +221,7 @@ describe('Process overview', () => {
   });
 
   it('should narrow the rendered table to rows matching the chosen status', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
     // Baseline: the rows the user sees with no filter applied (includes the header row).
@@ -237,7 +244,7 @@ describe('Process overview', () => {
   });
 
   it('should narrow the rendered table to rows matching the chosen type', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
     const baselineRows = renderedRowCount();
@@ -257,7 +264,7 @@ describe('Process overview', () => {
   });
 
   it('should combine the type and status filters with AND in the rendered table', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
     const baselineRows = renderedRowCount();
@@ -287,7 +294,7 @@ describe('Process overview', () => {
   });
 
   it('should render every loaded row when no filters are applied', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
 
     // One header row plus one rendered row per loaded process.
@@ -295,7 +302,7 @@ describe('Process overview', () => {
   });
 
   it('should restore the full table when the reset button is clicked', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
     const user = userEvent.setup();
 
@@ -342,17 +349,19 @@ describe('Process overview', () => {
   });
 
   it('should render the reset button once a filter is applied and hide it again after reset', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const user = userEvent.setup();
+    const filterBar = document.querySelector('watt-data-filters') as HTMLElement;
 
     // Applying a filter gives the user something to reset, so the button appears.
     applyFilters(fixture, { states: [MeteringPointProcessState.Running] });
-    expect(screen.getByRole('button', { name: /Reset/i })).toBeInTheDocument();
+    const resetButton = within(filterBar).getByRole('button', { name: /Reset/i });
+    expect(resetButton).toBeInTheDocument();
 
     // Resetting returns to the blank default, so the button disappears again.
-    await user.click(screen.getByRole('button', { name: /Reset/i }));
+    await user.click(resetButton);
     TestBed.tick();
-    expect(screen.queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
+    expect(within(filterBar).queryByRole('button', { name: /Reset/i })).not.toBeInTheDocument();
   });
 
   it('should show cancel button and open modal when clicked', async () => {
@@ -381,7 +390,7 @@ describe('Process overview', () => {
   });
 
   it('should show send information button and navigate when clicked', async () => {
-    const fixture = await setup();
+    const { fixture } = await setup();
     const user = userEvent.setup();
     const router = fixture.debugElement.injector.get(Router);
     vi.spyOn(router, 'navigate').mockResolvedValue(true);
@@ -458,6 +467,56 @@ describe('Process overview', () => {
       expect(screen.getAllByRole('button', { name: /Reject request/i }).length).toBeGreaterThan(0)
     );
     expect(screen.queryAllByRole('button', { name: /Cancel/i })).toHaveLength(0);
+  });
+
+  it('should show "Request correction" button when actor owns the process', async () => {
+    // The handler gates on InitiatingParticipant: actor.gln must match the process initiator.
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      actorGln: processCmiInfoInitiatorGln,
+    });
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
+        0
+      )
+    );
+  });
+
+  it('should hide "Request correction" when actor does NOT own the process', async () => {
+    // Process ownership is the only gate now. Responsibility is no longer consulted.
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      // GLN does not match processCmiInfoInitiatorGln, so InitiatingParticipant fails.
+      actorGln: '9999999999999',
+    });
+
+    await waitForAsync(() =>
+      expect(screen.queryAllByRole('button', { name: /Request correction/i }).length).toBe(0)
+    );
+  });
+
+  it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
+    await setup({
+      actorMarketRole: EicFunction.EnergySupplier,
+      actorGln: processCmiInfoInitiatorGln,
+    });
+    const user = userEvent.setup();
+
+    await waitForAsync(() =>
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
+        0
+      )
+    );
+
+    const button = screen.getAllByRole('button', { name: /Request correction/i })[0];
+    await user.click(button);
+
+    await waitForAsync(() => {
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+      expect(dialog).toHaveTextContent(/Request correction: Incorrect move/i);
+    });
   });
 
   it('should show the translated role in the initiator column when the initiator is masked', async () => {

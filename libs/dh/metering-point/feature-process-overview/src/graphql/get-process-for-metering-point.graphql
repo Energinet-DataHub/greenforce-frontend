@@ -1,5 +1,5 @@
-query GetMeteringPointProcessById($id: String!) {
-  meteringPointProcessById(id: $id) {
+query GetMeteringPointProcessById($id: String!, $meteringPointId: String!) {
+  meteringPointProcessById(id: $id, meteringPointId: $meteringPointId) {
     id
     createdAt
     cutoffDate

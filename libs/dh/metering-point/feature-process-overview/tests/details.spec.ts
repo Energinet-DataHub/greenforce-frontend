@@ -39,7 +39,10 @@ import {
   DhActorStorage,
   PermissionService,
 } from '@energinet-datahub/dh/shared/feature-authorization';
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  ElectricityMarketViewConnectionState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewDetails } from '../src/components/details/details';
 import { DhMeteringPointProcessOverviewStore } from '../src/components/metering-point-process-overview.store';
@@ -105,6 +108,7 @@ async function setup(
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-123',
       isEnergySupplierResponsible,
+      connectionState: ElectricityMarketViewConnectionState.Disconnected,
     },
   });
 
@@ -256,8 +260,17 @@ describe('Process overview details', () => {
     // (1234567890123 • Radius), so the description list shows the displayName.
     await setup('process-eos-cancel');
 
-    const definitions = await screen.findAllByRole('definition');
-    expect(definitions.some((d) => /1234567890123/.test(d.textContent || ''))).toBe(true);
+    // The by-id query carries a network delay, so the initiator renders as the em-dash
+    // placeholder first and resolves to the displayName once the response arrives. The
+    // definitions exist immediately (as the placeholder), so poll their content until the
+    // resolved GLN appears, rather than reading the loading state. The displayName is
+    // unique to the initiator definition (the EOS step actor renders 905495045940594).
+    await waitForAsync(() => {
+      const definitions = screen.getAllByRole('definition');
+      expect(definitions.some((d) => /1234567890123 • Radius/.test(d.textContent || ''))).toBe(
+        true
+      );
+    });
   });
 
   it('should show only the translated role when the initiator is masked', async () => {

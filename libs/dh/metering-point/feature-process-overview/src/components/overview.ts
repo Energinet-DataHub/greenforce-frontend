@@ -42,17 +42,15 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { PermissionService } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
+  ElectricityMarketViewConnectionState,
+  MeteringPointProcessAction,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
-  WorkflowAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
-import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 import { MeteringPointProcess } from '../types';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
-import { RequestIncorrectMoveIn } from '../actions/customer-move-in/request-incorrect-move-in';
 import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
 
 @Component({
@@ -77,7 +75,6 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
     DhEmDashFallbackPipe,
     DhResetFiltersButtonComponent,
     DhStateBadge,
-    DhReleaseToggleDirective,
     SupportedActionsPipe,
   ],
   providers: [DhNavigationService],
@@ -188,17 +185,6 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
                   {{ t(process.businessReason + '.' + action) }}
                 </watt-button>
               }
-
-              <ng-container *dhReleaseToggle="'BRS011-INCOMING-MESSAGES'">
-                @if (isEnergySupplierResponsible() && process.businessReason === 'CustomerMoveIn') {
-                  <watt-button
-                    variant="secondary"
-                    size="small"
-                    (click)="onRequestCorrectionClick($event, process)"
-                    >{{ t('CustomerMoveIn.REQUEST_CORRECTION') }}</watt-button
-                  >
-                }
-              </ng-container>
             }
           </vater-stack>
         </ng-container>
@@ -212,11 +198,11 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly requestIncorrectMoveIn = inject(RequestIncorrectMoveIn);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
+  readonly connectionState = input.required<ElectricityMarketViewConnectionState>();
   readonly id = input<string>();
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
@@ -301,7 +287,7 @@ export class DhMeteringPointProcessOverviewTable {
     return undefined;
   }
 
-  onActionClick(event: Event, process: MeteringPointProcess, action: WorkflowAction) {
+  onActionClick(event: Event, process: MeteringPointProcess, action: MeteringPointProcessAction) {
     event.stopPropagation();
     this.actionService.execute(
       action,
@@ -310,18 +296,11 @@ export class DhMeteringPointProcessOverviewTable {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: process.id,
+        connectionState: this.connectionState(),
         cutoffDate: process.cutoffDate,
       },
       this.isEnergySupplierResponsible(),
       process.initiator?.glnOrEicNumber
     );
-  }
-
-  onRequestCorrectionClick(event: Event, process: MeteringPointProcess) {
-    event.stopPropagation();
-
-    assertIsDefined(process.cutoffDate);
-
-    this.requestIncorrectMoveIn.request(process.id, this.meteringPointId(), process.cutoffDate);
   }
 }

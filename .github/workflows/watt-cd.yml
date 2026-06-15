@@ -36,12 +36,12 @@ jobs:
     outputs:
       watt_affected: ${{ steps.watt_affected.outputs.affected }}
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 2
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
 
       - name: Get Bun cache directory
         id: bun_cache
@@ -73,12 +73,12 @@ jobs:
     if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
 
       - name: Get Bun cache directory
         id: bun_cache
@@ -95,7 +95,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        uses: chromaui/action@8ad69a40dea06755a3c6db290f300a39e011433b # v17.1.0
+        uses: chromaui/action@d92ea1ce501f70e8c34745b2c7888648150a368a # v17.2.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.chromatic_project_token }}
@@ -112,10 +112,10 @@ jobs:
     if: ${{ needs.changes.outputs.watt_affected == 'true' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
 
       - name: Get Bun cache directory
         id: bun_cache

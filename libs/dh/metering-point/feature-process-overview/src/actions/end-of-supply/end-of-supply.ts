@@ -29,7 +29,7 @@ import {
   RejectEndOfSupplyDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
-  WorkflowAction,
+  MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ResponsibleEnergySupplier, type ActionHandlerMap } from '../registry';
@@ -46,7 +46,7 @@ export class EndOfSupplyActions {
   private readonly rejectEndOfSupply = mutation(RejectEndOfSupplyDocument);
 
   readonly handlers: ActionHandlerMap = {
-    [WorkflowAction.SendInformation]: {
+    [MeteringPointProcessAction.SendInformation]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request'],
       roles: [ResponsibleEnergySupplier],
@@ -63,7 +63,7 @@ export class EndOfSupplyActions {
         });
       },
     },
-    [WorkflowAction.ConfirmWorkflow]: {
+    [MeteringPointProcessAction.ConfirmWorkflow]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:connection-state-manage'],
       roles: [EicFunction.GridAccessProvider],
@@ -77,13 +77,14 @@ export class EndOfSupplyActions {
             meteringPointId: ctx.meteringPointId,
             processId: ctx.processId,
             validityDate: result.validityDate,
+            currentConnectionState: ctx.connectionState,
           },
           onCompleted,
           onError,
         });
       }),
     },
-    [WorkflowAction.RejectRequest]: {
+    [MeteringPointProcessAction.RejectRequest]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-respond'],
       roles: [EicFunction.GridAccessProvider],
@@ -105,7 +106,7 @@ export class EndOfSupplyActions {
         });
       }),
     },
-    [WorkflowAction.CancelWorkflow]: {
+    [MeteringPointProcessAction.CancelWorkflow]: {
       featureFlag: 'end-of-supply',
       permissions: ['metering-point:end-of-supply-request'],
       roles: [ResponsibleEnergySupplier],

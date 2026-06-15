@@ -745,7 +745,8 @@
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
-        "changeOfSupplier": "Leverandørskift"
+        "changeOfSupplier": "Leverandørskift",
+        "historicalCorrection": "Historisk rettelse"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -1093,7 +1094,7 @@
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
+        "DataAlignmentForMasterDataMeteringPoint": "Anmod om stamdata (BRS-005)",
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskift (BRS-001)",
@@ -1133,8 +1134,8 @@
         },
         "CustomerMoveIn": {
           "SEND_INFORMATION": "Send information",
-          "REQUEST_CORRECTION": "Anmod om korrektion",
-          "CANCEL_WORKFLOW": "Annuller"
+          "CANCEL_WORKFLOW": "Annuller",
+          "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information"
@@ -1142,13 +1143,48 @@
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Annuller"
+        },
+        "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
         }
       },
       "incorrectMoveIn": {
+        "title": "Anmod om korrektion: Fejlagtig flytning",
+        "description": "Anmod om korrektion af flytning med skæringsdato d. {{ cutoffDate }}?",
+        "reasonLabel": "Årsag til anmodning",
+        "conditionsPrefix": "Betingelser",
+        "conditionsSuffix": "for korrektion af fejlagtig flytning er opfyldt",
+        "cancel": "Luk",
+        "confirm": "Anmod om korrektion",
         "toast": {
           "loading": "Opretter anmodning...",
           "success": "Anmodning er registreret i DataHub",
           "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
+      },
+      "acceptIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil acceptere?",
+          "confirm": "Accepter",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Accepterer genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance accepteret",
+          "error": "Acceptering af genoptagelse fejlede"
+        }
+      },
+      "rejectIncorrectMove": {
+        "confirm": {
+          "title": "Er du sikker på at du vil afvise?",
+          "confirm": "Afvis",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Afviser genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance afvist",
+          "error": "Afvisning af genoptagelse fejlede"
         }
       },
       "rejectProcess": {
@@ -1200,6 +1236,9 @@
         "CustomerMoveIn": "tilflytning",
         "ChangeOfEnergySupplier": "leverandørskift"
       },
+      "stepReasonLabels": {
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
+      },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",
         "CANCELLATION_STEP_V1_STEP_2": "Notifikation omkring annullering (RSM-004)",
@@ -1223,19 +1262,24 @@
           "BRS_007_008_013_V1_STEP_3": "Afvisning af ændring af tilslutningsstatus (RSM-021)",
           "BRS_007_008_013_V1_STEP_4": "Information om ændring af tilslutningsstatus (RSM-022)"
         },
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om leverandørskift (RSM-001)",
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af anmodning om leverandørskift (RSM-001)",
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af anmodning om leverandørskift (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om leverandørskifte (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af leverandørskifte (RSM-001)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af leverandørskifte (RSM-001)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_4": "Information om målepunktsstamdata til fremtidig elleverandør (RSM-022)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_5": "Information om kundestamdata til fremtidig elleverandør (RSM-028)",
-        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Information om pristilknytninger til fremtidig elleverandør (RSM-031)",
+        "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_6": "Information om pristilknytning til fremtidig elleverandør (RSM-031)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_CHANGEOFENERGYSUPPLIER_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_001_REQUESTCHANGECUSTOMERCHARACTERISTICS_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
+        "BRS_001_VALIDITYDATE_V1_STEP_3": "Afvisning af leverandørskifte (RSM-001)",
+        "BRS_001_VALIDITYDATE_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af annullering af leverandørskifte (RSM-024)",
+        "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af annullering af leverandørskifte (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_2": "Godkendelse af annullering af leverandørskifte (RSM-024)",
         "BRS_001_CHANGEOFENERGYSUPPLIERCANCELLATION_V1_STEP_3": "Afvisning af annullering af leverandørskifte (RSM-024)",
@@ -1271,11 +1315,11 @@
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_5": "Information om pristilknytning (RSM-031)",
         "BRS_006_UPDATEMETERINGPOINTMASTERDATA_V1_STEP_6": "Information om afkobling af childmålepunkt (RSM-004)",
         "BRS_009_MOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af anmodning om tilflytning (RSM-001)",
-        "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af anmodning om tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_2": "Godkendelse af tilflytning (RSM-001)",
+        "BRS_009_MOVEIN_V1_STEP_3": "Afvisning af tilflytning (RSM-001)",
         "BRS_009_MOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
         "BRS_009_MOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
-        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
+        "BRS_009_MOVEIN_V1_STEP_6": "Information om pristilknytning (RSM-031)",
         "BRS_009_MOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1286,18 +1330,20 @@
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_009_UPDATECUSTOMERMASTERDATA_V1_STEP_11": "Information om kundestamdata (RSM-028)",
+        "BRS_009_VALIDITYDATE_V1_STEP_3": "Afvisning af tilflytning (RSM-001)",
         "BRS_009_VALIDITYDATE_V1_STEP_10": "Information om tilflytning (RSM-004)",
         "BRS_009_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata (RSM-028)",
         "BRS_009_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_009_VALIDITYDATE_V1_STEP_13": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_1": "Anmodning om annullering af tilflytning (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_2": "Godkendelse af annullering af tilflytning (RSM-024)",
         "BRS_009_MOVEINCANCELLATION_V1_STEP_3": "Afvisning af annullering af tilflytning (RSM-024)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Anmodning om sekundær tilflytning (RSM-001)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Godkendelse af anmodning om sekundær tilflytning (RSM-001)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Afvisning af anmodning om sekundær tilflytning (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_1": "Anmodning om tilflytning (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_2": "Godkendelse af tilflytning (RSM-001)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_3": "Afvisning af tilflytning (RSM-001)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_4": "Information om målepunktsstamdata (RSM-022)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_5": "Information om kundestamdata (RSM-028)",
-        "BRS_009_SECONDARYMOVEIN_V1_STEP_6": "Information om pristilknytninger (RSM-031)",
+        "BRS_009_SECONDARYMOVEIN_V1_STEP_6": "Information om pristilknytning (RSM-031)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_7": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_8": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_009_SECONDARYMOVEIN_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1314,11 +1360,14 @@
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for kompleks håndtering af annullering af flytning",
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Anmodning om genoptagelse af leverance (RSM-003)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_4": "Godkendelse af genoptagelse af leverance (RSM-003)",
+        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatisk genoptagelse af leverance efter fristoverskridelse",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_6": "Information om accept af korrektion (RSM-004)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_7": "Information om målepunktsstamdata (RSM-022)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Information om kundestamdata (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_9": "Information om kundestamdata (RSM-028)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Information om pristilknytninger (RSM-031)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Afvisning af genoptagelse af leverance (RSM-003)",
+        "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Information om afvisning af korrektion (RSM-004)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1335,7 +1384,8 @@
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
-        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
+        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028)",
+        "BRS_041_V1_STEP_5": "Information om pristilknytninger (RSM-031)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
@@ -1360,6 +1410,7 @@
       "details": {
         "notFound": "Proces ikke fundet",
         "noSteps": "Ingen trin tilgængelige for denne proces",
+        "openMessage": "Åbn besked",
         "showPossibleActions": "Vis mulige handlinger",
         "hidePossibleActions": "Skjul mulige handlinger",
         "cancelledByProcess": {
@@ -1680,7 +1731,7 @@
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
-      "dateHint": "Skæringsdatoen skal ligge mellem 3 dage fra i dag og 60 dage frem.",
+      "dateHint": "Skæringsdatoen skal ligge mellem i morgen og 60 dage frem.",
       "confirmCheckbox": "Jeg er opmærksom på, at et leveranceophør medfører, at der bliver afbrudt for strømmen.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
@@ -1708,6 +1759,40 @@
       "submitSuccess": "Leverandørskift indsendt. Du kan følge status under processer",
       "submitSuccessAction": "Se status under processer",
       "submitError": "Leverandørskift kunne ikke indsendes"
+    },
+    "historicalCorrection": {
+      "title": "Historisk rettelse",
+      "cancel": "Afbryd",
+      "correctionToChooseFrom": "Hvilken historisk rettelse vil du foretage?",
+      "removeElectricalHeatingLabel": "Fjern elvarme",
+      "createElectricalHeatingMpLabel": "Opret elvarme (D14) målepunkt",
+      "editBtn": "Ret",
+      "continueToDetails": "Fortsæt til detaljer",
+      "removeElectricalHeating": {
+        "title": "{{ meteringPoint.historicalCorrection.removeElectricalHeatingLabel }}",
+        "cutOffDate": "Fjern elvarme på dato",
+        "remove": "Fjern elvarme",
+        "toast": {
+          "loading": "Fjerner elvarme...",
+          "success": "Elvarme fjernet",
+          "error": "Der opstod en fejl under fjernelse af elvarme"
+        }
+      },
+      "newElectricalHeatingMeteringPoint": {
+        "title": "{{ meteringPoint.historicalCorrection.createElectricalHeatingMpLabel }}",
+        "childMeteringPointIdLabel": "{{ meteringPoint.electricalHeatingCorrection.childMeteringPointIdLabel }}",
+        "validityDate": "Gyldighedsdato",
+        "closeDownDate": "Nedlæggelsesdato",
+        "error": {
+          "meteringPointIdLength": "{{ validation.meteringPoint.meteringPointIdLength }}"
+        },
+        "create": "Opret målepunkt",
+        "toast": {
+          "loading": "Opretter elvarme (D14) målepunkt...",
+          "success": "Elvarme (D14) målepunkt oprettet",
+          "error": "Der opstod en fejl under oprettelse af elvarme (D14) målepunkt"
+        }
+      }
     },
     "electricalHeatingCorrection": {
       "title": "Historisk rettelse",
@@ -3823,6 +3908,14 @@
       "projectionsStatus": {
         "title": "Projektionsstatus",
         "button": "Hent projektionsstatus"
+      },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Nulstil målepunkt opdateret subscription",
+        "button": "Nulstil subscription",
+        "modal": {
+          "title": "Nulstil målepunkt opdateret subscription",
+          "message": "Er du sikker på, at du vil nulstille målepunkt opdateret subscriptionen?"
+        }
       },
       "dangerZone": {
         "title": "Farezone"

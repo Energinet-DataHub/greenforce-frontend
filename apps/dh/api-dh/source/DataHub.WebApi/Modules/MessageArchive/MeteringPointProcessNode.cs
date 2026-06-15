@@ -14,6 +14,8 @@
 
 using System.Collections.Immutable;
 using System.Reactive.Linq;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Processes.BRS_011.IncorrectMoveIn.V1;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
@@ -59,12 +61,13 @@ public static partial class MeteringPointProcessNode
 
         var workflowInstances = await processManagerClient.SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken);
 
-        return workflowInstances.Select(MapToMeteringPointProcess);
+        return workflowInstances.Select(w => MapToMeteringPointProcess(w, meteringPointId));
     }
 
     [Query]
     public static async Task<MeteringPointProcess?> GetMeteringPointProcessByIdAsync(
         string id,
+        string meteringPointId,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
@@ -75,7 +78,7 @@ public static partial class MeteringPointProcessNode
 
         var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
 
-        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
+        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps, meteringPointId) : null;
     }
 
     [Subscription]
@@ -106,7 +109,9 @@ public static partial class MeteringPointProcessNode
 
         var workflowInstanceWithSteps = await processManagerClient.GetWorkflowInstanceByIdQueryAsync(query, cancellationToken);
 
-        return workflowInstanceWithSteps is not null ? MapToMeteringPointProcess(workflowInstanceWithSteps) : null;
+        return workflowInstanceWithSteps is not null
+            ? MapToMeteringPointProcess(workflowInstanceWithSteps, process.MeteringPointId ?? string.Empty)
+            : null;
     }
 
     public static async Task<ActorDto?> GetInitiatorAsync(
@@ -139,22 +144,146 @@ public static partial class MeteringPointProcessNode
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.ToString(),
             Step: GetStepIdentifier(step),
-            Comment: null, // TODO: REPLACE WHEN PROCESS MANAGER IS READY
+            Comment: step.PreviewField,
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber?.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
-            MessageId: step.ArchivedMessageId?.ToString(),
+            MessageId: step.ArchivedMessageId == Guid.Empty ? null : step.ArchivedMessageId?.ToString(),
             Description: step.Description));
     }
 
-    public static IEnumerable<WorkflowAction> GetAvailableActions(
-        [Parent] MeteringPointProcess process)
+    public static async Task<IEnumerable<MeteringPointProcessAction>> GetAvailableActionsAsync(
+        [Parent] MeteringPointProcess process,
+        IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
+        ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
     {
-        // Return the action from the workflow instance as an array
-        // Filter out NoAction to return an empty array when there are no actions
-        return process.Actions is null ? [] : process.Actions.Where(a => a != WorkflowAction.NoAction);
+        // Unknown PM actions are skipped silently so the overview keeps working when PM
+        // introduces a new WorkflowAction value before this BFF learns to map it.
+        var actions = process.Actions is null
+            ? Enumerable.Empty<MeteringPointProcessAction>()
+            : process.Actions
+                .Where(a => a != WorkflowAction.NoAction)
+                .Select(MapWorkflowActionToMeteringPointProcessAction)
+                .Where(a => a.HasValue)
+                .Select(a => a!.Value);
+
+        if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
+        {
+            return actions;
+        }
+
+        // InitiateIncorrectMoveIn corrects a customer move-in that has already completed,
+        // so only Succeeded processes are candidates. Anything still pending/running, or
+        // terminated with a non-success state, must not surface the action.
+        if (process.State != MeteringPointProcessState.Succeeded)
+        {
+            return actions;
+        }
+
+        // The action is offered only on the single latest CustomerMoveIn on the metering point
+        // (latest across all lifecycle states), and only when that latest process itself
+        // succeeded. A newer move-in in any state, including rejected or pending, intentionally
+        // suppresses correction of older move-ins. The latest loader queries PM with a wide
+        // window so the result is independent of the user's overview date filter.
+        var latestProcessId = await latestCustomerMoveInProcessIdDataLoader
+            .LoadAsync(process.MeteringPointId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (latestProcessId != process.Id)
+        {
+            return actions;
+        }
+
+        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN
+        // to scope the EM query, so eligibility is reduced to the process's own cutoff
+        // falling inside the same 60-day window the supplier-scoped EM query enforces.
+        if (httpContextAccessor.HttpContext?.User.IsFas() == true)
+        {
+            return process.CutoffDate.HasValue
+                   && process.CutoffDate.Value >= DateTimeOffset.UtcNow.AddDays(-60)
+                ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
+                : actions;
+        }
+
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityDataLoader
+            .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
+            .ConfigureAwait(false);
+
+        return isEligibleForIncorrectMoveIn
+            ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
+            : actions;
+    }
+
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), bool>> GetIncorrectMoveInEligibilityAsync(
+        IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken cancellationToken)
+    {
+        // HotChocolate dedupes identical keys within a single request, so multiple
+        // CustomerMoveIn processes on the same metering point trigger one EM call.
+        // Eligibility is presence-of-any-move-in within the EM 60-day lookback window.
+        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), bool>(keys.Count);
+        foreach (var key in keys)
+        {
+            var query = new GetMoveInsByEnergySupplierIdQueryV1(
+                MeteringPointId: key.MeteringPointId,
+                EnergySupplierId: key.EnergySupplierId,
+                From: DateTimeOffset.UtcNow.AddDays(-60));
+
+            var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
+
+            // Intentionally fail closed: this gates a display-only action, so an EM transport
+            // failure hides the button instead of erroring the whole availableActions field.
+            results[key] = result.IsSuccess && result.Data is not null && result.Data.MoveIns.Any();
+        }
+
+        return results;
+    }
+
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<string, string?>> GetLatestCustomerMoveInProcessIdAsync(
+        IReadOnlyList<string> meteringPointIds,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var results = new Dictionary<string, string?>(meteringPointIds.Count);
+
+        // PM lookup is done with a wide range so the "latest" check is independent of the
+        // overview user-supplied date filter; the rule says "latest ever", not "latest visible".
+        var earliest = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        var farFuture = DateTimeOffset.UtcNow.AddYears(10);
+
+        foreach (var meteringPointId in meteringPointIds)
+        {
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                userIdentity,
+                meteringPointId,
+                earliest,
+                farFuture);
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var latest = instances
+                .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
+                .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
+                .ThenByDescending(x => x.Lifecycle.CreatedAt)
+                .ThenByDescending(x => x.Id)
+                .FirstOrDefault();
+
+            results[meteringPointId] = latest?.Id.ToString();
+        }
+
+        return results;
     }
 
     /// <summary>
@@ -182,9 +311,24 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.State);
         descriptor.Field(f => f.CancellationTimestamp);
         descriptor.Field("availableActions")
-            .Type<ListType<NonNullType<EnumType<WorkflowAction>>>>()
-            .Resolve(ctx => GetAvailableActions(ctx.Parent<MeteringPointProcess>()));
+            .Type<ListType<NonNullType<EnumType<MeteringPointProcessAction>>>>()
+            .Resolve((ctx, ct) => GetAvailableActionsAsync(
+                ctx.Parent<MeteringPointProcess>(),
+                ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
+                ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
+                ctx.Service<IHttpContextAccessor>(),
+                ct));
     }
+
+    private static MeteringPointProcessAction? MapWorkflowActionToMeteringPointProcessAction(WorkflowAction action) =>
+        action switch
+        {
+            WorkflowAction.SendInformation => MeteringPointProcessAction.SendInformation,
+            WorkflowAction.CancelWorkflow => MeteringPointProcessAction.CancelWorkflow,
+            WorkflowAction.ConfirmWorkflow => MeteringPointProcessAction.ConfirmWorkflow,
+            WorkflowAction.RejectRequest => MeteringPointProcessAction.RejectRequest,
+            _ => null,
+        };
 
     private static IObservable<MeteringPointProcess> OnMeteringPointProcessUpdatedAsync(
         string meteringPointId,
@@ -221,7 +365,7 @@ public static partial class MeteringPointProcessNode
                 })
             .SelectMany(state => state.Changed);
 
-    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance) =>
+    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceDto workflowInstance, string? meteringPointId = null) =>
         CreateMeteringPointProcess(
             workflowInstance.Id,
             workflowInstance.TransactionId,
@@ -229,9 +373,10 @@ public static partial class MeteringPointProcessNode
             workflowInstance.BusinessReason,
             workflowInstance.ExpectedValidityDate,
             actions: workflowInstance.Actions.ToArray(),
-            workflowSteps: null);
+            workflowSteps: null,
+            meteringPointId: meteringPointId);
 
-    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps) =>
+    private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps, string meteringPointId) =>
         CreateMeteringPointProcess(
             workflowInstanceWithSteps.Id,
             null,
@@ -239,7 +384,8 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.BusinessReason,
             workflowInstanceWithSteps.ExpectedValidityDate,
             actions: workflowInstanceWithSteps.Actions.ToArray(),
-            workflowSteps: workflowInstanceWithSteps.Steps);
+            workflowSteps: workflowInstanceWithSteps.Steps,
+            meteringPointId: meteringPointId);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
@@ -248,7 +394,8 @@ public static partial class MeteringPointProcessNode
         BusinessReason businessReason,
         DateTimeOffset? cuteoffDate = null,
         WorkflowAction[]? actions = null,
-        IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null)
+        IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null,
+        string? meteringPointId = null)
     {
         var actorIdentity = lifecycle.CreatedBy;
         // TODO: Check if the actor has been masked.
@@ -275,7 +422,8 @@ public static partial class MeteringPointProcessNode
             CancelledByProcessId: lifecycle.CanceledByWorkflowInstanceId?.ToString(),
             CancellationTimestamp: cancellationTimestamp,
             Actions: actions,
-            WorkflowSteps: workflowSteps);
+            WorkflowSteps: workflowSteps,
+            MeteringPointId: meteringPointId);
     }
 
     private static MeteringPointProcessState MapWorkflowStateToMeteringPointProcessState(
