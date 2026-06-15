@@ -171,7 +171,6 @@ public static partial class MeteringPointProcessNode
                 .Where(a => a.HasValue)
                 .Select(a => a!.Value);
 
-
         // Hide all actions for IncorrectMove processes when the user is the initiator
         if (process.BusinessReason == BusinessReason.IncorrectMove)
         {
