@@ -1278,6 +1278,7 @@
         "BRS_001_VALIDITYDATE_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_001_VALIDITYDATE_V1_STEP_13": "Notification of cancellation due to failed process (RSM-004)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Request for cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Confirmation of cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Rejection of cancellation of change of energy supplier (RSM-024)",
