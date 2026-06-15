@@ -129,7 +129,8 @@
         "default",
         "{workspaceRoot}/eslint.config.js",
         "{workspaceRoot}/libs/dh/eslint.config.js",
-        "{workspaceRoot}/libs/gf/eslint.config.js"
+        "{workspaceRoot}/libs/gf/eslint.config.js",
+        "{workspaceRoot}/libs/watt/eslint.config.js"
       ],
       "cache": true
     }
