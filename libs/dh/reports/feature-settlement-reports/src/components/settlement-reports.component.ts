@@ -139,7 +139,6 @@ import { DhCancelReportRequest } from './cancel-report-request.component';
     </watt-data-table>
   `,
 })
- 
 export class DhSettlementReports {
   private permissionService = inject(PermissionService);
   protected settlementReportsService = inject(DhSettlementReportsService);

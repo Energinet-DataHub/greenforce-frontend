@@ -74,7 +74,6 @@ const maxDaysValidator =
       : null;
   };
 
- 
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [

@@ -41,7 +41,6 @@ import { DhEmDashFallbackPipe } from '@energinet-datahub/dh/shared/ui-util';
     }
   `,
 })
- 
 export class DhDuration {
   value = input.required<WattRange<Date>>();
 

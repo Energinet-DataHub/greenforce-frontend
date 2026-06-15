@@ -64,7 +64,6 @@ const spacingScales: Scale[] = [
 ];
 
 @Component({
-   
   selector: 'storybook-spacing-overview',
   templateUrl: './storybook-spacing-overview.component.html',
   styleUrls: ['./storybook-spacing-overview.component.scss'],

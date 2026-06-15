@@ -56,7 +56,6 @@ import { DhMeteringPointCellComponent } from './metering-point-cell.component';
   ],
   providers: [DhMeasurementsReportsService],
 })
- 
 export class DhOverview {
   private measurementsReportsService = inject(DhMeasurementsReportsService);
   private permissionService = inject(PermissionService);

@@ -49,5 +49,4 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </watt-modal>
   `,
 })
- 
 export class DhCancelReportRequestModal extends WattTypedModal {}

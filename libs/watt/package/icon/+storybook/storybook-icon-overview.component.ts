@@ -39,7 +39,6 @@ interface IconGroup {
 }
 
 @Component({
-   
   selector: 'storybook-icon-overview',
   templateUrl: './storybook-icon-overview.component.html',
   styleUrls: ['./storybook-icon-overview.component.scss'],

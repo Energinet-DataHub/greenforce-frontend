@@ -49,7 +49,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
   </ng-container>`,
   imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
- 
 export class DhReportStatus {
   status = input.required<SettlementReportStatusType>();
 

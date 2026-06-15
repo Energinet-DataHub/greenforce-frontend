@@ -42,7 +42,6 @@ import { DhCancelReportRequestModal } from './request-report/cancel-report-reque
   `,
   imports: [TranslocoDirective, WattButtonComponent],
 })
- 
 export class DhCancelReportRequest {
   private readonly modalService = inject(WattModalService);
 

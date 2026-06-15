@@ -102,7 +102,6 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
     </watt-modal>
   `,
 })
- 
 export class DhSelectCalculationModal extends WattTypedModal<{
   rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation[];
   formGroup: FormGroup<{

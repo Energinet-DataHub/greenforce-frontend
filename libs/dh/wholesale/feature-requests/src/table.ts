@@ -40,7 +40,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 type Request = ExtractNodeType<GetRequestsDataSource>;
 
- 
 @Component({
   selector: 'dh-wholesale-requests-table',
   imports: [

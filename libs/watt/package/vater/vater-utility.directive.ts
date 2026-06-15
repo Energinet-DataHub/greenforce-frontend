@@ -19,7 +19,6 @@
 import { booleanAttribute, computed, Directive, input } from '@angular/core';
 import { Anchor, Fill, Inset } from './types';
 
- 
 @Directive({
   selector: '[vater]',
   host: {

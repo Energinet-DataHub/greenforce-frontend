@@ -39,7 +39,6 @@ import { DhRequestAsModal } from './request-report/request-as-modal.component';
     </watt-button>
   `,
 })
- 
 export class DhNewReportRequest {
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);

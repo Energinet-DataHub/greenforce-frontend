@@ -57,5 +57,4 @@ import { WattIconComponent } from '@energinet/watt/icon';
     </watt-modal>
   `,
 })
- 
 export class DhCancelProcessModal extends WattTypedModal<{ processType: string }> {}

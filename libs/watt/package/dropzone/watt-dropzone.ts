@@ -122,7 +122,6 @@ export type MimeType = `${string}/${string}`;
     </watt-field>
   `,
 })
- 
 export class WattDropZone implements ControlValueAccessor {
   intl = inject(WattDropZoneIntlService);
 

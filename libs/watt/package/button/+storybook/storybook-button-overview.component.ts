@@ -21,7 +21,6 @@ import { Component } from '@angular/core';
 import { WattButtonComponent } from '../watt-button.component';
 
 @Component({
-   
   selector: 'storybook-button-overview',
   styles: [
     `

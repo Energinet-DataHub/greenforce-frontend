@@ -122,7 +122,6 @@ export interface RejectProcessModalData {
     </watt-modal>
   `,
 })
- 
 export class DhRejectProcessModal extends WattTypedModal<RejectProcessModalData> {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly transloco = inject(TranslocoService);

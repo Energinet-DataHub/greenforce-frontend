@@ -89,7 +89,6 @@ import { DhOverview } from './overview/overview.component';
     </watt-card>
   `,
 })
- 
 export class DhMeasurementsReports {
   private readonly measurementsReportsQuery = query(GetMeasurementsReportsDocument, {
     fetchPolicy: 'network-only',

@@ -25,7 +25,6 @@ import { WattRadioComponent } from '@energinet/watt/radio';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
- 
 @Component({
   imports: [
     ReactiveFormsModule,

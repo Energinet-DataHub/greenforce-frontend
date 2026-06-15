@@ -136,7 +136,6 @@ type MeasurementsReportRequestedBy = {
   `,
   templateUrl: './request-report-modal.component.html',
 })
- 
 export class DhRequestReportModal extends WattTypedModal<MeasurementsReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);

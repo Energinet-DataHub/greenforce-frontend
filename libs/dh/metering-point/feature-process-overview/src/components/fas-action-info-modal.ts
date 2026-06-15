@@ -42,5 +42,4 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </watt-modal>
   `,
 })
- 
 export class DhFasActionInfoModal extends WattTypedModal {}

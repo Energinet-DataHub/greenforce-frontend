@@ -24,7 +24,6 @@ import { WattFieldComponent, WattFieldHintComponent } from '@energinet/watt/fiel
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { TranslocoDirective } from '@jsverse/transloco';
 
- 
 @Component({
   imports: [
     ReactiveFormsModule,

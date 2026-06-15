@@ -43,7 +43,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import { YearMonth } from './year-month';
 
- 
 @Component({
   selector: 'watt-yearmonth-field',
   encapsulation: ViewEncapsulation.None,

@@ -49,7 +49,6 @@ const DATETIME_FORMAT = 'DD-MM-YYYY, HH:mm';
 const PARTIAL_DATETIME_FORMAT = 'DD-MM-YYYY, ';
 const DANISH_TIME_ZONE_IDENTIFIER = 'Europe/Copenhagen';
 
- 
 @Component({
   selector: 'watt-datetime-field',
   encapsulation: ViewEncapsulation.None,

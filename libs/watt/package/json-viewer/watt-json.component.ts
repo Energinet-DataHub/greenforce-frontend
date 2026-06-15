@@ -34,7 +34,6 @@ export type TreeState = {
 };
 
 @Component({
-   
   selector: 'watt-json',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,

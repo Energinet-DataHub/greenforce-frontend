@@ -24,7 +24,6 @@ import { WattToastService } from '../watt-toast.service';
 import { WattToastConfig } from '../watt-toast.component';
 
 @Component({
-   
   selector: 'storybook-toast',
   template: `
     <h1>Toast</h1>

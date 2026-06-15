@@ -48,7 +48,6 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     />
   `,
 })
- 
 export class DhDateTimeRangeField implements ControlValueAccessor {
   labelStart = input('');
   labelEnd = input('');

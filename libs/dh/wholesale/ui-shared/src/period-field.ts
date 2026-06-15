@@ -101,7 +101,6 @@ import { NgTemplateOutlet } from '@angular/common';
     </ng-container>
   `,
 })
- 
 export class DhCalculationsPeriodField implements ControlValueAccessor {
   calculationType = input.required<StartCalculationType | RequestCalculationType>();
   executionType = input<CalculationExecutionType | null>(null);

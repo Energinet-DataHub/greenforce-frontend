@@ -103,7 +103,6 @@ import {
     </watt-modal>
   `,
 })
- 
 export class DhSetUpAccessToMeasurements extends WattTypedModal<DhMarketParticipantExtended> {
   private formBuilder = inject(NonNullableFormBuilder);
   private toastService = inject(WattToastService);

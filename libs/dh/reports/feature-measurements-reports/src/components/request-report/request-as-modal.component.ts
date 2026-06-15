@@ -61,7 +61,6 @@ type DhFormType = FormGroup<{
   ],
   templateUrl: './request-as-modal.component.html',
 })
- 
 export class DhRequestAsModal extends WattTypedModal {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly modalService = inject(WattModalService);

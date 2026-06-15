@@ -151,7 +151,6 @@ import { DhReportStatus } from '../report-status.component';
     </watt-drawer>
   `,
 })
- 
 export class DhDetails {
   readonly drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 

@@ -76,7 +76,6 @@ export interface DisconnectMeteringPointModalData {
     </watt-modal>
   `,
 })
- 
 export class DhDisconnectMeteringPointModal extends WattTypedModal<DisconnectMeteringPointModalData> {
   readonly modal = viewChild.required(WattModalComponent);
   readonly submitting = signal(false);
