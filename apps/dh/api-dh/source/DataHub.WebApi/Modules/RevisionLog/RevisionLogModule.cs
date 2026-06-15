@@ -18,9 +18,10 @@ using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.RevisionLog;
 
-public class RevisionLogModule : IModule
+public static class RevisionLogModule
 {
-    public IServiceCollection RegisterModule(
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration) =>
         services

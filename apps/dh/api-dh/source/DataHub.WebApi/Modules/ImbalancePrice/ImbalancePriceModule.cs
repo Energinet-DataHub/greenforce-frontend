@@ -21,11 +21,11 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.ImbalancePrice;
 
-public class ImbalancePriceModule : IModule
+public static class ImbalancePriceModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services
             .AddScoped<IImbalancePriceClient, ImbalancePriceClient>()
             .AddClient<IImbalancePricesClient_V1>(baseUrls => baseUrls.ImbalancePricesBaseUrl, (baseUrl, client) => new ImbalancePricesClient_V1(baseUrl, client));

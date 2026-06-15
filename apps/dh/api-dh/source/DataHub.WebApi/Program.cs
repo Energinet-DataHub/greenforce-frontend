@@ -183,6 +183,3 @@ app.MapReadyHealthChecks();
 app.MapStatusHealthChecks();
 
 app.RunWithGraphQLCommands(args);
-
-// Make the implicit Program class public so test projects can access it
-public partial class Program;

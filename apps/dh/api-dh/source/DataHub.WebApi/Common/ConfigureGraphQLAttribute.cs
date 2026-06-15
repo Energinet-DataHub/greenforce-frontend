@@ -12,16 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.WebApi.Common;
-using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
+namespace Energinet.DataHub.WebApi.Common;
 
-namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
-
-public static class MessageArchiveModule
-{
-    [RegisterServices]
-    public static IServiceCollection RegisterModule(IServiceCollection services) =>
-        services
-            .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
-            .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>();
-}
+/// <summary>
+/// Marks a static method as a GraphQL configuration method that will be automatically invoked at startup.
+/// </summary>
+[AttributeUsage(AttributeTargets.Method)]
+public sealed class ConfigureGraphQLAttribute : Attribute;

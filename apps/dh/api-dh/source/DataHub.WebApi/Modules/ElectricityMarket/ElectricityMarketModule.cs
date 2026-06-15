@@ -19,11 +19,11 @@ using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ElectricityMarket;
 
-public class ElectricityMarketModule : IModule
+public static class ElectricityMarketModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration)
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services)
     {
         services.AddMeasurementsClient();
 

@@ -18,11 +18,11 @@ using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.Esett;
 
-public class EsettModule : IModule
+public static class EsettModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration)
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services)
     {
         return services.AddClient<IESettExchangeClient_V1>(baseUrls => baseUrls.ESettExchangeBaseUrl, (baseUrl, client) => new ESettExchangeClient_V1(baseUrl, client));
     }
