@@ -331,10 +331,12 @@ public class ChargesClient(
     {
         var periods = await GetChargeLinkPeriodsAsync(meteringPointId, ct);
         var newEndDate = periods
+            .Where(p => p.ChargeId == chargeId)
             .Select(p => p.Period.From)
+            .Where(f => f > newStartDate.ToInstant())
             .Order()
             .Cast<Instant?>()
-            .FirstOrDefault(f => f > newStartDate.ToInstant());
+            .FirstOrDefault();
 
         var result = await ediClient.SendAsync(
             new UpsertChargeLinkCommandV1(new(
