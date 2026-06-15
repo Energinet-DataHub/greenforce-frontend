@@ -16,11 +16,11 @@ using Energinet.DataHub.WebApi.Clients.Notifications;
 using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 
-public class NotificationModule : IModule
+public static class NotificationModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services
             .AddClient<INotificationsClient>(
                 baseUrls => baseUrls.NotificationsBaseUrl,

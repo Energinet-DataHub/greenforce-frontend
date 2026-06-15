@@ -18,11 +18,11 @@ using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-public class ActorConversationModule : IModule
+public static class ActorConversationModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services
             .AddClient<IActorConversationClient_V1>(
                 baseUrls => baseUrls.ActorConversationBaseUrl,
