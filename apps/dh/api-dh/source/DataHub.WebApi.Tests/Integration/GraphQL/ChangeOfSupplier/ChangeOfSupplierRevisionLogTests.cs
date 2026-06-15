@@ -12,12 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.Framework;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Tests.Helpers;
 using Energinet.DataHub.WebApi.Tests.TestServices;
 using Energinet.DataHub.WebApi.Tests.Traits;
@@ -81,6 +84,46 @@ public class ChangeOfSupplierRevisionLogTests
                 { "customerType", "private" },
                 { "cpr", "1234567890" },
                 { "cvr", null },
+            });
+    }
+
+    [Fact]
+    [RevisionLogTest("ChangeOfSupplierOperations.RequestIncorrectChangeOfSupplierAsync")]
+    public async Task RequestIncorrectChangeOfSupplierAsync()
+    {
+        var operation =
+            $$"""
+              mutation (
+                $processId: UUID!
+                $meteringPointId: String!
+                $cutoffDate: DateTime!
+                $reason: String
+              ) {
+                requestIncorrectChangeOfSupplier(input: {
+                  processId: $processId,
+                  meteringPointId: $meteringPointId,
+                  cutoffDate: $cutoffDate,
+                  reason: $reason
+                }) {
+                  boolean
+                }
+              }
+            """;
+
+        var server = new GraphQLTestService();
+        server.EdiB2CClientMock
+            .Setup(x => x.SendAsync(It.IsAny<RequestRollbackChangeOfSupplierCommandV1>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Result<RequestRollbackChangeOfSupplierResponseV1>.Success(new RequestRollbackChangeOfSupplierResponseV1("test")));
+
+        await RevisionLogTestHelper.ExecuteAndAssertAsync(
+            server,
+            operation,
+            new()
+            {
+                { "processId", Guid.Parse("504821ca-8a67-448b-8b34-4488f23b819f") },
+                { "meteringPointId", "571313180000000005" },
+                { "cutoffDate", "2025-12-31T23:00:00Z" },
+                { "reason", "Incorrect change of supplier reason" },
             });
     }
 }

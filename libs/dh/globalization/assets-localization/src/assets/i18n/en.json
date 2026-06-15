@@ -1143,7 +1143,8 @@
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Request correction"
         },
         "IncorrectMove": {
           "CONFIRM_WORKFLOW": "Accept",
@@ -1156,6 +1157,20 @@
         "reasonLabel": "Reason for request",
         "conditionsPrefix": "Conditions",
         "conditionsSuffix": "for correction of incorrect move are met",
+        "cancel": "Close",
+        "confirm": "Request correction",
+        "toast": {
+          "loading": "Submitting the request...",
+          "success": "The request has been registered in DataHub",
+          "error": "Something went wrong. The request could not be completed. Please try again."
+        }
+      },
+      "incorrectChangeOfSupplier": {
+        "title": "Request correction: Incorrect change of supplier",
+        "description": "Request correction of change of supplier with cut-off date {{ cutoffDate }}?",
+        "reasonLabel": "Reason for request",
+        "conditionsPrefix": "Conditions",
+        "conditionsSuffix": "for correction of incorrect change of supplier are met",
         "cancel": "Close",
         "confirm": "Request correction",
         "toast": {

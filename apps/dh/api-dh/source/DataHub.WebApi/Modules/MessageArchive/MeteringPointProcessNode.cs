@@ -180,6 +180,16 @@ public static partial class MeteringPointProcessNode
                 : actions;
         }
 
+        if (process.BusinessReason == BusinessReason.ChangeOfEnergySupplier)
+        {
+            // #2006: offer the action whenever a cutoff date is present so the modal can render
+            // the skæringsdato. Visibility is gated only by the frontend BRS003-INCOMING-MESSAGES
+            // release toggle; eligibility rules (validity window, latest completed, etc.) are #2019.
+            return process.CutoffDate.HasValue
+                ? actions.Append(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier)
+                : actions;
+        }
+
         if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
         {
             return actions;
