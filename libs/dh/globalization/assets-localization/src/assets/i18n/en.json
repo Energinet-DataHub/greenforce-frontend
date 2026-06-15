@@ -1238,7 +1238,8 @@
         "ChangeOfEnergySupplier": "change of energy supplier"
       },
       "stepPreviewFieldLabels": {
-        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_1": "Service kind"
       },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Process cancelled",
