@@ -54,6 +54,8 @@ export const permissions = [
   'metering-point:prices-manage',
   'metering-point:process-overview',
   'metering-point:production-obligation-manage',
+  'metering-point:service-request-request',
+  'metering-point:service-request-respond',
   'missing-measurements-log:view',
   'operation-tools:view',
   'operation-tools:manage',
