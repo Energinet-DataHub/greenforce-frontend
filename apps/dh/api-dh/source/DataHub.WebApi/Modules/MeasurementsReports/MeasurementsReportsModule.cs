@@ -18,11 +18,11 @@ using Energinet.DataHub.WebApi.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports;
 
-public class MeasurementsReportsModule : IModule
+public static class MeasurementsReportsModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services.AddClient<IMeasurementsReportClient>(
             baseUrls => baseUrls.SettlementReportsAPIBaseUrl,
             (_, client) => new MeasurementsReportClient(client));

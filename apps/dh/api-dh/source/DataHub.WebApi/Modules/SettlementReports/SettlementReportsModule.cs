@@ -19,11 +19,11 @@ using Energinet.DataHub.WebApi.Modules.SettlementReports.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.SettlementReports;
 
-public class SettlementReportsModule : IModule
+public static class SettlementReportsModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services
             .AddClient<ISettlementReportClient>(
                 baseUrls => baseUrls.SettlementReportsAPIBaseUrl,

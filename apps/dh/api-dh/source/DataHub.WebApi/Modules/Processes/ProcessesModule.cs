@@ -23,9 +23,10 @@ using Energinet.DataHub.WebApi.Registration;
 
 namespace Energinet.DataHub.WebApi.Modules.Processes;
 
-public class ProcessManagerModule : IModule
+public static class ProcessManagerModule
 {
-    public IServiceCollection RegisterModule(
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
         IServiceCollection services,
         IConfiguration configuration)
     {
