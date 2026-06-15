@@ -74,14 +74,9 @@ export class DhCanSeeDirective {
 
       const selectedActor = this.actorStorage.getSelectedActor();
 
-      let canSee = false;
-
       const marketRoles = dhWhoCanSeeWhatMap[this.dhCanSee()].marketRoles;
-      canSee = marketRoles.includes(selectedActor.marketRole);
-
-      if (canSee === false) {
-        canSee = !!this.isEnergySupplierResponsible();
-      }
+      let canSee =
+        marketRoles.includes(selectedActor.marketRole) || !!this.isEnergySupplierResponsible();
 
       const mpType = meteringPoint.metadata.type;
 
