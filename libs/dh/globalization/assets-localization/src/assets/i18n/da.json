@@ -1235,7 +1235,7 @@
         "EndOfSupply": "leveranceophør",
         "CustomerMoveIn": "tilflytning",
         "ChangeOfEnergySupplier": "leverandørskift",
-        "ServiceRequest": "Anmodning om serviceydelse"
+        "ServiceRequest": "anmodning om serviceydelse"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
@@ -1468,7 +1468,7 @@
         }
       },
       "confirmServiceRequest": {
-        "title": "Godkend anmodning af serviceydelse",
+        "title": "Godkend anmodning om serviceydelse",
         "serviceKindLabel": "Anmodet serviceydelse",
         "startDateLabel": "Skæringsdato",
         "descriptionLabel": "Bemærkning",

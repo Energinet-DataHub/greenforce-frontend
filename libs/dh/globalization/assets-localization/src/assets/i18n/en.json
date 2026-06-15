@@ -1236,7 +1236,7 @@
         "EndOfSupply": "end of supply",
         "CustomerMoveIn": "move-in",
         "ChangeOfEnergySupplier": "change of energy supplier",
-        "ServiceRequest": "Service request"
+        "ServiceRequest": "request for service"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
@@ -1456,7 +1456,7 @@
         "title": "Request service",
         "serviceKindLabel": "Type",
         "serviceKindPlaceholder": "Select",
-        "startDateLabel": "Effective date",
+        "startDateLabel": "Cut-off date",
         "descriptionLabel": "Remarks",
         "cancel": "Cancel",
         "confirm": "Submit",
@@ -1471,7 +1471,7 @@
       "confirmServiceRequest": {
         "title": "Approve service request",
         "serviceKindLabel": "Requested service",
-        "startDateLabel": "Effective date",
+        "startDateLabel": "Cut-off date",
         "descriptionLabel": "Remark",
         "cancel": "Close window",
         "confirm": "Approve",
