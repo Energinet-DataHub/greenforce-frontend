@@ -166,13 +166,15 @@ function applyFilters(
   fixture: ComponentFixture<DhMeteringPointProcessOverviewTable>,
   filters: {
     states?: MeteringPointProcessState[];
-    businessReasons?: ProcessManagerBusinessReason[];
+    // Resolved process-type keys (see `resolveProcessTypeKey`): a `processType`
+    // discriminator (e.g. Brs_005) or the `businessReason` fallback (e.g. EndOfSupply).
+    processTypes?: string[];
     period?: WattRange<Date>;
   }
 ): void {
   const { form } = fixture.componentInstance;
   if (filters.states) form.controls.states.setValue(filters.states);
-  if (filters.businessReasons) form.controls.businessReasons.setValue(filters.businessReasons);
+  if (filters.processTypes) form.controls.processTypes.setValue(filters.processTypes);
   if (filters.period) form.controls.period.setValue(filters.period);
 
   // Flush the signals/effects the form change feeds (valueChanges -> store signal
@@ -257,7 +259,7 @@ describe('Process overview', () => {
     expect(endOfSupplyRows).toBeLessThan(fullDataRows);
 
     applyFilters(fixture, {
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: [ProcessManagerBusinessReason.EndOfSupply],
     });
 
     expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - endOfSupplyRows));
@@ -286,7 +288,7 @@ describe('Process overview', () => {
     expect(matchingRows).toBeLessThan(endOfSupplyRows);
 
     applyFilters(fixture, {
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: [ProcessManagerBusinessReason.EndOfSupply],
       states: [MeteringPointProcessState.Running],
     });
 
@@ -328,7 +330,7 @@ describe('Process overview', () => {
     // `filteredProcesses`, not a transient loading state from a refetch.
     applyFilters(fixture, {
       states: [MeteringPointProcessState.Running],
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: [ProcessManagerBusinessReason.EndOfSupply],
     });
 
     // The table is genuinely narrowed first, so the restore assertion is meaningful.
@@ -536,5 +538,66 @@ describe('Process overview', () => {
     await waitForAsync(() =>
       expect(within(grid).getAllByText(/Grid access provider/i).length).toBeGreaterThan(0)
     );
+  });
+
+  it('renders distinct type labels for BRS-005 and BRS-038 that share a business reason', async () => {
+    const { fixture } = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+
+    // Falsifiability: both fixtures carry the SAME businessReason
+    // (DataAlignmentForMasterDataMeteringPoint) and are told apart only by `processType`.
+    const brs005 = store.processes().find((p) => p.id === 'process-brs-005');
+    const brs038 = store.processes().find((p) => p.id === 'process-brs-038');
+    expect(brs005?.businessReason).toBe(
+      ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint
+    );
+    expect(brs038?.businessReason).toBe(
+      ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint
+    );
+    expect(brs005?.processType).toBe('Brs_005');
+    expect(brs038?.processType).toBe('Brs_038');
+
+    const grid = screen.getByRole('treegrid');
+    // "Request for charge links (BRS-038)" is reachable ONLY via the processType
+    // discriminator (no businessReason maps to it), so its presence proves the split.
+    expect(within(grid).getByText('Request for charge links (BRS-038)')).toBeInTheDocument();
+    // The BRS-005 label is shared with the businessReason fallback, so it appears at least once.
+    expect(within(grid).getAllByText('Request for master data (BRS-005)').length).toBeGreaterThan(0);
+  });
+
+  it('lists BRS-005 and BRS-038 as separate type options that each narrow the table independently', async () => {
+    const { fixture } = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+
+    // The type dropdown options are built from the resolved keys, so the two share-a-reason
+    // processes surface as two distinct options.
+    expect(fixture.componentInstance.typeOptions().map((o) => o.value)).toEqual(
+      expect.arrayContaining(['Brs_005', 'Brs_038'])
+    );
+
+    const baselineRows = renderedRowCount();
+    const fullDataRows = store.processes().length;
+    const brs005Rows = store.processes().filter((p) => p.processType === 'Brs_005').length;
+    const brs038Rows = store.processes().filter((p) => p.processType === 'Brs_038').length;
+    expect(brs005Rows).toBeGreaterThan(0);
+    expect(brs038Rows).toBeGreaterThan(0);
+
+    // Selecting Brs_038 shows only the BRS-038 row, proving it is an independent option.
+    applyFilters(fixture, { processTypes: ['Brs_038'] });
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - brs038Rows));
+
+    // Switching to Brs_005 shows the BRS-005 row instead (and excludes BRS-038).
+    applyFilters(fixture, { processTypes: ['Brs_005'] });
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - brs005Rows));
+  });
+
+  it('keeps distinct business-reason labels for Brs_009 processes without a dedicated key', async () => {
+    // CustomerMoveIn and SecondaryMoveIn are both Brs_009 with no dedicated processType
+    // key, so each keeps falling back to its own distinct businessReason label.
+    await setup();
+    const grid = screen.getByRole('treegrid');
+
+    expect(within(grid).getAllByText('Move-in (BRS-009)').length).toBeGreaterThan(0);
+    expect(within(grid).getAllByText('Secondary move-in (BRS-009)').length).toBeGreaterThan(0);
   });
 });

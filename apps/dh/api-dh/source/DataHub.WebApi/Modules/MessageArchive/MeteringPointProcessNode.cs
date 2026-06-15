@@ -363,6 +363,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.TransactionId);
         descriptor.Field(f => f.BusinessReason);
+        descriptor.Field(f => f.ProcessType);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
@@ -431,7 +432,8 @@ public static partial class MeteringPointProcessNode
             workflowInstance.ExpectedValidityDate,
             actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null,
-            meteringPointId: meteringPointId);
+            meteringPointId: meteringPointId,
+            processType: workflowInstance.WorkflowDescriptionName);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps, string meteringPointId) =>
         CreateMeteringPointProcess(
@@ -442,7 +444,8 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.ExpectedValidityDate,
             actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps,
-            meteringPointId: meteringPointId);
+            meteringPointId: meteringPointId,
+            processType: workflowInstanceWithSteps.WorkflowDescriptionName);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
@@ -452,7 +455,8 @@ public static partial class MeteringPointProcessNode
         DateTimeOffset? cuteoffDate = null,
         WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null,
-        string? meteringPointId = null)
+        string? meteringPointId = null,
+        string? processType = null)
     {
         var actorIdentity = lifecycle.CreatedBy;
         // TODO: Check if the actor has been masked.
@@ -473,6 +477,7 @@ public static partial class MeteringPointProcessNode
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
+            ProcessType: processType,
             ActorNumber: actorIdentityIsNotMasked ? actorIdentity.ActorNumber!.Value : string.Empty,
             ActorRole: actorIdentity.ActorRole.Name, // Always keep the role; only the number is masked for foreign actors.
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),

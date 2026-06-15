@@ -1096,6 +1096,8 @@
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Anmod om stamdata (BRS-005)",
+        "Brs_005": "Anmod om stamdata (BRS-005)",
+        "Brs_038": "Anmodning om pristilknytninger (BRS-038)",
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskift (BRS-001)",

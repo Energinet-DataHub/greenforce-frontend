@@ -1097,6 +1097,8 @@
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
         "CustomerMoveOut": "Move-out (BRS-010)",
         "DataAlignmentForMasterDataMeteringPoint": "Request for master data (BRS-005)",
+        "Brs_005": "Request for master data (BRS-005)",
+        "Brs_038": "Request for charge links (BRS-038)",
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",

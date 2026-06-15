@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -45,10 +45,10 @@ import {
   ElectricityMarketViewConnectionState,
   MeteringPointProcessAction,
   MeteringPointProcessState,
-  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointProcess } from '../types';
+import { resolveProcessTypeKey } from '../process-type';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
@@ -102,7 +102,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
             {{ t('period') }}
           </watt-date-range-chip>
           <watt-dropdown
-            [formControl]="form.controls.businessReasons"
+            [formControl]="form.controls.processTypes"
             [chipMode]="true"
             [multiple]="true"
             [options]="typeOptions()"
@@ -143,7 +143,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.businessReason; let process">
-          {{ t('processType.' + process.businessReason) }}
+          {{ t('processType.' + processTypeKey(process)) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
@@ -198,6 +198,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
+  private readonly transloco = inject(TranslocoService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -210,11 +211,15 @@ export class DhMeteringPointProcessOverviewTable {
   dataSource = dataSource(() => this.store.filteredProcesses());
 
   // Dropdown options are derived from the LOADED processes so the list is relevant and
-  // avoids the 60+ business-reason enum. dhDropdownTranslator overwrites displayValue from
-  // the translation and sorts by translation-key order, so value === displayValue here.
+  // avoids the 60+ business-reason enum. Built from the RESOLVED process-type key (so
+  // BRS-005 and BRS-038 appear as two separate options). dhDropdownTranslator overwrites
+  // displayValue from the translation and sorts by translation-key order, so value ===
+  // displayValue here.
   typeOptions = computed<WattDropdownOptions>(() => {
-    const reasons = [...new Set(this.store.processes().map((p) => p.businessReason))];
-    return reasons.map((value) => ({ value, displayValue: value }));
+    const keys = [
+      ...new Set(this.store.processes().map((p) => resolveProcessTypeKey(this.transloco, p))),
+    ];
+    return keys.map((value) => ({ value, displayValue: value }));
   });
 
   statusOptions = computed<WattDropdownOptions>(() => {
@@ -225,7 +230,12 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    businessReason: { accessor: 'businessReason' },
+    // Sort by the visible (translated) type label, which follows the resolved key so
+    // BRS-005 and BRS-038 sort by their own labels rather than the shared businessReason.
+    businessReason: {
+      accessor: (process) =>
+        translate(`meteringPoint.processOverview.processType.${this.processTypeKey(process)}`),
+    },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => this.initiatorLabel(process) },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
@@ -233,7 +243,8 @@ export class DhMeteringPointProcessOverviewTable {
 
   form = new FormGroup({
     period: dhMakeFormControl<WattRange<Date>>(null),
-    businessReasons: dhMakeFormControl<ProcessManagerBusinessReason[]>(null),
+    // Holds resolved process-type keys (see `resolveProcessTypeKey`), not raw business reasons.
+    processTypes: dhMakeFormControl<string[]>(null),
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
@@ -248,7 +259,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly hasActiveFilters = computed(
     () =>
       this.store.dateRange() !== null ||
-      this.store.businessReasons().length > 0 ||
+      this.store.processTypes().length > 0 ||
       this.store.states().length > 0
   );
 
@@ -268,13 +279,19 @@ export class DhMeteringPointProcessOverviewTable {
       // partial (start only): ignore until end is picked
     });
 
-    this.form.controls.businessReasons.valueChanges
+    this.form.controls.processTypes.valueChanges
       .pipe(takeUntilDestroyed())
-      .subscribe((v) => this.store.businessReasons.set(v ?? []));
+      .subscribe((v) => this.store.processTypes.set(v ?? []));
 
     this.form.controls.states.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((v) => this.store.states.set(v ?? []));
+  }
+
+  // Resolved process-type translation-key segment for a row: the `processType`
+  // discriminator when it has a dedicated label, else the `businessReason` fallback.
+  protected processTypeKey(process: MeteringPointProcess): string {
+    return resolveProcessTypeKey(this.transloco, process);
   }
 
   // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);

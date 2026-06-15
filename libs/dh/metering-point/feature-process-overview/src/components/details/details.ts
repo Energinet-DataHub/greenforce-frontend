@@ -25,7 +25,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService, translate } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
@@ -48,6 +48,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
+import { resolveProcessTypeKey, type ProcessTypeResolvable } from '../../process-type';
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhActionsRegistry } from '../../actions/registry';
 import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
@@ -151,11 +152,11 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
                   class="watt-link-s dh-cancelled-by__link"
                   (click)="goToCancellingProcess()"
                 >
-                  {{ t('processType.' + cancelledBy.businessReason) }}
+                  {{ t('processType.' + processTypeKeyOf(cancelledBy)) }}
                 </button>
               } @else {
                 <span class="dh-cancelled-by__name">{{
-                  t('processType.' + cancelledBy.businessReason)
+                  t('processType.' + processTypeKeyOf(cancelledBy))
                 }}</span>
               }
               {{
@@ -167,7 +168,7 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h2 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
+          {{ processTypeKey() && t('processType.' + processTypeKey()) | dhEmDashFallback }}
         </h2>
         <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
           <watt-description-list variant="inline-flow" [groupsPerRow]="4">
@@ -275,6 +276,7 @@ export class DhMeteringPointProcessOverviewDetails {
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);
   private readonly store = inject(DhMeteringPointProcessOverviewStore);
+  private readonly transloco = inject(TranslocoService);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -291,6 +293,14 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
+  // Resolved process-type key for the current process: the `processType` discriminator
+  // when it has a dedicated label, else the `businessReason` fallback. Undefined until the
+  // process has loaded, so the heading falls back to the em dash.
+  protected readonly processTypeKey = computed(() => {
+    const process = this.process.data()?.meteringPointProcessById;
+    if (!process) return undefined;
+    return resolveProcessTypeKey(this.transloco, process);
+  });
   initiator = computed(() => {
     const p = this.process.data()?.meteringPointProcessById;
     return (
@@ -353,6 +363,12 @@ export class DhMeteringPointProcessOverviewDetails {
       }))
       .filter((group) => group.actions.length > 0);
   });
+
+  // Resolved process-type key for a related process (e.g. the cancelling one shown in
+  // the cancellation banner), so it is labelled by its own discriminator.
+  protected processTypeKeyOf(process: ProcessTypeResolvable): string {
+    return resolveProcessTypeKey(this.transloco, process);
+  }
 
   goToCancellingProcess() {
     const cancellingProcessId = this.cancelledByProcess()?.id;

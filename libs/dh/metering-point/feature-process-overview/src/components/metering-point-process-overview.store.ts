@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
 
 import type { WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -24,8 +25,9 @@ import {
   GetMeteringPointProcessOverviewDocument,
   MeteringPointProcessState,
   OnMeteringPointProcessUpdatedDocument,
-  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { resolveProcessTypeKey } from '../process-type';
 
 /**
  * Route-scoped owner of the metering-point process OVERVIEW query. Provided at the
@@ -35,6 +37,8 @@ import {
  */
 @Injectable()
 export class DhMeteringPointProcessOverviewStore {
+  private readonly transloco = inject(TranslocoService);
+
   // Set by the overview from its route-bound `meteringPointId` input. A route-`providers`
   // service two levels below the resolver does not reliably see the inherited value on its
   // own ActivatedRoute, so the overview (which gets it via withComponentInputBinding) feeds it.
@@ -44,8 +48,10 @@ export class DhMeteringPointProcessOverviewStore {
   // the BFF applies its hidden default period (2016-01-01 -> now+1year).
   readonly dateRange = signal<WattRange<Date> | null>(null);
 
-  // Client-side filters applied to the already-loaded per-metering-point list.
-  readonly businessReasons = signal<ProcessManagerBusinessReason[]>([]);
+  // Client-side filters applied to the already-loaded per-metering-point list. Holds the
+  // RESOLVED process-type keys (see `resolveProcessTypeKey`), which are either a process's
+  // `processType` discriminator (e.g. Brs_005) or its `businessReason` fallback.
+  readonly processTypes = signal<string[]>([]);
   readonly states = signal<MeteringPointProcessState[]>([]);
 
   private readonly query = query(GetMeteringPointProcessOverviewDocument, () => {
@@ -60,11 +66,12 @@ export class DhMeteringPointProcessOverviewStore {
   // Derived list for the TABLE. `processes()` / `visibleProcessIds` stay the FULL fetched set
   // because the details drawer's cross-cancellation logic depends on the full visible list.
   readonly filteredProcesses = computed(() => {
-    const reasons = this.businessReasons();
+    const selectedTypes = this.processTypes();
     const states = this.states();
     return this.processes().filter(
       (p) =>
-        (reasons.length === 0 || reasons.includes(p.businessReason)) &&
+        (selectedTypes.length === 0 ||
+          selectedTypes.includes(resolveProcessTypeKey(this.transloco, p))) &&
         (states.length === 0 || states.includes(p.state))
     );
   });
