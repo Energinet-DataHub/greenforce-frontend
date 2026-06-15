@@ -16,7 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { VATER } from '../../vater';
 
 import { WattButtonComponent } from '../watt-button.component';
 
@@ -25,14 +26,32 @@ import { WattButtonComponent } from '../watt-button.component';
   selector: 'storybook-button-overview',
   styles: [
     `
-      .content-grid {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 1rem;
+      .button-state-grid {
+        grid-template-columns: 8rem 7rem repeat(4, max-content);
+        row-gap: 0.75rem;
+        column-gap: 1.5rem;
+        align-items: center;
+        justify-items: start;
+      }
+
+      .button-state-grid .col-header-start {
+        grid-column: 3;
+      }
+
+      .button-state-grid .col-label {
+        grid-column: 2;
+        margin: 0;
+      }
+
+      .button-state-grid .group-label {
+        grid-column: 1 / -1;
+        padding-top: var(--watt-space-m);
+        font-weight: 600;
       }
     `,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './storybook-button-overview.component.html',
-  imports: [WattButtonComponent],
+  imports: [WattButtonComponent, VATER],
 })
 export class StorybookButtonOverviewComponent {}

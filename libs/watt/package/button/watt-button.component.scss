@@ -38,7 +38,7 @@
 }
 
 @mixin secondary-focus {
-  @include secondary-hover;
+  border-color: var(--watt-color-primary-dark);
 }
 
 @mixin text-hover {
@@ -63,7 +63,8 @@ watt-button {
 
   // Focus ring rendered on the host so it can have an independent
   // border-radius from the button itself.
-  &:has(.mat-mdc-button:focus-visible)::after {
+  &:has(.mat-mdc-button:focus-visible)::after,
+  &[data-storybook-state="focus"]::after {
     content: "";
     position: absolute;
     inset: calc(var(--watt-button-focus-offset) * -1);
@@ -88,7 +89,8 @@ watt-button {
       border: 1px solid var(--watt-color-neutral-grey-300);
       --mat-button-text-label-text-color: var(--watt-color-primary-contrast);
 
-      &:focus-visible {
+      &:focus-visible,
+      watt-button[data-storybook-state="focus"] & {
         @include primary-focus;
       }
 
@@ -110,12 +112,12 @@ watt-button {
       border: 1px solid var(--watt-color-primary);
       color: var(--watt-color-primary);
 
-      &:focus-visible {
+      &:focus-visible,
+      watt-button[data-storybook-state="focus"] & {
         @include secondary-focus;
       }
 
-      &:hover,
-      &:focus-visible {
+      &:hover {
         @include secondary-hover;
       }
     }
@@ -131,7 +133,8 @@ watt-button {
       color: var(--watt-button-color);
       text-transform: var(--watt-button-text-transform);
 
-      &:focus-visible {
+      &:focus-visible,
+      watt-button[data-storybook-state="focus"] & {
         @include text-focus;
       }
 
@@ -186,7 +189,8 @@ watt-button {
       color: var(--watt-color-primary);
       @include watt.space-inset-s;
 
-      &:focus-visible {
+      &:focus-visible,
+      watt-button[data-storybook-state="focus"] & {
         @include icon-focus;
       }
 

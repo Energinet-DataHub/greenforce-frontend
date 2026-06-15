@@ -16,78 +16,105 @@ limitations under the License.
 -->
 <h1>Button</h1>
 
-<h2>Primary</h2>
+<div vater-grid class="button-state-grid">
 
-<p>
-  Contained buttons are <strong>high-emphasis</strong>, distinguished by their use of fill. They
-  contain actions that are primary to your app.
-</p>
+  <!-- Column headers — placed at columns 3–6, leaving the two label columns empty -->
+  <strong class="col-header-start">Enabled</strong>
+  <strong>Focused</strong>
+  <strong>Disabled</strong>
+  <strong>Loading</strong>
 
-<div class="content-grid">
-  <watt-button variant="primary">Enabled</watt-button>
-  <watt-button variant="primary" [disabled]="true">Disabled</watt-button>
-  <watt-button variant="primary" [loading]="true">Hidden</watt-button>
-</div>
+  <!-- Primary regular --------------------------------------------------- -->
+  <strong class="group-label">Primary regular</strong>
 
-<div class="content-grid">
-  <watt-button variant="primary" icon="plus">Enabled</watt-button>
-  <watt-button variant="primary" icon="plus" [disabled]="true">Disabled</watt-button>
-  <watt-button variant="primary" icon="plus" iconPosition="trailing">Trailing icon</watt-button>
-  <watt-button variant="primary" icon="plus" />
-</div>
+  <p class="col-label">No icon</p>
+  <watt-button variant="primary">Button</watt-button>
+  <watt-button variant="primary" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" [loading]="true">Button</watt-button>
 
-<h2>Secondary</h2>
+  <p class="col-label">Leading icon</p>
+  <watt-button variant="primary" icon="plus">Button</watt-button>
+  <watt-button variant="primary" icon="plus" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" icon="plus" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" icon="plus" [loading]="true">Button</watt-button>
 
-<p>
-  Outlined buttons are <strong>medium-emphasis</strong> buttons. They contain actions that are
-  important, but aren't the primary action in an app.
-</p>
+  <p class="col-label">Trailing icon</p>
+  <watt-button variant="primary" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="primary" icon="plus" iconPosition="trailing" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" icon="plus" iconPosition="trailing" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" icon="plus" iconPosition="trailing" [loading]="true">Button</watt-button>
 
-<div class="content-grid">
-  <watt-button variant="secondary">Enabled</watt-button>
-  <watt-button variant="secondary" [disabled]="true">Disabled</watt-button>
-  <watt-button variant="secondary" [loading]="true">Hidden</watt-button>
-</div>
+  <!-- Primary small ----------------------------------------------------- -->
+  <strong class="group-label">Primary small</strong>
 
-<div class="content-grid">
-  <watt-button variant="secondary" icon="plus">Enabled</watt-button>
-  <watt-button variant="secondary" icon="plus" [disabled]="true">Disabled</watt-button>
-  <watt-button variant="secondary" icon="plus" iconPosition="trailing">Trailing icon</watt-button>
-  <watt-button variant="secondary" icon="plus" />
-</div>
+  <p class="col-label">No icon</p>
+  <watt-button variant="primary" size="small">Button</watt-button>
+  <watt-button variant="primary" size="small" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" size="small" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" size="small" [loading]="true">Button</watt-button>
 
-<h2>Text</h2>
+  <p class="col-label">Leading icon</p>
+  <watt-button variant="primary" size="small" icon="plus">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" [loading]="true">Button</watt-button>
 
-<p>
-  Text buttons are typically used for
-  <strong>less-pronounced actions</strong>, including those located in dialogs and cards. In cards,
-  text buttons help maintain an emphasis on card content.
-</p>
+  <p class="col-label">Trailing icon</p>
+  <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing" [disabled]="true">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing" [loading]="true">Button</watt-button>
 
-<div class="content-grid">
-  <watt-button variant="text">Enabled</watt-button>
-  <watt-button variant="text" [disabled]="true">Disabled</watt-button>
-</div>
+  <!-- Secondary regular ------------------------------------------------- -->
+  <strong class="group-label">Secondary regular</strong>
 
-<div class="content-grid">
-  <watt-button variant="text" icon="plus">Enabled</watt-button>
-  <watt-button variant="text" icon="plus" [disabled]="true">Disabled</watt-button>
-  <watt-button variant="text" icon="plus" iconPosition="trailing">Trailing icon</watt-button>
-</div>
+  <p class="col-label">No icon</p>
+  <watt-button variant="secondary">Button</watt-button>
+  <watt-button variant="secondary" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" [loading]="true">Button</watt-button>
 
-<h2>Icon</h2>
+  <p class="col-label">Leading icon</p>
+  <watt-button variant="secondary" icon="plus">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" [loading]="true">Button</watt-button>
 
-<p>Icon buttons allow users to take actions and make choices with a single tap.</p>
+  <p class="col-label">Trailing icon</p>
+  <watt-button variant="secondary" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" iconPosition="trailing" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" iconPosition="trailing" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" iconPosition="trailing" [loading]="true">Button</watt-button>
 
-<div class="content-grid">
-  <watt-button variant="icon" icon="plus">Enabled</watt-button>
-  <watt-button variant="icon" icon="plus" [disabled]="true">Disabled</watt-button>
-</div>
+  <!-- Secondary small --------------------------------------------------- -->
+  <strong class="group-label">Secondary small</strong>
 
-<h2>Selection</h2>
+  <p class="col-label">No icon</p>
+  <watt-button variant="secondary" size="small">Button</watt-button>
+  <watt-button variant="secondary" size="small" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" size="small" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" size="small" [loading]="true">Button</watt-button>
 
-<p>Selection buttons allow users to take actions and make choices with a single tap.</p>
+  <p class="col-label">Leading icon</p>
+  <watt-button variant="secondary" size="small" icon="plus">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" [loading]="true">Button</watt-button>
 
-<div class="content-grid">
-  <watt-button variant="selection" icon="right">Enabled</watt-button>
+  <p class="col-label">Trailing icon</p>
+  <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing" data-storybook-state="focus">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing" [disabled]="true">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing" [loading]="true">Button</watt-button>
+
+  <!-- Icon only --------------------------------------------------------- -->
+  <strong class="group-label">Icon only</strong>
+
+  <p class="col-label">Icon</p>
+  <watt-button variant="icon" icon="plus" aria-label="Add" />
+  <watt-button variant="icon" icon="plus" data-storybook-state="focus" aria-label="Add" />
+  <watt-button variant="icon" icon="plus" [disabled]="true" aria-label="Add" />
+  <watt-button variant="icon" icon="plus" [loading]="true" aria-label="Add" />
+
 </div>
