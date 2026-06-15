@@ -329,6 +329,13 @@ public class ChargesClient(
         int factor,
         CancellationToken ct = default)
     {
+        var periods = await GetChargeLinkPeriodsAsync(meteringPointId, ct);
+        var newEndDate = periods
+            .Select(p => p.Period.From)
+            .Order()
+            .Cast<Instant?>()
+            .FirstOrDefault(f => f > newStartDate.ToInstant());
+
         var result = await ediClient.SendAsync(
             new UpsertChargeLinkCommandV1(new(
                 chargeId.Code,
@@ -340,7 +347,7 @@ public class ChargesClient(
             ct);
 
         return result.IsSuccess
-            ? new(meteringPointId, new(factor, newStartDate.ToInstant(), null), chargeId)
+            ? new(meteringPointId, new(factor, newStartDate.ToInstant(), newEndDate), chargeId)
             : throw new GraphQLException("Failed to create charge link");
     }
 
