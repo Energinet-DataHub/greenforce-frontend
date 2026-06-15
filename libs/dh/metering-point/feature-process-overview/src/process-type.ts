@@ -16,47 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-import type { TranslocoService } from '@jsverse/transloco';
+import { ProcessManagerBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import type { ProcessManagerBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
-
-const PROCESS_TYPE_PREFIX = 'meteringPoint.processOverview.processType';
+// Business reasons shared by more than one BRS process, where processType (the workflow
+// description name, e.g. Brs_005 / Brs_038) is what tells them apart. Only E0G today.
+const AMBIGUOUS_BUSINESS_REASONS = new Set<ProcessManagerBusinessReason>([
+  ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint,
+]);
 
 export interface ProcessTypeResolvable {
   processType?: string | null;
   businessReason: ProcessManagerBusinessReason;
 }
 
-/**
- * Resolves the translation-key segment used to label a process's type.
- *
- * Prefers `processType` (the process-manager workflow short name, e.g. `Brs_005` /
- * `Brs_038`) when a dedicated translation exists for it under `processType.*`;
- * otherwise falls back to `businessReason`. This splits BRS-005 and BRS-038, which
- * share `businessReason = DataAlignmentForMasterDataMeteringPoint`, while preserving
- * every existing label (reasons without a dedicated `processType.*` key keep their
- * distinct `businessReason` label, e.g. CustomerMoveIn vs SecondaryMoveIn).
- *
- * The override is gated on translation existence (the generic primitive), not on any
- * hardcoded BRS list, so new discriminators only need a translation key to take effect.
- */
-export function resolveProcessTypeKey(
-  transloco: TranslocoService,
-  process: ProcessTypeResolvable
-): string {
-  const { processType, businessReason } = process;
-  if (processType && hasProcessTypeTranslation(transloco, processType)) {
-    return processType;
-  }
-  return businessReason;
-}
-
-// Assumes da.json and en.json carry the same processType.* key set, so the resolved key is
-// language-invariant; only the rendered label (via a reactive `t(...)`) changes on language switch.
-function hasProcessTypeTranslation(transloco: TranslocoService, segment: string): boolean {
-  // Transloco stores translations as a flat map keyed by full dotted paths (see how
-  // `translate` reads `translation[key]` directly), so membership of the dotted key
-  // is a robust existence check across both the nested-source and AOT-flattened builds.
-  const translation = transloco.getTranslation(transloco.getActiveLang());
-  return `${PROCESS_TYPE_PREFIX}.${segment}` in translation;
+// Translation-key segment for a process's type label: the business reason, except for reasons
+// shared across BRS processes (BRS-005 vs BRS-038), where processType splits them.
+export function resolveProcessTypeKey(process: ProcessTypeResolvable): string {
+  return process.processType && AMBIGUOUS_BUSINESS_REASONS.has(process.businessReason)
+    ? process.processType
+    : process.businessReason;
 }

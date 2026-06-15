@@ -16,8 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { TranslocoService } from '@jsverse/transloco';
+import { computed, effect, Injectable, signal } from '@angular/core';
 
 import type { WattRange } from '@energinet/watt/date';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
@@ -37,7 +36,6 @@ import { resolveProcessTypeKey } from '../process-type';
  */
 @Injectable()
 export class DhMeteringPointProcessOverviewStore {
-  private readonly transloco = inject(TranslocoService);
 
   // Set by the overview from its route-bound `meteringPointId` input. A route-`providers`
   // service two levels below the resolver does not reliably see the inherited value on its
@@ -48,9 +46,7 @@ export class DhMeteringPointProcessOverviewStore {
   // the BFF applies its hidden default period (2016-01-01 -> now+1year).
   readonly dateRange = signal<WattRange<Date> | null>(null);
 
-  // Client-side filters applied to the already-loaded per-metering-point list. Holds the
-  // RESOLVED process-type keys (see `resolveProcessTypeKey`), which are either a process's
-  // `processType` discriminator (e.g. Brs_005) or its `businessReason` fallback.
+  // Holds resolved process-type keys (see `resolveProcessTypeKey`), not raw business reasons.
   readonly processTypes = signal<string[]>([]);
   readonly states = signal<MeteringPointProcessState[]>([]);
 
@@ -70,8 +66,7 @@ export class DhMeteringPointProcessOverviewStore {
     const states = this.states();
     return this.processes().filter(
       (p) =>
-        (selectedTypes.length === 0 ||
-          selectedTypes.includes(resolveProcessTypeKey(this.transloco, p))) &&
+        (selectedTypes.length === 0 || selectedTypes.includes(resolveProcessTypeKey(p))) &&
         (states.length === 0 || states.includes(p.state))
     );
   });

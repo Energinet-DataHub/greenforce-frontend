@@ -19,7 +19,7 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input } from '@angular/core';
 import { toSignal, takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { TranslocoDirective, TranslocoPipe, TranslocoService, translate } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, translate } from '@jsverse/transloco';
 
 import { VaterStackComponent, VaterUtilityDirective } from '@energinet/watt/vater';
 import { WattDateRangeChipComponent, WattFormChipDirective } from '@energinet/watt/chip';
@@ -198,7 +198,6 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly store = inject(DhMeteringPointProcessOverviewStore);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
-  private readonly transloco = inject(TranslocoService);
 
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
@@ -217,7 +216,7 @@ export class DhMeteringPointProcessOverviewTable {
   // displayValue here.
   typeOptions = computed<WattDropdownOptions>(() => {
     const keys = [
-      ...new Set(this.store.processes().map((p) => resolveProcessTypeKey(this.transloco, p))),
+      ...new Set(this.store.processes().map((p) => resolveProcessTypeKey(p))),
     ];
     return keys.map((value) => ({ value, displayValue: value }));
   });
@@ -288,10 +287,8 @@ export class DhMeteringPointProcessOverviewTable {
       .subscribe((v) => this.store.states.set(v ?? []));
   }
 
-  // Resolved process-type translation-key segment for a row: the `processType`
-  // discriminator when it has a dedicated label, else the `businessReason` fallback.
   protected processTypeKey(process: MeteringPointProcess): string {
-    return resolveProcessTypeKey(this.transloco, process);
+    return resolveProcessTypeKey(process);
   }
 
   // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);

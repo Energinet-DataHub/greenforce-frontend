@@ -25,7 +25,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { TranslocoDirective, TranslocoService, translate } from '@jsverse/transloco';
+import { TranslocoDirective, translate } from '@jsverse/transloco';
 
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
@@ -276,7 +276,6 @@ export class DhMeteringPointProcessOverviewDetails {
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);
   private readonly store = inject(DhMeteringPointProcessOverviewStore);
-  private readonly transloco = inject(TranslocoService);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 
@@ -293,13 +292,10 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
-  // Resolved process-type key for the current process: the `processType` discriminator
-  // when it has a dedicated label, else the `businessReason` fallback. Undefined until the
-  // process has loaded, so the heading falls back to the em dash.
   protected readonly processTypeKey = computed(() => {
     const process = this.process.data()?.meteringPointProcessById;
     if (!process) return undefined;
-    return resolveProcessTypeKey(this.transloco, process);
+    return resolveProcessTypeKey(process);
   });
   initiator = computed(() => {
     const p = this.process.data()?.meteringPointProcessById;
@@ -364,10 +360,8 @@ export class DhMeteringPointProcessOverviewDetails {
       .filter((group) => group.actions.length > 0);
   });
 
-  // Resolved process-type key for a related process (e.g. the cancelling one shown in
-  // the cancellation banner), so it is labelled by its own discriminator.
   protected processTypeKeyOf(process: ProcessTypeResolvable): string {
-    return resolveProcessTypeKey(this.transloco, process);
+    return resolveProcessTypeKey(process);
   }
 
   goToCancellingProcess() {

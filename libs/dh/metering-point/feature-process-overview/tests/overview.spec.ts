@@ -509,7 +509,7 @@ describe('Process overview', () => {
     // button for an actor that owns the process, so narrow the table to move-in
     // rows to target the move-in button unambiguously.
     applyFilters(fixture, {
-      businessReasons: [ProcessManagerBusinessReason.CustomerMoveIn],
+      processTypes: [ProcessManagerBusinessReason.CustomerMoveIn],
     });
 
     await waitForAsync(() =>
