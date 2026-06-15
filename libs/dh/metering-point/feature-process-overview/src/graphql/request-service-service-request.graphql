@@ -1,0 +1,19 @@
+mutation RequestServiceServiceRequest(
+  $meteringPointId: String!
+  $processId: UUID!
+  $serviceKind: ServiceKindV1!
+  $startDate: DateTime!
+  $description: String
+) {
+  requestServiceServiceRequest(
+    input: {
+      meteringPointId: $meteringPointId
+      processId: $processId
+      serviceKind: $serviceKind
+      startDate: $startDate
+      description: $description
+    }
+  ) {
+    boolean
+  }
+}
