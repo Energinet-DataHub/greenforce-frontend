@@ -3235,7 +3235,7 @@
             }
           },
           "body": {
-            "AGGREGATION": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
+            "AGGREGATION": "Du er ved at udsende nye data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
