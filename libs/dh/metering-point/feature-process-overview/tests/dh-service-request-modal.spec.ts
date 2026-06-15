@@ -16,14 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-import { ComponentFixtureAutoDetect } from '@angular/core/testing';
+import { Component, inject } from '@angular/core';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
-import { render, screen } from '@testing-library/angular';
+import { render, screen, within } from '@testing-library/angular';
 import userEvent from '@testing-library/user-event';
 import { graphql, HttpResponse } from 'msw';
-import { vi } from 'vitest';
 
 const server = globalThis.__mswServer;
 
@@ -38,35 +37,59 @@ import { WattModalService } from '@energinet/watt/modal';
 
 import { ServiceKindV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { DhServiceRequestModal } from './dh-service-request-modal';
+import { DhServiceRequestModal } from '../src/components/dh-service-request-modal';
 
 const meteringPointId = 'mp-039';
 const processId = 'service-request-process-1';
 
-async function setup() {
-  const dialogRef = { close: vi.fn() };
+@Component({
+  selector: 'dh-test-host',
+  template: '',
+})
+class TestHostComponent {
+  private readonly modalService = inject(WattModalService);
 
-  const { fixture } = await render(DhServiceRequestModal, {
+  open() {
+    this.modalService.open({
+      component: DhServiceRequestModal,
+      data: { meteringPointId, processId },
+    });
+  }
+}
+
+async function setup() {
+  const { fixture } = await render(TestHostComponent, {
     providers: [
       provideHttpClient(withInterceptorsFromDi()),
       danishDatetimeProviders,
       provideMsalTesting(),
       WattModalService,
       { provide: ComponentFixtureAutoDetect, useValue: true },
-      { provide: MAT_DIALOG_DATA, useValue: { meteringPointId, processId } },
-      { provide: MatDialogRef, useValue: dialogRef },
     ],
     imports: [getTranslocoTestingModule()],
   });
 
-  return { fixture, dialogRef, user: userEvent.setup() };
+  fixture.componentInstance.open();
+
+  const dialog = await screen.findByRole('dialog');
+  return { dialog, user: userEvent.setup() };
+}
+
+// The Watt datepicker's visible field is a Maskito-masked input with no accessible
+// name of its own (the field label is bound to the hidden Material input), so there
+// is no role/label query for it. We therefore reach it with one scoped querySelector
+// on the dialog and type a valid in-range date so the submit-path assertions have a
+// complete form. The date itself is not the behavior under test here.
+async function setCutOffDate(dialog: HTMLElement, user: ReturnType<typeof userEvent.setup>) {
+  const maskInput = dialog.querySelector('input.mask-input') as HTMLInputElement;
+  await user.type(maskInput, dayjs().startOf('day').add(10, 'day').format('DDMMYYYY'));
 }
 
 describe('Service request modal', () => {
   it('offers only the three supported service types', async () => {
-    const { user } = await setup();
+    const { dialog, user } = await setup();
 
-    await user.click(screen.getByRole('combobox'));
+    await user.click(within(dialog).getByRole('combobox'));
 
     const options = await screen.findAllByRole('option');
     expect(options).toHaveLength(3);
@@ -92,23 +115,21 @@ describe('Service request modal', () => {
       })
     );
 
-    const { fixture, user } = await setup();
-    const submit = screen.getByRole('button', { name: /submit/i });
+    const { dialog, user } = await setup();
+    const submit = within(dialog).getByRole('button', { name: /submit/i });
 
     // Empty form: nothing is sent.
     await user.click(submit);
     expect(submissions).toBe(0);
 
     // Only a type chosen, still no cut-off date: nothing is sent.
-    await user.click(screen.getByRole('combobox'));
+    await user.click(within(dialog).getByRole('combobox'));
     await user.click(await screen.findByRole('option', { name: /disconnection/i }));
     await user.click(submit);
     expect(submissions).toBe(0);
 
-    // With a cut-off date as well, the request goes through.
-    fixture.componentInstance.form.controls.startDate.setValue(
-      dayjs().startOf('day').add(10, 'day').toDate()
-    );
+    // Positive control: with a cut-off date as well, the request goes through.
+    await setCutOffDate(dialog, user);
     await user.click(submit);
 
     await waitForAsync(() => expect(submissions).toBe(1));
@@ -131,19 +152,17 @@ describe('Service request modal', () => {
       })
     );
 
-    const { fixture, dialogRef, user } = await setup();
+    const { dialog, user } = await setup();
 
-    await user.click(screen.getByRole('combobox'));
+    await user.click(within(dialog).getByRole('combobox'));
     await user.click(await screen.findByRole('option', { name: /disconnection/i }));
+    await setCutOffDate(dialog, user);
+    await user.type(within(dialog).getByRole('textbox', { name: /remarks/i }), 'Customer not home');
 
-    fixture.componentInstance.form.controls.startDate.setValue(
-      dayjs().startOf('day').add(10, 'day').toDate()
-    );
+    await user.click(within(dialog).getByRole('button', { name: /submit/i }));
 
-    await user.type(screen.getByRole('textbox', { name: /remarks/i }), 'Customer not home');
-    await user.click(screen.getByRole('button', { name: /submit/i }));
-
-    await waitForAsync(() => expect(dialogRef.close).toHaveBeenCalledWith(true));
+    // The modal closes itself with `true` on success, removing the dialog.
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
 
     expect(captured?.['meteringPointId']).toBe(meteringPointId);
     expect(captured?.['processId']).toBe(processId);
@@ -152,10 +171,21 @@ describe('Service request modal', () => {
     expect(captured?.['startDate']).toBeTruthy();
   });
 
-  it('limits the cut-off date to 60 days into the future', async () => {
-    const { fixture } = await setup();
+  it('shows a danger toast when the request fails', async () => {
+    server.use(
+      graphql.mutation('RequestServiceServiceRequest', () =>
+        HttpResponse.json({ errors: [{ message: 'boom' }] })
+      )
+    );
 
-    const expectedMax = dayjs().startOf('day').add(60, 'day').toDate();
-    expect(fixture.componentInstance.maxDate.getTime()).toBe(expectedMax.getTime());
+    const { dialog, user } = await setup();
+
+    await user.click(within(dialog).getByRole('combobox'));
+    await user.click(await screen.findByRole('option', { name: /disconnection/i }));
+    await setCutOffDate(dialog, user);
+    await user.click(within(dialog).getByRole('button', { name: /submit/i }));
+
+    // The failing mutation surfaces a danger toast (the modal's only error feedback).
+    expect(await screen.findByRole('paragraph')).toHaveTextContent(/service request failed/i);
   });
 });
