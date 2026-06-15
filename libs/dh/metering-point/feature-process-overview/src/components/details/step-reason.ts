@@ -34,10 +34,10 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     <!--
       Visibility is owned by Process Manager: PM populates the preview field (surfaced here as
       comment) only on steps whose description sets ShowPreviewField=true. The frontend therefore
-      renders whenever comment is non-null, with no translation-existence gate. A missing
-      stepPreviewFieldLabels translation surfaces as the raw key in the UI, signalling a frontend
-      opt-in gap (PM expects us to render a step the frontend has not added a label for) that the
-      regression test covers.
+      renders whenever comment is truthy (null and empty string both suppress), with no
+      translation-existence gate. A missing stepPreviewFieldLabels translation surfaces as the
+      raw key in the UI, signalling a frontend opt-in gap (PM expects us to render a step the
+      frontend has not added a label for) that the regression test covers.
     -->
     @if (comment(); as commentText) {
       <p vater-stack align="start" class="watt-text-s">
