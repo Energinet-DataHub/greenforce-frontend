@@ -562,7 +562,9 @@ describe('Process overview', () => {
     // discriminator (no businessReason maps to it), so its presence proves the split.
     expect(within(grid).getByText('Request for charge links (BRS-038)')).toBeInTheDocument();
     // The BRS-005 label is shared with the businessReason fallback, so it appears at least once.
-    expect(within(grid).getAllByText('Request for master data (BRS-005)').length).toBeGreaterThan(0);
+    expect(within(grid).getAllByText('Request for master data (BRS-005)').length).toBeGreaterThan(
+      0
+    );
   });
 
   it('lists BRS-005 and BRS-038 as separate type options that each narrow the table independently', async () => {
