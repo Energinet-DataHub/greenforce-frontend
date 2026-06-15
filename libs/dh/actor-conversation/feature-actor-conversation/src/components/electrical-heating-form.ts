@@ -24,6 +24,8 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
   inject,
+  viewChild,
+  effect,
 } from '@angular/core';
 
 import {
@@ -51,11 +53,7 @@ import {
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
 
-import {
-  dhFormControlToSignal,
-  dhMakeFormControl,
-  dhResetControlOnChange,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ElectricalHeatingFormValue } from '../types';
@@ -132,11 +130,13 @@ import { ElectricalHeatingFormValue } from '../types';
       <span class="watt-label">{{ t('periodTitle') }}</span>
       <vater-flex direction="row" gap="m">
         <watt-datepicker
+          #startPicker
           [min]="periodStartMin()"
           [label]="t('periodStart')"
           [formControl]="form.controls.periodStart"
         />
         <watt-datepicker
+          #endPicker
           [min]="periodEndMin()"
           [label]="t('periodEnd')"
           [formControl]="form.controls.periodEnd"
@@ -156,6 +156,9 @@ import { ElectricalHeatingFormValue } from '../types';
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly startPicker = viewChild<WattDatepickerComponent>('startPicker');
+  private readonly endPicker = viewChild<WattDatepickerComponent>('endPicker');
+
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
   supplierPeriods = computed(() => {
     const periods = this.electricalHeatingInformation()?.supplierPeriods;
@@ -188,15 +191,17 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
     return start ? dayjs(start).add(1, 'day').toDate() : undefined;
   });
 
-  resetPeriodStart = dhResetControlOnChange(
-    this.addressEligibilityDateChanged,
-    () => this.form.controls.periodStart
-  );
+  resetPeriodStartEffect = effect(() => {
+    this.addressEligibilityDateChanged();
 
-  resetPeriodEnd = dhResetControlOnChange(
-    this.periodStartChanged,
-    () => this.form.controls.periodEnd
-  );
+    this.startPicker()?.reset();
+  });
+
+  resetPeriodEndEffect = effect(() => {
+    this.periodStartChanged();
+
+    this.endPicker()?.reset();
+  });
 
   value = toSignal(this.form.valueChanges);
 
