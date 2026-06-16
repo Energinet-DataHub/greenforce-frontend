@@ -121,9 +121,10 @@ export class DhRequestIncorrectChangeOfSupplierModal extends WattTypedModal<Requ
     RequestIncorrectChangeOfSupplierDocument,
     {
       // Only success/error toasts; the submit button already shows the loading state.
-      onStatusUpdated: injectToast('meteringPoint.processOverview.incorrectChangeOfSupplier.toast', [
-        MutationStatus.Loading,
-      ]),
+      onStatusUpdated: injectToast(
+        'meteringPoint.processOverview.incorrectChangeOfSupplier.toast',
+        [MutationStatus.Loading]
+      ),
     }
   );
 
