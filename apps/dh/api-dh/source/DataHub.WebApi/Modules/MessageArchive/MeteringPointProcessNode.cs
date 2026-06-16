@@ -171,6 +171,15 @@ public static partial class MeteringPointProcessNode
                 .Where(a => a.HasValue)
                 .Select(a => a!.Value);
 
+        // Hide actions for IncorrectMove processes when the user is the initiator (except FAS)
+        if (process.BusinessReason == BusinessReason.IncorrectMove)
+        {
+            if (httpContextAccessor.HttpContext?.User.IsFas() == true) return actions;
+            return httpContextAccessor.GetUserActorNumber() == process.ActorNumber
+                ? []
+                : actions;
+        }
+
         if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
         {
             return actions;
