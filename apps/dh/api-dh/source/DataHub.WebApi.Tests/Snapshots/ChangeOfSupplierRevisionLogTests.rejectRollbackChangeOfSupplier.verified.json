@@ -1,0 +1,12 @@
+﻿{
+  "activity": "rejectRollbackChangeOfSupplier",
+  "payload": {
+    "query": "mutation($meteringPointId: String!, $processId: UUID!) { rejectRollbackChangeOfSupplier(input: { meteringPointId: $meteringPointId, processId: $processId }) { boolean } }",
+    "variables": {
+      "meteringPointId": "571313180000000005",
+      "processId": "504821ca-8a67-448b-8b34-4488f23b819f"
+    }
+  },
+  "affectedEntityType": "ChangeOfSupplier",
+  "affectedEntityKey": null
+}
