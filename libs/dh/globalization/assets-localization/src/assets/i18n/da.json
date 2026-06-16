@@ -1098,7 +1098,8 @@
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskift (BRS-001)",
-        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)"
+        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)",
+        "RollbackChangeOfSupplier": "Håndtering af fejlagtigt leverandørskift (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1142,7 +1143,8 @@
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
-          "CANCEL_WORKFLOW": "Annuller"
+          "CANCEL_WORKFLOW": "Annuller",
+          "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Anmod om korrektion"
         },
         "IncorrectMove": {
           "CONFIRM_WORKFLOW": "Accepter",
@@ -1159,6 +1161,19 @@
         "confirm": "Anmod om korrektion",
         "toast": {
           "loading": "Opretter anmodning...",
+          "success": "Anmodning er registreret i DataHub",
+          "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
+      },
+      "incorrectChangeOfSupplier": {
+        "title": "Anmod om korrektion: Fejlagtigt leverandørskift",
+        "description": "Anmod om korrektion af leverandørskift med skæringsdato d. {{ cutoffDate }}?",
+        "reasonLabel": "Årsag til anmodning",
+        "conditionsPrefix": "Betingelser",
+        "conditionsSuffix": "for korrektion af fejlagtigt leverandørskift er opfyldt",
+        "cancel": "Luk",
+        "confirm": "Anmod om korrektion",
+        "toast": {
           "success": "Anmodning er registreret i DataHub",
           "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
         }

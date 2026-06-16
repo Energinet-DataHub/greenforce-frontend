@@ -84,6 +84,8 @@ import {
   internalNoteMaxLength,
   ElectricalHeatingFormValue,
 } from '../types';
+import { supplierPeriodOnSelectedDateValidator } from './supplier-period-on-selected-date.validator';
+
 @Component({
   selector: 'dh-actor-conversation-new-conversation',
   imports: [
@@ -247,20 +249,6 @@ export class DhActorConversationNewConversation {
       ? null
       : { electricalHeatingAttachmentsRequired: true };
 
-  private readonly supplierPeriodOnSelectedDateValidator: ValidatorFn = (
-    control: AbstractControl<Date | null>
-  ) => {
-    const selectedDate = control.value;
-    if (!selectedDate) return null;
-
-    const selectedDay = dayjs(selectedDate);
-    const hasPeriod = this.supplierPeriods().some((period) =>
-      selectedDay.isBetween(period.validFrom, period.validTo, 'day', '[]')
-    );
-
-    return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
-  };
-
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
@@ -353,7 +341,7 @@ export class DhActorConversationNewConversation {
 
   private readonly syncEnergySupplierDateValidators = dhSyncControlValidators(
     () => this.newConversationForm().controls.energySupplierDate,
-    [this.supplierPeriodOnSelectedDateValidator, Validators.required],
+    [supplierPeriodOnSelectedDateValidator(this.supplierPeriods), Validators.required],
     () => this.receiverValue() === MarketRole.EnergySupplier,
     { reset: true }
   );

@@ -166,9 +166,9 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
         </vater-stack>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
+        <h2 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
-        </h3>
+        </h2>
         <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
           <watt-description-list variant="inline-flow" [groupsPerRow]="4">
             <watt-description-list-item

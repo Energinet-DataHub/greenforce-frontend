@@ -1284,6 +1284,7 @@ type Mutation {
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
+  requestIncorrectChangeOfSupplier(input: RequestIncorrectChangeOfSupplierInput!): RequestIncorrectChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   requestIncorrectMoveIn(input: RequestIncorrectMoveInInput!): RequestIncorrectMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
@@ -1694,6 +1695,10 @@ type RequestConnectionStateChangePayload {
 }
 
 type RequestEndOfSupplyPayload {
+  boolean: Boolean
+}
+
+type RequestIncorrectChangeOfSupplierPayload {
   boolean: Boolean
 }
 
@@ -2553,6 +2558,13 @@ input RequestConnectionStateChangeInput {
 input RequestEndOfSupplyInput {
   meteringPointId: String!
   terminationDate: DateTime!
+}
+
+input RequestIncorrectChangeOfSupplierInput {
+  processId: UUID!
+  meteringPointId: String!
+  cutoffDate: DateTime!
+  reason: String
 }
 
 input RequestIncorrectMoveInInput {
@@ -3656,6 +3668,7 @@ enum MeteringPointProcessAction {
   CONFIRM_WORKFLOW
   REJECT_REQUEST
   INITIATE_INCORRECT_MOVE_IN
+  HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER
 }
 
 enum MeteringPointProcessState {

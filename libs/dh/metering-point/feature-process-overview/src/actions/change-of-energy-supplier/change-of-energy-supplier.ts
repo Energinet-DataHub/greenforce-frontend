@@ -19,6 +19,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { WattModalService } from '@energinet/watt/modal';
+
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   CancelChangeOfEnergySupplierDocument,
@@ -37,10 +39,12 @@ import {
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { DhRequestIncorrectChangeOfSupplierModal } from '../../components/request-incorrect-change-of-supplier-modal';
 
 @Injectable({ providedIn: 'root' })
 export class ChangeOfEnergySupplierActions {
   private readonly router = inject(Router);
+  private readonly modalService = inject(WattModalService);
   private readonly cancelChangeOfEnergySupplier = mutation(CancelChangeOfEnergySupplierDocument);
 
   readonly handlers: ActionHandlerMap = {
@@ -81,6 +85,22 @@ export class ChangeOfEnergySupplierActions {
           });
         }
       ),
+    },
+    [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]: {
+      releaseToggle: 'BRS003-INCOMING-MESSAGES',
+      permissions: ['metering-point:change-of-supplier'],
+      roles: [InitiatingParticipant],
+      callback: (ctx) => {
+        if (!ctx.cutoffDate) return;
+        this.modalService.open({
+          component: DhRequestIncorrectChangeOfSupplierModal,
+          data: {
+            meteringPointId: ctx.meteringPointId,
+            processId: ctx.processId,
+            cutoffDate: ctx.cutoffDate,
+          },
+        });
+      },
     },
   };
 }

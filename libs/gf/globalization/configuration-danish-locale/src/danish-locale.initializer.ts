@@ -26,10 +26,4 @@ function registerDanishLocale(): void {
   registerLocaleData(danishLocale, danishLocaleCode);
 }
 
-export const danishLocaleInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    () => (): void =>
-      registerDanishLocale()
-  )();
-  return initializerFn();
-});
+export const danishLocaleInitializer = provideAppInitializer(() => registerDanishLocale());

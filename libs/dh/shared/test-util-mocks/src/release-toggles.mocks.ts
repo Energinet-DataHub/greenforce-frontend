@@ -43,6 +43,7 @@ function getReleaseTogglesQuery() {
           'PM58-PRICES-WEEK-VIEW-UI',
           'PM60-CHARGE-LINKS-UI',
           'BRS011-INCOMING-MESSAGES',
+          'BRS003-INCOMING-MESSAGES',
           'PM120-DH3-METERING-POINTS-UI',
           'PM62-ACTOR-CONVERSATION',
           'PM62-ACTOR-CONVERSATION-CENTRAL',

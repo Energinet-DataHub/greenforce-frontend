@@ -218,6 +218,70 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetAvailableActionsAsync_IncorrectMove_FasUser_ReturnsActions()
+    {
+        var process = CreateProcess(
+            BusinessReason.IncorrectMove,
+            meteringPointId: MeteringPointId,
+            actions: [WorkflowAction.CancelWorkflow]);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_IncorrectMove_Initiator_ReturnsEmpty()
+    {
+        // When the logged-in user is the initiator of the IncorrectMove process,
+        // all actions should be hidden.
+        var process = CreateProcess(
+            BusinessReason.IncorrectMove,
+            meteringPointId: MeteringPointId,
+            actions: [WorkflowAction.CancelWorkflow]);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_IncorrectMove_NonInitiator_ReturnsActions()
+    {
+        // When the logged-in user is NOT the initiator, actions should be visible.
+        var process = CreateProcess(
+            BusinessReason.IncorrectMove,
+            meteringPointId: MeteringPointId,
+            actorNumber: "9999999999999",
+            actions: [WorkflowAction.CancelWorkflow]);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+    }
+
+    [Fact]
     public async Task GetAvailableActionsAsync_AllWorkflowActionsExceptNoAction_MapWithoutThrowing()
     {
         // Converts a future additive WorkflowAction package bump into a test failure here
@@ -342,14 +406,15 @@ public class MeteringPointProcessNodeTests
         string? meteringPointId,
         DateTimeOffset? cutoffDate = null,
         MeteringPointProcessState state = MeteringPointProcessState.Pending,
-        WorkflowAction[]? actions = null) =>
+        WorkflowAction[]? actions = null,
+        string? actorNumber = null) =>
         new(
             Id: _processOrchestrationId.ToString(),
             TransactionId: "transaction-id",
             CreatedAt: new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero),
             CutoffDate: cutoffDate,
             BusinessReason: businessReason,
-            ActorNumber: EnergySupplierGln,
+            ActorNumber: actorNumber ?? EnergySupplierGln,
             ActorRole: ActorRole.EnergySupplier.Name,
             State: state,
             Actions: actions ?? [WorkflowAction.CancelWorkflow],

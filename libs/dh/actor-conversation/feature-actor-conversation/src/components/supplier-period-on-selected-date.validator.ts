@@ -16,10 +16,22 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, provideAppInitializer } from '@angular/core';
+import { AbstractControl, ValidatorFn } from '@angular/forms';
 
-import { DhNewVersionManager } from './dh-new-version-manager.service';
+import { dayjs } from '@energinet/watt/core/date';
 
-export const dhNewVersionManagerInitializer = provideAppInitializer(() =>
-  inject(DhNewVersionManager).init()
-);
+export function supplierPeriodOnSelectedDateValidator(
+  supplierPeriods: () => { validFrom: Date; validTo: Date }[]
+): ValidatorFn {
+  return (control: AbstractControl<Date | null>) => {
+    const selectedDate = control.value;
+    if (!selectedDate) return null;
+
+    const selectedDay = dayjs(selectedDate);
+    const hasPeriod = supplierPeriods().some((period) =>
+      selectedDay.isBetween(period.validFrom, period.validTo, 'day', '[]')
+    );
+
+    return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
+  };
+}
