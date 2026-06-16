@@ -73,11 +73,7 @@ export interface RequestIncorrectChangeOfSupplierModalData {
       [title]="t('title')"
       size="small"
     >
-      <form
-        id="request-incorrect-change-of-supplier-form"
-        [formGroup]="form"
-        (ngSubmit)="submit()"
-      >
+      <form id="request-incorrect-change-of-supplier-form" [formGroup]="form" (ngSubmit)="submit()">
         <vater-stack direction="column" align="start" gap="xs">
           <p>
             <small>{{ t('description', { cutoffDate: modalData.cutoffDate | wattDate }) }}</small>
