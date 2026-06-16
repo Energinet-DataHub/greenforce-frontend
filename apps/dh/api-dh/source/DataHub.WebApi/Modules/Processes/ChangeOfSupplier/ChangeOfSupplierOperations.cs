@@ -15,6 +15,8 @@
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
@@ -57,5 +59,30 @@ public static class ChangeOfSupplierOperations
         var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
 
         return result.IsSuccess;
+    }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:change-of-supplier"])]
+    [UseRevisionLog]
+    public static async Task<bool> RequestIncorrectChangeOfSupplierAsync(
+        Guid processId,
+        string meteringPointId,
+        DateTimeOffset cutoffDate,
+        string? reason,
+        [Service] IB2CClient ediB2CClient,
+        CancellationToken ct)
+    {
+        var command = new RequestRollbackChangeOfSupplierCommandV1(
+            new RequestRollbackChangeOfSupplierRequestV1(processId.ToString(), meteringPointId, cutoffDate, reason));
+
+        var result = await ediB2CClient.SendAsync(command, ct).ConfigureAwait(false);
+
+        if (!result.IsSuccess)
+        {
+            throw new GraphQLException(
+                $"Command RequestIncorrectChangeOfSupplierAsync failed for metering point '{meteringPointId}'. EDI response: {result}");
+        }
+
+        return true;
     }
 }
