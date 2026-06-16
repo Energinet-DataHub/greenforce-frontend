@@ -1282,7 +1282,7 @@ type Mutation {
   registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   rejectIncorrectMove(input: RejectIncorrectMoveInput!): RejectIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
-  rejectRollbackChangeOfSupplier(input: RejectRollbackChangeOfSupplierInput!): RejectRollbackChangeOfSupplierPayload! @authorize(roles: [ "metering-point:move-in" ])
+  rejectRollbackChangeOfSupplier(input: RejectRollbackChangeOfSupplierInput!): RejectRollbackChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   removeElectricalHeatingMeteringPoint(input: RemoveElectricalHeatingMeteringPointInput!): RemoveElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
