@@ -47,3 +47,11 @@ export function getCustomerPrefillSource(
 ): CustomerPrefillSource {
   return (reason && PREFILL_SOURCE[reason]) ?? 'metering-point';
 }
+
+// noinspection JSUnusedGlobalSymbols - used by component and unit tests via TS imports.
+export function shouldMaskCustomerCprFields(
+  reason: ChangeCustomerCharacteristicsBusinessReason | undefined
+): boolean {
+  return reason === ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer;
+}
+

@@ -20,7 +20,7 @@ import { describe, it, expect } from 'vitest';
 
 import { ChangeCustomerCharacteristicsBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { getCustomerPrefillSource } from './customer-prefill-source';
+import { getCustomerPrefillSource, shouldMaskCustomerCprFields } from './customer-prefill-source';
 
 const { ChangeOfEnergySupplier, CustomerMoveIn, SecondaryMoveIn, UpdateMasterDataConsumer } =
   ChangeCustomerCharacteristicsBusinessReason;
@@ -57,3 +57,17 @@ describe('getCustomerPrefillSource', () => {
     });
   });
 });
+
+describe('shouldMaskCustomerCprFields', () => {
+  it('returns true for the Update Customer Data process itself', () => {
+    expect(shouldMaskCustomerCprFields(UpdateMasterDataConsumer)).toBe(true);
+  });
+
+  it.each([ChangeOfEnergySupplier, CustomerMoveIn, SecondaryMoveIn, undefined])(
+    'returns false for other process contexts (%s)',
+    (reason) => {
+      expect(shouldMaskCustomerCprFields(reason)).toBe(false);
+    }
+  );
+});
+

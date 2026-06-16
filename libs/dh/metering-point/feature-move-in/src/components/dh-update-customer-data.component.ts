@@ -37,7 +37,10 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { getCustomerPrefillSource } from '../util/customer-prefill-source';
+import {
+  getCustomerPrefillSource,
+  shouldMaskCustomerCprFields,
+} from '../util/customer-prefill-source';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
 import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 
@@ -99,6 +102,15 @@ export class DhUpdateCustomerDataComponent {
    */
   private readonly useTemporaryStorage = computed(
     () => getCustomerPrefillSource(this.resolveBusinessReason()) === 'temporary-storage'
+  );
+
+  /**
+   * CPR fields are only allowed to start masked/locked when this form is used
+   * for its own process: BRS-015 Update customer master data. When embedded in
+   * any other process context, CPR must always be editable.
+   */
+  private readonly shouldMaskCprFields = computed(
+    () => shouldMaskCustomerCprFields(this.resolveBusinessReason())
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -172,12 +184,12 @@ export class DhUpdateCustomerDataComponent {
         name: this.resolvePrimaryName(),
         cvr: this.resolvePrimaryCvr(),
         isProtectedName: legalCustomer?.isProtectedName ?? false,
-        customerId: this.useTemporaryStorage() ? null : (legalCustomer?.id ?? null),
+        customerId: this.shouldMaskCprFields() ? (legalCustomer?.id ?? null) : null,
       },
       secondary: {
         name: secondary?.name ?? '',
         isProtectedName: secondary?.isProtectedName ?? false,
-        customerId: secondary?.name ? (secondary.id ?? null) : null,
+        customerId: this.shouldMaskCprFields() && secondary?.name ? (secondary.id ?? null) : null,
       },
       legalCustomer,
       legalContact,
