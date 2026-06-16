@@ -13,11 +13,14 @@
 // limitations under the License.
 
 using Energinet.DataHub.EDI.B2CClient;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.ConfirmRollbackChangeOfSupplier.V1.Commands;
+using Energinet.DataHub.EDI.B2CClient.Abstractions.RejectRollbackChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestRollbackChangeOfSupplier.V1.Models;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Attributes;
 using HotChocolate.Authorization;
 using ChangeOfSupplierBusinessReason = Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfSupplier.V1.Models.BusinessReasonV1;
@@ -85,4 +88,42 @@ public static class ChangeOfSupplierOperations
 
         return true;
     }
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:change-of-supplier"])]
+    [UseRevisionLog]
+    public static async Task<bool> AcceptRollbackChangeOfSupplierAsync(
+        string meteringPointId,
+        Guid processId,
+        IB2CClient client,
+        CancellationToken ct)
+        => await client
+            .SendAsync(
+                new ConfirmRollbackChangeOfSupplierCommandV1(new(
+                    MeteringPointId: meteringPointId,
+                    ProcessReference: processId.ToString(),
+                    OriginalTransactionId: null)),
+                ct)
+            .Then(r => r.IsSuccess
+                ? true
+                : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
+
+    [Mutation]
+    [Authorize(Roles = ["metering-point:move-in"])]
+    [UseRevisionLog]
+    public static async Task<bool> RejectRollbackChangeOfSupplierAsync(
+        string meteringPointId,
+        Guid processId,
+        IB2CClient client,
+        CancellationToken ct)
+        => await client
+            .SendAsync(
+                new RejectRollbackChangeOfSupplierCommandV1(new(
+                    MeteringPointId: meteringPointId,
+                    ProcessReference: processId.ToString(),
+                    OriginalTransactionId: null)),
+                ct)
+            .Then(r => r.IsSuccess
+                ? true
+                : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
 }
