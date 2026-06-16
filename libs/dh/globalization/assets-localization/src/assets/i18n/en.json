@@ -931,7 +931,8 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "noSupplierPeriodForSelectedDates": "No energy supplier period found for selected dates"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
