@@ -33,7 +33,7 @@ import {
   GetMeteringPointProcessOverviewDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { dhMakeFormControl, injectToast } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 export interface RequestIncorrectChangeOfSupplierModalData {
   meteringPointId: string;
@@ -120,7 +120,10 @@ export class DhRequestIncorrectChangeOfSupplierModal extends WattTypedModal<Requ
   private readonly requestIncorrectChangeOfSupplierMutation = mutation(
     RequestIncorrectChangeOfSupplierDocument,
     {
-      onStatusUpdated: injectToast('meteringPoint.processOverview.incorrectChangeOfSupplier.toast'),
+      // Only success/error toasts; the submit button already shows the loading state.
+      onStatusUpdated: injectToast('meteringPoint.processOverview.incorrectChangeOfSupplier.toast', [
+        MutationStatus.Loading,
+      ]),
     }
   );
 

@@ -1099,7 +1099,8 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "IncorrectMove": "Handling of incorrect move (BRS-011)"
+        "IncorrectMove": "Handling of incorrect move (BRS-011)",
+        "RollbackChangeOfSupplier": "Handling of incorrect change of supplier (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1174,7 +1175,6 @@
         "cancel": "Close",
         "confirm": "Request correction",
         "toast": {
-          "loading": "Submitting the request...",
           "success": "The request has been registered in DataHub",
           "error": "Something went wrong. The request could not be completed. Please try again."
         }
