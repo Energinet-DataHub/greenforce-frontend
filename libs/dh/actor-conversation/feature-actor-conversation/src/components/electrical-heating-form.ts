@@ -80,7 +80,6 @@ import { supplierForSelectedPeriodValidator } from './supplier-period.validator'
     WattDescriptionListItemComponent,
     WattDatePipe,
     VaterFlexComponent,
-    VaterStackComponent,
     WattFieldErrorComponent,
   ],
   styles: `
