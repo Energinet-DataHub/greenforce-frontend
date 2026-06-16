@@ -109,7 +109,7 @@ public static class ChangeOfSupplierOperations
                 : throw new GraphQLException(r.Data?.MessageBody ?? string.Empty));
 
     [Mutation]
-    [Authorize(Roles = ["metering-point:move-in"])]
+    [Authorize(Roles = ["metering-point:change-of-supplier"])]
     [UseRevisionLog]
     public static async Task<bool> RejectRollbackChangeOfSupplierAsync(
         string meteringPointId,
