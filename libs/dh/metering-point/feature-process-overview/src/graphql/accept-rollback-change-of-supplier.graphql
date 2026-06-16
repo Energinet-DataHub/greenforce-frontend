@@ -1,0 +1,7 @@
+mutation AcceptRollbackChangeOfSupplier($meteringPointId: String!, $processId: UUID!) {
+  acceptRollbackChangeOfSupplier(
+    input: { meteringPointId: $meteringPointId, processId: $processId }
+  ) {
+    boolean
+  }
+}
