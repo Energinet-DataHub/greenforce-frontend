@@ -29,6 +29,7 @@ import {
 import {
   MatAccordionTogglePosition,
   MatExpansionPanel,
+  MatExpansionPanelContent,
   MatExpansionPanelHeader,
   MatExpansionPanelTitle,
 } from '@angular/material/expansion';
@@ -45,7 +46,13 @@ export class WattExpandableCardContentDirective {
  * `import { WATT_EXPANDABLE_CARD_COMPONENTS } from '@energinet/watt/expandable-card';`
  */
 @Component({
-  imports: [MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, NgTemplateOutlet],
+  imports: [
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelContent,
+    NgTemplateOutlet,
+  ],
   encapsulation: ViewEncapsulation.None,
   selector: 'watt-expandable-card',
   styleUrl: './watt-expandable-card.component.scss',

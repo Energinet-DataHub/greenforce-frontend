@@ -30,7 +30,7 @@ import {
   contentChildren,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
-import { MatTab, MatTabGroup } from '@angular/material/tabs';
+import { MatTab, MatTabGroup, MatTabLabel } from '@angular/material/tabs';
 
 import { WattTabComponent } from './watt-tab.component';
 import { WattTabsActionComponent } from './watt-tabs-action.component';
@@ -41,7 +41,7 @@ import { WattTabsActionComponent } from './watt-tabs-action.component';
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Default,
-  imports: [MatTabGroup, MatTab, NgTemplateOutlet],
+  imports: [MatTabGroup, MatTab, MatTabLabel, NgTemplateOutlet],
 })
 export class WattTabsComponent implements AfterViewInit {
   private readonly cdr = inject(ChangeDetectorRef);
