@@ -114,4 +114,4 @@ state like 'standby' is added }
 - **View**: The DOM rendered by the component's template inside the host element.
 - **Standalone**: By default, components are standalone (since Angular 19, `standalone: true` is default). For older versions, `standalone: true` must be explicit or the component must be part of an `NgModule`.
 - **Component Tree**: Angular applications are structured as a tree of components, where each component can host child components.
-- **Component Naming**: Do not add suffixes the `Component` suffix for Component classes (e.g., AppComponent) unless the project has been configured to use that naming configuration.
+- **Component Naming**: Do not add the `Component` suffix to component class names (e.g., prefer `App` over `AppComponent`) unless the project has been configured to use that convention.
