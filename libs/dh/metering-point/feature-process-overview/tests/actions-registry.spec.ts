@@ -39,6 +39,7 @@ import {
   ActionHandlerMap,
   ResponsibleEnergySupplier,
   InitiatingParticipant,
+  type ActionVisibilityContext,
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
@@ -901,7 +902,7 @@ describe('DhActionsRegistry', () => {
       // passing it as the initiator makes the InitiatingParticipant role match.
       const matchingInitiatorGln = '1234567890123';
 
-      function setupWithVisibility(isVisible: (...args: unknown[]) => boolean) {
+      function setupWithVisibility(isVisible: (context: ActionVisibilityContext) => boolean) {
         return setupRegistry({
           hasChangeOfSupplierPermission: true,
           actorMarketRole: EicFunction.EnergySupplier,

@@ -145,6 +145,10 @@ export class DhActionsRegistry {
     process?: MeteringPointProcessForVisibility,
     processes?: readonly MeteringPointProcessForVisibility[]
   ): MeteringPointProcessAction[] {
+    // Computed lazily on first use and reused for the rest of this call, so a
+    // single invocation stays consistent and non-gated callers pay nothing.
+    let today: Date | undefined;
+
     const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
       if (!handler) return false;
@@ -158,7 +162,7 @@ export class DhActionsRegistry {
       // Business-rule visibility gate, evaluated only when the caller supplies
       // the process context (the table and drawer do; execute() does not need it).
       if (handler.isVisible && process && processes) {
-        const today = dayjs().startOf('day').toDate();
+        today ??= dayjs().startOf('day').toDate();
         if (!handler.isVisible({ process, processes, today })) return false;
       }
       return true;

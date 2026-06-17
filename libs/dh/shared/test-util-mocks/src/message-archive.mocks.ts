@@ -342,11 +342,7 @@ function buildOverviewProcesses() {
     // BRS-003 "Request correction" button is visible (no sibling supersedes it).
     cutoffDate: new Date(Date.now() - 10 * 864e5), // 10 days ago
     state: MeteringPointProcessState.Succeeded,
-    availableActions: [
-      MeteringPointProcessAction.SendInformation,
-      MeteringPointProcessAction.CancelWorkflow,
-      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
-    ],
+    availableActions: [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
     initiator: {
       __typename: 'MarketParticipant' as const,
       id: '0199ed3d-f1b2-7180-9546-39b5836fb579',
@@ -506,11 +502,7 @@ export const knownProcesses: Record<
   'process-cos-info': {
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Succeeded,
-    availableActions: [
-      MeteringPointProcessAction.SendInformation,
-      MeteringPointProcessAction.CancelWorkflow,
-      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
-    ],
+    availableActions: [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
     initiatorGln: processCosInfoInitiatorGln,
   },
   'process-smi-info': {
@@ -682,11 +674,7 @@ function buildChangeOfEnergySupplierProcess(
     cutoffDate: new Date(Date.now() - 10 * 864e5), // 10 days ago (864e5 = 1 day in ms)
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     state: MeteringPointProcessState.Succeeded,
-    availableActions: [
-      MeteringPointProcessAction.SendInformation,
-      MeteringPointProcessAction.CancelWorkflow,
-      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
-    ],
+    availableActions: [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
     cancelledByProcess: null,
     initiator: {
       __typename: 'MarketParticipant' as const,
