@@ -40,7 +40,7 @@ import { WattTabsActionComponent } from './watt-tabs-action.component';
   styleUrls: ['./watt-tabs.component.scss'],
   templateUrl: './watt-tabs.component.html',
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
   imports: [MatTabGroup, MatTab, MatTabLabel, NgTemplateOutlet],
 })
 export class WattTabsComponent implements AfterViewInit {
