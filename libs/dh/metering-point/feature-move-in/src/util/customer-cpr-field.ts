@@ -44,6 +44,3 @@ export function customerCprValidators(options: CustomerCprValidationOptions): Va
     ? [Validators.required, dhCprValidator()]
     : [dhCprValidator()];
 }
-
-
-

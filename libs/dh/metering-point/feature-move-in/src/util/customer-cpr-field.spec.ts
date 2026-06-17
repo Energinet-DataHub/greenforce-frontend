@@ -70,22 +70,14 @@ describe('customerCprValidators', () => {
 
 describe('shouldRequireCustomerCpr', () => {
   it('returns false when the CPR field is masked, even if it would otherwise be required', () => {
-    expect(
-      shouldRequireCustomerCpr({ requiredWhenUnmasked: true, isMasked: true })
-    ).toBe(false);
+    expect(shouldRequireCustomerCpr({ requiredWhenUnmasked: true, isMasked: true })).toBe(false);
   });
 
   it('returns true when the CPR field is not masked and would otherwise be required', () => {
-    expect(
-      shouldRequireCustomerCpr({ requiredWhenUnmasked: true, isMasked: false })
-    ).toBe(true);
+    expect(shouldRequireCustomerCpr({ requiredWhenUnmasked: true, isMasked: false })).toBe(true);
   });
 
   it('returns false when the CPR field is not otherwise required', () => {
-    expect(
-      shouldRequireCustomerCpr({ requiredWhenUnmasked: false, isMasked: false })
-    ).toBe(false);
+    expect(shouldRequireCustomerCpr({ requiredWhenUnmasked: false, isMasked: false })).toBe(false);
   });
 });
-
-
