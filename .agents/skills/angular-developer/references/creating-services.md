@@ -13,7 +13,7 @@ ng generate service my-data
 Or you can manually create a TypeScript class and decorate it with `@Service()`.
 
 ```ts
-import {Service} from '@angular/core';
+import { Service } from '@angular/core';
 
 @Service()
 export class BasicDataStore {
@@ -48,8 +48,8 @@ Once a service is created, you can inject it into components, directives, or oth
 ### Injecting into a Component
 
 ```ts
-import {Component, inject} from '@angular/core';
-import {BasicDataStore} from './basic-data-store.service';
+import { Component, inject } from '@angular/core';
+import { BasicDataStore } from './basic-data-store.service';
 
 @Component({
   selector: 'app-example',
@@ -71,8 +71,8 @@ export class Example {
 Services can inject other services in the exact same way.
 
 ```ts
-import {Injectable, inject} from '@angular/core';
-import {AdvancedDataStore} from './advanced-data-store.service';
+import { Injectable, inject } from '@angular/core';
+import { AdvancedDataStore } from './advanced-data-store.service';
 
 @Service()
 export class BasicDataStore {
