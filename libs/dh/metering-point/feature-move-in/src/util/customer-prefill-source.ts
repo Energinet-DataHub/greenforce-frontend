@@ -54,4 +54,3 @@ export function shouldMaskCustomerCprFields(
 ): boolean {
   return reason === ChangeCustomerCharacteristicsBusinessReason.UpdateMasterDataConsumer;
 }
-
