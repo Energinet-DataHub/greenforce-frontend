@@ -17,19 +17,12 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { APP_INITIALIZER } from '@angular/core';
 
 import { dhNewVersionManagerInitializer } from '../src/dh-new-version-manager.initializer';
 import { DhNewVersionManager } from '../src/dh-new-version-manager.service';
 
 describe('dhNewVersionManagerInitializer', () => {
-  it('is not initialized when the initializer is not imported', () => {
-    const appInitializerToken = TestBed.inject(APP_INITIALIZER, null);
-
-    expect(appInitializerToken).toBeNull();
-  });
-
-  it(`initializes during APP_INITIALIZER`, () => {
+  it(`initializes during app initialization`, () => {
     // Arrange
     TestBed.configureTestingModule({
       providers: [

@@ -16,10 +16,9 @@
  * limitations under the License.
  */
 //#endregion
-import { APP_INITIALIZER, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Meta, StoryFn, applicationConfig, moduleMetadata } from '@storybook/angular';
-import { APP_BASE_HREF } from '@angular/common';
-import { Router, RouterModule, provideRouter } from '@angular/router';
+import { RouterModule, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 
 import { WattNavListComponent, WattNavListItemComponent } from './nav-list';
@@ -96,7 +95,7 @@ const withSidebarNavigationTemplate = `
     Toolbar
   </ng-container>
 
-  <router-outlet></router-outlet>
+  <router-outlet />
 </watt-shell>
 `;
 
@@ -128,22 +127,6 @@ WithSidebarNavigation.decorators = [
         { path: 'menu-5', component: generateComponent('Page 5') },
         { path: 'menu-6', component: generateComponent('Page 6') },
       ]),
-    ],
-  }),
-  moduleMetadata({
-    imports: [WattNavListComponent, WattNavListItemComponent],
-    providers: [
-      {
-        provide: APP_BASE_HREF,
-        useValue: '/iframe.html/',
-      },
-      // Perform the initial navigation. Without it the redirect in the route definition will not happen
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (router: Router) => () => router.initialNavigation(),
-        deps: [Router],
-        multi: true,
-      },
     ],
   }),
 ];

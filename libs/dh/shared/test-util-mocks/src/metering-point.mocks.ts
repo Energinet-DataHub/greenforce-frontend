@@ -48,6 +48,7 @@ import {
   mockCancelEndOfSupplyMutation,
   mockCancelCustomerMoveInMutation,
   mockCancelChangeOfEnergySupplierMutation,
+  mockRequestIncorrectChangeOfSupplierMutation,
   mockRejectEndOfSupplyMutation,
   mockRequestEndOfSupplyMutation,
   mockRequestServiceEndOfSupplyMutation,
@@ -99,6 +100,7 @@ export function meteringPointMocks(apiBase: string) {
     cancelEndOfSupply(),
     cancelCustomerMoveIn(),
     cancelChangeOfEnergySupplier(),
+    requestIncorrectChangeOfSupplier(),
     rejectEndOfSupply(),
     requestServiceEndOfSupply(),
     initiateChangeOfSupplier(),
@@ -1192,6 +1194,22 @@ function cancelChangeOfEnergySupplier() {
         cancelChangeOfEnergySupplier: {
           __typename: 'CancelChangeOfEnergySupplierPayload',
           boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function requestIncorrectChangeOfSupplier() {
+  return mockRequestIncorrectChangeOfSupplierMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestIncorrectChangeOfSupplier: {
+          __typename: 'RequestIncorrectChangeOfSupplierPayload',
+          success: true,
         },
       },
     });

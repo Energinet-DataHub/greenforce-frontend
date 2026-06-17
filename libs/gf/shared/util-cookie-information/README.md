@@ -29,7 +29,7 @@ import {
 @Component({
   selector: 'app-root',
   imports: [CommonModule, RouterOutlet],
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet />'
 })
 export class AppComponent implements OnInit {
   private cookieInformationService: CookieInformationService = inject(CookieInformationService);
