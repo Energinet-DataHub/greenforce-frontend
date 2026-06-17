@@ -84,7 +84,7 @@ import {
   internalNoteMaxLength,
   ElectricalHeatingFormValue,
 } from '../types';
-import { supplierPeriodOnSelectedDateValidator } from './supplier-period-on-selected-date.validator';
+import { supplierPeriodOnSelectedDateValidator } from './supplier-period.validator';
 
 @Component({
   selector: 'dh-actor-conversation-new-conversation',

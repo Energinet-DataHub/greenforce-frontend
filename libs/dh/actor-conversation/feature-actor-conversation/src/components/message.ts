@@ -104,7 +104,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
   template: `
     <vater-stack
       class="message-container watt-text-s"
-      [class.watt-space-stack-m]="showRegisterElectricalHeatingButton()"
       [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -211,6 +210,7 @@ import { injectDownloadMessageDocument } from './download-message-document';
         <div class="register-electrical-heating-btn watt-space-inset-squish-m">
           <watt-button
             size="small"
+            variant="secondary"
             [routerLink]="registerElectricalHeatingLink"
             [state]="{ conversationId: conversationId() }"
           >
