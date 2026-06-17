@@ -16,7 +16,21 @@
  * limitations under the License.
  */
 //#endregion
-import type { ElectricityMarketViewConnectionState } from '@energinet-datahub/dh/shared/domain/graphql';
+import type {
+  ElectricityMarketViewConnectionState,
+  MeteringPointProcessState,
+  ProcessManagerBusinessReason,
+} from '@energinet-datahub/dh/shared/domain/graphql';
+
+// Minimal structural shape both the overview process type and the details
+// by-id process type are assignable to; used by action visibility gates.
+export interface MeteringPointProcessForVisibility {
+  readonly id: string;
+  readonly businessReason: ProcessManagerBusinessReason;
+  readonly state: MeteringPointProcessState;
+  readonly cutoffDate?: Date | null;
+  readonly createdAt: Date;
+}
 
 export interface ProcessActionContext {
   meteringPointId: string;

@@ -39,6 +39,7 @@ import {
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { isHandlingOfIncorrectChangeOfSupplierVisible } from './incorrect-change-of-supplier-visibility';
 import { DhRequestIncorrectChangeOfSupplierModal } from '../../components/request-incorrect-change-of-supplier-modal';
 
 @Injectable({ providedIn: 'root' })
@@ -90,6 +91,8 @@ export class ChangeOfEnergySupplierActions {
       releaseToggle: 'BRS003-INCOMING-MESSAGES',
       permissions: ['metering-point:change-of-supplier'],
       roles: [InitiatingParticipant],
+      isVisible: (ctx) =>
+        isHandlingOfIncorrectChangeOfSupplierVisible(ctx.process, ctx.processes, ctx.today),
       callback: (ctx) => {
         if (!ctx.cutoffDate) return;
         this.modalService.open({

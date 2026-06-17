@@ -160,6 +160,8 @@ describe('SupportedActionsPipe', () => {
       [MeteringPointProcessAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
       true,
+      undefined,
+      undefined,
       undefined
     );
   });
@@ -174,6 +176,8 @@ describe('SupportedActionsPipe', () => {
       [MeteringPointProcessAction.CancelWorkflow],
       ProcessManagerBusinessReason.EndOfSupply,
       false,
+      undefined,
+      undefined,
       undefined
     );
   });

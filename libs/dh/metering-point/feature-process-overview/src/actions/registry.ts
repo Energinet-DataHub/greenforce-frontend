@@ -19,6 +19,7 @@
 import { inject, Injectable, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
+import { dayjs } from '@energinet/watt/date';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
@@ -32,7 +33,7 @@ import {
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { ProcessActionContext } from './context';
+import { ProcessActionContext, type MeteringPointProcessForVisibility } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
@@ -57,11 +58,19 @@ export const INITIATOR_ROLE_UNIVERSE: readonly EicFunction[] = [
   EicFunction.GridAccessProvider,
 ];
 
+export interface ActionVisibilityContext {
+  process: MeteringPointProcessForVisibility;
+  processes: readonly MeteringPointProcessForVisibility[];
+  today: Date;
+}
+
 export interface ActionHandler {
   featureFlag?: Parameters<DhFeatureFlagsService['isEnabled']>[0];
   releaseToggle?: string;
   permissions?: Permission[];
   roles?: ActionRole[];
+  // Optional business-rule gate evaluated against the process and its siblings.
+  isVisible?: (context: ActionVisibilityContext) => boolean;
   callback: (context: ProcessActionContext) => void;
 }
 
@@ -132,7 +141,9 @@ export class DhActionsRegistry {
     availableActions: MeteringPointProcessAction[],
     businessReason: ProcessManagerBusinessReason,
     isEnergySupplierResponsible: boolean,
-    initiatorGlnOrEic?: string
+    initiatorGlnOrEic?: string,
+    process?: MeteringPointProcessForVisibility,
+    processes?: readonly MeteringPointProcessForVisibility[]
   ): MeteringPointProcessAction[] {
     const supported = availableActions.filter((action) => {
       const handler = this.registry[businessReason]?.[action];
@@ -143,7 +154,14 @@ export class DhActionsRegistry {
       // button in the drawer). Execution is blocked separately in execute().
       if (this.isFas()) return true;
       if (!this.hasRequiredPermission(handler)) return false;
-      return this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic);
+      if (!this.matchesRoles(handler, isEnergySupplierResponsible, initiatorGlnOrEic)) return false;
+      // Business-rule visibility gate, evaluated only when the caller supplies
+      // the process context (the table and drawer do; execute() does not need it).
+      if (handler.isVisible && process && processes) {
+        const today = dayjs().startOf('day').toDate();
+        if (!handler.isVisible({ process, processes, today })) return false;
+      }
+      return true;
     });
 
     // Canonical display order — actions not listed here sort to the end.

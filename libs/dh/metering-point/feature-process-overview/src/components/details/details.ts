@@ -244,7 +244,9 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
               | supportedActions
                 : businessReason()
                 : isEnergySupplierResponsible()
-                : initiatorGlnOrEic();
+                : initiatorGlnOrEic()
+                : process.data()?.meteringPointProcessById
+                : store.processes();
             track action
           ) {
             <watt-button variant="secondary" size="small" (click)="executeAction(action)">
@@ -274,7 +276,7 @@ export class DhMeteringPointProcessOverviewDetails {
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
   private readonly modalService = inject(WattModalService);
-  private readonly store = inject(DhMeteringPointProcessOverviewStore);
+  protected readonly store = inject(DhMeteringPointProcessOverviewStore);
 
   protected isFas = toSignal(this.permissionService.isFas(), { initialValue: false });
 

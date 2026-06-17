@@ -24,6 +24,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhActionsRegistry } from './registry';
+import type { MeteringPointProcessForVisibility } from './context';
 
 @Pipe({ name: 'supportedActions', pure: false })
 export class SupportedActionsPipe implements PipeTransform {
@@ -33,14 +34,18 @@ export class SupportedActionsPipe implements PipeTransform {
     availableActions: MeteringPointProcessAction[] | null | undefined,
     businessReason?: ProcessManagerBusinessReason,
     isEnergySupplierResponsible?: boolean,
-    initiatorGlnOrEic?: string
+    initiatorGlnOrEic?: string,
+    process?: MeteringPointProcessForVisibility | null,
+    processes?: readonly MeteringPointProcessForVisibility[] | null
   ): MeteringPointProcessAction[] {
     if (!availableActions || !businessReason) return [];
     return this.registry.getSupportedActions(
       availableActions,
       businessReason,
       isEnergySupplierResponsible ?? false,
-      initiatorGlnOrEic
+      initiatorGlnOrEic,
+      process ?? undefined,
+      processes ?? undefined
     );
   }
 }

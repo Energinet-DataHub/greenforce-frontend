@@ -170,7 +170,9 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
                 | supportedActions
                   : process.businessReason
                   : isEnergySupplierResponsible()
-                  : process.initiator?.glnOrEicNumber;
+                  : process.initiator?.glnOrEicNumber
+                  : process
+                  : store.processes();
             @if (isFas()) {
               @if (visibleActions.length > 0) {
                 <em>{{ t('fasGenericActions') }}</em>
