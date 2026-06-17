@@ -1319,7 +1319,7 @@
         "BRS_002_REQUESTFORDISCONNECTION_V1_STEP_4": "Anmodning om afbrydelse (RSM-020)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_1": "Information om annullering pga. manglende afbrydelse (RSM-004)",
         "BRS_002_AUTOCANCELLATION_V1_STEP_2": "Information om annullering pga. manglende afbrydelse (RSM-004)",
-        "BRS_003_REQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_1": "Indgående anmodning om forkert energileverandør",
+        "BRS_003_REQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_1": "Indgående anmodning om fejlagtigt leverandørskift",
         "BRS_003_REQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_2": "Anmodning om genoptagelse af leverance (RSM-003)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_3": "Godkendelse af genoptagelse af leverance (RSM-003)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Automatisk genoptagelse af leverance efter fristoverskridelse",
