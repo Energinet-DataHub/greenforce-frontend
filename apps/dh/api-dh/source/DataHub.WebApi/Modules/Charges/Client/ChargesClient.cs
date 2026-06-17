@@ -228,7 +228,7 @@ public class ChargesClient(
                 End: null,
                 VatPayer: vat ? VatPayerV2.D02 : VatPayerV2.D01,
                 TransparentInvoicing: transparentInvoicing,
-                TaxIndicator: null,
+                TaxIndicator: charge.TaxIndicator,
                 PricingCategory: MapToPricingCategoryV2(charge.SpotDependingPrice))),
             ct);
 

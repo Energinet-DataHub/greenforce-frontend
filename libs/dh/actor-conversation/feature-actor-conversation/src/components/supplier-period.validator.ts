@@ -16,12 +16,14 @@
  * limitations under the License.
  */
 //#endregion
+import { Signal } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { dayjs } from '@energinet/watt/core/date';
 
+/** Validator for checking if a selected date falls within any supplier period */
 export function supplierPeriodOnSelectedDateValidator(
-  supplierPeriods: () => { validFrom: Date; validTo: Date }[]
+  supplierPeriods: Signal<{ validFrom: Date; validTo: Date }[]>
 ): ValidatorFn {
   return (control: AbstractControl<Date | null>) => {
     const selectedDate = control.value;
@@ -33,5 +35,32 @@ export function supplierPeriodOnSelectedDateValidator(
     );
 
     return hasPeriod ? null : { noSupplierPeriodForSelectedDate: true };
+  };
+}
+
+/** Validator for checking if a selected period falls within any supplier period */
+export function supplierForSelectedPeriodValidator(
+  supplierPeriods: Signal<{ validFrom: Date; validTo: Date }[]>
+): ValidatorFn {
+  return (
+    control: AbstractControl<{ periodStart: Date | string | null; periodEnd: Date | string | null }>
+  ) => {
+    const { periodStart, periodEnd } = control.value;
+
+    if (!periodStart) return null;
+
+    const selectedDay = dayjs(periodStart);
+    const supplierPeriod = supplierPeriods().find((period) =>
+      selectedDay.isBetween(period.validFrom, period.validTo, 'day', '[]')
+    );
+
+    if (!periodEnd) return supplierPeriod ? null : { noSupplierPeriodForSelectedDates: true };
+
+    const selectedEndDay = dayjs(periodEnd);
+    const isEndWithinPeriod = supplierPeriod
+      ? selectedEndDay.isBetween(selectedDay, supplierPeriod.validTo, 'day', '[]')
+      : false;
+
+    return isEndWithinPeriod ? null : { noSupplierPeriodForSelectedDates: true };
   };
 }
