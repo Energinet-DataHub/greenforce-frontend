@@ -17,7 +17,7 @@ metadata:
 
 ## Creating New Projects
 
-If no guidelines are provided by the user, here are same default rules to follow when creating a new Angular project:
+If no guidelines are provided by the user, here are some default rules to follow when creating a new Angular project:
 
 1. Use the latest stable version of Angular unless the user specifies otherwise.
 2. Use Signals Forms for form management in new projects (available in Angular v21 and newer) [Find out more](references/signal-forms.md).
