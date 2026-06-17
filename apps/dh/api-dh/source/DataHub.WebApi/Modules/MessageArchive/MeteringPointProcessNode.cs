@@ -229,7 +229,7 @@ public static partial class MeteringPointProcessNode
         if (httpContextAccessor.HttpContext?.User.IsFas() == true)
         {
             return process.CutoffDate.HasValue
-                   && process.CutoffDate.Value >= IncorrectMoveInWindowStart()
+                   && process.CutoffDate.Value >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
                 ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
                 : actions;
         }
@@ -253,7 +253,7 @@ public static partial class MeteringPointProcessNode
         // HotChocolate dedupes identical keys within a single request, so multiple
         // CustomerMoveIn processes on the same metering point trigger one EM call.
         // Eligibility is presence-of-any-move-in within the 60-calendar-day lookback window.
-        var from = IncorrectMoveInWindowStart();
+        var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
         var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), bool>(keys.Count);
         foreach (var key in keys)
         {
@@ -307,7 +307,7 @@ public static partial class MeteringPointProcessNode
             // discriminator: an accepted move-in stays in Sleeping both before and (while customer
             // master data is outstanding) after its cutoff, so the cutoff date is what decides
             // whether it has taken effect.
-            var now = DateTimeOffset.UtcNow;
+            var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
             var latest = instances
                 .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
                 .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
@@ -339,6 +339,21 @@ public static partial class MeteringPointProcessNode
             Instant.FromUtc(2016, 1, 1, 0, 0),
             now.InUtc().LocalDateTime.PlusYears(1).InUtc().ToInstant());
 
+    /// <summary>
+    /// Start of the Danish calendar day 60 days before <paramref name="now"/>, the inclusive
+    /// lower bound of the incorrect-move-in correction window. Comparing against
+    /// DateTimeOffset.UtcNow.AddDays(-60) would carry the current time of day and exclude a
+    /// move-in whose cutoff (Danish midnight) is exactly 60 calendar days back, so the window
+    /// starts at the beginning of the Danish day. Pure by design: <paramref name="now"/> is
+    /// passed in so the boundary is unit-testable for a fixed instant.
+    /// </summary>
+    internal static DateTimeOffset IncorrectMoveInWindowStart(Instant now) =>
+        now.InZone(_danishTimeZone)
+            .Date
+            .PlusDays(-60)
+            .AtStartOfDayInZone(_danishTimeZone)
+            .ToDateTimeOffset();
+
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
         descriptor.Name("MeteringPointProcess");
@@ -359,17 +374,6 @@ public static partial class MeteringPointProcessNode
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }
-
-    // Start of the Danish calendar day 60 days ago. Using DateTimeOffset.UtcNow.AddDays(-60)
-    // would carry the current time of day and exclude a move-in whose cutoff (Danish midnight)
-    // is exactly 60 calendar days back, so the window must start at the beginning of the day.
-    private static DateTimeOffset IncorrectMoveInWindowStart() =>
-        SystemClock.Instance.GetCurrentInstant()
-            .InZone(_danishTimeZone)
-            .Date
-            .PlusDays(-60)
-            .AtStartOfDayInZone(_danishTimeZone)
-            .ToDateTimeOffset();
 
     private static MeteringPointProcessAction? MapWorkflowActionToMeteringPointProcessAction(WorkflowAction action) =>
         action switch

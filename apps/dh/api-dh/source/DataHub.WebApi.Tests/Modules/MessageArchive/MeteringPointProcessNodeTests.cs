@@ -29,6 +29,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
 using NodaTime;
+using NodaTime.Text;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.MessageArchive;
@@ -152,58 +153,24 @@ public class MeteringPointProcessNodeTests
         actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
     }
 
-    [Fact]
-    public async Task GetAvailableActionsAsync_FasUser_CutoffExactly60CalendarDaysAgo_IncludesInitiateIncorrectMoveIn()
+    [Theory]
+    // Summer (CEST, UTC+2): 60 days before 2026-06-17 is 2026-04-18; its Danish start-of-day is 2026-04-17T22:00Z.
+    [InlineData("2026-06-17T09:00:00Z", "2026-04-17T22:00:00Z")]
+    // Winter (CET, UTC+1): 60 days before 2026-02-10 is 2025-12-12; its Danish start-of-day is 2025-12-11T23:00Z.
+    [InlineData("2026-02-10T09:00:00Z", "2025-12-11T23:00:00Z")]
+    public void IncorrectMoveInWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
     {
-        // The correction window is 60 Danish calendar days. A cutoff at the start of the Danish
-        // day exactly 60 days ago is the inclusive boundary and must surface the action. The old
-        // DateTimeOffset.UtcNow.AddDays(-60) comparison carried the current time of day and wrongly
-        // excluded this case (a move-in 60 calendar days back showed no button).
-        var danishZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
-        var todayInDenmark = SystemClock.Instance.GetCurrentInstant().InZone(danishZone).Date;
-        var cutoff = todayInDenmark.PlusDays(-60).AtStartOfDayInZone(danishZone).ToDateTimeOffset();
-        var process = CreateProcess(
-            BusinessReason.CustomerMoveIn,
-            MeteringPointId,
-            cutoff,
-            state: MeteringPointProcessState.Succeeded);
-        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
-        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+        // The 60-day correction window must start at the beginning of the Danish calendar day, so a
+        // cutoff at Danish midnight exactly 60 days back is included. Counting from
+        // DateTimeOffset.UtcNow.AddDays(-60) (the previous behavior) carried the current time of day
+        // and excluded that case; this deterministic boundary check pins the calendar-day semantics
+        // across both DST offsets. The time of day in `now` must not affect the result.
+        var now = InstantPattern.ExtendedIso.Parse(nowUtc).Value;
 
-        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
-            process,
-            dataLoader.Object,
-            latestLoader.Object,
-            CreateFasHttpContextAccessor().Object,
-            CancellationToken.None);
+        var result = MeteringPointProcessNode.IncorrectMoveInWindowStart(now);
 
-        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
-    }
-
-    [Fact]
-    public async Task GetAvailableActionsAsync_FasUser_Cutoff61CalendarDaysAgo_DoesNotIncludeInitiateIncorrectMoveIn()
-    {
-        // One day past the boundary: a cutoff at the start of the Danish day 61 days ago is outside
-        // the 60-calendar-day window and must not surface the action.
-        var danishZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
-        var todayInDenmark = SystemClock.Instance.GetCurrentInstant().InZone(danishZone).Date;
-        var cutoff = todayInDenmark.PlusDays(-61).AtStartOfDayInZone(danishZone).ToDateTimeOffset();
-        var process = CreateProcess(
-            BusinessReason.CustomerMoveIn,
-            MeteringPointId,
-            cutoff,
-            state: MeteringPointProcessState.Succeeded);
-        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
-        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
-
-        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
-            process,
-            dataLoader.Object,
-            latestLoader.Object,
-            CreateFasHttpContextAccessor().Object,
-            CancellationToken.None);
-
-        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+        Instant.FromDateTimeOffset(result)
+            .Should().Be(InstantPattern.ExtendedIso.Parse(expectedUtc).Value);
     }
 
     [Fact]
