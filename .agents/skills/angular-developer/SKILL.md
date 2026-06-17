@@ -66,8 +66,7 @@ When managing state and data reactivity, use Angular Signals and consult the fol
 In most cases for new apps, **prefer signal forms**. When making a forms decision, analyze the project and consider the following guidelines:
 
 - if the application is using v21 or newer and this is a new form, **prefer signal forms**.
-  -For older applications or when working with existing forms, use the appropriate form type that matches the applications current form strategy.
-
+  - For older applications or when working with existing forms, use the appropriate form type that matches the application's current form strategy.
 - **Signal Forms**: Use signals for form state management. Read [signal-forms.md](references/signal-forms.md)
 - **Template-driven forms**: Use for simple forms. Read [template-driven-forms.md](references/template-driven-forms.md)
 - **Reactive forms**: Use for complex forms. Read [reactive-forms.md](references/reactive-forms.md)
