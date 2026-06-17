@@ -1120,7 +1120,8 @@
         "ServiceRequest": "Service request (D22)",
         "UpdateChargeLinks": "Update charge links (D17)",
         "ChangeOfEnergySupplier": "Change of energy supplier (E03)",
-        "IncorrectMove": "Incorrect move (D33)"
+        "IncorrectMove": "Incorrect move (D33)",
+        "RollbackChangeOfSupplier": "Resumption of supply (D07)"
       },
       "filters": {
         "period": "Period",
