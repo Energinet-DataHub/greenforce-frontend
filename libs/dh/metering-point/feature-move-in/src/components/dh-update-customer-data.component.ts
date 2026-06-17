@@ -180,16 +180,17 @@ export class DhUpdateCustomerDataComponent {
 
     return {
       isBusinessCustomer,
+      maskCprFields: this.shouldMaskCprFields(),
       primary: {
         name: this.resolvePrimaryName(),
         cvr: this.resolvePrimaryCvr(),
         isProtectedName: legalCustomer?.isProtectedName ?? false,
-        customerId: this.shouldMaskCprFields() ? (legalCustomer?.id ?? null) : null,
+        customerId: this.useTemporaryStorage() ? null : (legalCustomer?.id ?? null),
       },
       secondary: {
         name: secondary?.name ?? '',
         isProtectedName: secondary?.isProtectedName ?? false,
-        customerId: this.shouldMaskCprFields() && secondary?.name ? (secondary.id ?? null) : null,
+        customerId: secondary?.name ? (secondary.id ?? null) : null,
       },
       legalCustomer,
       legalContact,
