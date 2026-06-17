@@ -569,6 +569,7 @@ public class MeteringPointProcessNodeTests
             Action: WorkflowAction.NoAction,
             Actions: [],
             WorkflowDescriptionName: string.Empty);
+    }
 
     private static Mock<IProcessManagerClient> CreateProcessManagerClient(params WorkflowInstanceDto[] instances)
     {
