@@ -13,7 +13,6 @@
 // limitations under the License.
 @use "sass:map";
 
-@use "../../breakpoints/breakpoints.import" as breakpoints;
 @use "./rem" as utils;
 
 $primary-font-family: "Open Sans", sans-serif;
@@ -68,10 +67,6 @@ $font-sizes: (
   @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
-
-  @include breakpoints.media(">=Large") {
-    @include font-size("xxl");
-  }
 }
 
 @mixin watt-headline-2 {
@@ -80,10 +75,6 @@ $font-sizes: (
   @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
-
-  @include breakpoints.media(">=Large") {
-    @include font-size("xl");
-  }
 }
 
 @mixin watt-headline-3 {
@@ -92,10 +83,6 @@ $font-sizes: (
   @include font-weight("semi-bold");
   text-transform: none;
   letter-spacing: 0;
-
-  @include breakpoints.media(">=Large") {
-    @include font-size("l");
-  }
 }
 
 @mixin watt-headline-4 {

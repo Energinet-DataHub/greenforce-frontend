@@ -63,10 +63,8 @@ export const injectExistingCalculationValidator = (): AsyncValidatorFn => {
     const calculationType: StartCalculationType = control.parent?.get('calculationType')?.value;
     const executionType: CalculationExecutionType = control.parent?.get('executionType')?.value;
 
-    // Skip validation if execution type is Internal
+    // Skip validation for internal calculations
     if (executionType === CalculationExecutionType.Internal) return null;
-    // or calculation type is Aggregation
-    if (calculationType === StartCalculationType.Aggregation) return null;
 
     // Skip validation if period is empty
     if (!period) return null;

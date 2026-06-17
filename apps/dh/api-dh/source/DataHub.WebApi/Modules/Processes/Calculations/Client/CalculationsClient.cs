@@ -79,9 +79,23 @@ public class CalculationsClient(
         {
             PeriodStartDate = interval.Start.ToDateTimeOffset(),
             PeriodEndDate = interval.End.ToDateTimeOffset(),
-            CalculationTypes = [startCalculationType.ToQueryParameterV1()],
             LifecycleStates = [OrchestrationInstanceLifecycleState.Terminated],
             TerminationState = OrchestrationInstanceTerminationState.Succeeded,
+            IsInternalCalculation = false,
+
+            // For aggregation, find any existing external balance fixing (not just aggregations),
+            // since the `startCalculationType` parameter is used for finding calculations that
+            // may already exist in the given period and specifically for external aggregations,
+            // this should match any balance fixing (or later corrections).
+            CalculationTypes = startCalculationType != StartCalculationType.Aggregation
+                ? [startCalculationType.ToQueryParameterV1()]
+                : [
+                    CalculationTypeQueryParameterV1.BalanceFixing,
+                    CalculationTypeQueryParameterV1.WholesaleFixing,
+                    CalculationTypeQueryParameterV1.FirstCorrectionSettlement,
+                    CalculationTypeQueryParameterV1.SecondCorrectionSettlement,
+                    CalculationTypeQueryParameterV1.ThirdCorrectionSettlement,
+                ],
         };
 
         var calculations = await client.SearchOrchestrationInstancesByCustomQueryAsync(query, ct);

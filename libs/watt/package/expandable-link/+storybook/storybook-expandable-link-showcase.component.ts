@@ -35,7 +35,7 @@ const LOREM =
       background: var(--watt-color-neutral-white);
     }
 
-    .title {
+    .no-margin {
       margin: 0;
     }
 
@@ -52,7 +52,7 @@ const LOREM =
     }
   `,
   template: `
-    <h1 class="title watt-headline-2">Expandable link</h1>
+    <h1 class="no-margin">Expandable link</h1>
     <hr class="divider" />
     <div class="grid">
       <watt-expandable-link labelCollapsed="Vis indhold" labelExpanded="Skjul indhold">

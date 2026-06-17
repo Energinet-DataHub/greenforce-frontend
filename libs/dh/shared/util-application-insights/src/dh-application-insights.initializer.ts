@@ -20,10 +20,6 @@ import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhApplicationInsights } from './dh-application-insights.service';
 
-export const applicationInsightsInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    (applicationInsights: DhApplicationInsights) => async () =>
-      applicationInsights.init()
-  )(inject(DhApplicationInsights));
-  return initializerFn();
-});
+export const applicationInsightsInitializer = provideAppInitializer(() =>
+  inject(DhApplicationInsights).init()
+);

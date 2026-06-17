@@ -134,6 +134,7 @@ describe(WattDatepickerComponent, () => {
       expect(dateFromControl.month()).toBe(0); // 0-indexed, so 0 is January
       expect(dateFromControl.year()).toBe(2023);
     });
+
     it('updates value when user types a valid date', async () => {
       const { fixture } = await setup({ template });
 
@@ -280,6 +281,34 @@ describe(WattDatepickerComponent, () => {
       const control = fixture.componentInstance.dateRangeControl;
       const newDate = dayjs(control.value as string);
       expect(newDate.date()).toBe(16); // 15 + 1
+    });
+
+    it('resets the datepicker using its public API', async () => {
+      const initialDate = new Date(TEST_DATE_2023_01_15);
+      const { fixture } = await setup({
+        template,
+        initialState: initialDate.toISOString(),
+      });
+
+      const control = fixture.componentInstance.dateRangeControl;
+      expect(control.value).not.toBeNull();
+
+      // Get the component instance to call reset method
+      const component = fixture.debugElement.query(
+        (de) => de.componentInstance instanceof WattDatepickerComponent
+      ).componentInstance;
+
+      // Call the reset method directly
+      component.reset();
+
+      fixture.detectChanges();
+      await fixture.whenStable();
+
+      const placeholderMask = fixture.nativeElement.querySelector('watt-placeholder-mask');
+
+      // After reset, the control value should be null
+      expect(control.value).toBeNull();
+      expect(placeholderMask.textContent).toBe('dd-mm-åååå');
     });
   });
 

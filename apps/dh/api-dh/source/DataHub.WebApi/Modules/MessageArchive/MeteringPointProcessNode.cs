@@ -35,6 +35,11 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 [ObjectType<MeteringPointProcess>]
 public static partial class MeteringPointProcessNode
 {
+    // The incorrect-move-in correction window is 60 calendar days, counted in Danish time
+    // (cutoff dates are Danish calendar dates), so the window boundary must be the start of a
+    // Danish calendar day, not an instant offset from "now".
+    private static readonly DateTimeZone _danishTimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
+
     [Query]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
@@ -144,16 +149,13 @@ public static partial class MeteringPointProcessNode
         return process.WorkflowSteps.Select(step => new MeteringPointProcessStep(
             Id: step.Id.ToString(),
             Step: GetStepIdentifier(step),
-            // Carries the free-text reason from the orchestration input (e.g. BRS-011 "Årsag til korrektion").
-            // Process Manager surfaces it on every step of the reason-bearing orchestration; the frontend
-            // decides which step actually displays it, via a per-step reason-label translation.
-            Comment: step.Reason,
+            Comment: step.PreviewField,
             CompletedAt: step.Lifecycle.CompletedAt,
             DueDate: null, // DueDate was removed in ProcessManager 8.1.0
             ActorNumber: step.Actor?.ActorNumber?.Value ?? string.Empty,
             ActorRole: step.Actor?.ActorRole.Name ?? string.Empty,
             State: MapStepStateToMeteringPointProcessState(step.Lifecycle.State),
-            MessageId: step.ArchivedMessageId?.ToString(),
+            MessageId: step.ArchivedMessageId == Guid.Empty ? null : step.ArchivedMessageId?.ToString(),
             Description: step.Description));
     }
 
@@ -174,6 +176,25 @@ public static partial class MeteringPointProcessNode
                 .Where(a => a.HasValue)
                 .Select(a => a!.Value);
 
+        // Hide actions for IncorrectMove processes when the user is the initiator (except FAS)
+        if (process.BusinessReason == BusinessReason.IncorrectMove)
+        {
+            if (httpContextAccessor.HttpContext?.User.IsFas() == true) return actions;
+            return httpContextAccessor.GetUserActorNumber() == process.ActorNumber
+                ? []
+                : actions;
+        }
+
+        if (process.BusinessReason == BusinessReason.ChangeOfEnergySupplier)
+        {
+            // #2006: offer the action whenever a cutoff date is present so the modal can render
+            // the skæringsdato. Visibility is gated only by the frontend BRS003-INCOMING-MESSAGES
+            // release toggle; eligibility rules (validity window, latest completed, etc.) are #2019.
+            return process.CutoffDate.HasValue
+                ? actions.Append(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier)
+                : actions;
+        }
+
         if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
         {
             return actions;
@@ -187,11 +208,12 @@ public static partial class MeteringPointProcessNode
             return actions;
         }
 
-        // The action is offered only on the single latest CustomerMoveIn on the metering point
-        // (latest across all lifecycle states), and only when that latest process itself
-        // succeeded. A newer move-in in any state, including rejected or pending, intentionally
-        // suppresses correction of older move-ins. The latest loader queries PM with a wide
-        // window so the result is independent of the user's overview date filter.
+        // The action is offered only on the single latest effective CustomerMoveIn on the metering
+        // point, and only when that latest process itself succeeded. A move-in becomes effective
+        // once its cutoff date is reached; a future-dated move-in (cutoff not yet reached) or one
+        // terminated without taking effect (rejected, canceled, failed) is ignored, so it does not
+        // suppress correction of the last effective move-in. The latest loader queries PM with a
+        // wide window so the result is independent of the user's overview date filter.
         var latestProcessId = await latestCustomerMoveInProcessIdDataLoader
             .LoadAsync(process.MeteringPointId, cancellationToken)
             .ConfigureAwait(false);
@@ -203,11 +225,11 @@ public static partial class MeteringPointProcessNode
 
         // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN
         // to scope the EM query, so eligibility is reduced to the process's own cutoff
-        // falling inside the same 60-day window the supplier-scoped EM query enforces.
+        // falling inside the same 60-calendar-day window the supplier-scoped EM query enforces.
         if (httpContextAccessor.HttpContext?.User.IsFas() == true)
         {
             return process.CutoffDate.HasValue
-                   && process.CutoffDate.Value >= DateTimeOffset.UtcNow.AddDays(-60)
+                   && process.CutoffDate.Value >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
                 ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
                 : actions;
         }
@@ -230,14 +252,15 @@ public static partial class MeteringPointProcessNode
     {
         // HotChocolate dedupes identical keys within a single request, so multiple
         // CustomerMoveIn processes on the same metering point trigger one EM call.
-        // Eligibility is presence-of-any-move-in within the EM 60-day lookback window.
+        // Eligibility is presence-of-any-move-in within the 60-calendar-day lookback window.
+        var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
         var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), bool>(keys.Count);
         foreach (var key in keys)
         {
             var query = new GetMoveInsByEnergySupplierIdQueryV1(
                 MeteringPointId: key.MeteringPointId,
                 EnergySupplierId: key.EnergySupplierId,
-                From: DateTimeOffset.UtcNow.AddDays(-60));
+                From: from);
 
             var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
 
@@ -276,8 +299,22 @@ public static partial class MeteringPointProcessNode
                 .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
                 .ConfigureAwait(false);
 
+            // "Latest" is the most recent move-in that has actually taken effect: its cutoff
+            // (ExpectedValidityDate) has been reached and it was not terminated without taking
+            // effect (rejected, canceled, failed). A future-dated move-in whose cutoff has not
+            // been reached, and a rejected/canceled/failed one, therefore do not steal the
+            // correction slot from the last effective move-in. Lifecycle state is not a reliable
+            // discriminator: an accepted move-in stays in Sleeping both before and (while customer
+            // master data is outstanding) after its cutoff, so the cutoff date is what decides
+            // whether it has taken effect.
+            var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
             var latest = instances
                 .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
+                .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
+                .Where(x => x.Lifecycle.TerminationState
+                    is not (WorkflowInstanceTerminationState.Rejected
+                        or WorkflowInstanceTerminationState.Canceled
+                        or WorkflowInstanceTerminationState.Failed))
                 .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
                 .ThenByDescending(x => x.Lifecycle.CreatedAt)
                 .ThenByDescending(x => x.Id)
@@ -301,6 +338,21 @@ public static partial class MeteringPointProcessNode
         created ?? new Interval(
             Instant.FromUtc(2016, 1, 1, 0, 0),
             now.InUtc().LocalDateTime.PlusYears(1).InUtc().ToInstant());
+
+    /// <summary>
+    /// Start of the Danish calendar day 60 days before <paramref name="now"/>, the inclusive
+    /// lower bound of the incorrect-move-in correction window. Comparing against
+    /// DateTimeOffset.UtcNow.AddDays(-60) would carry the current time of day and exclude a
+    /// move-in whose cutoff (Danish midnight) is exactly 60 calendar days back, so the window
+    /// starts at the beginning of the Danish day. Pure by design: <paramref name="now"/> is
+    /// passed in so the boundary is unit-testable for a fixed instant.
+    /// </summary>
+    internal static DateTimeOffset IncorrectMoveInWindowStart(Instant now) =>
+        now.InZone(_danishTimeZone)
+            .Date
+            .PlusDays(-60)
+            .AtStartOfDayInZone(_danishTimeZone)
+            .ToDateTimeOffset();
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {

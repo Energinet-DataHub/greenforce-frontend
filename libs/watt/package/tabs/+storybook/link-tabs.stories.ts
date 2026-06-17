@@ -17,12 +17,11 @@
  */
 //#endregion
 import { applicationConfig, Meta, moduleMetadata, StoryFn } from '@storybook/angular';
+import { provideLocationMocks } from '@angular/common/testing';
+import { provideRouter, RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
 
 import { WattLinkTabsComponent, WattLinkTabComponent } from './../index';
-import { provideLocationMocks } from '@angular/common/testing';
-import { provideRouter, Router, RouterModule } from '@angular/router';
-import { APP_INITIALIZER, Component } from '@angular/core';
-import { APP_BASE_HREF } from '@angular/common';
 
 let index = 1;
 
@@ -43,7 +42,7 @@ const meta: Meta<WattLinkTabsComponent> = {
       providers: [
         provideLocationMocks(),
         provideRouter([
-          { path: '', redirectTo: 'menu-1', pathMatch: 'full' },
+          { path: '', redirectTo: 'menu-2', pathMatch: 'full' },
           { path: 'menu-1', component: generateComponent('Page 1') },
           { path: 'menu-2', component: generateComponent('Page 2') },
           { path: 'menu-3', component: generateComponent('Page 3') },
@@ -51,20 +50,7 @@ const meta: Meta<WattLinkTabsComponent> = {
       ],
     }),
     moduleMetadata({
-      imports: [RouterModule, WattLinkTabComponent],
-      providers: [
-        {
-          provide: APP_BASE_HREF,
-          useValue: '/iframe.html/',
-        },
-        // Perform the initial navigation. Without it the redirect in the route definition will not happen
-        {
-          provide: APP_INITIALIZER,
-          useFactory: (router: Router) => () => router.initialNavigation(),
-          deps: [Router],
-          multi: true,
-        },
-      ],
+      imports: [RouterModule, WattLinkTabsComponent, WattLinkTabComponent],
     }),
   ],
   component: WattLinkTabsComponent,

@@ -24,6 +24,8 @@ import {
   ChangeDetectionStrategy,
   DestroyRef,
   inject,
+  viewChild,
+  effect,
 } from '@angular/core';
 
 import {
@@ -45,20 +47,18 @@ import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { dayjs, WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import { VaterFlexComponent, VaterStackComponent } from '@energinet/watt/vater';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 
 import {
   WattDescriptionListComponent,
   WattDescriptionListItemComponent,
 } from '@energinet/watt/description-list';
 
-import {
-  dhFormControlToSignal,
-  dhMakeFormControl,
-  dhResetControlOnChange,
-} from '@energinet-datahub/dh/shared/ui-util';
+import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
 import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { ElectricalHeatingFormValue } from '../types';
+import { supplierForSelectedPeriodValidator } from './supplier-period.validator';
 
 @Component({
   selector: 'dh-actor-conversation-electrical-heating-form',
@@ -80,6 +80,7 @@ import { ElectricalHeatingFormValue } from '../types';
     WattDescriptionListItemComponent,
     WattDatePipe,
     VaterFlexComponent,
+    WattFieldErrorComponent,
   ],
   styles: `
     h3 {
@@ -115,9 +116,9 @@ import { ElectricalHeatingFormValue } from '../types';
           [label]="t('customer')"
           [value]="electricalHeatingInformation()?.customerName"
         />
-        @if (supplierPeriods().length > 0) {
+        @if (supplierPeriodsToDisplay().length > 0) {
           <watt-description-list-item [label]="t('supplierInPeriod')">
-            @for (period of supplierPeriods(); track $index) {
+            @for (period of supplierPeriodsToDisplay(); track $index) {
               <span class="supplier-period">{{ period }}</span>
             }
           </watt-description-list-item>
@@ -130,18 +131,27 @@ import { ElectricalHeatingFormValue } from '../types';
       />
 
       <span class="watt-label">{{ t('periodTitle') }}</span>
-      <vater-flex direction="row" gap="m">
-        <watt-datepicker
-          [min]="periodStartMin()"
-          [label]="t('periodStart')"
-          [formControl]="form.controls.periodStart"
-        />
-        <watt-datepicker
-          [min]="periodEndMin()"
-          [label]="t('periodEnd')"
-          [formControl]="form.controls.periodEnd"
-        />
-      </vater-flex>
+      <vater-stack align="start">
+        <vater-flex direction="row" gap="m" align="start">
+          <watt-datepicker
+            #startPicker
+            [min]="periodStartMin()"
+            [label]="t('periodStart')"
+            [formControl]="form.controls.period.controls.periodStart"
+          />
+
+          <watt-datepicker
+            #endPicker
+            [min]="periodEndMin()"
+            [label]="t('periodEnd')"
+            [formControl]="form.controls.period.controls.periodEnd"
+          />
+        </vater-flex>
+
+        @if (form.controls.period.errors?.noSupplierPeriodForSelectedDates) {
+          <watt-field-error> {{ t('noSupplierPeriodForSelectedDates') }} </watt-field-error>
+        }
+      </vater-stack>
 
       <vater-stack gap="s" align="start">
         <watt-checkbox [formControl]="form.controls.attachedBbrNotification">
@@ -156,12 +166,26 @@ import { ElectricalHeatingFormValue } from '../types';
 })
 export class DhActorConversationElectricalHeatingForm implements ControlValueAccessor {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly startPicker = viewChild<WattDatepickerComponent>('startPicker');
+  private readonly endPicker = viewChild<WattDatepickerComponent>('endPicker');
+
   electricalHeatingInformation = input<ElectricalHeatingInformation>();
-  supplierPeriods = computed(() => {
-    const periods = this.electricalHeatingInformation()?.supplierPeriods;
-    if (!periods || periods.length === 0) return [];
+
+  private supplierPeriods = computed(
+    () => this.electricalHeatingInformation()?.supplierPeriods ?? []
+  );
+
+  private supplierPeriodsToValidate = computed(() =>
+    this.supplierPeriods().map((p) => ({
+      validFrom: p.from,
+      validTo: p.to,
+    }))
+  );
+
+  supplierPeriodsToDisplay = computed(() => {
     const now = new Date();
-    return periods.map((p) => {
+
+    return this.supplierPeriods().map((p) => {
       const to = p.to && new Date(p.to) <= now ? p.to : null;
       return wattFormatDate({ start: p.from, end: to }) ?? '';
     });
@@ -169,14 +193,19 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
 
   form = new FormGroup({
     addressEligibilityDate: dhMakeFormControl<Date | null>(null, Validators.required),
-    periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
-    periodEnd: dhMakeFormControl<Date | null>(null),
+    period: new FormGroup(
+      {
+        periodStart: dhMakeFormControl<Date | null>(null, [Validators.required]),
+        periodEnd: dhMakeFormControl<Date | null>(null),
+      },
+      supplierForSelectedPeriodValidator(this.supplierPeriodsToValidate)
+    ),
     attachedBbrNotification: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
     attachedBbrDocumentation: dhMakeFormControl<boolean>(false, Validators.requiredTrue),
   });
 
   addressEligibilityDateChanged = dhFormControlToSignal(this.form.controls.addressEligibilityDate);
-  periodStartChanged = dhFormControlToSignal(this.form.controls.periodStart);
+  periodStartChanged = dhFormControlToSignal(this.form.controls.period.controls.periodStart);
 
   periodStartMin = computed(() => {
     const date = this.addressEligibilityDateChanged();
@@ -188,15 +217,17 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
     return start ? dayjs(start).add(1, 'day').toDate() : undefined;
   });
 
-  resetPeriodStart = dhResetControlOnChange(
-    this.addressEligibilityDateChanged,
-    () => this.form.controls.periodStart
-  );
+  resetPeriodStartEffect = effect(() => {
+    this.addressEligibilityDateChanged();
 
-  resetPeriodEnd = dhResetControlOnChange(
-    this.periodStartChanged,
-    () => this.form.controls.periodEnd
-  );
+    this.startPicker()?.reset();
+  });
+
+  resetPeriodEndEffect = effect(() => {
+    this.periodStartChanged();
+
+    this.endPicker()?.reset();
+  });
 
   value = toSignal(this.form.valueChanges);
 
@@ -207,8 +238,8 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
 
       return {
         addressEligibilityDate: value?.addressEligibilityDate ?? null,
-        periodStart: value?.periodStart ?? null,
-        periodEnd: value?.periodEnd ?? null,
+        periodStart: value?.period?.periodStart ?? null,
+        periodEnd: value?.period?.periodEnd ?? null,
         attachedBbrNotification: value?.attachedBbrNotification ?? false,
         attachedBbrDocumentation: value?.attachedBbrDocumentation ?? false,
       };
@@ -221,8 +252,10 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
       this.form.setValue(
         {
           addressEligibilityDate: value.addressEligibilityDate,
-          periodStart: value.periodStart,
-          periodEnd: value.periodEnd,
+          period: {
+            periodStart: value.periodStart,
+            periodEnd: value.periodEnd,
+          },
           attachedBbrNotification: value.attachedBbrNotification,
           attachedBbrDocumentation: value.attachedBbrDocumentation,
         },
@@ -232,8 +265,10 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
       this.form.reset(
         {
           addressEligibilityDate: null,
-          periodStart: null,
-          periodEnd: null,
+          period: {
+            periodStart: null,
+            periodEnd: null,
+          },
           attachedBbrNotification: false,
           attachedBbrDocumentation: false,
         },

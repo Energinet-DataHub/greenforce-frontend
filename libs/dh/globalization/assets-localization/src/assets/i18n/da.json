@@ -745,7 +745,8 @@
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
-        "changeOfSupplier": "Leverandørskift"
+        "changeOfSupplier": "Leverandørskift",
+        "historicalCorrection": "Historisk rettelse"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -929,7 +930,8 @@
         "attachedBbrNotification": "Jeg har vedhæftet aktuel BBR-meddelelse",
         "attachedBbrDocumentation": "Jeg har vedhæftet dokumentation for berettigelsesdato fra BBR",
         "yes": "Ja",
-        "no": "Nej"
+        "no": "Nej",
+        "noSupplierPeriodForSelectedDates": "Der er ingen leverandørperiode for de valgte datoer"
       },
       "electricalHeatingInformationStatus": "Nuværende elvarmestatus: {{ electricalHeatingStatus }}",
       "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
@@ -1093,11 +1095,12 @@
         "ProductionObligation": "Ændring af aftagepligt (BRS-036)",
         "ElectricalHeating": "Håndtering af elvarme (BRS-041)",
         "CustomerMoveOut": "Fraflytning (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Anmodning om pristilknytninger (BRS-038)",
+        "DataAlignmentForMasterDataMeteringPoint": "Anmod om stamdata (BRS-005)",
         "ServiceRequest": "Anmodning om serviceydelse (BRS-039)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (BRS-037)",
         "ChangeOfEnergySupplier": "Leverandørskift (BRS-001)",
-        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)"
+        "IncorrectMove": "Håndtering af fejlagtig flytning (BRS-011)",
+        "RollbackChangeOfSupplier": "Håndtering af fejlagtigt leverandørskift (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "Leveranceophør (E20)",
@@ -1141,7 +1144,8 @@
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
-          "CANCEL_WORKFLOW": "Annuller"
+          "CANCEL_WORKFLOW": "Annuller",
+          "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Anmod om korrektion"
         },
         "IncorrectMove": {
           "CONFIRM_WORKFLOW": "Accepter",
@@ -1158,6 +1162,19 @@
         "confirm": "Anmod om korrektion",
         "toast": {
           "loading": "Opretter anmodning...",
+          "success": "Anmodning er registreret i DataHub",
+          "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
+        }
+      },
+      "incorrectChangeOfSupplier": {
+        "title": "Anmod om korrektion: Fejlagtigt leverandørskift",
+        "description": "Anmod om korrektion af leverandørskift med skæringsdato d. {{ cutoffDate }}?",
+        "reasonLabel": "Årsag til anmodning",
+        "conditionsPrefix": "Betingelser",
+        "conditionsSuffix": "for korrektion af fejlagtigt leverandørskift er opfyldt",
+        "cancel": "Luk",
+        "confirm": "Anmod om korrektion",
+        "toast": {
           "success": "Anmodning er registreret i DataHub",
           "error": "Noget gik galt. Anmodning kunne ikke gennemføres. Prøv igen."
         }
@@ -1276,6 +1293,7 @@
         "BRS_001_VALIDITYDATE_V1_STEP_9": "Afvisning af opdatering af kundestamdata (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Information om kundestamdata til netvirksomhed (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Information om stop af leverance til tidligere elleverandør (RSM-004)",
+        "BRS_001_VALIDITYDATE_V1_STEP_13": "Information om annullering pga. misligholdt proces (RSM-004)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Anmodning om annullering af leverandørskifte (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Godkendelse af annullering af leverandørskifte (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Afvisning af annullering af leverandørskifte (RSM-024)",
@@ -1366,6 +1384,12 @@
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Information om pristilknytninger (RSM-031)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Afvisning af genoptagelse af leverance (RSM-003)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Information om afvisning af korrektion (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_5": "Automatisk genoptagelse af leverance efter fristoverskridelse",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_6": "Information om accept af korrektion (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_7": "Information om målepunktsstamdata (RSM-022)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_8": "Information om kundestamdata (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_9": "Information om kundestamdata (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_10": "Information om pristilknytninger (RSM-031)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Anmodning om opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Godkendelse af opdatering af kundestamdata (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Afvisning af opdatering af kundestamdata (RSM-027)",
@@ -1382,8 +1406,8 @@
         "BRS_041_V1_STEP_1": "Anmodning om ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_2": "Afvisning af ændring af elvarmestatus (RSM-027)",
         "BRS_041_V1_STEP_3": "Godkendelse af ændring af elvarmestatus (RSM-027)",
-        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028/D20)",
-        "BRS_041_V1_STEP_5": "Information om pristilknytninger (RSM-031/D20)",
+        "BRS_041_V1_STEP_4": "Information om ændring af elvarmestatus (RSM-028)",
+        "BRS_041_V1_STEP_5": "Information om pristilknytninger (RSM-031)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Afvisning af anmodning om pristilknytning (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Information om pristilknytninger (RSM-031)",
@@ -3176,6 +3200,7 @@
           "pending": "Validerer periode",
           "empty": "Periode påkrævet",
           "warning": {
+            "AGGREGATION": "Der findes kørte balancefikseringer for perioden",
             "BALANCE_FIXING": "Der er kørt balancefiksering for perioden",
             "WHOLESALE_FIXING": "Der er kørt engrosfiksering for perioden",
             "FIRST_CORRECTION_SETTLEMENT": "Der er kørt korrektionsafregning for perioden",
@@ -3200,6 +3225,7 @@
         "errors": {
           "resolutionTransition": "Beregningen kan ikke igangsættes. Det valgte datointerval krydser grænsen {{transitionDate}}, hvilket ikke er tilladt, fordi opløsningen går fra time til kvarter. Vælg venligst en start- og slutdato, der begge er placeret enten før eller efter {{transitionDate}} for at fortsætte.",
           "existing": {
+            "AGGREGATION": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
             "BALANCE_FIXING": "Der findes kørte balancefikseringer i den valgte periode! Senest kørte balancefiksering er {{period}}.",
             "WHOLESALE_FIXING": "Der findes kørte engrosfikseringer i den valgte periode! Senest kørte engrosfiksering er {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "Der findes kørte korrektionsafregninger i den valgte periode! 1. korrektionsafregning er senest kørt {{period}}.",
@@ -3210,6 +3236,7 @@
         },
         "warning": {
           "title": {
+            "AGGREGATION": "Kør aggregering?",
             "BALANCE_FIXING": "Genkør balancefiksering?",
             "WHOLESALE_FIXING": "Genkør engrosfiksering?",
             "FIRST_CORRECTION_SETTLEMENT": "Genkør 1. korrektionsafregning?",
@@ -3220,6 +3247,7 @@
           "message": {
             "label": "Dette vil give aktørerne nye data",
             "body": {
+              "AGGREGATION": "Kørsel af denne aggregering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "BALANCE_FIXING": "Genkørsel af en balancefiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "WHOLESALE_FIXING": "Genkørsel af en engrosfiksering vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
               "FIRST_CORRECTION_SETTLEMENT": "Genkørsel af en 1. korrektionsafregning vil resultere i, at alle involverede aktører vil modtage nyt datagrundlag for deres afregninger.",
@@ -3229,6 +3257,7 @@
             }
           },
           "body": {
+            "AGGREGATION": "Du er ved at udsende nye data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "BALANCE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte balancefikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "WHOLESALE_FIXING": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte engrosfikseringer ugyldige og nyt data vil blive udsendt til aktørerne.",
             "FIRST_CORRECTION_SETTLEMENT": "Du er ved at udsende nyt data for allerede afregnede perioder. Dette vil gøre tidligere kørte 1. korrektionsafregninger ugyldige og nyt data vil blive udsendt til aktørerne.",
@@ -3238,6 +3267,7 @@
           },
           "confirmation": "Er du sikker på, at du vil køre denne beregning?",
           "hint": {
+            "AGGREGATION": "Indtast JEG VIL KØRE AGGREGERING for at bekræfte",
             "BALANCE_FIXING": "Indtast JEG VIL GENKØRE BALANCEFIKSERING for at bekræfte",
             "WHOLESALE_FIXING": "Indtast JEG VIL GENKØRE ENGROSFIKSERING for at bekræfte",
             "FIRST_CORRECTION_SETTLEMENT": "Indtast JEG VIL GENKØRE 1. KORREKTIONSAFREGNING for at bekræfte",
@@ -3246,6 +3276,7 @@
             "CAPACITY_SETTLEMENT": "Indtast JEG VIL GENKØRE EFFEKTBETALING for at bekræfte"
           },
           "validation": {
+            "AGGREGATION": "JEG VIL KØRE AGGREGERING",
             "BALANCE_FIXING": "JEG VIL GENKØRE BALANCEFIKSERING",
             "WHOLESALE_FIXING": "JEG VIL GENKØRE ENGROSFIKSERING",
             "FIRST_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 1. KORREKTIONSAFREGNING",
@@ -3253,7 +3284,15 @@
             "THIRD_CORRECTION_SETTLEMENT": "JEG VIL GENKØRE 3. KORREKTIONSAFREGNING",
             "CAPACITY_SETTLEMENT": "JEG VIL GENKØRE EFFEKTBETALING"
           },
-          "confirm": "Genkør",
+          "confirm": {
+            "AGGREGATION": "Kør",
+            "BALANCE_FIXING": "Genkør",
+            "WHOLESALE_FIXING": "Genkør",
+            "FIRST_CORRECTION_SETTLEMENT": "Genkør",
+            "SECOND_CORRECTION_SETTLEMENT": "Genkør",
+            "THIRD_CORRECTION_SETTLEMENT": "Genkør",
+            "CAPACITY_SETTLEMENT": "Genkør"
+          },
           "cancel": "Kør ikke"
         },
         "toast": {
@@ -3891,6 +3930,14 @@
       "projectionsStatus": {
         "title": "Projektionsstatus",
         "button": "Hent projektionsstatus"
+      },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Nulstil målepunkt opdateret subscription",
+        "button": "Nulstil subscription",
+        "modal": {
+          "title": "Nulstil målepunkt opdateret subscription",
+          "message": "Er du sikker på, at du vil nulstille målepunkt opdateret subscriptionen?"
+        }
       },
       "dangerZone": {
         "title": "Farezone"

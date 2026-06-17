@@ -29,7 +29,7 @@ interface Typography {
   letterSpacing: string;
 }
 
-const typeScaleSmall: Typography[] = [
+const typeScale: Typography[] = [
   {
     html: typographyHtmlSnippets.h1.tag,
     size: 'XL',
@@ -137,30 +137,6 @@ const typeScaleSmall: Typography[] = [
   },
 ];
 
-const typeScaleLarge: Typography[] = [
-  {
-    html: typographyHtmlSnippets.h1.tag,
-    size: 'XXL',
-    weight: 'Semi-bold',
-    letterCase: 'Sentence',
-    letterSpacing: '0',
-  },
-  {
-    html: typographyHtmlSnippets.h2.tag,
-    size: 'XL',
-    weight: 'Semi-bold',
-    letterCase: 'Sentence',
-    letterSpacing: '0',
-  },
-  {
-    html: typographyHtmlSnippets.h3.tag,
-    size: 'L',
-    weight: 'Semi-bold',
-    letterCase: 'Sentence',
-    letterSpacing: '0',
-  },
-];
-
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-typography-overview',
@@ -170,16 +146,7 @@ const typeScaleLarge: Typography[] = [
   imports: [MatTableModule],
 })
 export class StorybookTypographyOverviewComponent {
-  /**
-   * @ignore
-   */
   displayedColumns: string[] = ['name', 'size', 'weight', 'letterCase', 'letterSpacing'];
-  /**
-   * @ignore
-   */
-  dataSourceLarge = typeScaleLarge;
-  /**
-   * @ignore
-   */
-  dataSourceSmall = typeScaleSmall;
+
+  dataSource = typeScale;
 }
