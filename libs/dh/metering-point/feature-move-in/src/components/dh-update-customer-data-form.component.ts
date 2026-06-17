@@ -235,9 +235,7 @@ export class DhUpdateCustomerDataFormComponent {
         customerName2: dhMakeFormControl<string>(prefill.secondary.name),
         cpr2: dhMakeFormControl<string | null>(
           null,
-          !isBusiness
-            ? customerCprValidators({ requiredWhenUnmasked: false, isMasked: false })
-            : []
+          !isBusiness ? customerCprValidators({ requiredWhenUnmasked: false, isMasked: false }) : []
         ),
         nameProtection: dhMakeFormControl<boolean>(prefill.secondary.isProtectedName),
       }),
