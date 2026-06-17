@@ -1120,7 +1120,7 @@
         "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)",
         "ChangeOfEnergySupplier": "Skift af elleverandør (E03)",
         "IncorrectMove": "Fejlagtig flytning (D33)",
-        "RollbackChangeOfSupplier": "Genoptagelse af leverance (D07)"
+        "RollbackChangeOfSupplier": "Fejlagtigt leverandørskift (D07)"
       },
       "filters": {
         "period": "Periode",
