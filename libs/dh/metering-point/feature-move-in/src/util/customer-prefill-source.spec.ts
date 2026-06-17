@@ -70,4 +70,3 @@ describe('shouldMaskCustomerCprFields', () => {
     }
   );
 });
-

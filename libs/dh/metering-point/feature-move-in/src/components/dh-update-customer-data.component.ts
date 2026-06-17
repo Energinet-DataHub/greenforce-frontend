@@ -109,8 +109,8 @@ export class DhUpdateCustomerDataComponent {
    * for its own process: BRS-015 Update customer master data. When embedded in
    * any other process context, CPR must always be editable.
    */
-  private readonly shouldMaskCprFields = computed(
-    () => shouldMaskCustomerCprFields(this.resolveBusinessReason())
+  private readonly shouldMaskCprFields = computed(() =>
+    shouldMaskCustomerCprFields(this.resolveBusinessReason())
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
