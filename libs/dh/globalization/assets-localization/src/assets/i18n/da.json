@@ -1118,7 +1118,8 @@
         "ServiceRequest": "Anmodning om serviceydelse (D22)",
         "UpdateChargeLinks": "Opdatering af pristilknytninger (D17)",
         "ChangeOfEnergySupplier": "Skift af elleverandør (E03)",
-        "IncorrectMove": "Fejlagtig flytning (D33)"
+        "IncorrectMove": "Fejlagtig flytning (D33)",
+        "RollbackChangeOfSupplier": "Genoptagelse af leverance (D07)"
       },
       "filters": {
         "period": "Periode",
@@ -1147,6 +1148,10 @@
           "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Anmod om korrektion"
         },
         "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
+        },
+        "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accepter",
           "REJECT_REQUEST": "Afvis"
         }
