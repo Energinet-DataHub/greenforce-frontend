@@ -11,9 +11,9 @@ metadata:
 
 1. Always analyze the project's Angular version before providing guidance, as best practices and available features can vary significantly between versions. If creating a new project with Angular CLI, do not specify a version unless prompted by the user.
 
-2. When generating code, follow Angular's style guide and best practices for maintainability and performance. Use the Angular CLI for scaffolding components, services, directives, pipes, and routes to ensure consistency.
+2. When generating code, follow Angular's style guide and best practices for maintainability and performance. Prefer using the workspace tooling (in this repo: Nx) for scaffolding components, services, directives, pipes, and routes to ensure consistency.
 
-3. Once you finish generating code, run `ng build` to ensure there are no build errors. If there are errors, analyze the error messages and fix them before proceeding. Do not skip this step, as it is critical for ensuring the generated code is correct and functional.
+3. Once you finish generating code, run a build using the workspace tooling (in this repo, prefer the narrowest relevant Nx target, e.g. `bun nx run <project>:build:<configuration>`) to ensure there are no build errors. If there are errors, analyze the error messages and fix them before proceeding. Do not skip this step, as it is critical for ensuring the generated code is correct and functional.
 
 ## Creating New Projects
 
