@@ -34,8 +34,6 @@ import {
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import { WattModalService } from '@energinet/watt/modal';
 
-import { ServiceKindV1 } from '@energinet-datahub/dh/shared/domain/graphql';
-
 import { DhConfirmServiceRequestModal } from '../src/components/dh-confirm-service-request-modal';
 
 const meteringPointId = 'mp-039';
@@ -52,7 +50,7 @@ class TestHostComponent {
   open() {
     this.modalService.open({
       component: DhConfirmServiceRequestModal,
-      data: { meteringPointId, processId, serviceKind: ServiceKindV1.Disconnect, startDate },
+      data: { meteringPointId, processId, startDate },
     });
   }
 }
@@ -76,15 +74,19 @@ async function setup() {
 }
 
 describe('Confirm service request modal', () => {
-  it('shows the requested service kind and cut-off date read-only', async () => {
+  it('shows the title, read-only cut-off date and remark field without a type row', async () => {
     const { dialog } = await setup();
 
-    // The requested type is shown as a translated, non-editable value (no combobox/dropdown).
-    expect(within(dialog).queryByRole('combobox')).not.toBeInTheDocument();
-    expect(dialog).toHaveTextContent(/disconnection/i);
+    expect(
+      within(dialog).getByRole('heading', { name: /approve service request/i })
+    ).toBeInTheDocument();
 
-    // The cut-off date is rendered through the date pipe.
+    // The cut-off date is rendered read-only through the date pipe (no editable type row).
+    expect(within(dialog).queryByRole('combobox')).not.toBeInTheDocument();
     expect(dialog).toHaveTextContent('16-02-2026');
+
+    // The optional remark is the only editable field.
+    expect(within(dialog).getByRole('textbox', { name: /remark/i })).toBeInTheDocument();
   });
 
   it('sends the entered remark and closes on success', async () => {
@@ -106,7 +108,10 @@ describe('Confirm service request modal', () => {
 
     const { dialog, user } = await setup();
 
-    await user.type(within(dialog).getByRole('textbox', { name: /remark/i }), 'Approved by operator');
+    await user.type(
+      within(dialog).getByRole('textbox', { name: /remark/i }),
+      'Approved by operator'
+    );
     await user.click(within(dialog).getByRole('button', { name: /approve/i }));
 
     // The modal closes itself with `true` on success, removing the dialog.

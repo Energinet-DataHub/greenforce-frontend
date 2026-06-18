@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
+import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/date';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
@@ -28,7 +28,6 @@ import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
 import {
-  ServiceKindV1,
   ConfirmServiceRequestDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
@@ -39,7 +38,6 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 export interface DhConfirmServiceRequestModalData {
   meteringPointId: string;
   processId: string;
-  serviceKind: ServiceKindV1;
   startDate: Date;
 }
 
@@ -49,7 +47,6 @@ export interface DhConfirmServiceRequestModalData {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
-    TranslocoPipe,
     WATT_MODAL,
     WattButtonComponent,
     WattDatePipe,
@@ -72,16 +69,6 @@ export interface DhConfirmServiceRequestModalData {
       size="small"
     >
       <vater-stack class="labels" direction="column" align="start" gap="m">
-        <div>
-          <p class="watt-label">{{ t('serviceKindLabel') }}</p>
-          <p class="watt-text-s">
-            {{
-              'meteringPoint.processOverview.serviceRequest.serviceKinds.' + modalData.serviceKind
-                | transloco
-            }}
-          </p>
-        </div>
-
         <div>
           <p class="watt-label">{{ t('startDateLabel') }}</p>
           <p class="watt-text-s">{{ modalData.startDate | wattDate }}</p>
