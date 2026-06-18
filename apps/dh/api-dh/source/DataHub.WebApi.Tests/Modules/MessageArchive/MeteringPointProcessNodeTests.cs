@@ -567,7 +567,8 @@ public class MeteringPointProcessNodeTests
                 TerminatedAt: isTerminated ? createdAt : null,
                 CanceledByWorkflowInstanceId: null),
             Action: WorkflowAction.NoAction,
-            Actions: []);
+            Actions: [],
+            WorkflowDescriptionName: string.Empty);
     }
 
     private static Mock<IProcessManagerClient> CreateProcessManagerClient(params WorkflowInstanceDto[] instances)

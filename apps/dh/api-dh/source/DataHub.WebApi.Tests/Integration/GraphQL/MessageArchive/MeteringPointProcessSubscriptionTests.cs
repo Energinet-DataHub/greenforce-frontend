@@ -122,7 +122,8 @@ public class MeteringPointProcessSubscriptionTests
                 TerminatedAt: null,
                 CanceledByWorkflowInstanceId: null),
             Action: WorkflowAction.NoAction,
-            Actions: [WorkflowAction.CancelWorkflow]);
+            Actions: [WorkflowAction.CancelWorkflow],
+            WorkflowDescriptionName: string.Empty);
 
     private static ClaimsPrincipal CreateUser() =>
         new(
