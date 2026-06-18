@@ -201,7 +201,7 @@ export class DhUpdateCustomerDataFormComponent {
   form = computed(() => {
     const prefill = this.prefill();
     const isBusiness = prefill.isBusinessCustomer;
-    const isPrimaryCprMasked = isCustomerCprMasked(
+    const isPrimaryCustomerCprMasked = isCustomerCprMasked(
       prefill.maskCprFields,
       prefill.primary.customerId
     );
@@ -228,7 +228,7 @@ export class DhUpdateCustomerDataFormComponent {
           !isBusiness
             ? customerCprValidators({
                 requiredWhenUnmasked: true,
-                isMasked: isPrimaryCprMasked,
+                isMasked: isPrimaryCustomerCprMasked,
               })
             : []
         ),
@@ -338,12 +338,12 @@ export class DhUpdateCustomerDataFormComponent {
     if (this.prefill().isBusinessCustomer) return false;
     const name2 = (this.customerName2Changed() ?? '').trim();
     const cpr2 = this.cpr2Changed();
-    const isCprMasked =
+    const isSecondaryCustomerCprMasked =
       cpr2 === null &&
       isCustomerCprMasked(this.prefill().maskCprFields, this.prefill().secondary.customerId);
     return shouldRequireCustomerCpr({
       requiredWhenUnmasked: !!name2 || !!cpr2,
-      isMasked: isCprMasked,
+      isMasked: isSecondaryCustomerCprMasked,
     });
   });
 
