@@ -25,12 +25,10 @@ interface CustomerCprValidationOptions {
   isMasked: boolean;
 }
 
-// noinspection JSUnusedGlobalSymbols - used by component and unit tests via TS imports.
 export function isCustomerCprMasked(maskCprFields: boolean, customerId: string | null): boolean {
   return maskCprFields && customerId !== null;
 }
 
-// noinspection JSUnusedGlobalSymbols - used by component and unit tests via TS imports.
 export function shouldRequireCustomerCpr({
   requiredWhenUnmasked,
   isMasked,
@@ -38,7 +36,6 @@ export function shouldRequireCustomerCpr({
   return requiredWhenUnmasked && !isMasked;
 }
 
-// noinspection JSUnusedGlobalSymbols - used by component and unit tests via TS imports.
 export function customerCprValidators(options: CustomerCprValidationOptions): ValidatorFn[] {
   return shouldRequireCustomerCpr(options)
     ? [Validators.required, dhCprValidator()]

@@ -347,14 +347,12 @@ export class DhUpdateCustomerDataFormComponent {
     });
   });
 
-  // noinspection JSUnusedLocalSymbols - keeps the validator sync effect alive.
   private readonly syncName2Validators = dhSyncControlValidators(
     () => this.form().controls.privateCustomerDetails.controls.customerName2,
     Validators.required,
     () => this.secondaryCustomerRequired()
   );
 
-  // noinspection JSUnusedLocalSymbols - keeps the validator sync effect alive.
   private readonly syncCpr2Validators = dhSyncControlValidators(
     () => this.form().controls.privateCustomerDetails.controls.cpr2,
     Validators.required,
