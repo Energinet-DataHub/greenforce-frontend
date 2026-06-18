@@ -37,12 +37,19 @@ import {
 import { messageArchiveSearchResponseLogs } from './data/message-archive-search-response-logs';
 import { document, documentJson } from './data/message-archived-document';
 
-// Valid business reasons that also have a process-type label, so every generated mock row
-// renders a type. Derived from the enum (the businessReason source of truth) rather than the
-// processType translation block, which now also holds processType discriminator keys
-// (Brs_005 / Brs_038) that are NOT business reasons.
-const translatedBusinessReasons = Object.values(ProcessManagerBusinessReason).filter(
-  (reason) => reason in da.meteringPoint.processOverview.processType
+// Pairs of (processType composite key, businessReason) derived from the flat processType
+// translation block. The businessReason is the enum value that forms the composite's suffix
+// (e.g. Brs_002_EndOfSupply -> EndOfSupply), so every generated mock row renders a type label.
+const processTypePairs = Object.keys(da.meteringPoint.processOverview.processType).map(
+  (processType) => {
+    const businessReason = Object.values(ProcessManagerBusinessReason).find((r) =>
+      processType.endsWith(`_${r}`)
+    );
+    if (!businessReason) {
+      throw new Error(`No business reason found for processType "${processType}"`);
+    }
+    return { processType, businessReason };
+  }
 );
 
 type Initiator = {
@@ -252,7 +259,7 @@ function buildOverviewProcesses() {
 
   const baseDate = new Date('2025-01-01T10:00:00Z');
 
-  const mockProcesses = Array.from({ length: translatedBusinessReasons.length * 3 }, (_, index) => {
+  const mockProcesses = Array.from({ length: processTypePairs.length * 3 }, (_, index) => {
     const daysOffset = Math.floor(index * 2);
     const hoursOffset = (index * 3) % 24;
     const createdAt = new Date(baseDate);
@@ -260,7 +267,8 @@ function buildOverviewProcesses() {
     createdAt.setHours(createdAt.getHours() + hoursOffset);
 
     const currentState = states[index % states.length];
-    const businessReason = translatedBusinessReasons[index % translatedBusinessReasons.length];
+    const pair = processTypePairs[index % processTypePairs.length];
+    const businessReason = pair.businessReason;
     const availableActions = getAvailableActions(businessReason, currentState);
 
     let cutoffDate = null;
@@ -273,8 +281,8 @@ function buildOverviewProcesses() {
       __typename: 'MeteringPointProcess' as const,
       id: `process-${String(index + 1).padStart(3, '0')}`,
       businessReason,
-      // Generated rows have no discriminator, so they exercise the businessReason fallback.
-      processType: null,
+      // The composite processType is the flat translation key the type column renders.
+      processType: pair.processType,
       createdAt,
       cutoffDate,
       state: currentState,
@@ -288,7 +296,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-eos-cancel',
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
-    processType: 'Brs_002',
+    processType: 'Brs_002_EndOfSupply',
     createdAt: new Date('2025-02-15T10:00:00Z'),
     cutoffDate: new Date('2025-02-20T10:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -304,7 +312,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cmi-info',
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_CustomerMoveIn',
     createdAt: new Date(Date.now() - 6 * 864e5), // 6 days ago (864e5 = 1 day in ms)
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow
     state: MeteringPointProcessState.Pending,
@@ -325,7 +333,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cmi-incorrect-move-in',
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_CustomerMoveIn',
     createdAt: new Date(Date.now() - 3 * 864e5), // 3 days ago
     cutoffDate: new Date(Date.now() + 2 * 864e5), // 2 days from now (latest CustomerMoveIn)
     state: MeteringPointProcessState.Succeeded,
@@ -343,7 +351,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cos-info',
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-    processType: 'Brs_001',
+    processType: 'Brs_001_ChangeOfEnergySupplier',
     createdAt: new Date(Date.now() - 864e5), // yesterday (864e5 = 1 day in ms)
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow
     state: MeteringPointProcessState.Pending,
@@ -365,7 +373,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-smi-info',
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_SecondaryMoveIn',
     createdAt: new Date('2026-05-15T11:00:00Z'),
     cutoffDate: new Date('2026-05-15T00:00:00Z'),
     state: MeteringPointProcessState.Pending,
@@ -383,7 +391,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-eos-request-service',
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
-    processType: 'Brs_002',
+    processType: 'Brs_002_EndOfSupply',
     createdAt: new Date('2025-02-17T10:00:00Z'),
     cutoffDate: new Date('2025-02-22T10:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -397,7 +405,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-masked-initiator',
     businessReason: ProcessManagerBusinessReason.EndOfSupply,
-    processType: 'Brs_002',
+    processType: 'Brs_002_EndOfSupply',
     createdAt: new Date('2025-03-01T10:00:00Z'),
     cutoffDate: new Date('2025-03-05T10:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -412,7 +420,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cancelling',
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_SecondaryMoveIn',
     createdAt: new Date('2026-02-15T10:00:00Z'),
     cutoffDate: new Date('2026-02-17T00:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -426,7 +434,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cross-cancelled',
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_CustomerMoveIn',
     createdAt: new Date('2026-02-14T10:00:00Z'),
     cutoffDate: new Date('2026-02-17T00:00:00Z'),
     state: MeteringPointProcessState.Canceled,
@@ -441,7 +449,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-brs-005',
     businessReason: ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint,
-    processType: 'Brs_005',
+    processType: 'Brs_005_DataAlignmentForMasterDataMeteringPoint',
     createdAt: new Date('2026-03-10T10:00:00Z'),
     cutoffDate: new Date('2026-03-12T00:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -453,7 +461,7 @@ function buildOverviewProcesses() {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-brs-038',
     businessReason: ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint,
-    processType: 'Brs_038',
+    processType: 'Brs_038_DataAlignmentForMasterDataMeteringPoint',
     createdAt: new Date('2026-03-11T10:00:00Z'),
     cutoffDate: new Date('2026-03-13T00:00:00Z'),
     state: MeteringPointProcessState.Running,
@@ -513,7 +521,7 @@ export const knownProcesses: Record<
     cancelledByProcess: {
       id: 'process-cancelling',
       businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-      processType: 'Brs_009',
+      processType: 'Brs_009_SecondaryMoveIn',
       cutoffDate: new Date('2026-02-17T00:00:00Z'),
     },
   },
@@ -526,7 +534,7 @@ export const knownProcesses: Record<
     cancelledByProcess: {
       id: 'process-cancelling-not-listed',
       businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-      processType: 'Brs_009',
+      processType: 'Brs_009_SecondaryMoveIn',
       cutoffDate: new Date('2026-02-17T00:00:00Z'),
     },
   },
@@ -647,7 +655,7 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     createdAt,
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow (864e5 = 1 day in ms)
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_CustomerMoveIn',
     state: MeteringPointProcessState.Pending,
     availableActions: [
       MeteringPointProcessAction.SendInformation,
@@ -724,7 +732,7 @@ function buildChangeOfEnergySupplierProcess(
     createdAt,
     cutoffDate: new Date(Date.now() + 864e5), // tomorrow (864e5 = 1 day in ms)
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-    processType: 'Brs_001',
+    processType: 'Brs_001_ChangeOfEnergySupplier',
     state: MeteringPointProcessState.Pending,
     availableActions: [
       MeteringPointProcessAction.SendInformation,
@@ -838,7 +846,7 @@ function buildSecondaryMoveInProcess(processId: string, apiBase: string, initiat
     createdAt,
     cutoffDate: new Date('2026-05-15T00:00:00Z'),
     businessReason: ProcessManagerBusinessReason.SecondaryMoveIn,
-    processType: 'Brs_009',
+    processType: 'Brs_009_SecondaryMoveIn',
     state: MeteringPointProcessState.Pending,
     availableActions: [MeteringPointProcessAction.SendInformation],
     cancelledByProcess: null,
@@ -1035,12 +1043,11 @@ function getMeteringPointProcessById(apiBase: string) {
     // Ternary, not `??`: a Pending row's null cutoffDate is real and must not fall back.
     const createdAt = base ? base.createdAt : fallbackCreatedAt;
     const cutoffDate = base ? base.cutoffDate : fallbackCutoff;
+    const fallbackPair = processTypePairs[safeIndex % processTypePairs.length];
     const businessReason =
-      base?.businessReason ??
-      known?.businessReason ??
-      translatedBusinessReasons[safeIndex % translatedBusinessReasons.length];
+      base?.businessReason ?? known?.businessReason ?? fallbackPair.businessReason;
     // Prefer the overview row's discriminator so the drawer agrees with the list.
-    const processType = base?.processType ?? null;
+    const processType = base?.processType ?? fallbackPair.processType;
     const state = base?.state ?? known?.state ?? allStates[safeIndex % allStates.length];
     const availableActions =
       base?.availableActions ??

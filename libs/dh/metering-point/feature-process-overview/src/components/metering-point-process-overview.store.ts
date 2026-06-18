@@ -26,8 +26,6 @@ import {
   OnMeteringPointProcessUpdatedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { resolveProcessTypeKey } from '../process-type';
-
 /**
  * Route-scoped owner of the metering-point process OVERVIEW query. Provided at the
  * parent (`path: ''`) route so the overview table and the `details/:id` drawer share
@@ -45,7 +43,7 @@ export class DhMeteringPointProcessOverviewStore {
   // the BFF applies its hidden default period (2016-01-01 -> now+1year).
   readonly dateRange = signal<WattRange<Date> | null>(null);
 
-  // Holds resolved process-type keys (see `resolveProcessTypeKey`), not raw business reasons.
+  // Holds `processType` composite keys (e.g. Brs_002_EndOfSupply), not raw business reasons.
   readonly processTypes = signal<string[]>([]);
   readonly states = signal<MeteringPointProcessState[]>([]);
 
@@ -65,7 +63,8 @@ export class DhMeteringPointProcessOverviewStore {
     const states = this.states();
     return this.processes().filter(
       (p) =>
-        (selectedTypes.length === 0 || selectedTypes.includes(resolveProcessTypeKey(p))) &&
+        (selectedTypes.length === 0 ||
+          (p.processType != null && selectedTypes.includes(p.processType))) &&
         (states.length === 0 || states.includes(p.state))
     );
   });

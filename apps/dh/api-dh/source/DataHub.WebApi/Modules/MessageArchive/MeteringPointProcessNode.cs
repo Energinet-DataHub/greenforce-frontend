@@ -433,7 +433,7 @@ public static partial class MeteringPointProcessNode
             actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null,
             meteringPointId: meteringPointId,
-            processType: workflowInstance.WorkflowDescriptionName);
+            workflowDescriptionName: workflowInstance.WorkflowDescriptionName);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps, string meteringPointId) =>
         CreateMeteringPointProcess(
@@ -445,7 +445,7 @@ public static partial class MeteringPointProcessNode
             actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps,
             meteringPointId: meteringPointId,
-            processType: workflowInstanceWithSteps.WorkflowDescriptionName);
+            workflowDescriptionName: workflowInstanceWithSteps.WorkflowDescriptionName);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
@@ -456,7 +456,7 @@ public static partial class MeteringPointProcessNode
         WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null,
         string? meteringPointId = null,
-        string? processType = null)
+        string? workflowDescriptionName = null)
     {
         var actorIdentity = lifecycle.CreatedBy;
         // TODO: Check if the actor has been masked.
@@ -470,6 +470,13 @@ public static partial class MeteringPointProcessNode
             lifecycle.TerminationState == WorkflowInstanceTerminationState.Canceled
                 ? lifecycle.TerminatedAt
                 : null;
+
+        // The process type the UI labels by is the workflow plus the business reason: most
+        // workflows cover several reasons (e.g. Brs_007_008_013), and one reason spans two
+        // workflows (Brs_005 vs Brs_038 both DataAlignmentForMasterDataMeteringPoint).
+        var processType = workflowDescriptionName is null
+            ? null
+            : $"{workflowDescriptionName}_{businessReason.Name}";
 
         return new MeteringPointProcess(
             Id: id.ToString(),

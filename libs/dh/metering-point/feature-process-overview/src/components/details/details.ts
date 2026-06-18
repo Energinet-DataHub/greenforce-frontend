@@ -48,7 +48,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
-import { resolveProcessTypeKey, type ProcessTypeResolvable } from '../../process-type';
 import { DhMeteringPointProcessOverviewSteps } from './steps';
 import { DhActionsRegistry } from '../../actions/registry';
 import { SupportedActionsPipe } from '../../actions/supported-actions.pipe';
@@ -152,11 +151,11 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
                   class="watt-link-s dh-cancelled-by__link"
                   (click)="goToCancellingProcess()"
                 >
-                  {{ t('processType.' + processTypeKeyOf(cancelledBy)) }}
+                  {{ t('processType.' + cancelledBy.processType) }}
                 </button>
               } @else {
                 <span class="dh-cancelled-by__name">{{
-                  t('processType.' + processTypeKeyOf(cancelledBy))
+                  t('processType.' + cancelledBy.processType)
                 }}</span>
               }
               {{
@@ -168,7 +167,7 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <h2 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ processTypeKey() && t('processType.' + processTypeKey()) | dhEmDashFallback }}
+          {{ processType() && t('processType.' + processType()) | dhEmDashFallback }}
         </h2>
         <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
           <watt-description-list variant="inline-flow" [groupsPerRow]="4">
@@ -292,11 +291,9 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
-  protected readonly processTypeKey = computed(() => {
-    const process = this.process.data()?.meteringPointProcessById;
-    if (!process) return undefined;
-    return resolveProcessTypeKey(process);
-  });
+  protected readonly processType = computed(
+    () => this.process.data()?.meteringPointProcessById?.processType
+  );
   initiator = computed(() => {
     const p = this.process.data()?.meteringPointProcessById;
     return (
@@ -359,10 +356,6 @@ export class DhMeteringPointProcessOverviewDetails {
       }))
       .filter((group) => group.actions.length > 0);
   });
-
-  protected processTypeKeyOf(process: ProcessTypeResolvable): string {
-    return resolveProcessTypeKey(process);
-  }
 
   goToCancellingProcess() {
     const cancellingProcessId = this.cancelledByProcess()?.id;

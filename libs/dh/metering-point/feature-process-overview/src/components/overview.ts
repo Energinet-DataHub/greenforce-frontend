@@ -48,7 +48,6 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointProcess } from '../types';
-import { resolveProcessTypeKey } from '../process-type';
 import { DhActionsRegistry } from '../actions/registry';
 import { SupportedActionsPipe } from '../actions/supported-actions.pipe';
 import { DhMeteringPointProcessOverviewStore } from './metering-point-process-overview.store';
@@ -143,7 +142,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.businessReason; let process">
-          {{ t('processType.' + processTypeKey(process)) }}
+          {{ t('processType.' + process.processType) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
@@ -210,13 +209,20 @@ export class DhMeteringPointProcessOverviewTable {
   dataSource = dataSource(() => this.store.filteredProcesses());
 
   // Dropdown options are derived from the LOADED processes so the list is relevant and
-  // avoids the 60+ business-reason enum. Built from the RESOLVED process-type key (so
-  // BRS-005 and BRS-038 appear as two separate options). dhDropdownTranslator overwrites
-  // displayValue from the translation and sorts by translation-key order, so value ===
-  // displayValue here.
+  // avoids the 60+ business-reason enum. Built from the distinct `processType` composite
+  // keys (so BRS-005 and BRS-038 appear as two separate options). dhDropdownTranslator
+  // overwrites displayValue from the translation and sorts by translation-key order, so
+  // value === displayValue here.
   typeOptions = computed<WattDropdownOptions>(() => {
-    const keys = [...new Set(this.store.processes().map((p) => resolveProcessTypeKey(p)))];
-    return keys.map((value) => ({ value, displayValue: value }));
+    const values = [
+      ...new Set(
+        this.store
+          .processes()
+          .map((p) => p.processType)
+          .filter((v): v is string => v != null)
+      ),
+    ];
+    return values.map((value) => ({ value, displayValue: value }));
   });
 
   statusOptions = computed<WattDropdownOptions>(() => {
@@ -227,11 +233,11 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    // Sort by the visible (translated) type label, which follows the resolved key so
+    // Sort by the visible (translated) type label, keyed by the `processType` composite so
     // BRS-005 and BRS-038 sort by their own labels rather than the shared businessReason.
     businessReason: {
       accessor: (process) =>
-        translate(`meteringPoint.processOverview.processType.${this.processTypeKey(process)}`),
+        translate(`meteringPoint.processOverview.processType.${process.processType}`),
     },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => this.initiatorLabel(process) },
@@ -240,7 +246,7 @@ export class DhMeteringPointProcessOverviewTable {
 
   form = new FormGroup({
     period: dhMakeFormControl<WattRange<Date>>(null),
-    // Holds resolved process-type keys (see `resolveProcessTypeKey`), not raw business reasons.
+    // Holds `processType` composite keys (e.g. Brs_002_EndOfSupply), not raw business reasons.
     processTypes: dhMakeFormControl<string[]>(null),
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
@@ -283,10 +289,6 @@ export class DhMeteringPointProcessOverviewTable {
     this.form.controls.states.valueChanges
       .pipe(takeUntilDestroyed())
       .subscribe((v) => this.store.states.set(v ?? []));
-  }
-
-  protected processTypeKey(process: MeteringPointProcess): string {
-    return resolveProcessTypeKey(process);
   }
 
   // Show the initiator's GLN/name (displayName) when it is resolved (own actor / FAS);
