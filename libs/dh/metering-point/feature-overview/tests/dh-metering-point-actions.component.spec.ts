@@ -22,7 +22,10 @@ import userEvent from '@testing-library/user-event';
 
 import { WattModalService } from '@energinet/watt/modal';
 
-import { EicFunction } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  EicFunction,
+  ElectricityMarketViewConnectionState,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
@@ -43,12 +46,16 @@ type SetupOptions = {
   hasServiceRequestPermission?: boolean;
   serviceRequestFlagEnabled?: boolean;
   isEnergySupplierResponsible?: boolean;
+  hasConnectionStateManagePermission?: boolean;
+  connectionState?: ElectricityMarketViewConnectionState | null;
 };
 
 async function setup({
   hasServiceRequestPermission = true,
   serviceRequestFlagEnabled = true,
   isEnergySupplierResponsible = true,
+  hasConnectionStateManagePermission = false,
+  connectionState = null,
 }: SetupOptions = {}) {
   const open = vi.fn();
 
@@ -57,6 +64,7 @@ async function setup({
       meteringPointId,
       internalMeteringPointId,
       isEnergySupplierResponsible,
+      connectionState,
       searchMigratedMeteringPoints: false,
     },
     providers: [
@@ -72,12 +80,15 @@ async function setup({
       {
         provide: PermissionService,
         useValue: {
-          hasPermission: (permission: Permission) =>
-            of(
-              permission === 'metering-point:service-request-request'
-                ? hasServiceRequestPermission
-                : false
-            ),
+          hasPermission: (permission: Permission) => {
+            if (permission === 'metering-point:service-request-request') {
+              return of(hasServiceRequestPermission);
+            }
+            if (permission === 'metering-point:connection-state-manage') {
+              return of(hasConnectionStateManagePermission);
+            }
+            return of(false);
+          },
           hasMarketRole: () => of(false),
         },
       },
@@ -131,6 +142,27 @@ describe(DhMeteringPointActionsComponent, () => {
 
     expect(await screen.findByRole('menuitem', { name: /update customer data/i })).toBeInTheDocument();
     expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
+  });
+
+  it('hides the request service action when the user is not the responsible supplier', async () => {
+    // Permission and flag arms are satisfied (defaults), so only the
+    // responsibility arm is exercised here. The connection-status action is
+    // enabled as a positive control because it is not gated on responsibility,
+    // unlike the customer-data action used by the other negative tests.
+    const { user } = await setup({
+      isEnergySupplierResponsible: false,
+      hasConnectionStateManagePermission: true,
+      connectionState: ElectricityMarketViewConnectionState.Connected,
+    });
+
+    await openActionsMenu(user);
+
+    expect(
+      await screen.findByRole('menuitem', { name: /change connection status/i })
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('menuitem', { name: /request service/i })
+    ).not.toBeInTheDocument();
   });
 
   it('opens the service request modal with the metering point id and a process id', async () => {
