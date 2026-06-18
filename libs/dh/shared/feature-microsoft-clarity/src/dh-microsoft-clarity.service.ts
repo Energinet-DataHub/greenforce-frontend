@@ -27,10 +27,16 @@ export interface MicrosoftClarityConfig {
   providedIn: 'root',
 })
 export class DhMicrosoftClarityService {
-  private isInitialized = false;
+  private initialized = false;
+
+  // Whether the Clarity SDK has been loaded. Lets the initializer tell a
+  // never-loaded state (do nothing) apart from a withdrawn-after-load state.
+  get isInitialized(): boolean {
+    return this.initialized;
+  }
 
   init(config: MicrosoftClarityConfig | undefined): void {
-    if (this.isInitialized) {
+    if (this.initialized) {
       return;
     }
 
@@ -43,7 +49,7 @@ export class DhMicrosoftClarityService {
     try {
       // Initialize Clarity using the SDK
       Clarity.init(config.projectId);
-      this.isInitialized = true;
+      this.initialized = true;
     } catch (error) {
       // Log error but don't throw - Microsoft Clarity should not break the app
       console.warn('Error initializing Microsoft Clarity:', error);
@@ -51,7 +57,7 @@ export class DhMicrosoftClarityService {
   }
 
   setCookieConsent(consent: boolean): void {
-    if (!this.isInitialized) {
+    if (!this.initialized) {
       return;
     }
 
