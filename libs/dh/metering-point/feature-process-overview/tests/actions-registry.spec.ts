@@ -44,6 +44,7 @@ import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-
 import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from '../src/actions/incorrect-move/incorrect-move';
+import { ServiceRequestActions } from '../src/actions/service-request/service-request';
 import { ProcessActionContext } from '../src/actions/context';
 
 // -- Test helpers --
@@ -72,6 +73,8 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRequestPermission?: boolean;
       hasMoveInPermission?: boolean;
       hasChangeOfSupplierPermission?: boolean;
+      hasServiceRequestRequestPermission?: boolean;
+      hasServiceRequestRespondPermission?: boolean;
       isFas?: boolean;
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
@@ -79,6 +82,7 @@ describe('DhActionsRegistry', () => {
       secondaryMoveInHandlers?: ActionHandlerMap;
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
       incorrectMoveHandlers?: ActionHandlerMap;
+      serviceRequestHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
@@ -88,6 +92,8 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRequestPermission = false,
       hasMoveInPermission = false,
       hasChangeOfSupplierPermission = false,
+      hasServiceRequestRequestPermission = false,
+      hasServiceRequestRespondPermission = false,
       isFas = false,
       actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
@@ -108,6 +114,7 @@ describe('DhActionsRegistry', () => {
         },
       } as ActionHandlerMap,
       incorrectMoveHandlers = {} as ActionHandlerMap,
+      serviceRequestHandlers = {} as ActionHandlerMap,
     } = options;
 
     TestBed.configureTestingModule({
@@ -131,6 +138,10 @@ describe('DhActionsRegistry', () => {
               if (permission === 'metering-point:move-in') return of(hasMoveInPermission);
               if (permission === 'metering-point:change-of-supplier')
                 return of(hasChangeOfSupplierPermission);
+              if (permission === 'metering-point:service-request-request')
+                return of(hasServiceRequestRequestPermission);
+              if (permission === 'metering-point:service-request-respond')
+                return of(hasServiceRequestRespondPermission);
               return of(false);
             },
             isFas: () => of(isFas),
@@ -168,6 +179,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: IncorrectMoveActions,
           useValue: createMockHandlers(incorrectMoveHandlers),
+        },
+        {
+          provide: ServiceRequestActions,
+          useValue: createMockHandlers(serviceRequestHandlers),
         },
       ],
     });
@@ -883,6 +898,162 @@ describe('DhActionsRegistry', () => {
         );
 
         expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+    });
+
+    describe('ServiceRequest (BRS-039)', () => {
+      // Mirrors the EndOfSupply registry cases. CancelWorkflow is performed by the
+      // responsible energy supplier that initiated the request and is gated by the
+      // `service-request-request` permission; ConfirmWorkflow is performed by the
+      // grid access provider and is gated by the `service-request-respond` permission.
+      // Both are behind the `service-request` feature flag.
+
+      const cancelHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.CancelWorkflow]: {
+          featureFlag: 'service-request',
+          permissions: ['metering-point:service-request-request'],
+          roles: [ResponsibleEnergySupplier],
+          callback: vi.fn(),
+        },
+      };
+
+      const confirmHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.ConfirmWorkflow]: {
+          featureFlag: 'service-request',
+          permissions: ['metering-point:service-request-respond'],
+          roles: [EicFunction.GridAccessProvider],
+          callback: vi.fn(),
+        },
+      };
+
+      it('should return CancelWorkflow when flag enabled, request permission present and actor is responsible supplier', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
+      });
+
+      it('should exclude CancelWorkflow when request permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: false,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude CancelWorkflow when actor is supplier but not responsible', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude CancelWorkflow when feature flag is disabled', () => {
+        const registry = setupRegistry({
+          featureFlagsEnabled: false,
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should return ConfirmWorkflow when flag enabled, respond permission present and actor is GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.ConfirmWorkflow]);
+      });
+
+      it('should exclude ConfirmWorkflow when respond permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: false,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude ConfirmWorkflow when actor role is not GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude ConfirmWorkflow when feature flag is disabled', () => {
+        const registry = setupRegistry({
+          featureFlagsEnabled: false,
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
       });
     });
   });

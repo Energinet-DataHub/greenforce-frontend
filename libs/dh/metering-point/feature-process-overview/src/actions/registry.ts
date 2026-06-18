@@ -38,6 +38,7 @@ import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from './incorrect-move/incorrect-move';
+import { ServiceRequestActions } from './service-request/service-request';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
@@ -95,6 +96,7 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.IncorrectMove]: inject(IncorrectMoveActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
       .handlers,
+    [ProcessManagerBusinessReason.ServiceRequest]: inject(ServiceRequestActions).handlers,
   };
 
   private readonly permissionSignals: ReadonlyMap<Permission, Signal<boolean>> = new Map(
