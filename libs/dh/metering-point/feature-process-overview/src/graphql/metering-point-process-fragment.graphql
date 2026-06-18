@@ -3,6 +3,7 @@ fragment MeteringPointProcessItem on MeteringPointProcess {
   createdAt
   cutoffDate
   businessReason
+  processType
   state
   initiator {
     id

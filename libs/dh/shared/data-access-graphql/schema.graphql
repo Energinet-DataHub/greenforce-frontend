@@ -51,6 +51,10 @@ type AcceptIncorrectMovePayload {
   boolean: Boolean
 }
 
+type AcceptRollbackChangeOfSupplierPayload {
+  boolean: Boolean
+}
+
 type ActorAuditedChangeAuditLogDto {
   auditedBy: String
   consolidation: MarketParticipantConsolidationAuditLog
@@ -1193,6 +1197,7 @@ type MeteringPointProcess {
   id: String!
   transactionId: String
   businessReason: ProcessManagerBusinessReason!
+  processType: String
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!
@@ -1242,6 +1247,7 @@ type MissingPriceSeriesResult {
 
 type Mutation {
   acceptIncorrectMove(input: AcceptIncorrectMoveInput!): AcceptIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
+  acceptRollbackChangeOfSupplier(input: AcceptRollbackChangeOfSupplierInput!): AcceptRollbackChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   addChargeSeries(input: AddChargeSeriesInput!): AddChargeSeriesPayload! @authorize(roles: [ "charges:manage" ])
   addMeteringPointsToAdditionalRecipient(input: AddMeteringPointsToAdditionalRecipientInput!): AddMeteringPointsToAdditionalRecipientPayload!
   addTokenToDownloadUrl(input: AddTokenToDownloadUrlInput!): AddTokenToDownloadUrlPayload!
@@ -1287,6 +1293,7 @@ type Mutation {
   registerElectricalHeating(input: RegisterElectricalHeatingInput!): RegisterElectricalHeatingPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   rejectIncorrectMove(input: RejectIncorrectMoveInput!): RejectIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
+  rejectRollbackChangeOfSupplier(input: RejectRollbackChangeOfSupplierInput!): RejectRollbackChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   removeElectricalHeatingMeteringPoint(input: RemoveElectricalHeatingMeteringPointInput!): RemoveElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1294,6 +1301,7 @@ type Mutation {
   requestClientSecretCredentials(input: RequestClientSecretCredentialsInput!): RequestClientSecretCredentialsPayload!
   requestConnectionStateChange(input: RequestConnectionStateChangeInput!): RequestConnectionStateChangePayload! @authorize(roles: [ "metering-point:connection-state-manage" ])
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
+  requestIncorrectChangeOfSupplier(input: RequestIncorrectChangeOfSupplierInput!): RequestIncorrectChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   requestIncorrectMoveIn(input: RequestIncorrectMoveInInput!): RequestIncorrectMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
@@ -1624,6 +1632,10 @@ type RejectIncorrectMovePayload {
   boolean: Boolean
 }
 
+type RejectRollbackChangeOfSupplierPayload {
+  boolean: Boolean
+}
+
 "Represents a metering point's data"
 type RelatedMeteringPointDto {
   """
@@ -1705,6 +1717,10 @@ type RequestConnectionStateChangePayload {
 }
 
 type RequestEndOfSupplyPayload {
+  boolean: Boolean
+}
+
+type RequestIncorrectChangeOfSupplierPayload {
   boolean: Boolean
 }
 
@@ -2072,6 +2088,11 @@ union UpdateUserRoleAssignmentError = ApiError
 union UpdateUserRoleError = ApiError
 
 input AcceptIncorrectMoveInput {
+  meteringPointId: String!
+  processId: UUID!
+}
+
+input AcceptRollbackChangeOfSupplierInput {
   meteringPointId: String!
   processId: UUID!
 }
@@ -2541,6 +2562,11 @@ input RejectIncorrectMoveInput {
   processId: UUID!
 }
 
+input RejectRollbackChangeOfSupplierInput {
+  meteringPointId: String!
+  processId: UUID!
+}
+
 input RemoveElectricalHeatingMeteringPointInput {
   parentMeteringPointId: String!
   cutOffDate: DateTime!
@@ -2579,6 +2605,13 @@ input RequestConnectionStateChangeInput {
 input RequestEndOfSupplyInput {
   meteringPointId: String!
   terminationDate: DateTime!
+}
+
+input RequestIncorrectChangeOfSupplierInput {
+  processId: UUID!
+  meteringPointId: String!
+  cutoffDate: DateTime!
+  reason: String
 }
 
 input RequestIncorrectMoveInInput {
@@ -3690,6 +3723,7 @@ enum MeteringPointProcessAction {
   CONFIRM_WORKFLOW
   REJECT_REQUEST
   INITIATE_INCORRECT_MOVE_IN
+  HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER
 }
 
 enum MeteringPointProcessState {
@@ -3774,6 +3808,7 @@ enum OutgoingDocumentTypeV1 {
   REJECT_REQUEST_BILLING_MASTER_DATA
   REJECT_REQUEST_PRICE_LIST
   REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER
+  ACKNOWLEDGEMENT_FOR_PROCESSES
 }
 
 enum ParticipantType {

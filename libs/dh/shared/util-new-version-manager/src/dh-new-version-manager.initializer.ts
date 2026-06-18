@@ -20,10 +20,6 @@ import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhNewVersionManager } from './dh-new-version-manager.service';
 
-export const dhNewVersionManagerInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    (newVersionManager: DhNewVersionManager) => () =>
-      newVersionManager.init()
-  )(inject(DhNewVersionManager));
-  return initializerFn();
-});
+export const dhNewVersionManagerInitializer = provideAppInitializer(() =>
+  inject(DhNewVersionManager).init()
+);

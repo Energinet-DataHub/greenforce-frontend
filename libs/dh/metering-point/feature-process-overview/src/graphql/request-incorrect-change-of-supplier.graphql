@@ -1,0 +1,17 @@
+mutation RequestIncorrectChangeOfSupplier(
+  $processId: UUID!
+  $meteringPointId: String!
+  $cutoffDate: DateTime!
+  $reason: String
+) {
+  requestIncorrectChangeOfSupplier(
+    input: {
+      processId: $processId
+      meteringPointId: $meteringPointId
+      cutoffDate: $cutoffDate
+      reason: $reason
+    }
+  ) {
+    success: boolean
+  }
+}

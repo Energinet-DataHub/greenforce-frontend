@@ -83,9 +83,7 @@ import { ChargeLinkPeriodChange } from '../types';
       </watt-drawer-topbar>
       <watt-drawer-heading>
         <vater-stack align="start" gap="s">
-          <h2 watt-heading size="1" fill="horizontal">
-            {{ item()?.charge?.displayName }}
-          </h2>
+          <h2 watt-heading fill="horizontal">{{ item()?.charge?.displayName }}</h2>
           <vater-stack
             align="end"
             fill="horizontal"

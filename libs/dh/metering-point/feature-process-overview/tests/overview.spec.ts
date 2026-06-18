@@ -166,13 +166,15 @@ function applyFilters(
   fixture: ComponentFixture<DhMeteringPointProcessOverviewTable>,
   filters: {
     states?: MeteringPointProcessState[];
-    businessReasons?: ProcessManagerBusinessReason[];
+    // Composite `processType` keys (e.g. BRS_002_EndOfSupply,
+    // BRS_005_DataAlignmentForMasterDataMeteringPoint).
+    processTypes?: string[];
     period?: WattRange<Date>;
   }
 ): void {
   const { form } = fixture.componentInstance;
   if (filters.states) form.controls.states.setValue(filters.states);
-  if (filters.businessReasons) form.controls.businessReasons.setValue(filters.businessReasons);
+  if (filters.processTypes) form.controls.processTypes.setValue(filters.processTypes);
   if (filters.period) form.controls.period.setValue(filters.period);
 
   // Flush the signals/effects the form change feeds (valueChanges -> store signal
@@ -257,7 +259,7 @@ describe('Process overview', () => {
     expect(endOfSupplyRows).toBeLessThan(fullDataRows);
 
     applyFilters(fixture, {
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: ['BRS_002_EndOfSupply'],
     });
 
     expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - endOfSupplyRows));
@@ -286,7 +288,7 @@ describe('Process overview', () => {
     expect(matchingRows).toBeLessThan(endOfSupplyRows);
 
     applyFilters(fixture, {
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: ['BRS_002_EndOfSupply'],
       states: [MeteringPointProcessState.Running],
     });
 
@@ -328,7 +330,7 @@ describe('Process overview', () => {
     // `filteredProcesses`, not a transient loading state from a refetch.
     applyFilters(fixture, {
       states: [MeteringPointProcessState.Running],
-      businessReasons: [ProcessManagerBusinessReason.EndOfSupply],
+      processTypes: ['BRS_002_EndOfSupply'],
     });
 
     // The table is genuinely narrowed first, so the restore assertion is meaningful.
@@ -497,19 +499,24 @@ describe('Process overview', () => {
   });
 
   it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
-    await setup({
+    const { fixture } = await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       actorGln: processCmiInfoInitiatorGln,
     });
     const user = userEvent.setup();
 
+    // Both CustomerMoveIn and ChangeOfEnergySupplier expose a "Request correction"
+    // button for an actor that owns the process, so narrow the table to move-in
+    // rows to target the move-in button unambiguously.
+    applyFilters(fixture, {
+      processTypes: ['BRS_009_CustomerMoveIn'],
+    });
+
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
-        0
-      )
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBe(1)
     );
 
-    const button = screen.getAllByRole('button', { name: /Request correction/i })[0];
+    const button = screen.getByRole('button', { name: /Request correction/i });
     await user.click(button);
 
     await waitForAsync(() => {
@@ -531,5 +538,76 @@ describe('Process overview', () => {
     await waitForAsync(() =>
       expect(within(grid).getAllByText(/Grid access provider/i).length).toBeGreaterThan(0)
     );
+  });
+
+  it('renders distinct type labels for BRS-005 and BRS-038 that share a business reason', async () => {
+    const { fixture } = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+
+    // Falsifiability: both fixtures carry the SAME businessReason
+    // (DataAlignmentForMasterDataMeteringPoint) and are told apart only by `processType`.
+    const brs005 = store.processes().find((p) => p.id === 'process-brs-005');
+    const brs038 = store.processes().find((p) => p.id === 'process-brs-038');
+    expect(brs005?.businessReason).toBe(
+      ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint
+    );
+    expect(brs038?.businessReason).toBe(
+      ProcessManagerBusinessReason.DataAlignmentForMasterDataMeteringPoint
+    );
+    expect(brs005?.processType).toBe('BRS_005_DataAlignmentForMasterDataMeteringPoint');
+    expect(brs038?.processType).toBe('BRS_038_DataAlignmentForMasterDataMeteringPoint');
+
+    const grid = screen.getByRole('treegrid');
+    // BRS-005 and BRS-038 share the same businessReason and are told apart only by their
+    // composite `processType`, so each renders its own distinct label.
+    expect(within(grid).getAllByText('Request for charge links (BRS-038)').length).toBeGreaterThan(
+      0
+    );
+    expect(within(grid).getAllByText('Request for master data (BRS-005)').length).toBeGreaterThan(
+      0
+    );
+  });
+
+  it('lists BRS-005 and BRS-038 as separate type options that each narrow the table independently', async () => {
+    const { fixture } = await setup();
+    const store = fixture.debugElement.injector.get(DhMeteringPointProcessOverviewStore);
+
+    // The type dropdown options are built from the distinct `processType` keys, so the two
+    // share-a-reason processes surface as two distinct options.
+    expect(fixture.componentInstance.typeOptions().map((o) => o.value)).toEqual(
+      expect.arrayContaining([
+        'BRS_005_DataAlignmentForMasterDataMeteringPoint',
+        'BRS_038_DataAlignmentForMasterDataMeteringPoint',
+      ])
+    );
+
+    const baselineRows = renderedRowCount();
+    const fullDataRows = store.processes().length;
+    const brs005Rows = store
+      .processes()
+      .filter((p) => p.processType === 'BRS_005_DataAlignmentForMasterDataMeteringPoint').length;
+    const brs038Rows = store
+      .processes()
+      .filter((p) => p.processType === 'BRS_038_DataAlignmentForMasterDataMeteringPoint').length;
+    expect(brs005Rows).toBeGreaterThan(0);
+    expect(brs038Rows).toBeGreaterThan(0);
+
+    // Selecting BRS_038 shows only the BRS-038 rows, proving it is an independent option.
+    applyFilters(fixture, { processTypes: ['BRS_038_DataAlignmentForMasterDataMeteringPoint'] });
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - brs038Rows));
+
+    // Switching to BRS_005 shows the BRS-005 rows instead (and excludes BRS-038).
+    applyFilters(fixture, { processTypes: ['BRS_005_DataAlignmentForMasterDataMeteringPoint'] });
+    expect(renderedRowCount()).toBe(baselineRows - (fullDataRows - brs005Rows));
+  });
+
+  it('renders distinct type labels for the two BRS_009 processes (move-in and secondary move-in)', async () => {
+    // CustomerMoveIn and SecondaryMoveIn are both BRS_009 but carry distinct composite
+    // keys (BRS_009_CustomerMoveIn / BRS_009_SecondaryMoveIn), so each renders its own label.
+    await setup();
+    const grid = screen.getByRole('treegrid');
+
+    expect(within(grid).getAllByText('Move-in (BRS-009)').length).toBeGreaterThan(0);
+    expect(within(grid).getAllByText('Secondary move-in (BRS-009)').length).toBeGreaterThan(0);
   });
 });

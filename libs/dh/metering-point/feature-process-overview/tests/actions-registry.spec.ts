@@ -44,6 +44,7 @@ import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-
 import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from '../src/actions/incorrect-move/incorrect-move';
+import { RollbackChangeOfSupplierActions } from '../src/actions/rollback-change-of-supplier/rollback-change-of-supplier';
 import { ServiceRequestActions } from '../src/actions/service-request/service-request';
 import { ProcessActionContext } from '../src/actions/context';
 
@@ -82,6 +83,7 @@ describe('DhActionsRegistry', () => {
       secondaryMoveInHandlers?: ActionHandlerMap;
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
       incorrectMoveHandlers?: ActionHandlerMap;
+      rollbackChangeOfSupplierHandlers?: ActionHandlerMap;
       serviceRequestHandlers?: ActionHandlerMap;
     } = {}
   ) {
@@ -114,6 +116,7 @@ describe('DhActionsRegistry', () => {
         },
       } as ActionHandlerMap,
       incorrectMoveHandlers = {} as ActionHandlerMap,
+      rollbackChangeOfSupplierHandlers = {} as ActionHandlerMap,
       serviceRequestHandlers = {} as ActionHandlerMap,
     } = options;
 
@@ -179,6 +182,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: IncorrectMoveActions,
           useValue: createMockHandlers(incorrectMoveHandlers),
+        },
+        {
+          provide: RollbackChangeOfSupplierActions,
+          useValue: createMockHandlers(rollbackChangeOfSupplierHandlers),
         },
         {
           provide: ServiceRequestActions,

@@ -20,10 +20,6 @@ import { inject, provideAppInitializer } from '@angular/core';
 
 import { DhLanguageService } from './dh-language.service';
 
-export const dhLanguageServiceInitializer = provideAppInitializer(() => {
-  const initializerFn = (
-    (dhLangaugeService: DhLanguageService) => () =>
-      dhLangaugeService.init()
-  )(inject(DhLanguageService));
-  return initializerFn();
-});
+export const dhLanguageServiceInitializer = provideAppInitializer(() =>
+  inject(DhLanguageService).init()
+);

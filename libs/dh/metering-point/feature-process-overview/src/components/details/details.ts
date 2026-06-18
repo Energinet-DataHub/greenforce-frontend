@@ -151,11 +151,11 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
                   class="watt-link-s dh-cancelled-by__link"
                   (click)="goToCancellingProcess()"
                 >
-                  {{ t('processType.' + cancelledBy.businessReason) }}
+                  {{ t('processType.' + cancelledBy.processType) }}
                 </button>
               } @else {
                 <span class="dh-cancelled-by__name">{{
-                  t('processType.' + cancelledBy.businessReason)
+                  t('processType.' + cancelledBy.processType)
                 }}</span>
               }
               {{
@@ -166,9 +166,9 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
         </vater-stack>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
-          {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
-        </h3>
+        <h2 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
+          {{ processType() && t('processType.' + processType()) | dhEmDashFallback }}
+        </h2>
         <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
           <watt-description-list variant="inline-flow" [groupsPerRow]="4">
             <watt-description-list-item
@@ -291,6 +291,7 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
+  processType = computed(() => this.process.data()?.meteringPointProcessById?.processType);
   initiator = computed(() => {
     const p = this.process.data()?.meteringPointProcessById;
     return (
