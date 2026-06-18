@@ -2052,7 +2052,8 @@
       "CONFIRM_REQUEST_SERVICE": "Confirm service request",
       "REJECT_REQUEST_CANCELLATION": "Reject cancellation",
       "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Reject metering point characteristics",
-      "REJECT_REQUEST_BILLING_MASTER_DATA": "Reject billing master data"
+      "REJECT_REQUEST_BILLING_MASTER_DATA": "Reject billing master data",
+      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Request reallocation"
     },
     "businessReasons": {
       "CUSTOMER_MOVE_IN": "Customer move in",

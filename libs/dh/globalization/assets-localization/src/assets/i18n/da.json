@@ -2051,7 +2051,8 @@
       "CONFIRM_REQUEST_SERVICE": "Godkendelse af serviceydelse",
       "REJECT_REQUEST_CANCELLATION": "Afvisning af annullering",
       "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Afvisning af målepunktsstamdata",
-      "REJECT_REQUEST_BILLING_MASTER_DATA": "Afvisning af pristilknytningsdata"
+      "REJECT_REQUEST_BILLING_MASTER_DATA": "Afvisning af pristilknytningsdata",
+      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Anmodning om genallokering ved leverandørskift"
     },
     "businessReasons": {
       "CUSTOMER_MOVE_IN": "Tilflytning",
