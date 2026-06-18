@@ -1258,8 +1258,9 @@
         "CustomerMoveIn": "tilflytning",
         "ChangeOfEnergySupplier": "leverandørskift"
       },
-      "stepReasonLabels": {
-        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
+      "stepPreviewFieldLabels": {
+        "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion",
+        "BRS_039_REQUESTFORSERVICE_V1_STEP_1": "Type af serviceydelse"
       },
       "steps": {
         "CANCELLATION_STEP_V1_STEP_1": "Proces annulleret",

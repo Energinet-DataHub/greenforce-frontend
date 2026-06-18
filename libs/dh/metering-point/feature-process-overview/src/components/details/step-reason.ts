@@ -31,21 +31,21 @@ import { VaterStackComponent } from '@energinet/watt/vater';
     }
   `,
   template: `
+    <!--
+      Visibility is owned by Process Manager: PM populates the preview field (surfaced here as
+      comment) only on steps whose description sets ShowPreviewField=true. The frontend therefore
+      renders whenever comment is truthy (null and empty string both suppress), with no
+      translation-existence gate. A missing stepPreviewFieldLabels translation surfaces as the
+      raw key in the UI, signalling a frontend opt-in gap (PM expects us to render a step the
+      frontend has not added a label for) that the regression test covers.
+    -->
     @if (comment(); as commentText) {
-      @let reasonLabelKey = 'meteringPoint.processOverview.stepReasonLabels.' + step();
-      @let reasonLabel = reasonLabelKey | transloco;
-
-      <!--
-        A step shows its reason only when it has a reason-label translation, keyed by step id like the
-        step names. Without one the pipe returns the key, so the reason is suppressed rather than
-        rendering a raw key. A new step opts in by adding a stepReasonLabels translation.
-      -->
-      @if (reasonLabel !== reasonLabelKey) {
-        <p vater-stack align="start" class="watt-text-s">
-          <strong class="watt-text-s-highlighted">{{ reasonLabel }}</strong>
-          {{ commentText }}
-        </p>
-      }
+      <p vater-stack align="start" class="watt-text-s">
+        <strong class="watt-text-s-highlighted">{{
+          'meteringPoint.processOverview.stepPreviewFieldLabels.' + step() | transloco
+        }}</strong>
+        {{ commentText }}
+      </p>
     }
   `,
 })

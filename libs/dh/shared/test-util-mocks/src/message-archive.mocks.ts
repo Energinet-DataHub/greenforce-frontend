@@ -924,7 +924,9 @@ function buildGenericProcess({
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-1`,
         step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_1',
-        comment: 'OBS: Sendt til foged',
+        // PM only populates the preview field on steps whose description has ShowPreviewField=true;
+        // BRS_002 does not opt in, so the mock keeps comment null to match what the BFF surfaces.
+        comment: null,
         completedAt: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24),
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 2),
         state: MeteringPointProcessState.Succeeded,
@@ -944,7 +946,7 @@ function buildGenericProcess({
         __typename: 'MeteringPointProcessStep' as const,
         id: `step-${processId}-2`,
         step: 'BRS_002_REQUESTFORENDOFSUPPLY_V1_STEP_2',
-        comment: 'Afventer bekræftelse',
+        comment: null,
         completedAt: null,
         dueDate: new Date(createdAt.getTime() + 1000 * 60 * 60 * 24 * 5),
         state: MeteringPointProcessState.Pending,
