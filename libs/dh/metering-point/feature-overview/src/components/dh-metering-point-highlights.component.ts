@@ -118,7 +118,8 @@ export class DhMeteringPointHighlightsComponent {
   meteringPointDetails = input.required<MeteringPointDetails | undefined>();
 
   hasElectricalHeating = computed(
-    () => this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods ?? false
+    () =>
+      !!this.meteringPointDetails()?.commercialRelation?.activeElectricalHeatingPeriods?.isActive
   );
 
   notActualAddress = computed(
