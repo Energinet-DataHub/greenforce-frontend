@@ -1121,7 +1121,7 @@
         "UpdateChargeLinks": "Update charge links (D17)",
         "ChangeOfEnergySupplier": "Change of energy supplier (E03)",
         "IncorrectMove": "Incorrect move (D33)",
-        "RollbackChangeOfSupplier": "Incorrect Change Energy Supplier (D07"
+        "RollbackChangeOfSupplier": "Incorrect change of energy supplier (D07)"
       },
       "filters": {
         "period": "Period",
