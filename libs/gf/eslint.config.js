@@ -21,6 +21,7 @@ const nx = require('@nx/eslint-plugin');
 
 module.exports = [
   ...baseConfig,
+  { ignores: ['**/mockServiceWorker.js'] },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
   {

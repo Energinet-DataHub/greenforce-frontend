@@ -111,7 +111,6 @@ export interface RequestIncorrectMoveInModalData {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestIncorrectMoveInModal extends WattTypedModal<RequestIncorrectMoveInModalData> {
   private readonly requestIncorrectMoveInMutation = mutation(RequestIncorrectMoveInDocument, {
     onStatusUpdated: injectToast('meteringPoint.processOverview.incorrectMoveIn.toast'),
