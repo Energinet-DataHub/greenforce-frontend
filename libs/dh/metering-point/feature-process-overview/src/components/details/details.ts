@@ -291,9 +291,7 @@ export class DhMeteringPointProcessOverviewDetails {
   createdAt = computed(() => this.process.data()?.meteringPointProcessById?.createdAt);
   cutoffDate = computed(() => this.process.data()?.meteringPointProcessById?.cutoffDate);
   businessReason = computed(() => this.process.data()?.meteringPointProcessById?.businessReason);
-  protected readonly processType = computed(
-    () => this.process.data()?.meteringPointProcessById?.processType
-  );
+  processType = computed(() => this.process.data()?.meteringPointProcessById?.processType);
   initiator = computed(() => {
     const p = this.process.data()?.meteringPointProcessById;
     return (
