@@ -28,17 +28,19 @@ import type { Contact, Customer, InstallationAddress } from '../types';
  */
 export interface CustomerDataPrefill {
   isBusinessCustomer: boolean;
+  /** Whether existing CPR values should render masked and therefore not be required. */
+  maskCprFields: boolean;
   primary: {
     name: string;
     cvr: string;
     isProtectedName: boolean;
-    /** `null` when the CPR is not yet masked (user must enter it). */
+    /** Existing customer ID, used to determine whether a CPR can be masked. */
     customerId: string | null;
   };
   secondary: {
     name: string;
     isProtectedName: boolean;
-    /** `null` when there is no secondary customer to mask. */
+    /** Existing customer ID, used to determine whether a CPR can be masked. */
     customerId: string | null;
   };
   /** Used by `createCustomerContactDetailsForm` to detect "same as customer". */

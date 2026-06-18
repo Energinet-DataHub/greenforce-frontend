@@ -92,6 +92,7 @@ Overview.parameters = {
   docs: {
     source: {
       code: `
+      import { Component, inject } from '@angular/core';
       import { WattToastService, WattToastRef } from "@energinet/watt";
 
 @Component({
@@ -99,15 +100,15 @@ Overview.parameters = {
   template: '<watt-button (click)="makeToast()">Make toast!</watt-button>',
 })
 export class MyAwesomeComponent {
-  constructor(private toast: WattToastService) {}
+  private readonly toast = inject(WattToastService);
 
   makeToast() {
     this.toast.open({
-        message: 'Some awesome message!',
-        action: (ref: WattToastRef) => {
-            // Do something and dismiss the toast
-            ref.dismiss();
-        }
+      message: 'Some awesome message!',
+      action: (ref: WattToastRef) => {
+          // Do something and dismiss the toast
+          ref.dismiss();
+      }
     });
   }
 }`,
