@@ -474,9 +474,11 @@ public static partial class MeteringPointProcessNode
         // The process type the UI labels by is the workflow plus the business reason: most
         // workflows cover several reasons (e.g. Brs_007_008_013), and one reason spans two
         // workflows (Brs_005 vs Brs_038 both DataAlignmentForMasterDataMeteringPoint).
+        // Normalize the workflow name casing (it varies by process-manager version, e.g.
+        // BRS_015 vs Brs_015) so the composite key is stable across environments.
         var processType = workflowDescriptionName is null
             ? null
-            : $"{workflowDescriptionName}_{businessReason.Name}";
+            : $"{workflowDescriptionName.ToUpperInvariant()}_{businessReason.Name}";
 
         return new MeteringPointProcess(
             Id: id.ToString(),
