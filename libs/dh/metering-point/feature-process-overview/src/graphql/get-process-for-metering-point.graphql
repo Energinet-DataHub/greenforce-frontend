@@ -4,11 +4,13 @@ query GetMeteringPointProcessById($id: String!, $meteringPointId: String!) {
     createdAt
     cutoffDate
     businessReason
+    processType
     state
     availableActions
     cancelledByProcess {
       id
       businessReason
+      processType
       cutoffDate
     }
     steps {
