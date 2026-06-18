@@ -154,17 +154,12 @@ function consentWithStatistics(granted: boolean): ConsentStatus {
   };
 }
 
-// Stub of the Clarity service: loading the SDK flips isInitialized, which is
-// what the initializer reads to tell "never loaded" from "withdrawn after load".
+// Stub of the Clarity service; the initializer only calls init/setCookieConsent.
 function createClarityServiceStub() {
-  const stub = {
-    isInitialized: false,
-    init: vi.fn(() => {
-      stub.isInitialized = true;
-    }),
+  return {
+    init: vi.fn(),
     setCookieConsent: vi.fn(),
   };
-  return stub;
 }
 
 type SetupOptions = {
@@ -181,7 +176,6 @@ function setupInitializer(overrides: SetupOptions = {}) {
   } = overrides;
 
   const consentGiven$ = new Subject<ConsentStatus>();
-  const reload = vi.fn();
   const clarityService = createClarityServiceStub();
 
   TestBed.configureTestingModule({
@@ -190,13 +184,13 @@ function setupInitializer(overrides: SetupOptions = {}) {
       { provide: CookieInformationService, useValue: { consentGiven$ } },
       { provide: dhAppEnvironmentToken, useValue: config },
       { provide: DhFeatureFlagsService, useValue: { isEnabled: vi.fn(() => featureEnabled) } },
-      { provide: WindowService, useValue: { nativeWindow: { location: { hostname, reload } } } },
+      { provide: WindowService, useValue: { nativeWindow: { location: { hostname } } } },
     ],
   });
 
   TestBed.runInInjectionContext(() => initMicrosoftClarity());
 
-  return { consentGiven$, reload, clarityService };
+  return { consentGiven$, clarityService };
 }
 
 describe('initMicrosoftClarity', () => {
@@ -215,13 +209,12 @@ describe('initMicrosoftClarity', () => {
   });
 
   it('does not load Clarity or send anything until statistics consent is granted', () => {
-    const { consentGiven$, clarityService, reload } = setupInitializer();
+    const { consentGiven$, clarityService } = setupInitializer();
 
     consentGiven$.next(consentWithStatistics(false));
 
     expect(clarityService.init).not.toHaveBeenCalled();
     expect(clarityService.setCookieConsent).not.toHaveBeenCalled();
-    expect(reload).not.toHaveBeenCalled();
   });
 
   it('loads Clarity and grants consent when statistics consent is given', () => {
@@ -233,24 +226,14 @@ describe('initMicrosoftClarity', () => {
     expect(clarityService.setCookieConsent).toHaveBeenCalledWith(true);
   });
 
-  it('reloads the page when consent is withdrawn after Clarity has loaded', () => {
-    const { consentGiven$, reload } = setupInitializer();
-
-    consentGiven$.next(consentWithStatistics(true));
-    consentGiven$.next(consentWithStatistics(false));
-
-    expect(reload).toHaveBeenCalledTimes(1);
-  });
-
-  it('never loads or reloads for a user who keeps statistics rejected', () => {
-    const { consentGiven$, clarityService, reload } = setupInitializer();
+  it('never loads Clarity for a user who keeps statistics rejected', () => {
+    const { consentGiven$, clarityService } = setupInitializer();
 
     // Initial default emission followed by the re-broadcast of stored rejection.
     consentGiven$.next(consentWithStatistics(false));
     consentGiven$.next(consentWithStatistics(false));
 
     expect(clarityService.init).not.toHaveBeenCalled();
-    expect(reload).not.toHaveBeenCalled();
   });
 
   it('grants consent directly on localhost without waiting for the banner', () => {

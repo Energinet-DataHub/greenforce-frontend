@@ -34,8 +34,8 @@ import { DhMicrosoftClarityService } from './dh-microsoft-clarity.service';
 
 // Loads and gates Microsoft Clarity. Clarity is only loaded once the user has
 // actively consented to statistics cookies, so a user who rejects (or has not
-// answered) never loads the tag and nothing is sent. If consent is withdrawn
-// after Clarity has loaded, the page is reloaded so the tag is fully removed.
+// answered) never loads the tag and nothing is sent. Withdrawal teardown is
+// handled centrally by CookieInformationService, which reloads the page.
 export function initMicrosoftClarity(): void {
   const clarityService = inject(DhMicrosoftClarityService);
   const cookieInformationService = inject(CookieInformationService);
@@ -72,10 +72,6 @@ export function initMicrosoftClarity(): void {
         // Idempotent: init() guards against loading more than once.
         clarityService.init(clarityConfig);
         clarityService.setCookieConsent(true);
-      } else if (clarityService.isInitialized) {
-        // Consent withdrawn after Clarity loaded: reload to remove the tag
-        // entirely. After the reload nothing loads, so this cannot loop.
-        nativeWindow?.location.reload();
       }
     });
 }
