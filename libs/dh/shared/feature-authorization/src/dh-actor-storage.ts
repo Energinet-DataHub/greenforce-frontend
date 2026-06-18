@@ -44,10 +44,13 @@ export class DhActorStorage {
       return selectedActorInSS;
     }
 
-    const actorToSelect =
-      !selectedActorInLS || !this.actorIds.includes(selectedActorInLS)
-        ? this.actorIds[0]
-        : selectedActorInLS;
+    let actorToSelect = null;
+
+    if (!selectedActorInLS || !this.actorIds.includes(selectedActorInLS)) {
+      actorToSelect = this.actorIds[0];
+    } else {
+      actorToSelect = selectedActorInLS;
+    }
 
     this.setSelectedActorId(actorToSelect);
 
