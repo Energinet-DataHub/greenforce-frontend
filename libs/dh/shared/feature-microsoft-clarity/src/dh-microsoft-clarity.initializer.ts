@@ -19,7 +19,10 @@
 import { inject, provideAppInitializer, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { CookieInformationService } from '@energinet-datahub/gf/util-cookie-information';
+import {
+  COOKIE_CATEGORIES,
+  CookieInformationService,
+} from '@energinet-datahub/gf/util-cookie-information';
 import { WindowService } from '@energinet-datahub/gf/util-browser';
 import {
   DhAppEnvironmentConfig,
@@ -65,7 +68,7 @@ export function initMicrosoftClarity(): void {
   cookieInformationService.consentGiven$
     .pipe(takeUntilDestroyed(destroyRef))
     .subscribe((status) => {
-      if (status.cookie_cat_statistic) {
+      if (status[COOKIE_CATEGORIES.STATISTIC]) {
         // Idempotent: init() guards against loading more than once.
         clarityService.init(clarityConfig);
         clarityService.setCookieConsent(true);
