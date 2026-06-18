@@ -86,9 +86,8 @@ const settlementGroupMapping: Record<number, string> = {
   0: 'None',
 };
 
-/** Keys that only exist in EM2 and should be stripped when comparing. */
-const em2OnlyKeys = new Set([
-  'id',
+/** Root keys that only exist in EM2 and should be stripped when comparing. */
+const rootEm2OnlyKeys = new Set([
   'parentMeteringPointIds',
   'currentType',
   'currentConnectionState',
@@ -97,13 +96,27 @@ const em2OnlyKeys = new Set([
   'currentPowerPlantGsrn',
 ]);
 
+/** Keys that only exist in EM2 and should be stripped from any level when comparing. */
+const anyLevelEm2Keys = new Set([
+  'id',
+  'createdAt',
+  'updates',
+  'businessReasonActions',
+  'periodTerminatingActions',
+  'cancelledPeriodEvents',
+  'contactsInternal',
+  'juridicalContactId',
+  'technicalContactId',
+  'secondaryContactId',
+]);
+
 /** Recursively strip EM2-only keys from an object for cleaner comparison. */
 function normalizeEm2(value: unknown, isRoot = true): unknown {
   if (Array.isArray(value)) return value.map((v) => normalizeEm2(v, false));
   if (typeof value === 'object' && value !== null) {
     const result: Record<string, unknown> = {};
     for (const [key, child] of Object.entries(value)) {
-      if (key === 'id' || key === 'createdAt' || (isRoot && em2OnlyKeys.has(key))) continue;
+      if (anyLevelEm2Keys.has(key) || (isRoot && rootEm2OnlyKeys.has(key))) continue;
       result[key] =
         timestampKeys.has(key) && typeof child === 'string'
           ? truncateTimestamp(child)

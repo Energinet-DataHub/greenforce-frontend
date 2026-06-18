@@ -1151,6 +1151,10 @@
         "IncorrectMove": {
           "CONFIRM_WORKFLOW": "Accepter",
           "REJECT_REQUEST": "Afvis"
+        },
+        "RollbackChangeOfSupplier": {
+          "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
         }
       },
       "incorrectMoveIn": {
