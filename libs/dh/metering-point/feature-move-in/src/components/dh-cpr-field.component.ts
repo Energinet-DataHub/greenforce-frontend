@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
@@ -117,7 +117,7 @@ export class DhCprFieldComponent {
     this.unlocked.set(true);
     const control = this.cprControl();
     control.setValue(null);
-    control.setValidators([Validators.required, dhCprValidator()]);
+    control.addValidators(dhCprValidator());
     control.updateValueAndValidity();
   }
 }

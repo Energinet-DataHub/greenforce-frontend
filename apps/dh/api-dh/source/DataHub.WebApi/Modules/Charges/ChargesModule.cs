@@ -22,16 +22,17 @@ using HotChocolate.Execution.Configuration;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
-public class ChargesModule : IModule
+public static class ChargesModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration)
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services)
         => services
             .AddScoped<IChargesClient, ChargesClient>()
             .AddChargesClient();
 
-    public IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder)
+    [ConfigureGraphQL]
+    public static IRequestExecutorBuilder AddGraphQLConfiguration(IRequestExecutorBuilder builder)
         => builder
             .BindRuntimeType<ChargeIdentifierDto, StringType>()
             .AddTypeConverter<ChargeIdentifierDto, string>(JsonBase64Converter.Serialize)

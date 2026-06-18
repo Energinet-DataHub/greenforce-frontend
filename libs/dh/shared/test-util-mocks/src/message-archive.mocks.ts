@@ -341,6 +341,7 @@ function buildOverviewProcesses() {
     availableActions: [
       MeteringPointProcessAction.SendInformation,
       MeteringPointProcessAction.CancelWorkflow,
+      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
     ],
     initiator: {
       __typename: 'MarketParticipant' as const,
@@ -504,6 +505,7 @@ export const knownProcesses: Record<
     availableActions: [
       MeteringPointProcessAction.SendInformation,
       MeteringPointProcessAction.CancelWorkflow,
+      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
     ],
     initiatorGln: processCosInfoInitiatorGln,
   },
@@ -679,6 +681,7 @@ function buildChangeOfEnergySupplierProcess(
     availableActions: [
       MeteringPointProcessAction.SendInformation,
       MeteringPointProcessAction.CancelWorkflow,
+      MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier,
     ],
     cancelledByProcess: null,
     initiator: {

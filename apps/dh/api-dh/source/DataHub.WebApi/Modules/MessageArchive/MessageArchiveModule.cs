@@ -17,9 +17,10 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 
-public class MessageArchiveModule : IModule
+public static class MessageArchiveModule
 {
-    public IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(IServiceCollection services) =>
         services
             .AddScoped<IArchivedMessageClient, ArchivedMessageClient>()
             .AddScoped<IMeteringPointArchivedMessageClient, MeteringPointArchivedMessageClient>();

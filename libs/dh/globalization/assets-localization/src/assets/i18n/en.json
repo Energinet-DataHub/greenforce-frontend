@@ -931,7 +931,8 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "noSupplierPeriodForSelectedDates": "No energy supplier period found for selected dates"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
@@ -1099,7 +1100,8 @@
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "IncorrectMove": "Handling of incorrect move (BRS-011)"
+        "IncorrectMove": "Handling of incorrect move (BRS-011)",
+        "RollbackChangeOfSupplier": "Handling of incorrect change of supplier (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1118,7 +1120,8 @@
         "ServiceRequest": "Service request (D22)",
         "UpdateChargeLinks": "Update charge links (D17)",
         "ChangeOfEnergySupplier": "Change of energy supplier (E03)",
-        "IncorrectMove": "Incorrect move (D33)"
+        "IncorrectMove": "Incorrect move (D33)",
+        "RollbackChangeOfSupplier": "Rollback change of supplier (D07)"
       },
       "filters": {
         "period": "Period",
@@ -1143,9 +1146,14 @@
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Request correction"
         },
         "IncorrectMove": {
+          "CONFIRM_WORKFLOW": "Accept",
+          "REJECT_REQUEST": "Reject"
+        },
+        "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accept",
           "REJECT_REQUEST": "Reject"
         }
@@ -1160,6 +1168,19 @@
         "confirm": "Request correction",
         "toast": {
           "loading": "Submitting the request...",
+          "success": "The request has been registered in DataHub",
+          "error": "Something went wrong. The request could not be completed. Please try again."
+        }
+      },
+      "incorrectChangeOfSupplier": {
+        "title": "Request correction: Incorrect change of supplier",
+        "description": "Request correction of change of supplier with cut-off date {{ cutoffDate }}?",
+        "reasonLabel": "Reason for request",
+        "conditionsPrefix": "Conditions",
+        "conditionsSuffix": "for correction of incorrect change of supplier are met",
+        "cancel": "Close",
+        "confirm": "Request correction",
+        "toast": {
           "success": "The request has been registered in DataHub",
           "error": "Something went wrong. The request could not be completed. Please try again."
         }
@@ -1362,7 +1383,6 @@
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_2": "Send mail for complex handling of move cancellation",
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Request for resumption of supply (RSM-003)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_4": "Confirmation of request for resumption of supply (RSM-003)",
-        "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_5": "Automatic resumption of supply after the deadline is exceeded",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_6": "Notification of acceptance of correction (RSM-004)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_7": "Notification of metering point master data (RSM-022)",
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
@@ -1370,6 +1390,12 @@
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_5": "Automatic resumption of supply after the deadline is exceeded",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_6": "Notification of acceptance of correction (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_7": "Notification of metering point master data (RSM-022)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_9": "Notification of customer master data (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",

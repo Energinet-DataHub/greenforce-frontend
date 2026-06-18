@@ -92,6 +92,10 @@ import { injectDownloadMessageDocument } from './download-message-document';
     .grey-700 {
       color: var(--watt-color-neutral-grey-700);
     }
+
+    .register-electrical-heating-btn {
+      align-self: flex-end;
+    }
   `,
   host: {
     '[style.align-self]': 'messageAlignment()',
@@ -100,7 +104,6 @@ import { injectDownloadMessageDocument } from './download-message-document';
   template: `
     <vater-stack
       class="message-container watt-text-s"
-      [class.watt-space-stack-m]="showRegisterElectricalHeatingButton()"
       [style.background-color]="backgroundColor()"
       *transloco="let t; prefix: 'meteringPoint.actorConversation'"
     >
@@ -200,24 +203,22 @@ import { injectDownloadMessageDocument } from './download-message-document';
           }
         </vater-stack>
       }
-    </vater-stack>
 
-    @if (showRegisterElectricalHeatingButton()) {
-      <vater-stack
-        direction="row"
-        justify="end"
-        offset="m"
-        *transloco="let t; prefix: 'meteringPoint.actorConversation'"
-      >
-        <watt-button
-          size="small"
-          [routerLink]="registerElectricalHeatingLink"
-          [state]="{ conversationId: conversationId() }"
-        >
-          {{ t('registerElectricalHeatingButton') }}
-        </watt-button>
-      </vater-stack>
-    }
+      @if (showRegisterElectricalHeatingButton()) {
+        <watt-separator />
+
+        <div class="register-electrical-heating-btn watt-space-inset-squish-m">
+          <watt-button
+            size="small"
+            variant="secondary"
+            [routerLink]="registerElectricalHeatingLink"
+            [state]="{ conversationId: conversationId() }"
+          >
+            {{ t('registerElectricalHeatingButton') }}
+          </watt-button>
+        </div>
+      }
+    </vater-stack>
   `,
 })
 export class DhActorConversationMessage {

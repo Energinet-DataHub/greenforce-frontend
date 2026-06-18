@@ -142,7 +142,9 @@ vitest.config.*.timestamp*
 .nx/self-healing
 
 # AI stuff
-.hermes
+.hermes/*
+!.hermes/skills/
+!.hermes/skills/**
 
 # Temporary Nx plugin migration artifacts (local only)
 /tools/plugins/compile-plugin.js

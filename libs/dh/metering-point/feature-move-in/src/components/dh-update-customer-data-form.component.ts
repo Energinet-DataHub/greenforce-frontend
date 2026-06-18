@@ -323,7 +323,7 @@ export class DhUpdateCustomerDataFormComponent {
 
   private readonly secondaryCustomerRequired = computed(() => {
     if (this.prefill().isBusinessCustomer) return false;
-    const name2 = this.customerName2Changed();
+    const name2 = (this.customerName2Changed() ?? '').trim();
     const cpr2 = this.cpr2Changed();
     const isCprMasked = cpr2 === null && !!this.prefill().secondary.customerId;
     return !isCprMasked && (!!name2 || !!cpr2);

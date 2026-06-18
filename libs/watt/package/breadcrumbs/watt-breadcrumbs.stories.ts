@@ -16,9 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { APP_BASE_HREF } from '@angular/common';
-import { APP_INITIALIZER, Component } from '@angular/core';
-import { Router, RouterModule, provideRouter } from '@angular/router';
+import { Component } from '@angular/core';
+import { RouterModule, provideRouter } from '@angular/router';
 import { provideLocationMocks } from '@angular/common/testing';
 import { StoryFn, Meta, moduleMetadata, applicationConfig } from '@storybook/angular';
 import { action } from 'storybook/actions';
@@ -48,31 +47,18 @@ const meta: Meta<WattBreadcrumbsComponent> = {
           { path: '', redirectTo: 'overview', pathMatch: 'full' },
           {
             path: 'components',
-            component: generateComponent('Route:Components'),
+            component: generateComponent('Route: Components'),
           },
           {
             path: 'breadcrumbs',
-            component: generateComponent('Route:Breadcrumbs'),
+            component: generateComponent('Route: Breadcrumbs'),
           },
-          { path: 'overview', component: generateComponent('Route:Overview') },
+          { path: 'overview', component: generateComponent('Route: Overview') },
         ]),
       ],
     }),
     moduleMetadata({
       imports: [RouterModule, WATT_BREADCRUMBS],
-      providers: [
-        {
-          provide: APP_BASE_HREF,
-          useValue: '/iframe.html/',
-        },
-        // Perform the initial navigation. Without it the redirect in the route definition will not happen
-        {
-          provide: APP_INITIALIZER,
-          useFactory: (router: Router) => () => router.initialNavigation(),
-          deps: [Router],
-          multi: true,
-        },
-      ],
     }),
   ],
 };
@@ -97,6 +83,6 @@ export const Overview: StoryFn<WattBreadcrumbsComponent> = (args) => ({
     </watt-breadcrumbs>
 
     <br>
-    <router-outlet></router-outlet>
+    <router-outlet />
   `,
 });
