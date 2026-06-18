@@ -746,6 +746,7 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
+        "serviceRequest": "Request service",
         "changeOfSupplier": "Change of supplier",
         "historicalCorrection": "Historical correction"
       },
