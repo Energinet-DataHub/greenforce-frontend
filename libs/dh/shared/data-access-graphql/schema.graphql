@@ -1189,6 +1189,7 @@ type MeteringPointProcess {
   id: String!
   transactionId: String
   businessReason: ProcessManagerBusinessReason!
+  processType: String
   createdAt: DateTime!
   cutoffDate: DateTime
   state: MeteringPointProcessState!

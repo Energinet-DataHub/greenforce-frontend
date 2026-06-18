@@ -31,4 +31,5 @@ public record MeteringPointProcess(
     DateTimeOffset? CancellationTimestamp = null,
     WorkflowAction[]? Actions = null,
     IReadOnlyCollection<WorkflowStepInstanceDto>? WorkflowSteps = null,
-    string? MeteringPointId = null);
+    string? MeteringPointId = null,
+    string? ProcessType = null);
