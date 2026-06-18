@@ -29,8 +29,7 @@ import {
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
-
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
 
 export type WattSlideToggleSize = 'small' | 'medium';
 
@@ -40,7 +39,7 @@ export type WattSlideToggleSize = 'small' | 'medium';
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  imports: [MatSlideToggleModule, FormsModule],
+  imports: [MatSlideToggle, FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
