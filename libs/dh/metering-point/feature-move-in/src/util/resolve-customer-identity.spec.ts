@@ -127,6 +127,57 @@ describe('resolveCustomerIdentity', () => {
       });
     });
 
+    it('treats whitespace-only secondary name as empty', () => {
+      const values = createFormValues({
+        privateCustomerDetails: {
+          customerName1: 'John Doe',
+          cpr1: '1234567890',
+          customerName2: '   ',
+          cpr2: null,
+          nameProtection: false,
+        },
+      });
+
+      const result = resolveCustomerIdentity(values, false);
+
+      expect(result.secondCustomerName).toBeUndefined();
+      expect(result.secondCustomerCpr).toBeUndefined();
+    });
+
+    it('omits secondary CPR when trimmed secondary name is empty', () => {
+      const values = createFormValues({
+        privateCustomerDetails: {
+          customerName1: 'John Doe',
+          cpr1: '1234567890',
+          customerName2: '   ',
+          cpr2: '0987654321',
+          nameProtection: false,
+        },
+      });
+
+      const result = resolveCustomerIdentity(values, false);
+
+      expect(result.secondCustomerName).toBeUndefined();
+      expect(result.secondCustomerCpr).toBeUndefined();
+    });
+
+    it('returns both secondary fields as undefined when secondary customer is cleared', () => {
+      const values = createFormValues({
+        privateCustomerDetails: {
+          customerName1: 'John Doe',
+          cpr1: '1234567890',
+          customerName2: '',
+          cpr2: null,
+          nameProtection: false,
+        },
+      });
+
+      const result = resolveCustomerIdentity(values, false);
+
+      expect(result.secondCustomerName).toBeUndefined();
+      expect(result.secondCustomerCpr).toBeUndefined();
+    });
+
     it('converts empty strings to undefined', () => {
       const values = createFormValues({
         privateCustomerDetails: {

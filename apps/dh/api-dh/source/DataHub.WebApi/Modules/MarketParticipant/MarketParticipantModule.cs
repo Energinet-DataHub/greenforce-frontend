@@ -19,11 +19,11 @@ using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
 
 namespace Energinet.DataHub.WebApi.Modules.MarketParticipant;
 
-public class MarketParticipantModule : IModule
+public static class MarketParticipantModule
 {
-    public IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) =>
+    [RegisterServices]
+    public static IServiceCollection RegisterModule(
+        IServiceCollection services) =>
         services
             .AddScoped<IGridAreasClient, GridAreasClient>()
             .AddClient<IMarketParticipantClient_V1>(

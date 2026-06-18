@@ -12,25 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using HotChocolate.Execution.Configuration;
-
 namespace Energinet.DataHub.WebApi.Common;
 
 /// <summary>
-/// Marks the class as a module that will be automatically registered.
+/// Marks a static method as a service registration method that will be automatically invoked at startup.
 /// </summary>
-public interface IModule
-{
-    /// <summary>
-    /// Add configuration to the GraphQL request executor builder.
-    /// </summary>
-    IRequestExecutorBuilder AddGraphQLConfiguration(
-        IRequestExecutorBuilder builder) => builder;
-
-    /// <summary>
-    /// Register the module with the service collection.
-    /// </summary>
-    IServiceCollection RegisterModule(
-        IServiceCollection services,
-        IConfiguration configuration) => services;
-}
+[AttributeUsage(AttributeTargets.Method)]
+public sealed class RegisterServicesAttribute : Attribute;

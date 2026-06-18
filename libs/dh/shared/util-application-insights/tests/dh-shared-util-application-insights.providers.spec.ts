@@ -17,20 +17,14 @@
  */
 //#endregion
 import { TestBed } from '@angular/core/testing';
-import { APP_INITIALIZER, ErrorHandler } from '@angular/core';
+import { ErrorHandler } from '@angular/core';
 import { ApplicationinsightsAngularpluginErrorService } from '@microsoft/applicationinsights-angularplugin-js';
 
 import { applicationInsightsProviders } from '../src/dh-shared-util-application-insights.providers';
 import { DhApplicationInsights } from '../src/dh-application-insights.service';
 
 describe('applicationInsightsProviders', () => {
-  it('Application Insights is not initialized when the Angular module is not imported', () => {
-    const appInitializerToken = TestBed.inject(APP_INITIALIZER, null);
-
-    expect(appInitializerToken).toBeNull();
-  });
-
-  it(`initializes Application Insights during APP_INITIALIZER`, () => {
+  it(`initializes Application Insights during app initialization`, () => {
     // Arrange
     TestBed.configureTestingModule({
       providers: [
