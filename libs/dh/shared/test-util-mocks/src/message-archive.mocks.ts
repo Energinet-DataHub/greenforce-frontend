@@ -319,8 +319,8 @@ function buildOverviewProcesses() {
     id: 'process-cmi-incorrect-move-in',
     businessReason: ProcessManagerBusinessReason.CustomerMoveIn,
     createdAt: new Date(Date.now() - 30 * 864e5), // 30 days ago
-    // Earlier than the change-of-supplier cut-off so this completed move-in does
-    // not supersede the BRS-003 correction button on `process-cos-info`.
+    // Completed move-in dated before the change-of-supplier process; mirrors a
+    // sibling that leaves process-cos-info eligible for correction in the BFF.
     cutoffDate: new Date(Date.now() - 20 * 864e5), // 20 days ago
     state: MeteringPointProcessState.Succeeded,
     availableActions: [MeteringPointProcessAction.InitiateIncorrectMoveIn],
@@ -338,8 +338,8 @@ function buildOverviewProcesses() {
     id: 'process-cos-info',
     businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
     createdAt: new Date(Date.now() - 40 * 864e5), // 40 days ago (864e5 = 1 day in ms)
-    // Completed with a cut-off date inside the 60-day correction window so the
-    // BRS-003 "Request correction" button is visible (no sibling supersedes it).
+    // Completed change-of-supplier whose availableActions includes the correction
+    // action, mirroring a process the BFF deems eligible, so the button is shown.
     cutoffDate: new Date(Date.now() - 10 * 864e5), // 10 days ago
     state: MeteringPointProcessState.Succeeded,
     availableActions: [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],

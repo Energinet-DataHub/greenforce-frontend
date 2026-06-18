@@ -23,7 +23,6 @@ import {
   EicFunction,
   ElectricityMarketViewConnectionState,
   MeteringPointProcessAction,
-  MeteringPointProcessState,
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
@@ -39,7 +38,6 @@ import {
   ActionHandlerMap,
   ResponsibleEnergySupplier,
   InitiatingParticipant,
-  type ActionVisibilityContext,
 } from '../src/actions/registry';
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
@@ -885,130 +883,6 @@ describe('DhActionsRegistry', () => {
         );
 
         expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
-      });
-    });
-
-    describe('isVisible business-rule gate', () => {
-      // A completed change-of-supplier process used as the visibility context.
-      const process = {
-        id: 'process-cos',
-        businessReason: ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-        state: MeteringPointProcessState.Succeeded,
-        cutoffDate: new Date('2026-06-07T00:00:00Z'),
-        createdAt: new Date('2026-05-08T00:00:00Z'),
-      };
-
-      // The actor GLN is fixed at '1234567890123' by the setupRegistry mock, so
-      // passing it as the initiator makes the InitiatingParticipant role match.
-      const matchingInitiatorGln = '1234567890123';
-
-      function setupWithVisibility(isVisible: (context: ActionVisibilityContext) => boolean) {
-        return setupRegistry({
-          hasChangeOfSupplierPermission: true,
-          actorMarketRole: EicFunction.EnergySupplier,
-          changeOfEnergySupplierHandlers: {
-            [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]: {
-              permissions: ['metering-point:change-of-supplier'],
-              roles: [InitiatingParticipant],
-              isVisible,
-              callback: vi.fn(),
-            },
-          },
-        });
-      }
-
-      it('should exclude the action when isVisible returns false even though toggle, permission and role pass', () => {
-        const registry = setupWithVisibility(() => false);
-
-        const result = registry.getSupportedActions(
-          [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
-          ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-          false,
-          matchingInitiatorGln,
-          process,
-          [process]
-        );
-
-        expect(result).toEqual([]);
-      });
-
-      it('should include the action when isVisible returns true and all other gates pass', () => {
-        const registry = setupWithVisibility(() => true);
-
-        const result = registry.getSupportedActions(
-          [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
-          ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-          false,
-          matchingInitiatorGln,
-          process,
-          [process]
-        );
-
-        expect(result).toEqual([MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]);
-      });
-
-      it('should pass the process, its siblings and today to isVisible', () => {
-        const isVisible = vi.fn().mockReturnValue(true);
-        const sibling = { ...process, id: 'sibling' };
-        const registry = setupWithVisibility(isVisible);
-
-        registry.getSupportedActions(
-          [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
-          ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-          false,
-          matchingInitiatorGln,
-          process,
-          [process, sibling]
-        );
-
-        expect(isVisible).toHaveBeenCalledWith({
-          process,
-          processes: [process, sibling],
-          today: expect.any(Date),
-        });
-      });
-
-      it('should keep the action and skip the gate when no process context is supplied', () => {
-        const isVisible = vi.fn().mockReturnValue(false);
-        const registry = setupWithVisibility(isVisible);
-
-        const result = registry.getSupportedActions(
-          [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
-          ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-          false,
-          matchingInitiatorGln
-        );
-
-        expect(result).toEqual([MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]);
-        expect(isVisible).not.toHaveBeenCalled();
-      });
-
-      it('should not consult the gate for FAS users (action stays visible)', () => {
-        const isVisible = vi.fn().mockReturnValue(false);
-        const registry = setupRegistry({
-          isFas: true,
-          actorMarketRole: EicFunction.DataHubAdministrator,
-          changeOfEnergySupplierHandlers: {
-            [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]: {
-              permissions: ['metering-point:change-of-supplier'],
-              roles: [InitiatingParticipant],
-              isVisible,
-              callback: vi.fn(),
-            },
-          },
-        });
-
-        const result = registry.getSupportedActions(
-          [MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier],
-          ProcessManagerBusinessReason.ChangeOfEnergySupplier,
-          false,
-          matchingInitiatorGln,
-          process,
-          [process]
-        );
-
-        expect(result).toEqual([MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier]);
-        expect(isVisible).not.toHaveBeenCalled();
       });
     });
   });

@@ -23,6 +23,7 @@ using Energinet.DataHub.ProcessManager.Abstractions.Core.ValueObjects;
 using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Modules.ElectricityMarket.Extensions;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
@@ -35,6 +36,19 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 [ObjectType<MeteringPointProcess>]
 public static partial class MeteringPointProcessNode
 {
+    private const int WindowDays = 60;
+
+    // Competing processes whose validity falls strictly after P's hide the correction when they
+    // are active or completed. CustomerMoveIn is handled separately (only a completed one supersedes).
+    private static readonly IReadOnlySet<BusinessReason> CompetingSupersedingReasons = new HashSet<BusinessReason>
+    {
+        BusinessReason.EndOfSupply,
+        BusinessReason.RollbackChangeOfSupplier,
+        BusinessReason.CloseDownMeteringPoint,
+        BusinessReason.CustomerMoveOut,
+        BusinessReason.ProductionObligation,
+    };
+
     [Query]
     public static async Task<IEnumerable<MeteringPointProcess>> GetMeteringPointProcessOverviewAsync(
         string meteringPointId,
@@ -158,6 +172,7 @@ public static partial class MeteringPointProcessNode
         [Parent] MeteringPointProcess process,
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
+        IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -182,10 +197,18 @@ public static partial class MeteringPointProcessNode
 
         if (process.BusinessReason == BusinessReason.ChangeOfEnergySupplier)
         {
-            // #2006: offer the action whenever a cutoff date is present so the modal can render
-            // the skæringsdato. Visibility is gated only by the frontend BRS003-INCOMING-MESSAGES
-            // release toggle; eligibility rules (validity window, latest completed, etc.) are #2019.
-            return process.CutoffDate.HasValue
+            // #2019: the action is offered only when the process passes the supplier-agnostic
+            // eligibility rules (validity window, latest completed, no superseding process, etc.).
+            // The loader computes the eligible set against the full process history with a wide
+            // window, so it is independent of the user's overview date filter. The rule never
+            // inspects the actor identity, so FAS sees the action iff the process is eligible too.
+            if (process.MeteringPointId is null) return actions;
+
+            var eligibleProcessIds = await changeOfSupplierCorrectionEligibilityDataLoader
+                .LoadAsync(process.MeteringPointId, cancellationToken)
+                .ConfigureAwait(false);
+
+            return eligibleProcessIds is not null && eligibleProcessIds.Contains(process.Id)
                 ? actions.Append(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier)
                 : actions;
         }
@@ -305,6 +328,97 @@ public static partial class MeteringPointProcessNode
         return results;
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<string, IReadOnlySet<string>>> GetChangeOfSupplierCorrectionEligibilityAsync(
+        IReadOnlyList<string> meteringPointIds,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var results = new Dictionary<string, IReadOnlySet<string>>(meteringPointIds.Count);
+
+        // Eligibility is supplier-agnostic and depends on the full process history, so the PM
+        // lookup uses the wide default window (ResolveCreatedInterval) and is independent of the
+        // user's overview date filter. HotChocolate dedupes identical keys, so N change-of-supplier
+        // processes on one metering point trigger a single PM call.
+        var now = SystemClock.Instance.GetCurrentInstant();
+        var resolvedCreated = ResolveCreatedInterval(null, now);
+        var today = ToDanishDate(now);
+
+        foreach (var meteringPointId in meteringPointIds)
+        {
+            results[meteringPointId] = await GetEligibleCorrectionProcessIdsAsync(
+                meteringPointId,
+                userIdentity,
+                resolvedCreated,
+                today,
+                processManagerClient,
+                cancellationToken).ConfigureAwait(false);
+        }
+
+        return results;
+    }
+
+    /// <summary>
+    /// Pure eligibility rule for the BRS-003 "Request correction: incorrect change of supplier"
+    /// action on a completed change-of-supplier process (#2019). Ported from the frontend gate.
+    /// All comparisons are at calendar-day granularity in the Danish time zone; <paramref name="today"/>
+    /// is the current Danish date and is passed in so the rule is deterministic and unit-testable.
+    /// Failed/Canceled/Rejected processes are ignored throughout.
+    /// </summary>
+    internal static bool IsChangeOfSupplierCorrectionEligible(
+        MeteringPointProcess process,
+        IReadOnlyList<MeteringPointProcess> allProcesses,
+        DateOnly today)
+    {
+        if (process.BusinessReason != BusinessReason.ChangeOfEnergySupplier) return false;
+        if (process.State != MeteringPointProcessState.Succeeded) return false;
+        if (process.CutoffDate is not { } processCutoff) return false;
+
+        var windowStart = today.AddDays(-WindowDays);
+        var pv = ToDanishDate(processCutoff);
+        if (pv < windowStart || pv > today) return false;
+
+        var others = allProcesses.Where(p => p.Id != process.Id).ToList();
+
+        bool IsSupplierChangeAfter(MeteringPointProcess other) =>
+            other.BusinessReason == BusinessReason.ChangeOfEnergySupplier
+            && other.CutoffDate is { } c
+            && ToDanishDate(c) > pv;
+
+        // A completed supplier change with a non-future cutoff after P unseats P as the most recent.
+        var hasNewerCompletedSupplierChange = others.Any(other =>
+            IsSupplierChangeAfter(other)
+            && IsCompleted(other)
+            && ToDanishDate(other.CutoffDate!.Value) <= today);
+        if (hasNewerCompletedSupplierChange) return false;
+
+        var hasNewerInflightSupplierChange = others.Any(other =>
+            IsSupplierChangeAfter(other)
+            && IsActive(other)
+            && IsWithinWindow(ToDanishDate(other.CutoffDate!.Value), windowStart, today));
+        if (hasNewerInflightSupplierChange) return false;
+
+        var isSupersededByCompetingProcess = others.Any(other =>
+            other.CutoffDate is { } c
+            && ToDanishDate(c) > pv
+            && IsCompetingSuperseding(other));
+        if (isSupersededByCompetingProcess) return false;
+
+        // BRS-011: an incorrect move-in started after P that corrects an earlier move-in (cutoff
+        // before P) supersedes the correction of P.
+        var isSupersededByIncorrectMove = others.Any(other =>
+            other.BusinessReason == BusinessReason.IncorrectMove
+            && (IsActive(other) || IsCompleted(other))
+            && ToDanishDate(other.CreatedAt) > pv
+            && other.CutoffDate is { } c
+            && ToDanishDate(c) < pv);
+        if (isSupersededByIncorrectMove) return false;
+
+        return true;
+    }
+
     /// <summary>
     /// Resolves the period used to search for processes. When the frontend sends no period
     /// (<paramref name="created"/> is null), a wide hidden-default window is applied:
@@ -317,6 +431,69 @@ public static partial class MeteringPointProcessNode
         created ?? new Interval(
             Instant.FromUtc(2016, 1, 1, 0, 0),
             now.InUtc().LocalDateTime.PlusYears(1).InUtc().ToInstant());
+
+    private static async Task<IReadOnlySet<string>> GetEligibleCorrectionProcessIdsAsync(
+        string meteringPointId,
+        UserIdentityDto userIdentity,
+        Interval resolvedCreated,
+        DateOnly today,
+        IProcessManagerClient processManagerClient,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                userIdentity,
+                meteringPointId,
+                resolvedCreated.Start.ToDateTimeOffset(),
+                resolvedCreated.End.ToDateTimeOffset());
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var processes = instances
+                .Select(w => MapToMeteringPointProcess(w, meteringPointId))
+                .ToList();
+
+            return processes
+                .Where(p => IsChangeOfSupplierCorrectionEligible(p, processes, today))
+                .Select(p => p.Id)
+                .ToHashSet();
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // Fail closed: this gates a display-only action, so a PM transport failure hides the
+            // button instead of erroring the whole availableActions field for the metering point.
+            return new HashSet<string>();
+        }
+    }
+
+    private static bool IsActive(MeteringPointProcess process) =>
+        process.State is MeteringPointProcessState.Pending or MeteringPointProcessState.Running;
+
+    private static bool IsCompleted(MeteringPointProcess process) =>
+        process.State == MeteringPointProcessState.Succeeded;
+
+    private static bool IsWithinWindow(DateOnly day, DateOnly windowStart, DateOnly today) =>
+        day >= windowStart && day <= today;
+
+    // A competing process strictly after P hides the correction: the listed reasons supersede when
+    // active or completed; a customer move-in supersedes only once completed (a future/active
+    // move-in does not).
+    private static bool IsCompetingSuperseding(MeteringPointProcess other) =>
+        CompetingSupersedingReasons.Contains(other.BusinessReason)
+            ? IsActive(other) || IsCompleted(other)
+            : other.BusinessReason == BusinessReason.CustomerMoveIn && IsCompleted(other);
+
+    private static DateOnly ToDanishDate(DateTimeOffset value) =>
+        ToDanishDate(Instant.FromDateTimeOffset(value));
+
+    private static DateOnly ToDanishDate(Instant instant)
+    {
+        var date = instant.InZone(LocalDateExtensions.DanishTimeZone).Date;
+        return new DateOnly(date.Year, date.Month, date.Day);
+    }
 
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
@@ -335,6 +512,7 @@ public static partial class MeteringPointProcessNode
                 ctx.Parent<MeteringPointProcess>(),
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
+                ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }

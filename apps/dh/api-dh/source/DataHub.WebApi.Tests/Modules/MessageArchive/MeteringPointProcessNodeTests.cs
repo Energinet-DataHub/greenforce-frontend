@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading;
@@ -50,6 +51,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -76,6 +78,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -93,6 +96,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -123,6 +127,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -145,6 +150,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -167,6 +173,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -187,6 +194,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -211,6 +219,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -231,6 +240,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -253,6 +263,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -275,10 +286,88 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
         actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_EligibleChangeOfSupplier_IncludesHandlingOfIncorrectChangeOfSupplier()
+    {
+        // The eligibility loader returns a set containing this process's id, so the correction
+        // action is offered. Eligibility itself is exercised by IsChangeOfSupplierCorrectionEligible tests.
+        var process = CreateProcess(
+            BusinessReason.ChangeOfEnergySupplier,
+            MeteringPointId,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+        var correctionLoader = CreateCorrectionEligibilityDataLoader(_processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            correctionLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier);
+        actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_IneligibleChangeOfSupplier_DoesNotIncludeHandlingOfIncorrectChangeOfSupplier()
+    {
+        // The eligibility loader returns a set that does not contain this process's id, so the
+        // correction action is hidden while the regular workflow actions remain.
+        var process = CreateProcess(
+            BusinessReason.ChangeOfEnergySupplier,
+            MeteringPointId,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+        var correctionLoader = CreateCorrectionEligibilityDataLoader(_otherProcessOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            correctionLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier);
+        actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_ChangeOfSupplierWithoutMeteringPointId_DoesNotCallLoaderOrIncludeAction()
+    {
+        // With no metering point id the loader cannot be keyed, so the action is hidden and the
+        // strict loader proves it is never invoked.
+        var process = CreateProcess(
+            BusinessReason.ChangeOfEnergySupplier,
+            meteringPointId: null,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
+        var correctionLoader = new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            correctionLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier);
+        correctionLoader.Verify(
+            x => x.LoadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 
     [Fact]
@@ -298,6 +387,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -323,6 +413,7 @@ public class MeteringPointProcessNodeTests
             process,
             dataLoader.Object,
             latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -463,6 +554,16 @@ public class MeteringPointProcessNodeTests
                 It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(isEligible);
+        return dataLoader;
+    }
+
+    private static Mock<IChangeOfSupplierCorrectionEligibilityDataLoader> CreateCorrectionEligibilityDataLoader(
+        params string[] eligibleProcessIds)
+    {
+        var dataLoader = new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>();
+        dataLoader
+            .Setup(x => x.LoadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IReadOnlySet<string>)eligibleProcessIds.ToHashSet());
         return dataLoader;
     }
 
