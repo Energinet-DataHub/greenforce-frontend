@@ -47,7 +47,7 @@ import {
 } from '@energinet-datahub/dh/globalization/feature-language-picker';
 import { danishDatetimeProviders } from '@energinet/watt/danish-date-time';
 import {
-  dhRedactionPatterns,
+  dhRedactionPatternsV2,
   provideStateLocationStrategy,
 } from '@energinet-datahub/dh/core/configuration-routing';
 import { highlightWorkerProvider } from '@energinet-datahub/dh/shared/feature-highlight';
@@ -94,7 +94,7 @@ const msalProviders = [
 ];
 
 export const dhCoreShellProviders = [
-  provideStateLocationStrategy(dhRedactionPatterns),
+  provideStateLocationStrategy(dhRedactionPatternsV2),
   FormGroupDirective,
   environment.production ? applicationInsightsProviders : [],
   microsoftClarityProviders,

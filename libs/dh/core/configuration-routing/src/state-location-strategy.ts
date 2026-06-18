@@ -64,7 +64,7 @@ export class StateLocationStrategy extends PathLocationStrategy {
   }
 
   override prepareExternalUrl(internal: string): string {
-    return super.prepareExternalUrl(this.redactUrl(internal));
+    return super.prepareExternalUrl(this.redactUrlV2(internal));
   }
 
   override pushState(state: unknown, title: string, url: string, queryParams: string) {
@@ -87,6 +87,23 @@ export class StateLocationStrategy extends PathLocationStrategy {
       const regex = new RegExp(pattern);
       if (!regex.test(url)) continue;
       return url.replace(regex, (match, group) => match.replace(group, REDACTED_SEGMENT));
+    }
+
+    return url;
+  }
+
+  private redactUrlV2(url: string) {
+    for (const pattern of this.patterns) {
+      const regex = new RegExp(pattern);
+      if (!regex.test(url)) continue;
+
+      return url.replace(regex, (match, p1, p2) => {
+        if (p2 === 0) {
+          return match.replace(p1, REDACTED_SEGMENT);
+        }
+
+        return match.replace(p1, REDACTED_SEGMENT).replace(p2, REDACTED_SEGMENT);
+      });
     }
 
     return url;
