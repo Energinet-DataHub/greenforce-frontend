@@ -36,7 +36,6 @@ import { resolveProcessTypeKey } from '../process-type';
  */
 @Injectable()
 export class DhMeteringPointProcessOverviewStore {
-
   // Set by the overview from its route-bound `meteringPointId` input. A route-`providers`
   // service two levels below the resolver does not reliably see the inherited value on its
   // own ActivatedRoute, so the overview (which gets it via withComponentInputBinding) feeds it.

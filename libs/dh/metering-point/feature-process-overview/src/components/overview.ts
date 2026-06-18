@@ -215,9 +215,7 @@ export class DhMeteringPointProcessOverviewTable {
   // displayValue from the translation and sorts by translation-key order, so value ===
   // displayValue here.
   typeOptions = computed<WattDropdownOptions>(() => {
-    const keys = [
-      ...new Set(this.store.processes().map((p) => resolveProcessTypeKey(p))),
-    ];
+    const keys = [...new Set(this.store.processes().map((p) => resolveProcessTypeKey(p)))];
     return keys.map((value) => ({ value, displayValue: value }));
   });
 
