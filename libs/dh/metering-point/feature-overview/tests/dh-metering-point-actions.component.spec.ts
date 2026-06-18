@@ -119,9 +119,7 @@ describe(DhMeteringPointActionsComponent, () => {
 
     await openActionsMenu(user);
 
-    expect(
-      await screen.findByRole('menuitem', { name: /request service/i })
-    ).toBeInTheDocument();
+    expect(await screen.findByRole('menuitem', { name: /request service/i })).toBeInTheDocument();
   });
 
   it('hides the request service action when the user lacks the permission', async () => {
@@ -131,7 +129,9 @@ describe(DhMeteringPointActionsComponent, () => {
 
     // Positive control: the menu is open (the responsible supplier still sees the
     // customer-data action), so the request service item is genuinely absent.
-    expect(await screen.findByRole('menuitem', { name: /update customer data/i })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('menuitem', { name: /update customer data/i })
+    ).toBeInTheDocument();
     expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
   });
 
@@ -140,7 +140,9 @@ describe(DhMeteringPointActionsComponent, () => {
 
     await openActionsMenu(user);
 
-    expect(await screen.findByRole('menuitem', { name: /update customer data/i })).toBeInTheDocument();
+    expect(
+      await screen.findByRole('menuitem', { name: /update customer data/i })
+    ).toBeInTheDocument();
     expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
   });
 
@@ -160,9 +162,7 @@ describe(DhMeteringPointActionsComponent, () => {
     expect(
       await screen.findByRole('menuitem', { name: /change connection status/i })
     ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('menuitem', { name: /request service/i })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
   });
 
   it('opens the service request modal with the metering point id and a process id', async () => {
