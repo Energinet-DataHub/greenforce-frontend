@@ -363,6 +363,7 @@ public static partial class MeteringPointProcessNode
         descriptor.Field(f => f.Id);
         descriptor.Field(f => f.TransactionId);
         descriptor.Field(f => f.BusinessReason);
+        descriptor.Field(f => f.ProcessType);
         descriptor.Field(f => f.CreatedAt);
         descriptor.Field(f => f.CutoffDate);
         descriptor.Field(f => f.State);
@@ -431,7 +432,8 @@ public static partial class MeteringPointProcessNode
             workflowInstance.ExpectedValidityDate,
             actions: workflowInstance.Actions.ToArray(),
             workflowSteps: null,
-            meteringPointId: meteringPointId);
+            meteringPointId: meteringPointId,
+            workflowDescriptionName: workflowInstance.WorkflowDescriptionName);
 
     private static MeteringPointProcess MapToMeteringPointProcess(WorkflowInstanceWithStepsDto workflowInstanceWithSteps, string meteringPointId) =>
         CreateMeteringPointProcess(
@@ -442,7 +444,8 @@ public static partial class MeteringPointProcessNode
             workflowInstanceWithSteps.ExpectedValidityDate,
             actions: workflowInstanceWithSteps.Actions.ToArray(),
             workflowSteps: workflowInstanceWithSteps.Steps,
-            meteringPointId: meteringPointId);
+            meteringPointId: meteringPointId,
+            workflowDescriptionName: workflowInstanceWithSteps.WorkflowDescriptionName);
 
     private static MeteringPointProcess CreateMeteringPointProcess(
         Guid id,
@@ -452,7 +455,8 @@ public static partial class MeteringPointProcessNode
         DateTimeOffset? cuteoffDate = null,
         WorkflowAction[]? actions = null,
         IReadOnlyCollection<WorkflowStepInstanceDto>? workflowSteps = null,
-        string? meteringPointId = null)
+        string? meteringPointId = null,
+        string? workflowDescriptionName = null)
     {
         var actorIdentity = lifecycle.CreatedBy;
         // TODO: Check if the actor has been masked.
@@ -467,12 +471,22 @@ public static partial class MeteringPointProcessNode
                 ? lifecycle.TerminatedAt
                 : null;
 
+        // The process type the UI labels by is the workflow plus the business reason: most
+        // workflows cover several reasons (e.g. Brs_007_008_013), and one reason spans two
+        // workflows (Brs_005 vs Brs_038 both DataAlignmentForMasterDataMeteringPoint).
+        // Normalize the workflow name casing (it varies by process-manager version, e.g.
+        // BRS_015 vs Brs_015) so the composite key is stable across environments.
+        var processType = workflowDescriptionName is null
+            ? null
+            : $"{workflowDescriptionName.ToUpperInvariant()}_{businessReason.Name}";
+
         return new MeteringPointProcess(
             Id: id.ToString(),
             TransactionId: transactionId,
             CreatedAt: lifecycle.CreatedAt,
             CutoffDate: cuteoffDate,
             BusinessReason: businessReason,
+            ProcessType: processType,
             ActorNumber: actorIdentityIsNotMasked ? actorIdentity.ActorNumber!.Value : string.Empty,
             ActorRole: actorIdentity.ActorRole.Name, // Always keep the role; only the number is masked for foreign actors.
             State: MapWorkflowStateToMeteringPointProcessState(lifecycle.State, lifecycle.TerminationState),
