@@ -83,7 +83,7 @@ public class ChargesClient(
 
         // Flatten charge x period and apply period-level filters
         var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
-        return charges.SelectMany(charge => charge.Periods
+        return filtered.SelectMany(charge => charge.Periods
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
