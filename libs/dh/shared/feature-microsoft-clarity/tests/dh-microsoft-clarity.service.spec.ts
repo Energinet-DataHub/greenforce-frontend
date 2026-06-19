@@ -44,7 +44,7 @@ import { initMicrosoftClarity } from '../src/dh-microsoft-clarity.initializer';
 vi.mock('@microsoft/clarity', () => ({
   default: {
     init: vi.fn(),
-    consent: vi.fn(),
+    consentV2: vi.fn(),
   },
 }));
 
@@ -113,32 +113,38 @@ describe('DhMicrosoftClarityService', () => {
       vi.clearAllMocks();
     });
 
-    it('should not call consent when not initialized', () => {
+    it('should not signal consent when not initialized', () => {
       const newService = new DhMicrosoftClarityService();
       newService.setCookieConsent(true);
 
-      expect(mockClarity.consent).not.toHaveBeenCalled();
+      expect(mockClarity.consentV2).not.toHaveBeenCalled();
     });
 
-    it('should call consent with true when consent is granted', () => {
+    it('should grant analytics storage when consent is given', () => {
       service.setCookieConsent(true);
 
-      expect(mockClarity.consent).toHaveBeenCalledWith(true);
+      expect(mockClarity.consentV2).toHaveBeenCalledWith({
+        ad_Storage: 'denied',
+        analytics_Storage: 'granted',
+      });
     });
 
-    it('should call consent with false when consent is revoked', () => {
+    it('should deny analytics storage when consent is revoked', () => {
       service.setCookieConsent(false);
 
-      expect(mockClarity.consent).toHaveBeenCalledWith(false);
+      expect(mockClarity.consentV2).toHaveBeenCalledWith({
+        ad_Storage: 'denied',
+        analytics_Storage: 'denied',
+      });
     });
 
     it('should handle consent errors gracefully', () => {
-      vi.mocked(mockClarity.consent).mockImplementationOnce(() => {
+      vi.mocked(mockClarity.consentV2).mockImplementationOnce(() => {
         throw new Error('Consent failed');
       });
 
       expect(() => service.setCookieConsent(true)).not.toThrow();
-      expect(mockClarity.consent).toHaveBeenCalledWith(true);
+      expect(mockClarity.consentV2).toHaveBeenCalled();
     });
   });
 });
