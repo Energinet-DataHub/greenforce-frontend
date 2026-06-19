@@ -19,6 +19,7 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Models;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using FluentAssertions;
+using NodaTime;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.MessageArchive;
@@ -34,8 +35,8 @@ namespace Energinet.DataHub.WebApi.Tests.Modules.MessageArchive;
 /// </summary>
 public class ChangeOfSupplierCorrectionEligibilityTests
 {
-    private static readonly DateOnly _today = new(2026, 6, 1);
-    private static readonly DateOnly _pv = new(2026, 5, 1);
+    private static readonly LocalDate _today = new(2026, 6, 1);
+    private static readonly LocalDate _pv = new(2026, 5, 1);
 
     [Fact]
     public void LonelyCompletedChangeOfSupplierWithinWindow_IsEligible()
@@ -49,7 +50,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void NewerChangeOfSupplierWithFutureCutoff_IsEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var future = ChangeOfSupplier("Q", MeteringPointProcessState.Succeeded, new DateOnly(2026, 6, 15));
+        var future = ChangeOfSupplier("Q", MeteringPointProcessState.Succeeded, new LocalDate(2026, 6, 15));
 
         IsEligible(p, [p, future]).Should().BeTrue();
     }
@@ -58,7 +59,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void ActiveEndOfSupplyAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.EndOfSupply, MeteringPointProcessState.Pending, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.EndOfSupply, MeteringPointProcessState.Pending, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -67,7 +68,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void ActiveRollbackChangeOfSupplierAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, MeteringPointProcessState.Running, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, MeteringPointProcessState.Running, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -76,7 +77,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void NewerCompletedChangeOfSupplier_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Succeeded, new DateOnly(2026, 5, 15));
+        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -85,7 +86,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void CloseDownMeteringPointAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.CloseDownMeteringPoint, MeteringPointProcessState.Succeeded, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.CloseDownMeteringPoint, MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -94,7 +95,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void ActiveCustomerMoveInAfter_IsEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.CustomerMoveIn, MeteringPointProcessState.Pending, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.CustomerMoveIn, MeteringPointProcessState.Pending, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -103,7 +104,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void CompletedCustomerMoveInAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.CustomerMoveIn, MeteringPointProcessState.Succeeded, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.CustomerMoveIn, MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -112,7 +113,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void CustomerMoveOutAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.CustomerMoveOut, MeteringPointProcessState.Succeeded, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.CustomerMoveOut, MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -125,8 +126,8 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             "Q",
             BusinessReason.IncorrectMove,
             MeteringPointProcessState.Succeeded,
-            cutoff: new DateOnly(2026, 4, 15),
-            createdAt: new DateOnly(2026, 5, 15));
+            cutoff: new LocalDate(2026, 4, 15),
+            createdAt: new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -135,7 +136,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void ProductionObligationAfter_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.ProductionObligation, MeteringPointProcessState.Succeeded, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.ProductionObligation, MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -151,7 +152,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     [Fact]
     public void CutoffExactlyWindowStart_IsEligible()
     {
-        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.AddDays(-60));
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.PlusDays(-60));
 
         IsEligible(p, [p]).Should().BeTrue();
     }
@@ -159,7 +160,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     [Fact]
     public void CutoffOneDayBeforeWindowStart_IsNotEligible()
     {
-        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.AddDays(-61));
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.PlusDays(-61));
 
         IsEligible(p, [p]).Should().BeFalse();
     }
@@ -167,7 +168,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     [Fact]
     public void CutoffInTheFuture_IsNotEligible()
     {
-        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.AddDays(1));
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _today.PlusDays(1));
 
         IsEligible(p, [p]).Should().BeFalse();
     }
@@ -198,7 +199,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void TerminalStateCompetingProcessAfter_IsIgnored(MeteringPointProcessState terminalState)
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = Process("Q", BusinessReason.EndOfSupply, terminalState, new DateOnly(2026, 5, 15));
+        var q = Process("Q", BusinessReason.EndOfSupply, terminalState, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -214,8 +215,8 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             "Q",
             BusinessReason.IncorrectMove,
             terminalState,
-            cutoff: new DateOnly(2026, 4, 15),
-            createdAt: new DateOnly(2026, 5, 15));
+            cutoff: new LocalDate(2026, 4, 15),
+            createdAt: new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -230,8 +231,8 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             "Q",
             BusinessReason.IncorrectMove,
             MeteringPointProcessState.Succeeded,
-            cutoff: new DateOnly(2026, 5, 15),
-            createdAt: new DateOnly(2026, 5, 15));
+            cutoff: new LocalDate(2026, 5, 15),
+            createdAt: new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -240,7 +241,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     public void NewerInflightChangeOfSupplierWithinWindow_IsNotEligible()
     {
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Pending, new DateOnly(2026, 5, 20));
+        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Pending, new LocalDate(2026, 5, 20));
 
         IsEligible(p, [p, q]).Should().BeFalse();
     }
@@ -259,7 +260,7 @@ public class ChangeOfSupplierCorrectionEligibilityTests
         // A newer in-flight supplier change OUTSIDE the window (future cutoff) does not block:
         // rule 4 only considers in-flight changes whose cutoff is within [windowStart, today].
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
-        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Pending, new DateOnly(2026, 6, 15));
+        var q = ChangeOfSupplier("Q", MeteringPointProcessState.Pending, new LocalDate(2026, 6, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -274,8 +275,8 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             "Q",
             BusinessReason.IncorrectMove,
             MeteringPointProcessState.Succeeded,
-            cutoff: new DateOnly(2026, 4, 15),
-            createdAt: new DateOnly(2026, 4, 20));
+            cutoff: new LocalDate(2026, 4, 15),
+            createdAt: new LocalDate(2026, 4, 20));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
@@ -297,19 +298,19 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     private static MeteringPointProcess ChangeOfSupplier(
         string id,
         MeteringPointProcessState state,
-        DateOnly cutoff) =>
+        LocalDate cutoff) =>
         Process(id, BusinessReason.ChangeOfEnergySupplier, state, cutoff);
 
     private static MeteringPointProcess Process(
         string id,
         BusinessReason businessReason,
         MeteringPointProcessState state,
-        DateOnly? cutoff = null,
-        DateOnly? createdAt = null) =>
+        LocalDate? cutoff = null,
+        LocalDate? createdAt = null) =>
         new(
             Id: id,
             TransactionId: null,
-            CreatedAt: ToUtcMidnight(createdAt ?? cutoff ?? new DateOnly(2026, 1, 1)),
+            CreatedAt: ToUtcMidnight(createdAt ?? cutoff ?? new LocalDate(2026, 1, 1)),
             CutoffDate: cutoff is { } c ? ToUtcMidnight(c) : null,
             BusinessReason: businessReason,
             ActorNumber: "5790001330552",
@@ -317,6 +318,6 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             State: state,
             MeteringPointId: "571313180400000005");
 
-    private static DateTimeOffset ToUtcMidnight(DateOnly date) =>
+    private static DateTimeOffset ToUtcMidnight(LocalDate date) =>
         new(date.Year, date.Month, date.Day, 0, 0, 0, TimeSpan.Zero);
 }
