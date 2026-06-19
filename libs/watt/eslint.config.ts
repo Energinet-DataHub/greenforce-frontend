@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-const baseConfig = require('../../eslint.config.js');
-const nx = require('@nx/eslint-plugin');
-const angular = require('@angular-eslint/eslint-plugin');
+import baseConfig from '../../eslint.config';
+import nx from '@nx/eslint-plugin';
+import angular from '@angular-eslint/eslint-plugin';
 
-module.exports = [
+export default [
   ...baseConfig,
   { ignores: ['storybook-static/**', 'node_modules/**'] },
   {
@@ -93,3 +93,4 @@ module.exports = [
     },
   },
 ];
+

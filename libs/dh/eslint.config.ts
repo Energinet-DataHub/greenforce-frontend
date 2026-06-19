@@ -16,14 +16,23 @@
  * limitations under the License.
  */
 //#endregion
-const baseConfig = require('../../eslint.config.js');
-const nx = require('@nx/eslint-plugin');
+import baseConfig from '../../eslint.config';
+import nx from '@nx/eslint-plugin';
 
-module.exports = [
+export default [
   ...baseConfig,
-  { ignores: ['**/mockServiceWorker.js'] },
+  { ignores: ['**/generated/**/*', '**/dist/**/*'] },
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
+  {
+    files: ['**/*.ts', '**/*.html'],
+    rules: {
+      // TODO(dh accessibility): Fix existing DH clickable-template and label associations, then enable these.
+      '@angular-eslint/template/click-events-have-key-events': 'off',
+      '@angular-eslint/template/interactive-supports-focus': 'off',
+      '@angular-eslint/template/label-has-associated-control': 'off',
+    },
+  },
   {
     files: ['**/*.ts'],
     rules: {
@@ -31,7 +40,7 @@ module.exports = [
         'error',
         {
           type: 'attribute',
-          prefix: 'gf',
+          prefix: 'dh',
           style: 'camelCase',
         },
       ],
@@ -39,10 +48,11 @@ module.exports = [
         'error',
         {
           type: 'element',
-          prefix: 'gf',
+          prefix: 'dh',
           style: 'kebab-case',
         },
       ],
     },
   },
 ];
+

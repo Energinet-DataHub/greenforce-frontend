@@ -16,13 +16,13 @@
  * limitations under the License.
  */
 //#endregion
-const nx = require('@nx/eslint-plugin');
-const importX = require('eslint-plugin-import-x');
-const storybook = require('eslint-plugin-storybook');
-const jsoncParser = require('jsonc-eslint-parser');
-const graphqlEslint = require('@graphql-eslint/eslint-plugin');
+import nx from '@nx/eslint-plugin';
+import importX from 'eslint-plugin-import-x';
+import storybook from 'eslint-plugin-storybook';
+import jsoncParser from 'jsonc-eslint-parser';
+import graphqlEslint from '@graphql-eslint/eslint-plugin';
 
-module.exports = [
+export default [
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'warn',
@@ -319,7 +319,7 @@ module.exports = [
   },
 
   {
-    files: ['**/eslint.config.{js,cjs,mjs}'],
+    files: ['**/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
     rules: {
       '@nx/enforce-module-boundaries': 'off',
     },
@@ -331,3 +331,4 @@ module.exports = [
     },
   },
 ];
+

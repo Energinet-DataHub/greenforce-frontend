@@ -127,10 +127,10 @@
       ],
       "inputs": [
         "default",
-        "{workspaceRoot}/eslint.config.js",
-        "{workspaceRoot}/libs/dh/eslint.config.js",
-        "{workspaceRoot}/libs/gf/eslint.config.js",
-        "{workspaceRoot}/libs/watt/eslint.config.js"
+        "{workspaceRoot}/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/dh/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/gf/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/watt/eslint.config.@(js|cjs|mjs|ts|cts|mts)"
       ],
       "cache": true
     }
@@ -148,8 +148,7 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vite.config.mts",
       "!{projectRoot}/vitest.config.mts",
-      "!{projectRoot}/eslint.config.js",
-      "!{projectRoot}/eslint.config.cjs",
+      "!{projectRoot}/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/playwright.config.[jt]s",

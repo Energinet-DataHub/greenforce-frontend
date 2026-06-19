@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-const baseConfig = require('../../eslint.config.js');
+import baseConfig from '../../../eslint.config';
 
-module.exports = [...baseConfig];
+export default [...baseConfig];
+
