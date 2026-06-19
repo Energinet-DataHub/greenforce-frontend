@@ -1335,6 +1335,8 @@
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_7": "Notification of customer master data (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_8": "Notification of customer master data (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_9": "Notification of charge links (RSM-031)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Automatic resumption of supply after the deadline is exceeded",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Notification of acceptance of correction (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_6": "Notification of metering point master data (RSM-022)",
