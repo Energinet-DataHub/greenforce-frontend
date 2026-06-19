@@ -102,14 +102,17 @@ const MASKED_CPR = '0000000000';
   `,
 })
 export class DhCprFieldComponent {
-  cprControl = input.required<FormControl<string | null>>();
-  contactId = input<string | null>(null);
+  readonly cprControl = input.required<FormControl<string | null>>();
+  readonly contactId = input<string | null>(null);
+  readonly maskCpr = input<boolean>(false);
 
   private readonly unlocked = signal(false);
 
   protected readonly maskedControl = dhMakeFormControl({ value: MASKED_CPR, disabled: true });
 
-  protected readonly showCprField = computed(() => !this.contactId() || this.unlocked());
+  protected readonly showCprField = computed(
+    () => !this.maskCpr() || !this.contactId() || this.unlocked()
+  );
 
   protected onModalClosed(accepted: boolean): void {
     if (!accepted) return;

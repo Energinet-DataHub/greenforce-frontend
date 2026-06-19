@@ -29,6 +29,8 @@ using Energinet.DataHub.WebApi.Modules.MessageArchive.Types;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Moq;
+using NodaTime;
+using NodaTime.Text;
 using Xunit;
 
 namespace Energinet.DataHub.WebApi.Tests.Modules.MessageArchive;
@@ -155,6 +157,26 @@ public class MeteringPointProcessNodeTests
             CancellationToken.None);
 
         actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Theory]
+    // Summer (CEST, UTC+2): 60 days before 2026-06-17 is 2026-04-18; its Danish start-of-day is 2026-04-17T22:00Z.
+    [InlineData("2026-06-17T09:00:00Z", "2026-04-17T22:00:00Z")]
+    // Winter (CET, UTC+1): 60 days before 2026-02-10 is 2025-12-12; its Danish start-of-day is 2025-12-11T23:00Z.
+    [InlineData("2026-02-10T09:00:00Z", "2025-12-11T23:00:00Z")]
+    public void IncorrectMoveInWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
+    {
+        // The 60-day correction window must start at the beginning of the Danish calendar day, so a
+        // cutoff at Danish midnight exactly 60 days back is included. Counting from
+        // DateTimeOffset.UtcNow.AddDays(-60) (the previous behavior) carried the current time of day
+        // and excluded that case; this deterministic boundary check pins the calendar-day semantics
+        // across both DST offsets. The time of day in `now` must not affect the result.
+        var now = InstantPattern.ExtendedIso.Parse(nowUtc).Value;
+
+        var result = MeteringPointProcessNode.IncorrectMoveInWindowStart(now);
+
+        Instant.FromDateTimeOffset(result)
+            .Should().Be(InstantPattern.ExtendedIso.Parse(expectedUtc).Value);
     }
 
     [Fact]
@@ -421,11 +443,11 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
-    public async Task GetLatestCustomerMoveInProcessId_NewerRejectedMoveIn_SupersedesOlderSucceededMoveIn()
+    public async Task GetLatestCustomerMoveInProcessId_NewerRejectedMoveIn_DoesNotSupersedeOlderSucceededMoveIn()
     {
-        // Product rule: "latest" is computed across ALL lifecycle states, not only succeeded
-        // ones. A newer CustomerMoveIn in any state (here: rejected) intentionally suppresses
-        // correction of older move-ins, so the loader returns the newer, non-succeeded id.
+        // Product rule: "latest" is the most recent move-in that has taken effect. A rejected
+        // move-in never took effect, so it must not suppress correction of the last good move-in;
+        // the loader returns the older succeeded id, not the rejected one (both cutoffs are past).
         // The even newer EndOfSupply instance is noise proving other business reasons are ignored.
         var olderSucceededMoveIn = CreateWorkflowInstance(
             id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
@@ -456,7 +478,107 @@ public class MeteringPointProcessNodeTests
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
-        result[MeteringPointId].Should().Be(newerRejectedMoveIn.Id.ToString());
+        result[MeteringPointId].Should().Be(olderSucceededMoveIn.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_NewerCanceledMoveIn_DoesNotSupersedeOlderSucceededMoveIn()
+    {
+        // Like the rejected case: a canceled move-in never took effect and must not suppress
+        // correction of the last good move-in, even though its cutoff is in the past.
+        var olderSucceededMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerCanceledMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Canceled);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveIn,
+            newerCanceledMoveIn);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(olderSucceededMoveIn.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_FutureMoveIn_DoesNotSupersedeOlderEffectiveMoveIn()
+    {
+        // A future-dated move-in (cutoff not yet reached) has not taken effect, so it must not
+        // suppress correction of the last completed move-in. An accepted future move-in sits in
+        // Sleeping (mapped to "Afventer" in the UI), so it is the cutoff date, not the lifecycle
+        // state, that excludes it. The correction stays on the older effective move-in until the
+        // future one's cutoff is reached.
+        var now = DateTimeOffset.UtcNow;
+        var olderEffectiveMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: now.AddDays(-30),
+            createdAt: now.AddDays(-35),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var futureMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: now.AddDays(30),
+            createdAt: now.AddDays(-1),
+            lifecycleState: WorkflowInstanceLifecycleState.Sleeping,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(
+            olderEffectiveMoveIn,
+            futureMoveIn);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(olderEffectiveMoveIn.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_PastCutoffSleepingMoveIn_SupersedesOlderSucceededMoveIn()
+    {
+        // A newer move-in whose cutoff has been reached but which is still Sleeping (awaiting
+        // customer master data) HAS taken effect. It is the current effective move-in and must
+        // take over the correction slot from the older completed one, even though it is not itself
+        // correctable yet. Excluding it (e.g. by filtering on lifecycle state) would wrongly leave
+        // the correction on a superseded move-in.
+        var now = DateTimeOffset.UtcNow;
+        var olderSucceededMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: now.AddDays(-60),
+            createdAt: now.AddDays(-65),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerEffectiveSleepingMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: now.AddDays(-20),
+            createdAt: now.AddDays(-25),
+            lifecycleState: WorkflowInstanceLifecycleState.Sleeping,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveIn,
+            newerEffectiveSleepingMoveIn);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(newerEffectiveSleepingMoveIn.Id.ToString());
     }
 
     [Fact]
@@ -517,8 +639,11 @@ public class MeteringPointProcessNodeTests
         BusinessReason businessReason,
         DateTimeOffset? expectedValidityDate,
         DateTimeOffset createdAt,
-        WorkflowInstanceTerminationState terminationState = WorkflowInstanceTerminationState.Succeeded) =>
-        new(
+        WorkflowInstanceLifecycleState lifecycleState = WorkflowInstanceLifecycleState.Terminated,
+        WorkflowInstanceTerminationState? terminationState = WorkflowInstanceTerminationState.Succeeded)
+    {
+        var isTerminated = lifecycleState == WorkflowInstanceLifecycleState.Terminated;
+        return new(
             Id: id,
             BusinessReason: businessReason,
             ExpectedValidityDate: expectedValidityDate,
@@ -527,13 +652,15 @@ public class MeteringPointProcessNodeTests
                 CreatedBy: new MaskedActorIdentityDto(
                     ActorNumber.Create(EnergySupplierGln),
                     ActorRole.EnergySupplier),
-                State: WorkflowInstanceLifecycleState.Terminated,
-                TerminationState: terminationState,
+                State: lifecycleState,
+                TerminationState: isTerminated ? terminationState : null,
                 CreatedAt: createdAt,
-                TerminatedAt: createdAt,
+                TerminatedAt: isTerminated ? createdAt : null,
                 CanceledByWorkflowInstanceId: null),
             Action: WorkflowAction.NoAction,
-            Actions: []);
+            Actions: [],
+            WorkflowDescriptionName: string.Empty);
+    }
 
     private static Mock<IProcessManagerClient> CreateProcessManagerClient(params WorkflowInstanceDto[] instances)
     {

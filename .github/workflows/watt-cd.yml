@@ -41,7 +41,7 @@ jobs:
           fetch-depth: 2
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
 
       - name: Get Bun cache directory
         id: bun_cache
@@ -78,7 +78,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
 
       - name: Get Bun cache directory
         id: bun_cache
@@ -95,7 +95,7 @@ jobs:
       - run: bun install --frozen-lockfile
 
       - name: Publish to Chromatic
-        uses: chromaui/action@d92ea1ce501f70e8c34745b2c7888648150a368a # v17.2.0
+        uses: chromaui/action@7804f34e4e59c0d9b3c856848f46ad96d7897429 # v17.5.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           projectToken: ${{ secrets.chromatic_project_token }}
@@ -115,7 +115,7 @@ jobs:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
 
       - name: Setup toolchains with mise
-        uses: jdx/mise-action@dba19683ed58901619b14f395a24841710cb4925 # v4.1.0
+        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
 
       - name: Get Bun cache directory
         id: bun_cache

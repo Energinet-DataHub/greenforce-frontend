@@ -45,7 +45,6 @@ import {
   ElectricityMarketViewConnectionState,
   MeteringPointProcessAction,
   MeteringPointProcessState,
-  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { MeteringPointProcess } from '../types';
@@ -102,7 +101,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
             {{ t('period') }}
           </watt-date-range-chip>
           <watt-dropdown
-            [formControl]="form.controls.businessReasons"
+            [formControl]="form.controls.processTypes"
             [chipMode]="true"
             [multiple]="true"
             [options]="typeOptions()"
@@ -143,7 +142,7 @@ import { DhMeteringPointProcessOverviewStore } from './metering-point-process-ov
           {{ process.cutoffDate | wattDate | dhEmDashFallback }}
         </ng-container>
         <ng-container *wattTableCell="columns.businessReason; let process">
-          {{ t('processType.' + process.businessReason) }}
+          {{ t('processType.' + process.processType) }}
         </ng-container>
         <ng-container *wattTableCell="columns.state; let process">
           <dh-state-badge [status]="process.state" *transloco="let t; prefix: 'shared.states'">
@@ -210,11 +209,20 @@ export class DhMeteringPointProcessOverviewTable {
   dataSource = dataSource(() => this.store.filteredProcesses());
 
   // Dropdown options are derived from the LOADED processes so the list is relevant and
-  // avoids the 60+ business-reason enum. dhDropdownTranslator overwrites displayValue from
-  // the translation and sorts by translation-key order, so value === displayValue here.
+  // avoids the 60+ business-reason enum. Built from the distinct `processType` composite
+  // keys (so BRS-005 and BRS-038 appear as two separate options). dhDropdownTranslator
+  // overwrites displayValue from the translation and sorts by translation-key order, so
+  // value === displayValue here.
   typeOptions = computed<WattDropdownOptions>(() => {
-    const reasons = [...new Set(this.store.processes().map((p) => p.businessReason))];
-    return reasons.map((value) => ({ value, displayValue: value }));
+    const values = [
+      ...new Set(
+        this.store
+          .processes()
+          .map((p) => p.processType)
+          .filter((v): v is string => v != null)
+      ),
+    ];
+    return values.map((value) => ({ value, displayValue: value }));
   });
 
   statusOptions = computed<WattDropdownOptions>(() => {
@@ -225,7 +233,12 @@ export class DhMeteringPointProcessOverviewTable {
   columns: WattTableColumnDef<MeteringPointProcess> = {
     createdAt: { accessor: 'createdAt' },
     cutoffDate: { accessor: 'cutoffDate' },
-    businessReason: { accessor: 'businessReason' },
+    // Sort by the visible (translated) type label, keyed by the `processType` composite so
+    // BRS-005 and BRS-038 sort by their own labels rather than the shared businessReason.
+    businessReason: {
+      accessor: (process) =>
+        translate(`meteringPoint.processOverview.processType.${process.processType}`),
+    },
     state: { accessor: (process) => translate(`shared.states.${process.state}`) },
     initiator: { accessor: (process) => this.initiatorLabel(process) },
     actions: { accessor: (process) => process.availableActions?.length ?? 0 },
@@ -233,7 +246,8 @@ export class DhMeteringPointProcessOverviewTable {
 
   form = new FormGroup({
     period: dhMakeFormControl<WattRange<Date>>(null),
-    businessReasons: dhMakeFormControl<ProcessManagerBusinessReason[]>(null),
+    // Holds `processType` composite keys (e.g. Brs_002_EndOfSupply), not raw business reasons.
+    processTypes: dhMakeFormControl<string[]>(null),
     states: dhMakeFormControl<MeteringPointProcessState[]>(null),
   });
 
@@ -248,7 +262,7 @@ export class DhMeteringPointProcessOverviewTable {
   protected readonly hasActiveFilters = computed(
     () =>
       this.store.dateRange() !== null ||
-      this.store.businessReasons().length > 0 ||
+      this.store.processTypes().length > 0 ||
       this.store.states().length > 0
   );
 
@@ -268,9 +282,9 @@ export class DhMeteringPointProcessOverviewTable {
       // partial (start only): ignore until end is picked
     });
 
-    this.form.controls.businessReasons.valueChanges
+    this.form.controls.processTypes.valueChanges
       .pipe(takeUntilDestroyed())
-      .subscribe((v) => this.store.businessReasons.set(v ?? []));
+      .subscribe((v) => this.store.processTypes.set(v ?? []));
 
     this.form.controls.states.valueChanges
       .pipe(takeUntilDestroyed())

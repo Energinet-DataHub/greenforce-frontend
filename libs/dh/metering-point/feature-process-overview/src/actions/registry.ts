@@ -38,6 +38,7 @@ import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from './incorrect-move/incorrect-move';
+import { RollbackChangeOfSupplierActions } from './rollback-change-of-supplier/rollback-change-of-supplier';
 
 export const ResponsibleEnergySupplier = 'ResponsibleEnergySupplier' as const;
 export const InitiatingParticipant = 'InitiatingParticipant' as const;
@@ -94,6 +95,8 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
     [ProcessManagerBusinessReason.IncorrectMove]: inject(IncorrectMoveActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
+      .handlers,
+    [ProcessManagerBusinessReason.RollbackChangeOfSupplier]: inject(RollbackChangeOfSupplierActions)
       .handlers,
   };
 

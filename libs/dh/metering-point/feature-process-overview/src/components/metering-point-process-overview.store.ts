@@ -24,7 +24,6 @@ import {
   GetMeteringPointProcessOverviewDocument,
   MeteringPointProcessState,
   OnMeteringPointProcessUpdatedDocument,
-  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 /**
@@ -44,8 +43,8 @@ export class DhMeteringPointProcessOverviewStore {
   // the BFF applies its hidden default period (2016-01-01 -> now+1year).
   readonly dateRange = signal<WattRange<Date> | null>(null);
 
-  // Client-side filters applied to the already-loaded per-metering-point list.
-  readonly businessReasons = signal<ProcessManagerBusinessReason[]>([]);
+  // Holds `processType` composite keys (e.g. Brs_002_EndOfSupply), not raw business reasons.
+  readonly processTypes = signal<string[]>([]);
   readonly states = signal<MeteringPointProcessState[]>([]);
 
   private readonly query = query(GetMeteringPointProcessOverviewDocument, () => {
@@ -60,11 +59,12 @@ export class DhMeteringPointProcessOverviewStore {
   // Derived list for the TABLE. `processes()` / `visibleProcessIds` stay the FULL fetched set
   // because the details drawer's cross-cancellation logic depends on the full visible list.
   readonly filteredProcesses = computed(() => {
-    const reasons = this.businessReasons();
+    const selectedTypes = this.processTypes();
     const states = this.states();
     return this.processes().filter(
       (p) =>
-        (reasons.length === 0 || reasons.includes(p.businessReason)) &&
+        (selectedTypes.length === 0 ||
+          (p.processType != null && selectedTypes.includes(p.processType))) &&
         (states.length === 0 || states.includes(p.state))
     );
   });
