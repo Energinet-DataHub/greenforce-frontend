@@ -1334,6 +1334,8 @@
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_7": "Information om kundestamdata (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_8": "Information om kundestamdata (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_9": "Information om pristilknytning (RSM-031)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Afvisning af genoptagelse af leverance (RSM-003)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Information om afvisning af korrektion (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Automatisk genoptagelse af leverance efter fristoverskridelse",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Information om accept af korrektion (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_6": "Information om målepunktsstamdata (RSM-022)",
