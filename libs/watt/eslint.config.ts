@@ -20,7 +20,7 @@ import baseConfig from '../../eslint.config';
 import nx from '@nx/eslint-plugin';
 import angular from '@angular-eslint/eslint-plugin';
 
-export default [
+const config: unknown[] = [
   ...baseConfig,
   { ignores: ['storybook-static/**', 'node_modules/**'] },
   {
@@ -93,4 +93,6 @@ export default [
     },
   },
 ];
+
+export default config;
 

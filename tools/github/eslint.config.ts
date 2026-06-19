@@ -1,4 +1,6 @@
 import baseConfig from '../../eslint.config';
 
-export default [...baseConfig];
+const config: unknown[] = [...baseConfig];
+
+export default config;
 

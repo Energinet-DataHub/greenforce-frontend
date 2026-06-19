@@ -19,7 +19,7 @@
 import baseConfig from '../../../eslint.config';
 import nx from '@nx/eslint-plugin';
 
-export default [
+const config: unknown[] = [
   ...baseConfig,
   ...nx.configs['flat/angular'],
   ...nx.configs['flat/angular-template'],
@@ -45,4 +45,6 @@ export default [
     },
   },
 ];
+
+export default config;
 

@@ -19,7 +19,9 @@
 import baseConfig from '../../eslint.config';
 import nx from '@nx/eslint-plugin';
 
-export default [
+const config: unknown[] = [];
+
+config.push(
   ...baseConfig,
   { ignores: ['**/mockServiceWorker.js'] },
   ...nx.configs['flat/angular'],
@@ -44,6 +46,8 @@ export default [
         },
       ],
     },
-  },
-];
+  }
+);
+
+export default config;
 

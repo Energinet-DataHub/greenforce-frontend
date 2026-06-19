@@ -22,7 +22,7 @@ import storybook from 'eslint-plugin-storybook';
 import jsoncParser from 'jsonc-eslint-parser';
 import graphqlEslint from '@graphql-eslint/eslint-plugin';
 
-export default [
+const config: unknown[] = [
   {
     linterOptions: {
       reportUnusedDisableDirectives: 'warn',
@@ -331,4 +331,6 @@ export default [
     },
   },
 ];
+
+export default config;
 
