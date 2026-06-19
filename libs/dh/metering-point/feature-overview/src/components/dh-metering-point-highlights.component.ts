@@ -104,10 +104,10 @@ import { MeteringPointDetails } from '@energinet-datahub/dh/metering-point/share
           </div>
         }
 
-        @if (productObligation()) {
+        @if (productionObligation()) {
           <div vater-stack direction="row" gap="s" class="watt-chip-label watt-chip-label__custom">
             <watt-icon size="m" name="checkmark" />
-            <span class="watt-text-s">{{ t('productObligation') }}</span>
+            <span class="watt-text-s">{{ t('productionObligation') }}</span>
           </div>
         }
       </div>
@@ -132,8 +132,8 @@ export class DhMeteringPointHighlightsComponent {
     () => this.meteringPointDetails()?.metadata?.netSettlementGroup === 6
   );
 
-  productObligation = computed(
-    () => this.meteringPointDetails()?.metadata?.productObligation ?? false
+  productionObligation = computed(
+    () => this.meteringPointDetails()?.metadata?.productionObligation ?? false
   );
 
   anyHaveProtectedAddress = computed(
@@ -153,7 +153,7 @@ export class DhMeteringPointHighlightsComponent {
       this.hasElectricalHeating() ||
       this.notActualAddress() ||
       this.annualSettlement() ||
-      this.productObligation() ||
+      this.productionObligation() ||
       this.anyHaveProtectedAddress() ||
       this.manuallyHandled()
   );

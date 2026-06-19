@@ -713,7 +713,7 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Annual settlement",
-        "productObligation": "Product obligation",
+        "productionObligation": "Production obligation",
         "manuallyHandled": "Manually imported"
       },
       "customer": {
@@ -727,8 +727,8 @@
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Start date",
-        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
-        "changeProductObligationLink": "Change product obligation",
+        "productionObligationLabel": "{{ meteringPoint.overview.highlights.productionObligation }}",
+        "changeProductionObligationLink": "Change production obligation",
         "cutOffDateLabel": "Cut-off date"
       },
       "status": {
@@ -1762,7 +1762,7 @@
       "saveSuccess": "Connection status is being updated"
     },
     "manageProductionObligation": {
-      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductionObligationLink }}",
       "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
       "changeToLabel": "Change production obligation to",
       "cutOffDate": "Cut-off date",

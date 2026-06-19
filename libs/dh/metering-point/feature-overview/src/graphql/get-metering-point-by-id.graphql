@@ -92,7 +92,7 @@ query GetMeteringPointById(
       netSettlementGroup
       resolution
       product
-      productObligation
+      productionObligation: productObligation
       scheduledMeterReadingDate {
         month
         day

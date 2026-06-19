@@ -712,7 +712,7 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Årsbaseret afregning",
-        "productObligation": "Aftagepligt",
+        "productionObligation": "Aftagepligt",
         "manuallyHandled": "Manuelt importeret"
       },
       "customer": {
@@ -726,8 +726,8 @@
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Startdato",
-        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
-        "changeProductObligationLink": "Ændre aftagepligt",
+        "productionObligationLabel": "{{ meteringPoint.overview.highlights.productionObligation }}",
+        "changeProductionObligationLink": "Ændre aftagepligt",
         "cutOffDateLabel": "Skæringsdato"
       },
       "status": {
@@ -1762,7 +1762,7 @@
       "saveSuccess": "Tilslutningsstatus opdateres"
     },
     "manageProductionObligation": {
-      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductionObligationLink }}",
       "tooltip": "Processen tager få minutter. Det ønskede \n resultat vises her, og afvisningsårsager \n findes i forretningsbeskeder.",
       "changeToLabel": "Ændre aftagepligt til",
       "cutOffDate": "Skæringsdato",
