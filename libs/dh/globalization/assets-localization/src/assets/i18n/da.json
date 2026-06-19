@@ -1209,6 +1209,30 @@
           "error": "Afvisning af genoptagelse fejlede"
         }
       },
+      "acceptRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Er du sikker på at du vil acceptere genoptagelse af leverance?",
+          "confirm": "Accepter",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Accepterer genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance accepteret",
+          "error": "Acceptering af genoptagelse af leverance fejlede"
+        }
+      },
+      "rejectRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Er du sikker på at du vil afvise genoptagelse af leverance?",
+          "confirm": "Afvis",
+          "cancel": "Annuller"
+        },
+        "toast": {
+          "loading": "Afviser genoptagelse af leverance...",
+          "success": "Genoptagelse af leverance afvist",
+          "error": "Afvisning af genoptagelse af leverance fejlede"
+        }
+      },
       "rejectProcess": {
         "title": "Leveranceophør - serviceanmodning afvist",
         "requestedService": "Anmodet serviceydelse",

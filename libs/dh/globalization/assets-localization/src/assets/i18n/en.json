@@ -1210,6 +1210,30 @@
           "error": "Rejection of resumption failed"
         }
       },
+      "acceptRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Are you sure you want to accept the resumption of supply?",
+          "confirm": "Accept",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Accepting resumption of supply...",
+          "success": "Resumption of supply accepted",
+          "error": "Acceptance of resumption of supply failed"
+        }
+      },
+      "rejectRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Are you sure you want to reject the resumption of supply?",
+          "confirm": "Reject",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Rejecting resumption of supply...",
+          "success": "Resumption of supply rejected",
+          "error": "Rejection of resumption of supply failed"
+        }
+      },
       "rejectProcess": {
         "title": "End of supply - service request rejected",
         "requestedService": "Requested service",
