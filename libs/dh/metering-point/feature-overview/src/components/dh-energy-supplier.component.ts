@@ -75,17 +75,17 @@ import { DhManageProductionObligation } from './manage-production-obligation/dh-
           [value]="energySupplier()?.validFrom | wattDate | dhEmDashFallback"
         />
 
-        @if (showProductObligation()) {
-          <watt-description-list-item [label]="t('productObligationLabel')">
+        @if (showProductionObligation()) {
+          <watt-description-list-item [label]="t('productionObligationLabel')">
             <vater-flex direction="row" gap="ml">
-              {{ (productObligation() ? 'yes' : 'no') | transloco }}
+              {{ (productionObligation() ? 'yes' : 'no') | transloco }}
 
               <a
                 *dhPermissionRequired="['metering-point:production-obligation-manage']"
                 (click)="$event.preventDefault(); manageProductionObligation()"
                 class="watt-link-s"
               >
-                {{ t('changeProductObligationLink') }}
+                {{ t('changeProductionObligationLink') }}
               </a>
             </vater-flex>
           </watt-description-list-item>
@@ -104,11 +104,11 @@ export class DhEnergySupplierComponent {
 
   meteringPointId = input<string>();
   energySupplier = input<EnergySupplier | undefined | null>();
-  productObligation = input<boolean | undefined | null>();
+  productionObligation = input<boolean | undefined | null>();
   meteringPointType = input<ElectricityMarketViewMeteringPointType | undefined>();
   meteringPointConnectionState = input<ElectricityMarketViewConnectionState | undefined | null>();
 
-  showProductObligation = computed(
+  showProductionObligation = computed(
     () =>
       this.meteringPointType() === 'Production' &&
       this.meteringPointConnectionState() !== 'CLOSED_DOWN'
@@ -119,7 +119,7 @@ export class DhEnergySupplierComponent {
       component: DhManageProductionObligation,
       data: {
         meteringPointId: this.meteringPointId(),
-        currentProductionObligation: this.productObligation(),
+        currentProductionObligation: this.productionObligation(),
       },
     });
   }

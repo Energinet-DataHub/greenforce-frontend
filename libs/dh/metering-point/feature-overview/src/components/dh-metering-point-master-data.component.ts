@@ -140,7 +140,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
               *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
               [energySupplier]="energySupplier()"
               [meteringPointId]="meteringPointId()"
-              [productObligation]="meteringPoint()?.metadata?.productObligation"
+              [productionObligation]="meteringPoint()?.metadata?.productionObligation"
               [meteringPointType]="meteringPoint()?.metadata?.type"
               [meteringPointConnectionState]="meteringPoint()?.metadata?.connectionState"
             />
