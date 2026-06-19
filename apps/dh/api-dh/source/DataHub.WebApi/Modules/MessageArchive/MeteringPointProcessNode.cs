@@ -35,9 +35,11 @@ namespace Energinet.DataHub.WebApi.Modules.MessageArchive;
 [ObjectType<MeteringPointProcess>]
 public static partial class MeteringPointProcessNode
 {
-    // The incorrect-move-in correction window is 60 calendar days, counted in Danish time
-    // (cutoff dates are Danish calendar dates), so the window boundary must be the start of a
-    // Danish calendar day, not an instant offset from "now".
+    private const int WindowDays = 60;
+
+    // The 60-calendar-day correction windows (BRS-011 incorrect move-in and BRS-003 change of
+    // supplier) are counted in Danish time, since cutoff dates are Danish calendar dates, so a
+    // window boundary must be the start of a Danish calendar day, not an instant offset from "now".
     private static readonly DateTimeZone _danishTimeZone = DateTimeZoneProviders.Tzdb["Europe/Copenhagen"];
 
     [Query]
@@ -163,6 +165,7 @@ public static partial class MeteringPointProcessNode
         [Parent] MeteringPointProcess process,
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
+        IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -189,10 +192,16 @@ public static partial class MeteringPointProcessNode
 
         if (process.BusinessReason == BusinessReason.ChangeOfEnergySupplier)
         {
-            // #2006: offer the action whenever a cutoff date is present so the modal can render
-            // the skæringsdato. Visibility is gated only by the frontend BRS003-INCOMING-MESSAGES
-            // release toggle; eligibility rules (validity window, latest completed, etc.) are #2019.
-            return process.CutoffDate.HasValue
+            // Offer the correction only for change-of-supplier processes the eligibility loader
+            // accepts. The loader checks the rules over the whole process history, so the answer
+            // does not depend on the overview date filter.
+            if (process.MeteringPointId is null) return actions;
+
+            var eligibleProcessIds = await changeOfSupplierCorrectionEligibilityDataLoader
+                .LoadAsync(process.MeteringPointId, cancellationToken)
+                .ConfigureAwait(false);
+
+            return eligibleProcessIds is not null && eligibleProcessIds.Contains(process.Id)
                 ? actions.Append(MeteringPointProcessAction.HandlingOfIncorrectChangeOfSupplier)
                 : actions;
         }
@@ -328,6 +337,96 @@ public static partial class MeteringPointProcessNode
         return results;
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlySet<string>> GetChangeOfSupplierCorrectionEligibilityAsync(
+        string meteringPointId,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Fetch the whole process history (wide default window) so eligibility does not depend
+            // on the overview date filter.
+            var now = SystemClock.Instance.GetCurrentInstant();
+            var created = ResolveCreatedInterval(null, now);
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                httpContextAccessor.CreateUserIdentity(),
+                meteringPointId,
+                created.Start.ToDateTimeOffset(),
+                created.End.ToDateTimeOffset());
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var processes = instances
+                .Select(w => MapToMeteringPointProcess(w, meteringPointId))
+                .ToList();
+
+            var today = now.InZone(_danishTimeZone).Date;
+            return processes
+                .Where(p => IsChangeOfSupplierCorrectionEligible(p, processes, today))
+                .Select(p => p.Id)
+                .ToHashSet();
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // Fail closed so a process-manager error hides the action instead of failing the field.
+            return new HashSet<string>();
+        }
+    }
+
+    /// <summary>
+    /// Whether the "request correction" action should be offered for a completed change of
+    /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
+    /// is the current Danish date, passed in so the rule is deterministic and unit-testable.
+    /// Processes that did not take effect (failed, canceled, rejected) are ignored.
+    /// </summary>
+    internal static bool IsChangeOfSupplierCorrectionEligible(
+        MeteringPointProcess process,
+        IReadOnlyList<MeteringPointProcess> allProcesses,
+        LocalDate today)
+    {
+        // Evaluated against every process on the metering point, so guard the candidate's type.
+        if (process.BusinessReason != BusinessReason.ChangeOfEnergySupplier) return false;
+        if (process.State != MeteringPointProcessState.Succeeded) return false;
+        if (process.CutoffDate is null) return false;
+
+        var effectiveDate = ToDanishDate(process.CutoffDate.Value);
+        var window = new DateInterval(today.PlusDays(-WindowDays), today);
+        if (!window.Contains(effectiveDate)) return false;
+
+        return !allProcesses
+            .Where(p => p.Id != process.Id)
+            .Where(IsActiveOrSucceeded)
+            .Any(other =>
+            {
+                if (other.CutoffDate is null) return false;
+                var cutoff = ToDanishDate(other.CutoffDate.Value);
+                var reason = other.BusinessReason;
+
+                // BusinessReason is a value object, not an enum, so it cannot be a switch label.
+                if (reason == BusinessReason.ChangeOfEnergySupplier)
+                    return cutoff > effectiveDate && window.Contains(cutoff);
+
+                if (reason == BusinessReason.EndOfSupply
+                    || reason == BusinessReason.RollbackChangeOfSupplier
+                    || reason == BusinessReason.CloseDownMeteringPoint
+                    || reason == BusinessReason.CustomerMoveOut
+                    || reason == BusinessReason.ProductionObligation)
+                    return cutoff > effectiveDate;
+
+                if (reason == BusinessReason.CustomerMoveIn)
+                    return other.State == MeteringPointProcessState.Succeeded && cutoff > effectiveDate;
+
+                if (reason == BusinessReason.IncorrectMove)
+                    return ToDanishDate(other.CreatedAt) > effectiveDate && cutoff < effectiveDate;
+
+                return false;
+            });
+    }
+
     /// <summary>
     /// Resolves the period used to search for processes. When the frontend sends no period
     /// (<paramref name="created"/> is null), a wide hidden-default window is applied:
@@ -356,6 +455,14 @@ public static partial class MeteringPointProcessNode
             .AtStartOfDayInZone(_danishTimeZone)
             .ToDateTimeOffset();
 
+    private static bool IsActiveOrSucceeded(MeteringPointProcess process) =>
+        process.State is MeteringPointProcessState.Pending
+            or MeteringPointProcessState.Running
+            or MeteringPointProcessState.Succeeded;
+
+    private static LocalDate ToDanishDate(DateTimeOffset value) =>
+        Instant.FromDateTimeOffset(value).InZone(_danishTimeZone).Date;
+
     static partial void Configure(IObjectTypeDescriptor<MeteringPointProcess> descriptor)
     {
         descriptor.Name("MeteringPointProcess");
@@ -374,6 +481,7 @@ public static partial class MeteringPointProcessNode
                 ctx.Parent<MeteringPointProcess>(),
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
+                ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }
