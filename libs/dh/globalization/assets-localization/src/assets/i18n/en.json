@@ -2058,7 +2058,8 @@
       "REJECT_REQUEST_CANCELLATION": "Reject cancellation",
       "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Reject metering point characteristics",
       "REJECT_REQUEST_BILLING_MASTER_DATA": "Reject billing master data",
-      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Request reallocation"
+      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Request reallocation",
+      "ACKNOWLEDGEMENT_FOR_PROCESSES": "Acknowledgement (processes)"
     },
     "businessReasons": {
       "CUSTOMER_MOVE_IN": "Customer move in",

@@ -2057,7 +2057,8 @@
       "REJECT_REQUEST_CANCELLATION": "Afvisning af annullering",
       "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Afvisning af målepunktsstamdata",
       "REJECT_REQUEST_BILLING_MASTER_DATA": "Afvisning af pristilknytningsdata",
-      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Anmodning om genallokering ved leverandørskift"
+      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Anmodning om genallokering ved leverandørskift",
+      "ACKNOWLEDGEMENT_FOR_PROCESSES": "Kvittering (processer)"
     },
     "businessReasons": {
       "CUSTOMER_MOVE_IN": "Tilflytning",
