@@ -16,36 +16,63 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  inject,
+  Renderer2,
+  ElementRef,
+  AfterViewInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Component,
+} from '@angular/core';
 import { VATER } from '../../vater';
 
 import { WattButtonComponent } from '../watt-button.component';
 
 @Component({
   selector: 'storybook-button-overview',
+  encapsulation: ViewEncapsulation.None,
   styles: [
     `
-      .button-state-grid {
-        grid-template-columns: 8rem 7rem repeat(4, max-content);
-        row-gap: 0.75rem;
-        column-gap: 1.5rem;
-        align-items: center;
-        justify-items: start;
-      }
 
-      .button-state-grid .col-header-start {
+      storybook-button-overview .button-state-grid .col-header-start {
         grid-column: 3;
       }
 
-      .button-state-grid .col-label {
+      storybook-button-overview .button-state-grid .col-label {
         grid-column: 2;
         margin: 0;
       }
 
-      .button-state-grid .group-label {
+      storybook-button-overview .button-state-grid .group-label {
         grid-column: 1 / -1;
         padding-top: var(--watt-space-m);
         font-weight: 600;
+      }
+
+      storybook-button-overview watt-button.storybook-forced-focus-visible::after {
+        content: '';
+        position: absolute;
+        inset: calc(var(--watt-button-focus-offset) * -1);
+        border: var(--watt-button-focus-width) solid var(--watt-button-focus-color);
+        border-radius: var(--watt-button-focus-radius);
+        pointer-events: none;
+      }
+
+      storybook-button-overview watt-button.watt-button--primary .mat-mdc-button.mat-primary.storybook-forced-hover {
+        background: var(--watt-color-primary-dark);
+      }
+
+      storybook-button-overview watt-button.watt-button--secondary .mat-mdc-button.mat-secondary.storybook-forced-hover {
+        background: var(--watt-color-primary-light);
+      }
+
+      storybook-button-overview watt-button.watt-button--text .mat-mdc-button.mat-text.storybook-forced-hover {
+        color: var(--watt-button-text-hover-color);
+      }
+
+      storybook-button-overview watt-button.watt-button--icon .mat-mdc-button.mat-icon.storybook-forced-hover {
+        color: var(--watt-color-primary-dark);
       }
     `,
   ],
@@ -53,4 +80,36 @@ import { WattButtonComponent } from '../watt-button.component';
   templateUrl: './storybook-button-overview.component.html',
   imports: [WattButtonComponent, VATER],
 })
-export class StorybookButtonOverviewComponent {}
+export class StorybookButtonOverviewComponent implements AfterViewInit {
+  private host = inject<ElementRef<HTMLElement>>(ElementRef);
+  private renderer = inject(Renderer2);
+
+  ngAfterViewInit(): void {
+    this.forceState('hover', 'storybook-forced-hover');
+    this.forceState('focus', 'storybook-forced-focus-visible', false);
+  }
+
+  private forceState(
+    state: 'focus' | 'hover',
+    className: string,
+    applyToInnerButton = true
+  ): void {
+    const buttons = this.host.nativeElement.querySelectorAll<HTMLElement>(
+      `watt-button[data-storybook-state="${state}"]`
+    );
+
+    buttons.forEach((button) => {
+      this.renderer.addClass(button, className);
+
+      if (!applyToInnerButton) {
+        return;
+      }
+
+      const innerButton = button.querySelector('.mat-mdc-button');
+
+      if (innerButton) {
+        this.renderer.addClass(innerButton, className);
+      }
+    });
+  }
+}

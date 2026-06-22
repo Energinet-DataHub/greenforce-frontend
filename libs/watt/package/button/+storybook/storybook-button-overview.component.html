@@ -16,9 +16,15 @@ limitations under the License.
 -->
 <h1>Button</h1>
 
-<div vater-grid class="button-state-grid">
-  <!-- Column headers — placed at columns 3–6, leaving the two label columns empty -->
+<vater-grid
+  class="button-state-grid"
+  columns="8rem 7rem repeat(5, max-content)"
+  gap="m"
+  align="center"
+>
+  <!-- Column headers — placed at columns 3–7, leaving the two label columns empty -->
   <strong class="col-header-start">Enabled</strong>
+  <strong>Hover</strong>
   <strong>Focused</strong>
   <strong>Disabled</strong>
   <strong>Loading</strong>
@@ -28,18 +34,23 @@ limitations under the License.
 
   <p class="col-label">No icon</p>
   <watt-button variant="primary">Button</watt-button>
+  <watt-button variant="primary" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" [loading]="true">Button</watt-button>
 
   <p class="col-label">Leading icon</p>
   <watt-button variant="primary" icon="plus">Button</watt-button>
+  <watt-button variant="primary" icon="plus" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" icon="plus" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" icon="plus" [loading]="true">Button</watt-button>
 
   <p class="col-label">Trailing icon</p>
   <watt-button variant="primary" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="primary" icon="plus" iconPosition="trailing" data-storybook-state="hover"
+    >Button</watt-button
+  >
   <watt-button variant="primary" icon="plus" iconPosition="trailing" data-storybook-state="focus"
     >Button</watt-button
   >
@@ -55,12 +66,16 @@ limitations under the License.
 
   <p class="col-label">No icon</p>
   <watt-button variant="primary" size="small">Button</watt-button>
+  <watt-button variant="primary" size="small" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" size="small" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" size="small" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" size="small" [loading]="true">Button</watt-button>
 
   <p class="col-label">Leading icon</p>
   <watt-button variant="primary" size="small" icon="plus">Button</watt-button>
+  <watt-button variant="primary" size="small" icon="plus" data-storybook-state="hover"
+    >Button</watt-button
+  >
   <watt-button variant="primary" size="small" icon="plus" data-storybook-state="focus"
     >Button</watt-button
   >
@@ -69,6 +84,14 @@ limitations under the License.
 
   <p class="col-label">Trailing icon</p>
   <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing"
+    >Button</watt-button
+  >
+  <watt-button
+    variant="primary"
+    size="small"
+    icon="plus"
+    iconPosition="trailing"
+    data-storybook-state="hover"
     >Button</watt-button
   >
   <watt-button
@@ -91,18 +114,23 @@ limitations under the License.
 
   <p class="col-label">No icon</p>
   <watt-button variant="secondary">Button</watt-button>
+  <watt-button variant="secondary" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" [loading]="true">Button</watt-button>
 
   <p class="col-label">Leading icon</p>
   <watt-button variant="secondary" icon="plus">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" icon="plus" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" icon="plus" [loading]="true">Button</watt-button>
 
   <p class="col-label">Trailing icon</p>
   <watt-button variant="secondary" icon="plus" iconPosition="trailing">Button</watt-button>
+  <watt-button variant="secondary" icon="plus" iconPosition="trailing" data-storybook-state="hover"
+    >Button</watt-button
+  >
   <watt-button variant="secondary" icon="plus" iconPosition="trailing" data-storybook-state="focus"
     >Button</watt-button
   >
@@ -118,12 +146,16 @@ limitations under the License.
 
   <p class="col-label">No icon</p>
   <watt-button variant="secondary" size="small">Button</watt-button>
+  <watt-button variant="secondary" size="small" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" size="small" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" size="small" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" size="small" [loading]="true">Button</watt-button>
 
   <p class="col-label">Leading icon</p>
   <watt-button variant="secondary" size="small" icon="plus">Button</watt-button>
+  <watt-button variant="secondary" size="small" icon="plus" data-storybook-state="hover"
+    >Button</watt-button
+  >
   <watt-button variant="secondary" size="small" icon="plus" data-storybook-state="focus"
     >Button</watt-button
   >
@@ -132,6 +164,14 @@ limitations under the License.
 
   <p class="col-label">Trailing icon</p>
   <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing"
+    >Button</watt-button
+  >
+  <watt-button
+    variant="secondary"
+    size="small"
+    icon="plus"
+    iconPosition="trailing"
+    data-storybook-state="hover"
     >Button</watt-button
   >
   <watt-button
@@ -159,7 +199,8 @@ limitations under the License.
 
   <p class="col-label">Icon</p>
   <watt-button variant="icon" icon="plus" aria-label="Add" />
+  <watt-button variant="icon" icon="plus" data-storybook-state="hover" aria-label="Add" />
   <watt-button variant="icon" icon="plus" data-storybook-state="focus" aria-label="Add" />
   <watt-button variant="icon" icon="plus" [disabled]="true" aria-label="Add" />
   <watt-button variant="icon" icon="plus" [loading]="true" aria-label="Add" />
-</div>
+</vater-grid>
