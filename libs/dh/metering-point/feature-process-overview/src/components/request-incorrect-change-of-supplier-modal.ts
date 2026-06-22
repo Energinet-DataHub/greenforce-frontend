@@ -115,7 +115,6 @@ export interface RequestIncorrectChangeOfSupplierModalData {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestIncorrectChangeOfSupplierModal extends WattTypedModal<RequestIncorrectChangeOfSupplierModalData> {
   private readonly requestIncorrectChangeOfSupplierMutation = mutation(
     RequestIncorrectChangeOfSupplierDocument,

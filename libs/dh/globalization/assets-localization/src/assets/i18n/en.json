@@ -713,7 +713,7 @@
         "notActualAddress": "{{ meteringPoint.overview.shared.notActualAddress }}",
         "protectedAddress": "{{ meteringPoint.overview.shared.protectedAddress }}",
         "annualSettlement": "Annual settlement",
-        "productObligation": "Product obligation",
+        "productionObligation": "Production obligation",
         "manuallyHandled": "Manually imported"
       },
       "customer": {
@@ -727,8 +727,8 @@
         "title": "{{ meteringPoint.overview.shared.energySupplier }}",
         "energySupplierLabel": "{{ meteringPoint.overview.shared.energySupplier }}",
         "startDateLabel": "Start date",
-        "productObligationLabel": "{{ meteringPoint.overview.highlights.productObligation }}",
-        "changeProductObligationLink": "Change product obligation",
+        "productionObligationLabel": "{{ meteringPoint.overview.highlights.productionObligation }}",
+        "changeProductionObligationLink": "Change production obligation",
         "cutOffDateLabel": "Cut-off date"
       },
       "status": {
@@ -1210,6 +1210,30 @@
           "error": "Rejection of resumption failed"
         }
       },
+      "acceptRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Are you sure you want to accept the resumption of supply?",
+          "confirm": "Accept",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Accepting resumption of supply...",
+          "success": "Resumption of supply accepted",
+          "error": "Acceptance of resumption of supply failed"
+        }
+      },
+      "rejectRollbackChangeOfSupplier": {
+        "confirm": {
+          "title": "Are you sure you want to reject the resumption of supply?",
+          "confirm": "Reject",
+          "cancel": "Cancel"
+        },
+        "toast": {
+          "loading": "Rejecting resumption of supply...",
+          "success": "Resumption of supply rejected",
+          "error": "Rejection of resumption of supply failed"
+        }
+      },
       "rejectProcess": {
         "title": "End of supply - service request rejected",
         "requestedService": "Requested service",
@@ -1335,6 +1359,8 @@
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_7": "Notification of customer master data (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_8": "Notification of customer master data (RSM-028)",
         "BRS_003_CONFIRMATIONOFREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_9": "Notification of charge links (RSM-031)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
+        "BRS_003_REJECTREQUESTFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_4": "Automatic resumption of supply after the deadline is exceeded",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_5": "Notification of acceptance of correction (RSM-004)",
         "BRS_003_DEADLINEFORRESUMPTIONOFSUPPLY_V1_STEP_6": "Notification of metering point master data (RSM-022)",
@@ -1762,7 +1788,7 @@
       "saveSuccess": "Connection status is being updated"
     },
     "manageProductionObligation": {
-      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductObligationLink }}",
+      "modalTitle": "{{ meteringPoint.overview.energySupplier.changeProductionObligationLink }}",
       "tooltip": "The process takes a few minutes. The desired \n result is displayed here, and rejection reasons \n can be found in business messages.",
       "changeToLabel": "Change production obligation to",
       "cutOffDate": "Cut-off date",
@@ -2058,7 +2084,8 @@
       "REJECT_REQUEST_CANCELLATION": "Reject cancellation",
       "REJECT_REQUEST_ACCOUNTING_POINT_CHARACTERISTICS": "Reject metering point characteristics",
       "REJECT_REQUEST_BILLING_MASTER_DATA": "Reject billing master data",
-      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Request reallocation"
+      "REQUEST_REALLOCATE_CHANGE_OF_SUPPLIER": "Request reallocation",
+      "ACKNOWLEDGEMENT_FOR_PROCESSES": "Acknowledgement (processes)"
     },
     "businessReasons": {
       "CUSTOMER_MOVE_IN": "Customer move in",

@@ -104,11 +104,11 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
           grid-template-rows: auto auto;
 
           dh-metering-point-details {
-            grid-row: 2;
+            grid-row: 1;
           }
 
           dh-related-metering-points {
-            grid-row: 2;
+            grid-row: 1;
           }
         }
 
@@ -140,7 +140,7 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
               *dhCanSee="'energy-supplier-card'; meteringPoint: meteringPoint()"
               [energySupplier]="energySupplier()"
               [meteringPointId]="meteringPointId()"
-              [productObligation]="meteringPoint()?.metadata?.productObligation"
+              [productionObligation]="meteringPoint()?.metadata?.productionObligation"
               [meteringPointType]="meteringPoint()?.metadata?.type"
               [meteringPointConnectionState]="meteringPoint()?.metadata?.connectionState"
             />

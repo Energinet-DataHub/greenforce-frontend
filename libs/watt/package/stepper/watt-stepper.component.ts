@@ -29,7 +29,7 @@ import {
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { NgTemplateOutlet } from '@angular/common';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+import { MatStep, MatStepLabel, MatStepper, MatStepperIcon } from '@angular/material/stepper';
 import { filter, switchMap } from 'rxjs';
 
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -42,7 +42,15 @@ import { WattStepperStepComponent } from './watt-stepper-step.component';
   templateUrl: './watt-stepper.component.html',
   styleUrls: ['./watt-stepper.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  imports: [NgTemplateOutlet, MatStepperModule, WattIconComponent, WattButtonComponent],
+  imports: [
+    MatStepper,
+    MatStep,
+    MatStepLabel,
+    MatStepperIcon,
+    NgTemplateOutlet,
+    WattIconComponent,
+    WattButtonComponent,
+  ],
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,

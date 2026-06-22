@@ -129,7 +129,6 @@ type SettlementReportRequestedBy = {
   `,
   templateUrl: './request-report-modal.component.html',
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhRequestReportModal extends WattTypedModal<SettlementReportRequestedBy> {
   private readonly formBuilder = inject(NonNullableFormBuilder);
   private readonly environmentInjector = inject(EnvironmentInjector);
@@ -267,7 +266,7 @@ export class DhRequestReportModal extends WattTypedModal<SettlementReportRequest
           }
         },
       });
-    } catch (error) {
+    } catch {
       this.submitInProgress.set(false);
       this.showErrorNotification();
     }

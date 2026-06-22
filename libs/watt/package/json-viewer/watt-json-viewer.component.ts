@@ -20,7 +20,6 @@ import { ChangeDetectionStrategy, Component, computed, input, linkedSignal } fro
 import { TreeState, WattJson } from './watt-json.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'watt-json-viewer',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [WattJson],

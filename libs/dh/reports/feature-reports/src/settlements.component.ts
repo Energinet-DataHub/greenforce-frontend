@@ -47,7 +47,6 @@ import { VATER } from '@energinet/watt/vater';
     </watt-link-tabs>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSettlements {
   getLink = (path: ReportsSubPaths) =>
     `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${path}`;

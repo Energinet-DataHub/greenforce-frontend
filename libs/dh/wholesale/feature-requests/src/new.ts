@@ -74,7 +74,6 @@ const maxDaysValidator =
       : null;
   };
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-new',
   imports: [

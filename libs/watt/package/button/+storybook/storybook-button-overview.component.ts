@@ -22,7 +22,6 @@ import { VATER } from '../../vater';
 import { WattButtonComponent } from '../watt-button.component';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-button-overview',
   styles: [
     `

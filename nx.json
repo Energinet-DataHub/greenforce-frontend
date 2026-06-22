@@ -125,7 +125,13 @@
           "target": "generate"
         }
       ],
-      "inputs": ["default", "{workspaceRoot}/.eslintrc.json"],
+      "inputs": [
+        "default",
+        "{workspaceRoot}/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/dh/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/gf/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
+        "{workspaceRoot}/libs/watt/eslint.config.@(js|cjs|mjs|ts|cts|mts)"
+      ],
       "cache": true
     }
   },
@@ -142,7 +148,7 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vite.config.mts",
       "!{projectRoot}/vitest.config.mts",
-      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/eslint.config.@(js|cjs|mjs|ts|cts|mts)",
       "!{projectRoot}/.storybook/**/*",
       "!{projectRoot}/**/*.stories.@(js|jsx|ts|tsx|mdx)",
       "!{projectRoot}/playwright.config.[jt]s",
