@@ -96,4 +96,21 @@ export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
         '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
     },
   ],
+  idempotencyRecords: [
+    {
+      __typename: 'ElectricityMarketV2IdempotencyRecordDto',
+      idempotencyRecordJson: '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c1", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
+      commandResponseRecordJson: '{ "id": "083b3625-6891-4b56-8b80-cad1576e16f4", "idempotencyRecordId": "9e69bb75-a572-4f91-bd11-9303c037e5c1", "meteringPointId": "111111111111111111", "response": "{ \\"id\\": \\"111111111\\", \\"type\\": \\"Consumption\\", \\"validityDate\\": \\"2023-01-04T00:00:00Z\\", \\"connectionState\\": \\"New\\" }", "createdAt": "2023-01-01T12:00:00Z" }'
+    },
+    {
+      __typename: 'ElectricityMarketV2IdempotencyRecordDto',
+      idempotencyRecordJson: '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c2", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
+      commandResponseRecordJson: 'null'
+    },
+    {
+      __typename: 'ElectricityMarketV2IdempotencyRecordDto',
+      idempotencyRecordJson: 'null',
+      commandResponseRecordJson: '{ "id": "083b3625-6891-4b56-8b80-cad1576e16f4", "idempotencyRecordId": "9e69bb75-a572-4f91-bd11-9303c037e5c3", "meteringPointId": "111111111111111111", "response": "{ \\"id\\": \\"111111111\\", \\"type\\": \\"Consumption\\", \\"validityDate\\": \\"2023-01-04T00:00:00Z\\", \\"connectionState\\": \\"New\\" }", "createdAt": "2023-01-01T12:00:00Z" }'
+    }
+  ]
 };
