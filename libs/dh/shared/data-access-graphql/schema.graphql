@@ -36,6 +36,29 @@ interface Error {
   message: String!
 }
 
+"Common contract for metering point processes while concrete process types are introduced incrementally."
+interface MeteringPointProcessV2 {
+  "The process instance identifier."
+  id: String!
+  "The transaction identifier associated with the process, when available."
+  transactionId: String
+  "The process business reason."
+  businessReason: ProcessManagerBusinessReason!
+  "The time when the process was created."
+  createdAt: DateTime!
+  "The process cutoff date, when relevant for the business reason."
+  cutoffDate: DateTime
+  "The mapped process state."
+  state: MeteringPointProcessState!
+  "The cancellation timestamp, when this process was cancelled."
+  cancellationTimestamp: DateTime
+  initiator: MarketParticipant
+  initiatorRole: EicFunction
+  cancelledByProcess: MeteringPointProcessV2
+  steps: [MeteringPointProcessStep!]!
+  availableActions: [MeteringPointProcessAction!]
+}
+
 interface OrchestrationInstance {
   id: UUID!
   createdAt: DateTime!
@@ -960,6 +983,29 @@ type ImbalancePricesOverview {
   pricePeriods: [ImbalancePricePeriod!]!
 }
 
+"BRS-011 process model used to move incorrect move-in specific behavior out of the generic process abstraction."
+type IncorrectMoveInProcess implements MeteringPointProcessV2 {
+  availableActions: [MeteringPointProcessAction!]
+  "The process instance identifier."
+  id: String!
+  "The transaction identifier associated with the process, when available."
+  transactionId: String
+  "The process business reason."
+  businessReason: ProcessManagerBusinessReason!
+  "The time when the process was created."
+  createdAt: DateTime!
+  "The process cutoff date, when relevant for the business reason."
+  cutoffDate: DateTime
+  "The mapped process state."
+  state: MeteringPointProcessState!
+  "The cancellation timestamp, when this process was cancelled."
+  cancellationTimestamp: DateTime
+  initiator: MarketParticipant
+  initiatorRole: EicFunction
+  cancelledByProcess: MeteringPointProcessV2
+  steps: [MeteringPointProcessStep!]!
+}
+
 type InitiateChangeOfSupplierPayload {
   boolean: Boolean
 }
@@ -1539,6 +1585,8 @@ type Query {
   meteringPointForManualCorrection(meteringPointId: String!): String! @authorize(roles: [ "dh3-skalpellen" ])
   meteringPointMigratedCount: Long! @authorize(roles: [ "operation-tools:view" ])
   meteringPointProcessById(id: String! meteringPointId: String!): MeteringPointProcess
+  "Gets a metering point process by id using the temporary V2 process interface."
+  meteringPointProcessByIdV2(id: String! meteringPointId: String!): MeteringPointProcessV2
   meteringPointProcessOverview(meteringPointId: String! created: DateRange): [MeteringPointProcess!]!
   meteringPointsByGridAreaCode(gridAreaCode: String!): [MeteringPointsGroupByPackageNumber!]! @authorize(roles: [ "operation-tools:view" ])
   notifications: [NotificationDto!]!
@@ -1849,6 +1897,29 @@ type Subscription {
 
 type SyncJobSetJobVersionEventStoreExportPayload {
   boolean: Boolean
+}
+
+"Fallback process model for metering point process business reasons that do not yet have a concrete GraphQL type."
+type UnknownMeteringPointProcess implements MeteringPointProcessV2 {
+  availableActions: [MeteringPointProcessAction!]
+  "The process instance identifier."
+  id: String!
+  "The transaction identifier associated with the process, when available."
+  transactionId: String
+  "The process business reason."
+  businessReason: ProcessManagerBusinessReason!
+  "The time when the process was created."
+  createdAt: DateTime!
+  "The process cutoff date, when relevant for the business reason."
+  cutoffDate: DateTime
+  "The mapped process state."
+  state: MeteringPointProcessState!
+  "The cancellation timestamp, when this process was cancelled."
+  cancellationTimestamp: DateTime
+  initiator: MarketParticipant
+  initiatorRole: EicFunction
+  cancelledByProcess: MeteringPointProcessV2
+  steps: [MeteringPointProcessStep!]!
 }
 
 type UpdateChargePayload {
