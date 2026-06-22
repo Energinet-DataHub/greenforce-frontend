@@ -21,7 +21,6 @@ import { DhWholesaleRequestsNew } from './new';
 import { DhWholesaleRequestsTable } from './table';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-wholesale-requests-page',
   imports: [DhWholesaleRequestsNew, DhWholesaleRequestsTable, DhPermissionRequiredDirective],

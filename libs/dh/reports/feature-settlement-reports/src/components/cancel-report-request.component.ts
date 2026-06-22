@@ -42,7 +42,6 @@ import { DhCancelReportRequestModal } from './request-report/cancel-report-reque
   `,
   imports: [TranslocoDirective, WattButtonComponent],
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCancelReportRequest {
   private readonly modalService = inject(WattModalService);
 

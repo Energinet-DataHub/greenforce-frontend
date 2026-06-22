@@ -139,7 +139,6 @@ import { DhSetUpAccessToMeasurements } from './create/set-up-access-to-measureme
     </vater-flex>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhAccessToMeasurementsTab {
   private readonly toastService = inject(WattToastService);
   private readonly modalService = inject(WattModalService);

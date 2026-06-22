@@ -176,12 +176,10 @@ export class DhDelegationCreateModalComponent extends WattTypedModal<DhMarketPar
   }
 
   private getGridAreaOptions(): WattDropdownOptions {
-    let gridAreas = [];
-    if (this.modalData.marketRole === EicFunction.GridAccessProvider) {
-      gridAreas = this.modalData.gridAreas;
-    } else {
-      gridAreas = this.gridAreaQuery.data()?.gridAreas ?? [];
-    }
+    const gridAreas =
+      this.modalData.marketRole === EicFunction.GridAccessProvider
+        ? this.modalData.gridAreas
+        : (this.gridAreaQuery.data()?.gridAreas ?? []);
 
     return gridAreas.map((gridArea) => ({
       value: gridArea.id,

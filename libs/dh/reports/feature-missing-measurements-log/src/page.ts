@@ -24,7 +24,6 @@ import { injectRelativeNavigate } from '@energinet-datahub/dh/shared/ui-util';
 import { DhRequestMissingMeasurementLogService } from './request-log-service';
 import { MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'dh-reports-missing-measurements-log-page',
   imports: [DhReportsMissingMeasurementsLogTable, RouterOutlet],

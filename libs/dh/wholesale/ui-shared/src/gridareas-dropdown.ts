@@ -51,7 +51,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
     </watt-dropdown>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCalculationsGridAreasDropdown {
   multiple = input(true);
   control = input.required<FormControl<string[] | string | null>>();
