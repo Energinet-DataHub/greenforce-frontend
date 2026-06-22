@@ -25,13 +25,12 @@ import {
   StateLocationStrategy,
   provideStateLocationStrategy,
 } from '../src/state-location-strategy';
-import { dhRedactionPatterns } from '../src/dhUrlRules';
 
 describe(StateLocationStrategy, () => {
   let strategy: StateLocationStrategy;
 
-  /** Configures the TestBed with the supplied patterns and returns a fresh strategy. */
-  const setupWith = (patterns: readonly string[] = []): StateLocationStrategy => {
+  /** Configures the TestBed and returns a fresh strategy. */
+  const setup = (): StateLocationStrategy => {
     TestBed.resetTestingModule();
     TestBed.configureTestingModule({
       providers: [
@@ -39,14 +38,14 @@ describe(StateLocationStrategy, () => {
           provide: DOCUMENT,
           useValue: { baseURI: '/custom-base-uri' },
         },
-        provideStateLocationStrategy(patterns),
+        provideStateLocationStrategy(),
       ],
     });
     return TestBed.inject(StateLocationStrategy);
   };
 
   beforeEach(() => {
-    strategy = setupWith();
+    strategy = setup();
   });
 
   describe('path', () => {
@@ -118,13 +117,12 @@ describe(StateLocationStrategy, () => {
   });
 
   describe('prepareExternalUrl', () => {
-    it('should show URL as-is when no patterns match (default-show)', () => {
-      strategy = setupWith([]);
+    it('should show URL as-is when no values are set (default-show)', () => {
       expect(strategy.prepareExternalUrl('/secret/123')).toBe('/custom-base-uri/secret/123');
     });
 
-    it('redacts URLs matching a pattern', () => {
-      strategy = setupWith(['/metering-point/(?!search|create)([^/?#]+)']);
+    it('redacts URL segments matching a sensitive value', () => {
+      strategy.setSensitiveValues(new Set(['abc-123']));
 
       expect(strategy.prepareExternalUrl('/metering-point/abc-123/master-data')).toBe(
         '/custom-base-uri/metering-point/~/master-data'
@@ -135,8 +133,9 @@ describe(StateLocationStrategy, () => {
       expect(strategy.path()).toBe('/metering-point/abc-123/master-data');
     });
 
-    it('skips safe sub-paths via negative lookahead', () => {
-      strategy = setupWith(['/metering-point/(?!search|create)([^/?#]+)']);
+    it('leaves literal sibling segments alone', () => {
+      // 'search' is not in the sensitive set, so it stays as-is.
+      strategy.setSensitiveValues(new Set(['abc-123']));
 
       expect(strategy.prepareExternalUrl('/metering-point/search')).toBe(
         '/custom-base-uri/metering-point/search'
@@ -144,7 +143,7 @@ describe(StateLocationStrategy, () => {
     });
 
     it('redacts user IDs in admin paths', () => {
-      strategy = setupWith(['/admin/users/details/([^/?#]+)']);
+      strategy.setSensitiveValues(new Set(['abc-user-guid']));
 
       expect(strategy.prepareExternalUrl('/admin/users/details/abc-user-guid/edit')).toBe(
         '/custom-base-uri/admin/users/details/~/edit'
@@ -162,7 +161,7 @@ describe(StateLocationStrategy, () => {
       // Simulate a cold load on a redacted URL by directly invoking the
       // browser's history API (bypassing the strategy, so no state is stashed).
       window.history.replaceState(null, '', '/metering-point/~/master-data');
-      strategy = setupWith([]);
+      strategy = setup();
 
       expect(strategy.path()).toBe('/');
 
@@ -172,8 +171,16 @@ describe(StateLocationStrategy, () => {
   });
 
   describe('url redaction', () => {
+    // Sensitive values that would have been collected from activated routes
+    // marked with `data: { sensitiveParams: true }`.
+    const sensitiveValues = new Set([
+      '123456',
+      'abc1234567',
+      '00000000-0000-0000-0000-000000000001',
+    ]);
+
     beforeEach(() => {
-      strategy = setupWith(dhRedactionPatterns);
+      strategy.setSensitiveValues(sensitiveValues);
     });
 
     describe('passes through — URLs without sensitive segments', () => {

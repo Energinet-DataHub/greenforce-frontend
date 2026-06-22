@@ -118,6 +118,7 @@ export const dhMeteringPointRoutes: Routes = [
         },
         data: {
           pageLeaveRedirectUrl: combinePaths('metering-point', 'search'),
+          sensitiveParams: true,
         },
         loadComponent: () => import('@energinet-datahub/dh/metering-point/feature-overview'),
         children: [

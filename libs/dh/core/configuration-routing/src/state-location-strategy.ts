@@ -16,8 +16,18 @@
  * limitations under the License.
  */
 //#endregion
-import { inject, Injectable, InjectionToken, Provider } from '@angular/core';
+import {
+  inject,
+  Injectable,
+  DestroyRef,
+  EnvironmentProviders,
+  Provider,
+  provideAppInitializer,
+} from '@angular/core';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
+import { Router, RoutesRecognized, ActivatedRouteSnapshot } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 /** Key used to store the router URL in the history state object. */
 export const ROUTER_URL_KEY = '__dhRouterUrl__';
@@ -28,14 +38,41 @@ export const ROUTER_URL_KEY = '__dhRouterUrl__';
  * very uncommon in real application URLs.
  */
 export const REDACTED_SEGMENT = '~';
-export const REDACTION_PATTERNS = new InjectionToken<string[]>('REDACTION_PATTERNS');
 
 const normalizeState = (state: unknown) => (state as Record<string, unknown>) ?? {};
 const normalizeQueryParams = (params: string) =>
   params && params[0] !== '?' ? `?${params}` : params;
 
 /**
- * A custom LocationStrategy that stores the route URL's in history state.
+ * Walks the activated route snapshot and collects the values of params
+ * belonging to routes marked with `data: { sensitiveParams: true }`.
+ *
+ * Only the route directly carrying the flag contributes its own param
+ * values; literal path segments are left alone. Note that when the router
+ * is configured with `paramsInheritanceStrategy: 'always'`, the flag is
+ * inherited by descendants — so marking a parent will cause every nested
+ * `:param` below it to be collected as sensitive too.
+ */
+const collectSensitiveValues = (
+  node: ActivatedRouteSnapshot,
+  out = new Set<string>()
+): Set<string> => {
+  if (node.data['sensitiveParams'] && node.routeConfig?.path) {
+    node.routeConfig.path.split('/').forEach((seg, i) => {
+      if (seg.startsWith(':') && node.url[i]) out.add(node.url[i].path);
+    });
+  }
+  node.children.forEach((child) => collectSensitiveValues(child, out));
+  return out;
+};
+
+/**
+ * A custom LocationStrategy that stores route URLs in history state and
+ * redacts sensitive path segments in the address bar.
+ *
+ * Routes opt in by adding `data: { sensitiveParams: true }` to their config.
+ * Their parameter values are replaced with `~` in the browser URL while
+ * the real URL is preserved in `history.state` for back/forward navigation.
  *
  * @usageNotes
  * ```typescript
@@ -53,7 +90,11 @@ const normalizeQueryParams = (params: string) =>
   providedIn: 'root',
 })
 export class StateLocationStrategy extends PathLocationStrategy {
-  private readonly patterns = inject(REDACTION_PATTERNS);
+  private sensitiveValues = new Set<string>();
+
+  setSensitiveValues(values: Set<string>) {
+    this.sensitiveValues = values;
+  }
 
   override path(includeHash = false) {
     const state = normalizeState(this.getState());
@@ -82,21 +123,39 @@ export class StateLocationStrategy extends PathLocationStrategy {
     };
   }
 
-  private redactUrl(url: string) {
-    for (const pattern of this.patterns) {
-      const regex = new RegExp(pattern);
-      if (!regex.test(url)) continue;
-      return url.replace(regex, (match, group) => match.replace(group, REDACTED_SEGMENT));
-    }
-
-    return url;
+  private redactUrl(url: string): string {
+    if (this.sensitiveValues.size === 0) return url;
+    const queryIndex = url.search(/[?#]/);
+    const path = queryIndex < 0 ? url : url.slice(0, queryIndex);
+    const tail = queryIndex < 0 ? '' : url.slice(queryIndex);
+    return (
+      path
+        .split('/')
+        .map((seg) => (this.sensitiveValues.has(decodeURIComponent(seg)) ? REDACTED_SEGMENT : seg))
+        .join('/') + tail
+    );
   }
 }
 
 /**
  * Provides the StateLocationStrategy as the LocationStrategy for the application.
+ *
+ * Routes opt in to URL redaction by adding `data: { sensitiveParams: true }`
+ * to their route configuration. Their parameter values will be replaced with
+ * `~` in the browser address bar while the real URL stays in `history.state`.
  */
-export const provideStateLocationStrategy = (patterns?: string[]): Provider[] => [
-  { provide: REDACTION_PATTERNS, useValue: patterns ?? [] },
+export const provideStateLocationStrategy = (): (Provider | EnvironmentProviders)[] => [
   { provide: LocationStrategy, useClass: StateLocationStrategy },
+  provideAppInitializer(() => {
+    const router = inject(Router);
+    const strategy = inject(LocationStrategy) as StateLocationStrategy;
+    const destroyRef = inject(DestroyRef);
+
+    router.events
+      .pipe(
+        filter((e): e is RoutesRecognized => e instanceof RoutesRecognized),
+        takeUntilDestroyed(destroyRef)
+      )
+      .subscribe((e) => strategy.setSensitiveValues(collectSensitiveValues(e.state.root)));
+  }),
 ];
