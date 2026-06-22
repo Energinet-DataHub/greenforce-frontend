@@ -35,19 +35,9 @@ import { WattButtonComponent } from '../watt-button.component';
   styles: [
     `
 
-      storybook-button-overview .button-state-grid .col-header-start {
-        grid-column: 3;
-      }
 
-      storybook-button-overview .button-state-grid .col-label {
-        grid-column: 2;
-        margin: 0;
-      }
-
-      storybook-button-overview .button-state-grid .group-label {
-        grid-column: 1 / -1;
-        padding-top: var(--watt-space-m);
-        font-weight: 600;
+      storybook-button-overview .button-state-grid watt-button {
+        justify-self: start;
       }
 
       storybook-button-overview watt-button.storybook-forced-focus-visible::after {

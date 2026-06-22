@@ -23,30 +23,30 @@ limitations under the License.
   align="center"
 >
   <!-- Column headers — placed at columns 3–7, leaving the two label columns empty -->
-  <strong class="col-header-start">Enabled</strong>
+  <strong vater-grid-area column="3">Enabled</strong>
   <strong>Hover</strong>
   <strong>Focused</strong>
   <strong>Disabled</strong>
   <strong>Loading</strong>
 
   <!-- Primary regular --------------------------------------------------- -->
-  <strong class="group-label">Primary regular</strong>
+  <strong vater-grid-area column="1 / -1" offset="m">Primary regular</strong>
 
-  <p class="col-label">No icon</p>
+  <span vater-grid-area column="2">No icon</span>
   <watt-button variant="primary">Button</watt-button>
   <watt-button variant="primary" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Leading icon</p>
+  <span vater-grid-area column="2">Leading icon</span>
   <watt-button variant="primary" icon="plus">Button</watt-button>
   <watt-button variant="primary" icon="plus" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" icon="plus" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" icon="plus" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Trailing icon</p>
+  <span vater-grid-area column="2">Trailing icon</span>
   <watt-button variant="primary" icon="plus" iconPosition="trailing">Button</watt-button>
   <watt-button variant="primary" icon="plus" iconPosition="trailing" data-storybook-state="hover"
     >Button</watt-button
@@ -62,16 +62,16 @@ limitations under the License.
   >
 
   <!-- Primary small ----------------------------------------------------- -->
-  <strong class="group-label">Primary small</strong>
+  <strong vater-grid-area column="1 / -1" offset="m">Primary small</strong>
 
-  <p class="col-label">No icon</p>
+  <span vater-grid-area column="2">No icon</span>
   <watt-button variant="primary" size="small">Button</watt-button>
   <watt-button variant="primary" size="small" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="primary" size="small" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="primary" size="small" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" size="small" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Leading icon</p>
+  <span vater-grid-area column="2">Leading icon</span>
   <watt-button variant="primary" size="small" icon="plus">Button</watt-button>
   <watt-button variant="primary" size="small" icon="plus" data-storybook-state="hover"
     >Button</watt-button
@@ -82,7 +82,7 @@ limitations under the License.
   <watt-button variant="primary" size="small" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="primary" size="small" icon="plus" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Trailing icon</p>
+  <span vater-grid-area column="2">Trailing icon</span>
   <watt-button variant="primary" size="small" icon="plus" iconPosition="trailing"
     >Button</watt-button
   >
@@ -110,23 +110,23 @@ limitations under the License.
   >
 
   <!-- Secondary regular ------------------------------------------------- -->
-  <strong class="group-label">Secondary regular</strong>
+  <strong vater-grid-area column="1 / -1" offset="m">Secondary regular</strong>
 
-  <p class="col-label">No icon</p>
+  <span vater-grid-area column="2">No icon</span>
   <watt-button variant="secondary">Button</watt-button>
   <watt-button variant="secondary" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Leading icon</p>
+  <span vater-grid-area column="2">Leading icon</span>
   <watt-button variant="secondary" icon="plus">Button</watt-button>
   <watt-button variant="secondary" icon="plus" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" icon="plus" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" icon="plus" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Trailing icon</p>
+  <span vater-grid-area column="2">Trailing icon</span>
   <watt-button variant="secondary" icon="plus" iconPosition="trailing">Button</watt-button>
   <watt-button variant="secondary" icon="plus" iconPosition="trailing" data-storybook-state="hover"
     >Button</watt-button
@@ -142,16 +142,16 @@ limitations under the License.
   >
 
   <!-- Secondary small --------------------------------------------------- -->
-  <strong class="group-label">Secondary small</strong>
+  <strong vater-grid-area column="1 / -1" offset="m">Secondary small</strong>
 
-  <p class="col-label">No icon</p>
+  <span vater-grid-area column="2">No icon</span>
   <watt-button variant="secondary" size="small">Button</watt-button>
   <watt-button variant="secondary" size="small" data-storybook-state="hover">Button</watt-button>
   <watt-button variant="secondary" size="small" data-storybook-state="focus">Button</watt-button>
   <watt-button variant="secondary" size="small" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" size="small" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Leading icon</p>
+  <span vater-grid-area column="2">Leading icon</span>
   <watt-button variant="secondary" size="small" icon="plus">Button</watt-button>
   <watt-button variant="secondary" size="small" icon="plus" data-storybook-state="hover"
     >Button</watt-button
@@ -162,7 +162,7 @@ limitations under the License.
   <watt-button variant="secondary" size="small" icon="plus" [disabled]="true">Button</watt-button>
   <watt-button variant="secondary" size="small" icon="plus" [loading]="true">Button</watt-button>
 
-  <p class="col-label">Trailing icon</p>
+  <span vater-grid-area column="2">Trailing icon</span>
   <watt-button variant="secondary" size="small" icon="plus" iconPosition="trailing"
     >Button</watt-button
   >
@@ -195,9 +195,9 @@ limitations under the License.
   >
 
   <!-- Icon only --------------------------------------------------------- -->
-  <strong class="group-label">Icon only</strong>
+  <strong vater-grid-area column="1 / -1" offset="m">Icon only</strong>
 
-  <p class="col-label">Icon</p>
+  <span vater-grid-area column="2">Icon</span>
   <watt-button variant="icon" icon="plus" aria-label="Add" />
   <watt-button variant="icon" icon="plus" data-storybook-state="hover" aria-label="Add" />
   <watt-button variant="icon" icon="plus" data-storybook-state="focus" aria-label="Add" />
