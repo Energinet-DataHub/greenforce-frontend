@@ -1157,6 +1157,10 @@
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accepter",
           "REJECT_REQUEST": "Afvis"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Annuller",
+          "CONFIRM_WORKFLOW": "Godkend"
         }
       },
       "incorrectMoveIn": {

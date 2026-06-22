@@ -1158,6 +1158,10 @@
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accept",
           "REJECT_REQUEST": "Reject"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Cancel",
+          "CONFIRM_WORKFLOW": "Approve"
         }
       },
       "incorrectMoveIn": {
