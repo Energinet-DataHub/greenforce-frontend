@@ -34,8 +34,6 @@ import { WattButtonComponent } from '../watt-button.component';
   encapsulation: ViewEncapsulation.None,
   styles: [
     `
-
-
       storybook-button-overview .button-state-grid watt-button {
         justify-self: start;
       }
@@ -49,19 +47,27 @@ import { WattButtonComponent } from '../watt-button.component';
         pointer-events: none;
       }
 
-      storybook-button-overview watt-button.watt-button--primary .mat-mdc-button.mat-primary.storybook-forced-hover {
+      storybook-button-overview
+        watt-button.watt-button--primary
+        .mat-mdc-button.mat-primary.storybook-forced-hover {
         background: var(--watt-color-primary-dark);
       }
 
-      storybook-button-overview watt-button.watt-button--secondary .mat-mdc-button.mat-secondary.storybook-forced-hover {
+      storybook-button-overview
+        watt-button.watt-button--secondary
+        .mat-mdc-button.mat-secondary.storybook-forced-hover {
         background: var(--watt-color-primary-light);
       }
 
-      storybook-button-overview watt-button.watt-button--text .mat-mdc-button.mat-text.storybook-forced-hover {
+      storybook-button-overview
+        watt-button.watt-button--text
+        .mat-mdc-button.mat-text.storybook-forced-hover {
         color: var(--watt-button-text-hover-color);
       }
 
-      storybook-button-overview watt-button.watt-button--icon .mat-mdc-button.mat-icon.storybook-forced-hover {
+      storybook-button-overview
+        watt-button.watt-button--icon
+        .mat-mdc-button.mat-icon.storybook-forced-hover {
         color: var(--watt-color-primary-dark);
       }
     `,
@@ -79,11 +85,7 @@ export class StorybookButtonOverviewComponent implements AfterViewInit {
     this.forceState('focus', 'storybook-forced-focus-visible', false);
   }
 
-  private forceState(
-    state: 'focus' | 'hover',
-    className: string,
-    applyToInnerButton = true
-  ): void {
+  private forceState(state: 'focus' | 'hover', className: string, applyToInnerButton = true): void {
     const buttons = this.host.nativeElement.querySelectorAll<HTMLElement>(
       `watt-button[data-storybook-state="${state}"]`
     );
