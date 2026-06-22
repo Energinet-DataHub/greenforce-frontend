@@ -322,6 +322,7 @@ const config: unknown[] = [
     files: ['**/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
     rules: {
       '@nx/enforce-module-boundaries': 'off',
+      'import-x/no-relative-parent-imports': 'off',
     },
   },
 

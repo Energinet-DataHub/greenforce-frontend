@@ -22,7 +22,7 @@ COPY package.json bun.lock ./
 
 RUN bun install --frozen-lockfile --yarn
 
-COPY nx.json tsconfig.base.json .graphqlrc.yml codegen.ts eslint.config.js ./
+COPY nx.json tsconfig.base.json .graphqlrc.yml codegen.ts eslint.config.ts ./
 COPY tools ./tools
 COPY apps/dh ./apps/dh
 # Remove .csproj source files — dotnet was already built in the dotnet-build stage.
