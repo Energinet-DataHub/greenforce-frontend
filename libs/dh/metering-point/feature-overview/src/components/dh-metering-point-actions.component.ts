@@ -348,7 +348,6 @@ export class DhMeteringPointActionsComponent {
       data: {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
-        processId: crypto.randomUUID(),
       },
     });
   }

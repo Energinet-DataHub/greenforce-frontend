@@ -42,7 +42,6 @@ import { DhServiceRequestModal } from '../src/components/dh-service-request-moda
 
 const meteringPointId = 'mp-039';
 const internalMeteringPointId = 'imp-039';
-const processId = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
 
 @Component({
   selector: 'dh-test-host',
@@ -54,7 +53,7 @@ class TestHostComponent {
   open() {
     this.modalService.open({
       component: DhServiceRequestModal,
-      data: { meteringPointId, internalMeteringPointId, processId },
+      data: { meteringPointId, internalMeteringPointId },
     });
   }
 }
@@ -171,7 +170,6 @@ describe('Service request modal', () => {
     await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
 
     expect(captured?.['meteringPointId']).toBe(meteringPointId);
-    expect(captured?.['processId']).toBe(processId);
     expect(captured?.['serviceKind']).toBe(ServiceKindV1.Disconnect);
     expect(captured?.['description']).toBe('Customer not home');
     expect(captured?.['startDate']).toBeTruthy();

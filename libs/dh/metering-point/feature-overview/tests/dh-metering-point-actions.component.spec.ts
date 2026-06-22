@@ -165,7 +165,7 @@ describe(DhMeteringPointActionsComponent, () => {
     expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
   });
 
-  it('opens the service request modal with the metering point id and a process id', async () => {
+  it('opens the service request modal with the metering point ids', async () => {
     const { open, user } = await setup();
 
     await openActionsMenu(user);
@@ -177,7 +177,6 @@ describe(DhMeteringPointActionsComponent, () => {
         data: expect.objectContaining({
           meteringPointId,
           internalMeteringPointId,
-          processId: expect.any(String),
         }),
       })
     );

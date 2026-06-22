@@ -53,7 +53,6 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 export interface DhServiceRequestModalData {
   meteringPointId: string;
   internalMeteringPointId: string;
-  processId: string;
 }
 
 const allowedServiceKinds = new Set<ServiceKindV1>([
@@ -185,7 +184,6 @@ export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalD
       ],
       variables: {
         meteringPointId: this.modalData.meteringPointId,
-        processId: this.modalData.processId,
         serviceKind,
         startDate,
         description: description || null,

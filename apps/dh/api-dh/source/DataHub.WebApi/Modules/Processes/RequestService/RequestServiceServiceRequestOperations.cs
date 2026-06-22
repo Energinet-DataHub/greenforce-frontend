@@ -25,7 +25,6 @@ public static class RequestServiceServiceRequestOperations
     [Authorize(Roles = ["metering-point:service-request-request"])]
     public static async Task<bool> RequestServiceServiceRequestAsync(
         string meteringPointId,
-        Guid processId,
         ServiceKindV1 serviceKind,
         DateTimeOffset startDate,
         string? description,
@@ -36,7 +35,7 @@ public static class RequestServiceServiceRequestOperations
             new RequestServiceV1(
                 MeteringPointId: meteringPointId,
                 BusinessReason: BusinessReasonV1.ServiceRequest,
-                ProcessReference: processId,
+                ProcessReference: Guid.NewGuid(),
                 StartDate: startDate,
                 ServiceKind: serviceKind,
                 Description: description ?? string.Empty));
@@ -46,6 +45,6 @@ public static class RequestServiceServiceRequestOperations
         return result.IsSuccess
             ? true
             : throw new GraphQLException(
-                $"Command RequestServiceServiceRequest failed for metering point '{meteringPointId}' (processId: {processId}). EDI response: {result}");
+                $"Command RequestServiceServiceRequest failed for metering point '{meteringPointId}'. EDI response: {result}");
     }
 }

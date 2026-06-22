@@ -2653,7 +2653,6 @@ input RequestServiceEndOfSupplyInput {
 
 input RequestServiceServiceRequestInput {
   meteringPointId: String!
-  processId: UUID!
   serviceKind: ServiceKindV1!
   startDate: DateTime!
   description: String
