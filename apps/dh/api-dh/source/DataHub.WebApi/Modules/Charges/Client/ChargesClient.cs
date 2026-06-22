@@ -15,13 +15,15 @@
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
+using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeInformation;
+using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeLinks;
+using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeBillingMasterData.V1.Models;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Commands;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
@@ -30,6 +32,7 @@ using NodaTime;
 using NodaTime.Extensions;
 using ChargeIdentifierDto = Energinet.DataHub.Charges.Abstractions.Shared.ChargeIdentifierDto;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using MarkPartEicFunction = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1.EicFunction;
 using Resolution = Energinet.DataHub.WebApi.Modules.Common.Models.Resolution;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Client;
@@ -38,29 +41,40 @@ public class ChargesClient(
     DataHub.Charges.Client.IChargesClient client,
     IB2CClient ediClient,
     IHttpContextAccessor httpContext,
-    IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
+    Clients.MarketParticipant.v1.IMarketParticipantClient_V1 marketParticipantClient) : IChargesClient
 {
+    public async Task<IEnumerable<Charge>> QueryChargesAsync(
+        string code = "",
+        string[]? owners = null,
+        ChargeType[]? types = null,
+        CancellationToken ct = default)
+    {
+        var actorNumber = httpContext.GetUserActorNumber();
+        var actorRole = httpContext.GetUserActorRole();
+        var chargesQuery = new GetChargeInformationQueryV2(
+            OrchestrationInstanceId: Guid.Empty,
+            Actor: new(actorNumber, Enum.Parse<EicFunction>(actorRole)),
+            Skip: 0,
+            Take: 10000,
+            ChargeInformationFilterDto: new(code, owners ?? [], types?.Select(c => c.Type) ?? []),
+            ChargeInformationSortProperty: ChargeInformationSortProperty.Type,
+            IsDescending: true);
+
+        var charges = await client.QueryAsync(chargesQuery, ct)
+            ?? throw new GraphQLException("Failed to retrieve charge information");
+
+        return charges
+            .Where(c => c.Periods.Count > 0)
+            .Select(MapChargeInformationDtoToCharge);
+    }
+
     public async Task<IEnumerable<ChargeOverviewItem>> GetChargeOverviewAsync(
         string? filter,
         ChargeOverviewQuery? query,
         CancellationToken ct = default)
     {
-        var filterTypes = query?.Types?.Select(c => c.Type) ?? [];
-        var filterOwners = query?.Owners ?? [];
-        var result = await client.GetChargeInformationAsync(
-            new(0, 10000, new(string.Empty, filterOwners, filterTypes), ChargeInformationSortProperty.Type, true),
-            ct);
-
-        if (!result.IsSuccess)
-        {
-            throw new GraphQLException(result.DiagnosticMessage);
-        }
-
-        // Map to charges and apply charge-level filters
-        var data = result.Data ?? [];
-        var charges = data
-            .Where(c => c.Periods.Count > 0)
-            .Select(MapChargeInformationDtoToCharge)
+        var charges = await QueryChargesAsync(owners: query?.Owners, types: query?.Types, ct: ct);
+        var filtered = charges
             .Where(c => query?.Owners?.Contains(c.Id.Owner) ?? true)
             .Where(c => query?.Types?.Contains(c.Type) ?? true)
             .Where(c => query?.Resolution?.Contains(c.Resolution) ?? true)
@@ -69,7 +83,7 @@ public class ChargesClient(
 
         // Flatten charge x period and apply period-level filters
         var activePeriod = new Interval(query?.ActivePeriodStart?.ToInstant(), query?.ActivePeriodEnd?.ToInstant());
-        return charges.SelectMany(charge => charge.Periods
+        return filtered.SelectMany(charge => charge.Periods
             .Where(p => query?.VatInclusive.GetValueOrDefault(p.VatInclusive) == p.VatInclusive)
             .Where(p => query?.TransparentInvoicing.GetValueOrDefault(p.TransparentInvoicing) == p.TransparentInvoicing)
             .Where(p => p.Period.Overlaps(activePeriod))
@@ -77,32 +91,11 @@ public class ChargesClient(
     }
 
     public async Task<IEnumerable<Charge>> GetChargesAsync(CancellationToken ct = default)
-    {
-        var result = await client.GetChargeInformationAsync(
-            new(0, 10000, new(string.Empty, [], []), ChargeInformationSortProperty.Type, false),
-            ct);
-
-        var charges = result.Data ?? [];
-        return !result.IsSuccess
-            ? throw new GraphQLException(result.DiagnosticMessage)
-            : charges
-                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
-                .Select(MapChargeInformationDtoToCharge);
-    }
+       => await QueryChargesAsync(ct: ct);
 
     public async Task<Charge?> GetChargeByIdAsync(ChargeIdentifierDto id, CancellationToken ct = default)
-    {
-        var result = await client.GetChargeInformationAsync(
-            new(0, 10000, new(id.Code, [id.Owner], [id.TypeDto]), ChargeInformationSortProperty.Type, false),
-            ct);
-
-        return !result.IsSuccess
-            ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?
-                .Where(c => c.Periods.Count > 0) // Only include charges with at least one period
-                .Select(MapChargeInformationDtoToCharge)
-                .FirstOrDefault(c => c.Code == id.Code);
-    }
+        => await QueryChargesAsync(code: id.Code, owners: [id.Owner], types: [ChargeType.Make(id.TypeDto, false)], ct: ct)
+            .Then(charges => charges.FirstOrDefault(c => c.Code == id.Code));
 
     public async Task<IEnumerable<Charge>> GetChargesByTypeAsync(ChargeType type, CancellationToken ct = default)
     {
@@ -113,28 +106,39 @@ public class ChargesClient(
             httpContext?.HttpContext?.User?.GetMarketParticipantMarketRole()
                 ?? throw new InvalidOperationException("No market role claim"));
 
+        // TODO: Still needed now that we have auth in backend?
         var owners = marketRole != EicFunction.EnergySupplier
             ? [owner]
             : (await marketParticipantClient.ActorGetAsync(ct))
-                .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == EicFunction.SystemOperator)
+                .Where(a => a.Status == "Active" && a.MarketRole?.EicFunction == MarkPartEicFunction.SystemOperator)
                 .Select(a => a.ActorNumber.Value);
 
-        var result = await client.GetChargeInformationAsync(
-            new(0, 10_000, new(string.Empty, owners, [type.Type]), ChargeInformationSortProperty.Type, false),
-            ct);
-
-        return !result.IsSuccess
-            ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data?
-                .Where(c => c.Periods?.Count > 0)
-                .Where(c => c.TaxIndicator == type.IsTax)
-                .Select(MapChargeInformationDtoToCharge) ?? [];
+        var result = await QueryChargesAsync(owners: [.. owners], types: [type], ct: ct);
+        return result.Where(c => c.TaxIndicator == type.IsTax);
     }
 
     public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
-        Charge charge,
+        ChargeIdentifierDto id,
+        Interval period,
         CancellationToken ct = default)
-        => await GetChargeSeriesAsync(charge.Id, charge.Resolution, charge.LatestPeriod.Period, ct);
+    {
+        var actorNumber = httpContext.GetUserActorNumber();
+        var actorRole = httpContext.GetUserActorRole();
+        var end = period.HasEnd ? period.End : Instant.MaxValue;
+        var query = new GetChargeSeriesQueryV2(
+            OrchestrationInstanceId: Guid.Empty,
+            Actor: new(actorNumber, Enum.Parse<EicFunction>(actorRole)),
+            ChargeIdentifier: id,
+            From: period.Start,
+            To: end);
+
+        var chargeSeries = await client.QueryAsync(query, ct)
+            ?? throw new GraphQLException("Failed to retrieve charge series");
+
+        return chargeSeries
+            .Where(p => period.Contains(p.From))
+            .OrderBy(p => p.From);
+    }
 
     public async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
         ChargeIdentifierDto id,
@@ -142,7 +146,7 @@ public class ChargesClient(
         Interval interval,
         CancellationToken ct = default)
     {
-        var series = await GetChargeSeriesAsync(id, resolution, interval, ct);
+        var series = await GetChargeSeriesAsync(id, interval, ct);
         var points = series.Select(p => p.From).ToHashSet();
         if (points.Count == 0) return new MissingPriceSeriesResult([], null);
 
@@ -158,21 +162,6 @@ public class ChargesClient(
         return new MissingPriceSeriesResult(
             gaps,
             NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
-    }
-
-    public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
-        ChargeIdentifierDto id,
-        Resolution resolution,
-        Interval period,
-        CancellationToken ct = default)
-    {
-        var end = period.HasEnd ? period.End : Instant.MaxValue;
-        var result = await client.GetChargeSeriesAsync(new(id, period.Start, end), ct);
-        return !result.IsSuccess
-            ? throw new GraphQLException(result.DiagnosticMessage)
-            : result.Data is null
-            ? []
-            : result.Data.Where(p => period.Contains(p.From)).OrderBy(p => p.From); // TODO: Remove `Where`
     }
 
     public async Task<bool> CreateChargeAsync(
@@ -293,9 +282,16 @@ public class ChargesClient(
         string meteringPointId,
         CancellationToken ct = default)
     {
-        var result = await client.GetChargeLinksAsync(new(meteringPointId), ct);
-        if (!result.IsSuccess) throw new GraphQLException(result.DiagnosticMessage);
-        var chargeLinks = result.Data ?? [];
+        var actorNumber = httpContext.GetUserActorNumber();
+        var actorRole = httpContext.GetUserActorRole();
+        var query = new GetChargeLinksQueryV2(
+            OrchestrationInstanceId: Guid.Empty,
+            Actor: new(actorNumber, Enum.Parse<EicFunction>(actorRole)),
+            MeteringPointId: meteringPointId);
+
+        var chargeLinks = await client.QueryAsync(query, ct)
+            ?? throw new GraphQLException("Failed to retrieve charge links");
+
         return chargeLinks
             .SelectMany(cl => cl.ChargeLinkPeriods
                 .DistinctBy(p => p.From) // From *should* be unique, but some garbage data exists
