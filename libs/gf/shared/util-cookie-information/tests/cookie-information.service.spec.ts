@@ -47,6 +47,7 @@ describe('CookieInformationService', () => {
         renew: vi.fn(),
         getConsentGivenFor: vi.fn(),
       },
+      location: { reload: vi.fn() },
       addEventListener: vi.fn((event, callback) => {
         if (!eventListeners[event]) {
           eventListeners[event] = [];
@@ -185,6 +186,51 @@ describe('CookieInformationService', () => {
       setupTest(true);
       service.openDialog();
       expect(mockWindow.CookieInformation.renew).toHaveBeenCalled();
+    });
+  });
+
+  describe('reload on consent withdrawal', () => {
+    const fullConsent = (overrides: Partial<Record<string, boolean>> = {}) => ({
+      [COOKIE_CATEGORIES.NECESSARY]: true,
+      [COOKIE_CATEGORIES.FUNCTIONAL]: false,
+      [COOKIE_CATEGORIES.STATISTIC]: false,
+      [COOKIE_CATEGORIES.MARKETING]: false,
+      [COOKIE_CATEGORIES.UNCLASSIFIED]: false,
+      ...overrides,
+    });
+
+    const dispatchConsent = (consents: Record<string, boolean>) => {
+      mockWindow.dispatchEvent(
+        new CustomEvent('CookieInformationConsentGiven', { detail: { consents } })
+      );
+    };
+
+    it('reloads the page when a consent category is withdrawn', () => {
+      setupTest();
+      service.init({ culture: 'en' });
+
+      dispatchConsent(fullConsent({ [COOKIE_CATEGORIES.STATISTIC]: true }));
+      dispatchConsent(fullConsent({ [COOKIE_CATEGORIES.STATISTIC]: false }));
+
+      expect(mockWindow.location.reload).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not reload when consent is granted', () => {
+      setupTest();
+      service.init({ culture: 'en' });
+
+      dispatchConsent(fullConsent({ [COOKIE_CATEGORIES.STATISTIC]: true }));
+
+      expect(mockWindow.location.reload).not.toHaveBeenCalled();
+    });
+
+    it('does not reload when no category changes', () => {
+      setupTest();
+      service.init({ culture: 'en' });
+
+      dispatchConsent(fullConsent());
+
+      expect(mockWindow.location.reload).not.toHaveBeenCalled();
     });
   });
 

@@ -23,10 +23,13 @@ import { filter, switchMap, take } from 'rxjs';
 
 import { WattToastService } from '@energinet/watt/toast';
 
+import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+
 @Injectable({
   providedIn: 'root',
 })
 export class DhNewVersionManager {
+  private readonly appInsights = inject(DhApplicationInsights);
   private readonly swUpdate = inject(SwUpdate);
   private readonly toast = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
@@ -41,13 +44,20 @@ export class DhNewVersionManager {
         take(1)
       )
       .subscribe(({ message, action: actionLabel }) => {
-        this.toast.open({
+        this.appInsights.trackEvent('New version available');
+
+        const ref = this.toast.open({
           type: 'info',
           message,
           actionLabel,
           action: () => window.location.reload(),
           duration: this.twoHours,
         });
+
+        ref
+          .afterDismissed()
+          .pipe(take(1))
+          .subscribe(() => this.appInsights.trackEvent('New version toast dismissed'));
       });
   }
 }

@@ -51,6 +51,8 @@ public static class ActorMessageQueueOperations
                 q.MessageCategory,
                 q.NumberOfMessagesInQueue,
                 q.Messages
+                    // Skip enum values this pinned B2CClient doesn't define; an undefined value breaks the non-nullable GraphQL leaf.
+                    .Where(m => Enum.IsDefined(m.OutgoingDocumentType) && Enum.IsDefined(m.BusinessReason))
                     .Select(m => new QueuedMessage(
                         m.MessageId,
                         m.OutgoingDocumentType,

@@ -16,22 +16,43 @@
  * limitations under the License.
  */
 //#endregion
-import { DhMicrosoftClarityService } from '../src/dh-microsoft-clarity.service';
+import { TestBed } from '@angular/core/testing';
+import { Subject } from 'rxjs';
+
 import Clarity from '@microsoft/clarity';
 
-// Mock the Clarity module
+import {
+  ConsentStatus,
+  CookieInformationService,
+  COOKIE_CATEGORIES,
+} from '@energinet-datahub/gf/util-cookie-information';
+import {
+  DhAppEnvironmentConfig,
+  dhAppEnvironmentToken,
+} from '@energinet-datahub/dh/shared/environments';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+import { WindowService } from '@energinet-datahub/gf/util-browser';
+
+import { DhMicrosoftClarityService } from '../src/dh-microsoft-clarity.service';
+import { initMicrosoftClarity } from '../src/dh-microsoft-clarity.initializer';
+
+// Mock the Clarity module. Both the service suite and the initializer suite live
+// in this single file so there is exactly one mock of '@microsoft/clarity'. The
+// shared vite config runs with `isolate: false`, so splitting the suites across
+// files would share one module graph and let the real SDK load before this mock
+// applies, producing order-dependent failures.
 vi.mock('@microsoft/clarity', () => ({
   default: {
     init: vi.fn(),
-    consent: vi.fn(),
+    consentV2: vi.fn(),
   },
 }));
 
+const TEST_PROJECT_ID = 'test-project-id';
+const mockClarity = vi.mocked(Clarity);
+
 describe('DhMicrosoftClarityService', () => {
   let service: DhMicrosoftClarityService;
-
-  const TEST_PROJECT_ID = 'test-project-id';
-  const mockClarity = vi.mocked(Clarity);
 
   beforeEach(() => {
     // Reset all mocks before each test
@@ -92,32 +113,139 @@ describe('DhMicrosoftClarityService', () => {
       vi.clearAllMocks();
     });
 
-    it('should not call consent when not initialized', () => {
+    it('should not signal consent when not initialized', () => {
       const newService = new DhMicrosoftClarityService();
       newService.setCookieConsent(true);
 
-      expect(mockClarity.consent).not.toHaveBeenCalled();
+      expect(mockClarity.consentV2).not.toHaveBeenCalled();
     });
 
-    it('should call consent with true when consent is granted', () => {
+    it('should grant analytics storage when consent is given', () => {
       service.setCookieConsent(true);
 
-      expect(mockClarity.consent).toHaveBeenCalledWith(true);
+      expect(mockClarity.consentV2).toHaveBeenCalledWith({
+        ad_Storage: 'denied',
+        analytics_Storage: 'granted',
+      });
     });
 
-    it('should call consent with false when consent is revoked', () => {
+    it('should deny analytics storage when consent is revoked', () => {
       service.setCookieConsent(false);
 
-      expect(mockClarity.consent).toHaveBeenCalledWith(false);
+      expect(mockClarity.consentV2).toHaveBeenCalledWith({
+        ad_Storage: 'denied',
+        analytics_Storage: 'denied',
+      });
     });
 
     it('should handle consent errors gracefully', () => {
-      vi.mocked(mockClarity.consent).mockImplementationOnce(() => {
+      vi.mocked(mockClarity.consentV2).mockImplementationOnce(() => {
         throw new Error('Consent failed');
       });
 
       expect(() => service.setCookieConsent(true)).not.toThrow();
-      expect(mockClarity.consent).toHaveBeenCalledWith(true);
+      expect(mockClarity.consentV2).toHaveBeenCalled();
     });
+  });
+});
+
+// Builds a full consent object; only the statistics flag varies per scenario.
+function consentWithStatistics(granted: boolean): ConsentStatus {
+  return {
+    [COOKIE_CATEGORIES.NECESSARY]: true,
+    [COOKIE_CATEGORIES.FUNCTIONAL]: false,
+    [COOKIE_CATEGORIES.STATISTIC]: granted,
+    [COOKIE_CATEGORIES.MARKETING]: false,
+    [COOKIE_CATEGORIES.UNCLASSIFIED]: false,
+  };
+}
+
+// Stub of the Clarity service; the initializer only calls init/setCookieConsent.
+function createClarityServiceStub() {
+  return {
+    init: vi.fn(),
+    setCookieConsent: vi.fn(),
+  };
+}
+
+type SetupOptions = {
+  featureEnabled?: boolean;
+  config?: DhAppEnvironmentConfig;
+  hostname?: string;
+};
+
+function setupInitializer(overrides: SetupOptions = {}) {
+  const {
+    featureEnabled = true,
+    config = { microsoftClarity: { projectId: TEST_PROJECT_ID } } as DhAppEnvironmentConfig,
+    hostname = 'datahub.example.dk',
+  } = overrides;
+
+  const consentGiven$ = new Subject<ConsentStatus>();
+  const clarityService = createClarityServiceStub();
+
+  TestBed.configureTestingModule({
+    providers: [
+      { provide: DhMicrosoftClarityService, useValue: clarityService },
+      { provide: CookieInformationService, useValue: { consentGiven$ } },
+      { provide: dhAppEnvironmentToken, useValue: config },
+      { provide: DhFeatureFlagsService, useValue: { isEnabled: vi.fn(() => featureEnabled) } },
+      { provide: WindowService, useValue: { nativeWindow: { location: { hostname } } } },
+    ],
+  });
+
+  TestBed.runInInjectionContext(() => initMicrosoftClarity());
+
+  return { consentGiven$, clarityService };
+}
+
+describe('initMicrosoftClarity', () => {
+  afterEach(() => TestBed.resetTestingModule());
+
+  it('does not load Clarity when the feature flag is disabled', () => {
+    const { clarityService } = setupInitializer({ featureEnabled: false });
+
+    expect(clarityService.init).not.toHaveBeenCalled();
+  });
+
+  it('does not load Clarity when no project is configured', () => {
+    const { clarityService } = setupInitializer({ config: {} as DhAppEnvironmentConfig });
+
+    expect(clarityService.init).not.toHaveBeenCalled();
+  });
+
+  it('does not load Clarity or send anything until statistics consent is granted', () => {
+    const { consentGiven$, clarityService } = setupInitializer();
+
+    consentGiven$.next(consentWithStatistics(false));
+
+    expect(clarityService.init).not.toHaveBeenCalled();
+    expect(clarityService.setCookieConsent).not.toHaveBeenCalled();
+  });
+
+  it('loads Clarity and grants consent when statistics consent is given', () => {
+    const { consentGiven$, clarityService } = setupInitializer();
+
+    consentGiven$.next(consentWithStatistics(true));
+
+    expect(clarityService.init).toHaveBeenCalledWith({ projectId: TEST_PROJECT_ID });
+    expect(clarityService.setCookieConsent).toHaveBeenCalledWith(true);
+  });
+
+  it('never loads Clarity for a user who keeps statistics rejected', () => {
+    const { consentGiven$, clarityService } = setupInitializer();
+
+    // Initial default emission followed by the re-broadcast of stored rejection.
+    consentGiven$.next(consentWithStatistics(false));
+    consentGiven$.next(consentWithStatistics(false));
+
+    expect(clarityService.init).not.toHaveBeenCalled();
+  });
+
+  it('grants consent directly on localhost without waiting for the banner', () => {
+    const { clarityService } = setupInitializer({ hostname: 'localhost' });
+
+    expect(clarityService.init).toHaveBeenCalledWith({ projectId: TEST_PROJECT_ID });
+    expect(clarityService.setCookieConsent).toHaveBeenCalledWith(true);
   });
 });

@@ -51,7 +51,7 @@ query GetMeteringPointById(
       }
       activeElectricalHeatingPeriods {
         id
-        validFrom
+        isActive
       }
       electricalHeatingPeriods {
         id
@@ -92,7 +92,7 @@ query GetMeteringPointById(
       netSettlementGroup
       resolution
       product
-      productObligation
+      productionObligation: productObligation
       scheduledMeterReadingDate {
         month
         day

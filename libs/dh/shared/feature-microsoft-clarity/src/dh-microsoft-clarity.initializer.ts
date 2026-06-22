@@ -19,22 +19,31 @@
 import { inject, provideAppInitializer, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
-import { DhMicrosoftClarityService } from './dh-microsoft-clarity.service';
-import { CookieInformationService } from '@energinet-datahub/gf/util-cookie-information';
+import {
+  COOKIE_CATEGORIES,
+  CookieInformationService,
+} from '@energinet-datahub/gf/util-cookie-information';
+import { WindowService } from '@energinet-datahub/gf/util-browser';
 import {
   DhAppEnvironmentConfig,
   dhAppEnvironmentToken,
 } from '@energinet-datahub/dh/shared/environments';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
-export const microsoftClarityInitializer = provideAppInitializer(() => {
+import { DhMicrosoftClarityService } from './dh-microsoft-clarity.service';
+
+// Loads and gates Microsoft Clarity. Clarity is only loaded once the user has
+// actively consented to statistics cookies, so a user who rejects (or has not
+// answered) never loads the tag and nothing is sent. Withdrawal teardown is
+// handled centrally by CookieInformationService, which reloads the page.
+export function initMicrosoftClarity(): void {
   const clarityService = inject(DhMicrosoftClarityService);
   const cookieInformationService = inject(CookieInformationService);
   const dhAppConfig = inject<DhAppEnvironmentConfig>(dhAppEnvironmentToken);
   const destroyRef = inject(DestroyRef);
   const featureFlags = inject(DhFeatureFlagsService);
+  const nativeWindow = inject(WindowService).nativeWindow;
 
-  // Check if Microsoft Clarity feature is enabled
   if (!featureFlags.isEnabled('microsoft-clarity')) {
     return;
   }
@@ -44,25 +53,27 @@ export const microsoftClarityInitializer = provideAppInitializer(() => {
     return;
   }
 
-  // Initialize Microsoft Clarity with the project ID from configuration
-  clarityService.init(clarityConfig);
-
-  // Check if we're on localhost
   const isLocalhost =
-    window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    nativeWindow?.location.hostname === 'localhost' ||
+    nativeWindow?.location.hostname === '127.0.0.1';
 
   if (isLocalhost) {
-    // On localhost, automatically grant consent since cookie banner isn't shown
-    // This prevents multiple sessions being created on each reload
+    // On localhost the cookie banner isn't shown, so grant consent directly to
+    // avoid creating a new session on every reload.
+    clarityService.init(clarityConfig);
     clarityService.setCookieConsent(true);
-  } else {
-    // For other environments, respect the cookie consent system
-    cookieInformationService.consentGiven$
-      .pipe(takeUntilDestroyed(destroyRef))
-      .subscribe((status) => {
-        // Update Microsoft Clarity cookie consent based on statistics cookies
-        // Clarity needs consent to store cookies and maintain sessions properly
-        clarityService.setCookieConsent(status.cookie_cat_statistic);
-      });
+    return;
   }
-});
+
+  cookieInformationService.consentGiven$
+    .pipe(takeUntilDestroyed(destroyRef))
+    .subscribe((status) => {
+      if (status[COOKIE_CATEGORIES.STATISTIC]) {
+        // Idempotent: init() guards against loading more than once.
+        clarityService.init(clarityConfig);
+        clarityService.setCookieConsent(true);
+      }
+    });
+}
+
+export const microsoftClarityInitializer = provideAppInitializer(initMicrosoftClarity);

@@ -100,12 +100,24 @@ export class CookieInformationService {
 
     this.window?.addEventListener('CookieInformationConsentGiven', (event: Event) => {
       const customEvent = event as CustomEvent<{ consents: ConsentStatus }>;
+      const previous = this.consentStatus();
+      const next = customEvent.detail.consents;
       this.ngZone.run(() => {
-        this.consentStatus.set(customEvent.detail.consents);
+        this.consentStatus.set(next);
       });
+      // Reload so any tag loaded under a now-withdrawn category is torn down.
+      if (this.isConsentWithdrawn(previous, next)) {
+        this.window?.location.reload();
+      }
     });
 
     this.consentListenerAdded = true;
+  }
+
+  private isConsentWithdrawn(previous: ConsentStatus, next: ConsentStatus): boolean {
+    return Object.values(COOKIE_CATEGORIES).some(
+      (category) => previous[category] && !next[category]
+    );
   }
 
   private isLocalhost(): boolean {

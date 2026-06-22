@@ -56,8 +56,11 @@ export class DhMicrosoftClarityService {
     }
 
     try {
-      // Call Clarity's consent method
-      Clarity.consent(consent);
+      // Clarity Consent API v2. DataHub uses Clarity for analytics, not ads.
+      Clarity.consentV2({
+        ad_Storage: 'denied',
+        analytics_Storage: consent ? 'granted' : 'denied',
+      });
     } catch (error) {
       console.warn('Error setting Clarity consent:', error);
     }

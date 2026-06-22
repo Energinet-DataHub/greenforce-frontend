@@ -45,7 +45,9 @@ describe(DhNewVersionManager, () => {
         {
           provide: WattToastService,
           useValue: {
-            open: vi.fn(),
+            open: vi.fn().mockReturnValue({
+              afterDismissed: () => of(null),
+            }),
           },
         },
       ],
