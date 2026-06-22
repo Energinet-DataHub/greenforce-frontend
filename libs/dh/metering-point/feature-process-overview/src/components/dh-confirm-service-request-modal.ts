@@ -95,7 +95,6 @@ export interface DhConfirmServiceRequestModalData {
     </watt-modal>
   `,
 })
- 
 export class DhConfirmServiceRequestModal extends WattTypedModal<DhConfirmServiceRequestModalData> {
   private readonly toastService = inject(WattToastService);
   private readonly confirmServiceRequestMutation = mutation(ConfirmServiceRequestDocument);
