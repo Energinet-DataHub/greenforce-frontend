@@ -35,7 +35,7 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 
 import { WattFieldComponent } from '@energinet/watt/field';
 import { WattIconComponent, WattIcon } from '@energinet/watt/icon';
@@ -43,7 +43,14 @@ import { WattIconComponent, WattIcon } from '@energinet/watt/icon';
 export type WattInputTypes = 'text' | 'password' | 'email' | 'number' | 'tel' | 'url';
 
 @Component({
-  imports: [MatAutocompleteModule, ReactiveFormsModule, WattFieldComponent, WattIconComponent],
+  imports: [
+    MatAutocomplete,
+    MatAutocompleteTrigger,
+    MatOption,
+    ReactiveFormsModule,
+    WattFieldComponent,
+    WattIconComponent,
+  ],
   selector: 'watt-text-field',
   styleUrls: ['./watt-text-field.component.scss'],
   encapsulation: ViewEncapsulation.None,

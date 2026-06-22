@@ -95,7 +95,7 @@ export interface DhConfirmServiceRequestModalData {
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhConfirmServiceRequestModal extends WattTypedModal<DhConfirmServiceRequestModalData> {
   private readonly toastService = inject(WattToastService);
   private readonly confirmServiceRequestMutation = mutation(ConfirmServiceRequestDocument);

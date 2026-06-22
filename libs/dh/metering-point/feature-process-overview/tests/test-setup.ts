@@ -30,7 +30,6 @@ import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
 import { mocks } from '@energinet-datahub/dh/shared/test-util-mocks';
 
 declare global {
-  // eslint-disable-next-line no-var
   var __mswServer: SetupServerApi;
 }
 

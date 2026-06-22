@@ -151,7 +151,6 @@ import { DhReportStatus } from '../report-status.component';
     </watt-drawer>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhDetails {
   readonly drawer = viewChild.required<WattDrawerComponent>(WattDrawerComponent);
 

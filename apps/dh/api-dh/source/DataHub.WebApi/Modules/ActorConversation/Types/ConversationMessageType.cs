@@ -35,7 +35,7 @@ public static partial class ConversationMessageDtoType
 
     public static async Task<string> GetUserNameAsync(
         [Parent] GetConversationQueryResponseConversationMessage message,
-        IUserByIdDataLoader dataLoader,
+        IAuditIdentitiesByUserIdDataLoader dataLoader,
         CancellationToken ct)
     {
         if (!Guid.TryParse(message.UserId, out var userId))
@@ -43,9 +43,9 @@ public static partial class ConversationMessageDtoType
             return string.Empty;
         }
 
-        var user = await dataLoader.LoadAsync(userId, ct);
+        var auditIdentity = await dataLoader.LoadAsync(userId, ct);
 
-        return user?.Name ?? string.Empty;
+        return auditIdentity?.DisplayName ?? string.Empty;
     }
 
     public static bool IsSentByCurrentActor(

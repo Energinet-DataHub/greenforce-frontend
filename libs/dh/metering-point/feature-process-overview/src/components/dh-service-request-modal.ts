@@ -150,7 +150,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
+ 
 export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalData> {
   private readonly toastService = inject(WattToastService);
   private readonly router = inject(Router);

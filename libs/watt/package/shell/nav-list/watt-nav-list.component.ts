@@ -24,7 +24,11 @@ import {
   contentChildren,
   input,
 } from '@angular/core';
-import { MatExpansionModule } from '@angular/material/expansion';
+import {
+  MatExpansionPanel,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle,
+} from '@angular/material/expansion';
 
 import { WattExpandOnActiveLinkDirective } from './watt-expand-on-active-link.directive';
 import { WattNavListItemComponent } from './watt-nav-list-item.component';
@@ -57,7 +61,13 @@ import { WattNavListItemComponent } from './watt-nav-list-item.component';
       <ng-content />
     </ng-template>
   `,
-  imports: [NgTemplateOutlet, MatExpansionModule, WattExpandOnActiveLinkDirective],
+  imports: [
+    NgTemplateOutlet,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelHeader,
+    WattExpandOnActiveLinkDirective,
+  ],
 })
 export class WattNavListComponent {
   /**

@@ -21,7 +21,6 @@ import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import { dhCprValidator } from '@energinet-datahub/dh/shared/ui-validators';
 import {
   dhFormControlToSignal,
   dhMakeFormControl,
@@ -42,6 +41,11 @@ import { sync } from '../util/sync-controls';
 import { clearAddressFields } from '../util/clear-address-fields';
 import { createContactAddressDetailsForm } from '../util/create-contact-address-details-form';
 import { createCustomerContactDetailsForm } from '../util/create-customer-contact-details-form';
+import {
+  customerCprValidators,
+  isCustomerCprMasked,
+  shouldRequireCustomerCpr,
+} from '../util/customer-cpr-field';
 import { dhMoveInCvrValidator } from '../validators/dh-move-in-cvr.validator';
 
 import { DhContactDetailsComponent } from './dh-contact-details.component';
@@ -143,6 +147,7 @@ export interface CustomerDataFormSubmitEvent {
               [privateCustomerFormGroup]="this.form().controls.privateCustomerDetails"
               [contactId1]="prefill().primary.customerId"
               [contactId2]="prefill().secondary.customerId"
+              [maskCprFields]="prefill().maskCprFields"
             />
           }
         </watt-card>
@@ -196,6 +201,10 @@ export class DhUpdateCustomerDataFormComponent {
   form = computed(() => {
     const prefill = this.prefill();
     const isBusiness = prefill.isBusinessCustomer;
+    const isPrimaryCustomerCprMasked = isCustomerCprMasked(
+      prefill.maskCprFields,
+      prefill.primary.customerId
+    );
 
     return new FormGroup({
       businessCustomerDetails: new FormGroup({
@@ -217,13 +226,17 @@ export class DhUpdateCustomerDataFormComponent {
         cpr1: dhMakeFormControl<string | null>(
           null,
           !isBusiness
-            ? prefill.primary.customerId === null
-              ? [Validators.required, dhCprValidator()]
-              : [dhCprValidator()]
+            ? customerCprValidators({
+                requiredWhenUnmasked: true,
+                isMasked: isPrimaryCustomerCprMasked,
+              })
             : []
         ),
         customerName2: dhMakeFormControl<string>(prefill.secondary.name),
-        cpr2: dhMakeFormControl<string | null>(null, !isBusiness ? [dhCprValidator()] : []),
+        cpr2: dhMakeFormControl<string | null>(
+          null,
+          !isBusiness ? customerCprValidators({ requiredWhenUnmasked: false, isMasked: false }) : []
+        ),
         nameProtection: dhMakeFormControl<boolean>(prefill.secondary.isProtectedName),
       }),
       legalContactDetails: createCustomerContactDetailsForm(
@@ -325,8 +338,13 @@ export class DhUpdateCustomerDataFormComponent {
     if (this.prefill().isBusinessCustomer) return false;
     const name2 = (this.customerName2Changed() ?? '').trim();
     const cpr2 = this.cpr2Changed();
-    const isCprMasked = cpr2 === null && !!this.prefill().secondary.customerId;
-    return !isCprMasked && (!!name2 || !!cpr2);
+    const isSecondaryCustomerCprMasked =
+      cpr2 === null &&
+      isCustomerCprMasked(this.prefill().maskCprFields, this.prefill().secondary.customerId);
+    return shouldRequireCustomerCpr({
+      requiredWhenUnmasked: !!name2 || !!cpr2,
+      isMasked: isSecondaryCustomerCprMasked,
+    });
   });
 
   private readonly syncName2Validators = dhSyncControlValidators(
