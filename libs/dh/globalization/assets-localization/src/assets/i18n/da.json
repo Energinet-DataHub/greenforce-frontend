@@ -1271,7 +1271,7 @@
       },
       "cancelServiceRequest": {
         "confirm": "Annuller",
-        "successToast": "Anmodning om serviceydelse annulleret"
+        "successToast": "Serviceanmodning annulleret"
       },
       "fasActionInfoModal": {
         "title": "Handlingen kan ikke udføres",
