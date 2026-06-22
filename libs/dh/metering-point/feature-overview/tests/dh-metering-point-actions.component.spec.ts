@@ -176,6 +176,7 @@ describe(DhMeteringPointActionsComponent, () => {
         component: DhServiceRequestModal,
         data: expect.objectContaining({
           meteringPointId,
+          internalMeteringPointId,
           processId: expect.any(String),
         }),
       })

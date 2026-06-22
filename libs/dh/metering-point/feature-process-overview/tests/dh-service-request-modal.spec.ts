@@ -17,6 +17,7 @@
  */
 //#endregion
 import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { ComponentFixtureAutoDetect } from '@angular/core/testing';
 
@@ -40,6 +41,7 @@ import { ServiceKindV1 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhServiceRequestModal } from '../src/components/dh-service-request-modal';
 
 const meteringPointId = 'mp-039';
+const internalMeteringPointId = 'imp-039';
 const processId = 'service-request-process-1';
 
 @Component({
@@ -52,7 +54,7 @@ class TestHostComponent {
   open() {
     this.modalService.open({
       component: DhServiceRequestModal,
-      data: { meteringPointId, processId },
+      data: { meteringPointId, internalMeteringPointId, processId },
     });
   }
 }
@@ -69,10 +71,13 @@ async function setup() {
     imports: [getTranslocoTestingModule()],
   });
 
+  const router = fixture.debugElement.injector.get(Router);
+  vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
   fixture.componentInstance.open();
 
   const dialog = await screen.findByRole('dialog');
-  return { dialog, user: userEvent.setup() };
+  return { dialog, router, user: userEvent.setup() };
 }
 
 // The Watt datepicker's visible field is a Maskito-masked input with no accessible
@@ -169,6 +174,42 @@ describe('Service request modal', () => {
     expect(captured?.['serviceKind']).toBe(ServiceKindV1.Disconnect);
     expect(captured?.['description']).toBe('Customer not home');
     expect(captured?.['startDate']).toBeTruthy();
+  });
+
+  it('navigates to the process overview from the success toast action', async () => {
+    server.use(
+      graphql.mutation('RequestServiceServiceRequest', () =>
+        HttpResponse.json({
+          data: {
+            __typename: 'Mutation',
+            requestServiceServiceRequest: {
+              __typename: 'RequestServiceServiceRequestPayload',
+              boolean: true,
+            },
+          },
+        })
+      )
+    );
+
+    const { dialog, router, user } = await setup();
+
+    await user.click(within(dialog).getByRole('combobox'));
+    await user.click(await screen.findByRole('option', { name: /disconnection/i }));
+    await setCutOffDate(dialog, user);
+    await user.click(within(dialog).getByRole('button', { name: /submit/i }));
+
+    // On success the modal closes and a toast offers an action that takes the
+    // supplier to the metering point's process overview.
+    const goToOverview = await screen.findByRole('button', {
+      name: /see status under processes/i,
+    });
+    await user.click(goToOverview);
+
+    expect(router.navigate).toHaveBeenCalledWith([
+      'metering-point',
+      internalMeteringPointId,
+      'process-overview',
+    ]);
   });
 
   it('shows a danger toast when the request fails', async () => {

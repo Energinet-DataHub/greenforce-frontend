@@ -1503,6 +1503,7 @@
         "cancel": "Cancel",
         "confirm": "Submit",
         "successToast": "Request sent",
+        "successToastAction": "See status under processes",
         "errorToast": "Service request failed",
         "serviceKinds": {
           "DISCONNECT": "Disconnection",

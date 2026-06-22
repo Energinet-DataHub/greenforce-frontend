@@ -18,6 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { dayjs } from '@energinet/watt/date';
@@ -30,6 +31,11 @@ import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
+import {
+  BasePaths,
+  getPath,
+  MeteringPointSubPaths,
+} from '@energinet-datahub/dh/core/configuration-routing';
 import {
   ServiceKindV1,
   RequestServiceServiceRequestDocument,
@@ -46,6 +52,7 @@ import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 export interface DhServiceRequestModalData {
   meteringPointId: string;
+  internalMeteringPointId: string;
   processId: string;
 }
 
@@ -146,6 +153,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalData> {
   private readonly toastService = inject(WattToastService);
+  private readonly router = inject(Router);
   private readonly requestServiceMutation = mutation(RequestServiceServiceRequestDocument);
 
   readonly modal = viewChild.required(WattModalComponent);
@@ -195,6 +203,15 @@ export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalD
         this.toastService.open({
           type: 'success',
           message: translate('meteringPoint.processOverview.serviceRequest.successToast'),
+          actionLabel: translate('meteringPoint.processOverview.serviceRequest.successToastAction'),
+          action: (ref) => {
+            this.router.navigate([
+              getPath<BasePaths>('metering-point'),
+              this.modalData.internalMeteringPointId,
+              getPath<MeteringPointSubPaths>('process-overview'),
+            ]);
+            ref.dismiss();
+          },
         });
       },
     });

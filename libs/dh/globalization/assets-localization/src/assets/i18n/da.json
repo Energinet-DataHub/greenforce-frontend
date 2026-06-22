@@ -1502,6 +1502,7 @@
         "cancel": "Annuller",
         "confirm": "Indsend",
         "successToast": "Anmodning sendt",
+        "successToastAction": "Se status under processer",
         "errorToast": "Anmodning om serviceydelse fejlede",
         "serviceKinds": {
           "DISCONNECT": "Afbrydelse",
