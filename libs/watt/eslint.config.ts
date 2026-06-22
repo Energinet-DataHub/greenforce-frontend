@@ -92,6 +92,12 @@ const config: unknown[] = [
       '@angular-eslint/template/no-autofocus': 'off',
     },
   },
+  {
+    files: ['**/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
+    rules: {
+      'import-x/no-relative-parent-imports': 'off',
+    },
+  },
 ];
 
 export default config;
