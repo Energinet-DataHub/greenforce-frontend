@@ -23,4 +23,3 @@ export {
   StateLocationStrategy,
   provideStateLocationStrategy,
 } from './src/state-location-strategy';
-export { dhRedactionPatterns, dhRedactionPatternsV2 } from './src/dhUrlRules';
