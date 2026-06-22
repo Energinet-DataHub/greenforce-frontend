@@ -37,7 +37,10 @@ import {
   MeteringPointSubPaths,
 } from '@energinet-datahub/dh/core/configuration-routing';
 
-import { getCustomerPrefillSource, shouldMaskCustomerCprFields } from '../util/customer-prefill-source';
+import {
+  getCustomerPrefillSource,
+  shouldMaskCustomerCprFields,
+} from '../util/customer-prefill-source';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
 import { resolveCustomerIdentity, resolveNameProtection } from '../util/resolve-customer-identity';
 
@@ -114,8 +117,8 @@ export class DhUpdateCustomerDataComponent {
     shouldMaskCustomerCprFields(this.resolveBusinessReason())
   );
 
-  private readonly prefillCustomerIdentificationOnly = computed(() =>
-    this.prefillSource() === 'metering-point-customer-identification'
+  private readonly prefillCustomerIdentificationOnly = computed(
+    () => this.prefillSource() === 'metering-point-customer-identification'
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -175,9 +178,7 @@ export class DhUpdateCustomerDataComponent {
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
     const shouldClearCustomerDetails =
       prefillCustomerIdentificationOnly || this.shouldClearMpDerivedData();
-    const legalContact = shouldClearCustomerDetails
-      ? null
-      : (legalCustomer?.legalContact ?? null);
+    const legalContact = shouldClearCustomerDetails ? null : (legalCustomer?.legalContact ?? null);
     const technicalContact = shouldClearCustomerDetails
       ? null
       : (this.technicalCustomer()?.technicalContact ?? null);
