@@ -78,6 +78,10 @@ export class ServiceRequestActions {
             onCompleted,
             onError,
           });
+        },
+        {
+          confirmLabelKey: 'meteringPoint.processOverview.cancelServiceRequest.confirm',
+          successToastKey: 'meteringPoint.processOverview.cancelServiceRequest.successToast',
         }
       ),
     },

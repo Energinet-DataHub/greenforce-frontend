@@ -1245,6 +1245,10 @@
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
+      "cancelServiceRequest": {
+        "confirm": "Annuller",
+        "successToast": "Serviceanmodning annulleret"
+      },
       "fasActionInfoModal": {
         "title": "Handlingen kan ikke udføres",
         "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",

@@ -1246,6 +1246,10 @@
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
       },
+      "cancelServiceRequest": {
+        "confirm": "Cancel",
+        "successToast": "Service request cancelled"
+      },
       "fasActionInfoModal": {
         "title": "The action cannot be performed",
         "body": "Unfortunately only the actor itself can perform this action.",
