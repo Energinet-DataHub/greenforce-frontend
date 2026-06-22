@@ -69,6 +69,12 @@ export interface DhConfirmServiceRequestModalData {
       size="small"
     >
       <vater-stack class="labels" direction="column" align="start" gap="m">
+        <!-- Placeholder until serviceKind is surfaced on the process (PM follow-up) -->
+        <div>
+          <p class="watt-label">{{ t('serviceKindLabel') }}</p>
+          <p class="watt-text-s">{{ t('serviceKindPlaceholder') }}</p>
+        </div>
+
         <div>
           <p class="watt-label">{{ t('startDateLabel') }}</p>
           <p class="watt-text-s">{{ modalData.startDate | wattDate }}</p>

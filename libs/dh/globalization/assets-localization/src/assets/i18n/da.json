@@ -1546,6 +1546,8 @@
       },
       "confirmServiceRequest": {
         "title": "Godkend anmodning om serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "serviceKindPlaceholder": "[Serviceydelse]",
         "startDateLabel": "Skæringsdato",
         "descriptionLabel": "Bemærkning",
         "cancel": "Luk vindue",

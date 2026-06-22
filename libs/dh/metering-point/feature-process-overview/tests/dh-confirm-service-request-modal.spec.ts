@@ -74,15 +74,19 @@ async function setup() {
 }
 
 describe('Confirm service request modal', () => {
-  it('shows the title, read-only cut-off date and remark field without a type row', async () => {
+  it('shows the title, requested service, read-only cut-off date and remark field without a type row', async () => {
     const { dialog } = await setup();
 
     expect(
       within(dialog).getByRole('heading', { name: /approve service request/i })
     ).toBeInTheDocument();
 
-    // The cut-off date is rendered read-only through the date pipe (no editable type row).
+    // The requested service is shown read-only as a static placeholder (not a dropdown).
     expect(within(dialog).queryByRole('combobox')).not.toBeInTheDocument();
+    expect(dialog).toHaveTextContent('Requested service');
+    expect(dialog).toHaveTextContent('[Service]');
+
+    // The cut-off date is rendered read-only through the date pipe (no editable type row).
     expect(dialog).toHaveTextContent('16-02-2026');
 
     // The optional remark is the only editable field.

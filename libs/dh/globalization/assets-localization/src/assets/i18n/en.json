@@ -1547,6 +1547,8 @@
       },
       "confirmServiceRequest": {
         "title": "Approve service request",
+        "serviceKindLabel": "Requested service",
+        "serviceKindPlaceholder": "[Service]",
         "startDateLabel": "Cut-off date",
         "descriptionLabel": "Remark",
         "cancel": "Close window",
