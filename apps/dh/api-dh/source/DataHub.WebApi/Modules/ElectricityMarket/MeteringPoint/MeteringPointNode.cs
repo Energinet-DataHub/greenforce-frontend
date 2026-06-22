@@ -484,12 +484,13 @@ public static partial class MeteringPointNode
 
         var user = httpContextAccessor.HttpContext.User;
         var actorNumber = user.GetMarketParticipantNumber();
+        ActorNumber? energySupplierId = null;
 
         var input = new ElectricalHeatingCreateChildOnlyInputV1(
             childMeteringPointId,
             parentMeteringPointId,
             ActorNumber.Create(actorNumber),
-            ActorNumber.Create(actorNumber),
+            energySupplierId,
             validityDate,
             closeDownDate);
 
@@ -534,11 +535,13 @@ public static partial class MeteringPointNode
 
         var childMeteringPoint = FindElectricalHeatingMeteringPoint(childMeteringPoints, cutOffDate) ?? throw new GraphQLException($"No child metering point with electrical heating found for parentMeteringPointId '{parentMeteringPointId}'.");
 
+        ActorNumber? energySupplierId = null;
+
         var input = new ElectricalHeatingRemoveInputV1(
             childMeteringPoint.MeteringPointIdentification,
             parentMeteringPointId,
             ActorNumber.Create(actorNumber),
-            ActorNumber.Create(actorNumber),
+            energySupplierId,
             cutOffDate);
 
         var command = new StartHtxElectricalHeatingRemoveCommandV1(userIdentity, input);

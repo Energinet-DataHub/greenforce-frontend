@@ -39,6 +39,7 @@ import {
   mockGetMeteringPointsByGridAreaQuery,
   mockGetOperationToolsMeteringPointQuery,
   mockGetProjectionsStatusQuery,
+  mockRewindMeteringPointUpdatedSubscriptionMutation,
   mockGetRelatedMeteringPointsByIdQuery,
   mockMarkConversationReadMutation,
   mockMarkConversationUnReadMutation,
@@ -47,6 +48,7 @@ import {
   mockCancelEndOfSupplyMutation,
   mockCancelCustomerMoveInMutation,
   mockCancelChangeOfEnergySupplierMutation,
+  mockRequestIncorrectChangeOfSupplierMutation,
   mockRejectEndOfSupplyMutation,
   mockRequestEndOfSupplyMutation,
   mockRequestServiceEndOfSupplyMutation,
@@ -91,12 +93,14 @@ export function meteringPointMocks(apiBase: string) {
     getOperationToolsMeteringPoint(),
     disconnectMeteringPoint(),
     getProjectionsStatus(),
+    rewindMeteringPointUpdatedSubscription(),
     requestConnectionStateChange(),
     changeProductionObligation(),
     requestEndOfSupply(),
     cancelEndOfSupply(),
     cancelCustomerMoveIn(),
     cancelChangeOfEnergySupplier(),
+    requestIncorrectChangeOfSupplier(),
     rejectEndOfSupply(),
     requestServiceEndOfSupply(),
     initiateChangeOfSupplier(),
@@ -1196,6 +1200,22 @@ function cancelChangeOfEnergySupplier() {
   });
 }
 
+function requestIncorrectChangeOfSupplier() {
+  return mockRequestIncorrectChangeOfSupplierMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestIncorrectChangeOfSupplier: {
+          __typename: 'RequestIncorrectChangeOfSupplierPayload',
+          success: true,
+        },
+      },
+    });
+  });
+}
+
 function rejectEndOfSupply() {
   return mockRejectEndOfSupplyMutation(async () => {
     await delay(mswConfig.delay);
@@ -1357,6 +1377,22 @@ function downloadMessageDocument(apiBase: string) {
       });
     }
   );
+}
+
+function rewindMeteringPointUpdatedSubscription() {
+  return mockRewindMeteringPointUpdatedSubscriptionMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        rewindMeteringPointUpdatedSubscription: {
+          __typename: 'RewindMeteringPointUpdatedSubscriptionPayload',
+          success: true,
+        },
+      },
+    });
+  });
 }
 
 function registerElectricalHeating() {

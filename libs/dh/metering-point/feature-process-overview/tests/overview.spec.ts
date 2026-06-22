@@ -36,6 +36,7 @@ import {
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   MeteringPointProcessState,
   ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -121,6 +122,7 @@ async function setup(
       meteringPointId: 'mp-123',
       internalMeteringPointId: 'imp-456',
       isEnergySupplierResponsible,
+      connectionState: ElectricityMarketViewConnectionState.Disconnected,
     },
   });
 
@@ -495,19 +497,24 @@ describe('Process overview', () => {
   });
 
   it('should open the request-incorrect-move-in modal when "Request correction" is clicked', async () => {
-    await setup({
+    const { fixture } = await setup({
       actorMarketRole: EicFunction.EnergySupplier,
       actorGln: processCmiInfoInitiatorGln,
     });
     const user = userEvent.setup();
 
+    // Both CustomerMoveIn and ChangeOfEnergySupplier expose a "Request correction"
+    // button for an actor that owns the process, so narrow the table to move-in
+    // rows to target the move-in button unambiguously.
+    applyFilters(fixture, {
+      businessReasons: [ProcessManagerBusinessReason.CustomerMoveIn],
+    });
+
     await waitForAsync(() =>
-      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBeGreaterThan(
-        0
-      )
+      expect(screen.getAllByRole('button', { name: /Request correction/i }).length).toBe(1)
     );
 
-    const button = screen.getAllByRole('button', { name: /Request correction/i })[0];
+    const button = screen.getByRole('button', { name: /Request correction/i });
     await user.click(button);
 
     await waitForAsync(() => {

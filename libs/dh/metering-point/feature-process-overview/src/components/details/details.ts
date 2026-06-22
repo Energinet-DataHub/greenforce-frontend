@@ -42,6 +42,7 @@ import { PermissionService } from '@energinet-datahub/dh/shared/feature-authoriz
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   EicFunction,
+  ElectricityMarketViewConnectionState,
   GetMeteringPointProcessByIdDocument,
   MeteringPointProcessAction,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -165,9 +166,9 @@ import { DhMeteringPointProcessOverviewStore } from '../metering-point-process-o
         </vater-stack>
       </watt-drawer-topbar>
       <watt-drawer-heading>
-        <h3 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
+        <h2 class="watt-space-stack-s" *transloco="let t; prefix: 'meteringPoint.processOverview'">
           {{ businessReason() && t('processType.' + businessReason()) | dhEmDashFallback }}
-        </h3>
+        </h2>
         <ng-container *transloco="let t; prefix: 'meteringPoint.processOverview'">
           <watt-description-list variant="inline-flow" [groupsPerRow]="4">
             <watt-description-list-item
@@ -268,6 +269,7 @@ export class DhMeteringPointProcessOverviewDetails {
   readonly meteringPointId = input.required<string>();
   readonly internalMeteringPointId = input.required<string>();
   readonly isEnergySupplierResponsible = input.required<boolean>();
+  readonly connectionState = input.required<ElectricityMarketViewConnectionState>();
   protected readonly navigation = inject(DhNavigationService);
   private readonly actionService = inject(DhActionsRegistry);
   private readonly permissionService = inject(PermissionService);
@@ -374,6 +376,7 @@ export class DhMeteringPointProcessOverviewDetails {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),
         processId: this.id(),
+        connectionState: this.connectionState(),
         cutoffDate: this.cutoffDate(),
         onSuccess: () => this.navigation.navigate('list'),
       },

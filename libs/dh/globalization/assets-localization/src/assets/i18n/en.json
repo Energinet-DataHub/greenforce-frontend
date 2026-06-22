@@ -746,7 +746,8 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
-        "changeOfSupplier": "Change of supplier"
+        "changeOfSupplier": "Change of supplier",
+        "historicalCorrection": "Historical correction"
       },
       "details": {
         "address": "{{ meteringPoint.overview.shared.address }}",
@@ -930,7 +931,8 @@
         "attachedBbrNotification": "I have attached current BBR notification",
         "attachedBbrDocumentation": "I have attached documentation for eligibility date from BBR",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "noSupplierPeriodForSelectedDates": "No energy supplier period found for selected dates"
       },
       "electricalHeatingInformationStatus": "Current electrical heating status: {{ electricalHeatingStatus }}",
       "registerElectricalHeatingButton": "{{ meteringPoint.electricalHeatingCorrection.registerElectricalHeating }}",
@@ -1094,11 +1096,12 @@
         "ProductionObligation": "Change of production obligation (BRS-036)",
         "ElectricalHeating": "Change of electrical heating (BRS-041)",
         "CustomerMoveOut": "Move-out (BRS-010)",
-        "DataAlignmentForMasterDataMeteringPoint": "Request for charge links (BRS-038)",
+        "DataAlignmentForMasterDataMeteringPoint": "Request for master data (BRS-005)",
         "ServiceRequest": "Service request (BRS-039)",
         "UpdateChargeLinks": "Update of charge links (BRS-037)",
         "ChangeOfEnergySupplier": "Change of energy supplier (BRS-001)",
-        "IncorrectMove": "Handling of incorrect move (BRS-011)"
+        "IncorrectMove": "Handling of incorrect move (BRS-011)",
+        "RollbackChangeOfSupplier": "Handling of incorrect change of supplier (BRS-003)"
       },
       "businessReason": {
         "EndOfSupply": "End of supply (E20)",
@@ -1142,7 +1145,8 @@
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
-          "CANCEL_WORKFLOW": "Cancel"
+          "CANCEL_WORKFLOW": "Cancel",
+          "HANDLING_OF_INCORRECT_CHANGE_OF_SUPPLIER": "Request correction"
         },
         "IncorrectMove": {
           "CONFIRM_WORKFLOW": "Accept",
@@ -1159,6 +1163,19 @@
         "confirm": "Request correction",
         "toast": {
           "loading": "Submitting the request...",
+          "success": "The request has been registered in DataHub",
+          "error": "Something went wrong. The request could not be completed. Please try again."
+        }
+      },
+      "incorrectChangeOfSupplier": {
+        "title": "Request correction: Incorrect change of supplier",
+        "description": "Request correction of change of supplier with cut-off date {{ cutoffDate }}?",
+        "reasonLabel": "Reason for request",
+        "conditionsPrefix": "Conditions",
+        "conditionsSuffix": "for correction of incorrect change of supplier are met",
+        "cancel": "Close",
+        "confirm": "Request correction",
+        "toast": {
           "success": "The request has been registered in DataHub",
           "error": "Something went wrong. The request could not be completed. Please try again."
         }
@@ -1277,6 +1294,7 @@
         "BRS_001_VALIDITYDATE_V1_STEP_9": "Rejection of request for update of customer master data (RSM-027)",
         "BRS_001_VALIDITYDATE_V1_STEP_11": "Notification of customer master data to grid access provider (RSM-028)",
         "BRS_001_VALIDITYDATE_V1_STEP_12": "Notification of end of supply to previous energy supplier (RSM-004)",
+        "BRS_001_VALIDITYDATE_V1_STEP_13": "Notification of cancellation due to failed process (RSM-004)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_1": "Request for cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_2": "Confirmation of cancellation of change of energy supplier (RSM-024)",
         "BRS_001_CANCELCHANGEOFENERGYSUPPLIER_V1_STEP_3": "Rejection of cancellation of change of energy supplier (RSM-024)",
@@ -1367,6 +1385,12 @@
         "BRS_011_ACCEPTINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_4": "Rejection of request for resumption of supply (RSM-003)",
         "BRS_011_REJECTINCORRECTMOVE_V1_STEP_5": "Notification of rejection of correction (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_5": "Automatic resumption of supply after the deadline is exceeded",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_6": "Notification of acceptance of correction (RSM-004)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_7": "Notification of metering point master data (RSM-022)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_8": "Notification of customer master data (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_9": "Notification of customer master data (RSM-028)",
+        "BRS_011_DEADLINEFORINCORRECTMOVE_V1_STEP_10": "Notification of charge links (RSM-031)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_1": "Request change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_2": "Approve change customer characteristics (RSM-027)",
         "BRS_015_CHANGECUSTOMERCHARACTERISTICS_V1_STEP_3": "Reject change customer characteristics (RSM-027)",
@@ -1383,8 +1407,8 @@
         "BRS_041_V1_STEP_1": "Request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_2": "Rejection of request for change of electrical heating status (RSM-027)",
         "BRS_041_V1_STEP_3": "Confirmation of request for change of electrical heating status (RSM-027)",
-        "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028/D20)",
-        "BRS_041_V1_STEP_5": "Notification of charge links (RSM-031/D20)",
+        "BRS_041_V1_STEP_4": "Notification of change of electrical heating status (RSM-028)",
+        "BRS_041_V1_STEP_5": "Notification of charge links (RSM-031)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_1": "Request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_2": "Rejection of request for charge links (RSM-032)",
         "BRS_038_REQUESTFORCHARGELINKS_V1_STEP_3": "Notification of charge links (RSM-031)",
@@ -3177,6 +3201,7 @@
           "pending": "Validating period",
           "empty": "Period required",
           "warning": {
+            "AGGREGATION": "Existing balance fixings have been carried out for the period",
             "BALANCE_FIXING": "Balance fixing has been carried out for the period",
             "WHOLESALE_FIXING": "Wholesale fixing has been carried out for the period",
             "FIRST_CORRECTION_SETTLEMENT": "Correction settlement has been carried out for the period",
@@ -3201,6 +3226,7 @@
         "errors": {
           "resolutionTransition": "Calculation cannot be initiated. The selected date range crosses the {{transitionDate}} threshold, which is not permitted due to the resolution changing from hourly to quarterly. Please choose a start and end date either entirely before or after {{transitionDate}} to proceed.",
           "existing": {
+            "AGGREGATION": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
             "BALANCE_FIXING": "There are existing balance fixings in the chosen period! Latest balance fixing was executed {{period}}.",
             "WHOLESALE_FIXING": "There are existing wholesale fixings in the chosen period! Latest wholesale fixing was executed {{period}}.",
             "FIRST_CORRECTION_SETTLEMENT": "There are existing 1. correction settlements in the chosen period! Latest 1. correction settlement was executed {{period}}.",
@@ -3211,6 +3237,7 @@
         },
         "warning": {
           "title": {
+            "AGGREGATION": "Run aggregation?",
             "BALANCE_FIXING": "Rerun balance fixing?",
             "WHOLESALE_FIXING": "Rerun wholesale fixing?",
             "FIRST_CORRECTION_SETTLEMENT": "Rerun 1. correction settlement?",
@@ -3221,6 +3248,7 @@
           "message": {
             "label": "This will issue new data to the actors",
             "body": {
+              "AGGREGATION": "Running an aggregation will result in all associated actors receiving new data for their settlements.",
               "BALANCE_FIXING": "Rerunning a balance fixing will result in all associated actors receiving new data for their settlements.",
               "WHOLESALE_FIXING": "Rerunning a wholesale fixing will result in all associated actors receiving new data for their settlements.",
               "FIRST_CORRECTION_SETTLEMENT": "Rerunning a 1. correction settlement will result in all associated actors receiving new data for their settlements.",
@@ -3230,6 +3258,7 @@
             }
           },
           "body": {
+            "AGGREGATION": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
             "BALANCE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous balance fixings and new data will be issued to the actors.",
             "WHOLESALE_FIXING": "You are about to issue new data for already settled periods. This will invalidate previous wholesale fixings and new data will be issued to the actors.",
             "FIRST_CORRECTION_SETTLEMENT": "You are about to issue new data for already settled periods. This will invalidate previous 1. correction settlements and new data will be issued to the actors.",
@@ -3239,6 +3268,7 @@
           },
           "confirmation": "Are you sure you want to run this calculation?",
           "hint": {
+            "AGGREGATION": "Enter I WANT TO RUN AGGREGATION to confirm",
             "BALANCE_FIXING": "Enter I WANT TO RERUN BALANCE FIXING to confirm",
             "WHOLESALE_FIXING": "Enter I WANT TO RERUN WHOLESALE FIXING to confirm",
             "FIRST_CORRECTION_SETTLEMENT": "Enter I WANT TO RERUN 1. CORRECTION SETTLEMENT to confirm",
@@ -3247,6 +3277,7 @@
             "CAPACITY_SETTLEMENT": "Enter I WANT TO RERUN CAPACITY SETTLEMENT to confirm"
           },
           "validation": {
+            "AGGREGATION": "I WANT TO RUN AGGREGATION",
             "BALANCE_FIXING": "I WANT TO RERUN BALANCE FIXING",
             "WHOLESALE_FIXING": "I WANT TO RERUN WHOLESALE FIXING",
             "FIRST_CORRECTION_SETTLEMENT": "I WANT TO RERUN 1. CORRECTION SETTLEMENT",
@@ -3254,7 +3285,15 @@
             "THIRD_CORRECTION_SETTLEMENT": "I WANT TO RERUN 3. CORRECTION SETTLEMENT",
             "CAPACITY_SETTLEMENT": "I WANT TO RERUN CAPACITY SETTLEMENT"
           },
-          "confirm": "Rerun",
+          "confirm": {
+            "AGGREGATION": "Run",
+            "BALANCE_FIXING": "Rerun",
+            "WHOLESALE_FIXING": "Rerun",
+            "FIRST_CORRECTION_SETTLEMENT": "Rerun",
+            "SECOND_CORRECTION_SETTLEMENT": "Rerun",
+            "THIRD_CORRECTION_SETTLEMENT": "Rerun",
+            "CAPACITY_SETTLEMENT": "Rerun"
+          },
           "cancel": "Cancel"
         },
         "toast": {
@@ -3892,6 +3931,14 @@
       "projectionsStatus": {
         "title": "Projections Status",
         "button": "Get projections status"
+      },
+      "rewindMeteringPointUpdatedSubscription": {
+        "title": "Rewind Metering Point Updated Subscription",
+        "button": "Rewind subscription",
+        "modal": {
+          "title": "Rewind Metering Point Updated Subscription",
+          "message": "Are you sure you want to rewind the metering point updated subscription?"
+        }
       },
       "dangerZone": {
         "title": "Danger Zone"

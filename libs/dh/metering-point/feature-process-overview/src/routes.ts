@@ -25,7 +25,10 @@ import {
   PermissionGuard,
 } from '@energinet-datahub/dh/shared/feature-authorization';
 import { dhReleaseToggleGuard } from '@energinet-datahub/dh/shared/util-release-toggle';
-import { GetMeteringPointByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  ElectricityMarketViewConnectionState,
+  GetMeteringPointByIdDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { DhMeteringPointProcessOverviewStore } from './components/metering-point-process-overview.store';
 
@@ -56,6 +59,29 @@ function isEnergySupplierResponsibleResolver(): ResolveFn<boolean> {
   };
 }
 
+// Falls back to Disconnected when metadata is unavailable, preserving the
+// pre-fix behavior of always sending Disconnected.
+function connectionStateResolver(): ResolveFn<ElectricityMarketViewConnectionState> {
+  return async (route) => {
+    const actor = inject(DhActorStorage).getSelectedActor();
+    const { meteringPointId, searchMigratedMeteringPoints } = route.data as InheritedRouteData;
+
+    const { data } = await query(GetMeteringPointByIdDocument, {
+      fetchPolicy: 'cache-first',
+      variables: {
+        meteringPointId,
+        actorGln: actor.gln,
+        searchMigratedMeteringPoints,
+      },
+    }).result();
+
+    return (
+      data?.meteringPoint?.metadata?.connectionState ??
+      ElectricityMarketViewConnectionState.Disconnected
+    );
+  };
+}
+
 export const meteringPointProcessOverviewRoutes: Routes = [
   {
     canActivate: [
@@ -66,6 +92,7 @@ export const meteringPointProcessOverviewRoutes: Routes = [
     providers: [DhMeteringPointProcessOverviewStore],
     resolve: {
       isEnergySupplierResponsible: isEnergySupplierResponsibleResolver(),
+      connectionState: connectionStateResolver(),
     },
     loadComponent: () =>
       import('./components/overview').then((m) => m.DhMeteringPointProcessOverviewTable),

@@ -32,6 +32,7 @@ import { WATT_MODAL } from '@energinet/watt/modal';
 import { mutation, lazyQuery } from '@energinet-datahub/dh/shared/util-apollo';
 import {
   RebuildProjectionsDocument,
+  RewindMeteringPointUpdatedSubscriptionDocument,
   ProjectionType,
   GetProjectionsStatusDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
@@ -117,6 +118,33 @@ import {
                 </div>
               }
             </vater-flex>
+
+            <vater-flex class="danger-zone" direction="column" gap="m">
+              <h4 watt-heading>{{ t('rewindMeteringPointUpdatedSubscription.title') }}</h4>
+
+              <watt-button
+                variant="secondary"
+                [loading]="rewindMeteringPointUpdatedSubscription.loading()"
+                (click)="rewindMeteringPointUpdatedSubscriptionModal.open()"
+              >
+                {{ t('rewindMeteringPointUpdatedSubscription.button') }}
+              </watt-button>
+
+              @if (rewindMeteringPointUpdatedSubscription.data(); as data) {
+                <div class="result-box">
+                  <strong>{{ t('result') }}</strong>
+                  {{
+                    data.rewindMeteringPointUpdatedSubscription.success ? t('success') : t('failed')
+                  }}
+                </div>
+              }
+
+              @if (rewindMeteringPointUpdatedSubscription.error(); as error) {
+                <div class="result-box">
+                  <strong>{{ t('error') }}</strong> {{ error.message }}
+                </div>
+              }
+            </vater-flex>
           </vater-flex>
         </watt-card>
 
@@ -161,11 +189,32 @@ import {
           </watt-button>
         </watt-modal-actions>
       </watt-modal>
+
+      <watt-modal
+        #rewindMeteringPointUpdatedSubscriptionModal
+        size="small"
+        [title]="t('rewindMeteringPointUpdatedSubscription.modal.title')"
+        (closed)="onConfirmRewindMeteringPointUpdatedSubscription($event)"
+      >
+        {{ t('rewindMeteringPointUpdatedSubscription.modal.message') }}
+        <watt-modal-actions>
+          <watt-button
+            variant="secondary"
+            (click)="rewindMeteringPointUpdatedSubscriptionModal.close(false)"
+          >
+            {{ t('modal.cancel') }}
+          </watt-button>
+          <watt-button (click)="rewindMeteringPointUpdatedSubscriptionModal.close(true)">
+            {{ t('modal.confirm') }}
+          </watt-button>
+        </watt-modal-actions>
+      </watt-modal>
     </ng-container>
   `,
 })
 export class DhMeteringPointActionsComponent {
   rebuildProjections = mutation(RebuildProjectionsDocument);
+  rewindMeteringPointUpdatedSubscription = mutation(RewindMeteringPointUpdatedSubscriptionDocument);
   projectionTypeControl = dhMakeFormControl<ProjectionType>();
   timeoutControl = dhMakeFormControl('30');
   projectionTypeOptions = dhEnumToWattDropdownOptions(ProjectionType);
@@ -182,6 +231,11 @@ export class DhMeteringPointActionsComponent {
     const timeout = parseInt(this.timeoutControl.value || '5');
     assertIsDefined(projection);
     this.rebuildProjections.mutate({ variables: { input: { projection, timeout } } });
+  }
+
+  onConfirmRewindMeteringPointUpdatedSubscription(confirmed: boolean): void {
+    if (!confirmed) return;
+    this.rewindMeteringPointUpdatedSubscription.mutate();
   }
 
   getProjectionsStatus(): void {

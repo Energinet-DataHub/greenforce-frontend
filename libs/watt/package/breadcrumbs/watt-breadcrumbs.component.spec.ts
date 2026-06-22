@@ -63,7 +63,7 @@ describe(WattBreadcrumbsComponent.name, () => {
         </watt-breadcrumbs>
 
         <br />
-        <router-outlet></router-outlet>
+        <router-outlet />
       `,
     })
     class TestComponent {

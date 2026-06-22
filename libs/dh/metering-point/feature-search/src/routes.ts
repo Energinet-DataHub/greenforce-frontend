@@ -244,7 +244,7 @@ export const dhMeteringPointRoutes: Routes = [
               ),
           },
           {
-            path: `${getPath<MeteringPointSubPaths>('historical-corrections')}`,
+            path: `${getPath<MeteringPointSubPaths>('historical-correction')}`,
             canActivate: [
               dhReleaseToggleGuard('PM63-HISTORICAL-CORRECTIONS-UI'),
               PermissionGuard(['metering-point:historical-correction-manage']),

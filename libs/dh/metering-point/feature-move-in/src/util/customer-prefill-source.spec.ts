@@ -1,0 +1,59 @@
+//#region License
+/**
+ * @license
+ * Copyright 2020 Energinet DataHub A/S
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License2");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+//#endregion
+import { describe, it, expect } from 'vitest';
+
+import { ChangeCustomerCharacteristicsBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
+
+import { getCustomerPrefillSource } from './customer-prefill-source';
+
+const { ChangeOfEnergySupplier, CustomerMoveIn, SecondaryMoveIn, UpdateMasterDataConsumer } =
+  ChangeCustomerCharacteristicsBusinessReason;
+
+describe('getCustomerPrefillSource', () => {
+  describe('returns temporary-storage for move-in processes (BRS-009)', () => {
+    it('CustomerMoveIn', () => {
+      expect(getCustomerPrefillSource(CustomerMoveIn)).toBe('temporary-storage');
+    });
+
+    it('SecondaryMoveIn', () => {
+      expect(getCustomerPrefillSource(SecondaryMoveIn)).toBe('temporary-storage');
+    });
+  });
+
+  describe('returns metering-point for processes that read existing data', () => {
+    it('ChangeOfEnergySupplier (BRS-001)', () => {
+      expect(getCustomerPrefillSource(ChangeOfEnergySupplier)).toBe('metering-point');
+    });
+
+    it('UpdateMasterDataConsumer (BRS-015)', () => {
+      expect(getCustomerPrefillSource(UpdateMasterDataConsumer)).toBe('metering-point');
+    });
+  });
+
+  describe('fallback', () => {
+    it('returns metering-point when reason is undefined', () => {
+      expect(getCustomerPrefillSource(undefined)).toBe('metering-point');
+    });
+
+    it('returns metering-point for an unregistered BRS reason', () => {
+      const unknownReason = 'SomeNewReason' as ChangeCustomerCharacteristicsBusinessReason;
+      expect(getCustomerPrefillSource(unknownReason)).toBe('metering-point');
+    });
+  });
+});

@@ -346,6 +346,12 @@ export class WattDatepickerComponent extends WattPickerBase implements Validator
     this.datepickerClosed();
   }
 
+  /** Programmatically reset the single datepicker. */
+  reset() {
+    this.inputChanged('');
+    this.datepickerClosed();
+  }
+
   private changeDay(value: number) {
     const currentDate = this.matDatepickerInput()?.value;
     if (currentDate) {

@@ -16,6 +16,7 @@ using Energinet.DataHub.ElectricityMarket.Abstractions.Features.MeteringPoint.Ge
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.DeleteAllEventSourcingData.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.GetProjectionsStatus.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RebuildProjections.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.EventSourcing.RewindMeteringPointUpdatedSubscription.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ClearMigrationEventsDeadLetterQueue.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.GetMeteringPointMigratedCount.V1;
 using Energinet.DataHub.ElectricityMarket.Abstractions.Operations.Migrations.ReplayMigrationEventsDeadLetterQueue.V1;
@@ -117,6 +118,15 @@ public static class OperationToolsMeteringPointNode
         IElectricityMarketClient electricityMarketClient,
         CancellationToken ct) => await electricityMarketClient
             .SendAsync(new RebuildProjectionsCommandV1(projection, timeout), ct)
+            .Then(r => r.IsSuccess);
+
+    [Mutation]
+    [Authorize(Roles = ["operation-tools:manage"])]
+    [UseRevisionLog]
+    public static async Task<bool> RewindMeteringPointUpdatedSubscriptionAsync(
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken ct) => await electricityMarketClient
+            .SendAsync(new RewindMeteringPointUpdatedSubscriptionCommandV1(), ct)
             .Then(r => r.IsSuccess);
 
     [Mutation]
