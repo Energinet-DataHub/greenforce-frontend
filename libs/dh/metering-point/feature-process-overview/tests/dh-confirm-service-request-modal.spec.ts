@@ -37,7 +37,7 @@ import { WattModalService } from '@energinet/watt/modal';
 import { DhConfirmServiceRequestModal } from '../src/components/dh-confirm-service-request-modal';
 
 const meteringPointId = 'mp-039';
-const processId = 'service-request-process-1';
+const processId = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
 const startDate = new Date('2026-02-16T00:00:00Z');
 
 @Component({

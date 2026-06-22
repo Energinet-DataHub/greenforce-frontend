@@ -42,7 +42,7 @@ import { DhServiceRequestModal } from '../src/components/dh-service-request-moda
 
 const meteringPointId = 'mp-039';
 const internalMeteringPointId = 'imp-039';
-const processId = 'service-request-process-1';
+const processId = 'a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d';
 
 @Component({
   selector: 'dh-test-host',
@@ -86,7 +86,8 @@ async function setup() {
 // on the dialog and type a valid in-range date so the submit-path assertions have a
 // complete form. The date itself is not the behavior under test here.
 async function setCutOffDate(dialog: HTMLElement, user: ReturnType<typeof userEvent.setup>) {
-  const maskInput = dialog.querySelector('input.mask-input') as HTMLInputElement;
+  const maskInput = dialog.querySelector<HTMLInputElement>('input.mask-input');
+  if (!maskInput) throw new Error('Datepicker mask input not found in dialog');
   await user.type(maskInput, dayjs().startOf('day').add(10, 'day').format('DDMMYYYY'));
 }
 
