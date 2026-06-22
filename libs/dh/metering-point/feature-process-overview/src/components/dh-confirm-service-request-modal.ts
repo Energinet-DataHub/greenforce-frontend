@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
-import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { translate, TranslocoDirective } from '@jsverse/transloco';
 
 import { WattDatePipe } from '@energinet/watt/date';
@@ -85,7 +85,6 @@ export interface DhConfirmServiceRequestModalData {
         <watt-textarea-field
           [label]="t('descriptionLabel')"
           [formControl]="form.controls.description"
-          [maxLength]="maxDescriptionLength"
         />
       </form>
 
@@ -107,13 +106,9 @@ export class DhConfirmServiceRequestModal extends WattTypedModal<DhConfirmServic
 
   readonly modal = viewChild.required(WattModalComponent);
   readonly loading = this.confirmServiceRequestMutation.loading;
-  readonly maxDescriptionLength = 1000;
 
   readonly form = new FormGroup({
-    description: dhMakeFormControl<string | null>(
-      null,
-      Validators.maxLength(this.maxDescriptionLength)
-    ),
+    description: dhMakeFormControl<string | null>(null),
   });
 
   async submit() {

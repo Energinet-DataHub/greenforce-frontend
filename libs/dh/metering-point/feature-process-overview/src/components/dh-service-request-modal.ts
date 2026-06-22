@@ -25,7 +25,6 @@ import { dayjs } from '@energinet/watt/date';
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { WattFieldHintComponent } from '@energinet/watt/field';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattToastService } from '@energinet/watt/toast';
@@ -45,7 +44,6 @@ import {
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
-  dhFormControlToSignal,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
@@ -74,28 +72,18 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
     WATT_MODAL,
     WattButtonComponent,
     WattDropdownComponent,
-    WattFieldHintComponent,
     WattTextAreaFieldComponent,
     WattDatepickerComponent,
     VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],
   styles: `
-    form {
-      margin-top: var(--watt-space-l);
-    }
-
     watt-textarea-field {
       --watt-textarea-max-height: 200px;
     }
 
-    .field {
-      width: 320px;
-    }
-
-    .character-count {
-      display: block;
-      text-align: right;
+    form {
+      margin-top: var(--watt-space-l);
     }
   `,
   template: `
@@ -105,9 +93,8 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
       size="small"
     >
       <form id="service-request-form" [formGroup]="form" (ngSubmit)="submit()">
-        <vater-stack direction="column" align="start">
+        <vater-stack direction="column" gap="m">
           <watt-dropdown
-            class="field"
             dhDropdownTranslator
             translateKey="meteringPoint.processOverview.serviceRequest.serviceKinds"
             [label]="t('serviceKindLabel')"
@@ -118,22 +105,15 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
           />
 
           <watt-datepicker
-            class="field"
             [label]="t('startDateLabel')"
             [formControl]="form.controls.startDate"
             [max]="maxDate"
           />
 
           <watt-textarea-field
-            class="field"
             [label]="t('descriptionLabel')"
             [formControl]="form.controls.description"
-            [maxLength]="maxDescriptionLength"
-          >
-            <watt-field-hint class="character-count">
-              {{ (description() ?? '').length }} / {{ maxDescriptionLength }}
-            </watt-field-hint>
-          </watt-textarea-field>
+          />
         </vater-stack>
       </form>
 
@@ -156,20 +136,14 @@ export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalD
 
   readonly modal = viewChild.required(WattModalComponent);
   readonly loading = this.requestServiceMutation.loading;
-  readonly maxDescriptionLength = 1000;
   readonly serviceKindOptions = dhEnumToWattDropdownOptions(ServiceKindV1, excludedServiceKinds);
   readonly maxDate = dayjs().startOf('day').add(60, 'day').toDate();
 
   readonly form = new FormGroup({
     serviceKind: dhMakeFormControl<ServiceKindV1 | null>(null, Validators.required),
     startDate: dhMakeFormControl<Date | null>(null, Validators.required),
-    description: dhMakeFormControl<string | null>(
-      null,
-      Validators.maxLength(this.maxDescriptionLength)
-    ),
+    description: dhMakeFormControl<string | null>(null),
   });
-
-  readonly description = dhFormControlToSignal(this.form.controls.description);
 
   async submit() {
     if (this.form.invalid) return;
