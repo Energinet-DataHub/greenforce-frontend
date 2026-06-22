@@ -54,10 +54,6 @@ export interface DhConfirmServiceRequestModalData {
     VaterStackComponent,
   ],
   styles: `
-    .labels {
-      margin-bottom: var(--watt-space-m);
-    }
-
     watt-textarea-field {
       --watt-textarea-max-height: 200px;
     }
@@ -68,24 +64,24 @@ export interface DhConfirmServiceRequestModalData {
       [title]="t('title')"
       size="small"
     >
-      <vater-stack class="labels" direction="column" align="start" gap="m">
-        <!-- Placeholder until serviceKind is surfaced on the process (PM follow-up) -->
-        <div>
-          <p class="watt-label">{{ t('serviceKindLabel') }}</p>
-          <p class="watt-text-s">{{ t('serviceKindPlaceholder') }}</p>
-        </div>
-
-        <div>
-          <p class="watt-label">{{ t('startDateLabel') }}</p>
-          <p class="watt-text-s">{{ modalData.startDate | wattDate }}</p>
-        </div>
-      </vater-stack>
-
       <form id="confirm-service-request-form" [formGroup]="form" (ngSubmit)="submit()">
-        <watt-textarea-field
-          [label]="t('descriptionLabel')"
-          [formControl]="form.controls.description"
-        />
+        <vater-stack direction="column" align="start" gap="m">
+          <!-- Placeholder until serviceKind is surfaced on the process (PM follow-up) -->
+          <div>
+            <p class="watt-label">{{ t('serviceKindLabel') }}</p>
+            <p class="watt-text-s">{{ t('serviceKindPlaceholder') }}</p>
+          </div>
+
+          <div>
+            <p class="watt-label">{{ t('startDateLabel') }}</p>
+            <p class="watt-text-s">{{ modalData.startDate | wattDate }}</p>
+          </div>
+
+          <watt-textarea-field
+            [label]="t('descriptionLabel')"
+            [formControl]="form.controls.description"
+          />
+        </vater-stack>
       </form>
 
       <watt-modal-actions>

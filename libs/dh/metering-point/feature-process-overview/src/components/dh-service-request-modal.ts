@@ -81,10 +81,6 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
     watt-textarea-field {
       --watt-textarea-max-height: 200px;
     }
-
-    form {
-      margin-top: var(--watt-space-l);
-    }
   `,
   template: `
     <watt-modal
