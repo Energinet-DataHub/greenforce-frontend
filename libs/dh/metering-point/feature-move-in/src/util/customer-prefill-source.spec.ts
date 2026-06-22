@@ -36,10 +36,10 @@ describe('getCustomerPrefillSource', () => {
     });
   });
 
-  describe('returns metering-point customer names only for change of supplier', () => {
+  describe('returns metering-point customer identification for change of supplier', () => {
     it('ChangeOfEnergySupplier (BRS-001)', () => {
       expect(getCustomerPrefillSource(ChangeOfEnergySupplier)).toBe(
-        'metering-point-customer-names'
+        'metering-point-customer-identification'
       );
     });
   });

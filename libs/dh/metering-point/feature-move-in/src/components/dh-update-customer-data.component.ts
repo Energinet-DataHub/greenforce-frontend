@@ -114,8 +114,8 @@ export class DhUpdateCustomerDataComponent {
     shouldMaskCustomerCprFields(this.resolveBusinessReason())
   );
 
-  private readonly prefillCustomerNamesOnly = computed(() =>
-    this.prefillSource() === 'metering-point-customer-names'
+  private readonly prefillCustomerIdentificationOnly = computed(() =>
+    this.prefillSource() === 'metering-point-customer-identification'
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -171,9 +171,10 @@ export class DhUpdateCustomerDataComponent {
   /** Single reduction into the view-model consumed by the form component. */
   readonly prefill = computed<CustomerDataPrefill>(() => {
     const legalCustomer = this.legalCustomer();
-    const prefillCustomerNamesOnly = this.prefillCustomerNamesOnly();
+    const prefillCustomerIdentificationOnly = this.prefillCustomerIdentificationOnly();
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
-    const shouldClearCustomerDetails = prefillCustomerNamesOnly || this.shouldClearMpDerivedData();
+    const shouldClearCustomerDetails =
+      prefillCustomerIdentificationOnly || this.shouldClearMpDerivedData();
     const legalContact = shouldClearCustomerDetails
       ? null
       : (legalCustomer?.legalContact ?? null);
@@ -190,24 +191,24 @@ export class DhUpdateCustomerDataComponent {
       maskCprFields: this.shouldMaskCprFields(),
       primary: {
         name: this.resolvePrimaryName(),
-        cvr: prefillCustomerNamesOnly ? '' : this.resolvePrimaryCvr(),
-        isProtectedName: prefillCustomerNamesOnly
+        cvr: this.resolvePrimaryCvr(),
+        isProtectedName: prefillCustomerIdentificationOnly
           ? false
           : (legalCustomer?.isProtectedName ?? false),
         customerId:
-          prefillCustomerNamesOnly || this.useTemporaryStorage()
+          prefillCustomerIdentificationOnly || this.useTemporaryStorage()
             ? null
             : (legalCustomer?.id ?? null),
       },
       secondary: {
         name: secondary?.name ?? '',
-        isProtectedName: prefillCustomerNamesOnly
+        isProtectedName: prefillCustomerIdentificationOnly
           ? false
           : (secondary?.isProtectedName ?? false),
         customerId:
-          prefillCustomerNamesOnly || !secondary?.name ? null : (secondary.id ?? null),
+          prefillCustomerIdentificationOnly || !secondary?.name ? null : (secondary.id ?? null),
       },
-      legalCustomer: prefillCustomerNamesOnly ? undefined : legalCustomer,
+      legalCustomer: prefillCustomerIdentificationOnly ? undefined : legalCustomer,
       legalContact,
       technicalContact,
       installationAddress: this.meteringPoint()?.metadata?.installationAddress,
