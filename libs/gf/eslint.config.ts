@@ -50,4 +50,3 @@ config.push(
 );
 
 export default config;
-
