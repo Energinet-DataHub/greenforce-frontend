@@ -28,6 +28,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
   styles: `
     p {
       margin: var(--watt-space-m) 0 0;
+      overflow-wrap: anywhere;
     }
   `,
   template: `
@@ -41,7 +42,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
         rendering a raw key. A new step opts in by adding a stepReasonLabels translation.
       -->
       @if (reasonLabel !== reasonLabelKey) {
-        <p vater-stack align="start" class="watt-text-s">
+        <p vater-stack align="stretch" class="watt-text-s">
           <strong class="watt-text-s-highlighted">{{ reasonLabel }}</strong>
           {{ commentText }}
         </p>
