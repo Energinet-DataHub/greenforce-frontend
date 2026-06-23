@@ -108,7 +108,7 @@ export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
       __typename: 'ElectricityMarketV2IdempotencyRecordDto',
       idempotencyRecordJson:
         '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c2", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
-      commandResponseRecordJson: 'null',
+      commandResponseRecordJson: null,
     },
   ],
 };
