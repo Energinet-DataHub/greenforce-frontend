@@ -279,15 +279,19 @@ export class DhMeteringPointEventsComponent {
       case 'idempotency':
         return data.idempotencyRecords.map((r) => {
           const commandResponseRecord = JSON.parse(r.commandResponseRecordJson ?? 'null');
+          const parsedResponse =
+            typeof commandResponseRecord?.response === 'string'
+              ? JSON.parse(commandResponseRecord.response)
+              : (commandResponseRecord?.response ?? null);
 
           return {
             idempotencyRecord: JSON.parse(r.idempotencyRecordJson),
             commandResponseRecord: commandResponseRecord
               ? {
                   ...commandResponseRecord,
-                  response: JSON.parse(commandResponseRecord.response ?? 'null'),
+                  response: parsedResponse,
                 }
-              : null
+              : null,
           };
         });
     }

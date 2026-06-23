@@ -100,7 +100,7 @@ export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
     {
       __typename: 'ElectricityMarketV2IdempotencyRecordDto',
       idempotencyRecordJson: '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c1", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
-      commandResponseRecordJson: '{ "id": "083b3625-6891-4b56-8b80-cad1576e16f4", "idempotencyRecordId": "9e69bb75-a572-4f91-bd11-9303c037e5c1", "meteringPointId": "111111111111111111", "response": "{ \\"id\\": \\"111111111\\", \\"type\\": \\"Consumption\\", \\"validityDate\\": \\"2023-01-04T00:00:00Z\\", \\"connectionState\\": \\"New\\" }", "createdAt": "2023-01-01T12:00:00Z" }'
+      commandResponseRecordJson: '{ "id": "resp-1", "idempotencyRecordId": "rec-1", "meteringPointId": "111111111111111111", "response": { "Data": { "MeteringPointStateAtValidityDate": { "Type": "Consumption", "MeteringPointId": "111111111111111111", "ValidityDate": "2026-03-09T23:00:00+00:00" } }, "IsSuccess": true }, "createdAt": "2023-01-01T12:00:00Z" }'
     },
     {
       __typename: 'ElectricityMarketV2IdempotencyRecordDto',
