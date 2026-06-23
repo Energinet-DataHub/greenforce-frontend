@@ -59,7 +59,7 @@
     "task": "bun run $(jq .scripts package.json | cut -d'\"' -f2 | fzf | xargs)",
     "review": "gh pr checkout --",
     "branch:cleanup": "nx run @energinet-datahub/tools/github:cleanup-branch --skip-nx-cache",
-    "env": "nx run @energinet-datahub/tools/environment:switch --skip-nx-cache"
+    "env": "bun ./tools/environment/src/switch-environment.ts"
   },
   "dependencies": {
     "@analogjs/vite-plugin-angular": "2.4.0",

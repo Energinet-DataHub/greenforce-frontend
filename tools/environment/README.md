@@ -13,7 +13,9 @@ A CLI tool to quickly switch between development environments by fetching config
 bun run env
 ```
 
-Then select an environment by entering its number or name.
+Then select an environment by typing its number or name and pressing Enter.
+
+This script runs the environment switcher directly so the interactive prompt can read keyboard input reliably from PowerShell/Windows Terminal.
 
 You can also skip the prompt by passing an environment name:
 
