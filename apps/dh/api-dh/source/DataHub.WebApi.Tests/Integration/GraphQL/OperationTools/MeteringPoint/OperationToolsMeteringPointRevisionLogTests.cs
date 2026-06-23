@@ -54,7 +54,8 @@ public class OperationToolsMeteringPointRevisionLogTests
             new GetMeteringPointDebugResultDtoV1(
                 MeteringPointJson: "{\"id\":\"570000000000000008\"}",
                 MeteringPointWithRelationsJson: null,
-                Events: []));
+                Events: [],
+                IdempotencyRecords: []));
 
         server.ElectricityMarketClientMock.Setup(
                 c => c.SendAsync(It.IsAny<GetMeteringPointDebugQueryV1>(), It.IsAny<CancellationToken>()))

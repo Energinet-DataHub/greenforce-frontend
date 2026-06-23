@@ -8,5 +8,9 @@ query GetOperationToolsMeteringPoint($id: String!) {
       type
       dataJson
     }
+    idempotencyRecords {
+      idempotencyRecordJson
+      commandResponseRecordJson
+    }
   }
 }

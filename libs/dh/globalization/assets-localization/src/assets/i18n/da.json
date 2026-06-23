@@ -3931,7 +3931,8 @@
       "segments": {
         "meteringPoint": "Målepunkt",
         "events": "Events",
-        "relations": "Relationer"
+        "relations": "Relationer",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Udvid alle",
       "collapseAll": "Skjul alle",

@@ -3932,7 +3932,8 @@
       "segments": {
         "meteringPoint": "Metering point",
         "events": "Events",
-        "relations": "Relations"
+        "relations": "Relations",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Expand all",
       "collapseAll": "Collapse all",

@@ -192,6 +192,9 @@ function normalizeEm1(value: unknown): unknown {
             <watt-segmented-button value="relations">
               {{ t('segments.relations') }}
             </watt-segmented-button>
+            <watt-segmented-button value="idempotency">
+              {{ t('segments.idempotency') }}
+            </watt-segmented-button>
           </watt-segmented-buttons>
           @if (selected() === 'meteringPoint') {
             <watt-slide-toggle [formControl]="compareEm1Toggle">
@@ -257,7 +260,7 @@ export class DhMeteringPointEventsComponent {
     },
   }));
 
-  selected = signal<'meteringPoint' | 'events' | 'relations'>('meteringPoint');
+  selected = signal<'meteringPoint' | 'events' | 'relations' | 'idempotency'>('meteringPoint');
   json = computed(() => {
     const data = this.operationToolsMeteringPoint.data()?.operationToolsMeteringPoint;
     if (!data) return null;
@@ -273,6 +276,24 @@ export class DhMeteringPointEventsComponent {
         }));
       case 'relations':
         return JSON.parse(data.meteringPointWithRelationsJson ?? 'null');
+      case 'idempotency':
+        return data.idempotencyRecords.map((r) => {
+          const commandResponseRecord = JSON.parse(r.commandResponseRecordJson ?? 'null');
+          const parsedResponse =
+            typeof commandResponseRecord?.response === 'string'
+              ? JSON.parse(commandResponseRecord.response)
+              : (commandResponseRecord?.response ?? null);
+
+          return {
+            idempotencyRecord: JSON.parse(r.idempotencyRecordJson),
+            commandResponseRecord: commandResponseRecord
+              ? {
+                  ...commandResponseRecord,
+                  response: parsedResponse,
+                }
+              : null,
+          };
+        });
     }
   });
 

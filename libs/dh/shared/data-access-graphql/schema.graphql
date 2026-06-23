@@ -611,6 +611,11 @@ type ElectricityMarketV2EventDto {
   dataJson: String!
 }
 
+type ElectricityMarketV2IdempotencyRecordDto {
+  idempotencyRecordJson: String!
+  commandResponseRecordJson: String
+}
+
 type ElectricityMarketViewAnnualDate {
   month: Int!
   day: Int!
@@ -865,6 +870,7 @@ type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
   meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
+  idempotencyRecords: [ElectricityMarketV2IdempotencyRecordDto!]!
 }
 
 type GetProjectionsStatusResultDtoV1 {
