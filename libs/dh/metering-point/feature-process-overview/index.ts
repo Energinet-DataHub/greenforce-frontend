@@ -17,3 +17,4 @@
  */
 //#endregion
 export { meteringPointProcessOverviewRoutes as default } from './src/routes';
+export { DhServiceRequestModal } from './src/components/dh-service-request-modal';

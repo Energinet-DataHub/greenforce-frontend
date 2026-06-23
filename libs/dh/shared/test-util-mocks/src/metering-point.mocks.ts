@@ -52,6 +52,9 @@ import {
   mockRejectEndOfSupplyMutation,
   mockRequestEndOfSupplyMutation,
   mockRequestServiceEndOfSupplyMutation,
+  mockRequestServiceServiceRequestMutation,
+  mockCancelServiceRequestMutation,
+  mockConfirmServiceRequestMutation,
   mockInitiateChangeOfSupplierMutation,
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
@@ -103,6 +106,9 @@ export function meteringPointMocks(apiBase: string) {
     requestIncorrectChangeOfSupplier(),
     rejectEndOfSupply(),
     requestServiceEndOfSupply(),
+    requestServiceServiceRequest(),
+    cancelServiceRequest(),
+    confirmServiceRequest(),
     initiateChangeOfSupplier(),
     createConversation(),
     getConversations(),
@@ -1257,6 +1263,54 @@ function requestServiceEndOfSupply() {
         __typename: 'Mutation',
         requestServiceEndOfSupply: {
           __typename: 'RequestServiceEndOfSupplyPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function requestServiceServiceRequest() {
+  return mockRequestServiceServiceRequestMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        requestServiceServiceRequest: {
+          __typename: 'RequestServiceServiceRequestPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function cancelServiceRequest() {
+  return mockCancelServiceRequestMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        cancelServiceRequest: {
+          __typename: 'CancelServiceRequestPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function confirmServiceRequest() {
+  return mockConfirmServiceRequestMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        confirmServiceRequest: {
+          __typename: 'ConfirmServiceRequestPayload',
           boolean: true,
         },
       },

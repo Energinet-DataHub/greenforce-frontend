@@ -1,0 +1,5 @@
+mutation CancelServiceRequest($meteringPointId: String!, $processId: UUID!) {
+  cancelServiceRequest(input: { meteringPointId: $meteringPointId, processId: $processId }) {
+    boolean
+  }
+}
