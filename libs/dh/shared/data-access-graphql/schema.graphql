@@ -32,6 +32,10 @@ interface Calculation implements OrchestrationInstance {
   steps: [OrchestrationInstanceStep!]!
 }
 
+interface ChargeChange {
+  createdAt: DateTime!
+}
+
 interface Error {
   message: String!
 }
@@ -324,6 +328,7 @@ type Charge {
   missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
+  history: [ChargeChange!]!
   id: String!
   code: String!
   name: String!
@@ -337,6 +342,18 @@ type Charge {
   vatInclusive: Boolean!
   transparentInvoicing: Boolean!
   spotDependingPrice: Boolean!
+}
+
+type ChargeCancelled implements ChargeChange {
+  effectiveDate: DateTime!
+  createdAt: DateTime!
+}
+
+type ChargeDescriptionChanged implements ChargeChange {
+  effectiveDate: DateTime!
+  previous: String!
+  current: String!
+  createdAt: DateTime!
 }
 
 type ChargeLinkPeriod {
@@ -357,6 +374,13 @@ type ChargeLinkPeriodChange {
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
+}
+
+type ChargeNameChanged implements ChargeChange {
+  effectiveDate: DateTime!
+  previous: String!
+  current: String!
+  createdAt: DateTime!
 }
 
 "A connection to a list of items."
@@ -394,6 +418,11 @@ type ChargePeriod {
   status: ChargeStatus!
 }
 
+type ChargeResumed implements ChargeChange {
+  effectiveDate: DateTime!
+  createdAt: DateTime!
+}
+
 type ChargeSeriesPoint {
   price: Decimal!
   hasChanged: Boolean!
@@ -405,6 +434,29 @@ type ChargeSeriesPointChange {
   price: Decimal!
   isCurrent: Boolean!
   messageId: String
+}
+
+type ChargeStarted implements ChargeChange {
+  createdAt: DateTime!
+}
+
+type ChargeStopped implements ChargeChange {
+  effectiveDate: DateTime!
+  createdAt: DateTime!
+}
+
+type ChargeTransparentInvoicingChanged implements ChargeChange {
+  effectiveDate: DateTime!
+  previous: Boolean!
+  current: Boolean!
+  createdAt: DateTime!
+}
+
+type ChargeVatChanged implements ChargeChange {
+  effectiveDate: DateTime!
+  previous: Boolean!
+  current: Boolean!
+  createdAt: DateTime!
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
