@@ -153,8 +153,8 @@ export const createNodesV2: CreateNodes = [
                     inputs: [
                       'default',
                       '^default',
-                      '{workspaceRoot}/.eslintrc.json',
-                      `{workspaceRoot}/${libs}/${product}/.eslintrc.json`,
+                      '{workspaceRoot}/eslint.config.@(js|cjs|mjs|ts|cts|mts)',
+                      `{workspaceRoot}/${libs}/${product}/eslint.config.@(js|cjs|mjs|ts|cts|mts)`,
                       '{workspaceRoot}/tools/eslint-rules/**/*',
                       {
                         externalDependencies: ['eslint'],

@@ -56,7 +56,7 @@ function deleteBranches(branches: string[]) {
   for (const branch of branches) {
     try {
       execSync(`git branch -D ${branch}`, { stdio: 'inherit' });
-    } catch (e) {
+    } catch {
       console.error(`Failed to delete branch: ${branch}`);
     }
   }

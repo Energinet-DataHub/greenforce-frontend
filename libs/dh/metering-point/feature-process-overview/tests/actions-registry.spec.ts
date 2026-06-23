@@ -45,6 +45,7 @@ import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondar
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from '../src/actions/incorrect-move/incorrect-move';
 import { RollbackChangeOfSupplierActions } from '../src/actions/rollback-change-of-supplier/rollback-change-of-supplier';
+import { ServiceRequestActions } from '../src/actions/service-request/service-request';
 import { ProcessActionContext } from '../src/actions/context';
 
 // -- Test helpers --
@@ -73,6 +74,8 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRequestPermission?: boolean;
       hasMoveInPermission?: boolean;
       hasChangeOfSupplierPermission?: boolean;
+      hasServiceRequestRequestPermission?: boolean;
+      hasServiceRequestRespondPermission?: boolean;
       isFas?: boolean;
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
@@ -81,6 +84,7 @@ describe('DhActionsRegistry', () => {
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
       incorrectMoveHandlers?: ActionHandlerMap;
       rollbackChangeOfSupplierHandlers?: ActionHandlerMap;
+      serviceRequestHandlers?: ActionHandlerMap;
     } = {}
   ) {
     const {
@@ -90,6 +94,8 @@ describe('DhActionsRegistry', () => {
       hasEndOfSupplyRequestPermission = false,
       hasMoveInPermission = false,
       hasChangeOfSupplierPermission = false,
+      hasServiceRequestRequestPermission = false,
+      hasServiceRequestRespondPermission = false,
       isFas = false,
       actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
@@ -111,6 +117,7 @@ describe('DhActionsRegistry', () => {
       } as ActionHandlerMap,
       incorrectMoveHandlers = {} as ActionHandlerMap,
       rollbackChangeOfSupplierHandlers = {} as ActionHandlerMap,
+      serviceRequestHandlers = {} as ActionHandlerMap,
     } = options;
 
     TestBed.configureTestingModule({
@@ -134,6 +141,10 @@ describe('DhActionsRegistry', () => {
               if (permission === 'metering-point:move-in') return of(hasMoveInPermission);
               if (permission === 'metering-point:change-of-supplier')
                 return of(hasChangeOfSupplierPermission);
+              if (permission === 'metering-point:service-request-request')
+                return of(hasServiceRequestRequestPermission);
+              if (permission === 'metering-point:service-request-respond')
+                return of(hasServiceRequestRespondPermission);
               return of(false);
             },
             isFas: () => of(isFas),
@@ -175,6 +186,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: RollbackChangeOfSupplierActions,
           useValue: createMockHandlers(rollbackChangeOfSupplierHandlers),
+        },
+        {
+          provide: ServiceRequestActions,
+          useValue: createMockHandlers(serviceRequestHandlers),
         },
       ],
     });
@@ -697,6 +712,84 @@ describe('DhActionsRegistry', () => {
       expect(result).toEqual([]);
     });
 
+    it('should return CancelWorkflow for SecondaryMoveIn when permission and initiator match', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: true,
+        actorMarketRole: EicFunction.EnergySupplier,
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [MeteringPointProcessAction.CancelWorkflow],
+        ProcessManagerBusinessReason.SecondaryMoveIn,
+        false,
+        '1234567890123'
+      );
+
+      expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
+    });
+
+    it('should exclude CancelWorkflow for SecondaryMoveIn when initiator GLN does not match', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: true,
+        actorMarketRole: EicFunction.EnergySupplier,
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [MeteringPointProcessAction.CancelWorkflow],
+        ProcessManagerBusinessReason.SecondaryMoveIn,
+        false,
+        '9999999999999'
+      );
+
+      expect(result).toEqual([]);
+    });
+
+    it('should exclude CancelWorkflow for SecondaryMoveIn when permission is missing', () => {
+      const registry = setupRegistry({
+        hasMoveInPermission: false,
+        actorMarketRole: EicFunction.EnergySupplier,
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.SendInformation]: {
+            callback: vi.fn(),
+          },
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            permissions: ['metering-point:move-in'],
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getSupportedActions(
+        [MeteringPointProcessAction.CancelWorkflow],
+        ProcessManagerBusinessReason.SecondaryMoveIn,
+        false,
+        '1234567890123'
+      );
+
+      expect(result).toEqual([]);
+    });
+
     it('should return CancelWorkflow for ChangeOfEnergySupplier when permission and initiator match', () => {
       const registry = setupRegistry({
         hasChangeOfSupplierPermission: true,
@@ -890,6 +983,162 @@ describe('DhActionsRegistry', () => {
         );
 
         expect(result).toContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+      });
+    });
+
+    describe('ServiceRequest (BRS-039)', () => {
+      // Mirrors the EndOfSupply registry cases. CancelWorkflow is performed by the
+      // responsible energy supplier that initiated the request and is gated by the
+      // `service-request-request` permission; ConfirmWorkflow is performed by the
+      // grid access provider and is gated by the `service-request-respond` permission.
+      // Both are behind the `service-request` feature flag.
+
+      const cancelHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.CancelWorkflow]: {
+          featureFlag: 'service-request',
+          permissions: ['metering-point:service-request-request'],
+          roles: [ResponsibleEnergySupplier],
+          callback: vi.fn(),
+        },
+      };
+
+      const confirmHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.ConfirmWorkflow]: {
+          featureFlag: 'service-request',
+          permissions: ['metering-point:service-request-respond'],
+          roles: [EicFunction.GridAccessProvider],
+          callback: vi.fn(),
+        },
+      };
+
+      it('should return CancelWorkflow when flag enabled, request permission present and actor is responsible supplier', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.CancelWorkflow]);
+      });
+
+      it('should exclude CancelWorkflow when request permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: false,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude CancelWorkflow when actor is supplier but not responsible', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude CancelWorkflow when feature flag is disabled', () => {
+        const registry = setupRegistry({
+          featureFlagsEnabled: false,
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRequestPermission: true,
+          serviceRequestHandlers: cancelHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.CancelWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          true
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should return ConfirmWorkflow when flag enabled, respond permission present and actor is GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.ConfirmWorkflow]);
+      });
+
+      it('should exclude ConfirmWorkflow when respond permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: false,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude ConfirmWorkflow when actor role is not GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude ConfirmWorkflow when feature flag is disabled', () => {
+        const registry = setupRegistry({
+          featureFlagsEnabled: false,
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: confirmHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
       });
     });
   });
@@ -1266,6 +1515,27 @@ describe('DhActionsRegistry', () => {
 
       const result = registry.getActorRolesForAction(
         MeteringPointProcessAction.SendInformation,
+        ProcessManagerBusinessReason.SecondaryMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('regression: SecondaryMoveIn CancelWorkflow [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        secondaryMoveInHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.CancelWorkflow,
         ProcessManagerBusinessReason.SecondaryMoveIn
       );
 

@@ -96,4 +96,19 @@ export const operationToolsMeteringPoint: GetMeteringPointDebugResultDtoV1 = {
         '{ "id": "111111111", "validityDate": "2023-01-04T00:00:00Z", "connectionState": "Connected" }',
     },
   ],
+  idempotencyRecords: [
+    {
+      __typename: 'ElectricityMarketV2IdempotencyRecordDto',
+      idempotencyRecordJson:
+        '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c1", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
+      commandResponseRecordJson:
+        '{ "id": "resp-1", "idempotencyRecordId": "rec-1", "meteringPointId": "111111111111111111", "response": { "Data": { "MeteringPointStateAtValidityDate": { "Type": "Consumption", "MeteringPointId": "111111111111111111", "ValidityDate": "2026-03-09T23:00:00+00:00" } }, "IsSuccess": true }, "createdAt": "2023-01-01T12:00:00Z" }',
+    },
+    {
+      __typename: 'ElectricityMarketV2IdempotencyRecordDto',
+      idempotencyRecordJson:
+        '{ "id": "9e69bb75-a572-4f91-bd11-9303c037e5c2", "meteringPointId": "111111111111111111", "createdAt": "2023-01-01T12:00:00Z" }',
+      commandResponseRecordJson: null,
+    },
+  ],
 };

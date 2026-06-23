@@ -104,11 +104,11 @@ import { DhRelatedMeteringPointsComponent } from './related/dh-related-metering-
           grid-template-rows: auto auto;
 
           dh-metering-point-details {
-            grid-row: 2;
+            grid-row: 1;
           }
 
           dh-related-metering-points {
-            grid-row: 2;
+            grid-row: 1;
           }
         }
 

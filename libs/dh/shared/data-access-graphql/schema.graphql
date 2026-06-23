@@ -290,6 +290,10 @@ type CancelScheduledCalculationPayload {
   boolean: Boolean
 }
 
+type CancelServiceRequestPayload {
+  boolean: Boolean
+}
+
 type CancelSettlementReportPayload {
   boolean: Boolean
 }
@@ -418,6 +422,10 @@ type CollectionSegmentInfo {
   hasNextPage: Boolean!
   "Indicates whether more items exist prior the set defined by the clients arguments."
   hasPreviousPage: Boolean!
+}
+
+type ConfirmServiceRequestPayload {
+  boolean: Boolean
 }
 
 type ContactCprResponse {
@@ -601,6 +609,11 @@ type ElectricityMarketV2EventDto {
   type: String!
   orchestrationInstanceId: UUID
   dataJson: String!
+}
+
+type ElectricityMarketV2IdempotencyRecordDto {
+  idempotencyRecordJson: String!
+  commandResponseRecordJson: String
 }
 
 type ElectricityMarketViewAnnualDate {
@@ -857,6 +870,7 @@ type GetMeteringPointDebugResultDtoV1 {
   meteringPointJson: String!
   meteringPointWithRelationsJson: String
   events: [ElectricityMarketV2EventDto!]!
+  idempotencyRecords: [ElectricityMarketV2IdempotencyRecordDto!]!
 }
 
 type GetProjectionsStatusResultDtoV1 {
@@ -1249,11 +1263,13 @@ type Mutation {
   cancelEndOfSupply(input: CancelEndOfSupplyInput!): CancelEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   cancelMeasurementsReport(input: CancelMeasurementsReportInput!): CancelMeasurementsReportPayload!
   cancelScheduledCalculation(input: CancelScheduledCalculationInput!): CancelScheduledCalculationPayload! @authorize(roles: [ "calculations:manage" ])
+  cancelServiceRequest(input: CancelServiceRequestInput!): CancelServiceRequestPayload! @authorize(roles: [ "metering-point:service-request-request" ])
   cancelSettlementReport(input: CancelSettlementReportInput!): CancelSettlementReportPayload!
   changeCustomerCharacteristics(input: ChangeCustomerCharacteristicsInput!): ChangeCustomerCharacteristicsPayload! @authorize(roles: [ "metering-point:move-in" ])
   changeProductionObligation(input: ChangeProductionObligationInput!): ChangeProductionObligationPayload! @authorize(roles: [ "metering-point:production-obligation-manage" ])
   clearMigrationEventsDeadLetterQueue: ClearMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
   closeConversation(input: CloseConversationInput!): CloseConversationPayload! @authorize(roles: [ "metering-point:actor-conversation" ])
+  confirmServiceRequest(input: ConfirmServiceRequestInput!): ConfirmServiceRequestPayload! @authorize(roles: [ "metering-point:service-request-respond" ])
   createCalculation(input: CreateCalculationInput!): CreateCalculationPayload! @authorize(roles: [ "calculations:manage" ])
   createCharge(input: CreateChargeInput!): CreateChargePayload! @authorize(roles: [ "charges:manage" ])
   createChargeLink(input: CreateChargeLinkInput!): CreateChargeLinkPayload! @authorize(roles: [ "metering-point:prices-manage" ])
@@ -1296,6 +1312,7 @@ type Mutation {
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
+  requestServiceServiceRequest(input: RequestServiceServiceRequestInput!): RequestServiceServiceRequestPayload! @authorize(roles: [ "metering-point:service-request-request" ])
   requestSettlementReport(input: RequestSettlementReportInput!): RequestSettlementReportPayload!
   resendWaitingEsettExchangeMessages: ResendWaitingEsettExchangeMessagesPayload!
   resetMitId(input: ResetMitIdInput!): ResetMitIdPayload!
@@ -1739,6 +1756,10 @@ type RequestServiceEndOfSupplyPayload {
   boolean: Boolean
 }
 
+type RequestServiceServiceRequestPayload {
+  boolean: Boolean
+}
+
 type RequestSettlementReportGridAreaCalculation {
   calculationId: UUID!
   calculationDate: DateTime!
@@ -2176,6 +2197,11 @@ input CancelScheduledCalculationInput {
   id: UUID!
 }
 
+input CancelServiceRequestInput {
+  meteringPointId: String!
+  processId: UUID!
+}
+
 input CancelSettlementReportInput {
   id: String!
 }
@@ -2226,6 +2252,12 @@ input ChargeSeriesPointInput {
 
 input CloseConversationInput {
   conversationId: UUID!
+}
+
+input ConfirmServiceRequestInput {
+  meteringPointId: String!
+  processId: UUID!
+  description: String
 }
 
 input CreateActorContactDtoInput {
@@ -2620,6 +2652,13 @@ input RequestMissingMeasurementsLogInput {
 input RequestServiceEndOfSupplyInput {
   meteringPointId: String!
   processId: UUID!
+  serviceKind: ServiceKindV1!
+  startDate: DateTime!
+  description: String
+}
+
+input RequestServiceServiceRequestInput {
+  meteringPointId: String!
   serviceKind: ServiceKindV1!
   startDate: DateTime!
   description: String

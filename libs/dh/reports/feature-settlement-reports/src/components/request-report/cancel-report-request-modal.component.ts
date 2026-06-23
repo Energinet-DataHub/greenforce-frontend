@@ -49,5 +49,4 @@ import { WattButtonComponent } from '@energinet/watt/button';
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhCancelReportRequestModal extends WattTypedModal {}

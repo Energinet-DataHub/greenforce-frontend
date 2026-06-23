@@ -139,7 +139,6 @@ import { DhCancelReportRequest } from './cancel-report-request.component';
     </watt-data-table>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSettlementReports {
   private permissionService = inject(PermissionService);
   protected settlementReportsService = inject(DhSettlementReportsService);

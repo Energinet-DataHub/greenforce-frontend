@@ -43,7 +43,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
 
 import { YearMonth } from './year-month';
 
-/* eslint-disable @angular-eslint/component-class-suffix */
 @Component({
   selector: 'watt-yearmonth-field',
   encapsulation: ViewEncapsulation.None,

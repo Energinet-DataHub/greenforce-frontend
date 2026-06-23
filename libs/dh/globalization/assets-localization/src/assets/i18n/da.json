@@ -745,6 +745,7 @@
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
+        "serviceRequest": "Anmod om serviceydelse",
         "changeOfSupplier": "Leverandørskift",
         "historicalCorrection": "Historisk rettelse"
       },
@@ -1156,6 +1157,10 @@
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accepter",
           "REJECT_REQUEST": "Afvis"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Annuller",
+          "CONFIRM_WORKFLOW": "Godkend"
         }
       },
       "incorrectMoveIn": {
@@ -1264,6 +1269,10 @@
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
+      "cancelServiceRequest": {
+        "confirm": "Annuller",
+        "successToast": "Serviceanmodning annulleret"
+      },
       "fasActionInfoModal": {
         "title": "Handlingen kan ikke udføres",
         "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",
@@ -1280,7 +1289,8 @@
       "processTypeName": {
         "EndOfSupply": "leveranceophør",
         "CustomerMoveIn": "tilflytning",
-        "ChangeOfEnergySupplier": "leverandørskift"
+        "ChangeOfEnergySupplier": "leverandørskift",
+        "ServiceRequest": "anmodning om serviceydelse"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
@@ -1516,6 +1526,34 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen",
           "OTHER_REASON": "Anden årsag"
         }
+      },
+      "serviceRequest": {
+        "title": "Anmod om serviceydelse",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Vælg",
+        "startDateLabel": "Skæringsdato",
+        "descriptionLabel": "Bemærkninger",
+        "cancel": "Annuller",
+        "confirm": "Indsend",
+        "successToast": "Anmodning sendt",
+        "successToastAction": "Se status under processer",
+        "errorToast": "Anmodning om serviceydelse fejlede",
+        "serviceKinds": {
+          "DISCONNECT": "Afbrydelse",
+          "CONNECT": "Genåbning",
+          "METER_CHECK": "Målerundersøgelse"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Godkend anmodning om serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "serviceKindPlaceholder": "[Serviceydelse]",
+        "startDateLabel": "Skæringsdato",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Godkend",
+        "successToast": "Serviceydelse godkendt",
+        "errorToast": "Godkendelse af serviceydelse fejlede"
       }
     },
     "measurements": {
@@ -3893,7 +3931,8 @@
       "segments": {
         "meteringPoint": "Målepunkt",
         "events": "Events",
-        "relations": "Relationer"
+        "relations": "Relationer",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Udvid alle",
       "collapseAll": "Skjul alle",

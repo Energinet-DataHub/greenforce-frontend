@@ -746,6 +746,7 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
+        "serviceRequest": "Request service",
         "changeOfSupplier": "Change of supplier",
         "historicalCorrection": "Historical correction"
       },
@@ -1157,6 +1158,10 @@
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accept",
           "REJECT_REQUEST": "Reject"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Cancel",
+          "CONFIRM_WORKFLOW": "Approve"
         }
       },
       "incorrectMoveIn": {
@@ -1265,6 +1270,10 @@
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
       },
+      "cancelServiceRequest": {
+        "confirm": "Cancel",
+        "successToast": "Service request cancelled"
+      },
       "fasActionInfoModal": {
         "title": "The action cannot be performed",
         "body": "Unfortunately only the actor itself can perform this action.",
@@ -1281,7 +1290,8 @@
       "processTypeName": {
         "EndOfSupply": "end of supply",
         "CustomerMoveIn": "move-in",
-        "ChangeOfEnergySupplier": "change of energy supplier"
+        "ChangeOfEnergySupplier": "change of energy supplier",
+        "ServiceRequest": "request for service"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
@@ -1517,6 +1527,34 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Bailiffs court must be involved in disconnection",
           "OTHER_REASON": "Other reason"
         }
+      },
+      "serviceRequest": {
+        "title": "Request service",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Select",
+        "startDateLabel": "Cut-off date",
+        "descriptionLabel": "Remarks",
+        "cancel": "Cancel",
+        "confirm": "Submit",
+        "successToast": "Request sent",
+        "successToastAction": "See status under processes",
+        "errorToast": "Service request failed",
+        "serviceKinds": {
+          "DISCONNECT": "Disconnection",
+          "CONNECT": "Reconnection",
+          "METER_CHECK": "Meter investigation"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Approve service request",
+        "serviceKindLabel": "Requested service",
+        "serviceKindPlaceholder": "[Service]",
+        "startDateLabel": "Cut-off date",
+        "descriptionLabel": "Remark",
+        "cancel": "Close window",
+        "confirm": "Approve",
+        "successToast": "Service approved",
+        "errorToast": "Approving the service failed"
       }
     },
     "measurements": {
@@ -3894,7 +3932,8 @@
       "segments": {
         "meteringPoint": "Metering point",
         "events": "Events",
-        "relations": "Relations"
+        "relations": "Relations",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Expand all",
       "collapseAll": "Collapse all",

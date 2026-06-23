@@ -122,7 +122,6 @@ export type MimeType = `${string}/${string}`;
     </watt-field>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WattDropZone implements ControlValueAccessor {
   intl = inject(WattDropZoneIntlService);
 
