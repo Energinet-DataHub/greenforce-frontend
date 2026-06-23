@@ -29,6 +29,7 @@ import {
   OnNotificationAddedDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhApplicationInsights } from '@energinet-datahub/dh/shared/util-application-insights';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
@@ -182,6 +183,7 @@ export class DhNotificationsCenterComponent {
   private readonly router = inject(Router);
   private readonly appInsights = inject(DhApplicationInsights);
   private readonly notificationsService = inject(DhNotificationsCenterService);
+  private readonly featureFlagsService = inject(DhFeatureFlagsService);
 
   private readonly dismissMutation = mutation(DismissNotificationDocument);
   private readonly dismissAllMutation = mutation(DismissAllNotificationsDocument);
@@ -245,7 +247,9 @@ export class DhNotificationsCenterComponent {
   }
 
   navigateTo(notification: DhNotification): void {
-    this.router.navigate(dhGetRouteByType(notification));
+    this.router.navigate(
+      dhGetRouteByType(notification, this.featureFlagsService.isEnabled('reports-v2'))
+    );
   }
 
   onDismiss(notificationId: number): void {

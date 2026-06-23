@@ -27,7 +27,10 @@ import {
 
 import { DhNotification } from './dh-notification';
 
-export function dhGetRouteByType({ notificationType, relatedToId }: DhNotification): string[] {
+export function dhGetRouteByType(
+  { notificationType, relatedToId }: DhNotification,
+  isReportsV2Enabled: boolean
+): string[] {
   const rootPath = '/';
 
   switch (notificationType) {
@@ -43,6 +46,14 @@ export function dhGetRouteByType({ notificationType, relatedToId }: DhNotificati
       ];
     case NotificationType.SettlementReportReadyForDownload:
     case NotificationType.SettlementReportFailed:
+      if (isReportsV2Enabled) {
+        return [
+          rootPath,
+          getPath<BasePaths>('reports'),
+          getPath<ReportsSubPaths>('settlement-reports'),
+        ];
+      }
+
       return [
         rootPath,
         getPath<BasePaths>('reports'),
