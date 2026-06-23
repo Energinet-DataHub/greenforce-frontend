@@ -104,7 +104,7 @@ function implicitDependencies(name: string): string[] {
   return [];
 }
 
-export const createNodesV2: CreateNodes = [
+export const createNodes: CreateNodes = [
   // Match all libs at the standard 3-level depth: libs/{product}/{domain}/{name}/index.ts
   // Products covered: dh, gf  (watt is excluded — it is a buildable ng-packagr library)
   'libs/{dh,gf}/*/*/index.ts',
