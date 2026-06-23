@@ -166,6 +166,7 @@ public static partial class MeteringPointProcessNode
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
         IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
+        IHasPreviousEnergySupplierDataLoader hasPreviousEnergySupplierDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -234,23 +235,46 @@ public static partial class MeteringPointProcessNode
             return actions;
         }
 
-        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN
-        // to scope the EM query, so eligibility is reduced to the process's own cutoff
-        // falling inside the same 60-calendar-day window the supplier-scoped EM query enforces.
-        if (httpContextAccessor.HttpContext?.User.IsFas() == true)
+        // Both the FAS 60-calendar-day window and the EM previous-supplier lookup below key off the
+        // move-in's validity date (skæringsdato), so it must be present. A latest succeeded move-in
+        // always carries one; its absence means eligibility cannot be evaluated, so fail closed.
+        if (process.CutoffDate is not { } moveInValidityDate)
         {
-            return process.CutoffDate.HasValue
-                   && process.CutoffDate.Value >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
-                ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
-                : actions;
+            return actions;
         }
 
-        var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityDataLoader
-            .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
+        // Base eligibility differs by viewer. FAS surfaces every supported action (disabled in the
+        // UI) and has no supplier GLN to scope the EM query against, so it falls back to the
+        // process's own cutoff falling inside the 60-calendar-day correction window. A supplier is
+        // eligible when EM reports a move-in it made on this metering point within that window.
+        bool isBaseEligible;
+        if (httpContextAccessor.HttpContext?.User.IsFas() == true)
+        {
+            isBaseEligible = moveInValidityDate >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        }
+        else
+        {
+            var userIdentity = httpContextAccessor.CreateUserIdentity();
+            isBaseEligible = await incorrectMoveInEligibilityDataLoader
+                .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
+                .ConfigureAwait(false);
+        }
+
+        if (!isBaseEligible)
+        {
+            return actions;
+        }
+
+        // Final gate (team-volt#2050): the correction reverts supply to the PREVIOUS energy
+        // supplier, so it is meaningless when none existed on the metering point the day before the
+        // move-in (the very first move-in, or a preceding end of supply). Processes are not
+        // migrated, so only ElectricityMarket can answer this; it applies to both FAS and supplier
+        // views.
+        var hasPreviousEnergySupplier = await hasPreviousEnergySupplierDataLoader
+            .LoadAsync((process.MeteringPointId, moveInValidityDate), cancellationToken)
             .ConfigureAwait(false);
 
-        return isEligibleForIncorrectMoveIn
+        return hasPreviousEnergySupplier
             ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
             : actions;
     }
@@ -278,6 +302,37 @@ public static partial class MeteringPointProcessNode
             // Intentionally fail closed: this gates a display-only action, so an EM transport
             // failure hides the button instead of erroring the whole availableActions field.
             results[key] = result.IsSuccess && result.Data is not null && result.Data.MoveIns.Any();
+        }
+
+        return results;
+    }
+
+    [DataLoader]
+    public static async Task<IReadOnlyDictionary<(string MeteringPointId, DateTimeOffset MoveInValidityDate), bool>> GetHasPreviousEnergySupplierAsync(
+        IReadOnlyList<(string MeteringPointId, DateTimeOffset MoveInValidityDate)> keys,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken cancellationToken)
+    {
+        // HotChocolate dedupes identical keys within a single request. EM owns the "previous
+        // supplier the day before the move-in" semantics (including the end-of-supply case); the
+        // BFF only needs to know whether one existed, which is what makes a BRS-011 correction
+        // meaningful.
+        var results = new Dictionary<(string MeteringPointId, DateTimeOffset MoveInValidityDate), bool>(keys.Count);
+        foreach (var key in keys)
+        {
+            var query = new GetPreviousEnergySupplierIdAndOrchestrationInstanceIdQueryV1(
+                MeteringPointId: key.MeteringPointId,
+                IncorrectMoveInValidityDate: key.MoveInValidityDate);
+
+            var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
+
+            // Intentionally fail closed: this gates a display-only action, so an EM transport
+            // failure hides the button instead of erroring the whole availableActions field.
+            // IsNullOrWhiteSpace (not IsNullOrEmpty) so a whitespace-only id, which is not a real
+            // supplier GLN, also fails closed.
+            results[key] = result.IsSuccess
+                && result.Data is not null
+                && !string.IsNullOrWhiteSpace(result.Data.PreviousEnergySupplierId);
         }
 
         return results;
@@ -482,6 +537,7 @@ public static partial class MeteringPointProcessNode
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
                 ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
+                ctx.DataLoader<IHasPreviousEnergySupplierDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }
