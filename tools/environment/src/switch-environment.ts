@@ -17,16 +17,17 @@
  */
 //#endregion
 import inquirer from 'inquirer';
-import { exec } from 'child_process';
+import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { writeFile, mkdir } from 'fs/promises';
 import { dirname } from 'path';
 
-const execAsync = promisify(exec);
+const execFileAsync = promisify(execFile);
 
 const REPO = 'Energinet-DataHub/dh3-dev-secrets';
 const BASE_PATH = 'greenforce-frontend';
 const ENV_PATTERN = /^(dev_\d+|test_\d+)$/;
+const GH_COMMAND = process.platform === 'win32' ? 'gh.exe' : 'gh';
 
 interface GitTreeItem {
   path: string;
@@ -43,6 +44,11 @@ interface GitTreeResponse {
   truncated: boolean;
 }
 
+interface GitBlobResponse {
+  content: string;
+  encoding: string;
+}
+
 interface ConfigFile {
   environment: string;
   sourcePath: string;
@@ -50,13 +56,19 @@ interface ConfigFile {
   sha: string;
 }
 
+async function ghApi<T>(path: string): Promise<T> {
+  const { stdout } = await execFileAsync(GH_COMMAND, ['api', path], {
+    encoding: 'utf-8',
+    maxBuffer: 10 * 1024 * 1024,
+  });
+
+  return JSON.parse(stdout) as T;
+}
+
 async function fetchRepoTree(): Promise<GitTreeItem[]> {
   console.log('📡 Fetching repository structure...');
 
-  const { stdout } = await execAsync(`gh api repos/${REPO}/git/trees/main?recursive=1`);
-
-  const response: GitTreeResponse = JSON.parse(stdout);
-
+  const response = await ghApi<GitTreeResponse>(`repos/${REPO}/git/trees/main?recursive=1`);
   if (response.truncated) {
     console.warn('⚠️  Warning: Repository tree was truncated. Some files may be missing.');
   }
@@ -109,10 +121,14 @@ function discoverEnvironmentsAndFiles(tree: GitTreeItem[]): {
 }
 
 async function fetchFileContent(sha: string): Promise<string> {
-  const { stdout } = await execAsync(`gh api repos/${REPO}/git/blobs/${sha} --jq '.content'`);
+  const response = await ghApi<GitBlobResponse>(`repos/${REPO}/git/blobs/${sha}`);
 
-  // GitHub returns base64 encoded content
-  return Buffer.from(stdout.trim(), 'base64').toString('utf-8');
+  if (response.encoding !== 'base64') {
+    throw new Error(`Unsupported blob encoding '${response.encoding}' for ${sha}`);
+  }
+
+  // GitHub returns base64 encoded content with line breaks
+  return Buffer.from(response.content.replace(/\s/g, ''), 'base64').toString('utf-8');
 }
 
 async function writeConfigFile(targetPath: string, content: string): Promise<void> {
@@ -171,6 +187,8 @@ async function main() {
     if (error instanceof Error) {
       if (
         error.message.includes('gh: command not found') ||
+        error.message.includes('spawn gh ENOENT') ||
+        error.message.includes('spawn gh.exe ENOENT') ||
         error.message.includes('not recognized')
       ) {
         console.error(
