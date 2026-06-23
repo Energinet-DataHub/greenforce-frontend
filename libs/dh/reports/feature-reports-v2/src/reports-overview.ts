@@ -16,4 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-export { routes as default } from './src/routes';
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'dh-reports-overview',
+  imports: [],
+  template: `Master data reports overview`,
+})
+export class DhReportsOverview {}

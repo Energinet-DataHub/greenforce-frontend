@@ -3092,7 +3092,9 @@
     "tabs": {
       "settlementReports": "Settlement reports",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Imbalance prices"
+      "imbalancePrices": "Imbalance prices",
+      "meteringPointMasterDataReports": "Master data",
+      "missingMeasurementsLog": "Missing measurements log"
     },
     "settlements": {
       "topBarTitle": "Settlements"
