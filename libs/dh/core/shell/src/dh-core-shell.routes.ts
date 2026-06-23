@@ -18,6 +18,7 @@
 //#endregion
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
+import { inject } from '@angular/core';
 
 import {
   BasePaths,
@@ -25,7 +26,7 @@ import {
   MeteringPointSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { FeatureFlagGuard } from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
@@ -75,7 +76,7 @@ export const dhCoreShellRoutes: Routes = [
         path: getPath<BasePaths>('reports'),
         loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports-v2'),
         canActivate: [MsalGuard],
-        canMatch: [FeatureFlagGuard('reports-v2')],
+        canMatch: [() => inject(DhFeatureFlagsService).isEnabled('reports-v2')],
       },
       {
         path: getPath<BasePaths>('reports'),

@@ -48,7 +48,7 @@ export const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: getPath<ReportsSubPaths>('overview'),
+        redirectTo: redirectToLandingPage(),
       },
       {
         path: getPath<ReportsSubPaths>('settlement-reports'),
@@ -69,7 +69,7 @@ export const routes: Routes = [
         component: DhReportsOverview,
       },
       {
-        path: getPath<BasePaths>('imbalance-prices'),
+        path: getPath<ReportsSubPaths>('imbalance-prices'),
         canActivate: [PermissionGuard(['imbalance-prices:view'])],
         loadComponent: () => import('@energinet-datahub/dh/imbalance-prices'),
       },
@@ -96,13 +96,9 @@ export const routes: Routes = [
 ];
 
 /**
- * Function used to determine the landing page after navigating to '/reports/overview' URL.
- *
- * If the user has the permission to access 'measurements-reports' they are redirected to './measurements-reports'.
- * Otherwise, if the user has the permission to access 'imbalance-prices', they are redirected to './imbalance-prices'.
- * If neither permission is granted, the user is redirected to the root path ('/').
+ * Function used to determine the landing page after navigating to '/reports' URL.
  */
-function redirectToOverviewLandingPage(): RedirectFunction {
+function redirectToLandingPage(): RedirectFunction {
   return () => {
     const router = inject(Router);
     const permissionService = inject(PermissionService);
@@ -111,29 +107,69 @@ function redirectToOverviewLandingPage(): RedirectFunction {
     const hasMeasurementsReportsPermission$ = permissionService.hasPermission(
       'measurements-reports:manage'
     );
+    const hasSettlementReportsPermission$ = permissionService.hasPermission(
+      'settlement-reports:manage'
+    );
+    const hasMeteringPointMasterDataReportsPermission$ = permissionService.hasPermission(
+      'metering-point-master-data-reports:manage'
+    );
     const hasImbalancePricesViewPermission$ =
       permissionService.hasPermission('imbalance-prices:view');
+    const hasMissingMeasurementsLogPermission$ = permissionService.hasPermission(
+      'missing-measurements-log:view'
+    );
 
-    return forkJoin([hasMeasurementsReportsPermission$, hasImbalancePricesViewPermission$]).pipe(
-      map(([hasMeasurementsReportsPermission, hasImbalancePricesViewPermission]) => {
-        if (releaseToggleService.isEnabled('PM31-REPORTS') && hasMeasurementsReportsPermission) {
-          return router.createUrlTree([
-            '/',
-            getPath<BasePaths>('reports'),
-            getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('measurements-reports'),
-          ]);
-        } else if (hasImbalancePricesViewPermission) {
-          return router.createUrlTree([
-            '/',
-            getPath<BasePaths>('reports'),
-            getPath<ReportsSubPaths>('overview'),
-            getPath<ReportsSubPaths>('imbalance-prices'),
-          ]);
+    return forkJoin([
+      hasMeasurementsReportsPermission$,
+      hasSettlementReportsPermission$,
+      hasMeteringPointMasterDataReportsPermission$,
+      hasImbalancePricesViewPermission$,
+      hasMissingMeasurementsLogPermission$,
+    ]).pipe(
+      map(
+        ([
+          hasMeasurementsReportsPermission,
+          hasSettlementReportsPermission,
+          hasMeteringPointMasterDataReportsPermission,
+          hasImbalancePricesViewPermission,
+          hasMissingMeasurementsLogPermission,
+        ]) => {
+          if (releaseToggleService.isEnabled('PM31-REPORTS') && hasMeasurementsReportsPermission) {
+            return router.createUrlTree([
+              '/',
+              getPath<BasePaths>('reports'),
+              getPath<ReportsSubPaths>('measurements-reports'),
+            ]);
+          } else if (hasSettlementReportsPermission) {
+            return router.createUrlTree([
+              '/',
+              getPath<BasePaths>('reports'),
+              getPath<ReportsSubPaths>('settlement-reports'),
+            ]);
+          } else if (hasMeteringPointMasterDataReportsPermission) {
+            return router.createUrlTree([
+              '/',
+              getPath<BasePaths>('reports'),
+              getPath<ReportsSubPaths>('overview'),
+            ]);
+          } else if (hasImbalancePricesViewPermission) {
+            return router.createUrlTree([
+              '/',
+              getPath<BasePaths>('reports'),
+              getPath<ReportsSubPaths>('overview'),
+              getPath<ReportsSubPaths>('imbalance-prices'),
+            ]);
+          } else if (hasMissingMeasurementsLogPermission) {
+            return router.createUrlTree([
+              '/',
+              getPath<BasePaths>('reports'),
+              getPath<ReportsSubPaths>('missing-measurements-log'),
+            ]);
+          }
+
+          return router.parseUrl('/');
         }
-
-        return router.parseUrl('/');
-      })
+      )
     );
   };
 }
