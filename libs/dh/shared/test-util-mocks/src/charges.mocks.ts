@@ -71,6 +71,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     spotDependingPrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
+    history: [],
     periods: [
       {
         __typename: 'ChargePeriod',
@@ -123,6 +124,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     spotDependingPrice: false,
     transparentInvoicing: false,
     vatInclusive: false,
+    history: [],
     periods: [
       {
         __typename: 'ChargePeriod',
@@ -171,6 +173,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     spotDependingPrice: false,
     transparentInvoicing: true,
     vatInclusive: false,
+    history: [],
     periods: [
       {
         __typename: 'ChargePeriod',
@@ -219,6 +222,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
+    history: [],
     periods: [
       {
         __typename: 'ChargePeriod',
@@ -267,6 +271,7 @@ const makeChargesMock = (interval?: WattRange<Date>): Charge[] => [
     spotDependingPrice: true,
     transparentInvoicing: true,
     vatInclusive: false,
+    history: [],
     periods: [
       {
         __typename: 'ChargePeriod',
