@@ -50,6 +50,7 @@ import {
 import { DhStartMoveInComponent } from '@energinet-datahub/dh/metering-point/feature-move-in';
 import { DhEndOfSupplyComponent } from '@energinet-datahub/dh/metering-point/feature-end-of-supply';
 import { DhChangeOfSupplierComponent } from '@energinet-datahub/dh/metering-point/feature-change-of-supplier';
+import { DhServiceRequestModal } from '@energinet-datahub/dh/metering-point/feature-process-overview';
 import { InstallationAddress } from '@energinet-datahub/dh/metering-point/shared/domain';
 
 import { DhConnectionStateManageComponent } from './connection-state-manage/connection-state-manage';
@@ -121,6 +122,12 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
         @if (showEndOfSupplyButton()) {
           <watt-menu-item (click)="startEndOfSupply()">
             {{ t('endOfSupply') }}
+          </watt-menu-item>
+        }
+
+        @if (showServiceRequestButton()) {
+          <watt-menu-item (click)="startServiceRequest()">
+            {{ t('serviceRequest') }}
           </watt-menu-item>
         }
 
@@ -215,6 +222,11 @@ export class DhMeteringPointActionsComponent {
     { initialValue: false }
   );
 
+  private readonly hasServiceRequestPermission = toSignal(
+    this.permissionService.hasPermission('metering-point:service-request-request'),
+    { initialValue: false }
+  );
+
   private readonly hasMeteringPointChangeOfSupplierPermission = toSignal(
     this.permissionService.hasPermission('metering-point:change-of-supplier'),
     { initialValue: false }
@@ -278,6 +290,13 @@ export class DhMeteringPointActionsComponent {
       this.featureFlagsService.isEnabled('end-of-supply')
   );
 
+  showServiceRequestButton = computed(
+    () =>
+      this.hasServiceRequestPermission() &&
+      this.isEnergySupplierResponsible() &&
+      this.featureFlagsService.isEnabled('service-request')
+  );
+
   // Change-of-supplier is initiated by the incoming (new) supplier, not the current responsible one.
   showChangeOfSupplierButton = computed(
     () =>
@@ -296,6 +315,7 @@ export class DhMeteringPointActionsComponent {
       this.showManualCorrectionButtons() ||
       this.showConnectionStateManageButton() ||
       this.showEndOfSupplyButton() ||
+      this.showServiceRequestButton() ||
       this.showChangeOfSupplierButton() ||
       this.showHistoricalCorrectionButton()
     );
@@ -315,6 +335,16 @@ export class DhMeteringPointActionsComponent {
   startEndOfSupply() {
     this.modalService.open({
       component: DhEndOfSupplyComponent,
+      data: {
+        meteringPointId: this.meteringPointId(),
+        internalMeteringPointId: this.internalMeteringPointId(),
+      },
+    });
+  }
+
+  startServiceRequest() {
+    this.modalService.open({
+      component: DhServiceRequestModal,
       data: {
         meteringPointId: this.meteringPointId(),
         internalMeteringPointId: this.internalMeteringPointId(),

@@ -31,7 +31,12 @@ import { ProcessActionContext } from '../context';
  */
 export function cancelProcessAction(
   processTypeNameKey: string,
-  executeMutation: (ctx: ProcessActionContext, onCompleted: () => void, onError: () => void) => void
+  executeMutation: (
+    ctx: ProcessActionContext,
+    onCompleted: () => void,
+    onError: () => void
+  ) => void,
+  options?: { confirmLabelKey?: string; successToastKey?: string }
 ): (ctx: ProcessActionContext) => void {
   const modalService = inject(WattModalService);
   const transloco = inject(TranslocoService);
@@ -42,7 +47,12 @@ export function cancelProcessAction(
 
     modalService.open({
       component: DhCancelProcessModal,
-      data: { processType: processTypeName },
+      data: {
+        processType: processTypeName,
+        confirmLabel: options?.confirmLabelKey
+          ? transloco.translate(options.confirmLabelKey)
+          : undefined,
+      },
       onClosed: (confirmed) => {
         if (!confirmed) return;
         executeMutation(
@@ -50,10 +60,11 @@ export function cancelProcessAction(
           () => {
             toast.open({
               type: 'success',
-              message: transloco.translate(
-                'meteringPoint.processOverview.cancelProcess.successToast',
-                { processType: processTypeName }
-              ),
+              message: options?.successToastKey
+                ? transloco.translate(options.successToastKey)
+                : transloco.translate('meteringPoint.processOverview.cancelProcess.successToast', {
+                    processType: processTypeName,
+                  }),
             });
             ctx.onSuccess?.();
           },

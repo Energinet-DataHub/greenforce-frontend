@@ -1,0 +1,7 @@
+mutation ConfirmServiceRequest($meteringPointId: String!, $processId: UUID!, $description: String) {
+  confirmServiceRequest(
+    input: { meteringPointId: $meteringPointId, processId: $processId, description: $description }
+  ) {
+    boolean
+  }
+}
