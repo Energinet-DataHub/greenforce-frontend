@@ -139,6 +139,7 @@
     "@nx/web": "23.0.0",
     "@nx/workspace": "23.0.0",
     "@openapitools/openapi-generator-cli": "2.13.4",
+    "@oxc-project/runtime": "0.137.0",
     "@playwright/test": "1.59.1",
     "@schematics/angular": "21.2.3",
     "@storybook/addon-a11y": "10.2.17",
