@@ -95,13 +95,17 @@ export class DhUpdateCustomerDataComponent {
     this.toast(this.requestChangeCustomerCharacteristics.status())
   );
 
+  private readonly prefillSource = computed(() =>
+    getCustomerPrefillSource(this.resolveBusinessReason())
+  );
+
   /**
    * Whether the form should prefill from temporary storage (vs. the metering
    * point) for the current business process. See `customer-prefill-source.ts`
    * for the BRS → source registry.
    */
   private readonly useTemporaryStorage = computed(
-    () => getCustomerPrefillSource(this.resolveBusinessReason()) === 'temporary-storage'
+    () => this.prefillSource() === 'temporary-storage'
   );
 
   /**
@@ -111,6 +115,10 @@ export class DhUpdateCustomerDataComponent {
    */
   private readonly shouldMaskCprFields = computed(() =>
     shouldMaskCustomerCprFields(this.resolveBusinessReason())
+  );
+
+  private readonly prefillCustomerIdentificationOnly = computed(
+    () => this.prefillSource() === 'metering-point-customer-identification'
   );
 
   private readonly meteringPointQuery = query(GetMeteringPointByIdDocument, () => ({
@@ -166,11 +174,12 @@ export class DhUpdateCustomerDataComponent {
   /** Single reduction into the view-model consumed by the form component. */
   readonly prefill = computed<CustomerDataPrefill>(() => {
     const legalCustomer = this.legalCustomer();
+    const prefillCustomerIdentificationOnly = this.prefillCustomerIdentificationOnly();
     const secondary = this.shouldClearMpDerivedData() ? undefined : this.secondaryCustomer();
-    const legalContact = this.shouldClearMpDerivedData()
-      ? null
-      : (legalCustomer?.legalContact ?? null);
-    const technicalContact = this.shouldClearMpDerivedData()
+    const shouldClearCustomerDetails =
+      prefillCustomerIdentificationOnly || this.shouldClearMpDerivedData();
+    const legalContact = shouldClearCustomerDetails ? null : (legalCustomer?.legalContact ?? null);
+    const technicalContact = shouldClearCustomerDetails
       ? null
       : (this.technicalCustomer()?.technicalContact ?? null);
 
@@ -184,15 +193,23 @@ export class DhUpdateCustomerDataComponent {
       primary: {
         name: this.resolvePrimaryName(),
         cvr: this.resolvePrimaryCvr(),
-        isProtectedName: legalCustomer?.isProtectedName ?? false,
-        customerId: this.useTemporaryStorage() ? null : (legalCustomer?.id ?? null),
+        isProtectedName: prefillCustomerIdentificationOnly
+          ? false
+          : (legalCustomer?.isProtectedName ?? false),
+        customerId:
+          prefillCustomerIdentificationOnly || this.useTemporaryStorage()
+            ? null
+            : (legalCustomer?.id ?? null),
       },
       secondary: {
         name: secondary?.name ?? '',
-        isProtectedName: secondary?.isProtectedName ?? false,
-        customerId: secondary?.name ? (secondary.id ?? null) : null,
+        isProtectedName: prefillCustomerIdentificationOnly
+          ? false
+          : (secondary?.isProtectedName ?? false),
+        customerId:
+          prefillCustomerIdentificationOnly || !secondary?.name ? null : (secondary.id ?? null),
       },
-      legalCustomer,
+      legalCustomer: prefillCustomerIdentificationOnly ? undefined : legalCustomer,
       legalContact,
       technicalContact,
       installationAddress: this.meteringPoint()?.metadata?.installationAddress,
