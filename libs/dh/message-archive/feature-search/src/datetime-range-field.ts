@@ -48,7 +48,6 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
     />
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhDateTimeRangeField implements ControlValueAccessor {
   labelStart = input('');
   labelEnd = input('');

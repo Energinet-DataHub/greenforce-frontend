@@ -102,7 +102,6 @@ import { KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation } fr
     </watt-modal>
   `,
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhSelectCalculationModal extends WattTypedModal<{
   rawData: KeyValuePairOfStringAndListOfSettlementReportApplicableCalculation[];
   formGroup: FormGroup<{

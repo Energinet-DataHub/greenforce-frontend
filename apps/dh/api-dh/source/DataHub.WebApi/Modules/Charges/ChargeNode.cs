@@ -14,8 +14,6 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
 using Energinet.DataHub.Charges.Abstractions.Shared;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
-using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Types;
@@ -27,6 +25,7 @@ using HotChocolate.Authorization;
 using NodaTime;
 using NodaTime.Extensions;
 using ChargeType = Energinet.DataHub.WebApi.Modules.Charges.Models.ChargeType;
+using MarkPart = Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
 
 namespace Energinet.DataHub.WebApi.Modules.Charges;
 
@@ -146,15 +145,15 @@ public static partial class ChargeNode
         Interval interval,
         IChargesClient client,
         CancellationToken ct)
-        => await client.GetChargeSeriesAsync(charge.Id, charge.Resolution, interval, ct);
+        => await client.GetChargeSeriesAsync(charge.Id, interval, ct);
 
-    public static async Task<ActorDto?> GetOwnerAsync(
+    public static async Task<MarkPart.ActorDto?> GetOwnerAsync(
         [Parent] Charge charge,
         IMarketParticipantByNumberAndRoleDataLoader dataLoader,
         CancellationToken ct)
     {
-        var owner = await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.SystemOperator), ct);
-        return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, EicFunction.GridAccessProvider), ct);
+        var owner = await dataLoader.LoadAsync((charge.Id.Owner, MarkPart.EicFunction.SystemOperator), ct);
+        return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, MarkPart.EicFunction.GridAccessProvider), ct);
     }
 
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)

@@ -117,9 +117,11 @@ export class DhEditMarketParticipantComponent {
 
   constructor() {
     effect(() => {
-      this.hasMarketParticipantManagePermission()
-        ? this.form.controls.name.enable()
-        : this.form.controls.name.disable();
+      if (this.hasMarketParticipantManagePermission()) {
+        this.form.controls.name.enable();
+      } else {
+        this.form.controls.name.disable();
+      }
     });
 
     effect(() => {

@@ -49,7 +49,6 @@ import { WattButtonComponent } from '@energinet/watt/button';
   </ng-container>`,
   imports: [WattBadgeComponent, TranslocoDirective, WattButtonComponent],
 })
-// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class DhReportStatus {
   status = input.required<SettlementReportStatusType>();
 

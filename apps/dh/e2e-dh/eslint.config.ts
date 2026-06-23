@@ -16,15 +16,8 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import baseConfig from '../../../eslint.config';
 
-import { WattEmptyStateComponent } from '../watt-empty-state.component';
-import { WattButtonComponent } from '../../button';
+const config: unknown[] = [...baseConfig];
 
-@Component({
-  selector: 'storybook-empty-state-overview',
-  templateUrl: './storybook-empty-state-overview.component.html',
-  styleUrls: ['./storybook-empty-state-overview.component.scss'],
-  imports: [WattEmptyStateComponent, WattButtonComponent],
-})
-export class StorybookEmptyStateOverviewComponent {}
+export default config;

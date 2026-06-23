@@ -138,7 +138,6 @@ const typeScale: Typography[] = [
 ];
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'storybook-typography-overview',
   templateUrl: './storybook-typography-overview.component.html',
   styleUrls: ['./storybook-typography-overview.component.scss'],

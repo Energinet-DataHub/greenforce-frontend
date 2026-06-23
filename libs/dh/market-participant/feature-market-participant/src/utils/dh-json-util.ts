@@ -23,7 +23,7 @@ export function dhToJSON<T>(value: T): string {
 export function dhParseJSON<T>(filtersJSON: string): T {
   try {
     return JSON.parse(filtersJSON) as T;
-  } catch (error) {
+  } catch {
     throw new Error(`Invalid JSON: ${filtersJSON}`);
   }
 }

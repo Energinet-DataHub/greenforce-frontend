@@ -16,15 +16,34 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import baseConfig from '../../../eslint.config';
+import nx from '@nx/eslint-plugin';
 
-import { WattEmptyStateComponent } from '../watt-empty-state.component';
-import { WattButtonComponent } from '../../button';
+const config: unknown[] = [
+  ...baseConfig,
+  ...nx.configs['flat/angular'],
+  ...nx.configs['flat/angular-template'],
+  {
+    files: ['**/*.ts'],
+    rules: {
+      '@angular-eslint/directive-selector': [
+        'error',
+        {
+          type: 'attribute',
+          prefix: 'dh',
+          style: 'camelCase',
+        },
+      ],
+      '@angular-eslint/component-selector': [
+        'error',
+        {
+          type: 'element',
+          prefix: 'dh',
+          style: 'kebab-case',
+        },
+      ],
+    },
+  },
+];
 
-@Component({
-  selector: 'storybook-empty-state-overview',
-  templateUrl: './storybook-empty-state-overview.component.html',
-  styleUrls: ['./storybook-empty-state-overview.component.scss'],
-  imports: [WattEmptyStateComponent, WattButtonComponent],
-})
-export class StorybookEmptyStateOverviewComponent {}
+export default config;
