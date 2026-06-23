@@ -36,11 +36,15 @@ describe('getCustomerPrefillSource', () => {
     });
   });
 
-  describe('returns metering-point for processes that read existing data', () => {
+  describe('returns metering-point customer identification for change of supplier', () => {
     it('ChangeOfEnergySupplier (BRS-001)', () => {
-      expect(getCustomerPrefillSource(ChangeOfEnergySupplier)).toBe('metering-point');
+      expect(getCustomerPrefillSource(ChangeOfEnergySupplier)).toBe(
+        'metering-point-customer-identification'
+      );
     });
+  });
 
+  describe('returns metering-point for processes that read existing data', () => {
     it('UpdateMasterDataConsumer (BRS-015)', () => {
       expect(getCustomerPrefillSource(UpdateMasterDataConsumer)).toBe('metering-point');
     });

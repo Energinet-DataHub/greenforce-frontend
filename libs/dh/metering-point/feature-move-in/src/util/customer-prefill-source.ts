@@ -21,10 +21,15 @@ import { ChangeCustomerCharacteristicsBusinessReason } from '@energinet-datahub/
 /**
  * Where the "Update customer data" form prefills its values from.
  * - `metering-point`: the metering point's current commercial relation.
+ * - `metering-point-customer-identification`: only the metering point's current
+ *   primary customer name/CVR and secondary customer name.
  * - `temporary-storage`: the process's temporary storage payload
  *   (requires a `processId`).
  */
-export type CustomerPrefillSource = 'metering-point' | 'temporary-storage';
+export type CustomerPrefillSource =
+  | 'metering-point'
+  | 'metering-point-customer-identification'
+  | 'temporary-storage';
 
 /**
  * Prefill source per business process (BRS). Add an entry when a new BRS is
@@ -34,7 +39,8 @@ const PREFILL_SOURCE: Partial<
   Record<ChangeCustomerCharacteristicsBusinessReason, CustomerPrefillSource>
 > = {
   // BRS-001 Change of energy supplier
-  [ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier]: 'metering-point',
+  [ChangeCustomerCharacteristicsBusinessReason.ChangeOfEnergySupplier]:
+    'metering-point-customer-identification',
   // BRS-009 Move in
   [ChangeCustomerCharacteristicsBusinessReason.CustomerMoveIn]: 'temporary-storage',
   [ChangeCustomerCharacteristicsBusinessReason.SecondaryMoveIn]: 'temporary-storage',
