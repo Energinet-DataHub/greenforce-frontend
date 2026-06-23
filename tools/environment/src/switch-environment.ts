@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import inquirer from 'inquirer';
 import { execFile } from 'child_process';
 import { promisify } from 'util';
 import { writeFile, mkdir } from 'fs/promises';
 import { dirname } from 'path';
+import { createInterface } from 'readline/promises';
 
 const execFileAsync = promisify(execFile);
 
@@ -54,6 +54,63 @@ interface ConfigFile {
   sourcePath: string;
   targetPath: string;
   sha: string;
+}
+
+function environmentFromArgs(environments: string[]): string | undefined {
+  const args = process.argv.slice(2);
+  const environmentArg = args.find((arg) => ENV_PATTERN.test(arg));
+  const environmentOption = args.find((arg) => arg.startsWith('--environment='));
+  const environment = environmentOption?.split('=')[1] ?? environmentArg;
+
+  if (environment === undefined) {
+    return undefined;
+  }
+
+  if (!environments.includes(environment)) {
+    throw new Error(
+      `Unknown environment '${environment}'. Available environments: ${environments.join(', ')}`
+    );
+  }
+
+  return environment;
+}
+
+async function promptForEnvironment(environments: string[]): Promise<string> {
+  const environment = environmentFromArgs(environments);
+  if (environment !== undefined) {
+    return environment;
+  }
+
+  console.log('Select environment:');
+  environments.forEach((env, index) => console.log(`  ${index + 1}) ${env}`));
+
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  try {
+    while (true) {
+      const answer = (await rl.question(`Enter number or name (1-${environments.length}): `)).trim();
+      const selectedIndex = Number(answer);
+
+      if (Number.isInteger(selectedIndex) && selectedIndex >= 1 && selectedIndex <= environments.length) {
+        return environments[selectedIndex - 1];
+      }
+
+      const selectedEnvironment = environments.find(
+        (environment) => environment.toLowerCase() === answer.toLowerCase()
+      );
+
+      if (selectedEnvironment !== undefined) {
+        return selectedEnvironment;
+      }
+
+      console.log(`Invalid selection '${answer}'. Enter a number or one of: ${environments.join(', ')}`);
+    }
+  } finally {
+    rl.close();
+  }
 }
 
 async function ghApi<T>(path: string): Promise<T> {
@@ -155,14 +212,7 @@ async function main() {
     );
 
     // Prompt user to select environment
-    const { selectedEnv } = await inquirer.prompt([
-      {
-        type: 'list',
-        name: 'selectedEnv',
-        message: 'Select environment:',
-        choices: environments,
-      },
-    ]);
+    const selectedEnv = await promptForEnvironment(environments);
 
     // Filter files for selected environment
     const envFiles = files.filter((f) => f.environment === selectedEnv);

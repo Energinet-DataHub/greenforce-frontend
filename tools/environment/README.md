@@ -13,6 +13,14 @@ A CLI tool to quickly switch between development environments by fetching config
 bun run env
 ```
 
+Then select an environment by entering its number or name.
+
+You can also skip the prompt by passing an environment name:
+
+```sh
+bun run env dev_002
+```
+
 This will:
 
 1. Fetch the repository structure from `dh3-dev-secrets`
