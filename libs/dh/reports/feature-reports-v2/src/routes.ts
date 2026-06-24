@@ -156,7 +156,6 @@ function redirectToLandingPage(): RedirectFunction {
             return router.createUrlTree([
               '/',
               getPath<BasePaths>('reports'),
-              getPath<ReportsSubPaths>('overview'),
               getPath<ReportsSubPaths>('imbalance-prices'),
             ]);
           } else if (hasMissingMeasurementsLogPermission) {
