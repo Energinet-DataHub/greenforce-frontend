@@ -16,8 +16,59 @@
  * limitations under the License.
  */
 //#endregion
+import { relative } from 'node:path';
+
 import { globSync } from 'glob';
 import { CreateNodes } from '@nx/devkit';
+
+type ParsedLib = {
+  libs: string;
+  product: string;
+  domain: string;
+  name: string;
+  projectRoot: string;
+  projectName: string;
+};
+
+function toPosixPath(path: string): string {
+  return path.replace(/\\/g, '/');
+}
+
+function parseStandardLib(indexPath: string): ParsedLib | null {
+  const parts = indexPath.split('/');
+  // parts: ['libs', '{product}', '{domain}', '{name}', 'index.ts']
+  const [libs, product, domain, name] = parts;
+
+  // Exclude paths where the name segment is 'src' — those are internal
+  // barrel files, not implicit lib roots (e.g. libs/gf/util-browser/src/index.ts).
+  if (name === 'src') return null;
+
+  return {
+    libs,
+    product,
+    domain,
+    name,
+    projectRoot: `${libs}/${product}/${domain}/${name}`,
+    projectName: `${product}-${domain}-${name}`,
+  };
+}
+
+function parseNestedSharedLib(indexPath: string): ParsedLib | null {
+  const parts = indexPath.split('/');
+  // parts: ['libs', '{product}', '{domain}', 'shared', '{name}', 'index.ts']
+  const [libs, product, domain, shared, name] = parts;
+
+  if (shared !== 'shared' || name === 'src') return null;
+
+  return {
+    libs,
+    product,
+    domain,
+    name,
+    projectRoot: `${libs}/${product}/${domain}/${shared}/${name}`,
+    projectName: `${product}-${domain}-${shared}-${name}`,
+  };
+}
 
 /**
  * Returns true if the lib directory contains at least one spec file.
@@ -106,33 +157,26 @@ function implicitDependencies(name: string): string[] {
 
 export const createNodes: CreateNodes = [
   // Match all libs at the standard 3-level depth: libs/{product}/{domain}/{name}/index.ts
+  // and nested domain-shared libs: libs/{product}/{domain}/shared/{name}/index.ts
   // Products covered: dh, gf  (watt is excluded — it is a buildable ng-packagr library)
-  'libs/{dh,gf}/*/*/index.ts',
+  'libs/{dh,gf}/*/{*,shared/*}/index.ts',
   (indexPathList) => {
-    return indexPathList
-      .filter((indexPath) => {
-        const parts = indexPath.split('/');
-        // parts: ['libs', '{product}', '{domain}', '{name}', 'index.ts']
-        // Exclude paths where the name segment is 'src' — those are internal
-        // barrel files, not implicit lib roots (e.g. libs/gf/util-browser/src/index.ts).
-        const name = parts[3];
-        return name !== 'src';
-      })
-      .map((indexPath) => {
-        const parts = indexPath.split('/');
-        // parts: ['libs', '{product}', '{domain}', '{name}', 'index.ts']
-        const [libs, product, domain, name] = parts;
-        const projectRoot = `${libs}/${product}/${domain}/${name}`;
-        const projectName = `${product}-${domain}-${name}`;
-        const type = deriveType(name);
-        const angular = useAngular(type, product, domain, name);
-        const environment = vitestEnvironment(angular);
-        const implicitDeps = implicitDependencies(name);
-        // Path from the lib root (cwd) to the shared product-level config
-        const sharedConfig = `../../../../${libs}/${product}/vite.config.mts`;
-        const specFilesExist = hasSpecFiles(projectRoot);
+    return indexPathList.flatMap((indexPath) => {
+      const parsed = parseNestedSharedLib(indexPath) ?? parseStandardLib(indexPath);
 
-        return [
+      if (parsed === null) return [];
+
+      const { libs, product, domain, name, projectRoot, projectName } = parsed;
+      const type = deriveType(name);
+      const angular = useAngular(type, product, domain, name);
+      const environment = vitestEnvironment(angular);
+      const implicitDeps = implicitDependencies(name);
+      // Path from the lib root (cwd) to the shared product-level config
+      const sharedConfig = toPosixPath(relative(projectRoot, `${libs}/${product}/vite.config.mts`));
+      const specFilesExist = hasSpecFiles(projectRoot);
+
+      return [
+        [
           indexPath,
           {
             projects: {
@@ -184,14 +228,15 @@ export const createNodes: CreateNodes = [
                           env: 'CI',
                         },
                       ],
-                      outputs: [`{workspaceRoot}/coverage/${libs}/${product}/${domain}/${name}`],
+                      outputs: [`{workspaceRoot}/coverage/${projectRoot}`],
                     },
                   }),
                 },
               },
             },
           },
-        ];
-      });
+        ],
+      ];
+    });
   },
 ];
