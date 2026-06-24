@@ -413,6 +413,10 @@
       "false": "Without VAT",
       "true": "With VAT"
     },
+    "transparentInvoicing": {
+      "false": "No",
+      "true": "Yes"
+    },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
@@ -580,18 +584,17 @@
       "description": "Description",
       "vatClassification": "VAT",
       "transparentInvoicing": "Transparent Invoicing",
-      "current": "Current",
-      "history": {
-        "table": {
-          "columns": {
-            "timestamp": "Timestamp",
-            "entry": "Change"
-          }
-        },
-        "auditLogs": {
-          "Sample entry": "This is a sample {{ entry }}"
-        }
-      }
+      "current": "Current"
+    },
+    "history": {
+      "ChargeStarted": "Charge created",
+      "ChargeResumed": "Charge resumed as of {{ effectiveDate }}",
+      "ChargeStopped": "Charge stopped as of {{ effectiveDate }}",
+      "ChargeCancelled": "Charge cancelled",
+      "ChargeNameChanged": "Name changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeDescriptionChanged": "Description changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeVatChanged": "VAT changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeTransparentInvoicingChanged": "Transparent invoicing changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}"
     },
     "series": {
       "showHistory": "History",

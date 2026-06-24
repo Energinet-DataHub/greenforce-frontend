@@ -413,6 +413,10 @@
       "false": "Uden moms",
       "true": "Med moms"
     },
+    "transparentInvoicing": {
+      "false": "Nej",
+      "true": "Ja"
+    },
     "charges": {
       "topBarTitle": "Priser",
       "table": {
@@ -580,18 +584,17 @@
       "description": "Beskrivelse",
       "vatClassification": "Moms",
       "transparentInvoicing": "Viderefakturering",
-      "current": "Aktuel",
-      "history": {
-        "table": {
-          "columns": {
-            "timestamp": "Tidsstempel",
-            "entry": "Ændring"
-          }
-        },
-        "auditLogs": {
-          "Sample entry": "Dette er en sample {{ entry }}"
-        }
-      }
+      "current": "Aktuel"
+    },
+    "history": {
+      "ChargeStarted": "Pris oprettet",
+      "ChargeResumed": "Pris genoprettet pr. {{ effectiveDate }}",
+      "ChargeStopped": "Pris stoppet pr. {{ effectiveDate }}",
+      "ChargeCancelled": "Pris annulleret",
+      "ChargeNameChanged": "Navn ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeDescriptionChanged": "Beskrivelse ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeVatChanged": "Moms ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeTransparentInvoicingChanged": "Viderefakturering ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}"
     },
     "series": {
       "showHistory": "Historik",
