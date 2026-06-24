@@ -1144,7 +1144,8 @@
           "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Cancel"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
