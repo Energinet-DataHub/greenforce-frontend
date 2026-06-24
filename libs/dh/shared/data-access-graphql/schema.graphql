@@ -32,6 +32,11 @@ interface Calculation implements OrchestrationInstance {
   steps: [OrchestrationInstanceStep!]!
 }
 
+interface ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
 interface Error {
   message: String!
 }
@@ -324,6 +329,7 @@ type Charge {
   missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
+  history: [ChargeChange!]!
   id: String!
   code: String!
   name: String!
@@ -337,6 +343,18 @@ type Charge {
   vatInclusive: Boolean!
   transparentInvoicing: Boolean!
   spotDependingPrice: Boolean!
+}
+
+type ChargeCancelled implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeDescriptionChanged implements ChargeChange {
+  previousDescription: String!
+  currentDescription: String!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeLinkPeriod {
@@ -357,6 +375,13 @@ type ChargeLinkPeriodChange {
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
+}
+
+type ChargeNameChanged implements ChargeChange {
+  previousName: String!
+  currentName: String!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."
@@ -394,6 +419,11 @@ type ChargePeriod {
   status: ChargeStatus!
 }
 
+type ChargeResumed implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
 type ChargeSeriesPoint {
   price: Decimal!
   hasChanged: Boolean!
@@ -405,6 +435,30 @@ type ChargeSeriesPointChange {
   price: Decimal!
   isCurrent: Boolean!
   messageId: String
+}
+
+type ChargeStarted implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeStopped implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeTransparentInvoicingChanged implements ChargeChange {
+  previousTransparentInvoicing: Boolean!
+  currentTransparentInvoicing: Boolean!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeVatChanged implements ChargeChange {
+  previousVat: Boolean!
+  currentVat: Boolean!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {

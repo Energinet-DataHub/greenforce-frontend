@@ -16,12 +16,19 @@
  * limitations under the License.
  */
 //#endregion
-import { GetChargeWeekSeriesDocument } from '@energinet-datahub/dh/shared/domain/graphql';
+import {
+  GetChargeHistoryDocument,
+  GetChargeWeekSeriesDocument,
+} from '@energinet-datahub/dh/shared/domain/graphql';
 import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
 import { ResultOf } from '@graphql-typed-document-node/core';
 
 export type ChargeOverviewItem = ExtractNodeType<GetChargeOverviewDataSource>;
+
+export type ChargeChange = NonNullable<
+  ResultOf<typeof GetChargeHistoryDocument>['chargeById']
+>['history'][0];
 
 export type ChargeSeriesPointLite = NonNullable<
   ResultOf<typeof GetChargeWeekSeriesDocument>['chargeById']
