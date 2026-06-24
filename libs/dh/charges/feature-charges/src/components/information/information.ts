@@ -87,7 +87,6 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
     WattIconComponent,
     DhEmDashFallbackPipe,
     DhToolbarPortalComponent,
-    DhFeatureFlagDirective,
     DhPermissionRequiredDirective,
   ],
   providers: [DhNavigationService],
@@ -168,11 +167,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
         <watt-link-tabs vater inset="0">
           <watt-link-tab [label]="t('pricesLabel')" [link]="getLink('prices')" />
           <watt-link-tab [label]="t('informationLabel')" [link]="getLink('information')" />
-          <watt-link-tab
-            *dhFeatureFlag="'charges-history'"
-            [label]="t('historyLabel')"
-            [link]="getLink('history')"
-          />
+          <watt-link-tab [label]="t('historyLabel')" [link]="getLink('history')" />
         </watt-link-tabs>
       </div>
     </div>
