@@ -21,12 +21,12 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<GetElectricalHeatingInformationQueryResponse>]
+[ObjectType<ElectricalHeatingResponse>]
 public static partial class ElectricalHeatingInformationNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<GetElectricalHeatingInformationQueryResponse?> GetElectricalHeatingInformationAsync(
+    public static async Task<ElectricalHeatingResponse?> GetElectricalHeatingInformationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
@@ -55,7 +55,7 @@ public static partial class ElectricalHeatingInformationNode
             MapMarketRoleToActorType(marketRole).ToString(),
             ct);
 
-        return electricalHeatingInformation;
+        return electricalHeatingInformation.Information;
     }
 
     private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)

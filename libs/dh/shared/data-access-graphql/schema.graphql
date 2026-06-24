@@ -575,14 +575,9 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
 
 type ElectricalHeatingInformation {
   customerName: String
-  supplierPeriods: [ElectricalHeatingInformationPeriod!]!
+  supplierPeriods: [ElectricialHeatingResponsePeriod!]!
   isElectricalHeatingActive: Boolean!
   electricalHeatingFrom: DateTime
-}
-
-type ElectricalHeatingInformationPeriod {
-  from: DateTime!
-  to: DateTime!
 }
 
 type ElectricalHeatingMessage {
@@ -596,6 +591,12 @@ type ElectricalHeatingUserMessage {
   content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
+}
+
+type ElectricialHeatingResponsePeriod {
+  from: DateTime!
+  to: DateTime!
+  additionalProperties: [KeyValuePairOfStringAndObject!]!
 }
 
 type ElectricityHeatingMessagePeriod {
@@ -749,6 +750,12 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   settlementMethod: ElectricityMarketViewSettlementMethod
   installationAddress: ElectricityMarketViewInstallationAddressDto
   manuallyHandled: Boolean!
+}
+
+type EnergySupplierInformation {
+  from: DateTime!
+  to: DateTime!
+  energySupplierId: String!
 }
 
 "A segment of a collection."
@@ -1534,6 +1541,7 @@ type Query {
   downloadMeteringGridAreaImbalance(locale: String! created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! order: MeteringGridAreaImbalanceSortInput): String!
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   emailExists(email: String!): Boolean!
+  energySupplierInformation(meteringPointIdentification: String!): [EnergySupplierInformation!] @authorize(roles: [ "metering-point:actor-conversation" ])
   esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!

@@ -1,0 +1,7 @@
+query GetEnergySupplierInformation($meteringPointIdentification: String!) {
+  energySupplierInformation(meteringPointIdentification: $meteringPointIdentification) {
+    from
+    to
+    energySupplierId
+  }
+}

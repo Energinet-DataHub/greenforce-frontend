@@ -63,6 +63,7 @@ import {
   mockRegisterElectricalHeatingMutation,
   mockCreateElectricalHeatingMeteringPointMutation,
   mockRemoveElectricalHeatingMeteringPointMutation,
+  mockGetEnergySupplierInformationQuery,
 } from '@energinet-datahub/dh/shared/domain/graphql/msw';
 import {
   ElectricityMarketConnectionStateType,
@@ -127,6 +128,7 @@ export function meteringPointMocks(apiBase: string) {
     registerElectricalHeating(),
     createElectricalHeatingMeteringPoint(),
     removeElectricalHeatingMeteringPoint(),
+    getEnergySupplierInformation(),
   ];
 }
 
@@ -1023,6 +1025,26 @@ function getMeteringPointNewConversationInformation() {
   });
 }
 
+function getEnergySupplierInformation() {
+  return mockGetEnergySupplierInformationQuery(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Query',
+        energySupplierInformation: [
+          {
+            __typename: 'EnergySupplierInformation',
+            energySupplierId: '1234567890123',
+            from: new Date('2024-01-01'),
+            to: new Date('2024-02-28'),
+          },
+        ],
+      },
+    });
+  });
+}
+
 function getMeteringPointInfo() {
   return mockGetMeteringPointInfoQuery(async () => {
     await delay(mswConfig.delay);
@@ -1039,20 +1061,6 @@ function getMeteringPointInfo() {
             id: '1',
             type: ElectricityMarketMeteringPointType.Consumption,
           },
-          commercialRelationTimeline: [
-            {
-              __typename: 'ElectricityMarketViewCommercialRelationDto',
-              id: '1',
-              energySupplyPeriodTimeline: [
-                {
-                  __typename: 'ElectricityMarketViewEnergySupplyPeriodDto',
-                  id: '1',
-                  validFrom: dayjs().subtract(1, 'week').toDate(),
-                  validTo: new Date('9999-12-31'),
-                },
-              ],
-            },
-          ],
         },
       },
     });
@@ -1073,17 +1081,17 @@ function getElectricalHeatingInformation() {
           electricalHeatingFrom: new Date('2024-01-01'),
           supplierPeriods: [
             {
-              __typename: 'ElectricalHeatingInformationPeriod',
+              __typename: 'ElectricialHeatingResponsePeriod',
               from: new Date('2024-01-01'),
               to: new Date('2024-02-28'),
             },
             {
-              __typename: 'ElectricalHeatingInformationPeriod',
+              __typename: 'ElectricialHeatingResponsePeriod',
               from: new Date('2024-04-01'),
               to: new Date('2024-06-19'),
             },
             {
-              __typename: 'ElectricalHeatingInformationPeriod',
+              __typename: 'ElectricialHeatingResponsePeriod',
               from: new Date('2026-01-01'),
               to: new Date('9999-01-01'),
             },

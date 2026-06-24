@@ -6,7 +6,7 @@
   },
   "servers": [
     {
-      "url": "https://localhost:7125/"
+      "url": "http://app-api-actcon-d-we-001.azurewebsites.net/"
     }
   ],
   "paths": {
@@ -363,7 +363,7 @@
         "tags": [
           "GetAllConversations, GetConversationsForMeteringPoint"
         ],
-        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\r\nThe result can be further narrowed by either searching or filtering or both.\r\n- Search\r\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\r\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\r\n  - The search value is supplied as querystring 'searchValue'.\r\n- Filtering\r\n  - The list can further be narrowed down via filters.\r\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\r\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
+        "summary": "Get all conversations or just conversations for a MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied.\nThe result can be further narrowed by either searching or filtering or both.\n- Search\n  - Supports searching for a MeteringPoint and searching into DisplayId and InternalNote for the logged in actor.\n  - The search for the MeteringPoint is an exact search based on the 18 digits GSRN.\n  - The search value is supplied as querystring 'searchValue'.\n- Filtering\n  - The list can further be narrowed down via filters.\n  - Provides with supports for filtering myConversations, unread, opened, closed and subjects.\n  - Filters are supplied as querystring, ex. myconversations=true to get my conversations only.",
         "description": "Get all conversations across all meteringpoints or for a single MeteringPoint, provided that query parameter 'meteringpointidentification' is supplied",
         "operationId": "GetConversations",
         "parameters": [
@@ -428,6 +428,24 @@
               "items": {
                 "$ref": "#/components/schemas/ConversationSubject"
               }
+            }
+          },
+          {
+            "name": "perPage",
+            "in": "query",
+            "description": "Number of conversations pr page result",
+            "schema": {
+              "format": "uint32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$"
+            }
+          },
+          {
+            "name": "currentPage",
+            "in": "query",
+            "description": "current page",
+            "schema": {
+              "format": "uint32",
+              "pattern": "^-?(?:0|[1-9]\\d*)$"
             }
           },
           {
@@ -578,6 +596,108 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/GetEnergySupplierPeriods/{meteringPointIdentification}": {
+      "get": {
+        "tags": [
+          "GetEnergySupplierPeriods"
+        ],
+        "summary": "Gets energy supplier periods for a metering point",
+        "description": "Gets energy supplier periods for a metering point",
+        "operationId": "GetEnergySupplierPeriods",
+        "parameters": [
+          {
+            "name": "meteringPointIdentification",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "UserId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "56d5b1f0-2eee-4b2e-b1e9-b711916c4796"
+            }
+          },
+          {
+            "name": "MarketParticipantNumber",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "5790001330583"
+            }
+          },
+          {
+            "name": "MarketRole",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "default": "Energinet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEnergySupplierPeriodsQueryResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEnergySupplierPeriodsQueryResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetEnergySupplierPeriodsQueryResponse"
                 }
               }
             }
@@ -892,7 +1012,7 @@
           "Start"
         ],
         "summary": "Starts a conversation",
-        "description": "Example request for QuestionForEnerginet:\r\n\r\n```\r\n   {\r\n      \"subject\": \"QuestionForEnerginet\",\r\n      \"senderActorType\": \"Energinet\",\r\n      \"receiverActorType\": \"GridAccessProvider\",\r\n      \"meteringPointIdentification\": \"570715000000033841\",\r\n      \"senderActorNumber\": \"5790001330552\",\r\n      \"senderUserId\": \"user@elsupplier.dk\",\r\n      \"senderUserName\": \"EL supplier\"\r\n      \"internalNote\": \"Note from the sender\",\r\n      \"content\": \"No metereddata available!!!\",\r\n      \"anonymous\": false\r\n    }\r\n ```",
+        "description": "Example request for QuestionForEnerginet:\n\n```\n   {\n      \"subject\": \"QuestionForEnerginet\",\n      \"senderActorType\": \"Energinet\",\n      \"receiverActorType\": \"GridAccessProvider\",\n      \"meteringPointIdentification\": \"570715000000033841\",\n      \"senderActorNumber\": \"5790001330552\",\n      \"senderUserId\": \"user@elsupplier.dk\",\n      \"senderUserName\": \"EL supplier\"\n      \"internalNote\": \"Note from the sender\",\n      \"content\": \"No metereddata available!!!\",\n      \"anonymous\": false\n    }\n ```",
         "operationId": "StartConversation",
         "parameters": [
           {
@@ -1204,7 +1324,7 @@
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
             "nullable": true
           },
           "anonymous": {
@@ -1306,6 +1426,73 @@
           }
         }
       },
+      "ElectricalHeatingResponse": {
+        "type": "object",
+        "required": [
+          "customerName",
+          "supplierPeriods",
+          "isElectricalHeatingActive",
+          "electricalHeatingFrom"
+        ],
+        "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
+          "supplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ElectricialHeatingResponsePeriod"
+            }
+          },
+          "isElectricalHeatingActive": {
+            "type": "boolean"
+          },
+          "electricalHeatingFrom": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "ElectricialHeatingResponsePeriod": {
+        "type": "object",
+        "required": [
+          "from",
+          "to"
+        ],
+        "properties": {
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "EnergySupplierPeriodResponse": {
+        "type": "object",
+        "required": [
+          "energySupplierId",
+          "from",
+          "to"
+        ],
+        "properties": {
+          "energySupplierId": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "to": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
       "GetConversationQueryResponse": {
         "type": "object",
         "required": [
@@ -1355,7 +1542,7 @@
           },
           "partOfConversations": {
             "type": "boolean",
-            "description": "Indicates id you are part of this conversation.\r\nEnerginet can see conversations they are not part of."
+            "description": "Indicates id you are part of this conversation.\nEnerginet can see conversations they are not part of."
           }
         }
       },
@@ -1548,7 +1735,10 @@
       "GetConversationsQueryResponse": {
         "type": "object",
         "required": [
-          "conversations"
+          "conversations",
+          "pageNumber",
+          "pageSize",
+          "totalCount"
         ],
         "properties": {
           "conversations": {
@@ -1557,6 +1747,18 @@
             "items": {
               "$ref": "#/components/schemas/GetConversationsQueryResponseConversationInfo"
             }
+          },
+          "pageNumber": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "pageSize": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
+          },
+          "totalCount": {
+            "format": "uint32",
+            "pattern": "^-?(?:0|[1-9]\\d*)$"
           }
         }
       },
@@ -1607,47 +1809,30 @@
       },
       "GetElectricalHeatingInformationQueryResponse": {
         "type": "object",
-        "required": [
-          "customerName",
-          "supplierPeriods",
-          "isElectricalHeatingActive",
-          "electricalHeatingFrom"
-        ],
         "properties": {
-          "customerName": {
-            "type": "string",
-            "nullable": true
-          },
-          "supplierPeriods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetElectricalHeatingInformationQueryResponsePeriod"
-            }
-          },
-          "isElectricalHeatingActive": {
-            "type": "boolean"
-          },
-          "electricalHeatingFrom": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
+          "information": {
+            "oneOf": [
+              {
+                "nullable": true
+              },
+              {
+                "$ref": "#/components/schemas/ElectricalHeatingResponse"
+              }
+            ]
           }
         }
       },
-      "GetElectricalHeatingInformationQueryResponsePeriod": {
+      "GetEnergySupplierPeriodsQueryResponse": {
         "type": "object",
         "required": [
-          "from",
-          "to"
+          "energySupplierPeriods"
         ],
         "properties": {
-          "from": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "to": {
-            "type": "string",
-            "format": "date-time"
+          "energySupplierPeriods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EnergySupplierPeriodResponse"
+            }
           }
         }
       },
@@ -1783,16 +1968,16 @@
           },
           "meteringPointIdentification": {
             "type": "string",
-            "description": "MeteringPointIdentification\r\n18 digits GSRN number consisting of digits only."
+            "description": "MeteringPointIdentification\n18 digits GSRN number consisting of digits only."
           },
           "internalNote": {
             "type": "string",
-            "description": "Optional Internal note from the Organization, that created the Conversation.\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "description": "Optional Internal note from the Organization, that created the Conversation.\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
           },
           "content": {
             "type": "string",
-            "description": "The message content, thus the body itself.\r\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
+            "description": "The message content, thus the body itself.\nCan contain at most 5000 characters and should not be empty, but may be if there are attachments",
             "nullable": true
           },
           "anonymous": {
@@ -1933,7 +2118,7 @@
           },
           "internalNote": {
             "type": "string",
-            "description": "Optional Internal note from the active participant\r\nCan contain at most 80 characters and will be assumed empty, if not specified",
+            "description": "Optional Internal note from the active participant\nCan contain at most 80 characters and will be assumed empty, if not specified",
             "nullable": true
           }
         }
@@ -1961,6 +2146,9 @@
     },
     {
       "name": "GetElectricalHeatingInformation"
+    },
+    {
+      "name": "GetEnergySupplierPeriods"
     },
     {
       "name": "GetMarketParticipants"
