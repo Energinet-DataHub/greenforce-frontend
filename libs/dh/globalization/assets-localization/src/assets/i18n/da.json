@@ -3092,7 +3092,9 @@
     "tabs": {
       "settlementReports": "Afregningsrapporter",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Ubalancepriser"
+      "imbalancePrices": "Ubalancepriser",
+      "meteringPointMasterDataReports": "Stamdata",
+      "missingMeasurementsLog": "Hullerlog"
     },
     "settlements": {
       "topBarTitle": "Afregninger"

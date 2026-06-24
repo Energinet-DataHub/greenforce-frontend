@@ -167,6 +167,9 @@
       "@energinet-datahub/dh/reports/feature-reports": [
         "./libs/dh/reports/feature-reports/index.ts"
       ],
+      "@energinet-datahub/dh/reports/feature-reports-v2": [
+        "./libs/dh/reports/feature-reports-v2/index.ts"
+      ],
       "@energinet-datahub/dh/reports/feature-settlement-reports": [
         "./libs/dh/reports/feature-settlement-reports/index.ts"
       ],
