@@ -57,7 +57,7 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
       @if (loading()) {
         <watt-spinner [diameter]="18" />
       }
-      <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
+      <div class="content-wrapper" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
           <watt-icon [name]="icon()" [class.watt-icon-trailing]="hasTrailingIcon()" />
         }

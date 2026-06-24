@@ -131,4 +131,14 @@ describe(WattButtonComponent, () => {
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
     expect(screen.getByText('Text').closest('.content-wrapper--loading')).toBeInTheDocument();
   });
+
+  it('preserves icon and text layout when loading', async () => {
+    await render(`<watt-button icon="plus" [loading]="true">Text</watt-button>`, {
+      imports: [WattButtonComponent],
+    });
+
+    const contentWrapper = screen.getByText('Text').closest('.content-wrapper');
+
+    expect(contentWrapper).toHaveClass('content-wrapper--loading');
+  });
 });

@@ -27,10 +27,11 @@ import { Component, computed, input } from '@angular/core';
   styles: `
     :host {
       --watt-spinner-circle-color: var(--watt-color-primary);
+      --watt-spinner-diameter: 44px;
 
       display: block;
-      width: var(--watt-spinner-diameter);
-      height: var(--watt-spinner-diameter);
+      width: var(--watt-spinner-diameter, 44px);
+      height: var(--watt-spinner-diameter, 44px);
       position: relative;
     }
 
