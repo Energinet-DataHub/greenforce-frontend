@@ -19,6 +19,7 @@ RUN echo '#!/bin/sh' > /usr/local/bin/dotnet && echo 'exit 0' >> /usr/local/bin/
 RUN npm install -g bun@1.3.10
 
 COPY package.json bun.lock ./
+COPY tools/setup-githooks.mjs ./tools/setup-githooks.mjs
 
 RUN bun install --frozen-lockfile --yarn
 
