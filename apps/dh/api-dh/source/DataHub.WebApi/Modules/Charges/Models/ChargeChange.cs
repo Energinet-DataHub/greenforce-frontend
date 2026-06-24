@@ -20,46 +20,49 @@ using HotChocolate.Execution.Configuration;
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
 [InterfaceType]
-public abstract record ChargeChange(DateTimeOffset CreatedAt)
+public abstract record ChargeChange(
+    DateTimeOffset CreatedAt,
+    DateTimeOffset EffectiveDate)
 {
+    public sealed record ChargeStarted(
+        DateTimeOffset CreatedAt,
+        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt, EffectiveDate);
+
+    public sealed record ChargeResumed(
+        DateTimeOffset CreatedAt,
+        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt, EffectiveDate);
+
+    public sealed record ChargeStopped(
+        DateTimeOffset CreatedAt,
+        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt, EffectiveDate);
+
     public sealed record ChargeCancelled(
         DateTimeOffset CreatedAt,
-        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt);
-
-    public sealed record ChargeDescriptionChanged(
-        DateTimeOffset CreatedAt,
-        DateTimeOffset EffectiveDate,
-        string Previous,
-        string Current) : ChargeChange(CreatedAt);
+        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt, EffectiveDate);
 
     public sealed record ChargeNameChanged(
         DateTimeOffset CreatedAt,
         DateTimeOffset EffectiveDate,
-        string Previous,
-        string Current) : ChargeChange(CreatedAt);
+        string PreviousName,
+        string CurrentName) : ChargeChange(CreatedAt, EffectiveDate);
 
-    public sealed record ChargeResumed(
-        DateTimeOffset CreatedAt,
-        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt);
-
-    public sealed record ChargeStarted(
-        DateTimeOffset CreatedAt) : ChargeChange(CreatedAt);
-
-    public sealed record ChargeStopped(
-        DateTimeOffset CreatedAt,
-        DateTimeOffset EffectiveDate) : ChargeChange(CreatedAt);
-
-    public sealed record ChargeTransparentInvoicingChanged(
+    public sealed record ChargeDescriptionChanged(
         DateTimeOffset CreatedAt,
         DateTimeOffset EffectiveDate,
-        bool Previous,
-        bool Current) : ChargeChange(CreatedAt);
+        string PreviousDescription,
+        string CurrentDescription) : ChargeChange(CreatedAt, EffectiveDate);
 
     public sealed record ChargeVatChanged(
         DateTimeOffset CreatedAt,
         DateTimeOffset EffectiveDate,
-        bool Previous,
-        bool Current) : ChargeChange(CreatedAt);
+        bool PreviousVat,
+        bool CurrentVat) : ChargeChange(CreatedAt, EffectiveDate);
+
+    public sealed record ChargeTransparentInvoicingChanged(
+        DateTimeOffset CreatedAt,
+        DateTimeOffset EffectiveDate,
+        bool PreviousTransparentInvoicing,
+        bool CurrentTransparentInvoicing) : ChargeChange(CreatedAt, EffectiveDate);
 
     public static IEnumerable<ChargeChange> From(IEnumerable<HistoricalChargeInformationPeriodDto> periods)
     {
@@ -77,7 +80,7 @@ public abstract record ChargeChange(DateTimeOffset CreatedAt)
         return snapshots
             .Skip(1)
             .SelectMany((current, i) => Compare(snapshots[i], current))
-            .Prepend(new ChargeStarted(snapshots.First().Created));
+            .Prepend(new ChargeStarted(snapshots[0].Created, snapshots[0].StartDate));
     }
 
     [ConfigureGraphQL]

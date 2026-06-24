@@ -34,6 +34,7 @@ interface Calculation implements OrchestrationInstance {
 
 interface ChargeChange {
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 interface Error {
@@ -345,15 +346,15 @@ type Charge {
 }
 
 type ChargeCancelled implements ChargeChange {
-  effectiveDate: DateTime!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeDescriptionChanged implements ChargeChange {
-  effectiveDate: DateTime!
-  previous: String!
-  current: String!
+  previousDescription: String!
+  currentDescription: String!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeLinkPeriod {
@@ -377,10 +378,10 @@ type ChargeLinkPeriodChange {
 }
 
 type ChargeNameChanged implements ChargeChange {
-  effectiveDate: DateTime!
-  previous: String!
-  current: String!
+  previousName: String!
+  currentName: String!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."
@@ -419,8 +420,8 @@ type ChargePeriod {
 }
 
 type ChargeResumed implements ChargeChange {
-  effectiveDate: DateTime!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeSeriesPoint {
@@ -438,25 +439,26 @@ type ChargeSeriesPointChange {
 
 type ChargeStarted implements ChargeChange {
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeStopped implements ChargeChange {
-  effectiveDate: DateTime!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeTransparentInvoicingChanged implements ChargeChange {
-  effectiveDate: DateTime!
-  previous: Boolean!
-  current: Boolean!
+  previousTransparentInvoicing: Boolean!
+  currentTransparentInvoicing: Boolean!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeVatChanged implements ChargeChange {
-  effectiveDate: DateTime!
-  previous: Boolean!
-  current: Boolean!
+  previousVat: Boolean!
+  currentVat: Boolean!
   createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
