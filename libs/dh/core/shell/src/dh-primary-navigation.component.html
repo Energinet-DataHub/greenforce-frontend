@@ -78,39 +78,55 @@ limitations under the License.
       >
     </watt-nav-list>
 
-    <watt-nav-list
-      *dhPermissionRequired="[
-        'measurements-reports:manage',
-        'settlement-reports:manage',
-        'missing-measurements-log:view',
-      ]"
-      [expandable]="true"
-      [title]="transloco('reports.menuGroupLabel')"
-    >
-      <ng-container *dhReleaseToggle="'PM31-REPORTS'">
-        <watt-nav-list-item
-          *dhPermissionRequired="['measurements-reports:manage']"
-          [link]="getReportsLink('overview')"
-          >{{ transloco("reports.overview") }}</watt-nav-list-item
-        >
-      </ng-container>
-
-      <watt-nav-list-item
-        *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
-        [link]="getReportsLink('settlements')"
+    @if (featureFlags.isEnabled("reports-v2")) {
+      <watt-nav-list
+        *dhPermissionRequired="[
+          'measurements-reports:manage',
+          'settlement-reports:manage',
+          'imbalance-prices:view',
+          'metering-point-master-data-reports:manage',
+          'missing-measurements-log:view',
+        ]"
       >
-        {{ transloco("reports.settlements") }}
-      </watt-nav-list-item>
-
-      <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
-        <watt-nav-list-item
-          *dhPermissionRequired="['missing-measurements-log:view']"
-          [link]="getMissingMeasurementsLogLink('request')"
-        >
-          {{ transloco("reports.missingMeasurementsLog") }}
+        <watt-nav-list-item [link]="getLink('reports')">
+          {{ transloco("reports.menuGroupLabel") }}
         </watt-nav-list-item>
-      </ng-container>
-    </watt-nav-list>
+      </watt-nav-list>
+    } @else {
+      <watt-nav-list
+        *dhPermissionRequired="[
+          'measurements-reports:manage',
+          'settlement-reports:manage',
+          'missing-measurements-log:view',
+        ]"
+        [expandable]="true"
+        [title]="transloco('reports.menuGroupLabel')"
+      >
+        <ng-container *dhReleaseToggle="'PM31-REPORTS'">
+          <watt-nav-list-item
+            *dhPermissionRequired="['measurements-reports:manage']"
+            [link]="getReportsLink('overview')"
+            >{{ transloco("reports.overview") }}</watt-nav-list-item
+          >
+        </ng-container>
+
+        <watt-nav-list-item
+          *dhPermissionRequired="['settlement-reports:manage', 'imbalance-prices:view']"
+          [link]="getReportsLink('settlements')"
+        >
+          {{ transloco("reports.settlements") }}
+        </watt-nav-list-item>
+
+        <ng-container *dhReleaseToggle="'MISSINGDATALOG'">
+          <watt-nav-list-item
+            *dhPermissionRequired="['missing-measurements-log:view']"
+            [link]="getMissingMeasurementsLogLink('request')"
+          >
+            {{ transloco("reports.missingMeasurementsLog") }}
+          </watt-nav-list-item>
+        </ng-container>
+      </watt-nav-list>
+    }
 
     <watt-nav-list [title]="transloco('marketParticipant.menuGroupLabel')" [expandable]="true">
       <watt-nav-list-item [link]="getLink('market-participant')">{{

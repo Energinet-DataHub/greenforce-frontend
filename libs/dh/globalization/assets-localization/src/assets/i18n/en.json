@@ -1147,7 +1147,8 @@
           "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Cancel"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
@@ -3095,7 +3096,9 @@
     "tabs": {
       "settlementReports": "Settlement reports",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Imbalance prices"
+      "imbalancePrices": "Imbalance prices",
+      "meteringPointMasterDataReports": "Master data",
+      "missingMeasurementsLog": "Missing measurements log"
     },
     "settlements": {
       "topBarTitle": "Settlements"

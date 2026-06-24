@@ -1146,7 +1146,8 @@
           "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
         "SecondaryMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Annuller"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
@@ -3094,7 +3095,9 @@
     "tabs": {
       "settlementReports": "Afregningsrapporter",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Ubalancepriser"
+      "imbalancePrices": "Ubalancepriser",
+      "meteringPointMasterDataReports": "Stamdata",
+      "missingMeasurementsLog": "Hullerlog"
     },
     "settlements": {
       "topBarTitle": "Afregninger"

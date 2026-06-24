@@ -16,9 +16,17 @@
  * limitations under the License.
  */
 //#endregion
-export default [
-  // App — has its own MSW polyfill + resolve.alias; kept as-is
-  'apps/dh/app-dh/vite.config.mts',
-  // watt — buildable ng-packagr library with its own vitest config
-  'libs/watt/vitest.config.mts',
-];
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+import '@testing-library/jest-dom/vitest';
+
+import { setUpTestbed, setUpAngularTestingLibrary } from '@energinet-datahub/gf/test-util-staging';
+import { addDomMatchers } from '@energinet-datahub/gf/test-util-matchers';
+import { setupMSWServer } from '@energinet-datahub/gf/test-util-msw';
+import { dhLocalApiEnvironment } from '@energinet-datahub/dh/shared/assets';
+import { mocks } from '@energinet-datahub/dh/shared/test-util-mocks';
+
+setupMSWServer(dhLocalApiEnvironment.apiBase, mocks);
+addDomMatchers();
+setUpTestbed();
+setUpAngularTestingLibrary();
