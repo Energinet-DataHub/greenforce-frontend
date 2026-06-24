@@ -243,6 +243,20 @@ watt-button {
       }
     }
 
+    &:has(.content-wrapper watt-icon:not(.watt-icon-trailing)):has(
+        .content-wrapper .text-content:not(:empty)
+      ) {
+      padding-left: var(--watt-space-s);
+      padding-right: var(--watt-space-m);
+    }
+
+    &:has(.content-wrapper watt-icon.watt-icon-trailing):has(
+        .content-wrapper .text-content:not(:empty)
+      ) {
+      padding-left: var(--watt-space-m);
+      padding-right: var(--watt-space-s);
+    }
+
     &:has(.content-wrapper .text-content:empty) {
       padding: 0;
       .content-wrapper {
