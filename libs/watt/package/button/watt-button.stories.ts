@@ -56,3 +56,44 @@ export const Button = ButtonStory.bind({});
 Button.args = {
   variant: 'primary',
 };
+
+export const IconButtons: StoryFn<WattButtonComponent> = () => ({
+  template: `
+    <div style="display: grid; gap: var(--watt-space-l);">
+      <section>
+        <h3>Leading icons</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--watt-space-m); align-items: center;">
+          <watt-button icon="plus">Create</watt-button>
+          <watt-button icon="search">Search</watt-button>
+          <watt-button icon="edit">Edit</watt-button>
+          <watt-button icon="download">Download</watt-button>
+          <watt-button icon="refresh">Refresh</watt-button>
+          <watt-button icon="send">Send</watt-button>
+        </div>
+      </section>
+
+      <section>
+        <h3>Trailing icons</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--watt-space-m); align-items: center;">
+          <watt-button icon="right" iconPosition="trailing">Next</watt-button>
+          <watt-button icon="openInNew" iconPosition="trailing">Open</watt-button>
+          <watt-button icon="download" iconPosition="trailing">Download</watt-button>
+          <watt-button icon="send" iconPosition="trailing">Send</watt-button>
+          <watt-button icon="arrowRightAlt" iconPosition="trailing">Continue</watt-button>
+        </div>
+      </section>
+
+      <section>
+        <h3>Secondary buttons</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--watt-space-m); align-items: center;">
+          <watt-button variant="secondary" icon="plus">Create</watt-button>
+          <watt-button variant="secondary" icon="filter">Filter</watt-button>
+          <watt-button variant="secondary" icon="settings">Settings</watt-button>
+          <watt-button variant="secondary" icon="right" iconPosition="trailing">Next</watt-button>
+          <watt-button variant="secondary" icon="openInNew" iconPosition="trailing">Open</watt-button>
+        </div>
+      </section>
+    </div>
+  `,
+});
+
