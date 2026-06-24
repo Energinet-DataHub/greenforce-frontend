@@ -18,7 +18,7 @@
 //#endregion
 import { ChangeDetectionStrategy, Component, inject, signal, viewChild } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoPipe, TranslocoService } from '@jsverse/transloco';
 
 import { WATT_MODAL, WattModalComponent, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -42,6 +42,7 @@ export interface RejectProcessResult {
 
 export interface RejectProcessModalData {
   cutoffDate?: Date | null;
+  titleKey?: string;
   executeMutation: (config: {
     result: RejectProcessResult;
     onCompleted: () => void;
@@ -55,6 +56,7 @@ export interface RejectProcessModalData {
   imports: [
     ReactiveFormsModule,
     TranslocoDirective,
+    TranslocoPipe,
     WATT_MODAL,
     WattButtonComponent,
     WattDatePipe,
@@ -72,7 +74,7 @@ export interface RejectProcessModalData {
   template: `
     <watt-modal
       *transloco="let t; prefix: 'meteringPoint.processOverview.rejectProcess'"
-      [title]="t('title')"
+      [title]="(modalData.titleKey ?? 'meteringPoint.processOverview.rejectProcess.title') | transloco"
       size="small"
     >
       <vater-stack class="labels" direction="column" align="start">

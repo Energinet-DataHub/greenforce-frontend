@@ -1162,7 +1162,8 @@
         },
         "ServiceRequest": {
           "CANCEL_WORKFLOW": "Cancel",
-          "CONFIRM_WORKFLOW": "Approve"
+          "CONFIRM_WORKFLOW": "Approve",
+          "REJECT_REQUEST": "Reject"
         }
       },
       "incorrectMoveIn": {
@@ -1274,6 +1275,11 @@
       "cancelServiceRequest": {
         "confirm": "Cancel",
         "successToast": "Service request cancelled"
+      },
+      "rejectServiceRequest": {
+        "title": "Reject request for service",
+        "successToast": "Rejection of request for service submitted",
+        "errorToast": "Rejection of request for service failed"
       },
       "fasActionInfoModal": {
         "title": "The action cannot be performed",

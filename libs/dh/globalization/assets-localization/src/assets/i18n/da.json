@@ -1161,7 +1161,8 @@
         },
         "ServiceRequest": {
           "CANCEL_WORKFLOW": "Annuller",
-          "CONFIRM_WORKFLOW": "Godkend"
+          "CONFIRM_WORKFLOW": "Godkend",
+          "REJECT_REQUEST": "Afvis"
         }
       },
       "incorrectMoveIn": {
@@ -1273,6 +1274,11 @@
       "cancelServiceRequest": {
         "confirm": "Annuller",
         "successToast": "Serviceanmodning annulleret"
+      },
+      "rejectServiceRequest": {
+        "title": "Afvis anmodning af serviceydelse",
+        "successToast": "Afvisning af anmodning om serviceydelse indsendt",
+        "errorToast": "Afvisning af anmodning om serviceydelse fejlede"
       },
       "fasActionInfoModal": {
         "title": "Handlingen kan ikke udføres",
