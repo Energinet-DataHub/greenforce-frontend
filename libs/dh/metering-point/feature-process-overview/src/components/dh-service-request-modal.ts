@@ -27,6 +27,7 @@ import { WattButtonComponent } from '@energinet/watt/button';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattTextAreaFieldComponent } from '@energinet/watt/textarea-field';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
+import { WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattToastService } from '@energinet/watt/toast';
 import { VaterStackComponent } from '@energinet/watt/vater';
 
@@ -47,6 +48,11 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+
+import {
+  dhDateNotInThePastValidator,
+  isDateBeforeToday,
+} from '../validators/dh-date-not-in-the-past.validator';
 
 export interface DhServiceRequestModalData {
   meteringPointId: string;
@@ -74,6 +80,7 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
     WattDropdownComponent,
     WattTextAreaFieldComponent,
     WattDatepickerComponent,
+    WattFieldErrorComponent,
     VaterStackComponent,
     DhDropdownTranslatorDirective,
   ],
@@ -104,7 +111,12 @@ const excludedServiceKinds = Object.values(ServiceKindV1).filter(
             [label]="t('startDateLabel')"
             [formControl]="form.controls.startDate"
             [max]="maxDate"
-          />
+            [dateFilter]="notInThePast"
+          >
+            @if (form.controls.startDate.hasError('dateInThePast')) {
+              <watt-field-error>{{ t('startDateError') }}</watt-field-error>
+            }
+          </watt-datepicker>
 
           <watt-textarea-field
             [label]="t('descriptionLabel')"
@@ -135,9 +147,16 @@ export class DhServiceRequestModal extends WattTypedModal<DhServiceRequestModalD
   readonly serviceKindOptions = dhEnumToWattDropdownOptions(ServiceKindV1, excludedServiceKinds);
   readonly maxDate = dayjs().startOf('day').add(60, 'day').toDate();
 
+  // Disables past days in the calendar grid (Material `matDatepickerFilter`); does
+  // not clamp typed input, so a typed past date still reaches the validator.
+  readonly notInThePast = (date: Date | null): boolean => !isDateBeforeToday(date);
+
   readonly form = new FormGroup({
     serviceKind: dhMakeFormControl<ServiceKindV1 | null>(null, Validators.required),
-    startDate: dhMakeFormControl<Date | null>(null, Validators.required),
+    startDate: dhMakeFormControl<Date | null>(null, [
+      Validators.required,
+      dhDateNotInThePastValidator(),
+    ]),
     description: dhMakeFormControl<string | null>(null),
   });
 

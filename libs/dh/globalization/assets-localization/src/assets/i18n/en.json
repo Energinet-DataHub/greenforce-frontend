@@ -1534,6 +1534,7 @@
         "serviceKindLabel": "Type",
         "serviceKindPlaceholder": "Select",
         "startDateLabel": "Cut-off date",
+        "startDateError": "The cut-off date cannot be in the past",
         "descriptionLabel": "Remarks",
         "cancel": "Cancel",
         "confirm": "Submit",

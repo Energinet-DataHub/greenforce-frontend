@@ -1533,6 +1533,7 @@
         "serviceKindLabel": "Type",
         "serviceKindPlaceholder": "Vælg",
         "startDateLabel": "Skæringsdato",
+        "startDateError": "Skæringsdatoen kan ikke ligge i fortiden",
         "descriptionLabel": "Bemærkninger",
         "cancel": "Annuller",
         "confirm": "Indsend",
