@@ -35,15 +35,15 @@ import { Component, computed, input } from '@angular/core';
     }
 
     .spinner {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .spinner-rotor {
       animation: rotate 2s linear infinite;
-      z-index: 2;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      margin: calc(var(--watt-spinner-diameter) / 2 * -1) 0 0
-        calc(var(--watt-spinner-diameter) / 2 * -1);
-      width: var(--watt-spinner-diameter);
-      height: var(--watt-spinner-diameter);
+      transform-box: view-box;
+      transform-origin: 25px 25px;
 
       & .path {
         stroke: var(--watt-spinner-circle-color);
@@ -78,7 +78,16 @@ import { Component, computed, input } from '@angular/core';
     '[style]': 'diameterSize()',
   },
   template: `<svg class="spinner" viewBox="0 0 50 50">
-    <circle class="path" cx="25" cy="25" r="20" fill="none" [attr.stroke-width]="strokeWidth()" />
+    <g class="spinner-rotor">
+      <circle
+        class="path"
+        cx="25"
+        cy="25"
+        r="20"
+        fill="none"
+        [attr.stroke-width]="strokeWidth()"
+      />
+    </g>
   </svg>`,
 })
 export class WattSpinnerComponent {
