@@ -65,7 +65,10 @@ export const routes: Routes = [
       },
       {
         path: getPath<ReportsSubPaths>('overview'),
-        canActivate: [PermissionGuard(['metering-point-master-data-reports:manage'])],
+        canActivate: [
+          dhReleaseToggleGuard('PM94-REPORTS'),
+          PermissionGuard(['metering-point-master-data-reports:manage']),
+        ],
         component: DhReportsOverview,
       },
       {
@@ -146,7 +149,10 @@ function redirectToLandingPage(): RedirectFunction {
               getPath<BasePaths>('reports'),
               getPath<ReportsSubPaths>('settlement-reports'),
             ]);
-          } else if (hasMeteringPointMasterDataReportsPermission) {
+          } else if (
+            releaseToggleService.isEnabled('PM94-REPORTS') &&
+            hasMeteringPointMasterDataReportsPermission
+          ) {
             return router.createUrlTree([
               '/',
               getPath<BasePaths>('reports'),

@@ -54,11 +54,13 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-rele
         [link]="getLink('settlement-reports')"
       />
 
-      <watt-link-tab
-        *dhPermissionRequired="['metering-point-master-data-reports:manage']"
-        [label]="t('meteringPointMasterDataReports')"
-        [link]="getLink('overview')"
-      />
+      <ng-container *dhReleaseToggle="'PM94-REPORTS'">
+        <watt-link-tab
+          *dhPermissionRequired="['metering-point-master-data-reports:manage']"
+          [label]="t('meteringPointMasterDataReports')"
+          [link]="getLink('overview')"
+        />
+      </ng-container>
 
       <watt-link-tab
         *dhPermissionRequired="['imbalance-prices:view']"
