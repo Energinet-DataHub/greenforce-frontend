@@ -57,6 +57,7 @@ export const dhAdminShellRoutes: Routes = [
               ),
             data: {
               pageLeaveRedirectUrl: combinePaths('admin', 'users'),
+              sensitiveParams: true,
             },
             children: [
               {
