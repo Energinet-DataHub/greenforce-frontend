@@ -106,4 +106,3 @@ export const IconButtons: StoryFn<WattButtonComponent> = () => ({
     </div>
   `,
 });
-
