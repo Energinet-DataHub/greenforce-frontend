@@ -201,6 +201,33 @@ watt-button {
     }
   }
 
+  &.watt-button--secondary-icon {
+    &.watt-button--disabled .mat-mdc-button.mat-secondary-icon {
+      background-color: transparent;
+      border-color: var(--watt-color-neutral-grey-300);
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-secondary-icon {
+      border: 1px solid var(--watt-color-primary);
+      color: var(--watt-color-primary);
+      @include watt.space-inset-s;
+
+      &:focus-visible {
+        @include secondary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include secondary-hover;
+      }
+
+      &.mat-button {
+        min-width: 44px;
+      }
+    }
+  }
+
   .mdc-button {
     @include watt.typography-font-weight("semi-bold");
     @include watt.typography-font-size("m");

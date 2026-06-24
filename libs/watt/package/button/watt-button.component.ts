@@ -27,7 +27,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
-export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selection'] as const;
+export const WattButtonTypes = [
+  'primary',
+  'secondary',
+  'text',
+  'icon',
+  'secondary-icon',
+  'selection',
+] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
@@ -61,7 +68,7 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
         @if (hasIcon()) {
           <watt-icon [name]="icon()" [class.watt-icon-trailing]="hasTrailingIcon()" />
         }
-        @if (variant() !== 'icon') {
+        @if (!isIconOnly()) {
           <span class="text-content"><ng-content /></span>
         }
       </div>
@@ -97,4 +104,5 @@ export class WattButtonComponent {
    */
   hasIcon = computed(() => !!this.icon());
   hasTrailingIcon = computed(() => this.hasIcon() && this.iconPosition() === 'trailing');
+  isIconOnly = computed(() => this.variant() === 'icon' || this.variant() === 'secondary-icon');
 }

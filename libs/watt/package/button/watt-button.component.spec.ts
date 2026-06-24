@@ -67,7 +67,7 @@ describe(WattButtonComponent, () => {
 
     const wattButton = renderResult.container;
 
-    if (variant === 'icon') {
+    if (variant === 'icon' || variant === 'secondary-icon') {
       expect(wattButton).not.toHaveTextContent('Text');
     } else {
       expect(wattButton).toHaveTextContent('Text');

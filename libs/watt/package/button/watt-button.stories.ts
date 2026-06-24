@@ -93,6 +93,16 @@ export const IconButtons: StoryFn<WattButtonComponent> = () => ({
           <watt-button variant="secondary" icon="openInNew" iconPosition="trailing">Open</watt-button>
         </div>
       </section>
+
+      <section>
+        <h3>Icon only</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--watt-space-m); align-items: center;">
+          <watt-button variant="icon" icon="plus" aria-label="Add" />
+          <watt-button variant="secondary-icon" icon="plus" aria-label="Add" />
+          <watt-button variant="secondary-icon" icon="search" aria-label="Search" />
+          <watt-button variant="secondary-icon" icon="settings" aria-label="Settings" />
+        </div>
+      </section>
     </div>
   `,
 });
