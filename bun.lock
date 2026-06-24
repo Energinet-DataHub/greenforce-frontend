@@ -25,8 +25,8 @@
         "@maskito/core": "2.5.0",
         "@maskito/kit": "2.5.0",
         "@maskito/phone": "2.5.0",
-        "@microsoft/applicationinsights-angularplugin-js": "15.4.0",
-        "@microsoft/applicationinsights-web": "3.4.1",
+        "@microsoft/applicationinsights-angularplugin-js": "15.4.1",
+        "@microsoft/applicationinsights-web": "3.4.2",
         "@microsoft/clarity": "1.0.2",
         "@ngneat/overview": "6.1.1",
         "@ngrx/operators": "21.0.1",
@@ -878,23 +878,23 @@
 
     "@mdx-js/react": ["@mdx-js/react@3.1.1", "", { "dependencies": { "@types/mdx": "^2.0.0" }, "peerDependencies": { "@types/react": ">=16", "react": ">=16" } }, "sha512-f++rKLQgUVYDAtECQ6fn/is15GkEH9+nZPM3MS0RcxVqoTfawHvDlSCH7JbMhAM6uJ32v3eXLvLmLvjGu7PTQw=="],
 
-    "@microsoft/applicationinsights-analytics-js": ["@microsoft/applicationinsights-analytics-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-zdxZzu50/gsE2JWrzeviHloFZu9r5/x2+OLD0TIYHhvrod321AKkStmKlDoep1JAsSephjxBfwTjciKiFXXyGA=="],
+    "@microsoft/applicationinsights-analytics-js": ["@microsoft/applicationinsights-analytics-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-6rEFSrEwJsqSLQYxCDs/cOdDymHZ7JBOUPdX5iyeE1yRVz/ArTLWvabr7nGB4z6FvgTGe+ztB4KE/2/AynNSkw=="],
 
-    "@microsoft/applicationinsights-angularplugin-js": ["@microsoft/applicationinsights-angularplugin-js@15.4.0", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "^3.4.1", "@microsoft/applicationinsights-properties-js": "^3.4.1", "@microsoft/applicationinsights-shims": "^3.0.1", "tslib": "^2.0.0" }, "peerDependencies": { "@angular/common": ">= 14.0.3", "@angular/core": ">= 14.0.3", "@microsoft/applicationinsights-analytics-js": "^3.4.1" } }, "sha512-o4psZsGiD7VVb3aZdRfcP+Memd/hrPz4pAevl5p0wwkU5BmSkB+B9YYM1hje2rh5J9zhjrFJymc7cI8bQ3hO6A=="],
+    "@microsoft/applicationinsights-angularplugin-js": ["@microsoft/applicationinsights-angularplugin-js@15.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "^3.4.2", "@microsoft/applicationinsights-properties-js": "^3.4.2", "@microsoft/applicationinsights-shims": "^3.0.1", "tslib": "^2.0.0" }, "peerDependencies": { "@angular/common": ">= 14.0.3", "@angular/core": ">= 14.0.3", "@microsoft/applicationinsights-analytics-js": "^3.4.2" } }, "sha512-AwbV1I35Fv909Sl6MhAkAVYTjjqafqDn1kCjhFhhuGGSXHkLdSBEPKFSEZnFok3bO9wCxi5QXDOKPgC/aKJlcA=="],
 
-    "@microsoft/applicationinsights-cfgsync-js": ["@microsoft/applicationinsights-cfgsync-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-ifNgSIisKM/rZoLdpzS6sIQqBBRNXXAhiazZizwoP2MLdK93Z8JcPNi6eXkKPhW0Fi3SuoUivCaM7GgAMgVEFw=="],
+    "@microsoft/applicationinsights-cfgsync-js": ["@microsoft/applicationinsights-cfgsync-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 0.6.0", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-agrVubH9iLdBgHqyQCKTLcqlzMYzqoTi/YswPCK++Ho9qlBkMQGgG6pVpACtzu2d7Cri6Z33qy1QhvH69e+CRA=="],
 
-    "@microsoft/applicationinsights-channel-js": ["@microsoft/applicationinsights-channel-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-QS1k6iwVwR1MznGAB1H0F9raqpevbFNbadLS5O1419pz9OEWBfF9wRQLnENCyo8QS9Q0IdiqnGAON/D8IywpWg=="],
+    "@microsoft/applicationinsights-channel-js": ["@microsoft/applicationinsights-channel-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 0.6.0", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-Q7Q9gV45WSgSmOP2abu0y9tdbFh8sPELMgKUCDy62FsNd3xmE8X3zLtkzc7mcXPlpTeoDXwMCYjCRIAYd6d2lQ=="],
 
     "@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 0.6.0", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-Iw3gq1JREKLbXiVpr3F0+Ezuzphe+o25n9me9H5Kkjmck6tIkuGQea01SNfeemE4wf2mop2QQSvTcKxT8tNN1g=="],
 
-    "@microsoft/applicationinsights-dependencies-js": ["@microsoft/applicationinsights-dependencies-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-cnjVVTxSeavmwCoOwXi/ZQuCcjo7SnYYRWyS+GsMCrTRTItVHZlVj6NHgmFEQZWNybrM+U1RgwZE2wXn1/Liyw=="],
+    "@microsoft/applicationinsights-dependencies-js": ["@microsoft/applicationinsights-dependencies-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 0.6.0", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-xXRwLewtraO+iQUqkuRRf/796dNqapIQv6zYb4Hl2P9iT/93apG9URCZzVk/epw/CYkCgQanLOGa617D7sdtUQ=="],
 
     "@microsoft/applicationinsights-properties-js": ["@microsoft/applicationinsights-properties-js@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-ChuHTWWad3FityDmLyaj3Xkn7/reI05QBxnbV4FhKLUJ8k4e9ixYn6Ir1jvYyvgG5flKRKEJhiYOZvQ/D/VI4w=="],
 
     "@microsoft/applicationinsights-shims": ["@microsoft/applicationinsights-shims@3.0.1", "", { "dependencies": { "@nevware21/ts-utils": ">= 0.9.4 < 2.x" } }, "sha512-DKwboF47H1nb33rSUfjqI6ryX29v+2QWcTrRvcQDA32AZr5Ilkr7whOOSsD1aBzwqX0RJEIP1Z81jfE3NBm/Lg=="],
 
-    "@microsoft/applicationinsights-web": ["@microsoft/applicationinsights-web@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-analytics-js": "3.4.1", "@microsoft/applicationinsights-cfgsync-js": "3.4.1", "@microsoft/applicationinsights-channel-js": "3.4.1", "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-dependencies-js": "3.4.1", "@microsoft/applicationinsights-properties-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-gdYLIYkP11D+V71nNCupYsmWE8LAL9EpIR2Q7+B3n6dpck7tgaYMXFN3S5ZrOh3yxLAwt7GVXZoDcN2mGkagxQ=="],
+    "@microsoft/applicationinsights-web": ["@microsoft/applicationinsights-web@3.4.2", "", { "dependencies": { "@microsoft/applicationinsights-analytics-js": "3.4.2", "@microsoft/applicationinsights-cfgsync-js": "3.4.2", "@microsoft/applicationinsights-channel-js": "3.4.2", "@microsoft/applicationinsights-core-js": "3.4.2", "@microsoft/applicationinsights-dependencies-js": "3.4.2", "@microsoft/applicationinsights-properties-js": "3.4.2", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 0.6.0", "@nevware21/ts-utils": ">= 0.14.0 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-U9mydqo6Hhspn6yIgDZkR1jaUtbHCjnWtVPt7WonkANuWOdYUYASjuMzQoSGQnEx/GQ0sRdFIcUV2uCGmpcN0A=="],
 
     "@microsoft/clarity": ["@microsoft/clarity@1.0.2", "", {}, "sha512-9EZYROFpJxEGmQpHvUFqvD3ZJ7QQSqnibYSWmS+1xusoZfG1QQ1/Al9yVBBc11DWMbJrs1pe1hLT273it/skJg=="],
 
@@ -972,7 +972,7 @@
 
     "@nestjs/core": ["@nestjs/core@10.3.0", "", { "dependencies": { "@nuxtjs/opencollective": "0.3.2", "fast-safe-stringify": "2.1.1", "iterare": "1.2.1", "path-to-regexp": "3.2.0", "tslib": "2.6.2", "uid": "2.0.2" }, "peerDependencies": { "@nestjs/common": "^10.0.0", "@nestjs/microservices": "^10.0.0", "@nestjs/platform-express": "^10.0.0", "@nestjs/websockets": "^10.0.0", "reflect-metadata": "^0.1.12", "rxjs": "^7.1.0" }, "optionalPeers": ["@nestjs/microservices", "@nestjs/platform-express", "@nestjs/websockets"] }, "sha512-N06P5ncknW/Pm8bj964WvLIZn2gNhHliCBoAO1LeBvNImYkecqKcrmLbY49Fa1rmMfEM3MuBHeDys3edeuYAOA=="],
 
-    "@nevware21/ts-async": ["@nevware21/ts-async@0.6.1", "", { "dependencies": { "@nevware21/ts-utils": ">= 0.15.0 < 2.x" } }, "sha512-W2kFiT5oPuxTrB3NrxUId/U+1AuAhIaiDQkLC4HcxkjNc+85GfELYdPQXnsDWDG8yji24F5qk6QpBDxZX3/0+g=="],
+    "@nevware21/ts-async": ["@nevware21/ts-async@0.5.5", "", { "dependencies": { "@nevware21/ts-utils": ">= 0.12.2 < 2.x" } }, "sha512-vwqaL05iJPjLeh5igPi8MeeAu10i+Aq7xko1fbo9F5Si6MnVN5505qaV7AhSdk5MCBJVT/UYMk3kgInNjDb4Ig=="],
 
     "@nevware21/ts-utils": ["@nevware21/ts-utils@0.15.0", "", {}, "sha512-+bUMKIiKAgoW5uNEb5xxzBzdwdLS9SKRcOy8SxLE+KqSlIdUYV5O9nxJVq1RUYcO2DtL5DlrK1GbgcVEHv6GVA=="],
 
@@ -4278,21 +4278,7 @@
 
     "@maskito/angular/tslib": ["tslib@2.6.3", "", {}, "sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ=="],
 
-    "@microsoft/applicationinsights-analytics-js/@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-eXIHZ1+nvBiJgVpufBiTP801Vtr5FEwjWZioUsb44NC/z/UcsZh2MDJ1mBpjaDO73LVYUw/ZZmDCCo6Pg/61kA=="],
-
     "@microsoft/applicationinsights-angularplugin-js/tslib": ["tslib@2.8.1", "", {}, "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w=="],
-
-    "@microsoft/applicationinsights-cfgsync-js/@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-eXIHZ1+nvBiJgVpufBiTP801Vtr5FEwjWZioUsb44NC/z/UcsZh2MDJ1mBpjaDO73LVYUw/ZZmDCCo6Pg/61kA=="],
-
-    "@microsoft/applicationinsights-channel-js/@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-eXIHZ1+nvBiJgVpufBiTP801Vtr5FEwjWZioUsb44NC/z/UcsZh2MDJ1mBpjaDO73LVYUw/ZZmDCCo6Pg/61kA=="],
-
-    "@microsoft/applicationinsights-core-js/@nevware21/ts-async": ["@nevware21/ts-async@0.5.5", "", { "dependencies": { "@nevware21/ts-utils": ">= 0.12.2 < 2.x" } }, "sha512-vwqaL05iJPjLeh5igPi8MeeAu10i+Aq7xko1fbo9F5Si6MnVN5505qaV7AhSdk5MCBJVT/UYMk3kgInNjDb4Ig=="],
-
-    "@microsoft/applicationinsights-dependencies-js/@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-eXIHZ1+nvBiJgVpufBiTP801Vtr5FEwjWZioUsb44NC/z/UcsZh2MDJ1mBpjaDO73LVYUw/ZZmDCCo6Pg/61kA=="],
-
-    "@microsoft/applicationinsights-web/@microsoft/applicationinsights-core-js": ["@microsoft/applicationinsights-core-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-async": ">= 0.5.5 < 2.x", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-eXIHZ1+nvBiJgVpufBiTP801Vtr5FEwjWZioUsb44NC/z/UcsZh2MDJ1mBpjaDO73LVYUw/ZZmDCCo6Pg/61kA=="],
-
-    "@microsoft/applicationinsights-web/@microsoft/applicationinsights-properties-js": ["@microsoft/applicationinsights-properties-js@3.4.1", "", { "dependencies": { "@microsoft/applicationinsights-core-js": "3.4.1", "@microsoft/applicationinsights-shims": "3.0.1", "@microsoft/dynamicproto-js": "^2.0.3", "@nevware21/ts-utils": ">= 0.12.6 < 2.x" }, "peerDependencies": { "tslib": ">= 1.0.0" } }, "sha512-s2cUuknjazaoCbh9i6ljymeZqeQqpyAE8v2ZUxCkAwRuxbonAvZWQtEr4QQmEHWJIdbWgn0Ge+OOlMtMkh+Ixg=="],
 
     "@modelcontextprotocol/sdk/express": ["express@5.2.1", "", { "dependencies": { "accepts": "^2.0.0", "body-parser": "^2.2.1", "content-disposition": "^1.0.0", "content-type": "^1.0.5", "cookie": "^0.7.1", "cookie-signature": "^1.2.1", "debug": "^4.4.0", "depd": "^2.0.0", "encodeurl": "^2.0.0", "escape-html": "^1.0.3", "etag": "^1.8.1", "finalhandler": "^2.1.0", "fresh": "^2.0.0", "http-errors": "^2.0.0", "merge-descriptors": "^2.0.0", "mime-types": "^3.0.0", "on-finished": "^2.4.1", "once": "^1.4.0", "parseurl": "^1.3.3", "proxy-addr": "^2.0.7", "qs": "^6.14.0", "range-parser": "^1.2.1", "router": "^2.2.0", "send": "^1.1.0", "serve-static": "^2.2.0", "statuses": "^2.0.1", "type-is": "^2.0.1", "vary": "^1.1.2" } }, "sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw=="],
 
