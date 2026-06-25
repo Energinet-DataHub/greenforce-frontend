@@ -16,18 +16,19 @@
  * limitations under the License.
  */
 //#endregion
+import { FormControl } from '@angular/forms';
 import { dayjs } from '@energinet/watt/date';
-import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
-import { isDateBeforeToday } from '../src/validators/dh-date-not-in-the-past.validator';
+import {
+  dhDateNotInThePastValidator,
+  isDateBeforeToday,
+} from '../src/dh-date-not-in-the-past.validator';
 
 // Reference dates are built in the same timezone the validator compares in
 // (Europe/Copenhagen), so the today/tomorrow boundaries stay stable regardless
 // of the test runner's timezone (e.g. UTC in CI).
-const danishStartOfToday = () => dayjs().tz(danishTimeZoneIdentifier).startOf('day');
+const danishStartOfToday = () => dayjs().tz('Europe/Copenhagen').startOf('day');
 
-// Locks the shared day-comparison that both the calendar `dateFilter` and the
-// `dhDateNotInThePastValidator` depend on, so the two can never drift.
 describe('isDateBeforeToday', () => {
   it('returns true for yesterday', () => {
     expect(isDateBeforeToday(danishStartOfToday().subtract(1, 'day').toDate())).toBe(true);
@@ -43,5 +44,20 @@ describe('isDateBeforeToday', () => {
 
   it('returns false for an empty value', () => {
     expect(isDateBeforeToday(null)).toBe(false);
+  });
+});
+
+describe('dhDateNotInThePastValidator', () => {
+  it('returns null for an empty control', () => {
+    expect(dhDateNotInThePastValidator()(new FormControl(null))).toBeNull();
+  });
+
+  it('returns null for today', () => {
+    expect(dhDateNotInThePastValidator()(new FormControl(danishStartOfToday().toDate()))).toBeNull();
+  });
+
+  it('flags a past date with dateInThePast', () => {
+    const control = new FormControl(danishStartOfToday().subtract(1, 'day').toDate());
+    expect(dhDateNotInThePastValidator()(control)).toEqual({ dateInThePast: true });
   });
 });

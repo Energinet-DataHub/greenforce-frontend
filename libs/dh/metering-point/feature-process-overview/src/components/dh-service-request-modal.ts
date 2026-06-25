@@ -47,12 +47,11 @@ import {
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
-
 import {
   dhDateNotInThePastValidator,
   isDateBeforeToday,
-} from '../validators/dh-date-not-in-the-past.validator';
+} from '@energinet-datahub/dh/shared/ui-validators';
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 
 export interface DhServiceRequestModalData {
   meteringPointId: string;
