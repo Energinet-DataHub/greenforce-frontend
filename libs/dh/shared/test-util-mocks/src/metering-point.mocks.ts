@@ -1035,7 +1035,6 @@ function getEnergySupplierInformation() {
         energySupplierInformation: [
           {
             __typename: 'EnergySupplierInformation',
-            energySupplierId: '1234567890123',
             from: new Date('2024-01-01'),
             to: new Date('2024-02-28'),
           },
