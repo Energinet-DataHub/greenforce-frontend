@@ -113,4 +113,3 @@ describe('resolveCustomerPrefillValue', () => {
     ).toBe('Metering point customer');
   });
 });
-

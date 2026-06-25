@@ -160,9 +160,7 @@ export class DhUpdateCustomerDataComponent {
    * When sourcing from temporary storage, block all metering-point-derived
    * customer data. The process temporary storage is the only prefill source.
    */
-  private readonly shouldClearMpDerivedData = computed(
-    () => this.useTemporaryStorage()
-  );
+  private readonly shouldClearMpDerivedData = computed(() => this.useTemporaryStorage());
 
   isLoading = computed(
     () => this.meteringPointQuery.loading() || this.temporaryStorageQuery.loading()
@@ -190,9 +188,10 @@ export class DhUpdateCustomerDataComponent {
       primary: {
         name: this.resolvePrimaryName(),
         cvr: this.resolvePrimaryCvr(),
-        isProtectedName: prefillCustomerIdentificationOnly || this.useTemporaryStorage()
-          ? false
-          : (legalCustomer?.isProtectedName ?? false),
+        isProtectedName:
+          prefillCustomerIdentificationOnly || this.useTemporaryStorage()
+            ? false
+            : (legalCustomer?.isProtectedName ?? false),
         customerId:
           prefillCustomerIdentificationOnly || this.useTemporaryStorage()
             ? null
