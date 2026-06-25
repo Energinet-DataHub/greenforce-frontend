@@ -17,22 +17,28 @@
  */
 //#endregion
 import { dayjs } from '@energinet/watt/date';
+import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 import { isDateBeforeToday } from '../src/validators/dh-date-not-in-the-past.validator';
+
+// Reference dates are built in the same timezone the validator compares in
+// (Europe/Copenhagen), so the today/tomorrow boundaries stay stable regardless
+// of the test runner's timezone (e.g. UTC in CI).
+const danishStartOfToday = () => dayjs().tz(danishTimeZoneIdentifier).startOf('day');
 
 // Locks the shared day-comparison that both the calendar `dateFilter` and the
 // `dhDateNotInThePastValidator` depend on, so the two can never drift.
 describe('isDateBeforeToday', () => {
   it('returns true for yesterday', () => {
-    expect(isDateBeforeToday(dayjs().startOf('day').subtract(1, 'day').toDate())).toBe(true);
+    expect(isDateBeforeToday(danishStartOfToday().subtract(1, 'day').toDate())).toBe(true);
   });
 
   it('returns false for today', () => {
-    expect(isDateBeforeToday(dayjs().startOf('day').toDate())).toBe(false);
+    expect(isDateBeforeToday(danishStartOfToday().toDate())).toBe(false);
   });
 
   it('returns false for tomorrow', () => {
-    expect(isDateBeforeToday(dayjs().startOf('day').add(1, 'day').toDate())).toBe(false);
+    expect(isDateBeforeToday(danishStartOfToday().add(1, 'day').toDate())).toBe(false);
   });
 
   it('returns false for an empty value', () => {

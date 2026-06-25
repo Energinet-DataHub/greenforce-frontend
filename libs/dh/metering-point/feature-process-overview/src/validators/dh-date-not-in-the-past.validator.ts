@@ -19,8 +19,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 import { dayjs } from '@energinet/watt/date';
-
-const danishTimeZone = 'Europe/Copenhagen';
+import { danishTimeZoneIdentifier } from '@energinet/watt/datepicker';
 
 /**
  * Shared day-comparison used by both the calendar `dateFilter` (to disable past
@@ -29,8 +28,8 @@ const danishTimeZone = 'Europe/Copenhagen';
 export const isDateBeforeToday = (value: Date | string | null | undefined): boolean => {
   if (!value) return false;
 
-  const picked = dayjs(value).tz(danishTimeZone).startOf('day');
-  const today = dayjs().tz(danishTimeZone).startOf('day');
+  const picked = dayjs(value).tz(danishTimeZoneIdentifier).startOf('day');
+  const today = dayjs().tz(danishTimeZoneIdentifier).startOf('day');
 
   return picked.isBefore(today);
 };
