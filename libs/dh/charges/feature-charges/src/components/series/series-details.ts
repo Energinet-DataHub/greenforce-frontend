@@ -120,7 +120,7 @@ export class DhChargesSeriesDetails {
   readonly resolution = input<ChargeResolution>();
   readonly series = model<ChargeSeriesPoint>();
 
-  protected changes = computed(() => this.series()?.changes ?? []);
+  protected changes = computed(() => this.series()?.history ?? []);
   protected start = computed(() => this.series()?.interval.start);
   protected dataSource = dataSource(() => this.changes());
 
