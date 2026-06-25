@@ -14,4 +14,9 @@
 
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeSeriesPointChange(decimal Price, bool IsCurrent, string? MessageId);
+public record ChargeSeriesPointChange(
+    ChargeSeriesPointId ChargeSeriesPointId,
+    DateTimeOffset Created,
+    decimal Price,
+    bool IsCurrent,
+    string OrchestrationInstanceId);
