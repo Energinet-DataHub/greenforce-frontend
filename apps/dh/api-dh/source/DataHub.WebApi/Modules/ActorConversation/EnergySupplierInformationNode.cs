@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Extensions;
@@ -20,21 +21,16 @@ using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.
 
 namespace Energinet.DataHub.WebApi.Modules.ActorConversation;
 
-[ObjectType<GetConversationsQueryResponse>]
-public static partial class ActorConversationsNode
+[ObjectType<EnergySupplierPeriodResponse>]
+public static partial class EnergySupplierInformationNode
 {
     [Query]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
-    public static async Task<GetConversationsQueryResponse> GetConversationsForMeteringPointAsync(
+    public static async Task<ICollection<EnergySupplierPeriodResponse>?> GetEnergySupplierInformationAsync(
         [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] IRequestAuthorization requestAuthorization,
         [Service] IActorConversationClient_V1 actorConversationClient,
-        string? meteringPointIdentification,
-        string? searchTerm,
-        bool? ownConversations,
-        bool? unread,
-        bool? opened,
-        bool? closed,
-        IEnumerable<ConversationSubject>? subjects,
+        string meteringPointIdentification,
         CancellationToken ct)
     {
         ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
@@ -44,31 +40,36 @@ public static partial class ActorConversationsNode
         var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
         var userId = user.GetUserId();
 
-        return await actorConversationClient.ApiGetConversationsAsync(
-            meteringPointIdentification: meteringPointIdentification,
-            searchValue: searchTerm,
-            myConversations: ownConversations,
-            unread: unread,
-            opened: opened,
-            closed: closed,
-            subjects: subjects,
-            userId: userId.ToString(),
-            marketRole: MapMarketRoleToActorType(marketRole).ToString(),
-            marketParticipantNumber: marketParticipantNumber,
-            perPage: null,
-            currentPage: null,
-            cancellationToken: ct);
+        var authRequest = new ReadActorConversationRequest
+        {
+            ActorNumber = marketParticipantNumber,
+            MarketRole = marketRole,
+            MeteringPointId = meteringPointIdentification,
+            UserId = userId,
+        };
+
+        var energySupplierPeriods = await actorConversationClient.ApiGetEnergySupplierPeriodsAsync(
+            meteringPointIdentification,
+            DateTimeOffset.MinValue,
+            null,
+            userId.ToString(),
+            marketParticipantNumber,
+            MapMarketRoleToActorType(marketRole).ToString(),
+            ct);
+
+        return energySupplierPeriods.EnergySupplierPeriods;
     }
 
     static partial void Configure(
-        IObjectTypeDescriptor<GetConversationsQueryResponse> descriptor)
+    IObjectTypeDescriptor<EnergySupplierPeriodResponse> descriptor)
     {
         descriptor
-            .Name("Conversations")
+            .Name("EnergySupplierInformation")
             .BindFieldsExplicitly();
 
-        descriptor
-            .Field(f => f.Conversations);
+        descriptor.Field(f => f.From);
+        descriptor.Field(f => f.To);
+        descriptor.Field(f => f.EnergySupplierId);
     }
 
     private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)

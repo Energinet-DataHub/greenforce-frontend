@@ -128,9 +128,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="opened">Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.</param>
         /// <param name="closed">Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.</param>
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
+        /// <param name="perPage">Number of conversations pr page result</param>
+        /// <param name="currentPage">current page</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole);
+        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, object? perPage, object? currentPage, string? userId, string? marketParticipantNumber, string? marketRole);
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
         /// <summary>
@@ -155,9 +157,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="opened">Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.</param>
         /// <param name="closed">Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.</param>
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
+        /// <param name="perPage">Number of conversations pr page result</param>
+        /// <param name="currentPage">current page</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
+        System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, object? perPage, object? currentPage, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets information regarding electrical heating on a measuring point
@@ -179,6 +183,27 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
         System.Threading.Tasks.Task<GetElectricalHeatingInformationQueryResponse> ApiGetElectricalHeatingInformationAsync(string meteringPointIdentification, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Gets energy supplier periods for a metering point
+        /// </summary>
+        /// <remarks>
+        /// Gets energy supplier periods for a metering point
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetEnergySupplierPeriodsQueryResponse> ApiGetEnergySupplierPeriodsAsync(string meteringPointIdentification, System.DateTimeOffset? from, System.DateTimeOffset? to, string? userId, string? marketParticipantNumber, string? marketRole);
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Gets energy supplier periods for a metering point
+        /// </summary>
+        /// <remarks>
+        /// Gets energy supplier periods for a metering point
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        System.Threading.Tasks.Task<GetEnergySupplierPeriodsQueryResponse> ApiGetEnergySupplierPeriodsAsync(string meteringPointIdentification, System.DateTimeOffset? from, System.DateTimeOffset? to, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken);
 
         /// <summary>
         /// Get all marketparticipants that have a conversation.
@@ -924,11 +949,13 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="opened">Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.</param>
         /// <param name="closed">Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.</param>
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
+        /// <param name="perPage">Number of conversations pr page result</param>
+        /// <param name="currentPage">current page</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole)
+        public virtual System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, object? perPage, object? currentPage, string? userId, string? marketParticipantNumber, string? marketRole)
         {
-            return ApiGetConversationsAsync(meteringPointIdentification, searchValue, myConversations, unread, opened, closed, subjects, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
+            return ApiGetConversationsAsync(meteringPointIdentification, searchValue, myConversations, unread, opened, closed, subjects, perPage, currentPage, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
         }
 
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
@@ -954,9 +981,11 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         /// <param name="opened">Filter for only opened or active conversations. Passed as querystring of same name, ex. opened=true.</param>
         /// <param name="closed">Filter for only closed conversations. Passed as querystring of same name, ex. closed=true.</param>
         /// <param name="subjects">Filter for only listed Conversationsubjects. passed as querystring of same name. ex subject=QuestionForEnerginet&amp;amp;subjects=ElectricalHeating</param>
+        /// <param name="perPage">Number of conversations pr page result</param>
+        /// <param name="currentPage">current page</param>
         /// <returns>OK</returns>
         /// <exception cref="ApiException">A server side error occurred.</exception>
-        public virtual async System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
+        public virtual async System.Threading.Tasks.Task<GetConversationsQueryResponse> ApiGetConversationsAsync(string? meteringPointIdentification, string? searchValue, bool? myConversations, bool? unread, bool? opened, bool? closed, System.Collections.Generic.IEnumerable<ConversationSubject>? subjects, object? perPage, object? currentPage, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
         {
             var client_ = _httpClient;
             var disposeClient_ = false;
@@ -1008,6 +1037,14 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                     if (subjects != null)
                     {
                             foreach (var item_ in subjects) { urlBuilder_.Append(System.Uri.EscapeDataString("subjects")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(item_, System.Globalization.CultureInfo.InvariantCulture))).Append('&'); }
+                    }
+                    if (perPage != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("perPage")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(perPage, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (currentPage != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("currentPage")).Append('=').Append(System.Uri.EscapeDataString(ConvertToString(currentPage, System.Globalization.CultureInfo.InvariantCulture))).Append('&');
                     }
                     urlBuilder_.Length--;
 
@@ -1160,6 +1197,129 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
                         if (status_ == 200)
                         {
                             var objectResponse_ = await ReadObjectResponseAsync<GetElectricalHeatingInformationQueryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            return objectResponse_.Object;
+                        }
+                        else
+                        if (status_ == 404)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<ProblemDetails>(response_, headers_, cancellationToken).ConfigureAwait(false);
+                            if (objectResponse_.Object == null)
+                            {
+                                throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
+                            }
+                            throw new ApiException<ProblemDetails>("Not Found", status_, objectResponse_.Text, headers_, objectResponse_.Object, null);
+                        }
+                        else
+                        {
+                            var responseData_ = response_.Content == null ? null : await ReadAsStringAsync(response_.Content, cancellationToken).ConfigureAwait(false);
+                            throw new ApiException("The HTTP status code of the response was not expected (" + status_ + ").", status_, responseData_, headers_, null);
+                        }
+                    }
+                    finally
+                    {
+                        if (disposeResponse_)
+                            response_.Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                if (disposeClient_)
+                    client_.Dispose();
+            }
+        }
+
+        /// <summary>
+        /// Gets energy supplier periods for a metering point
+        /// </summary>
+        /// <remarks>
+        /// Gets energy supplier periods for a metering point
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual System.Threading.Tasks.Task<GetEnergySupplierPeriodsQueryResponse> ApiGetEnergySupplierPeriodsAsync(string meteringPointIdentification, System.DateTimeOffset? from, System.DateTimeOffset? to, string? userId, string? marketParticipantNumber, string? marketRole)
+        {
+            return ApiGetEnergySupplierPeriodsAsync(meteringPointIdentification, from, to, userId, marketParticipantNumber, marketRole, System.Threading.CancellationToken.None);
+        }
+
+        /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+        /// <summary>
+        /// Gets energy supplier periods for a metering point
+        /// </summary>
+        /// <remarks>
+        /// Gets energy supplier periods for a metering point
+        /// </remarks>
+        /// <returns>OK</returns>
+        /// <exception cref="ApiException">A server side error occurred.</exception>
+        public virtual async System.Threading.Tasks.Task<GetEnergySupplierPeriodsQueryResponse> ApiGetEnergySupplierPeriodsAsync(string meteringPointIdentification, System.DateTimeOffset? from, System.DateTimeOffset? to, string? userId, string? marketParticipantNumber, string? marketRole, System.Threading.CancellationToken cancellationToken)
+        {
+            if (meteringPointIdentification == null)
+                throw new System.ArgumentNullException("meteringPointIdentification");
+
+            var client_ = _httpClient;
+            var disposeClient_ = false;
+            try
+            {
+                using (var request_ = new System.Net.Http.HttpRequestMessage())
+                {
+
+                    if (userId != null)
+                        request_.Headers.TryAddWithoutValidation("UserId", ConvertToString(userId, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketParticipantNumber != null)
+                        request_.Headers.TryAddWithoutValidation("MarketParticipantNumber", ConvertToString(marketParticipantNumber, System.Globalization.CultureInfo.InvariantCulture));
+
+                    if (marketRole != null)
+                        request_.Headers.TryAddWithoutValidation("MarketRole", ConvertToString(marketRole, System.Globalization.CultureInfo.InvariantCulture));
+                    request_.Method = new System.Net.Http.HttpMethod("GET");
+                    request_.Headers.Accept.Add(System.Net.Http.Headers.MediaTypeWithQualityHeaderValue.Parse("application/json"));
+
+                    var urlBuilder_ = new System.Text.StringBuilder();
+                
+                    // Operation Path: "api/GetEnergySupplierPeriods/{meteringPointIdentification}"
+                    urlBuilder_.Append("api/GetEnergySupplierPeriods/");
+                    urlBuilder_.Append(System.Uri.EscapeDataString(ConvertToString(meteringPointIdentification, System.Globalization.CultureInfo.InvariantCulture)));
+                    urlBuilder_.Append('?');
+                    if (from != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("from")).Append('=').Append(System.Uri.EscapeDataString(from.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    if (to != null)
+                    {
+                        urlBuilder_.Append(System.Uri.EscapeDataString("to")).Append('=').Append(System.Uri.EscapeDataString(to.Value.ToString("s", System.Globalization.CultureInfo.InvariantCulture))).Append('&');
+                    }
+                    urlBuilder_.Length--;
+
+                    PrepareRequest(client_, request_, urlBuilder_);
+
+                    var url_ = urlBuilder_.ToString();
+                    request_.RequestUri = new System.Uri(url_, System.UriKind.RelativeOrAbsolute);
+
+                    PrepareRequest(client_, request_, url_);
+
+                    var response_ = await client_.SendAsync(request_, System.Net.Http.HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
+                    var disposeResponse_ = true;
+                    try
+                    {
+                        var headers_ = new System.Collections.Generic.Dictionary<string, System.Collections.Generic.IEnumerable<string>>();
+                        foreach (var item_ in response_.Headers)
+                            headers_[item_.Key] = item_.Value;
+                        if (response_.Content != null && response_.Content.Headers != null)
+                        {
+                            foreach (var item_ in response_.Content.Headers)
+                                headers_[item_.Key] = item_.Value;
+                        }
+
+                        ProcessResponse(client_, response_);
+
+                        var status_ = (int)response_.StatusCode;
+                        if (status_ == 200)
+                        {
+                            var objectResponse_ = await ReadObjectResponseAsync<GetEnergySupplierPeriodsQueryResponse>(response_, headers_, cancellationToken).ConfigureAwait(false);
                             if (objectResponse_.Object == null)
                             {
                                 throw new ApiException("Response was null which was not expected.", status_, objectResponse_.Text, headers_, null);
@@ -2410,6 +2570,84 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ElectricalHeatingResponse
+    {
+
+        [Newtonsoft.Json.JsonProperty("customerName", Required = Newtonsoft.Json.Required.AllowNull)]
+        public string? CustomerName { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("supplierPeriods", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<ElectricialHeatingResponsePeriod> SupplierPeriods { get; set; } = new System.Collections.ObjectModel.Collection<ElectricialHeatingResponsePeriod>();
+
+        [Newtonsoft.Json.JsonProperty("isElectricalHeatingActive", Required = Newtonsoft.Json.Required.Always)]
+        public bool IsElectricalHeatingActive { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("electricalHeatingFrom", Required = Newtonsoft.Json.Required.AllowNull)]
+        public System.DateTimeOffset? ElectricalHeatingFrom { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class ElectricialHeatingResponsePeriod
+    {
+
+        [Newtonsoft.Json.JsonProperty("from", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset From { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("to", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset To { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
+    public partial class EnergySupplierPeriodResponse
+    {
+
+        [Newtonsoft.Json.JsonProperty("energySupplierId", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public string EnergySupplierId { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("from", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset From { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("to", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
+        public System.DateTimeOffset To { get; set; } = default!;
+
+        private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
+
+        [Newtonsoft.Json.JsonExtensionData]
+        public System.Collections.Generic.IDictionary<string, object> AdditionalProperties
+        {
+            get { return _additionalProperties ?? (_additionalProperties = new System.Collections.Generic.Dictionary<string, object>()); }
+            set { _additionalProperties = value; }
+        }
+
+    }
+
+    [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class GetConversationQueryResponse
     {
 
@@ -2693,6 +2931,18 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
         [System.ComponentModel.DataAnnotations.Required]
         public System.Collections.Generic.ICollection<GetConversationsQueryResponseConversationInfo> Conversations { get; set; } = new System.Collections.ObjectModel.Collection<GetConversationsQueryResponseConversationInfo>();
 
+        [Newtonsoft.Json.JsonProperty("pageNumber", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public object PageNumber { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("pageSize", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public object PageSize { get; set; } = default!;
+
+        [Newtonsoft.Json.JsonProperty("totalCount", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public object TotalCount { get; set; } = default!;
+
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
         [Newtonsoft.Json.JsonExtensionData]
@@ -2771,18 +3021,8 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     public partial class GetElectricalHeatingInformationQueryResponse
     {
 
-        [Newtonsoft.Json.JsonProperty("customerName", Required = Newtonsoft.Json.Required.AllowNull)]
-        public string? CustomerName { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("supplierPeriods", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required]
-        public System.Collections.Generic.ICollection<GetElectricalHeatingInformationQueryResponsePeriod> SupplierPeriods { get; set; } = new System.Collections.ObjectModel.Collection<GetElectricalHeatingInformationQueryResponsePeriod>();
-
-        [Newtonsoft.Json.JsonProperty("isElectricalHeatingActive", Required = Newtonsoft.Json.Required.Always)]
-        public bool IsElectricalHeatingActive { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("electricalHeatingFrom", Required = Newtonsoft.Json.Required.AllowNull)]
-        public System.DateTimeOffset? ElectricalHeatingFrom { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("information", Required = Newtonsoft.Json.Required.Default, NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore)]
+        public ElectricalHeatingResponse? Information { get; set; } = default!;
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
@@ -2796,16 +3036,12 @@ namespace Energinet.DataHub.WebApi.Clients.ActorConversation.v1
     }
 
     [System.CodeDom.Compiler.GeneratedCode("NJsonSchema", "14.6.3.0 (NJsonSchema v11.5.2.0 (Newtonsoft.Json v13.0.0.0))")]
-    public partial class GetElectricalHeatingInformationQueryResponsePeriod
+    public partial class GetEnergySupplierPeriodsQueryResponse
     {
 
-        [Newtonsoft.Json.JsonProperty("from", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTimeOffset From { get; set; } = default!;
-
-        [Newtonsoft.Json.JsonProperty("to", Required = Newtonsoft.Json.Required.Always)]
-        [System.ComponentModel.DataAnnotations.Required(AllowEmptyStrings = true)]
-        public System.DateTimeOffset To { get; set; } = default!;
+        [Newtonsoft.Json.JsonProperty("energySupplierPeriods", Required = Newtonsoft.Json.Required.Always)]
+        [System.ComponentModel.DataAnnotations.Required]
+        public System.Collections.Generic.ICollection<EnergySupplierPeriodResponse> EnergySupplierPeriods { get; set; } = new System.Collections.ObjectModel.Collection<EnergySupplierPeriodResponse>();
 
         private System.Collections.Generic.IDictionary<string, object>? _additionalProperties;
 
