@@ -54,6 +54,22 @@ export function getCustomerPrefillSource(
   return (reason && PREFILL_SOURCE[reason]) ?? 'metering-point';
 }
 
+export function resolveCustomerPrefillValue({
+  source,
+  temporaryStorageValue,
+  meteringPointValue,
+  temporaryStorageLoading,
+}: {
+  source: CustomerPrefillSource;
+  temporaryStorageValue: string | null | undefined;
+  meteringPointValue: string | null | undefined;
+  temporaryStorageLoading: boolean;
+}): string {
+  if (source !== 'temporary-storage') return meteringPointValue ?? '';
+  if (temporaryStorageLoading) return '';
+  return temporaryStorageValue ?? '';
+}
+
 // Used by DhUpdateCustomerDataComponent and unit tests.
 export function shouldMaskCustomerCprFields(
   reason: ChangeCustomerCharacteristicsBusinessReason | undefined
