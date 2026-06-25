@@ -17,7 +17,7 @@
  */
 //#endregion
 import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { TranslocoDirective } from '@jsverse/transloco';
 
 import {
@@ -36,7 +36,6 @@ import { ReportsSubPaths } from '@energinet-datahub/dh/core/configuration-routin
     TranslocoDirective,
     RouterLink,
     WATT_CARD,
-    RouterOutlet,
 
     VaterStackComponent,
     VaterFlexComponent,
@@ -60,8 +59,6 @@ import { ReportsSubPaths } from '@energinet-datahub/dh/core/configuration-routin
             {{ t('requestReport') }}
           </watt-button>
         </vater-stack>
-
-        <router-outlet />
       </vater-flex>
     </watt-card>
   `,

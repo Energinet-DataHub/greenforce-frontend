@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -115,8 +115,6 @@ import { DhMeteringPointMasterDataReport } from './metering-point-master-data-re
 })
 export class DhNewReport {
   readonly navigate = injectRelativeNavigate();
-
-  meteringPointId = input.required<string>();
 
   form = new FormGroup(
     {
