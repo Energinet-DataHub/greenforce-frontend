@@ -17,8 +17,8 @@
  */
 //#endregion
 import { DecimalPipe } from '@angular/common';
-import { input, signal, computed, Component, ChangeDetectionStrategy } from '@angular/core';
-import { translate, TranslocoDirective } from '@jsverse/transloco';
+import { input, signal, computed, Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { translate, TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
 import { VATER } from '@energinet/watt/vater';
 import { WattDataTableComponent, WattDataFiltersComponent } from '@energinet/watt/data';
@@ -34,7 +34,7 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import {
-  // DhCircleComponent,
+  DhCircleComponent,
   DhDownloadButtonComponent,
   GenerateCSV,
 } from '@energinet-datahub/dh/shared/ui-util';
@@ -57,7 +57,7 @@ import { DhChargesSeriesGaps } from './series-gaps';
     WattDataFiltersComponent,
     WattDataTableComponent,
     WattSlideToggleComponent,
-    // DhCircleComponent,
+    DhCircleComponent,
     DhChargesIntervalField,
     DhChargeIntervalPipe,
     DhChargesSeriesDetails,
@@ -75,10 +75,10 @@ import { DhChargesSeriesGaps } from './series-gaps';
       <watt-data-filters>
         <vater-stack fill="horizontal" wrap direction="row" align="center" gap="l">
           <dh-charges-interval-field [resolution]="resolution()" [(date)]="date" />
+          <dh-charges-series-gaps [id]="id()" [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
             <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
           }
-          <dh-charges-series-gaps [id]="id()" [resolution]="resolution()" [(date)]="date" />
           <vater-spacer />
           <dh-download-button (click)="download()" />
         </vater-stack>
@@ -101,15 +101,15 @@ import { DhChargesSeriesGaps } from './series-gaps';
         <ng-container *wattTableCell="columns.price; let series">
           {{ series.price | number: '1.6-6' }}
         </ng-container>
-        <!-- <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
+        <ng-container *wattTableCell="columns.hasChanged; header: ''; let series">
           @if (series.hasChanged) {
             <dh-circle />
           }
-        </ng-container> -->
+        </ng-container>
         <ng-container *wattTableCell="columns.history; header: ''; let series">
           @if (showHistory()) {
             <vater-stack scrollable direction="row" gap="ml">
-              @for (point of series.changes.filter(isHistoric); track $index) {
+              @for (point of series.history.filter(isHistoric); track $index) {
                 <span
                   class="watt-on-light--medium-emphasis"
                   style="text-align: right;"
@@ -127,6 +127,7 @@ import { DhChargesSeriesGaps } from './series-gaps';
   `,
 })
 export class DhChargesSeriesTable {
+  private transloco = inject(TranslocoService);
   id = input.required<string>();
 
   protected chargeByIdQuery = query(GetChargeByIdDocument, () => ({
@@ -175,18 +176,18 @@ export class DhChargesSeriesTable {
   columns: WattTableColumnDef<ChargeSeriesPoint> = {
     date: { accessor: null, sort: false },
     price: {
-      accessor: (row) => row.changes.find((r) => r.isCurrent)?.price,
+      accessor: (row) => row.history.find((r) => r.isCurrent)?.price,
       align: 'right',
       size: 'minmax(200px, auto)',
       sort: false,
     },
-    // hasChanged: {
-    //   accessor: 'hasChanged',
-    //   tooltip: this.transloco.translate('charges.series.columns.tooltip'),
-    //   size: 'min-content',
-    //   align: 'center',
-    //   sort: false,
-    // },
+    hasChanged: {
+      accessor: 'hasChanged',
+      tooltip: this.transloco.translate('charges.series.columns.tooltip'),
+      size: 'min-content',
+      align: 'center',
+      sort: false,
+    },
     history: { accessor: null, size: '1fr', sort: false },
   };
 
