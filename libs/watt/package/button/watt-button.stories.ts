@@ -19,10 +19,16 @@
 import { moduleMetadata, StoryFn, Meta } from '@storybook/angular';
 import { StorybookButtonOverviewComponent } from './+storybook/storybook-button-overview.component';
 import { WattButtonComponent } from './watt-button.component';
+import { VATER } from '../vater';
 
 const meta: Meta<WattButtonComponent> = {
   title: 'Components/Button',
   component: WattButtonComponent,
+  decorators: [
+    moduleMetadata({
+      imports: [WattButtonComponent, VATER],
+    }),
+  ],
 };
 
 export default meta;
@@ -106,3 +112,66 @@ export const IconButtons: StoryFn<WattButtonComponent> = () => ({
     </div>
   `,
 });
+
+export const BlockButtons: StoryFn<WattButtonComponent> = () => ({
+  template: `
+    <vater-stack direction="column" gap="l" fill="horizontal" align="stretch">
+      <section vater fill="horizontal">
+        <h3>Regular</h3>
+        <vater-stack direction="column" gap="m" fill="horizontal" align="stretch">
+          <watt-button block>Primary</watt-button>
+          <watt-button block variant="secondary">Secondary</watt-button>
+          <watt-button block variant="text">Text</watt-button>
+        </vater-stack>
+      </section>
+
+      <section vater fill="horizontal">
+        <h3>With icons</h3>
+        <vater-stack direction="column" gap="m" fill="horizontal" align="stretch">
+          <watt-button block icon="plus">Leading icon</watt-button>
+          <watt-button block icon="right" iconPosition="trailing">
+            Trailing icon
+          </watt-button>
+          <watt-button block variant="secondary" icon="search">
+            Secondary leading icon
+          </watt-button>
+          <watt-button
+            block
+            variant="secondary"
+            icon="openInNew"
+            iconPosition="trailing"
+          >
+            Secondary trailing icon
+          </watt-button>
+        </vater-stack>
+      </section>
+
+      <section vater fill="horizontal">
+        <h3>States</h3>
+        <vater-stack direction="column" gap="m" fill="horizontal" align="stretch">
+          <watt-button block [loading]="true">Loading</watt-button>
+          <watt-button block icon="download" [loading]="true">
+            Loading with icon
+          </watt-button>
+          <watt-button block variant="secondary" [disabled]="true">
+            Disabled secondary
+          </watt-button>
+        </vater-stack>
+      </section>
+
+      <section vater fill="horizontal">
+        <h3>Icon only</h3>
+        <vater-stack direction="column" gap="m" fill="horizontal" align="stretch">
+          <watt-button block variant="icon" icon="plus" aria-label="Add" />
+          <watt-button
+            block
+            variant="secondary-icon"
+            icon="search"
+            aria-label="Search"
+          />
+        </vater-stack>
+      </section>
+    </vater-stack>
+  `,
+});
+

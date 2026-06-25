@@ -20,6 +20,7 @@ import {
   input,
   computed,
   Component,
+  booleanAttribute,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -48,6 +49,7 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
   host: {
     '[class]': 'classes()',
     '[class.watt-button--disabled]': 'disabled()',
+    '[class.watt-button--block]': 'block()',
     '[style.pointer-events]': 'pointerEvents()',
   },
   imports: [WattIconComponent, WattSpinnerComponent, MatButtonModule],
@@ -84,6 +86,8 @@ export class WattButtonComponent {
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
+  /** Render the button as a block-level element that fills the available horizontal space. */
+  block = input(false, { transform: booleanAttribute });
   /**
    * Forwards an accessible label to the inner native `<button>`. Required when the button has
    * no visible text content (e.g. icon-only variants), so screen readers and role-based

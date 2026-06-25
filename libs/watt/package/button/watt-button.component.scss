@@ -61,6 +61,15 @@ watt-button {
   display: inline-block;
   position: relative;
 
+  &.watt-button--block {
+    display: block;
+    width: 100%;
+
+    .mat-mdc-button {
+      width: 100%;
+    }
+  }
+
   // Focus ring rendered on the host so it can have an independent
   // border-radius from the button itself.
   &:has(.mat-mdc-button:focus-visible)::after {

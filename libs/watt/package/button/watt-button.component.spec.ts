@@ -54,6 +54,14 @@ describe(WattButtonComponent, () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
+  it('can render as a block-level button that fills the available horizontal space', async () => {
+    const renderResult = await render(`<watt-button block>Block</watt-button>`, {
+      imports: [WattButtonComponent],
+    });
+
+    expect(renderResult.container.querySelector('watt-button')).toHaveClass('watt-button--block');
+  });
+
   it('renders icon when icon is set', async () => {
     await renderComponent({ icon: 'plus' });
 
