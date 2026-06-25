@@ -241,18 +241,24 @@ watt-button {
     @include watt.typography-font-weight("semi-bold");
     @include watt.typography-font-size("m");
     @include watt.space-inset-squish-m;
+    --watt-button-loading-spinner-offset: 0px;
 
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
+      position: relative;
       border-radius: var(--watt-radius-s);
       --mat-button-text-label-text-tracking: 0;
       --mat-button-text-state-layer-color: var(--watt-ripple-color);
       --mat-button-text-ripple-color: var(--watt-ripple-color);
     }
 
-    watt-spinner {
+    .loading-spinner {
+      display: flex;
       position: absolute;
+      top: 50%;
+      left: calc(50% + var(--watt-button-loading-spinner-offset));
+      transform: translate(-50%, -50%);
     }
 
     .mat-button-focus-overlay {
@@ -282,6 +288,7 @@ watt-button {
     &:has(.content-wrapper watt-icon:not(.watt-icon-trailing)):has(
         .content-wrapper .text-content:not(:empty)
       ) {
+      --watt-button-loading-spinner-offset: calc((var(--watt-space-m) - var(--watt-space-s)) / 2);
       padding-left: var(--watt-space-s);
       padding-right: var(--watt-space-m);
     }
@@ -289,6 +296,7 @@ watt-button {
     &:has(.content-wrapper watt-icon.watt-icon-trailing):has(
         .content-wrapper .text-content:not(:empty)
       ) {
+      --watt-button-loading-spinner-offset: calc((var(--watt-space-s) - var(--watt-space-m)) / 2);
       padding-left: var(--watt-space-m);
       padding-right: var(--watt-space-s);
     }

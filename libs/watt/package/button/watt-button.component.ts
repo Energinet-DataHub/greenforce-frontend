@@ -64,7 +64,9 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
       [attr.aria-label]="ariaLabel()"
     >
       @if (loading()) {
-        <watt-spinner [diameter]="18" />
+        <span class="loading-spinner">
+          <watt-spinner [diameter]="18" />
+        </span>
       }
       <div class="content-wrapper" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {

@@ -148,5 +148,6 @@ describe(WattButtonComponent, () => {
     const contentWrapper = screen.getByText('Text').closest('.content-wrapper');
 
     expect(contentWrapper).toHaveClass('content-wrapper--loading');
+    expect(screen.getByRole('progressbar').closest('.loading-spinner')).toBeInTheDocument();
   });
 });
