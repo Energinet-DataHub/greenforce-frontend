@@ -73,7 +73,7 @@ import { DhChargesSeriesGaps } from './series-gaps';
       *transloco="let t; prefix: 'charges.series'"
     >
       <watt-data-filters>
-        <vater-stack fill="horizontal" wrap direction="row" align="start" gap="m">
+        <vater-stack fill="horizontal" wrap direction="row" align="center" gap="l">
           <dh-charges-interval-field [resolution]="resolution()" [(date)]="date" />
           @if (enableHistoryToggle()) {
             <watt-slide-toggle [(checked)]="showHistory">{{ t('showHistory') }}</watt-slide-toggle>
