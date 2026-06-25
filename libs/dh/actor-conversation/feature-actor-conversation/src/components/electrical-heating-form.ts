@@ -55,9 +55,8 @@ import {
 } from '@energinet/watt/description-list';
 
 import { dhFormControlToSignal, dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
-import { ElectricalHeatingInformation } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { ElectricalHeatingFormValue } from '../types';
+import { ElectricalHeatingFormValue, ElectricalHeatingInformation } from '../types';
 import { supplierForSelectedPeriodValidator } from './supplier-period.validator';
 
 @Component({
