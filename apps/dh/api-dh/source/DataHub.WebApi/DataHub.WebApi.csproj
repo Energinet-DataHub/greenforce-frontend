@@ -58,7 +58,7 @@ limitations under the License.
     <PackageReference Include="Energinet.DataHub.Charges.Client" Version="3.15.0" />
     <PackageReference Include="Energinet.DataHub.Core.App.Common" Version="16.0.1" />
     <PackageReference Include="Energinet.DataHub.Core.App.WebApp" Version="16.0.1" />
-    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="2.15.0" />
+    <PackageReference Include="Energinet.DataHub.EDI.B2CClient" Version="2.16.0" />
     <PackageReference Include="Energinet.DataHub.ElectricityMarket.Client" Version="1.189.0" />
     <PackageReference Include="Energinet.DataHub.MarketParticipant.Authorization" Version="3.0.7" />
     <PackageReference Include="Energinet.DataHub.Measurements.Client" Version="11.3.3" />

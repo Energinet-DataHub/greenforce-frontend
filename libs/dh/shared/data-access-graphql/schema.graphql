@@ -3028,6 +3028,7 @@ enum ArchivedMessageDocumentType {
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
   REJECT_REQUEST_PRICE_LIST
+  ACKNOWLEDGEMENT
 }
 
 enum AuthEicFunctionType {
