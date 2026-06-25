@@ -418,14 +418,14 @@ const makeChargeSeriesMock = (period: {
   start: dayjs.Dayjs;
   end: dayjs.Dayjs;
 }): ChargeSeriesPoint => {
-  const changes = makeChargeSeriesPointChangesMock();
+  const history = makeChargeSeriesPointChangesMock();
 
   return {
     __typename: 'ChargeSeriesPoint',
-    price: changes[0].price,
+    price: history[0].price,
     interval: { start: period.start.toDate(), end: period.end.subtract(1, 'ms').toDate() },
-    hasChanged: changes.length > 1,
-    changes,
+    hasChanged: history.length > 1,
+    history,
   };
 };
 
@@ -436,6 +436,7 @@ const makeChargeSeriesPointChangesMock = () => {
     .map(
       (i): ChargeSeriesPointChange => ({
         __typename: 'ChargeSeriesPointChange',
+        created: new Date(),
         isCurrent: i === 0,
         price: randomInt({ max: 50 * 100 }) / 100,
         messageId: null,
