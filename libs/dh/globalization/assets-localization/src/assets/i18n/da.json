@@ -3102,6 +3102,31 @@
     "settlements": {
       "topBarTitle": "Afregninger"
     },
+    "overview": {
+      "requestReport": "Bestil rapport",
+      "newReport": {
+        "title": "Ny rapport",
+        "cancel": "Afbryd",
+        "reportToChooseFrom": "Hvilken rapporttype vil du oprette?",
+        "meteringPointMasterDataLabel": "Målepunktsoversigt",
+        "editBtn": "Ret",
+        "continueToDetails": "Fortsæt til detaljer",
+        "meteringPointMasterData": {
+          "report": "Rapport:",
+          "title": "{{ reports.overview.newReport.meteringPointMasterDataLabel }}",
+          "date": "Dato",
+          "gridArea": "Netområde",
+          "meteringPointTypes": "Målepunktstyper",
+          "connectionStates": "Tilslutningsstatus",
+          "resolution": "Tidsopløsning",
+          "all": "Alle",
+          "hour": "Time",
+          "day": "Dag",
+          "month": "Måned",
+          "submit": "{{ reports.overview.requestReport }}"
+        }
+      }
+    },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
       "emptyMessage": "Der er ingen afregningsrapporter",
