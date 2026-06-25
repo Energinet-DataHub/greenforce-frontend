@@ -74,7 +74,9 @@ export interface RejectProcessModalData {
   template: `
     <watt-modal
       *transloco="let t; prefix: 'meteringPoint.processOverview.rejectProcess'"
-      [title]="(modalData.titleKey ?? 'meteringPoint.processOverview.rejectProcess.title') | transloco"
+      [title]="
+        modalData.titleKey ?? 'meteringPoint.processOverview.rejectProcess.title' | transloco
+      "
       size="small"
     >
       <vater-stack class="labels" direction="column" align="start">
