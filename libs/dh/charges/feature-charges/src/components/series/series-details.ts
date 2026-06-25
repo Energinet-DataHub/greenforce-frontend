@@ -87,9 +87,14 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
+            sortBy="created"
+            sortDirection="desc"
           >
             <ng-container *wattTableCell="columns.price; let series">
               {{ series.price | number: '1.6-6' }}
+            </ng-container>
+            <ng-container *wattTableCell="columns.created; let series">
+              {{ series.created | wattDate: 'long' }}
             </ng-container>
             <ng-container *wattTableCell="columns.isCurrent; let series">
               @if (series.isCurrent) {
@@ -121,6 +126,7 @@ export class DhChargesSeriesDetails {
 
   protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
     price: { accessor: 'price', size: 'min-content' },
+    created: { accessor: 'created', size: 'minmax(min-content, 1fr)' },
     isCurrent: { accessor: null, header: '' },
     menu: { accessor: null, header: '' },
   };
