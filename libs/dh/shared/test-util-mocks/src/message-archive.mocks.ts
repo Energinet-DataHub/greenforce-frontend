@@ -602,6 +602,8 @@ function getAvailableActions(
       MeteringPointProcessAction.ConfirmWorkflow,
       MeteringPointProcessAction.RejectRequest,
     ];
+  if (businessReason === ProcessManagerBusinessReason.ServiceRequest)
+    return [MeteringPointProcessAction.ConfirmWorkflow, MeteringPointProcessAction.RejectRequest];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
     return [MeteringPointProcessAction.SendInformation, MeteringPointProcessAction.CancelWorkflow];
   if (businessReason === ProcessManagerBusinessReason.SecondaryMoveIn)

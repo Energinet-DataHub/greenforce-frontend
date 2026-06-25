@@ -35,17 +35,24 @@ export function rejectProcessAction(
     result: RejectProcessResult;
     onCompleted: () => void;
     onError: () => void;
-  }) => void
+  }) => void,
+  options?: { titleKey?: string; successToastKey?: string; errorToastKey?: string }
 ): (ctx: ProcessActionContext) => void {
   const modalService = inject(WattModalService);
   const transloco = inject(TranslocoService);
   const toast = inject(WattToastService);
+
+  const successToastKey =
+    options?.successToastKey ?? 'meteringPoint.processOverview.rejectProcess.successToast';
+  const errorToastKey =
+    options?.errorToastKey ?? 'meteringPoint.processOverview.rejectProcess.errorToast';
 
   return (ctx) => {
     modalService.open({
       component: DhRejectProcessModal,
       data: {
         cutoffDate: ctx.cutoffDate,
+        titleKey: options?.titleKey,
         executeMutation: ({ result, onCompleted, onError }) => {
           executeMutation({
             ctx,
@@ -53,9 +60,7 @@ export function rejectProcessAction(
             onCompleted: () => {
               toast.open({
                 type: 'success',
-                message: transloco.translate(
-                  'meteringPoint.processOverview.rejectProcess.successToast'
-                ),
+                message: transloco.translate(successToastKey),
               });
               onCompleted();
               ctx.onSuccess?.();
@@ -63,9 +68,7 @@ export function rejectProcessAction(
             onError: () => {
               toast.open({
                 type: 'danger',
-                message: transloco.translate(
-                  'meteringPoint.processOverview.rejectProcess.errorToast'
-                ),
+                message: transloco.translate(errorToastKey),
               });
               onError();
             },

@@ -55,6 +55,7 @@ import {
   mockRequestServiceServiceRequestMutation,
   mockCancelServiceRequestMutation,
   mockConfirmServiceRequestMutation,
+  mockRejectServiceRequestMutation,
   mockInitiateChangeOfSupplierMutation,
   mockSendActorConversationMessageMutation,
   mockStartConversationMutation,
@@ -109,6 +110,7 @@ export function meteringPointMocks(apiBase: string) {
     requestServiceServiceRequest(),
     cancelServiceRequest(),
     confirmServiceRequest(),
+    rejectServiceRequest(),
     initiateChangeOfSupplier(),
     createConversation(),
     getConversations(),
@@ -1311,6 +1313,22 @@ function confirmServiceRequest() {
         __typename: 'Mutation',
         confirmServiceRequest: {
           __typename: 'ConfirmServiceRequestPayload',
+          boolean: true,
+        },
+      },
+    });
+  });
+}
+
+function rejectServiceRequest() {
+  return mockRejectServiceRequestMutation(async () => {
+    await delay(mswConfig.delay);
+
+    return HttpResponse.json({
+      data: {
+        __typename: 'Mutation',
+        rejectServiceRequest: {
+          __typename: 'RejectServiceRequestPayload',
           boolean: true,
         },
       },

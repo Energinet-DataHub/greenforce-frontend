@@ -1011,6 +1011,15 @@ describe('DhActionsRegistry', () => {
         },
       };
 
+      const rejectHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.RejectRequest]: {
+          featureFlag: 'service-request',
+          permissions: ['metering-point:service-request-respond'],
+          roles: [EicFunction.GridAccessProvider],
+          callback: vi.fn(),
+        },
+      };
+
       it('should return CancelWorkflow when flag enabled, request permission present and actor is responsible supplier', () => {
         const registry = setupRegistry({
           actorMarketRole: EicFunction.EnergySupplier,
@@ -1134,6 +1143,71 @@ describe('DhActionsRegistry', () => {
 
         const result = registry.getSupportedActions(
           [MeteringPointProcessAction.ConfirmWorkflow],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should return RejectRequest when flag enabled, respond permission present and actor is GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: rejectHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.RejectRequest],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.RejectRequest]);
+      });
+
+      it('should exclude RejectRequest when respond permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: false,
+          serviceRequestHandlers: rejectHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.RejectRequest],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude RejectRequest when actor role is not GridAccessProvider', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: rejectHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.RejectRequest],
+          ProcessManagerBusinessReason.ServiceRequest,
+          false
+        );
+
+        expect(result).toEqual([]);
+      });
+
+      it('should exclude RejectRequest when feature flag is disabled', () => {
+        const registry = setupRegistry({
+          featureFlagsEnabled: false,
+          actorMarketRole: EicFunction.GridAccessProvider,
+          hasServiceRequestRespondPermission: true,
+          serviceRequestHandlers: rejectHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.RejectRequest],
           ProcessManagerBusinessReason.ServiceRequest,
           false
         );
