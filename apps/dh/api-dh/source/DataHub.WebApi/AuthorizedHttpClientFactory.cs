@@ -12,8 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using System.Text.Json;
+using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -26,18 +28,26 @@ namespace Energinet.DataHub.WebApi;
 /// </summary>
 public class AuthorizedHttpClientFactory
 {
+    private const string TokenHeaderName = "X-Authorization-Token";
+
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly Func<string> _authorizationHeaderProvider;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
+    private readonly AuthorizationsClient _authorizationsClient;
+    private readonly ICommonExecutionContext _executionContext;
 
     public AuthorizedHttpClientFactory(
         IHttpClientFactory httpClientFactory,
         Func<string> authorizationHeaderProvider,
-        IOptions<SubSystemBaseUrls> baseUrls)
+        IOptions<SubSystemBaseUrls> baseUrls,
+        AuthorizationsClient authorizationsClient,
+        ICommonExecutionContext executionContext)
     {
         _httpClientFactory = httpClientFactory;
         _authorizationHeaderProvider = authorizationHeaderProvider;
         _baseUrls = baseUrls;
+        _authorizationsClient = authorizationsClient;
+        _executionContext = executionContext;
     }
 
     public HttpClient CreateClient(Uri baseUrl)
@@ -58,13 +68,20 @@ public class AuthorizedHttpClientFactory
         return new ElectricityMarketClient_V1(_baseUrls.Value.ElectricityMarketBaseUrl, client);
     }
 
-    public ActorConversationClient_V1 CreateActorConversationClientWithSignature(
-        MarketParticipant.Authorization.Model.Signature signature)
+    public async Task<ActorConversationClient_V1> CreateActorConversationClientWithTokenAsync(
+        List<string> meteringPointIds)
     {
-        var signatureBase64 = ConvertSignatureToBase64(signature);
+        var authContext = await _authorizationsClient.AuthorizationContextForActorAsync(
+            _executionContext.MarketParticipantNumber.ToString(),
+            _executionContext.MarketRoleForAuth,
+            new AuthorizationContextRequest
+            {
+                MeteringPointIds = meteringPointIds,
+            });
+        var token = authContext.ToTokenString();
+
         var client = _httpClientFactory.CreateClient();
-        SetAuthorizationHeader(client);
-        client.DefaultRequestHeaders.Add("Signature", signatureBase64);
+        client.DefaultRequestHeaders.Add(TokenHeaderName, token);
         client.BaseAddress = new(_baseUrls.Value.ActorConversationBaseUrl);
         return new ActorConversationClient_V1(client);
     }

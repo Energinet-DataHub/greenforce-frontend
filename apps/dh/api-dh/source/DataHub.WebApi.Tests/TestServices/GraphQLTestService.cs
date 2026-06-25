@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
+using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
@@ -25,6 +26,7 @@ using Energinet.DataHub.ProcessManager.Client;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.v1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.Charges.Client;
 using Energinet.DataHub.WebApi.Modules.Common.Scalars;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant.GridAreas.Client;
@@ -67,10 +69,14 @@ public class GraphQLTestService
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
+        AuthorizationsClientMock = new Mock<AuthorizationsClient>();
+        CommonExecutionContextMock = new Mock<ICommonExecutionContext>();
         AuthorizedHttpClientFactory = new AuthorizedHttpClientFactory(
             HttpClientFactoryMock.Object,
             () => string.Empty,
-            Microsoft.Extensions.Options.Options.Create(new SubSystemBaseUrls()));
+            Microsoft.Extensions.Options.Options.Create(new SubSystemBaseUrls()),
+            AuthorizationsClientMock.Object,
+            CommonExecutionContextMock.Object);
         ChargesClientMock = new Mock<IChargesClient>();
         ElectricityMarketClientMock = new Mock<IElectricityMarketClient>();
         ElectricityMarketClientV1Mock = new Mock<IElectricityMarketClient_V1>();
@@ -145,6 +151,10 @@ public class GraphQLTestService
     public AuthorizedHttpClientFactory AuthorizedHttpClientFactory { get; set; }
 
     public Mock<IHttpClientFactory> HttpClientFactoryMock { get; set; }
+
+    public Mock<AuthorizationsClient> AuthorizationsClientMock { get; set; }
+
+    public Mock<ICommonExecutionContext> CommonExecutionContextMock { get; set; }
 
     public Mock<ISettlementReportClient> SettlementReportClientMock { get; set; }
 

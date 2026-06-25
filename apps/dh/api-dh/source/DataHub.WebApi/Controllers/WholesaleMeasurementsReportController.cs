@@ -13,9 +13,11 @@
 // limitations under the License.
 
 using System.Net.Mime;
+using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.RevisionLog.Client;
 using Energinet.DataHub.WebApi.Options;
@@ -35,6 +37,8 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
     private readonly IRevisionLogClient _revisionLogClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
+    private readonly AuthorizationsClient _authorizationsClient;
+    private readonly ICommonExecutionContext _executionContext;
 
     public WholesaleMeasurementsReportController(
         IOptions<SubSystemBaseUrls> subSystemBaseUrls,
@@ -42,7 +46,9 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         IRevisionLogClient revisionLogClient,
         IHttpClientFactory httpClientFactory,
         IHttpContextAccessor httpContextAccessor,
-        IOptions<SubSystemBaseUrls> baseUrls)
+        IOptions<SubSystemBaseUrls> baseUrls,
+        AuthorizationsClient authorizationsClient,
+        ICommonExecutionContext executionContext)
     {
         _subSystemBaseUrls = subSystemBaseUrls;
         _httpClientFactory = httpClientFactory;
@@ -50,6 +56,8 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         _marketParticipantClient = marketParticipantClient;
         _revisionLogClient = revisionLogClient;
         _baseUrls = baseUrls;
+        _authorizationsClient = authorizationsClient;
+        _executionContext = executionContext;
     }
 
     [HttpGet("DownloadReport")]
@@ -75,7 +83,12 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
             "MeasurementsReport",
             measurementsReportId);
 
-        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(_httpClientFactory, () => "dummy", _baseUrls);
+        var authorizedHttpClientFactory = new AuthorizedHttpClientFactory(
+            _httpClientFactory,
+            () => "dummy",
+            _baseUrls,
+            _authorizationsClient,
+            _executionContext);
 
         var apiClient = authorizedHttpClientFactory.CreateClient(apiClientBaseUri);
 

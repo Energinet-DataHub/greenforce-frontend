@@ -33,6 +33,7 @@ using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.Electrica
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.CreateWithFlag.V1.Model;
 using Energinet.DataHub.ProcessManager.Orchestrations.Abstractions.HTX.ElectricalHeating.Remove.V1.Model;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Modules.ActorConversation;
 using Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
@@ -392,6 +393,7 @@ public static partial class MeteringPointNode
         Guid actorConversationId,
         DateTimeOffset periodStart,
         DateTimeOffset? periodEnd,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IActorConversationClient_V1 actorConversationClient,
@@ -449,7 +451,7 @@ public static partial class MeteringPointNode
         try
         {
             await ActorConversationOperations.SendActorConversationMessageAsync(
-                httpContextAccessor,
+                executionContext,
                 actorConversationClient,
                 conversationMessageInput,
                 ct).ConfigureAwait(false);
