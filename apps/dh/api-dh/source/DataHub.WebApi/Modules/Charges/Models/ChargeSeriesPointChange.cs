@@ -19,4 +19,4 @@ public record ChargeSeriesPointChange(
     DateTimeOffset Created,
     decimal Price,
     bool IsCurrent,
-    string OrchestrationInstanceId);
+    Guid? OrchestrationInstanceId);

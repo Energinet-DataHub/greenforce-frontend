@@ -162,7 +162,7 @@ public class ChargesClient(
                 p.Created.ToDateTimeOffset(),
                 p.Price,
                 p.IsActual,
-                p.OrchestrationInstanceId));
+                Guid.TryParse(p.OrchestrationInstanceId, out var guid) ? guid : null));
     }
 
     public async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
