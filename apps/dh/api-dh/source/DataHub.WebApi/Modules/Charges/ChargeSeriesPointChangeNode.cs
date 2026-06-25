@@ -29,11 +29,10 @@ public static partial class ChargeSeriesPointChangeNode
         CancellationToken ct)
     {
         var identity = httpContextAccessor.CreateUserIdentity();
-        return await keys
-            .ToAsyncEnumerable()
-            .Select(async (id, ct) => await client.GetOrchestrationInstanceByIdAsync(new(identity, id), ct))
-            .Select(r => KeyValuePair.Create(r.Id, r.ActorMessageId))
-            .ToDictionaryAsync(cancellationToken: ct);
+        var results = await Task.WhenAll(
+            keys.Select(id => client.GetOrchestrationInstanceByIdAsync(new(identity, id), ct)));
+
+        return results.ToDictionary(r => r.Id, r => r.ActorMessageId);
     }
 
     public static async Task<string?> GetMessageIdAsync(
