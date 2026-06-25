@@ -276,8 +276,8 @@ export class DhActorConversationNewConversation {
   private readonly supplierPeriods = computed(
     () =>
       this.energySupplierInformationQuery.data()?.energySupplierInformation?.map((x) => ({
-        validFrom: x.to,
-        validTo: x.from,
+        validFrom: x.from,
+        validTo: x.to,
       })) ?? []
   );
 
