@@ -66,6 +66,7 @@ import {
   GetElectricalHeatingDocument,
   ElectricityMarketViewMeteringPointType,
   StartElectricalHeatingConversationInput,
+  GetEnergySupplierInformationDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
@@ -230,6 +231,13 @@ export class DhActorConversationNewConversation {
     variables: { meteringPointId: this.meteringPointIdentification() ?? '' },
   }));
 
+  private readonly energySupplierInformationQuery = query(
+    GetEnergySupplierInformationDocument,
+    () => ({
+      variables: { meteringPointIdentification: this.meteringPointIdentification() ?? '' },
+    })
+  );
+
   private readonly subjectValue = dhFormControlToSignal(
     () => this.newConversationForm().controls.subject
   );
@@ -267,11 +275,10 @@ export class DhActorConversationNewConversation {
 
   private readonly supplierPeriods = computed(
     () =>
-      this.meteringPointInfoQuery
-        .data()
-        ?.meteringPoint.commercialRelationTimeline.flatMap(
-          (timeline) => timeline.energySupplyPeriodTimeline
-        ) ?? []
+      this.energySupplierInformationQuery.data()?.energySupplierInformation?.map((x) => ({
+        validFrom: x.from,
+        validTo: x.to,
+      })) ?? []
   );
 
   private readonly electricalHeatingPeriods = computed(

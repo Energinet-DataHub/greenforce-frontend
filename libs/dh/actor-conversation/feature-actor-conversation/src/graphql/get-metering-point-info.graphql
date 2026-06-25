@@ -6,13 +6,5 @@ query GetMeteringPointInfo($meteringPointId: String!) {
       id
       type
     }
-    commercialRelationTimeline {
-      id
-      energySupplyPeriodTimeline {
-        id
-        validFrom
-        validTo
-      }
-    }
   }
 }
