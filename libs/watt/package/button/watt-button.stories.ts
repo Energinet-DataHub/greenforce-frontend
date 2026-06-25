@@ -174,4 +174,3 @@ export const BlockButtons: StoryFn<WattButtonComponent> = () => ({
     </vater-stack>
   `,
 });
-
