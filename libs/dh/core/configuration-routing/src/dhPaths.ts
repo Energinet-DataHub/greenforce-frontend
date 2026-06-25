@@ -64,7 +64,8 @@ export type ReportsSubPaths =
   | 'settlement-reports'
   | 'missing-measurements-log'
   | 'measurements-reports'
-  | 'imbalance-prices';
+  | 'imbalance-prices'
+  | 'new';
 
 export type MissingMeasurementsLogSubPaths = 'request';
 

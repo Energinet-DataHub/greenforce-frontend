@@ -3103,6 +3103,31 @@
     "settlements": {
       "topBarTitle": "Settlements"
     },
+    "overview": {
+      "requestReport": "Request report",
+      "newReport": {
+        "title": "New report",
+        "cancel": "Cancel",
+        "reportToChooseFrom": "Which report type would you like to create?",
+        "meteringPointMasterDataLabel": "Metering point master data",
+        "editBtn": "Edit",
+        "continueToDetails": "Continue to details",
+        "meteringPointMasterData": {
+          "report": "Report:",
+          "title": "{{ reports.overview.newReport.meteringPointMasterDataLabel }}",
+          "date": "Date",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "connectionStates": "Connection states",
+          "resolution": "Resolution",
+          "all": "All",
+          "hour": "Hour",
+          "day": "Day",
+          "month": "Month",
+          "submit": "{{ reports.overview.requestReport }}"
+        }
+      }
+    },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
       "emptyMessage": "There are no settlement reports",
