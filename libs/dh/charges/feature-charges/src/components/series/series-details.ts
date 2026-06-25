@@ -120,9 +120,9 @@ export class DhChargesSeriesDetails {
   readonly resolution = input<ChargeResolution>();
   readonly series = model<ChargeSeriesPoint>();
 
-  protected changes = computed(() => this.series()?.history ?? []);
+  protected history = computed(() => this.series()?.history ?? []);
   protected start = computed(() => this.series()?.interval.start);
-  protected dataSource = dataSource(() => this.changes());
+  protected dataSource = dataSource(() => this.history());
 
   protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
     price: { accessor: 'price', size: 'min-content' },
