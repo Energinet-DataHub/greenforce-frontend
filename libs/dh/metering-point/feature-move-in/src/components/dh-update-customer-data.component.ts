@@ -39,6 +39,7 @@ import {
 
 import {
   getCustomerPrefillSource,
+  resolveCustomerPrefillValue,
   shouldMaskCustomerCprFields,
 } from '../util/customer-prefill-source';
 import { mapUsagePointLocation } from '../util/map-usage-point-location';
@@ -156,15 +157,11 @@ export class DhUpdateCustomerDataComponent {
   );
 
   /**
-   * When sourcing from temporary storage, block metering point contact / secondary
-   * data while the temporary storage query is in-flight. If the query returns a
-   * payload, those fields remain empty; if it returns `null`, we fall back to MP.
+   * When sourcing from temporary storage, block all metering-point-derived
+   * customer data. The process temporary storage is the only prefill source.
    */
   private readonly shouldClearMpDerivedData = computed(
-    () =>
-      this.useTemporaryStorage() &&
-      !!this.processId() &&
-      (this.temporaryStorageQuery.loading() || !!this.temporaryStorageCustomer())
+    () => this.useTemporaryStorage()
   );
 
   isLoading = computed(
@@ -184,7 +181,7 @@ export class DhUpdateCustomerDataComponent {
       : (this.technicalCustomer()?.technicalContact ?? null);
 
     const isBusinessCustomer = this.useTemporaryStorage()
-      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? legalCustomer?.cvr != null)
+      ? (this.temporaryStorageCustomer()?.isBusinessCustomer ?? false)
       : legalCustomer?.cvr != null;
 
     return {
@@ -193,7 +190,7 @@ export class DhUpdateCustomerDataComponent {
       primary: {
         name: this.resolvePrimaryName(),
         cvr: this.resolvePrimaryCvr(),
-        isProtectedName: prefillCustomerIdentificationOnly
+        isProtectedName: prefillCustomerIdentificationOnly || this.useTemporaryStorage()
           ? false
           : (legalCustomer?.isProtectedName ?? false),
         customerId:
@@ -209,7 +206,8 @@ export class DhUpdateCustomerDataComponent {
         customerId:
           prefillCustomerIdentificationOnly || !secondary?.name ? null : (secondary.id ?? null),
       },
-      legalCustomer: prefillCustomerIdentificationOnly ? undefined : legalCustomer,
+      legalCustomer:
+        prefillCustomerIdentificationOnly || this.useTemporaryStorage() ? undefined : legalCustomer,
       legalContact,
       technicalContact,
       installationAddress: this.meteringPoint()?.metadata?.installationAddress,
@@ -217,22 +215,25 @@ export class DhUpdateCustomerDataComponent {
   });
 
   /**
-   * Primary customer name prefill. While the temporary storage query is
-   * loading we return an empty string to avoid flashing the metering point
-   * value when temporary storage is the chosen source.
+   * Primary customer name prefill. When temporary storage is the chosen source,
+   * metering point values must never be used as a fallback.
    */
   private resolvePrimaryName(): string {
-    const mpName = this.legalCustomer()?.name ?? '';
-    if (!this.useTemporaryStorage()) return mpName;
-    if (this.temporaryStorageQuery.loading()) return '';
-    return this.temporaryStorageCustomer()?.firstCustomerName ?? mpName;
+    return resolveCustomerPrefillValue({
+      source: this.prefillSource(),
+      temporaryStorageValue: this.temporaryStorageCustomer()?.firstCustomerName,
+      meteringPointValue: this.legalCustomer()?.name,
+      temporaryStorageLoading: this.temporaryStorageQuery.loading(),
+    });
   }
 
   private resolvePrimaryCvr(): string {
-    const mpCvr = this.legalCustomer()?.cvr ?? '';
-    if (!this.useTemporaryStorage()) return mpCvr;
-    if (this.temporaryStorageQuery.loading()) return '';
-    return this.temporaryStorageCustomer()?.firstCustomerCvr ?? mpCvr;
+    return resolveCustomerPrefillValue({
+      source: this.prefillSource(),
+      temporaryStorageValue: this.temporaryStorageCustomer()?.firstCustomerCvr,
+      meteringPointValue: this.legalCustomer()?.cvr,
+      temporaryStorageLoading: this.temporaryStorageQuery.loading(),
+    });
   }
 
   async updateCustomerData({ values, isBusinessCustomer }: CustomerDataFormSubmitEvent) {

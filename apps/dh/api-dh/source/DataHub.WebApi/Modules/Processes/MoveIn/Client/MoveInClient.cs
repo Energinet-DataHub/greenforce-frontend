@@ -29,6 +29,7 @@ public class MoveInClient(
         new HashSet<BusinessReason>
         {
             BusinessReason.CustomerMoveIn,
+            BusinessReason.SecondaryMoveIn,
             BusinessReason.ChangeOfEnergySupplier,
         };
 
@@ -57,7 +58,7 @@ public class MoveInClient(
 
         // Defense in depth: even though SearchWorkflowInstancesByMeteringPointIdQuery already
         // searches across all workflow types, we only expose temporary-storage data for
-        // processes that semantically use it (CustomerMoveIn / ChangeOfEnergySupplier) and
+        // processes that semantically use it (CustomerMoveIn / SecondaryMoveIn / ChangeOfEnergySupplier) and
         // only when the calling actor is the one that initiated the workflow. This prevents
         // an authorized actor from passing an arbitrary processId for an unrelated process
         // type (or for another actor's workflow) to fish for customer data.

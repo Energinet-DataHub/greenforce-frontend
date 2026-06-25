@@ -20,7 +20,11 @@ import { describe, it, expect } from 'vitest';
 
 import { ChangeCustomerCharacteristicsBusinessReason } from '@energinet-datahub/dh/shared/domain/graphql';
 
-import { getCustomerPrefillSource, shouldMaskCustomerCprFields } from './customer-prefill-source';
+import {
+  getCustomerPrefillSource,
+  resolveCustomerPrefillValue,
+  shouldMaskCustomerCprFields,
+} from './customer-prefill-source';
 
 const { ChangeOfEnergySupplier, CustomerMoveIn, SecondaryMoveIn, UpdateMasterDataConsumer } =
   ChangeCustomerCharacteristicsBusinessReason;
@@ -74,3 +78,39 @@ describe('shouldMaskCustomerCprFields', () => {
     }
   );
 });
+
+describe('resolveCustomerPrefillValue', () => {
+  it('does not fall back to metering point data when temporary storage is the source', () => {
+    expect(
+      resolveCustomerPrefillValue({
+        source: 'temporary-storage',
+        temporaryStorageValue: null,
+        meteringPointValue: 'Metering point customer',
+        temporaryStorageLoading: false,
+      })
+    ).toBe('');
+  });
+
+  it('returns an empty value while temporary storage is loading', () => {
+    expect(
+      resolveCustomerPrefillValue({
+        source: 'temporary-storage',
+        temporaryStorageValue: 'Temporary storage customer',
+        meteringPointValue: 'Metering point customer',
+        temporaryStorageLoading: true,
+      })
+    ).toBe('');
+  });
+
+  it('uses metering point data for metering-point prefill sources', () => {
+    expect(
+      resolveCustomerPrefillValue({
+        source: 'metering-point',
+        temporaryStorageValue: 'Temporary storage customer',
+        meteringPointValue: 'Metering point customer',
+        temporaryStorageLoading: false,
+      })
+    ).toBe('Metering point customer');
+  });
+});
+
