@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
-using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
-using Energinet.DataHub.EDI.B2CClient.Abstractions.RequestChangeOfPriceList.V2.Models;
 using Energinet.DataHub.WebApi.Modules.Charges.Models;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using NodaTime;
@@ -70,6 +68,13 @@ public interface IChargesClient
     Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
         Interval interval,
+        CancellationToken ct = default);
+
+    /// <summary>
+    /// Get charge history for a charge.
+    /// </summary>
+    Task<IEnumerable<ChargeChange>> GetChargeHistoryAsync(
+        ChargeIdentifierDto id,
         CancellationToken ct = default);
 
     /// <summary>

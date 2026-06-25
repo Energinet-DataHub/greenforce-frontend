@@ -48,13 +48,6 @@ export const routes: Routes = [
         pathMatch: 'full',
         redirectTo: getPath<ReportsSubPaths>('measurements-reports'),
       },
-      // Note: Legacy route for settlement reports, will be removed in the future
-      {
-        path: getPath<ReportsSubPaths>('settlement-reports'),
-        redirectTo: `/${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>(
-          'settlement-reports'
-        )}`,
-      },
       {
         path: getPath<ReportsSubPaths>('measurements-reports'),
         canActivate: [

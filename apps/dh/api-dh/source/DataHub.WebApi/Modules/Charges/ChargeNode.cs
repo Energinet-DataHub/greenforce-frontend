@@ -156,6 +156,12 @@ public static partial class ChargeNode
         return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, MarkPart.EicFunction.GridAccessProvider), ct);
     }
 
+    public static async Task<IEnumerable<ChargeChange>> GetHistoryAsync(
+        [Parent] Charge charge,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.GetChargeHistoryAsync(charge.Id, ct);
+
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {
         descriptor.Name("Charge");

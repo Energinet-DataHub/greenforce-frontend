@@ -14,6 +14,7 @@
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeInformationPeriods;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeLinks;
@@ -163,6 +164,12 @@ public class ChargesClient(
             gaps,
             NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
+
+    public async Task<IEnumerable<ChargeChange>> GetChargeHistoryAsync(
+        ChargeIdentifierDto id,
+        CancellationToken ct = default)
+        => await client.QueryAsync(new GetHistoricalChargeInformationPeriodsQueryV1(Guid.Empty, id), ct)
+            .Then(r => ChargeChange.From(r.Periods));
 
     public async Task<bool> CreateChargeAsync(
         string code,

@@ -19,10 +19,15 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
 import {
+  CancelCustomerMoveInDocument,
   ChangeCustomerCharacteristicsBusinessReason,
   EicFunction,
+  GetMeteringPointProcessByIdDocument,
+  GetMeteringPointProcessOverviewDocument,
   MeteringPointProcessAction,
+  ProcessManagerBusinessReason,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import {
   BasePaths,
@@ -31,10 +36,12 @@ import {
 } from '@energinet-datahub/dh/core/configuration-routing';
 
 import { InitiatingParticipant, type ActionHandlerMap } from '../registry';
+import { cancelProcessAction } from '../shared/cancel-process-action';
 
 @Injectable({ providedIn: 'root' })
 export class SecondaryMoveInActions {
   private readonly router = inject(Router);
+  private readonly cancelCustomerMoveIn = mutation(CancelCustomerMoveInDocument);
 
   readonly handlers: ActionHandlerMap = {
     [MeteringPointProcessAction.SendInformation]: {
@@ -53,6 +60,27 @@ export class SecondaryMoveInActions {
             },
           }
         ),
+    },
+    [MeteringPointProcessAction.CancelWorkflow]: {
+      permissions: ['metering-point:move-in'],
+      roles: [InitiatingParticipant],
+      callback: cancelProcessAction(
+        `meteringPoint.processOverview.processTypeName.${ProcessManagerBusinessReason.SecondaryMoveIn}`,
+        (ctx, onCompleted, onError) => {
+          this.cancelCustomerMoveIn.mutate({
+            refetchQueries: [
+              GetMeteringPointProcessByIdDocument,
+              GetMeteringPointProcessOverviewDocument,
+            ],
+            variables: {
+              meteringPointId: ctx.meteringPointId,
+              processId: ctx.processId,
+            },
+            onCompleted,
+            onError,
+          });
+        }
+      ),
     },
   };
 }

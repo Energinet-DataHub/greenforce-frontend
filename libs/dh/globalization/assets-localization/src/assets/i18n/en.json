@@ -413,6 +413,10 @@
       "false": "Without VAT",
       "true": "With VAT"
     },
+    "transparentInvoicing": {
+      "false": "No",
+      "true": "Yes"
+    },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
@@ -580,18 +584,17 @@
       "description": "Description",
       "vatClassification": "VAT",
       "transparentInvoicing": "Transparent Invoicing",
-      "current": "Current",
-      "history": {
-        "table": {
-          "columns": {
-            "timestamp": "Timestamp",
-            "entry": "Change"
-          }
-        },
-        "auditLogs": {
-          "Sample entry": "This is a sample {{ entry }}"
-        }
-      }
+      "current": "Current"
+    },
+    "history": {
+      "ChargeStarted": "Charge created",
+      "ChargeResumed": "Charge resumed as of {{ effectiveDate }}",
+      "ChargeStopped": "Charge stopped as of {{ effectiveDate }}",
+      "ChargeCancelled": "Charge cancelled",
+      "ChargeNameChanged": "Name changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeDescriptionChanged": "Description changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeVatChanged": "VAT changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeTransparentInvoicingChanged": "Transparent invoicing changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}"
     },
     "series": {
       "showHistory": "History",
@@ -746,6 +749,7 @@
         "changeConnectionStatus": "Change connection status",
         "updateCustomerData": "Update customer data",
         "endOfSupply": "End of supply",
+        "serviceRequest": "Request service",
         "changeOfSupplier": "Change of supplier",
         "historicalCorrection": "Historical correction"
       },
@@ -1143,7 +1147,8 @@
           "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
         "SecondaryMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Cancel"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
@@ -1156,6 +1161,11 @@
         },
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accept",
+          "REJECT_REQUEST": "Reject"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Cancel",
+          "CONFIRM_WORKFLOW": "Approve",
           "REJECT_REQUEST": "Reject"
         }
       },
@@ -1265,6 +1275,15 @@
         "successToast": "Cancellation of {{processType}} submitted",
         "errorToast": "Cancellation of {{processType}} failed"
       },
+      "cancelServiceRequest": {
+        "confirm": "Cancel",
+        "successToast": "Service request cancelled"
+      },
+      "rejectServiceRequest": {
+        "title": "Reject request for service",
+        "successToast": "Rejection of request for service submitted",
+        "errorToast": "Rejection of request for service failed"
+      },
       "fasActionInfoModal": {
         "title": "The action cannot be performed",
         "body": "Unfortunately only the actor itself can perform this action.",
@@ -1281,7 +1300,8 @@
       "processTypeName": {
         "EndOfSupply": "end of supply",
         "CustomerMoveIn": "move-in",
-        "ChangeOfEnergySupplier": "change of energy supplier"
+        "ChangeOfEnergySupplier": "change of energy supplier",
+        "ServiceRequest": "request for service"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Reason for correction"
@@ -1517,6 +1537,35 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Bailiffs court must be involved in disconnection",
           "OTHER_REASON": "Other reason"
         }
+      },
+      "serviceRequest": {
+        "title": "Request service",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Select",
+        "startDateLabel": "Cut-off date",
+        "startDateError": "The cut-off date cannot be in the past",
+        "descriptionLabel": "Remarks",
+        "cancel": "Cancel",
+        "confirm": "Submit",
+        "successToast": "Request sent",
+        "successToastAction": "See status under processes",
+        "errorToast": "Service request failed",
+        "serviceKinds": {
+          "DISCONNECT": "Disconnection",
+          "CONNECT": "Reconnection",
+          "METER_CHECK": "Meter investigation"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Approve service request",
+        "serviceKindLabel": "Requested service",
+        "serviceKindPlaceholder": "[Service]",
+        "startDateLabel": "Cut-off date",
+        "descriptionLabel": "Remark",
+        "cancel": "Close window",
+        "confirm": "Approve",
+        "successToast": "Service approved",
+        "errorToast": "Approving the service failed"
       }
     },
     "measurements": {
@@ -3054,10 +3103,37 @@
     "tabs": {
       "settlementReports": "Settlement reports",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Imbalance prices"
+      "imbalancePrices": "Imbalance prices",
+      "meteringPointMasterDataReports": "Master data",
+      "missingMeasurementsLog": "Missing measurements log"
     },
     "settlements": {
       "topBarTitle": "Settlements"
+    },
+    "overview": {
+      "requestReport": "Request report",
+      "newReport": {
+        "title": "New report",
+        "cancel": "Cancel",
+        "reportToChooseFrom": "Which report type would you like to create?",
+        "meteringPointMasterDataLabel": "Metering point master data",
+        "editBtn": "Edit",
+        "continueToDetails": "Continue to details",
+        "meteringPointMasterData": {
+          "report": "Report:",
+          "title": "{{ reports.overview.newReport.meteringPointMasterDataLabel }}",
+          "date": "Date",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "connectionStates": "Connection states",
+          "resolution": "Resolution",
+          "all": "All",
+          "hour": "Hour",
+          "day": "Day",
+          "month": "Month",
+          "submit": "{{ reports.overview.requestReport }}"
+        }
+      }
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -3894,7 +3970,8 @@
       "segments": {
         "meteringPoint": "Metering point",
         "events": "Events",
-        "relations": "Relations"
+        "relations": "Relations",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Expand all",
       "collapseAll": "Collapse all",

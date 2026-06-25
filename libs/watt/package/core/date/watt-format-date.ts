@@ -31,6 +31,18 @@ export const formatStrings = {
 };
 
 export function wattFormatDate(
+  input: WattRange<Date> | WattRange<string> | Date | string | number,
+  format?: keyof typeof formatStrings,
+  timeZone?: string
+): string;
+
+export function wattFormatDate(
+  input?: WattRange<Date> | WattRange<string> | Date | string | number | null,
+  format?: keyof typeof formatStrings,
+  timeZone?: string
+): string | null;
+
+export function wattFormatDate(
   input?: WattRange<Date> | WattRange<string> | Date | string | number | null,
   format: keyof typeof formatStrings = 'short',
   timeZone = 'Europe/Copenhagen'

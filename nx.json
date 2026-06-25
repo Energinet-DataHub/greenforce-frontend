@@ -173,10 +173,14 @@
     },
     {
       "plugin": "@nx/vite/plugin",
-      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"],
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"]
+    },
+    {
+      "plugin": "@nx/vitest",
       "options": {
         "testTargetName": "test"
-      }
+      },
+      "exclude": ["libs/dh/vite.config.mts", "libs/gf/vite.config.mts"]
     },
     {
       "plugin": "@nx/playwright/plugin",

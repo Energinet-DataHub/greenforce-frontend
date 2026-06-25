@@ -22,3 +22,7 @@ export { dhDomainValidator } from './src/dh-domain.validator';
 export { dhGlnOrEicValidator } from './src/dh-gln-or-eic.validator';
 export { dhFirstPartEmailValidator } from './src/dh-first-part-mail.validator';
 export { dhMunicipalityCodeValidator } from './src/dh-municipality-code-validator';
+export {
+  dhDateNotInThePastValidator,
+  isDateBeforeToday,
+} from './src/dh-date-not-in-the-past.validator';

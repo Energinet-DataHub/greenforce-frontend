@@ -413,6 +413,10 @@
       "false": "Uden moms",
       "true": "Med moms"
     },
+    "transparentInvoicing": {
+      "false": "Nej",
+      "true": "Ja"
+    },
     "charges": {
       "topBarTitle": "Priser",
       "table": {
@@ -580,18 +584,17 @@
       "description": "Beskrivelse",
       "vatClassification": "Moms",
       "transparentInvoicing": "Viderefakturering",
-      "current": "Aktuel",
-      "history": {
-        "table": {
-          "columns": {
-            "timestamp": "Tidsstempel",
-            "entry": "Ændring"
-          }
-        },
-        "auditLogs": {
-          "Sample entry": "Dette er en sample {{ entry }}"
-        }
-      }
+      "current": "Aktuel"
+    },
+    "history": {
+      "ChargeStarted": "Pris oprettet",
+      "ChargeResumed": "Pris genoprettet pr. {{ effectiveDate }}",
+      "ChargeStopped": "Pris stoppet pr. {{ effectiveDate }}",
+      "ChargeCancelled": "Pris annulleret",
+      "ChargeNameChanged": "Navn ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeDescriptionChanged": "Beskrivelse ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeVatChanged": "Moms ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}",
+      "ChargeTransparentInvoicingChanged": "Viderefakturering ændret fra \"{{ previous }}\" til \"{{ current }}\" pr. {{ effectiveDate }}"
     },
     "series": {
       "showHistory": "Historik",
@@ -745,6 +748,7 @@
         "changeConnectionStatus": "Ændre tilslutningsstatus",
         "updateCustomerData": "Opdater kundestamdata",
         "endOfSupply": "Leveranceophør",
+        "serviceRequest": "Anmod om serviceydelse",
         "changeOfSupplier": "Leverandørskift",
         "historicalCorrection": "Historisk rettelse"
       },
@@ -1142,7 +1146,8 @@
           "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
         "SecondaryMoveIn": {
-          "SEND_INFORMATION": "Send information"
+          "SEND_INFORMATION": "Send information",
+          "CANCEL_WORKFLOW": "Annuller"
         },
         "ChangeOfEnergySupplier": {
           "SEND_INFORMATION": "Send information",
@@ -1155,6 +1160,11 @@
         },
         "RollbackChangeOfSupplier": {
           "CONFIRM_WORKFLOW": "Accepter",
+          "REJECT_REQUEST": "Afvis"
+        },
+        "ServiceRequest": {
+          "CANCEL_WORKFLOW": "Annuller",
+          "CONFIRM_WORKFLOW": "Godkend",
           "REJECT_REQUEST": "Afvis"
         }
       },
@@ -1264,6 +1274,15 @@
         "successToast": "Annullering af {{processType}} indsendt",
         "errorToast": "Annullering af {{processType}} fejlede"
       },
+      "cancelServiceRequest": {
+        "confirm": "Annuller",
+        "successToast": "Serviceanmodning annulleret"
+      },
+      "rejectServiceRequest": {
+        "title": "Afvis anmodning af serviceydelse",
+        "successToast": "Afvisning af anmodning om serviceydelse indsendt",
+        "errorToast": "Afvisning af anmodning om serviceydelse fejlede"
+      },
       "fasActionInfoModal": {
         "title": "Handlingen kan ikke udføres",
         "body": "Det er desværre kun aktøren, der har mulighed for at udføre denne handling.",
@@ -1280,7 +1299,8 @@
       "processTypeName": {
         "EndOfSupply": "leveranceophør",
         "CustomerMoveIn": "tilflytning",
-        "ChangeOfEnergySupplier": "leverandørskift"
+        "ChangeOfEnergySupplier": "leverandørskift",
+        "ServiceRequest": "anmodning om serviceydelse"
       },
       "stepReasonLabels": {
         "BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3": "Årsag til korrektion"
@@ -1516,6 +1536,35 @@
           "THE_BAILIFFS_COURT_IS_INVOLVED_IN_THE_DISCONNECTION": "Fogedretten skal inddrages i afbrydelsen",
           "OTHER_REASON": "Anden årsag"
         }
+      },
+      "serviceRequest": {
+        "title": "Anmod om serviceydelse",
+        "serviceKindLabel": "Type",
+        "serviceKindPlaceholder": "Vælg",
+        "startDateLabel": "Skæringsdato",
+        "startDateError": "Skæringsdatoen kan ikke ligge i fortiden",
+        "descriptionLabel": "Bemærkninger",
+        "cancel": "Annuller",
+        "confirm": "Indsend",
+        "successToast": "Anmodning sendt",
+        "successToastAction": "Se status under processer",
+        "errorToast": "Anmodning om serviceydelse fejlede",
+        "serviceKinds": {
+          "DISCONNECT": "Afbrydelse",
+          "CONNECT": "Genåbning",
+          "METER_CHECK": "Målerundersøgelse"
+        }
+      },
+      "confirmServiceRequest": {
+        "title": "Godkend anmodning om serviceydelse",
+        "serviceKindLabel": "Anmodet serviceydelse",
+        "serviceKindPlaceholder": "[Serviceydelse]",
+        "startDateLabel": "Skæringsdato",
+        "descriptionLabel": "Bemærkning",
+        "cancel": "Luk vindue",
+        "confirm": "Godkend",
+        "successToast": "Serviceydelse godkendt",
+        "errorToast": "Godkendelse af serviceydelse fejlede"
       }
     },
     "measurements": {
@@ -3053,10 +3102,37 @@
     "tabs": {
       "settlementReports": "Afregningsrapporter",
       "measurementsReports": "{{ shared.terminology.measurements }}",
-      "imbalancePrices": "Ubalancepriser"
+      "imbalancePrices": "Ubalancepriser",
+      "meteringPointMasterDataReports": "Stamdata",
+      "missingMeasurementsLog": "Hullerlog"
     },
     "settlements": {
       "topBarTitle": "Afregninger"
+    },
+    "overview": {
+      "requestReport": "Bestil rapport",
+      "newReport": {
+        "title": "Ny rapport",
+        "cancel": "Afbryd",
+        "reportToChooseFrom": "Hvilken rapporttype vil du oprette?",
+        "meteringPointMasterDataLabel": "Målepunktsoversigt",
+        "editBtn": "Ret",
+        "continueToDetails": "Fortsæt til detaljer",
+        "meteringPointMasterData": {
+          "report": "Rapport:",
+          "title": "{{ reports.overview.newReport.meteringPointMasterDataLabel }}",
+          "date": "Dato",
+          "gridArea": "Netområde",
+          "meteringPointTypes": "Målepunktstyper",
+          "connectionStates": "Tilslutningsstatus",
+          "resolution": "Tidsopløsning",
+          "all": "Alle",
+          "hour": "Time",
+          "day": "Dag",
+          "month": "Måned",
+          "submit": "{{ reports.overview.requestReport }}"
+        }
+      }
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",
@@ -3893,7 +3969,8 @@
       "segments": {
         "meteringPoint": "Målepunkt",
         "events": "Events",
-        "relations": "Relationer"
+        "relations": "Relationer",
+        "idempotency": "Idempotency"
       },
       "expandAll": "Udvid alle",
       "collapseAll": "Skjul alle",

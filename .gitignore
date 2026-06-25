@@ -146,3 +146,4 @@ vitest.config.*.timestamp*
 !.hermes/skills/
 !.hermes/skills/**
 
+.nx/migrate-runs

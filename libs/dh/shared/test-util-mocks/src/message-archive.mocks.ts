@@ -602,6 +602,8 @@ function getAvailableActions(
       MeteringPointProcessAction.ConfirmWorkflow,
       MeteringPointProcessAction.RejectRequest,
     ];
+  if (businessReason === ProcessManagerBusinessReason.ServiceRequest)
+    return [MeteringPointProcessAction.ConfirmWorkflow, MeteringPointProcessAction.RejectRequest];
   if (businessReason === ProcessManagerBusinessReason.CustomerMoveIn)
     return [MeteringPointProcessAction.SendInformation, MeteringPointProcessAction.CancelWorkflow];
   if (businessReason === ProcessManagerBusinessReason.SecondaryMoveIn)
@@ -626,6 +628,7 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     stepState = MeteringPointProcessState.Pending,
     documentUrl = null,
     actorValue = null,
+    comment = null,
   }: {
     stepId: string;
     stepKey: string;
@@ -633,11 +636,12 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     stepState?: MeteringPointProcessState;
     documentUrl?: string | null;
     actorValue?: typeof actor | null;
+    comment?: string | null;
   }) => ({
     __typename: 'MeteringPointProcessStep' as const,
     id: `step-${processId}-${stepId}`,
     step: stepKey,
-    comment: null,
+    comment,
     completedAt,
     dueDate: null,
     state: stepState,
@@ -672,6 +676,23 @@ function buildCustomerMoveInProcess(processId: string, apiBase: string, initiato
     steps: [
       step({ stepId: '1', stepKey: 'BRS_009_MOVEIN_V1_STEP_1', actorValue: actor }),
       step({ stepId: '2', stepKey: 'BRS_009_MOVEIN_V1_STEP_2', actorValue: actor }),
+      // Two RSM-003 steps carry long reasons so the step-reason cell exercises both wrap
+      // paths: long prose that wraps at spaces, and a single unbroken word that only breaks
+      // via overflow-wrap: anywhere.
+      step({
+        stepId: '3',
+        stepKey: 'BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3',
+        actorValue: actor,
+        comment:
+          'Kunden har oplyst, at tilflytningen er registreret på en forkert måler. Den oprindelige måleradresse var ikke korrekt, da der ved en fejl blev anvendt et forældet målepunkts-ID fra det tidligere leverandørskifte. Vi anmoder derfor om korrektion af tilflytningen, så forbruget henføres til det rette målepunkt og den korrekte slutkunde fra og med skæringsdatoen. Se vedhæftede dokumentation samt den tidligere korrespondance vedrørende sagen for yderligere detaljer.',
+      }),
+      step({
+        stepId: '3b',
+        stepKey: 'BRS_011_REQUESTINCORRECTMOVE_V1_STEP_3',
+        actorValue: actor,
+        comment:
+          'forsyningsafbrydelsesvarslingssagsbehandlingsprocedurevejledningsdokumentationsopdateringsansvarsområdekoordineringsgrundlag',
+      }),
       step({ stepId: '4', stepKey: 'BRS_009_MOVEIN_V1_STEP_4', actorValue: actor }),
       step({ stepId: '5', stepKey: 'BRS_009_MOVEIN_V1_STEP_5', actorValue: actor }),
       step({ stepId: '6', stepKey: 'BRS_009_MOVEIN_V1_STEP_6', actorValue: actor }),
