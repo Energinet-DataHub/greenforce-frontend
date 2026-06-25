@@ -432,10 +432,10 @@ type ChargeSeriesPoint {
 }
 
 type ChargeSeriesPointChange {
+  messageId: String
   created: DateTime!
   price: Decimal!
   isCurrent: Boolean!
-  messageId: String
 }
 
 type ChargeStarted implements ChargeChange {
