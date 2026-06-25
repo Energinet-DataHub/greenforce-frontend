@@ -53,7 +53,9 @@ describe('dhDateNotInThePastValidator', () => {
   });
 
   it('returns null for today', () => {
-    expect(dhDateNotInThePastValidator()(new FormControl(danishStartOfToday().toDate()))).toBeNull();
+    expect(
+      dhDateNotInThePastValidator()(new FormControl(danishStartOfToday().toDate()))
+    ).toBeNull();
   });
 
   it('flags a past date with dateInThePast', () => {
