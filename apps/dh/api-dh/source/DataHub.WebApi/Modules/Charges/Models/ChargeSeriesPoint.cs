@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Charges.Abstractions.Shared;
+using NodaTime;
+
 namespace Energinet.DataHub.WebApi.Modules.Charges.Models;
 
-public record ChargeSeriesPointChange(
-    ChargeSeriesPointId ChargeSeriesPointId,
-    DateTimeOffset Created,
-    decimal Price,
-    bool IsCurrent,
-    Guid? OrchestrationInstanceId);
+public record ChargeSeriesPoint(
+    ChargeSeriesPointId Id,
+    Interval Interval,
+    decimal Price);

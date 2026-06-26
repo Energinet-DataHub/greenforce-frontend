@@ -625,7 +625,7 @@
         "current": "Aktuel",
         "columns": {
           "price": "Pris",
-          "time": "Indsendt"
+          "created": "Indsendt"
         },
         "copyMessage": "Kopier besked-ID",
         "navigateToMessage": "Gå til besked"

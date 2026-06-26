@@ -36,7 +36,7 @@
       "inputs": [
         "{workspaceRoot}/apps/dh/api-dh/source/DataHub.WebApi.Tests/Snapshots/SchemaTests.ChangeTest.verified.graphql",
         "{workspaceRoot}/codegen.ts",
-        "{workspaceRoot}/dh/shared/feature-graphql-codegen/**/*.js",
+        "{workspaceRoot}/libs/dh/shared/feature-graphql-codegen/**/*.js",
         "{workspaceRoot}/**/*.graphql",
         "!{projectRoot}/src/generated/graphql/**/*"
       ],

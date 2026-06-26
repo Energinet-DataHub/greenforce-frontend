@@ -425,16 +425,17 @@ type ChargeResumed implements ChargeChange {
 }
 
 type ChargeSeriesPoint {
-  price: Decimal!
   hasChanged: Boolean!
+  history: [ChargeSeriesPointChange!]!
+  price: Decimal!
   interval: DateRange!
-  changes: [ChargeSeriesPointChange!]!
 }
 
 type ChargeSeriesPointChange {
+  messageId: String
+  created: DateTime!
   price: Decimal!
   isCurrent: Boolean!
-  messageId: String
 }
 
 type ChargeStarted implements ChargeChange {
