@@ -99,7 +99,7 @@ import { DhMeteringPointMasterDataReport } from './metering-point-master-data-re
         </form>
 
         @if (form.invalid) {
-          <watt-button type="submit" formId="new-report-form">
+          <watt-button type="submit" formId="new-report-form" [block]="true">
             {{ t('continueToDetails') }}
           </watt-button>
         }

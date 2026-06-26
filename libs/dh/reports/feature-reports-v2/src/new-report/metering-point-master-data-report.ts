@@ -113,21 +113,10 @@ import {
               data-testid="masterDataReport.connectionStates"
             />
           </div>
-
-          <div class="items-group">
-            <watt-radio-group [label]="t('resolution')" [formControl]="form.controls.resolution">
-              <vater-stack direction="row" gap="m">
-                <watt-radio [value]="null">{{ t('all') }}</watt-radio>
-                <watt-radio value="hour">{{ t('hour') }}</watt-radio>
-                <watt-radio value="day">{{ t('day') }}</watt-radio>
-                <watt-radio value="month">{{ t('month') }}</watt-radio>
-              </vater-stack>
-            </watt-radio-group>
-          </div>
         </form>
       </watt-card>
 
-      <watt-button type="submit" formId="master-data-form">
+      <watt-button type="submit" formId="master-data-form" [block]="true">
         {{ t('submit') }}
       </watt-button>
     </vater-flex>
@@ -139,7 +128,6 @@ export class DhMeteringPointMasterDataReport {
     gridAreas: dhMakeFormControl<string[] | null>(null),
     meteringPointTypes: dhMakeFormControl<ElectricityMarketMeteringPointType[] | null>(null),
     connectionState: dhMakeFormControl<ElectricityMarketViewConnectionState[] | null>(null),
-    resolution: dhMakeFormControl<string | null>(null),
   });
 
   meteringPointTypesOptions = dhEnumToWattDropdownOptions(ElectricityMarketMeteringPointType);

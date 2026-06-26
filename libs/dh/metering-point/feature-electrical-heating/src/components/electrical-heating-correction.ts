@@ -180,7 +180,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
           </vater-stack>
         </watt-card>
 
-        <watt-button type="submit">{{ t('registerElectricalHeating') }}</watt-button>
+        <watt-button type="submit" [block]="true">{{ t('registerElectricalHeating') }}</watt-button>
       </vater-flex>
     </form>
   `,
