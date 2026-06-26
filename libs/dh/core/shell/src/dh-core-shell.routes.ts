@@ -21,7 +21,6 @@ import { Routes } from '@angular/router';
 
 import {
   BasePaths,
-  ReportsSubPaths,
   MeteringPointSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
@@ -59,11 +58,6 @@ export const dhCoreShellRoutes: Routes = [
         path: getPath<BasePaths>('esett'),
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
         canActivate: [MsalGuard],
-      },
-      // Note: Legacy route for imbalance prices, will be removed in the future
-      {
-        path: getPath<BasePaths>('imbalance-prices'),
-        redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
       },
       {
         path: getPath<BasePaths>('dev-examples'),
