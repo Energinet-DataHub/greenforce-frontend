@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
