@@ -65,6 +65,7 @@ export function resolveCustomerPrefillValue({
   meteringPointValue: string | null | undefined;
   temporaryStorageLoading: boolean;
 }): string {
+  console.log('meteringPointValue: ', meteringPointValue);
   if (source !== 'temporary-storage') return meteringPointValue ?? '';
   if (temporaryStorageLoading) return '';
   return temporaryStorageValue ?? '';
