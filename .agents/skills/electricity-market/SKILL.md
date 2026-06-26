@@ -57,11 +57,10 @@ Base URL: https://app-api-v2-elmark-d-we-003.azurewebsites.net
 
 ## Authentication
 
-Get an access token with Azure CLI, but never print it directly in normal task output:
+Get an access token with Azure CLI, but avoid printing it to the terminal:
 
-```bash
-az account get-access-token --resource api://DH3-DEV --query accessToken -o tsv
-```
+    TOKEN="$(az account get-access-token --resource api://DH3-DEV --query accessToken -o tsv)"
+    # Use $TOKEN in an Authorization header; do not echo/log it.
 
 Use the token only inside the request process. If saving scripts, do not hardcode tokens in files. Retrieve tokens at runtime.
 
