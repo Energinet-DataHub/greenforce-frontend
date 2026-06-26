@@ -18,6 +18,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Framework;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Processes.BRS_011.Shared.V1;
+using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance.Model;
@@ -45,8 +48,12 @@ public class MeteringPointProcessNodeTests
     [Fact]
     public async Task GetAvailableActionsAsync_EligibleCustomerMoveIn_IncludesInitiateIncorrectMoveIn()
     {
+        // The loader returns the supplier's move-ins; the resolver matches the one at this process's
+        // validity date and requires its previous-supplier flag (team-volt#2050), so a matching
+        // flagged move-in surfaces the action. The Verify pins the loader key to (metering point,
+        // supplier GLN), the same parameters the moves query takes.
         var process = CreateCustomerMoveInProcess();
-        var dataLoader = CreateEligibilityDataLoader(isEligible: true);
+        var dataLoader = CreateEligibilityDataLoader((process.CutoffDate!.Value, HasPreviousEnergySupplier: true));
         var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
@@ -70,10 +77,10 @@ public class MeteringPointProcessNodeTests
     [Fact]
     public async Task GetAvailableActionsAsync_IneligibleCustomerMoveIn_DoesNotIncludeInitiateIncorrectMoveIn()
     {
-        // Eligibility data loader returns false, modeling the case where no matching
-        // move-in exists in EM within the 60-day lookback window.
+        // The loader returns no move-ins for this supplier (EM reports none in the 60-day window),
+        // so nothing matches the process validity date and the action is hidden.
         var process = CreateCustomerMoveInProcess();
-        var dataLoader = CreateEligibilityDataLoader(isEligible: false);
+        var dataLoader = CreateEligibilityDataLoader();
         var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
 
         var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
@@ -88,9 +95,63 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetAvailableActionsAsync_LatestMoveInWithoutPreviousSupplier_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // team-volt#2050: the supplier's move-in at this validity date is found, but EM reports no
+        // energy supplier the day before it (the first move-in, or a preceding end of supply), so
+        // there is nothing to revert supply to and the action is hidden.
+        var process = CreateCustomerMoveInProcess();
+        var dataLoader = CreateEligibilityDataLoader((process.CutoffDate!.Value, HasPreviousEnergySupplier: false));
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_MoveInSameDanishCalendarDayDifferentInstant_IncludesInitiateIncorrectMoveIn()
+    {
+        // The resolver matches the supplier's move-in to the process by Danish calendar day, not by
+        // instant: EM's ValidityDate (Danish midnight) and the process cutoff (UTC midnight) are the
+        // same skæringsdato expressed differently, so they must match. A naive instant comparison
+        // would miss this and wrongly hide the button. (red-green verified)
+        var cutoff = new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero); // UTC midnight, 1 May
+        var moveInValidityDate = new DateTimeOffset(2026, 4, 30, 22, 0, 0, TimeSpan.Zero); // Danish midnight, 1 May (CEST)
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = CreateEligibilityDataLoader((moveInValidityDate, HasPreviousEnergySupplier: true));
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
     public async Task GetAvailableActionsAsync_NonCustomerMoveInBusinessReason_DoesNotInvokeDataLoaderAndDoesNotIncludeInitiateIncorrectMoveIn()
     {
-        var process = CreateProcess(BusinessReason.EndOfSupply, meteringPointId: MeteringPointId);
+        // State is Succeeded so that deleting the business-reason guard would fall through to the
+        // strict latest loader and throw, keeping this test falsifiable for the CustomerMoveIn gate.
+        var process = CreateProcess(
+            BusinessReason.EndOfSupply,
+            meteringPointId: MeteringPointId,
+            state: MeteringPointProcessState.Succeeded);
         var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
         var latestLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict);
 
@@ -113,9 +174,10 @@ public class MeteringPointProcessNodeTests
     [Fact]
     public async Task GetAvailableActionsAsync_FasUser_CustomerMoveInWithinWindow_IncludesInitiateIncorrectMoveInWithoutCallingDataLoader()
     {
-        // FAS has no supplier GLN to scope EM against; we surface the action whenever the
-        // process's own cutoff is inside the 60-day window. Strict mock fails if the data
-        // loader is touched.
+        // FAS has no supplier GLN to scope the moves query against, so it surfaces the action
+        // whenever the process's own cutoff is inside the 60-day window. The previous-supplier gate
+        // is supplier-scoped and therefore not applied to FAS. The strict eligibility loader proves
+        // FAS never consults it.
         var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
         var process = CreateProcess(
             BusinessReason.CustomerMoveIn,
@@ -243,6 +305,31 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_LatestSucceededMoveInWithoutCutoff_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // The move-in's validity date drives both the FAS window check and the EM moves query, so a
+        // latest succeeded move-in with no cutoff cannot be evaluated and fails closed. Strict
+        // loaders prove the short-circuit happens before eligibility is consulted.
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoffDate: null,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
         actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
@@ -608,10 +695,98 @@ public class MeteringPointProcessNodeTests
         result[MeteringPointId].Should().Be(createdLater.Id.ToString());
     }
 
+    [Fact]
+    public async Task GetIncorrectMoveInEligibility_ProjectsSupplierMoveIns_AndQueriesEmWithSupplierKey()
+    {
+        // The loader scopes the moves query to (metering point, supplier) and the 60-day window
+        // start, and projects each returned move-in to its (validity date, previous-supplier flag),
+        // preserving order. The resolver does the date matching, so the loader just surfaces the
+        // supplier's move-ins. The Verify pins the supplier-scoped, window-from query construction.
+        var key = (MeteringPointId, EnergySupplierGln);
+        var withPrevious = new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero);
+        var withoutPrevious = new DateTimeOffset(2026, 4, 1, 0, 0, 0, TimeSpan.Zero);
+        var electricityMarketClient = CreateMovesClient(
+            MovesResult(
+                new GetMovesByEnergySupplierIdResultDtoV1.MoveDto(withPrevious, Guid.NewGuid(), HasPreviousEnergySupplier: true),
+                new GetMovesByEnergySupplierIdResultDtoV1.MoveDto(withoutPrevious, Guid.NewGuid(), HasPreviousEnergySupplier: false)));
+
+        // Capture the expected window start before invoking, so the assertion does not recompute it
+        // at verification time (which could differ if the test crossed Danish midnight in between).
+        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+
+        var result = await MeteringPointProcessNode.GetIncorrectMoveInEligibilityAsync(
+            [key],
+            electricityMarketClient.Object,
+            CancellationToken.None);
+
+        result[key].Should().Equal(
+            [(withPrevious, true), (withoutPrevious, false)]);
+        electricityMarketClient.Verify(
+            x => x.SendAsync(
+                It.Is<GetMovesByEnergySupplierIdQueryV1>(
+                    q => q.MeteringPointId == MeteringPointId
+                        && q.EnergySupplierId == EnergySupplierGln
+                        && q.From == expectedWindowStart),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task GetIncorrectMoveInEligibility_SuccessWithNoData_ReturnsEmpty()
+    {
+        var moveIns = await InvokeIncorrectMoveInEligibilityAsync(
+            Result<GetMovesByEnergySupplierIdResultDtoV1>.SuccessWithNoData());
+
+        moveIns.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetIncorrectMoveInEligibility_FailedResult_FailsClosed_ReturnsEmpty()
+    {
+        // Fail closed: an EM transport failure yields no move-ins (hiding the action) rather than
+        // erroring the whole availableActions field.
+        var moveIns = await InvokeIncorrectMoveInEligibilityAsync(
+            Result<GetMovesByEnergySupplierIdResultDtoV1>.Fail("EM transport error"));
+
+        moveIns.Should().BeEmpty();
+    }
+
+    private static async Task<IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>> InvokeIncorrectMoveInEligibilityAsync(
+        Result<GetMovesByEnergySupplierIdResultDtoV1> electricityMarketResult)
+    {
+        var key = (MeteringPointId, EnergySupplierGln);
+        var electricityMarketClient = CreateMovesClient(electricityMarketResult);
+
+        var result = await MeteringPointProcessNode.GetIncorrectMoveInEligibilityAsync(
+            [key],
+            electricityMarketClient.Object,
+            CancellationToken.None);
+
+        return result[key];
+    }
+
+    private static Mock<IElectricityMarketClient> CreateMovesClient(
+        Result<GetMovesByEnergySupplierIdResultDtoV1> electricityMarketResult)
+    {
+        var electricityMarketClient = new Mock<IElectricityMarketClient>();
+        electricityMarketClient
+            .Setup(x => x.SendAsync(
+                It.IsAny<GetMovesByEnergySupplierIdQueryV1>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(electricityMarketResult);
+        return electricityMarketClient;
+    }
+
+    private static Result<GetMovesByEnergySupplierIdResultDtoV1> MovesResult(
+        params GetMovesByEnergySupplierIdResultDtoV1.MoveDto[] moveIns) =>
+        Result<GetMovesByEnergySupplierIdResultDtoV1>.Success(
+            new GetMovesByEnergySupplierIdResultDtoV1(moveIns.ToList(), []));
+
     private static MeteringPointProcess CreateCustomerMoveInProcess() =>
         CreateProcess(
             BusinessReason.CustomerMoveIn,
             meteringPointId: MeteringPointId,
+            cutoffDate: DateTimeOffset.UtcNow.AddDays(-10),
             state: MeteringPointProcessState.Succeeded);
 
     private static MeteringPointProcess CreateProcess(
@@ -673,14 +848,15 @@ public class MeteringPointProcessNodeTests
         return processManagerClient;
     }
 
-    private static Mock<IIncorrectMoveInEligibilityDataLoader> CreateEligibilityDataLoader(bool isEligible)
+    private static Mock<IIncorrectMoveInEligibilityDataLoader> CreateEligibilityDataLoader(
+        params (DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)[] supplierMoveIns)
     {
         var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>();
         dataLoader
             .Setup(x => x.LoadAsync(
                 It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
                 It.IsAny<CancellationToken>()))
-            .ReturnsAsync(isEligible);
+            .ReturnsAsync((IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>)supplierMoveIns.ToList());
         return dataLoader;
     }
 
