@@ -816,6 +816,37 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_NewerPendingRollback_ExcludesMoveIn()
+    {
+        // AC1: a BRS-003 rollback with a strictly newer validity date is still pending (a
+        // non-terminated, Sleeping lifecycle state mapping to MeteringPointProcessState.Pending),
+        // so it blocks the move-in end to end through the real lifecycle-to-state mapping: the
+        // move-in id is excluded from the eligible set.
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerPendingRollback = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.RollbackChangeOfSupplier,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 15, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            lifecycleState: WorkflowInstanceLifecycleState.Sleeping,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(moveIn, newerPendingRollback);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().NotContain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
     public async Task GetMoveInCorrectionRollbackEligibility_ProcessManagerThrows_FailsClosed_ReturnsEmpty()
     {
         // A process-manager failure must hide the action (fail closed), not error the field, so the
