@@ -135,10 +135,6 @@ watt-field {
     margin-bottom: var(--watt-field-bottom-spacing, var(--watt-space-ml));
   }
 
-  .watt-field--compact &:not(.watt-field--chip) {
-    margin-bottom: 0;
-  }
-
   .label {
     display: flex;
     align-items: center;

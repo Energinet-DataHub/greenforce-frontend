@@ -41,9 +41,13 @@ import { dhMakeFormControl } from '@energinet-datahub/dh/shared/ui-util';
   selector: 'dh-charges-interval-field',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, WattDatepickerComponent, WattYearField, WattYearMonthField],
-  host: {
-    class: 'watt-field--compact',
-  },
+  styles: `
+    watt-yearmonth-field,
+    watt-year-field,
+    watt-datepicker {
+      --watt-field-bottom-spacing: 0;
+    }
+  `,
   template: `
     @switch (resolution()) {
       @case ('DAILY') {
