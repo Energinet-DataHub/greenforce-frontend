@@ -26,6 +26,7 @@ import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import {
   AddressTypeV2,
   ChangeCustomerCharacteristicsBusinessReason,
+  ElectricityMarketViewCustomerRelationType,
   GetMeteringPointByIdDocument,
   GetTemporaryStorageDataDocument,
   RequestChangeCustomerCharacteristicsDocument,
@@ -147,13 +148,19 @@ export class DhUpdateCustomerDataComponent {
     () => this.meteringPoint()?.commercialRelation?.activeEnergySupplyPeriod?.customers
   );
   private readonly legalCustomer = computed(() =>
-    this.customers()?.find((c) => c.relationType === 'JURIDICAL')
+    this.customers()?.find(
+      (c) => c.relationType === ElectricityMarketViewCustomerRelationType.Juridical
+    )
   );
   private readonly technicalCustomer = computed(() =>
-    this.customers()?.find((c) => c.relationType === 'TECHNICAL')
+    this.customers()?.find(
+      (c) => c.relationType === ElectricityMarketViewCustomerRelationType.Technical
+    )
   );
   private readonly secondaryCustomer = computed(() =>
-    this.customers()?.find((c) => c.relationType === 'SECONDARY')
+    this.customers()?.find(
+      (c) => c.relationType === ElectricityMarketViewCustomerRelationType.Secondary
+    )
   );
 
   /**
