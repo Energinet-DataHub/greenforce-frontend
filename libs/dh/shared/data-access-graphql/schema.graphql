@@ -3995,6 +3995,7 @@ enum ProcessStepState {
 enum ProjectionType {
   METERING_POINT
   METERING_POINT_WITH_RELATIONS
+  METERING_POINTS_SEARCH
 }
 
 enum Quality {
