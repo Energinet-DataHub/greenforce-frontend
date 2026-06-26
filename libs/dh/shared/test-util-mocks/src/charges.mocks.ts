@@ -453,6 +453,7 @@ function getCharges() {
         (p): ChargeOverviewItem => ({
           __typename: 'ChargeOverviewItem',
           charge,
+          cancelled: p.period.start === p.period.end,
           name: p.name,
           period: p.period,
         })
