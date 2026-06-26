@@ -248,11 +248,11 @@ public static partial class MeteringPointProcessNode
         // point. The rule spans the whole process history, so a wide-window loader evaluates it
         // independent of the overview date filter, and it applies to both the FAS and supplier
         // paths below.
-        var moveInRollbackEligibleIds = await moveInCorrectionRollbackEligibilityDataLoader
+        var moveInCorrectionEligibleIds = await moveInCorrectionRollbackEligibilityDataLoader
             .LoadAsync(process.MeteringPointId, cancellationToken)
             .ConfigureAwait(false);
 
-        if (moveInRollbackEligibleIds is null || !moveInRollbackEligibleIds.Contains(process.Id))
+        if (moveInCorrectionEligibleIds is null || !moveInCorrectionEligibleIds.Contains(process.Id))
         {
             return actions;
         }
