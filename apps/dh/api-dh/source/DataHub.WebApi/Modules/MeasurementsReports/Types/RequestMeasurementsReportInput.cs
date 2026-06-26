@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
+using Energinet.DataHub.Reports.Abstractions.Model.Shared;
 using NodaTime;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
