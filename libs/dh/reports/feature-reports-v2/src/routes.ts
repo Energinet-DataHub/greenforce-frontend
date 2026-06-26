@@ -174,7 +174,10 @@ function redirectToLandingPage(): RedirectFunction {
               getPath<BasePaths>('reports'),
               getPath<ReportsSubPaths>('imbalance-prices'),
             ]);
-          } else if (hasMissingMeasurementsLogPermission) {
+          } else if (
+            releaseToggleService.isEnabled('MISSINGDATALOG') &&
+            hasMissingMeasurementsLogPermission
+          ) {
             return router.createUrlTree([
               '/',
               getPath<BasePaths>('reports'),
