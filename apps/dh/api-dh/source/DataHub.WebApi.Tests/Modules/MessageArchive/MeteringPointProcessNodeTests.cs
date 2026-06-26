@@ -61,6 +61,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -88,6 +89,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -109,6 +111,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -137,6 +140,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -160,6 +164,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -192,6 +197,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -215,6 +221,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -258,6 +265,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -279,6 +287,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -304,6 +313,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -329,7 +339,60 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_NewerActiveRollbackBlocksMoveIn_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // team-volt#2063: the move-in is the latest succeeded one and would otherwise be eligible,
+        // but a strictly newer active/completed BRS-003 rollback blocks it, so the rollback
+        // eligibility loader excludes this process id (empty set) and the button is hidden on the
+        // supplier path. The strict EM eligibility loader proves the gate short-circuits before the
+        // per-supplier eligibility check is consulted.
+        var process = CreateCustomerMoveInProcess();
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader().Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_NewerActiveRollbackBlocksMoveIn_DoesNotIncludeInitiateIncorrectMoveIn()
+    {
+        // team-volt#2063: the gate applies to FAS too. The move-in is latest and inside the 60-day
+        // FAS window, so without the rollback it would surface the action; the rollback eligibility
+        // loader returns an empty set (a strictly newer active/completed BRS-003 rollback), so the
+        // button is hidden even for FAS.
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveIn,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var dataLoader = new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict);
+        var latestLoader = CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            dataLoader.Object,
+            latestLoader.Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader().Object,
+            CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
         actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
@@ -350,6 +413,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -373,6 +437,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -396,6 +461,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -420,6 +486,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             correctionLoader.Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -445,6 +512,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             correctionLoader.Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -470,6 +538,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             correctionLoader.Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -497,6 +566,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -523,6 +593,7 @@ public class MeteringPointProcessNodeTests
             dataLoader.Object,
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -696,6 +767,76 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_NoBlockingRollback_IncludesMoveIn()
+    {
+        // No rollback on the metering point, so the succeeded move-in is eligible: its id is returned.
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(moveIn);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().Contain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_NewerCompletedRollback_ExcludesMoveIn()
+    {
+        // A BRS-003 rollback with a strictly newer validity date has completed on the metering
+        // point, so it blocks the move-in: the move-in id is excluded from the eligible set.
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerRollback = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.RollbackChangeOfSupplier,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 15, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(moveIn, newerRollback);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().NotContain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_ProcessManagerThrows_FailsClosed_ReturnsEmpty()
+    {
+        // A process-manager failure must hide the action (fail closed), not error the field, so the
+        // loader swallows the exception and returns an empty set.
+        var processManagerClient = new Mock<IProcessManagerClient>();
+        processManagerClient
+            .Setup(x => x.SearchWorkflowInstancesByMeteringPointIdQueryAsync(
+                It.IsAny<SearchWorkflowInstancesByMeteringPointIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("process manager unavailable"));
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().BeEmpty();
+    }
+
+    [Fact]
     public async Task GetIncorrectMoveInEligibility_ProjectsSupplierMoveIns_AndQueriesEmWithSupplierKey()
     {
         // The loader scopes the moves query to (metering point, supplier) and the 60-day window
@@ -864,6 +1005,16 @@ public class MeteringPointProcessNodeTests
         params string[] eligibleProcessIds)
     {
         var dataLoader = new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>();
+        dataLoader
+            .Setup(x => x.LoadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IReadOnlySet<string>)eligibleProcessIds.ToHashSet());
+        return dataLoader;
+    }
+
+    private static Mock<IMoveInCorrectionRollbackEligibilityDataLoader> CreateRollbackEligibilityDataLoader(
+        params string[] eligibleProcessIds)
+    {
+        var dataLoader = new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>();
         dataLoader
             .Setup(x => x.LoadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((IReadOnlySet<string>)eligibleProcessIds.ToHashSet());

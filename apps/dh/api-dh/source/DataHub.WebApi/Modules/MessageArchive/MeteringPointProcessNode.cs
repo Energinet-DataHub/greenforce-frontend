@@ -166,6 +166,7 @@ public static partial class MeteringPointProcessNode
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
         IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
+        IMoveInCorrectionRollbackEligibilityDataLoader moveInCorrectionRollbackEligibilityDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -238,6 +239,20 @@ public static partial class MeteringPointProcessNode
         // validity date (skæringsdato), so it must be present. A latest succeeded move-in is
         // expected to carry one; if it is absent, eligibility cannot be evaluated, so fail closed.
         if (process.CutoffDate is not { } moveInValidityDate)
+        {
+            return actions;
+        }
+
+        // team-volt#2063: hide the move-in correction button when a BRS-003 (rollback change of
+        // supplier) with a strictly newer validity date is active or completed on the metering
+        // point. The rule spans the whole process history, so a wide-window loader evaluates it
+        // independent of the overview date filter, and it applies to both the FAS and supplier
+        // paths below.
+        var moveInRollbackEligibleIds = await moveInCorrectionRollbackEligibilityDataLoader
+            .LoadAsync(process.MeteringPointId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (moveInRollbackEligibleIds is null || !moveInRollbackEligibleIds.Contains(process.Id))
         {
             return actions;
         }
@@ -399,6 +414,46 @@ public static partial class MeteringPointProcessNode
         }
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlySet<string>> GetMoveInCorrectionRollbackEligibilityAsync(
+        string meteringPointId,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Fetch the whole process history (wide default window) so the rule does not depend on
+            // the overview date filter.
+            var now = SystemClock.Instance.GetCurrentInstant();
+            var created = ResolveCreatedInterval(null, now);
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                httpContextAccessor.CreateUserIdentity(),
+                meteringPointId,
+                created.Start.ToDateTimeOffset(),
+                created.End.ToDateTimeOffset());
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var processes = instances
+                .Select(w => MapToMeteringPointProcess(w, meteringPointId))
+                .ToList();
+
+            return processes
+                .Where(p => p.BusinessReason == BusinessReason.CustomerMoveIn)
+                .Where(p => !IsMoveInCorrectionBlockedByNewerRollback(p, processes))
+                .Select(p => p.Id)
+                .ToHashSet();
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // Fail closed so a process-manager error hides the action instead of failing the field.
+            return new HashSet<string>();
+        }
+    }
+
     /// <summary>
     /// Whether the "request correction" action should be offered for a completed change of
     /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
@@ -447,6 +502,27 @@ public static partial class MeteringPointProcessNode
 
                 return false;
             });
+    }
+
+    /// <summary>
+    /// Whether the BRS-011 move-in correction button must be hidden for <paramref name="moveIn"/>
+    /// because a BRS-003 (rollback change of supplier) with a strictly newer validity date is active
+    /// or has taken effect on the metering point (team-volt#2063). Dates are compared at Danish
+    /// calendar-day granularity. A rollback that did not take effect (failed, canceled, rejected) or
+    /// carries no validity date does not block.
+    /// </summary>
+    internal static bool IsMoveInCorrectionBlockedByNewerRollback(
+        MeteringPointProcess moveIn,
+        IReadOnlyList<MeteringPointProcess> allProcesses)
+    {
+        if (moveIn.CutoffDate is not { } moveInCutoff) return false;
+        var moveInDate = ToDanishDate(moveInCutoff);
+
+        return allProcesses
+            .Where(p => p.BusinessReason == BusinessReason.RollbackChangeOfSupplier)
+            .Where(IsActiveOrSucceeded)
+            .Any(rollback =>
+                rollback.CutoffDate is { } cutoff && ToDanishDate(cutoff) > moveInDate);
     }
 
     /// <summary>
@@ -504,6 +580,7 @@ public static partial class MeteringPointProcessNode
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
                 ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
+                ctx.DataLoader<IMoveInCorrectionRollbackEligibilityDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }
