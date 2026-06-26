@@ -27,10 +27,7 @@ import {
 
 import { DhNotification } from './dh-notification';
 
-export function dhGetRouteByType(
-  { notificationType, relatedToId }: DhNotification,
-  isReportsV2Enabled: boolean
-): string[] {
+export function dhGetRouteByType({ notificationType, relatedToId }: DhNotification): string[] {
   const rootPath = '/';
 
   switch (notificationType) {
@@ -46,18 +43,9 @@ export function dhGetRouteByType(
       ];
     case NotificationType.SettlementReportReadyForDownload:
     case NotificationType.SettlementReportFailed:
-      if (isReportsV2Enabled) {
-        return [
-          rootPath,
-          getPath<BasePaths>('reports'),
-          getPath<ReportsSubPaths>('settlement-reports'),
-        ];
-      }
-
       return [
         rootPath,
         getPath<BasePaths>('reports'),
-        getPath<ReportsSubPaths>('settlements'),
         getPath<ReportsSubPaths>('settlement-reports'),
       ];
     case NotificationType.ActorCredentialsExpiring:

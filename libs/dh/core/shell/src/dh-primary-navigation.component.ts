@@ -16,14 +16,11 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { TranslocoDirective } from '@jsverse/transloco';
 
-import {
-  DhFeatureFlagDirective,
-  DhFeatureFlagsService,
-} from '@energinet-datahub/dh/shared/feature-flags';
+import { DhFeatureFlagDirective } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
 
@@ -61,8 +58,6 @@ import {
   ],
 })
 export class DhPrimaryNavigationComponent {
-  featureFlags = inject(DhFeatureFlagsService);
-
   getLink(route: BasePaths) {
     return `/${route}`;
   }
