@@ -106,7 +106,7 @@ import { DhRemoveElectricalHeating } from './remove-electrical-heating';
         </form>
 
         @if (form.invalid) {
-          <watt-button type="submit" formId="historical-correction-form" block="true">
+          <watt-button type="submit" formId="historical-correction-form" [block]="true">
             {{ t('continueToDetails') }}
           </watt-button>
         }
