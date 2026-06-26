@@ -140,7 +140,7 @@ public static partial class ChargeNode
             ct);
     }
 
-    public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
+    public static async Task<IEnumerable<ChargeSeriesPoint>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,

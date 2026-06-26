@@ -626,7 +626,7 @@
         "current": "Current",
         "columns": {
           "price": "Price",
-          "time": "Submitted"
+          "created": "Submitted"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"

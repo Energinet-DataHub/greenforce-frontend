@@ -25,6 +25,7 @@ import { WattDatePipe } from '@energinet/watt/core/date';
 import { WATT_DESCRIPTION_LIST } from '@energinet/watt/description-list';
 import { WATT_DRAWER } from '@energinet/watt/drawer';
 import { WATT_MENU } from '@energinet/watt/menu';
+import { WattCopyToClipboardDirective } from '@energinet/watt/clipboard';
 import { dataSource, WATT_TABLE, WattTableColumnDef } from '@energinet/watt/table';
 
 import {
@@ -44,6 +45,7 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
     WATT_DESCRIPTION_LIST,
     WATT_DRAWER,
     WATT_MENU,
+    WattCopyToClipboardDirective,
     WATT_TABLE,
     WattBadgeComponent,
     WattButtonComponent,
@@ -87,9 +89,14 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
             [resolveHeader]="resolveHeader"
             [columns]="columns"
             [dataSource]="dataSource"
+            sortBy="created"
+            sortDirection="desc"
           >
             <ng-container *wattTableCell="columns.price; let series">
               {{ series.price | number: '1.6-6' }}
+            </ng-container>
+            <ng-container *wattTableCell="columns.created; let series">
+              {{ series.created | wattDate: 'long' }}
             </ng-container>
             <ng-container *wattTableCell="columns.isCurrent; let series">
               @if (series.isCurrent) {
@@ -100,8 +107,11 @@ import { WattBadgeComponent } from '@energinet/watt/badge';
               @if (series.messageId) {
                 <watt-button variant="icon" [wattMenuTriggerFor]="menu" icon="moreVertical" />
                 <watt-menu #menu>
-                  <watt-menu-item>{{ t('details.copyMessage') }}</watt-menu-item>
-                  <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item>
+                  <watt-menu-item [wattCopyToClipboard]="series.messageId">
+                    {{ t('details.copyMessage') }}
+                  </watt-menu-item>
+                  <!-- TODO: Add support for navigating to specific message ID -->
+                  <!-- <watt-menu-item>{{ t('details.navigateToMessage') }}</watt-menu-item> -->
                 </watt-menu>
               }
             </ng-container>
@@ -115,12 +125,13 @@ export class DhChargesSeriesDetails {
   readonly resolution = input<ChargeResolution>();
   readonly series = model<ChargeSeriesPoint>();
 
-  protected changes = computed(() => this.series()?.changes ?? []);
+  protected history = computed(() => this.series()?.history ?? []);
   protected start = computed(() => this.series()?.interval.start);
-  protected dataSource = dataSource(() => this.changes());
+  protected dataSource = dataSource(() => this.history());
 
   protected columns: WattTableColumnDef<ChargeSeriesPointChange> = {
     price: { accessor: 'price', size: 'min-content' },
+    created: { accessor: 'created', size: 'minmax(min-content, 1fr)' },
     isCurrent: { accessor: null, header: '' },
     menu: { accessor: null, header: '' },
   };
