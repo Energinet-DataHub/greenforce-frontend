@@ -25,7 +25,6 @@ import { WATT_CARD } from '@energinet/watt/card';
 import { VATER } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
-import { WATT_RADIO } from '@energinet/watt/radio';
 
 import {
   DhDropdownTranslatorDirective,
@@ -47,7 +46,6 @@ import {
 
     VATER,
     WATT_CARD,
-    WATT_RADIO,
     WattButtonComponent,
     WattDatepickerComponent,
     WattDropdownComponent,
