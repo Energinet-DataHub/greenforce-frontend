@@ -42,6 +42,9 @@ public static partial class ChargeOverviewItemNode
             .ThenByDescending(item => item.Period.Period.HasEnd ? item.Period.Period.End : Instant.MaxValue);
     }
 
+    public static bool GetCancelled([Parent] ChargeOverviewItem item)
+        => item.Period.Period.HasEnd && item.Period.Period.Start == item.Period.Period.End;
+
     static partial void Configure(IObjectTypeDescriptor<ChargeOverviewItem> descriptor)
     {
         descriptor.Name("ChargeOverviewItem");

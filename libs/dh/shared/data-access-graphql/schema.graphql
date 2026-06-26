@@ -405,6 +405,7 @@ type ChargeOverviewEdge {
 }
 
 type ChargeOverviewItem {
+  cancelled: Boolean!
   charge: Charge!
   period: DateRange!
   name: String!

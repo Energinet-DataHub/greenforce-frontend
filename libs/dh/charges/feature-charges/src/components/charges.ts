@@ -40,7 +40,10 @@ import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigatio
 import { GetChargeOverviewDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import { ChargeOverviewQueryInput } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { DhChargePeriodPipe } from '@energinet-datahub/dh/charges/feature-ui-shared';
+import {
+  DhChargePeriodPipe,
+  DhChargesStatus,
+} from '@energinet-datahub/dh/charges/feature-ui-shared';
 
 import { ChargeOverviewItem } from '../types';
 import { DhChargesFilters } from './charges-filters';
@@ -57,6 +60,7 @@ import { DhChargesFilters } from './charges-filters';
     WattDataFiltersComponent,
     WattDataTableComponent,
     DhChargePeriodPipe,
+    DhChargesStatus,
     WattIconComponent,
     WattTableCellDirective,
     WattTableComponent,
@@ -107,9 +111,12 @@ import { DhChargesFilters } from './charges-filters';
         <ng-container *wattTableCell="columns.type; let element">
           {{ element.charge.typeDisplayName }}
         </ng-container>
-        <ng-container *wattTableCell="columns.period; let element">
+        <vater-stack direction="row" gap="s" *wattTableCell="columns.period; let element">
           {{ element.period | dhChargePeriod }}
-        </ng-container>
+          @if (element.cancelled) {
+            <dh-charges-status [status]="'CANCELLED'" />
+          }
+        </vater-stack>
       </watt-table>
     </watt-data-table>
     <router-outlet />
