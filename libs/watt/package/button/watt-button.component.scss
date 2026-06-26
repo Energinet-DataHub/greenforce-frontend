@@ -61,6 +61,15 @@ watt-button {
   display: inline-block;
   position: relative;
 
+  &.watt-button--block {
+    display: block;
+    width: 100%;
+
+    .mat-mdc-button {
+      width: 100%;
+    }
+  }
+
   // Focus ring rendered on the host so it can have an independent
   // border-radius from the button itself.
   &:has(.mat-mdc-button:focus-visible)::after {
@@ -201,22 +210,55 @@ watt-button {
     }
   }
 
+  &.watt-button--secondary-icon {
+    &.watt-button--disabled .mat-mdc-button.mat-secondary-icon {
+      background-color: transparent;
+      border-color: var(--watt-color-neutral-grey-300);
+      color: var(--watt-color-neutral-grey-500);
+    }
+
+    .mat-mdc-button.mat-secondary-icon {
+      border: 1px solid var(--watt-color-primary);
+      color: var(--watt-color-primary);
+      @include watt.space-inset-s;
+
+      &:focus-visible {
+        @include secondary-focus;
+      }
+
+      &:hover,
+      &:focus-visible {
+        @include secondary-hover;
+      }
+
+      &.mat-button {
+        min-width: 44px;
+      }
+    }
+  }
+
   .mdc-button {
     @include watt.typography-font-weight("semi-bold");
     @include watt.typography-font-size("m");
     @include watt.space-inset-squish-m;
+    --watt-button-loading-spinner-offset: 0px;
 
     &.mat-mdc-button {
       min-width: 44px; // Magic UX width
       height: 44px; // Magic UX normal height
+      position: relative;
       border-radius: var(--watt-radius-s);
       --mat-button-text-label-text-tracking: 0;
       --mat-button-text-state-layer-color: var(--watt-ripple-color);
       --mat-button-text-ripple-color: var(--watt-ripple-color);
     }
 
-    watt-spinner {
+    .loading-spinner {
+      display: flex;
       position: absolute;
+      top: 50%;
+      left: calc(50% + var(--watt-button-loading-spinner-offset));
+      transform: translate(-50%, -50%);
     }
 
     .mat-button-focus-overlay {
@@ -230,7 +272,7 @@ watt-button {
 
       .content-wrapper {
         display: flex;
-        gap: var(--watt-space-s);
+        gap: var(--watt-space-xs);
         white-space: nowrap;
 
         .text-content {
@@ -241,6 +283,22 @@ watt-button {
       .content-wrapper--loading {
         visibility: hidden;
       }
+    }
+
+    &:has(.content-wrapper watt-icon:not(.watt-icon-trailing)):has(
+        .content-wrapper .text-content:not(:empty)
+      ) {
+      --watt-button-loading-spinner-offset: calc((var(--watt-space-m) - var(--watt-space-s)) / 2);
+      padding-left: var(--watt-space-s);
+      padding-right: var(--watt-space-m);
+    }
+
+    &:has(.content-wrapper watt-icon.watt-icon-trailing):has(
+        .content-wrapper .text-content:not(:empty)
+      ) {
+      --watt-button-loading-spinner-offset: calc((var(--watt-space-s) - var(--watt-space-m)) / 2);
+      padding-left: var(--watt-space-m);
+      padding-right: var(--watt-space-s);
     }
 
     &:has(.content-wrapper .text-content:empty) {

@@ -16,22 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { VATER } from '../../vater';
 
 import { WattButtonComponent } from '../watt-button.component';
 
 @Component({
   selector: 'storybook-button-overview',
-  styles: [
-    `
-      .content-grid {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 1rem;
-      }
-    `,
-  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './storybook-button-overview.component.html',
-  imports: [WattButtonComponent],
+  imports: [WattButtonComponent, VATER],
 })
 export class StorybookButtonOverviewComponent {}

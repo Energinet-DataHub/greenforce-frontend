@@ -20,6 +20,7 @@ import {
   input,
   computed,
   Component,
+  booleanAttribute,
   ViewEncapsulation,
   ChangeDetectionStrategy,
 } from '@angular/core';
@@ -27,7 +28,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { WattSpinnerComponent } from '@energinet/watt/spinner';
 import { WattIcon, WattIconComponent } from '@energinet/watt/icon';
 
-export const WattButtonTypes = ['primary', 'secondary', 'text', 'icon', 'selection'] as const;
+export const WattButtonTypes = [
+  'primary',
+  'secondary',
+  'text',
+  'icon',
+  'secondary-icon',
+  'selection',
+] as const;
 export type WattButtonVariant = (typeof WattButtonTypes)[number];
 export type WattButtonType = 'button' | 'reset' | 'submit';
 export type WattButtonSize = 'small' | 'medium';
@@ -41,6 +49,7 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
   host: {
     '[class]': 'classes()',
     '[class.watt-button--disabled]': 'disabled()',
+    '[class.watt-button--block]': 'block()',
     '[style.pointer-events]': 'pointerEvents()',
   },
   imports: [WattIconComponent, WattSpinnerComponent, MatButtonModule],
@@ -55,13 +64,15 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
       [attr.aria-label]="ariaLabel()"
     >
       @if (loading()) {
-        <watt-spinner [diameter]="18" />
+        <span class="loading-spinner">
+          <watt-spinner [diameter]="18" />
+        </span>
       }
-      <div [class.content-wrapper]="!loading()" [class.content-wrapper--loading]="loading()">
+      <div class="content-wrapper" [class.content-wrapper--loading]="loading()">
         @if (hasIcon()) {
           <watt-icon [name]="icon()" [class.watt-icon-trailing]="hasTrailingIcon()" />
         }
-        @if (variant() !== 'icon') {
+        @if (!isIconOnly()) {
           <span class="text-content"><ng-content /></span>
         }
       </div>
@@ -77,6 +88,8 @@ export class WattButtonComponent {
   formId = input<string | null>(null);
   disabled = input(false);
   loading = input(false);
+  /** Render the button as a block-level element that fills the available horizontal space. */
+  block = input(false, { transform: booleanAttribute });
   /**
    * Forwards an accessible label to the inner native `<button>`. Required when the button has
    * no visible text content (e.g. icon-only variants), so screen readers and role-based
@@ -97,4 +110,5 @@ export class WattButtonComponent {
    */
   hasIcon = computed(() => !!this.icon());
   hasTrailingIcon = computed(() => this.hasIcon() && this.iconPosition() === 'trailing');
+  isIconOnly = computed(() => this.variant() === 'icon' || this.variant() === 'secondary-icon');
 }

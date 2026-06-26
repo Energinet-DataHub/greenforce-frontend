@@ -54,6 +54,14 @@ describe(WattButtonComponent, () => {
     expect(screen.queryByRole('img')).not.toBeInTheDocument();
   });
 
+  it('can render as a block-level button that fills the available horizontal space', async () => {
+    const renderResult = await render(`<watt-button block>Block</watt-button>`, {
+      imports: [WattButtonComponent],
+    });
+
+    expect(renderResult.container.querySelector('watt-button')).toHaveClass('watt-button--block');
+  });
+
   it('renders icon when icon is set', async () => {
     await renderComponent({ icon: 'plus' });
 
@@ -67,7 +75,7 @@ describe(WattButtonComponent, () => {
 
     const wattButton = renderResult.container;
 
-    if (variant === 'icon') {
+    if (variant === 'icon' || variant === 'secondary-icon') {
       expect(wattButton).not.toHaveTextContent('Text');
     } else {
       expect(wattButton).toHaveTextContent('Text');
@@ -130,5 +138,16 @@ describe(WattButtonComponent, () => {
 
     expect(screen.getByRole('progressbar')).toBeInTheDocument();
     expect(screen.getByText('Text').closest('.content-wrapper--loading')).toBeInTheDocument();
+  });
+
+  it('preserves icon and text layout when loading', async () => {
+    await render(`<watt-button icon="plus" [loading]="true">Text</watt-button>`, {
+      imports: [WattButtonComponent],
+    });
+
+    const contentWrapper = screen.getByText('Text').closest('.content-wrapper');
+
+    expect(contentWrapper).toHaveClass('content-wrapper--loading');
+    expect(screen.getByRole('progressbar').closest('.loading-spinner')).toBeInTheDocument();
   });
 });
