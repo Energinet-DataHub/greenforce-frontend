@@ -15,12 +15,14 @@
 using Energinet.DataHub.Reports.Abstractions.Model.MeteringPointMasterData;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Modules.MeteringPointMasterDataReports.Types;
+using HotChocolate.Authorization;
 
 namespace Energinet.DataHub.WebApi.Modules.MeteringPointMasterDataReports;
 
 public static class MeteringPointMasterDataReportOperations
 {
     [Mutation]
+    [Authorize(Roles = ["metering-point-master-data-reports:manage"])]
     public static async Task<bool> RequestMasterDataReportAsync(
         RequestMasterDataReportInput input,
         IMeteringPointMasterDataReportClient client,

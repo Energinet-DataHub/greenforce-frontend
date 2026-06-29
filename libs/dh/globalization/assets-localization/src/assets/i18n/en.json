@@ -739,7 +739,12 @@
         "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
-        "UNKNOWN": "Unknown"
+        "UNKNOWN": "Unknown",
+        "ClosedDown": "{{ meteringPoint.overview.status.CLOSED_DOWN }}",
+        "New": "{{ meteringPoint.overview.status.NEW }}",
+        "Connected": "{{ meteringPoint.overview.status.CONNECTED }}",
+        "Disconnected": "{{ meteringPoint.overview.status.DISCONNECTED }}",
+        "Unknown": "{{ meteringPoint.overview.status.UNKNOWN }}"
       },
       "actions": {
         "actionsButton": "Actions",
@@ -3131,7 +3136,11 @@
           "hour": "Hour",
           "day": "Day",
           "month": "Month",
-          "submit": "{{ reports.overview.requestReport }}"
+          "submit": "{{ reports.overview.requestReport }}",
+          "toast": {
+            "success": "Metering point master data report has been requested.",
+            "error": "Something went wrong. The metering point master data report was not requested. Please try again."
+          }
         }
       }
     },

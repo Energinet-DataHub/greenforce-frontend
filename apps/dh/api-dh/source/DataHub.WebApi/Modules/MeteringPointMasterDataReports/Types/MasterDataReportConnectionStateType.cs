@@ -12,16 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Reports.Abstractions.Model.MeteringPointMasterData;
 using Energinet.DataHub.Reports.Abstractions.Model.Shared;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 
 namespace Energinet.DataHub.WebApi.Modules.MeteringPointMasterDataReports.Types;
 
-public record RequestMasterDataReportInput(
-    DateTimeOffset Date,
-    string[]? GridAreaIds,
-    MeteringPointType[]? MeteringPointTypes,
-    ConnectionState[]? ConnectionStates,
-    string? RequestAsActorId,
-    MeteringPointMasterDataReportMarketRole? RequestAsMarketRole,
-    string? UserId);
+public class MasterDataReportConnectionStateType : EnumType<ConnectionState>
+{
+    protected override void Configure(IEnumTypeDescriptor<ConnectionState> descriptor)
+    {
+        descriptor.Name("MasterDataReportConnectionStateType");
+        descriptor.AsIsCase();
+    }
+}

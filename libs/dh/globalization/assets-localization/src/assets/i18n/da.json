@@ -738,7 +738,12 @@
         "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
-        "UNKNOWN": "Ukendt"
+        "UNKNOWN": "Ukendt",
+        "ClosedDown": "{{ meteringPoint.overview.status.CLOSED_DOWN }}",
+        "New": "{{ meteringPoint.overview.status.NEW }}",
+        "Connected": "{{ meteringPoint.overview.status.CONNECTED }}",
+        "Disconnected": "{{ meteringPoint.overview.status.DISCONNECTED }}",
+        "Unknown": "{{ meteringPoint.overview.status.UNKNOWN }}"
       },
       "actions": {
         "actionsButton": "Handlinger",
@@ -3130,7 +3135,11 @@
           "hour": "Time",
           "day": "Dag",
           "month": "Måned",
-          "submit": "{{ reports.overview.requestReport }}"
+          "submit": "{{ reports.overview.requestReport }}",
+          "toast": {
+            "success": "Målepunktsoversigt rapport bestilt.",
+            "error": "Noget gik galt. Målepunktsoversigt rapporten blev ikke bestilt. Prøv igen."
+          }
         }
       }
     },

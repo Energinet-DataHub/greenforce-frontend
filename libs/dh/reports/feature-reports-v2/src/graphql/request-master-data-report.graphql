@@ -1,0 +1,5 @@
+mutation RequestMasterDataReport($input: RequestMasterDataReportInput!) {
+  requestMasterDataReport(input: $input) {
+    success: boolean
+  }
+}
