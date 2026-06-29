@@ -129,6 +129,9 @@ dotnet_style_null_propagation = true:error
 # Flag methods with any accessibility that contain unused parameters
 dotnet_code_quality_unused_parameters = all:suggestion
 
+# Allow FirstOrDefault and LastOrDefault for IReadOnlyList
+dotnet_code_quality.CA1826.exclude_ordefault_methods = true
+
 ###############################
 # .NET Naming                 #
 ###############################

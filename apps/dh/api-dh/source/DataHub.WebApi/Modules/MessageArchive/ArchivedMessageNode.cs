@@ -15,6 +15,7 @@
 using Energinet.DataHub.EDI.B2CClient.Abstractions.ArchivedMessages.V1;
 using Energinet.DataHub.EDI.B2CClient.Abstractions.MeteringPointArchivedMessages.V1;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
+using Energinet.DataHub.WebApi.Modules.Common.Extensions;
 using Energinet.DataHub.WebApi.Modules.Common.Models;
 using Energinet.DataHub.WebApi.Modules.MarketParticipant;
 using Energinet.DataHub.WebApi.Modules.MessageArchive.Client;
@@ -31,7 +32,7 @@ public static partial class ArchivedMessageNode
 {
     [Query]
     [UsePaging]
-    public static async Task<Connection<ArchivedMessage>> GetArchivedMessagesForMeteringPointAsync(
+    public static Task<Connection<ArchivedMessage>> GetArchivedMessagesForMeteringPointAsync(
         Interval created,
         string meteringPointId,
         Guid? senderId,
@@ -43,8 +44,7 @@ public static partial class ArchivedMessageNode
         string? before,
         ArchivedMessageSortInput? order,
         [Service] IMeteringPointArchivedMessageClient client)
-    {
-        return await client.GetMeteringPointArchivedMessagesAsync(
+        => client.GetMeteringPointArchivedMessagesAsync(
             created,
             meteringPointId,
             senderId,
@@ -55,11 +55,10 @@ public static partial class ArchivedMessageNode
             last,
             before,
             order);
-    }
 
     [Query]
     [UsePaging]
-    public static async Task<Connection<ArchivedMessage>> GetArchivedMessagesAsync(
+    public static Task<Connection<ArchivedMessage>> GetArchivedMessagesAsync(
         Interval created,
         Guid? senderId,
         Guid? receiverId,
@@ -73,51 +72,47 @@ public static partial class ArchivedMessageNode
         string? before,
         ArchivedMessageSortInput? order,
         [Service] IArchivedMessageClient client)
-    {
-        if (!string.IsNullOrWhiteSpace(filter))
-        {
-            return await client.GetArchivedMessagesByIdAsync(
-                filter,
-                includeRelated ?? false,
+        => !string.IsNullOrWhiteSpace(filter)
+            ? client.GetArchivedMessagesByIdAsync(filter, includeRelated ?? false, first, after, last, before, order)
+            : client.GetArchivedMessagesAsync(
+                created,
+                senderId,
+                receiverId,
+                documentTypes,
+                businessReasons,
                 first,
                 after,
                 last,
                 before,
                 order);
-        }
 
-        return await client.GetArchivedMessagesAsync(
-            created,
-            senderId,
-            receiverId,
-            documentTypes,
-            businessReasons,
-            first,
-            after,
-            last,
-            before,
-            order);
-    }
+    [Query]
+    public static Task<ArchivedMessage?> GetArchivedMessageByIdAsync(
+        string id,
+        [Service] IArchivedMessageClient client)
+        => client
+            .GetArchivedMessagesByIdAsync(id, false, 1, null, null, null, null)
+            .Then(m => m.Edges.FirstOrDefault()?.Node);
 
     public static async Task<ActorDto?> GetSenderAsync(
         [Parent] ArchivedMessage message,
-        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
-        Enum.TryParse<EicFunction>(message.SenderRole, out var role)
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader)
+        => Enum.TryParse<EicFunction>(message.SenderRole, out var role)
             ? await dataLoader.LoadAsync((message.SenderNumber, role))
             : null;
 
     public static async Task<ActorDto?> GetReceiverAsync(
         [Parent] ArchivedMessage message,
-        IMarketParticipantByNumberAndRoleDataLoader dataLoader) =>
-        Enum.TryParse<EicFunction>(message.ReceiverRole, out var role)
+        IMarketParticipantByNumberAndRoleDataLoader dataLoader)
+        => Enum.TryParse<EicFunction>(message.ReceiverRole, out var role)
             ? await dataLoader.LoadAsync((message.ReceiverNumber, role))
             : null;
 
     public static string? GetDocumentUrl(
         [Parent] ArchivedMessage message,
         [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] LinkGenerator linkGenerator) =>
-        linkGenerator.GetUriByAction(
+        [Service] LinkGenerator linkGenerator)
+        => linkGenerator.GetUriByAction(
             httpContextAccessor.HttpContext!,
             "GetDocumentById",
             "MessageArchive",
