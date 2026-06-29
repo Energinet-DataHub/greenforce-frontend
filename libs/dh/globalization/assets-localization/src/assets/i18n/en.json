@@ -4046,7 +4046,8 @@
         "button": "Rebuild Projection",
         "projectionTypes": {
           "METERING_POINT": "Metering Point",
-          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations"
+          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations",
+          "METERING_POINTS_SEARCH": "Metering Points Search"
         },
         "modal": {
           "title": "Rebuild Projection",
