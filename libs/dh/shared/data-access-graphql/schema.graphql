@@ -32,6 +32,11 @@ interface Calculation implements OrchestrationInstance {
   steps: [OrchestrationInstanceStep!]!
 }
 
+interface ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
 interface Error {
   message: String!
 }
@@ -324,6 +329,7 @@ type Charge {
   missingPriceSeriesPoints: MissingPriceSeriesResult!
   series(interval: DateRange!): [ChargeSeriesPoint!]!
   owner: MarketParticipant
+  history: [ChargeChange!]!
   id: String!
   code: String!
   name: String!
@@ -337,6 +343,18 @@ type Charge {
   vatInclusive: Boolean!
   transparentInvoicing: Boolean!
   spotDependingPrice: Boolean!
+}
+
+type ChargeCancelled implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeDescriptionChanged implements ChargeChange {
+  previousDescription: String!
+  currentDescription: String!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ChargeLinkPeriod {
@@ -357,6 +375,13 @@ type ChargeLinkPeriodChange {
   previousFactor: Int
   orchestrationInstanceId: String!
   changeType: ChargeLinkPeriodChangeType!
+}
+
+type ChargeNameChanged implements ChargeChange {
+  previousName: String!
+  currentName: String!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 "A connection to a list of items."
@@ -380,6 +405,7 @@ type ChargeOverviewEdge {
 }
 
 type ChargeOverviewItem {
+  cancelled: Boolean!
   charge: Charge!
   period: DateRange!
   name: String!
@@ -394,17 +420,47 @@ type ChargePeriod {
   status: ChargeStatus!
 }
 
+type ChargeResumed implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
 type ChargeSeriesPoint {
-  price: Decimal!
   hasChanged: Boolean!
+  history: [ChargeSeriesPointChange!]!
+  price: Decimal!
   interval: DateRange!
-  changes: [ChargeSeriesPointChange!]!
 }
 
 type ChargeSeriesPointChange {
+  messageId: String
+  created: DateTime!
   price: Decimal!
   isCurrent: Boolean!
-  messageId: String
+}
+
+type ChargeStarted implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeStopped implements ChargeChange {
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeTransparentInvoicingChanged implements ChargeChange {
+  previousTransparentInvoicing: Boolean!
+  currentTransparentInvoicing: Boolean!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
+}
+
+type ChargeVatChanged implements ChargeChange {
+  previousVat: Boolean!
+  currentVat: Boolean!
+  createdAt: DateTime!
+  effectiveDate: DateTime!
 }
 
 type ClearMigrationEventsDeadLetterQueueResultDtoV1 {
@@ -575,14 +631,9 @@ type ElectricalHeatingCalculation implements Calculation & OrchestrationInstance
 
 type ElectricalHeatingInformation {
   customerName: String
-  supplierPeriods: [ElectricalHeatingInformationPeriod!]!
+  supplierPeriods: [ElectricialHeatingResponsePeriod!]!
   isElectricalHeatingActive: Boolean!
   electricalHeatingFrom: DateTime
-}
-
-type ElectricalHeatingInformationPeriod {
-  from: DateTime!
-  to: DateTime!
 }
 
 type ElectricalHeatingMessage {
@@ -596,6 +647,12 @@ type ElectricalHeatingUserMessage {
   content: String
   reductionPeriod: ElectricityHeatingMessagePeriod!
   electricalHeatingFrom: DateTime!
+}
+
+type ElectricialHeatingResponsePeriod {
+  from: DateTime!
+  to: DateTime!
+  additionalProperties: [KeyValuePairOfStringAndObject!]!
 }
 
 type ElectricityHeatingMessagePeriod {
@@ -749,6 +806,12 @@ type ElectricityMarketViewMeteringPointMetadataDto {
   settlementMethod: ElectricityMarketViewSettlementMethod
   installationAddress: ElectricityMarketViewInstallationAddressDto
   manuallyHandled: Boolean!
+}
+
+type EnergySupplierInformation {
+  from: DateTime!
+  to: DateTime!
+  energySupplierId: String!
 }
 
 "A segment of a collection."
@@ -1300,6 +1363,7 @@ type Mutation {
   rejectEndOfSupply(input: RejectEndOfSupplyInput!): RejectEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-respond" ])
   rejectIncorrectMove(input: RejectIncorrectMoveInput!): RejectIncorrectMovePayload! @authorize(roles: [ "metering-point:move-in" ])
   rejectRollbackChangeOfSupplier(input: RejectRollbackChangeOfSupplierInput!): RejectRollbackChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
+  rejectServiceRequest(input: RejectServiceRequestInput!): RejectServiceRequestPayload! @authorize(roles: [ "metering-point:service-request-respond" ])
   removeElectricalHeatingMeteringPoint(input: RemoveElectricalHeatingMeteringPointInput!): RemoveElectricalHeatingMeteringPointPayload! @authorize(roles: [ "metering-point:historical-correction-manage" ])
   removeMeteringPointsFromAdditionalRecipient(input: RemoveMeteringPointsFromAdditionalRecipientInput!): RemoveMeteringPointsFromAdditionalRecipientPayload!
   replayMigrationEventsDeadLetterQueue: ReplayMigrationEventsDeadLetterQueueResultDtoV1! @authorize(roles: [ "operation-tools:manage" ])
@@ -1534,6 +1598,7 @@ type Query {
   downloadMeteringGridAreaImbalance(locale: String! created: DateRange calculationPeriod: DateRange gridAreaCodes: [String!] documentId: String valuesToInclude: MeteringGridImbalanceValuesToInclude! order: MeteringGridAreaImbalanceSortInput): String!
   electricalHeatingInformation(meteringPointIdentification: String!): ElectricalHeatingInformation @authorize(roles: [ "metering-point:actor-conversation" ])
   emailExists(email: String!): Boolean!
+  energySupplierInformation(meteringPointIdentification: String!): [EnergySupplierInformation!] @authorize(roles: [ "metering-point:actor-conversation" ])
   esettExchangeEvents(skip: Int take: Int periodInterval: DateRange createdInterval: DateRange sentInterval: DateRange gridAreaCodes: [String!] calculationType: ExchangeEventCalculationType documentStatuses: [DocumentStatus!] timeSeriesType: EsettTimeSeriesType filter: String actorNumber: String order: EsettExchangeEventSortInput): EsettExchangeEventsCollectionSegment
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
@@ -1639,6 +1704,10 @@ type RejectIncorrectMovePayload {
 }
 
 type RejectRollbackChangeOfSupplierPayload {
+  boolean: Boolean
+}
+
+type RejectServiceRequestPayload {
   boolean: Boolean
 }
 
@@ -2573,6 +2642,14 @@ input RejectRollbackChangeOfSupplierInput {
   processId: UUID!
 }
 
+input RejectServiceRequestInput {
+  meteringPointId: String!
+  processId: UUID!
+  reasonCode: ReasonCodeV1!
+  reasonMessage: String!
+  description: String
+}
+
 input RemoveElectricalHeatingMeteringPointInput {
   parentMeteringPointId: String!
   cutOffDate: DateTime!
@@ -2974,6 +3051,7 @@ enum ArchivedMessageDocumentType {
   NOTIFY_PRICE_LIST
   REQUEST_PRICE_LIST
   REJECT_REQUEST_PRICE_LIST
+  ACKNOWLEDGEMENT
 }
 
 enum AuthEicFunctionType {
@@ -3918,6 +3996,7 @@ enum ProcessStepState {
 enum ProjectionType {
   METERING_POINT
   METERING_POINT_WITH_RELATIONS
+  METERING_POINTS_SEARCH
 }
 
 enum Quality {

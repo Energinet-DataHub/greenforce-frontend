@@ -42,7 +42,7 @@
     "lint:fix": "nx run-many --target=lint --max-warnings=0 --fix --parallel",
     "ng": "nx",
     "nx": "nx",
-    "start": "nx serve",
+    "start": "bun run dh:mock",
     "dh:dev": "nx run app-dh:serve:development",
     "dh:mock": "nx run app-dh:serve:mocked",
     "dh:build": "nx run app-dh:build:production",

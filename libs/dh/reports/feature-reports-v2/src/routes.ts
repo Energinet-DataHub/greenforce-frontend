@@ -69,7 +69,17 @@ export const routes: Routes = [
           dhReleaseToggleGuard('PM94-REPORTS'),
           PermissionGuard(['metering-point-master-data-reports:manage']),
         ],
-        component: DhReportsOverview,
+        children: [
+          {
+            path: '',
+            pathMatch: 'full',
+            component: DhReportsOverview,
+          },
+          {
+            path: 'new',
+            loadComponent: () => import('./new-report/new-report').then((m) => m.DhNewReport),
+          },
+        ],
       },
       {
         path: getPath<ReportsSubPaths>('imbalance-prices'),
@@ -164,7 +174,10 @@ function redirectToLandingPage(): RedirectFunction {
               getPath<BasePaths>('reports'),
               getPath<ReportsSubPaths>('imbalance-prices'),
             ]);
-          } else if (hasMissingMeasurementsLogPermission) {
+          } else if (
+            releaseToggleService.isEnabled('MISSINGDATALOG') &&
+            hasMissingMeasurementsLogPermission
+          ) {
             return router.createUrlTree([
               '/',
               getPath<BasePaths>('reports'),

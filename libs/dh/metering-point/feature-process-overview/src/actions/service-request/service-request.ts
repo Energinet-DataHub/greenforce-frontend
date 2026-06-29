@@ -25,6 +25,7 @@ import {
   EicFunction,
   ProcessManagerBusinessReason,
   CancelServiceRequestDocument,
+  RejectServiceRequestDocument,
   GetMeteringPointProcessByIdDocument,
   GetMeteringPointProcessOverviewDocument,
   MeteringPointProcessAction,
@@ -32,12 +33,14 @@ import {
 
 import { ResponsibleEnergySupplier, type ActionHandlerMap } from '../registry';
 import { cancelProcessAction } from '../shared/cancel-process-action';
+import { rejectProcessAction } from '../shared/reject-process-action';
 import { DhConfirmServiceRequestModal } from '../../components/dh-confirm-service-request-modal';
 
 @Injectable({ providedIn: 'root' })
 export class ServiceRequestActions {
   private readonly modalService = inject(WattModalService);
   private readonly cancelServiceRequest = mutation(CancelServiceRequestDocument);
+  private readonly rejectServiceRequest = mutation(RejectServiceRequestDocument);
 
   readonly handlers: ActionHandlerMap = {
     [MeteringPointProcessAction.ConfirmWorkflow]: {
@@ -58,6 +61,35 @@ export class ServiceRequestActions {
           },
         });
       },
+    },
+    [MeteringPointProcessAction.RejectRequest]: {
+      featureFlag: 'service-request',
+      permissions: ['metering-point:service-request-respond'],
+      roles: [EicFunction.GridAccessProvider],
+      callback: rejectProcessAction(
+        ({ ctx, result, onCompleted, onError }) => {
+          this.rejectServiceRequest.mutate({
+            refetchQueries: [
+              GetMeteringPointProcessByIdDocument,
+              GetMeteringPointProcessOverviewDocument,
+            ],
+            variables: {
+              meteringPointId: ctx.meteringPointId,
+              processId: ctx.processId,
+              reasonCode: result.reasonCode,
+              reasonMessage: result.reasonMessage,
+              description: result.description,
+            },
+            onCompleted,
+            onError,
+          });
+        },
+        {
+          titleKey: 'meteringPoint.processOverview.rejectServiceRequest.title',
+          successToastKey: 'meteringPoint.processOverview.rejectServiceRequest.successToast',
+          errorToastKey: 'meteringPoint.processOverview.rejectServiceRequest.errorToast',
+        }
+      ),
     },
     [MeteringPointProcessAction.CancelWorkflow]: {
       featureFlag: 'service-request',

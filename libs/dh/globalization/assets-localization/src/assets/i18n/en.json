@@ -413,6 +413,10 @@
       "false": "Without VAT",
       "true": "With VAT"
     },
+    "transparentInvoicing": {
+      "false": "No",
+      "true": "Yes"
+    },
     "charges": {
       "topBarTitle": "Prices",
       "table": {
@@ -580,18 +584,17 @@
       "description": "Description",
       "vatClassification": "VAT",
       "transparentInvoicing": "Transparent Invoicing",
-      "current": "Current",
-      "history": {
-        "table": {
-          "columns": {
-            "timestamp": "Timestamp",
-            "entry": "Change"
-          }
-        },
-        "auditLogs": {
-          "Sample entry": "This is a sample {{ entry }}"
-        }
-      }
+      "current": "Current"
+    },
+    "history": {
+      "ChargeStarted": "Charge created",
+      "ChargeResumed": "Charge resumed as of {{ effectiveDate }}",
+      "ChargeStopped": "Charge stopped as of {{ effectiveDate }}",
+      "ChargeCancelled": "Charge cancelled",
+      "ChargeNameChanged": "Name changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeDescriptionChanged": "Description changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeVatChanged": "VAT changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}",
+      "ChargeTransparentInvoicingChanged": "Transparent invoicing changed from \"{{ previous }}\" to \"{{ current }}\" as of {{ effectiveDate }}"
     },
     "series": {
       "showHistory": "History",
@@ -623,7 +626,7 @@
         "current": "Current",
         "columns": {
           "price": "Price",
-          "time": "Submitted"
+          "created": "Submitted"
         },
         "copyMessage": "Copy message ID",
         "navigateToMessage": "Go to message"
@@ -1162,7 +1165,8 @@
         },
         "ServiceRequest": {
           "CANCEL_WORKFLOW": "Cancel",
-          "CONFIRM_WORKFLOW": "Approve"
+          "CONFIRM_WORKFLOW": "Approve",
+          "REJECT_REQUEST": "Reject"
         }
       },
       "incorrectMoveIn": {
@@ -1274,6 +1278,11 @@
       "cancelServiceRequest": {
         "confirm": "Cancel",
         "successToast": "Service request cancelled"
+      },
+      "rejectServiceRequest": {
+        "title": "Reject request for service",
+        "successToast": "Rejection of request for service submitted",
+        "errorToast": "Rejection of request for service failed"
       },
       "fasActionInfoModal": {
         "title": "The action cannot be performed",
@@ -1534,6 +1543,7 @@
         "serviceKindLabel": "Type",
         "serviceKindPlaceholder": "Select",
         "startDateLabel": "Cut-off date",
+        "startDateError": "The cut-off date cannot be in the past",
         "descriptionLabel": "Remarks",
         "cancel": "Cancel",
         "confirm": "Submit",
@@ -3099,6 +3109,31 @@
     },
     "settlements": {
       "topBarTitle": "Settlements"
+    },
+    "overview": {
+      "requestReport": "Request report",
+      "newReport": {
+        "title": "New report",
+        "cancel": "Cancel",
+        "reportToChooseFrom": "Which report type would you like to create?",
+        "meteringPointMasterDataLabel": "Metering point master data",
+        "editBtn": "Edit",
+        "continueToDetails": "Continue to details",
+        "meteringPointMasterData": {
+          "report": "Report:",
+          "title": "{{ reports.overview.newReport.meteringPointMasterDataLabel }}",
+          "date": "Date",
+          "gridArea": "Grid area",
+          "meteringPointTypes": "Metering point types",
+          "connectionStates": "Connection states",
+          "resolution": "Resolution",
+          "all": "All",
+          "hour": "Hour",
+          "day": "Day",
+          "month": "Month",
+          "submit": "{{ reports.overview.requestReport }}"
+        }
+      }
     },
     "settlementReports": {
       "title": "{{ reports.tabs.settlementReports }}",

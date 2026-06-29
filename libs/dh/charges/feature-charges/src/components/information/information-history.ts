@@ -16,26 +16,39 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, signal } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
-import { VaterUtilityDirective } from '@energinet/watt/vater';
+import { VATER } from '@energinet/watt/vater';
 import { WATT_CARD } from '@energinet/watt/card';
-import { WattDatePipe } from '@energinet/watt/date';
+import { WattDatePipe, wattFormatDate } from '@energinet/watt/date';
 import {
   WattTableColumnDef,
   WattTableComponent,
-  WattTableDataSource,
   WattTableCellDirective,
+  dataSource,
 } from '@energinet/watt/table';
 
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { GetChargeHistoryDocument } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
+
+import { ChargeChange } from '../../types';
+
+type HistoryRow = {
+  type: string;
+  createdAt: Date;
+  effectiveDate: string;
+  previous?: string;
+  current?: string;
+};
 
 @Component({
   selector: 'dh-charges-information-history',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     TranslocoDirective,
-    VaterUtilityDirective,
+    VATER,
     WATT_CARD,
     WattDatePipe,
     WattTableComponent,
@@ -43,47 +56,79 @@ import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
     DhResultComponent,
   ],
   template: `
-    <div vater inset="ml">
-      <watt-card variant="solid" *transloco="let t; prefix: 'charges.priceInformation.history'">
-        <dh-result [hasError]="hasError()" [loading]="isLoading()">
-          <watt-table
-            *transloco="let resolveHeader; prefix: 'charges.priceInformation.history.table.columns'"
-            [columns]="columns"
-            [dataSource]="dataSource"
-            [hideColumnHeaders]="true"
-            [resolveHeader]="resolveHeader"
-            [sortClear]="false"
-            sortBy="timestamp"
-            sortDirection="desc"
-          >
-            <ng-container *wattTableCell="columns.timestamp; let element">
-              {{ element.timestamp | wattDate: 'long' }}
-            </ng-container>
-            <ng-container *wattTableCell="columns.entry; let element">
-              <span [innerHTML]="t('auditLogs.' + element.entry, element)"> </span>
-            </ng-container>
-          </watt-table>
-        </dh-result>
-      </watt-card>
-    </div>
+    <watt-card vater inset="ml" variant="solid" *transloco="let t; prefix: 'charges.history'">
+      <dh-result vater fill="vertical" [query]="history">
+        <watt-table
+          [columns]="columns"
+          [dataSource]="dataSource"
+          [hideColumnHeaders]="true"
+          [sortClear]="false"
+          sortBy="created"
+          sortDirection="desc"
+        >
+          <ng-container *wattTableCell="columns.created; let row">
+            {{ row.createdAt | wattDate: 'long' }}
+          </ng-container>
+          <ng-container *wattTableCell="columns.description; let row">
+            {{ t(row.type, row) }}
+          </ng-container>
+        </watt-table>
+      </dh-result>
+    </watt-card>
   `,
 })
 export class DhChargesInformationHistory {
-  hasError = signal(false);
-  isLoading = signal(false);
-  dataSource = new WattTableDataSource<{ timestamp: string; entry: string }>([
-    {
-      timestamp: '2024-01-01T12:00:00Z',
-      entry: 'Sample entry',
-    },
-    {
-      timestamp: '2024-01-01T12:00:00Z',
-      entry: 'Sample entry',
-    },
-  ]);
+  private transloco = inject(TranslocoService);
+  readonly id = input.required<string>();
 
-  columns: WattTableColumnDef<{ timestamp: string; entry: string }> = {
-    timestamp: { accessor: 'timestamp', size: 'auto' },
-    entry: { accessor: 'entry', size: '1fr' },
+  history = query(GetChargeHistoryDocument, () => ({
+    variables: { id: this.id() },
+    notifyOnNetworkStatusChange: false,
+    pollInterval: 10_000,
+  }));
+
+  changes = computed(() => this.history.data()?.chargeById?.history ?? []);
+  dataSource = dataSource(() => this.changes().map(this.mapToHistoryRow));
+  columns: WattTableColumnDef<HistoryRow> = {
+    created: { accessor: 'createdAt', size: 'auto' },
+    description: { accessor: null, size: '1fr' },
+  };
+
+  private mapToHistoryRow = (change: ChargeChange) => {
+    const t = (key: string) => this.transloco.translate(`charges.${key}`);
+    const row: HistoryRow = {
+      type: change.__typename,
+      createdAt: change.createdAt,
+      effectiveDate: wattFormatDate(change.effectiveDate, 'short'),
+    };
+
+    switch (change.__typename) {
+      case 'ChargeNameChanged':
+        return {
+          ...row,
+          previous: change.previousName,
+          current: change.currentName,
+        };
+      case 'ChargeDescriptionChanged':
+        return {
+          ...row,
+          previous: change.previousDescription,
+          current: change.currentDescription,
+        };
+      case 'ChargeVatChanged':
+        return {
+          ...row,
+          previous: t(`vatInclusive.${change.previousVat}`),
+          current: t(`vatInclusive.${change.currentVat}`),
+        };
+      case 'ChargeTransparentInvoicingChanged':
+        return {
+          ...row,
+          previous: t(`transparentInvoicing.${change.previousTransparentInvoicing}`),
+          current: t(`transparentInvoicing.${change.currentTransparentInvoicing}`),
+        };
+      default:
+        return row;
+    }
   };
 }

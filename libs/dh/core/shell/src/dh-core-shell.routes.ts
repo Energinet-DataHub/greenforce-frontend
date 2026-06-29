@@ -18,15 +18,12 @@
 //#endregion
 import { MsalGuard } from '@azure/msal-angular';
 import { Routes } from '@angular/router';
-import { inject } from '@angular/core';
 
 import {
   BasePaths,
-  ReportsSubPaths,
   MeteringPointSubPaths,
   getPath,
 } from '@energinet-datahub/dh/core/configuration-routing';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 import { DhCoreShellComponent } from './dh-core-shell.component';
 import { DhCoreLoginComponent } from './dh-core-login.component';
@@ -62,11 +59,6 @@ export const dhCoreShellRoutes: Routes = [
         loadChildren: () => import('@energinet-datahub/dh/esett/shell'),
         canActivate: [MsalGuard],
       },
-      // Note: Legacy route for imbalance prices, will be removed in the future
-      {
-        path: getPath<BasePaths>('imbalance-prices'),
-        redirectTo: `${getPath<BasePaths>('reports')}/${getPath<ReportsSubPaths>('settlements')}/${getPath<ReportsSubPaths>('imbalance-prices')}`,
-      },
       {
         path: getPath<BasePaths>('dev-examples'),
         loadChildren: () => import('@energinet-datahub/dh/developer/feature-examples'),
@@ -75,12 +67,6 @@ export const dhCoreShellRoutes: Routes = [
       {
         path: getPath<BasePaths>('reports'),
         loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports-v2'),
-        canActivate: [MsalGuard],
-        canMatch: [() => inject(DhFeatureFlagsService).isEnabled('reports-v2')],
-      },
-      {
-        path: getPath<BasePaths>('reports'),
-        loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports'),
         canActivate: [MsalGuard],
       },
       {

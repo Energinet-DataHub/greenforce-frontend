@@ -14,7 +14,7 @@
 
 using System.Collections.Immutable;
 using System.Reactive.Linq;
-using Energinet.DataHub.ElectricityMarket.Abstractions.Processes.BRS_011.IncorrectMoveIn.V1;
+using Energinet.DataHub.ElectricityMarket.Abstractions.Processes.BRS_011.Shared.V1;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.OperatingIdentity.Model;
 using Energinet.DataHub.ProcessManager.Abstractions.Api.WorkflowInstance;
@@ -166,6 +166,7 @@ public static partial class MeteringPointProcessNode
         IIncorrectMoveInEligibilityDataLoader incorrectMoveInEligibilityDataLoader,
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
         IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
+        IMoveInCorrectionRollbackEligibilityDataLoader moveInCorrectionRollbackEligibilityDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -234,21 +235,52 @@ public static partial class MeteringPointProcessNode
             return actions;
         }
 
-        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN
-        // to scope the EM query, so eligibility is reduced to the process's own cutoff
-        // falling inside the same 60-calendar-day window the supplier-scoped EM query enforces.
+        // Both the FAS 60-calendar-day window and the EM moves query below key off the move-in's
+        // validity date (skæringsdato), so it must be present. A latest succeeded move-in is
+        // expected to carry one; if it is absent, eligibility cannot be evaluated, so fail closed.
+        if (process.CutoffDate is not { } moveInValidityDate)
+        {
+            return actions;
+        }
+
+        // team-volt#2063: hide the move-in correction button when a BRS-003 (rollback change of
+        // supplier) with a strictly newer validity date is active or completed on the metering
+        // point. The rule spans the whole process history, so a wide-window loader evaluates it
+        // independent of the overview date filter, and it applies to both the FAS and supplier
+        // paths below.
+        var moveInCorrectionEligibleIds = await moveInCorrectionRollbackEligibilityDataLoader
+            .LoadAsync(process.MeteringPointId, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (moveInCorrectionEligibleIds is null || !moveInCorrectionEligibleIds.Contains(process.Id))
+        {
+            return actions;
+        }
+
+        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN to scope
+        // the EM moves query against, so its eligibility is the process's own cutoff falling inside
+        // the 60-calendar-day correction window. The previous-supplier gate (team-volt#2050) cannot
+        // be evaluated for FAS because the moves query is supplier-scoped, so it is not applied here.
         if (httpContextAccessor.HttpContext?.User.IsFas() == true)
         {
-            return process.CutoffDate.HasValue
-                   && process.CutoffDate.Value >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
+            return moveInValidityDate >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
                 ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
                 : actions;
         }
 
+        // A supplier is eligible when ElectricityMarket reports a move-in it made on this metering
+        // point at this validity date within the 60-day window, AND a previous energy supplier was
+        // registered the day before that move-in. The correction reverts supply to that previous
+        // supplier, so it is meaningless without one (team-volt#2050). The loader is keyed only by
+        // (metering point, supplier) so HotChocolate dedupes the EM call; this resolver matches the
+        // specific move-in by validity date at Danish calendar-day granularity (skæringsdato).
         var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var isEligibleForIncorrectMoveIn = await incorrectMoveInEligibilityDataLoader
+        var supplierMoveIns = await incorrectMoveInEligibilityDataLoader
             .LoadAsync((process.MeteringPointId, userIdentity.ActorNumber.Value), cancellationToken)
-            .ConfigureAwait(false);
+            .ConfigureAwait(false) ?? [];
+
+        var isEligibleForIncorrectMoveIn = supplierMoveIns
+            .Any(m => m.HasPreviousEnergySupplier && ToDanishDate(m.ValidityDate) == ToDanishDate(moveInValidityDate));
 
         return isEligibleForIncorrectMoveIn
             ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
@@ -256,19 +288,21 @@ public static partial class MeteringPointProcessNode
     }
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), bool>> GetIncorrectMoveInEligibilityAsync(
+    public static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetIncorrectMoveInEligibilityAsync(
         IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
         IElectricityMarketClient electricityMarketClient,
         CancellationToken cancellationToken)
     {
-        // HotChocolate dedupes identical keys within a single request, so multiple
-        // CustomerMoveIn processes on the same metering point trigger one EM call.
-        // Eligibility is presence-of-any-move-in within the 60-calendar-day lookback window.
+        // Keyed only by (metering point, supplier), the same parameters the EM moves query takes, so
+        // HotChocolate dedupes one EM call per supplier per request (the resolver matches the
+        // specific move-in by validity date). The query returns the supplier's move-ins from the
+        // 60-calendar-day window start, each flagged with whether an energy supplier was registered
+        // the day before its validity date. Mirrors GetChangeOfSupplierCorrectionEligibilityAsync.
         var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
-        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), bool>(keys.Count);
+        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>(keys.Count);
         foreach (var key in keys)
         {
-            var query = new GetMoveInsByEnergySupplierIdQueryV1(
+            var query = new GetMovesByEnergySupplierIdQueryV1(
                 MeteringPointId: key.MeteringPointId,
                 EnergySupplierId: key.EnergySupplierId,
                 From: from);
@@ -276,8 +310,11 @@ public static partial class MeteringPointProcessNode
             var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
 
             // Intentionally fail closed: this gates a display-only action, so an EM transport
-            // failure hides the button instead of erroring the whole availableActions field.
-            results[key] = result.IsSuccess && result.Data is not null && result.Data.MoveIns.Any();
+            // failure yields no move-ins (hiding the button) instead of erroring the whole
+            // availableActions field.
+            results[key] = result.IsSuccess && result.Data is not null
+                ? result.Data.MoveIns.Select(m => (m.ValidityDate, m.HasPreviousEnergySupplier)).ToList()
+                : [];
         }
 
         return results;
@@ -377,6 +414,46 @@ public static partial class MeteringPointProcessNode
         }
     }
 
+    [DataLoader]
+    public static async Task<IReadOnlySet<string>> GetMoveInCorrectionRollbackEligibilityAsync(
+        string meteringPointId,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            // Fetch the whole process history (wide default window) so the rule does not depend on
+            // the overview date filter.
+            var now = SystemClock.Instance.GetCurrentInstant();
+            var created = ResolveCreatedInterval(null, now);
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                httpContextAccessor.CreateUserIdentity(),
+                meteringPointId,
+                created.Start.ToDateTimeOffset(),
+                created.End.ToDateTimeOffset());
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            var processes = instances
+                .Select(w => MapToMeteringPointProcess(w, meteringPointId))
+                .ToList();
+
+            return processes
+                .Where(p => p.BusinessReason == BusinessReason.CustomerMoveIn)
+                .Where(p => !IsMoveInCorrectionBlockedByNewerRollback(p, processes))
+                .Select(p => p.Id)
+                .ToHashSet();
+        }
+        catch (Exception) when (!cancellationToken.IsCancellationRequested)
+        {
+            // Fail closed so a process-manager error hides the action instead of failing the field.
+            return new HashSet<string>();
+        }
+    }
+
     /// <summary>
     /// Whether the "request correction" action should be offered for a completed change of
     /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
@@ -425,6 +502,27 @@ public static partial class MeteringPointProcessNode
 
                 return false;
             });
+    }
+
+    /// <summary>
+    /// Whether the BRS-011 move-in correction button must be hidden for <paramref name="moveIn"/>
+    /// because a BRS-003 (rollback change of supplier) with a strictly newer validity date is active
+    /// or has taken effect on the metering point (team-volt#2063). Dates are compared at Danish
+    /// calendar-day granularity. A rollback that did not take effect (failed, canceled, rejected) or
+    /// carries no validity date does not block.
+    /// </summary>
+    internal static bool IsMoveInCorrectionBlockedByNewerRollback(
+        MeteringPointProcess moveIn,
+        IReadOnlyList<MeteringPointProcess> allProcesses)
+    {
+        if (moveIn.CutoffDate is not { } moveInCutoff) return false;
+        var moveInDate = ToDanishDate(moveInCutoff);
+
+        return allProcesses
+            .Where(p => p.BusinessReason == BusinessReason.RollbackChangeOfSupplier)
+            .Where(IsActiveOrSucceeded)
+            .Any(rollback =>
+                rollback.CutoffDate is { } cutoff && ToDanishDate(cutoff) > moveInDate);
     }
 
     /// <summary>
@@ -482,6 +580,7 @@ public static partial class MeteringPointProcessNode
                 ctx.DataLoader<IIncorrectMoveInEligibilityDataLoader>(),
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
                 ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
+                ctx.DataLoader<IMoveInCorrectionRollbackEligibilityDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }

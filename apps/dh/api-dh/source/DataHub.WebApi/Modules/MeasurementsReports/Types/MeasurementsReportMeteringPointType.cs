@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using Energinet.DataHub.Reports.Abstractions.Model.Shared;
 using Energinet.DataHub.WebApi.Modules.Common.Extensions;
-using MeasurementsReport = Energinet.DataHub.Reports.Abstractions.Model.MeasurementsReport;
 
 namespace Energinet.DataHub.WebApi.Modules.MeasurementsReports.Types;
 
-public class MeasurementsReportMeteringPointType : EnumType<MeasurementsReport.MeteringPointType>
+public class MeasurementsReportMeteringPointType : EnumType<MeteringPointType>
 {
-    protected override void Configure(IEnumTypeDescriptor<MeasurementsReport.MeteringPointType> descriptor)
+    protected override void Configure(IEnumTypeDescriptor<MeteringPointType> descriptor)
     {
         descriptor.Name("MeasurementsReportMeteringPointType");
         descriptor.AsIsCase();

@@ -55,14 +55,6 @@ export const dhFeatureFlagsConfig = {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.test_001, DhAppEnvironment.prod],
   },
-  'charges-history': {
-    created: latestBump,
-    disabledEnvironments: [
-      DhAppEnvironment.prod,
-      DhAppEnvironment.preprod,
-      DhAppEnvironment.test_001,
-    ],
-  },
   'microsoft-clarity': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.local],
@@ -78,10 +70,6 @@ export const dhFeatureFlagsConfig = {
   'service-request': {
     created: latestBump,
     disabledEnvironments: [DhAppEnvironment.prod],
-  },
-  'reports-v2': {
-    created: latestBump,
-    disabledEnvironments: [DhAppEnvironment.prod, DhAppEnvironment.preprod],
   },
 } satisfies FeatureFlagConfig;
 

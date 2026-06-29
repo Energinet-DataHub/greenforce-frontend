@@ -1,0 +1,19 @@
+﻿{
+  "data": {
+    "chargeById": {
+      "id": "eyJDb2RlIjoiVEFSMDAxIiwiT3duZXIiOiIxMjM0NTY3ODkwIiwiVHlwZUR0byI6M30",
+      "history": [
+        {
+          "__typename": "ChargeStarted",
+          "createdAt": "2024-01-01T00:00:00.000Z",
+          "effectiveDate": "2024-01-01T00:00:00.000Z"
+        },
+        {
+          "__typename": "ChargeStopped",
+          "createdAt": "2024-06-01T00:00:00.000Z",
+          "effectiveDate": "2024-09-01T00:00:00.000Z"
+        }
+      ]
+    }
+  }
+}

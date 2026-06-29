@@ -140,7 +140,7 @@ public static partial class ChargeNode
             ct);
     }
 
-    public static async Task<IEnumerable<ChargeSeriesPointDto>> GetSeriesAsync(
+    public static async Task<IEnumerable<ChargeSeriesPoint>> GetSeriesAsync(
         [Parent] Charge charge,
         Interval interval,
         IChargesClient client,
@@ -155,6 +155,12 @@ public static partial class ChargeNode
         var owner = await dataLoader.LoadAsync((charge.Id.Owner, MarkPart.EicFunction.SystemOperator), ct);
         return owner ?? await dataLoader.LoadAsync((charge.Id.Owner, MarkPart.EicFunction.GridAccessProvider), ct);
     }
+
+    public static async Task<IEnumerable<ChargeChange>> GetHistoryAsync(
+        [Parent] Charge charge,
+        IChargesClient client,
+        CancellationToken ct)
+        => await client.GetChargeHistoryAsync(charge.Id, ct);
 
     static partial void Configure(IObjectTypeDescriptor<Charge> descriptor)
     {

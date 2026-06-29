@@ -13,8 +13,9 @@
 // limitations under the License.
 
 using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeInformation;
-using Energinet.DataHub.Charges.Abstractions.Api.Models.ChargeSeries;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeInformationPeriods;
 using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeLinks;
+using Energinet.DataHub.Charges.Abstractions.Api.V1.HistoricalChargeSeriesPoints;
 using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeInformation;
 using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeLinks;
 using Energinet.DataHub.Charges.Abstractions.Api.V2.GetChargeSeries;
@@ -117,7 +118,7 @@ public class ChargesClient(
         return result.Where(c => c.TaxIndicator == type.IsTax);
     }
 
-    public async Task<IEnumerable<ChargeSeriesPointDto>> GetChargeSeriesAsync(
+    public async Task<IEnumerable<ChargeSeriesPoint>> GetChargeSeriesAsync(
         ChargeIdentifierDto id,
         Interval period,
         CancellationToken ct = default)
@@ -137,7 +138,31 @@ public class ChargesClient(
 
         return chargeSeries
             .Where(p => period.Contains(p.From))
-            .OrderBy(p => p.From);
+            .OrderBy(p => p.From)
+            .Select(p => new ChargeSeriesPoint(new(id, p.From.ToDateTimeOffset()), new(p.From, p.To), p.Price));
+    }
+
+    public async Task<IEnumerable<ChargeSeriesPointChange>> GetHistoricalChargeSeriesAsync(
+        ChargeIdentifierDto id,
+        CancellationToken ct = default)
+    {
+        var query = new GetHistoricalChargeSeriesPointsQueryV1(
+            OrchestrationInstanceId: Guid.Empty,
+            ChargeIdentifier: id);
+
+        var chargeSeries = await client.QueryAsync(query, ct)
+            ?? throw new GraphQLException("Failed to retrieve historical charge series");
+
+        return chargeSeries
+            .Points
+            .OrderBy(p => p.From)
+            .ThenByDescending(p => p.Created)
+            .Select(p => new ChargeSeriesPointChange(
+                new(id, p.From.ToDateTimeOffset()),
+                p.Created.ToDateTimeOffset(),
+                p.Price,
+                p.IsActual,
+                Guid.TryParse(p.OrchestrationInstanceId, out var guid) ? guid : null));
     }
 
     public async Task<MissingPriceSeriesResult> GetMissingPriceSeriesPointsAsync(
@@ -147,7 +172,7 @@ public class ChargesClient(
         CancellationToken ct = default)
     {
         var series = await GetChargeSeriesAsync(id, interval, ct);
-        var points = series.Select(p => p.From).ToHashSet();
+        var points = series.Select(p => p.Interval.Start).ToHashSet();
         if (points.Count == 0) return new MissingPriceSeriesResult([], null);
 
         var firstPoint = points.Min();
@@ -163,6 +188,12 @@ public class ChargesClient(
             gaps,
             NextSlot(lastPoint, resolution).ToDateTimeOffset().AddMilliseconds(-1));
     }
+
+    public async Task<IEnumerable<ChargeChange>> GetChargeHistoryAsync(
+        ChargeIdentifierDto id,
+        CancellationToken ct = default)
+        => await client.QueryAsync(new GetHistoricalChargeInformationPeriodsQueryV1(Guid.Empty, id), ct)
+            .Then(r => ChargeChange.From(r.Periods));
 
     public async Task<bool> CreateChargeAsync(
         string code,

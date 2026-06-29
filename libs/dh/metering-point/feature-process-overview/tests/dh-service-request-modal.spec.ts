@@ -90,6 +90,14 @@ async function setCutOffDate(dialog: HTMLElement, user: ReturnType<typeof userEv
   await user.type(maskInput, dayjs().startOf('day').add(10, 'day').format('DDMMYYYY'));
 }
 
+// Types a past cut-off date (yesterday) the same way `setCutOffDate` does, to
+// exercise the validator that flags past dates a user can type into the field.
+async function setPastCutOffDate(dialog: HTMLElement, user: ReturnType<typeof userEvent.setup>) {
+  const maskInput = dialog.querySelector<HTMLInputElement>('input.mask-input');
+  if (!maskInput) throw new Error('Datepicker mask input not found in dialog');
+  await user.type(maskInput, dayjs().startOf('day').subtract(1, 'day').format('DDMMYYYY'));
+}
+
 describe('Service request modal', () => {
   it('offers only the three supported service types', async () => {
     const { dialog, user } = await setup();
@@ -138,6 +146,37 @@ describe('Service request modal', () => {
     await user.click(submit);
 
     await waitForAsync(() => expect(submissions).toBe(1));
+  });
+
+  it('rejects a cut-off date in the past with an inline error and does not submit', async () => {
+    let submissions = 0;
+    server.use(
+      graphql.mutation('RequestServiceServiceRequest', () => {
+        submissions += 1;
+        return HttpResponse.json({
+          data: {
+            __typename: 'Mutation',
+            requestServiceServiceRequest: {
+              __typename: 'RequestServiceServiceRequestPayload',
+              boolean: true,
+            },
+          },
+        });
+      })
+    );
+
+    const { dialog, user } = await setup();
+
+    await user.click(within(dialog).getByRole('combobox'));
+    await user.click(await screen.findByRole('option', { name: /disconnection/i }));
+    await setPastCutOffDate(dialog, user);
+
+    await user.click(within(dialog).getByRole('button', { name: /submit/i }));
+
+    // The typed past date is error-flagged in the UI...
+    expect(await screen.findByText(/cannot be in the past/i)).toBeInTheDocument();
+    // ...and the invalid form is never sent.
+    expect(submissions).toBe(0);
   });
 
   it('sends the chosen type, cut-off date and remark, then closes on success', async () => {

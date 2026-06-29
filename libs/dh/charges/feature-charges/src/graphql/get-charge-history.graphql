@@ -1,0 +1,25 @@
+query GetChargeHistory($id: String!) {
+  chargeById(id: $id) {
+    id
+    history {
+      createdAt
+      effectiveDate
+      ... on ChargeNameChanged {
+        previousName
+        currentName
+      }
+      ... on ChargeDescriptionChanged {
+        previousDescription
+        currentDescription
+      }
+      ... on ChargeVatChanged {
+        previousVat
+        currentVat
+      }
+      ... on ChargeTransparentInvoicingChanged {
+        previousTransparentInvoicing
+        currentTransparentInvoicing
+      }
+    }
+  }
+}

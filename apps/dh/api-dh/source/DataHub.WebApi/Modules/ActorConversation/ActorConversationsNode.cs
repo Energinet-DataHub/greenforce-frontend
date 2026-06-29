@@ -55,6 +55,8 @@ public static partial class ActorConversationsNode
             userId: userId.ToString(),
             marketRole: MapMarketRoleToActorType(marketRole).ToString(),
             marketParticipantNumber: marketParticipantNumber,
+            perPage: null,
+            currentPage: null,
             cancellationToken: ct);
     }
 
