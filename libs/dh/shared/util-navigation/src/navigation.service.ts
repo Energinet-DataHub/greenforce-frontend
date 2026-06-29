@@ -22,7 +22,7 @@ import { ActivatedRoute, EventType, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 
 @Injectable()
-export class DhNavigationService {
+export class DhNavigationService<Paths = string> {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -58,6 +58,8 @@ export class DhNavigationService {
         }
       });
   }
+
+  link = (path: Paths) => path;
 
   navigate(
     path: 'details' | 'edit' | 'create' | 'list' | 'id',
