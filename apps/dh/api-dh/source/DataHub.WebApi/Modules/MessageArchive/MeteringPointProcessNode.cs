@@ -444,6 +444,7 @@ public static partial class MeteringPointProcessNode
             return processes
                 .Where(p => p.BusinessReason == BusinessReason.CustomerMoveIn)
                 .Where(p => !IsMoveInCorrectionBlockedByNewerRollback(p, processes))
+                .Where(p => !IsMoveInCorrectionAlreadyInitiated(p, processes))
                 .Select(p => p.Id)
                 .ToHashSet();
         }
@@ -458,7 +459,10 @@ public static partial class MeteringPointProcessNode
     /// Whether the "request correction" action should be offered for a completed change of
     /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
     /// is the current Danish date, passed in so the rule is deterministic and unit-testable.
-    /// Processes that did not take effect (failed, canceled, rejected) are ignored.
+    /// Superseding processes that did not take effect (failed, canceled, rejected) are ignored, with
+    /// one exception: a same-day RollbackChangeOfSupplier correcting this change of supplier blocks
+    /// once initiated regardless of its outcome, so the action does not come back if it is rejected
+    /// (team-volt#2037).
     /// </summary>
     internal static bool IsChangeOfSupplierCorrectionEligible(
         MeteringPointProcess process,
@@ -474,6 +478,17 @@ public static partial class MeteringPointProcessNode
         var window = new DateInterval(today.PlusDays(-WindowDays), today);
         if (!window.Contains(effectiveDate)) return false;
 
+        // team-volt#2037: once a rollback correcting THIS change of supplier (it shares the effective
+        // day) has been initiated, hide the action permanently regardless of the rollback's outcome,
+        // so it does not come back even if the rollback is rejected. Checked outside the
+        // active/succeeded filter below so a terminated rollback still blocks.
+        var ownRollbackInitiated = allProcesses.Any(p =>
+            p.Id != process.Id
+            && p.BusinessReason == BusinessReason.RollbackChangeOfSupplier
+            && p.CutoffDate is { } rollbackCutoff
+            && ToDanishDate(rollbackCutoff) == effectiveDate);
+        if (ownRollbackInitiated) return false;
+
         return !allProcesses
             .Where(p => p.Id != process.Id)
             .Where(IsActiveOrSucceeded)
@@ -487,6 +502,9 @@ public static partial class MeteringPointProcessNode
                 if (reason == BusinessReason.ChangeOfEnergySupplier)
                     return cutoff > effectiveDate && window.Contains(cutoff);
 
+                // A newer rollback (strictly later effective day, correcting a LATER supplier change)
+                // supersedes this one only while active or succeeded, like the other reasons here; a
+                // rollback of THIS supplier change (same day) is handled by ownRollbackInitiated above.
                 if (reason == BusinessReason.EndOfSupply
                     || reason == BusinessReason.RollbackChangeOfSupplier
                     || reason == BusinessReason.CloseDownMeteringPoint
@@ -523,6 +541,27 @@ public static partial class MeteringPointProcessNode
             .Where(IsActiveOrSucceeded)
             .Any(rollback =>
                 rollback.CutoffDate is { } cutoff && ToDanishDate(cutoff) > moveInDate);
+    }
+
+    /// <summary>
+    /// Whether the BRS-011 move-in correction button must be hidden for <paramref name="moveIn"/>
+    /// because an incorrect-move-in correction of it has already been initiated (team-volt#2037).
+    /// The correction request carries the move-in's validity date (skæringsdato), so an IncorrectMove
+    /// process sharing the move-in's Danish calendar day is a correction of this move-in. Once such a
+    /// correction has been initiated the button stays hidden regardless of the correction's outcome,
+    /// so it does not come back even if the correction is rejected.
+    /// </summary>
+    internal static bool IsMoveInCorrectionAlreadyInitiated(
+        MeteringPointProcess moveIn,
+        IReadOnlyList<MeteringPointProcess> allProcesses)
+    {
+        if (moveIn.CutoffDate is not { } moveInCutoff) return false;
+        var moveInDate = ToDanishDate(moveInCutoff);
+
+        return allProcesses
+            .Where(p => p.BusinessReason == BusinessReason.IncorrectMove)
+            .Any(correction =>
+                correction.CutoffDate is { } cutoff && ToDanishDate(cutoff) == moveInDate);
     }
 
     /// <summary>
