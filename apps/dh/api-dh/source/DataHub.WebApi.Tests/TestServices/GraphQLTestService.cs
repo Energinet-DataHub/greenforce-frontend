@@ -56,6 +56,7 @@ public class GraphQLTestService
         RequestsClientMock = new Mock<IRequestsClient>();
         SettlementReportClientMock = new Mock<ISettlementReportClient>();
         MeasurementsReportClientMock = new Mock<IMeasurementsReportClient>();
+        MeteringPointMasterDataReportClientMock = new Mock<IMeteringPointMasterDataReportClient>();
         MarketParticipantClientV1Mock = new Mock<IMarketParticipantClient_V1>();
         GridAreasClientMock = new Mock<IGridAreasClient>();
         EdiB2CClientMock = new Mock<IB2CClient>();
@@ -149,6 +150,8 @@ public class GraphQLTestService
     public Mock<ISettlementReportClient> SettlementReportClientMock { get; set; }
 
     public Mock<IMeasurementsReportClient> MeasurementsReportClientMock { get; set; }
+
+    public Mock<IMeteringPointMasterDataReportClient> MeteringPointMasterDataReportClientMock { get; set; }
 
     public Mock<IMarketParticipantClient_V1> MarketParticipantClientV1Mock { get; set; }
 
