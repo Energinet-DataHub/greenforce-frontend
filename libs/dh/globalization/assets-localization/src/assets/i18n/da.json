@@ -4045,7 +4045,8 @@
         "button": "Genopbyg projektion",
         "projectionTypes": {
           "METERING_POINT": "Målepunkt",
-          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer"
+          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer",
+          "METERING_POINTS_SEARCH": "Målepunktssøgning"
         },
         "modal": {
           "title": "Genopbyg projektion",

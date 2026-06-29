@@ -24,6 +24,9 @@ import introspection from '@energinet-datahub/dh/shared/domain/graphql/introspec
 export const cache = new InMemoryCache({
   possibleTypes: introspection.possibleTypes,
   typePolicies: {
+    ArchivedMessage: {
+      keyFields: ['messageId'],
+    },
     MessageDelegationType: {
       keyFields: ['id', 'periodId'],
     },
@@ -38,6 +41,12 @@ export const cache = new InMemoryCache({
     },
     Query: {
       fields: {
+        archivedMessageById(_, { args, toReference }) {
+          return toReference({
+            __typename: 'ArchivedMessage',
+            messageId: args?.['id'],
+          });
+        },
         calculationById(_, { args, toReference }) {
           return toReference({
             __typename: 'Calculation',

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, effect, inject, input, output } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -27,10 +27,7 @@ import { VaterStackComponent } from '@energinet/watt/vater';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
 import { DhMessageArchiveSearchFormService } from '../form.service';
-import {
-  DocumentType,
-  GetArchivedMessagesQueryVariables,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { DocumentType } from '@energinet-datahub/dh/shared/domain/graphql';
 import { getDocumentTypeIdentifier } from '../types';
 
 @Component({
@@ -107,7 +104,6 @@ import { getDocumentTypeIdentifier } from '../types';
 })
 export class DhMessageArchiveSearchFiltersComponent {
   isSearchingById = input(false);
-  filter = output<GetArchivedMessagesQueryVariables>();
 
   form = inject(DhMessageArchiveSearchFormService);
 
@@ -117,6 +113,4 @@ export class DhMessageArchiveSearchFiltersComponent {
 
   // value is always an array since dropdown is in `multiple` mode
   getBusinessReasonTrigger = (value: string | string[]) => value[0];
-
-  filterEffect = effect(() => this.filter.emit(this.form.values()));
 }

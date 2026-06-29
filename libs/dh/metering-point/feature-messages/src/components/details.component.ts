@@ -17,7 +17,7 @@
  */
 //#endregion
 import { httpResource } from '@angular/common/http';
-import { Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, output, signal, viewChild } from '@angular/core';
 
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
@@ -38,9 +38,7 @@ import {
   toFile,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
-import { GetArchivedMessageByIdDocument } from '@energinet-datahub/dh/shared/domain/graphql';
-import { query } from '@energinet-datahub/dh/shared/util-apollo';
+import { ArchivedMessage } from '../types';
 
 @Component({
   selector: 'dh-message-archive-search-details',
@@ -59,13 +57,7 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     DhDownloadButtonComponent,
   ],
   template: `
-    <watt-drawer
-      autoOpen
-      [key]="id()"
-      size="normal"
-      *transloco="let t; prefix: 'messageArchive'"
-      (closed)="page.navigate('list')"
-    >
+    <watt-drawer size="normal" *transloco="let t; prefix: 'messageArchive'" (closed)="onClose()">
       <watt-drawer-heading>
         @if (documentType()) {
           <h2>{{ t('documentType.' + documentType()) }}</h2>
@@ -108,15 +100,10 @@ import { query } from '@energinet-datahub/dh/shared/util-apollo';
     </watt-drawer>
   `,
 })
-export default class DhMessageArchiveSearchDetailsComponent {
+export class DhMessageArchiveSearchDetailsComponent {
   private env = inject(dhAppEnvironmentToken);
-  protected page = inject(DhNavigationService);
-
-  readonly id = input.required<string>();
-  readonly closed = output();
-
-  messageQuery = query(GetArchivedMessageByIdDocument, () => ({ variables: { id: this.id() } }));
-  message = computed(() => this.messageQuery.data()?.archivedMessageById);
+  closed = output();
+  message = signal<ArchivedMessage | null>(null);
 
   document = httpResource.text(() => this.message()?.documentUrl ?? undefined);
 
@@ -155,5 +142,16 @@ export default class DhMessageArchiveSearchDetailsComponent {
       type: this.type(),
       data: this.document.value(),
     });
+  }
+
+  open(message: ArchivedMessage) {
+    this.message.set(message);
+    this.drawer()?.open();
+  }
+
+  onClose() {
+    this.message.set(null);
+    this.drawer()?.close();
+    this.closed.emit();
   }
 }
