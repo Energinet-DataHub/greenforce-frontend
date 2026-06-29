@@ -41,3 +41,11 @@ The Angular skills are generic. In this repository, these local rules override g
 - Use SCSS for styling.
 - Match the existing architecture, naming, and code style before introducing new patterns.
 - For build verification, prefer the narrowest relevant Nx target, for example `bun nx run <project>:build:<configuration>`.
+
+## ElectricityMarket communication skill
+
+Before communicating with Greenforce ElectricityMarket APIs from an agent or script, read:
+
+- `.agents/skills/electricity-market/SKILL.md`
+
+Use it only for safe endpoint calls, environment/base URL selection, authorization headers, URL construction, sanitized request templates, response capture, and evidence formatting. It is not for code changes, generated clients, downstream service debugging, or domain root-cause analysis.
