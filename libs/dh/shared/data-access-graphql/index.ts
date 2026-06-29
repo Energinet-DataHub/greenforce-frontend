@@ -20,5 +20,8 @@ export { DhApollo } from './src/dh-apollo';
 
 export { isSubscription, parseGraphQLErrorResponse } from './src/util';
 export { getActorOptions } from './src/graphql/get-market-participants-by-eic-function-for-dropdowns';
-export { getGridAreaOptionsForPeriod } from './src/graphql/get-grid-area-options-for-period';
+export {
+  getGridAreaOptionsForPeriod,
+  getGridAreaOptionsForPeriodSignal,
+} from './src/graphql/get-grid-area-options-for-period';
 export { getGridAreaOptionsSignal } from './src/graphql/get-grid-area-options';
