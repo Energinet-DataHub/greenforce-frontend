@@ -21,10 +21,19 @@ import { Routes } from '@angular/router';
 export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./components/page.component'),
-    pathMatch: 'full',
     data: {
       titleTranslationKey: 'messageArchive.topBarTitle',
     },
+    loadComponent: () => import('./components/table.component'),
+    children: [
+      {
+        path: 'search',
+        loadComponent: () => import('./components/start.component'),
+      },
+      {
+        path: 'details/:id',
+        loadComponent: () => import('./components/details.component'),
+      },
+    ],
   },
 ];

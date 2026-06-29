@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, inject, output, viewChild } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -26,9 +26,9 @@ import { WattDropdownComponent } from '@energinet/watt/dropdown';
 import { WattModalActionsComponent, WattModalComponent } from '@energinet/watt/modal';
 
 import { DhDropdownTranslatorDirective } from '@energinet-datahub/dh/shared/ui-util';
-import { GetArchivedMessagesQueryVariables } from '@energinet-datahub/dh/shared/domain/graphql';
 import { DhMessageArchiveSearchFormService } from '../form.service';
 import { DhDateTimeRangeField } from '../datetime-range-field';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-message-archive-search-start',
@@ -50,6 +50,7 @@ import { DhDateTimeRangeField } from '../datetime-range-field';
       size="small"
       [title]="t('title')"
       autoOpen
+      (closed)="page.navigate('list')"
     >
       <form
         vater-flex
@@ -57,7 +58,7 @@ import { DhDateTimeRangeField } from '../datetime-range-field';
         offset="m"
         id="dh-message-archive-search-start-form"
         [formGroup]="form.root"
-        (ngSubmit)="searchChanged.emit(form.values())"
+        (ngSubmit)="form.submit()"
       >
         <dh-datetime-range-field
           [formControl]="form.controls.created"
@@ -116,13 +117,10 @@ import { DhDateTimeRangeField } from '../datetime-range-field';
     </watt-modal>
   `,
 })
-export class DhMessageArchiveSearchStartComponent {
+export default class DhMessageArchiveSearchStartComponent {
   form = inject(DhMessageArchiveSearchFormService);
-  searchChanged = output<GetArchivedMessagesQueryVariables>();
-  modal = viewChild.required(WattModalComponent);
-
-  open = () => {
-    this.form.synchronize();
-    this.modal().open();
-  };
+  page = inject(DhNavigationService);
+  constructor() {
+    this.form.ready();
+  }
 }

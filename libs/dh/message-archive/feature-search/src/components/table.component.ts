@@ -17,7 +17,8 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, viewChild } from '@angular/core';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -35,22 +36,22 @@ import {
   WattDataActionsComponent,
 } from '@energinet/watt/data';
 
-import {
-  GetArchivedMessagesQueryVariables,
-  SortEnumType,
-} from '@energinet-datahub/dh/shared/domain/graphql';
+import { SortEnumType } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { MessageArchiveSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet/watt/toast';
 import { ArchivedMessage } from '../types';
-
-type Variables = Partial<GetArchivedMessagesQueryVariables>;
+import { DhMessageArchiveSearchFormService } from '../form.service';
 
 @Component({
   selector: 'dh-message-archive-search-table',
   imports: [
+    RouterLink,
+    RouterOutlet,
     TranslocoDirective,
     ReactiveFormsModule,
     WattTableComponent,
@@ -63,6 +64,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
     DhMessageArchiveSearchFiltersComponent,
     WattDataActionsComponent,
   ],
+  providers: [DhNavigationService, DhMessageArchiveSearchFormService],
   template: `
     <watt-data-table
       *transloco="let t; prefix: 'messageArchive'"
@@ -75,17 +77,19 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
       (clear)="reset()"
     >
       <watt-data-actions>
-        <watt-button variant="secondary" icon="plus" (click)="onNewSearch()">
+        <watt-button
+          [routerLink]="page.link('search')"
+          variant="secondary"
+          icon="plus"
+          (click)="reset()"
+        >
           {{ t('new') }}
         </watt-button>
       </watt-data-actions>
 
       @if (dataSource.called) {
         <watt-data-filters>
-          <dh-message-archive-search-filters
-            [isSearchingById]="!!dataSource.filter"
-            (filter)="fetch($event)"
-          />
+          <dh-message-archive-search-filters [isSearchingById]="!!dataSource.filter" />
         </watt-data-filters>
       }
 
@@ -98,7 +102,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="onRowClick($event)"
+        (rowClick)="page.navigate('details', $event.messageId)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
           {{ t('documentType.' + row.documentType) }}
@@ -114,15 +118,16 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
         </ng-container>
       </watt-table>
     </watt-data-table>
+    <router-outlet />
   `,
 })
-export class DhMessageArchiveSearchTableComponent {
+export default class DhMessageArchiveSearchTableComponent {
   private readonly toast = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
+  private readonly form = inject(DhMessageArchiveSearchFormService);
+  protected readonly page = inject(DhNavigationService<MessageArchiveSubPaths>);
 
-  new = output();
-  open = output<ArchivedMessage>();
-  selection = signal<ArchivedMessage | undefined>(undefined);
+  selection = computed(() => this.dataSource.data.find((i) => i.messageId === this.page.id()));
   dataTable = viewChild.required(WattDataTableComponent);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
@@ -141,23 +146,14 @@ export class DhMessageArchiveSearchTableComponent {
     },
   });
 
-  clearSelection = () => this.selection.set(undefined);
-
-  fetch = (variables: Variables) => this.dataSource.refetch(variables);
+  fetchEffect = effect(() => {
+    if (!this.form.submitted()) return;
+    this.dataSource.refetch(this.form.values());
+  });
 
   reset = () => {
     this.dataSource.reset();
     this.dataTable().reset();
-  };
-
-  onRowClick = (row: ArchivedMessage) => {
-    this.selection.set(row);
-    this.open.emit(row);
-  };
-
-  onNewSearch = () => {
-    this.reset();
-    this.new.emit();
   };
 
   private readonly shouldShowLoading = computed(() => {

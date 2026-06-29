@@ -16,16 +16,15 @@
  * limitations under the License.
  */
 //#endregion
-import { computed, Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { filter, map, startWith } from 'rxjs';
+import { map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 import { dayjs, WattRange } from '@energinet/watt/date';
 import {
   ArchivedMessageDocumentType,
   BusinessReason,
-  GetArchivedMessagesQueryVariables,
   GetMarketParticipantsDocument,
   GetSelectedMarketParticipantDocument,
   EicFunction,
@@ -59,6 +58,8 @@ export class DhMessageArchiveSearchFormService {
     }),
   });
 
+  readonly submitted = signal(false);
+
   root = this.form;
   controls = this.form.controls;
   documentTypeOptions = dhEnumToWattDropdownOptions(ArchivedMessageDocumentType);
@@ -72,9 +73,8 @@ export class DhMessageArchiveSearchFormService {
 
   isActorControlsEnabled = computed(() => this.marketRole() === EicFunction.DataHubAdministrator);
 
-  values = toSignal<GetArchivedMessagesQueryVariables>(
+  values = toSignal(
     this.form.valueChanges.pipe(
-      filter(() => this.emitEvent),
       startWith(null),
       map(() => this.form.getRawValue()),
       exists(),
@@ -85,15 +85,15 @@ export class DhMessageArchiveSearchFormService {
 
   reset = () => this.form.reset();
 
-  // Workaround for `emitEvent: false` doing absolutely nothing, thanks Angular
-  emitEvent = true;
-
-  // When multiple fields are bound to the same FormControl and one of them changes,
-  // Angular does not automatically update the other field (ReactiveForms only).
-  // As a workaround, this method can be called to manually synchronize the view.
-  synchronize = () => {
-    this.emitEvent = false;
-    this.form.patchValue(this.form.getRawValue(), { emitEvent: false });
-    this.emitEvent = true;
+  submit = () => {
+    this.submitted.set(true);
+    this.synchronize();
   };
+
+  ready = () => {
+    this.submitted.set(false);
+    this.synchronize();
+  };
+
+  synchronize = () => this.form.patchValue(this.values());
 }
