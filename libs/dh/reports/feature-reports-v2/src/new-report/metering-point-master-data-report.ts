@@ -16,26 +16,34 @@
  * limitations under the License.
  */
 //#endregion
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject } from '@angular/core';
 import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WATT_CARD } from '@energinet/watt/card';
 import { VATER } from '@energinet/watt/vater';
 import { WattDatepickerComponent } from '@energinet/watt/datepicker';
 import { WattDropdownComponent } from '@energinet/watt/dropdown';
+import { dayjs } from '@energinet/watt/core/date';
 
 import {
   DhDropdownTranslatorDirective,
   dhEnumToWattDropdownOptions,
   dhMakeFormControl,
+  injectRelativeNavigate,
+  injectToast,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import {
-  ElectricityMarketMeteringPointType,
-  ElectricityMarketViewConnectionState,
+  MasterDataReportConnectionStateType,
+  MeasurementsReportMeteringPointType,
+  RequestMasterDataReportDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
+import { getGridAreaOptionsForPeriodSignal } from '@energinet-datahub/dh/shared/data-access-graphql';
+import { DhActorStorage } from '@energinet-datahub/dh/shared/feature-authorization';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 
 @Component({
   selector: 'dh-metering-point-master-data-report',
@@ -83,7 +91,7 @@ import {
               sortDirection="asc"
               [label]="t('gridArea')"
               [formControl]="form.controls.gridAreas"
-              [options]="[]"
+              [options]="gridAreaOptions()"
               data-testid="masterDataReport.gridAreas"
             />
           </div>
@@ -114,30 +122,84 @@ import {
         </form>
       </watt-card>
 
-      <watt-button type="submit" formId="master-data-form" [block]="true">
+      <watt-button
+        type="submit"
+        formId="master-data-form"
+        [block]="true"
+        [loading]="reportMutation.loading()"
+      >
         {{ t('submit') }}
       </watt-button>
     </vater-flex>
   `,
 })
 export class DhMeteringPointMasterDataReport {
+  private readonly navigation = injectRelativeNavigate();
+  private readonly marketParticipantId = inject(DhActorStorage).getSelectedActorId();
+
+  reportMutation = mutation(RequestMasterDataReportDocument, {
+    onStatusUpdated: injectToast('reports.overview.newReport.meteringPointMasterData.toast', [
+      MutationStatus.Loading,
+    ]),
+  });
+
   form = new FormGroup({
     date: dhMakeFormControl<Date | null>(null, Validators.required),
     gridAreas: dhMakeFormControl<string[] | null>(null),
-    meteringPointTypes: dhMakeFormControl<ElectricityMarketMeteringPointType[] | null>(null),
-    connectionState: dhMakeFormControl<ElectricityMarketViewConnectionState[] | null>(null),
+    meteringPointTypes: dhMakeFormControl<MeasurementsReportMeteringPointType[] | null>(null),
+    connectionState: dhMakeFormControl<MasterDataReportConnectionStateType[] | null>(null),
   });
 
-  meteringPointTypesOptions = dhEnumToWattDropdownOptions(ElectricityMarketMeteringPointType);
-  connectionStateOptions = dhEnumToWattDropdownOptions(ElectricityMarketViewConnectionState, [
-    ElectricityMarketViewConnectionState.NotUsed,
-  ]);
+  private dateChanges = toSignal(this.form.controls.date.valueChanges);
+
+  private maybePeriod = computed(() => {
+    const maybeDate = this.dateChanges();
+
+    if (!maybeDate) {
+      return null;
+    }
+
+    return {
+      start: dayjs(maybeDate).startOf('day').toDate(),
+      end: dayjs(maybeDate).endOf('day').toDate(),
+    };
+  });
+
+  meteringPointTypesOptions = dhEnumToWattDropdownOptions(MeasurementsReportMeteringPointType);
+  connectionStateOptions = dhEnumToWattDropdownOptions(MasterDataReportConnectionStateType);
+
+  gridAreaOptions = getGridAreaOptionsForPeriodSignal(this.maybePeriod, this.marketParticipantId);
+
+  gridAreaOptionsEffect = effect(() => {
+    const gridAreaOptions = this.gridAreaOptions();
+
+    this.form.controls.gridAreas.setValue(null);
+
+    if (gridAreaOptions.length === 1) {
+      this.form.controls.gridAreas.setValue([gridAreaOptions[0].value]);
+    }
+  });
 
   async submit() {
     if (this.form.invalid) return;
 
-    const { date } = this.form.getRawValue();
+    const { date, gridAreas, meteringPointTypes, connectionState } = this.form.getRawValue();
 
     assertIsDefined(date);
+
+    await this.reportMutation.mutate({
+      variables: {
+        input: {
+          date,
+          gridAreaIds: gridAreas,
+          meteringPointTypes: meteringPointTypes,
+          connectionStates: connectionState,
+          actorNumberOverride: this.marketParticipantId,
+          marketRoleOverride: null,
+          userId: null,
+        },
+      },
+      onCompleted: () => this.navigation(['../']),
+    });
   }
 }
