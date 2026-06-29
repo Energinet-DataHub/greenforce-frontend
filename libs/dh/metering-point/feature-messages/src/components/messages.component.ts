@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-import { Component, computed, effect, input, signal, inject } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -43,7 +43,6 @@ import {
 } from '@energinet-datahub/dh/shared/ui-util';
 
 import { DhMessageArchiveSearchDetailsComponent } from './details.component';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 
 type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
 
@@ -66,7 +65,7 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
     DhPermissionRequiredDirective,
   ],
   template: `
-    <dh-message-archive-search-details #details (close)="selection.set(undefined)" />
+    <dh-message-archive-search-details #details (closed)="selection.set(undefined)" />
     <watt-data-table
       *transloco="let t; prefix: 'messageArchive'"
       vater
@@ -147,8 +146,6 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
   `,
 })
 export class DhMeteringPointMessagesComponent {
-  private featureFlagsService = inject(DhFeatureFlagsService);
-
   meteringPointId = input.required<string>();
   selection = signal<ArchivedMessage | undefined>(undefined);
 
