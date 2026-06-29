@@ -27,11 +27,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import {
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
