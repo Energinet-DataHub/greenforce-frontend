@@ -112,6 +112,7 @@ public class GraphQLTestService
             .AddSingleton(RequestsClientMock.Object)
             .AddSingleton(SettlementReportClientMock.Object)
             .AddSingleton(MeasurementsReportClientMock.Object)
+            .AddSingleton(MeteringPointMasterDataReportClientMock.Object)
             .AddSingleton(MarketParticipantClientV1Mock.Object)
             .AddSingleton(GridAreasClientMock.Object)
             .AddSingleton(EdiB2CClientMock.Object)
