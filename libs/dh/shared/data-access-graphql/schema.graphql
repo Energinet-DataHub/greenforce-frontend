@@ -2720,8 +2720,8 @@ input RequestMasterDataReportInput {
   gridAreaIds: [String!]
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
   connectionStates: [MasterDataReportConnectionStateType!]
-  actorNumberOverride: String
-  marketRoleOverride: MeteringPointMasterDataReportMarketRole
+  requestAsActorId: String
+  requestAsMarketRole: MeteringPointMasterDataReportMarketRole
   userId: String
 }
 

@@ -22,6 +22,6 @@ public record RequestMasterDataReportInput(
     string[]? GridAreaIds,
     MeteringPointType[]? MeteringPointTypes,
     ConnectionState[]? ConnectionStates,
-    string? ActorNumberOverride,
-    MeteringPointMasterDataReportMarketRole? MarketRoleOverride,
+    string? RequestAsActorId,
+    MeteringPointMasterDataReportMarketRole? RequestAsMarketRole,
     string? UserId);
