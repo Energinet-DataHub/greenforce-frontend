@@ -1848,7 +1848,7 @@
     "endOfSupply": {
       "modalTitle": "Start leveranceophør",
       "dateLabel": "Angiv skæringsdato",
-      "dateHint": "Skæringsdatoen skal ligge mellem i morgen og 60 dage frem.",
+      "dateHint": "Skæringsdatoen skal være en arbejdsdag mellem i morgen og 60 dage frem.",
       "confirmCheckbox": "Jeg er opmærksom på, at et leveranceophør medfører, at der bliver afbrudt for strømmen.",
       "cancel": "Annuller",
       "submit": "Start leveranceophør",
