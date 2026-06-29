@@ -25,13 +25,6 @@ test.describe('Language selection', () => {
   test('toggles between Danish and English', async ({ page }) => {
     await page.goto(initialUrl);
 
-    // Close the auto-opening "New search" dialog before interacting with the profile menu;
-    // its backdrop blocks visibility checks on the page shell underneath.
-    const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible({ timeout: 15_000 });
-    await page.getByRole('button', { name: /close/i }).click();
-    await expect(dialog).toBeHidden();
-
     // Default locale is Danish
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 

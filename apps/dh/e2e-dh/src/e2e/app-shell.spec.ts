@@ -24,14 +24,6 @@ test.describe('Application shell', () => {
 
   test('shows the selected actor and reveals organization name on click', async ({ page }) => {
     await page.goto(initialUrl);
-
-    // Close the auto-opening "New search" dialog before interacting with the page shell;
-    // its backdrop blocks visibility checks on elements underneath.
-    const dialog = page.getByRole('dialog');
-    await expect(dialog).toBeVisible({ timeout: 15_000 });
-    await page.getByRole('button', { name: /close/i }).click();
-    await expect(dialog).toBeHidden();
-
     await expect(page.getByRole('heading', { name: /Fremsøg forretningsbeskeder/i })).toBeVisible();
 
     const selectedActor = page.getByTestId('selectedMarketParticipant');
