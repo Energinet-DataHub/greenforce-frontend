@@ -55,6 +55,12 @@ export function getGridAreaOptionsForPeriodSignal(
   });
 
   return computed(() => {
+    const i = interval();
+
+    if (!i) {
+      return [];
+    }
+
     const relevantGridAreas = queryResult.data()?.relevantGridAreas ?? [];
 
     return toDropdownOptions(relevantGridAreas);
