@@ -32,7 +32,7 @@ public static partial class ArchivedMessageNode
 {
     [Query]
     [UsePaging]
-    public static async Task<Connection<ArchivedMessage>> GetArchivedMessagesForMeteringPointAsync(
+    public static Task<Connection<ArchivedMessage>> GetArchivedMessagesForMeteringPointAsync(
         Interval created,
         string meteringPointId,
         Guid? senderId,
@@ -44,7 +44,7 @@ public static partial class ArchivedMessageNode
         string? before,
         ArchivedMessageSortInput? order,
         [Service] IMeteringPointArchivedMessageClient client)
-        => await client.GetMeteringPointArchivedMessagesAsync(
+        => client.GetMeteringPointArchivedMessagesAsync(
             created,
             meteringPointId,
             senderId,
