@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System.Net.Mime;
-using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.Reports.Abstractions.Model;
 using Energinet.DataHub.Reports.Client;
 using Energinet.DataHub.WebApi.Clients.MarketParticipant.v1;
@@ -37,7 +36,7 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
     private readonly IMarketParticipantClient_V1 _marketParticipantClient;
     private readonly IRevisionLogClient _revisionLogClient;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
-    private readonly AuthorizationsClient _authorizationsClient;
+    private readonly IAuthorizationsClient _authorizationsClient;
     private readonly ICommonExecutionContext _executionContext;
 
     public WholesaleMeasurementsReportController(
@@ -47,7 +46,7 @@ public sealed class WholesaleMeasurementsReportController : ControllerBase
         IHttpClientFactory httpClientFactory,
         IHttpContextAccessor httpContextAccessor,
         IOptions<SubSystemBaseUrls> baseUrls,
-        AuthorizationsClient authorizationsClient,
+        IAuthorizationsClient authorizationsClient,
         ICommonExecutionContext executionContext)
     {
         _subSystemBaseUrls = subSystemBaseUrls;

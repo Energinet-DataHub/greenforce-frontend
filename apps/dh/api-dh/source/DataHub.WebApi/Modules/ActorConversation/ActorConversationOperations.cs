@@ -32,7 +32,7 @@ public static partial class ActorConversationOperations
         CancellationToken ct)
     {
         var authClient = await authorizedHttpClientFactory.CreateActorConversationClientWithTokenAsync(
-            new List<string> { startConversationInput.MeteringPointIdentification });
+            new List<string> { startConversationInput.MeteringPointIdentification }, ct);
 
         if (electricalHeatingConversationInput != null)
         {

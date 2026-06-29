@@ -33,14 +33,14 @@ public class AuthorizedHttpClientFactory
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly Func<string> _authorizationHeaderProvider;
     private readonly IOptions<SubSystemBaseUrls> _baseUrls;
-    private readonly AuthorizationsClient _authorizationsClient;
+    private readonly IAuthorizationsClient _authorizationsClient;
     private readonly ICommonExecutionContext _executionContext;
 
     public AuthorizedHttpClientFactory(
         IHttpClientFactory httpClientFactory,
         Func<string> authorizationHeaderProvider,
         IOptions<SubSystemBaseUrls> baseUrls,
-        AuthorizationsClient authorizationsClient,
+        IAuthorizationsClient authorizationsClient,
         ICommonExecutionContext executionContext)
     {
         _httpClientFactory = httpClientFactory;
@@ -69,16 +69,16 @@ public class AuthorizedHttpClientFactory
     }
 
     public async Task<ActorConversationClient_V1> CreateActorConversationClientWithTokenAsync(
-        List<string> meteringPointIds)
+        List<string> meteringPointIds, CancellationToken cancellationToken)
     {
-        var authContext = await _authorizationsClient.AuthorizationContextForActorAsync(
+        var token = await _authorizationsClient.AuthorizationTokenForActorAsync(
             _executionContext.MarketParticipantNumber.ToString(),
             _executionContext.MarketRoleForAuth,
             new AuthorizationContextRequest
             {
                 MeteringPointIds = meteringPointIds,
-            });
-        var token = authContext.ToTokenString();
+            },
+            cancellationToken);
 
         var client = _httpClientFactory.CreateClient();
         client.DefaultRequestHeaders.Add(TokenHeaderName, token);

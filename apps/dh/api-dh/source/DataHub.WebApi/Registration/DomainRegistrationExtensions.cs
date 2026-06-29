@@ -14,7 +14,6 @@
 
 using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.ElectricityMarket.Client.Extensions.DependencyInjection;
-using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
 using Energinet.DataHub.WebApi.Common;
@@ -34,6 +33,7 @@ public static class DomainRegistrationExtensions
             .AddHttpClient()
             .AddHttpContextAccessor()
             .AddScoped<ICommonExecutionContext, CommonExecutionContext>()
+            .AddScoped<IAuthorizationsClient, AuthorizationsClientWrapper>()
             .AddAuthorizedHttpClient()
             .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
             .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client))
@@ -48,7 +48,7 @@ public static class DomainRegistrationExtensions
                 provider.GetRequiredService<IHttpClientFactory>(),
                 () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
                 provider.GetRequiredService<IOptions<SubSystemBaseUrls>>(),
-                provider.GetRequiredService<AuthorizationsClient>(),
+                provider.GetRequiredService<IAuthorizationsClient>(),
                 provider.GetRequiredService<ICommonExecutionContext>()));
     }
 }

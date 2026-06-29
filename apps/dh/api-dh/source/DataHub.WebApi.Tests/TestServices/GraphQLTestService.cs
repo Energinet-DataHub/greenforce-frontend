@@ -18,7 +18,6 @@ using System.Threading.Tasks;
 using Energinet.DataHub.EDI.B2CClient;
 using Energinet.DataHub.ElectricityMarket.Client;
 using Energinet.DataHub.MarketParticipant.Authorization.Services;
-using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.Measurements.Client;
 using Energinet.DataHub.Measurements.Client.Authorization;
 using Energinet.DataHub.Measurements.Client.Mappers;
@@ -69,7 +68,7 @@ public class GraphQLTestService
         MeasurementsResponseMapperMock = new Mock<IMeasurementsResponseMapper>();
         AuthorizationServiceMock = new Mock<IAuthorizationService>();
         HttpClientFactoryMock = new Mock<IHttpClientFactory>();
-        AuthorizationsClientMock = new Mock<AuthorizationsClient>();
+        AuthorizationsClientMock = new Mock<IAuthorizationsClient>();
         CommonExecutionContextMock = new Mock<ICommonExecutionContext>();
         AuthorizedHttpClientFactory = new AuthorizedHttpClientFactory(
             HttpClientFactoryMock.Object,
@@ -127,6 +126,7 @@ public class GraphQLTestService
             .AddSingleton(HttpClientFactoryMock.Object)
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(AuthorizationServiceMock.Object)
+            .AddSingleton(AuthorizationsClientMock.Object)
             .AddSingleton(AuthorizedHttpClientFactory)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
@@ -152,7 +152,7 @@ public class GraphQLTestService
 
     public Mock<IHttpClientFactory> HttpClientFactoryMock { get; set; }
 
-    public Mock<AuthorizationsClient> AuthorizationsClientMock { get; set; }
+    public Mock<IAuthorizationsClient> AuthorizationsClientMock { get; set; }
 
     public Mock<ICommonExecutionContext> CommonExecutionContextMock { get; set; }
 
