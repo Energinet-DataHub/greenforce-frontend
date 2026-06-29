@@ -42,8 +42,9 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhMessageArchiveSearchDetailsComponent } from '@energinet-datahub/dh/message-archive/feature-search';
+import { DhMessageArchiveSearchDetailsComponent } from './details.component';
 import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
+
 type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
 
 @Component({
