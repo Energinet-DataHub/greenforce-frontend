@@ -19,6 +19,8 @@
 
 export type MarketParticipantSubPaths = 'actors' | 'organizations' | 'market-roles';
 
+export type MessageArchiveSubPaths = 'search';
+
 export type ESettSubPaths =
   | 'outgoing-messages'
   | 'metering-gridarea-imbalance'
@@ -92,6 +94,7 @@ export type BasePaths =
 
 export type SubPaths =
   | MarketParticipantSubPaths
+  | MessageArchiveSubPaths
   | ESettSubPaths
   | WholesaleSubPaths
   | AdminSubPaths
