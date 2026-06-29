@@ -64,7 +64,7 @@ import { ArchivedMessage } from '../types';
     DhPermissionRequiredDirective,
   ],
   template: `
-    <dh-message-archive-search-details #details (closed)="selection.set(undefined)" />
+    <dh-metering-point-messages-details #details (closed)="selection.set(undefined)" />
     <watt-data-table
       *transloco="let t; prefix: 'messageArchive'"
       vater
