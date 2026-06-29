@@ -16,6 +16,7 @@
  * limitations under the License.
  */
 //#endregion
-export { DhMeteringPointComponent as default } from './src/components/dh-metering-point.component';
-export { DhMeteringPointMasterDataComponent } from './src/components/dh-metering-point-master-data.component';
-export { DhMeteringPointFailedMeasurementsComponent } from './src/components/dh-metering-point-failed-measurements.component';
+import type { ExtractNodeType } from '@energinet-datahub/dh/shared/util-apollo';
+import type { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+
+export type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
