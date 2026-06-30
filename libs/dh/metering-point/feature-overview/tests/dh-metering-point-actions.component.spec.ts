@@ -27,7 +27,6 @@ import {
   ElectricityMarketViewConnectionState,
 } from '@energinet-datahub/dh/shared/domain/graphql';
 import { Permission } from '@energinet-datahub/dh/shared/domain';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
 import {
   DhActorStorage,
@@ -44,7 +43,7 @@ const internalMeteringPointId = 'imp-039';
 
 type SetupOptions = {
   hasServiceRequestPermission?: boolean;
-  serviceRequestFlagEnabled?: boolean;
+  serviceRequestToggleEnabled?: boolean;
   isEnergySupplierResponsible?: boolean;
   hasConnectionStateManagePermission?: boolean;
   connectionState?: ElectricityMarketViewConnectionState | null;
@@ -52,7 +51,7 @@ type SetupOptions = {
 
 async function setup({
   hasServiceRequestPermission = true,
-  serviceRequestFlagEnabled = true,
+  serviceRequestToggleEnabled = true,
   isEnergySupplierResponsible = true,
   hasConnectionStateManagePermission = false,
   connectionState = null,
@@ -70,13 +69,12 @@ async function setup({
     providers: [
       { provide: WattModalService, useValue: { open } },
       {
-        provide: DhFeatureFlagsService,
+        provide: DhReleaseToggleService,
         useValue: {
-          isEnabled: (flag?: string) =>
-            flag === 'service-request' ? serviceRequestFlagEnabled : false,
+          isEnabled: (toggle?: string) =>
+            toggle === 'PM51-END-OF-SUPPLY-CIM' ? serviceRequestToggleEnabled : false,
         },
       },
-      { provide: DhReleaseToggleService, useValue: { isEnabled: () => false } },
       {
         provide: PermissionService,
         useValue: {
@@ -114,7 +112,7 @@ async function openActionsMenu(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe(DhMeteringPointActionsComponent, () => {
-  it('shows the request service action when the user has the permission, the flag is on and is the responsible supplier', async () => {
+  it('shows the request service action when the user has the permission, the release toggle is on and is the responsible supplier', async () => {
     const { user } = await setup();
 
     await openActionsMenu(user);
@@ -135,8 +133,8 @@ describe(DhMeteringPointActionsComponent, () => {
     expect(screen.queryByRole('menuitem', { name: /request service/i })).not.toBeInTheDocument();
   });
 
-  it('hides the request service action when the feature flag is off', async () => {
-    const { user } = await setup({ serviceRequestFlagEnabled: false });
+  it('hides the request service action when the release toggle is off', async () => {
+    const { user } = await setup({ serviceRequestToggleEnabled: false });
 
     await openActionsMenu(user);
 
@@ -147,7 +145,7 @@ describe(DhMeteringPointActionsComponent, () => {
   });
 
   it('hides the request service action when the user is not the responsible supplier', async () => {
-    // Permission and flag arms are satisfied (defaults), so only the
+    // Permission and release-toggle arms are satisfied (defaults), so only the
     // responsibility arm is exercised here. The connection-status action is
     // enabled as a positive control because it is not gated on responsibility,
     // unlike the customer-data action used by the other negative tests.
