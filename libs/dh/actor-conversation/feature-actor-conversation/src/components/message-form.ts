@@ -99,6 +99,9 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
       display: block !important;
       margin-top: var(--watt-space-xs);
     }
+    :host {
+      --watt-field-bottom-spacing: var(--watt-space-s);
+    }
   `,
   template: `
     <vater-stack
