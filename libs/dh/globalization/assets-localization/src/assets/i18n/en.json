@@ -845,6 +845,21 @@
           "error": "An error occurred while sending the message"
         }
       },
+      "closeConversation": {
+        "toast": {
+          "error": "An error occurred trying to close the case"
+        }
+      },
+      "markAsRead": {
+        "toast": {
+          "error": "An error occurred while marking the case as read"
+        }
+      },
+      "markAsUnread": {
+        "toast": {
+          "error": "An error occurred while marking the case as unread"
+        }
+      },
       "topBarTitle": "Actor Conversation",
       "searchPlaceholder": "Search for case-ID or internal note",
       "searchPlaceholderWithMeteringPointId": "Search for case-ID, metering point ID or internal note",

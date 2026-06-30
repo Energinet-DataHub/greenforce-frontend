@@ -24,12 +24,13 @@ import { WATT_MODAL, WattTypedModal } from '@energinet/watt/modal';
 import { WattButtonComponent } from '@energinet/watt/button';
 import { WattTextFieldComponent } from '@energinet/watt/text-field';
 
+import { injectToast } from '@energinet-datahub/dh/shared/ui-util';
 import {
   GetConversationDocument,
   GetConversationsDocument,
   UpdateInternalConversationNoteDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { mutation } from '@energinet-datahub/dh/shared/util-apollo';
+import { mutation, MutationStatus } from '@energinet-datahub/dh/shared/util-apollo';
 import { internalNoteMaxLength } from '../types';
 
 @Component({
@@ -71,7 +72,12 @@ export class DhActorConversationInternalNoteModal extends WattTypedModal<{
   internalNote: string | null;
 }> {
   private readonly fb = inject(NonNullableFormBuilder);
-  updateMutation = mutation(UpdateInternalConversationNoteDocument);
+  updateMutation = mutation(UpdateInternalConversationNoteDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.editInternalNote.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
   internalNoteMaxLength = internalNoteMaxLength;
 
   form = this.fb.group({
@@ -92,8 +98,7 @@ export class DhActorConversationInternalNoteModal extends WattTypedModal<{
         internalNote,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+      onCompleted: () => modal.close(true),
     });
-
-    modal.close(true);
   }
 }
