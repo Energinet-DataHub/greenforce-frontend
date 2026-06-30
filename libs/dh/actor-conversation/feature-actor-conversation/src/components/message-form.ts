@@ -30,11 +30,15 @@ import {
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
+  AbstractControl,
   ControlValueAccessor,
   FormControl,
   FormGroup,
+  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
+  ValidationErrors,
+  Validator,
 } from '@angular/forms';
 import { VaterStackComponent } from '@energinet/watt/vater';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -47,7 +51,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { WattCheckboxComponent } from '@energinet/watt/checkbox';
 import { WattTooltipDirective } from '@energinet/watt/tooltip';
 import { MessageFormValue } from '../types';
-import { skip } from 'rxjs';
 import { WattFieldHintComponent, WattFieldErrorComponent } from '@energinet/watt/field';
 import { WattInputChipComponent } from '@energinet/watt/chip';
 
@@ -60,6 +63,11 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DhActorConversationMessageForm),
+      multi: true,
+    },
+    {
+      provide: NG_VALIDATORS,
       useExisting: forwardRef(() => DhActorConversationMessageForm),
       multi: true,
     },
@@ -104,6 +112,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
         [small]="true"
         data-testid="actor-conversation-message-textarea"
         (keydown)="onKeyDown($event)"
+        (focusout)="onMessageFocusOut()"
       >
         @if (closed()) {
           <watt-textarea-notice
@@ -178,7 +187,7 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
               wattTooltipPosition="top-start"
             />
           </vater-stack>
-          <watt-button [loading]="loading()" type="submit">
+          <watt-button [loading]="loading()" type="submit" (click)="showValidationErrors()">
             {{ t('sendButton') }}
             <watt-icon name="send" />
           </watt-button>
@@ -187,28 +196,45 @@ const maxFileSizeBytes = 25 * 1024 * 1024; // 25 MB
     </vater-stack>
   `,
 })
-export class DhActorConversationMessageForm implements ControlValueAccessor {
+export class DhActorConversationMessageForm implements ControlValueAccessor, Validator {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly elementRef = inject(ElementRef);
+  private onValidatorChange?: () => void;
+  private onTouched?: () => void;
+
   loading = input<boolean>(false);
   closed = input<boolean>(false);
   disableAnonymous = input<boolean>(false);
   uploadError = input<boolean>(false);
   numberOfRequiredAttachments = input<number>(0);
 
+  selectedFiles = signal<File[]>([]);
+  shouldShowValidationErrors = signal(false);
+
   form = new FormGroup({
-    message: new FormControl<string | null>(null),
+    message: new FormControl<string | null>(null, {
+      validators: () =>
+        this.hasMissingRequiredAttachments()
+          ? { electricalHeatingAttachmentsRequired: true }
+          : null,
+    }),
     anonymous: new FormControl<boolean>(false),
   });
 
   showAttachmentsError = computed(
-    () => this.selectedFiles().length < this.numberOfRequiredAttachments()
+    () => this.shouldShowValidationErrors() && this.hasMissingRequiredAttachments()
   );
 
-  selectedFiles = signal<File[]>([]);
   hasInvalidFileType = signal(false);
   hasOversizedFile = signal(false);
   acceptedFileTypes = allowedFileExtensions.join(',');
+
+  attachmentValidationEffect = effect(() => {
+    this.numberOfRequiredAttachments();
+    this.selectedFiles();
+    this.form.controls.message.updateValueAndValidity();
+    this.onValidatorChange?.();
+  });
 
   value = toSignal(this.form.valueChanges);
 
@@ -261,9 +287,19 @@ export class DhActorConversationMessageForm implements ControlValueAccessor {
 
   onKeyDown(event: KeyboardEvent): void {
     if ((event.key === 'Enter' && event.ctrlKey) || (event.key === 'Enter' && event.metaKey)) {
+      this.showValidationErrors();
       const form = (this.elementRef.nativeElement as HTMLElement).closest('form');
       form?.requestSubmit();
     }
+  }
+
+  onMessageFocusOut(): void {
+    this.showValidationErrors();
+    this.onTouched?.();
+  }
+
+  showValidationErrors(): void {
+    this.shouldShowValidationErrors.set(true);
   }
 
   private isAllowedFileType(file: File): boolean {
@@ -288,7 +324,23 @@ export class DhActorConversationMessageForm implements ControlValueAccessor {
 
   registerOnChange = (fn: (value: MessageFormValue | null) => void) =>
     this.messageValueChanged.subscribe(fn);
-  registerOnTouched = (fn: () => void) => this.form.valueChanges.pipe(skip(1)).subscribe(fn);
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
   setDisabledState = (disabled: boolean) =>
     disabled ? this.form.disable({ emitEvent: false }) : this.form.enable({ emitEvent: false });
+
+  validate(control: AbstractControl<MessageFormValue | null>): ValidationErrors | null {
+    return this.hasMissingRequiredAttachments(control.value?.files?.length)
+      ? { electricalHeatingAttachmentsRequired: true }
+      : null;
+  }
+
+  registerOnValidatorChange(fn: () => void): void {
+    this.onValidatorChange = fn;
+  }
+
+  private hasMissingRequiredAttachments(numberOfAttachedFiles = this.selectedFiles().length) {
+    return numberOfAttachedFiles < this.numberOfRequiredAttachments();
+  }
 }
