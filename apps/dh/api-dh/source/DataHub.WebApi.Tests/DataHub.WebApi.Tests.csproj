@@ -45,6 +45,11 @@ limitations under the License.
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Moq" Version="4.20.72" />
+    <!-- Pin the patched Scriban: WireMock.Net (test mock server) pulls Scriban.Signed 5.5.0
+         transitively, which is vulnerable to GHSA-24c8-4792-22hx (DoS, all versions <= 7.1.0).
+         A direct reference wins over the transitive one, so this replaces it with the fixed 7.2.x.
+         Remove when the WireMock/TestCommon chain pulls a patched Scriban itself. -->
+    <PackageReference Include="Scriban.Signed" Version="7.2.5" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
