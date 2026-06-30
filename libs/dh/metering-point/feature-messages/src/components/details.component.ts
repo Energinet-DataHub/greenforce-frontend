@@ -41,7 +41,7 @@ import { dhAppEnvironmentToken } from '@energinet-datahub/dh/shared/environments
 import { ArchivedMessage } from '../types';
 
 @Component({
-  selector: 'dh-message-archive-search-details',
+  selector: 'dh-metering-point-messages-details',
   imports: [
     TranslocoDirective,
     TranslocoPipe,
@@ -100,7 +100,7 @@ import { ArchivedMessage } from '../types';
     </watt-drawer>
   `,
 })
-export class DhMessageArchiveSearchDetailsComponent {
+export class DhMeteringPointMessagesDetailsComponent {
   private env = inject(dhAppEnvironmentToken);
   closed = output();
   message = signal<ArchivedMessage | null>(null);

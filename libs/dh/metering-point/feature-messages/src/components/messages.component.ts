@@ -30,7 +30,7 @@ import { WattDataFiltersComponent, WattDataTableComponent } from '@energinet/wat
 import { dayjs, WattDatePipe } from '@energinet/watt/date';
 
 import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feature-authorization';
-import { ExtractNodeType, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { query } from '@energinet-datahub/dh/shared/util-apollo';
 import { GetArchivedMessagesForMeteringPointDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
 import {
   GetMarketParticipantOptionsDocument,
@@ -42,9 +42,8 @@ import {
   dhEnumToWattDropdownOptions,
 } from '@energinet-datahub/dh/shared/ui-util';
 
-import { DhMessageArchiveSearchDetailsComponent } from './details.component';
-
-type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSource>;
+import { DhMeteringPointMessagesDetailsComponent } from './details.component';
+import { ArchivedMessage } from '../types';
 
 @Component({
   selector: 'dh-metering-point-messages',
@@ -61,11 +60,11 @@ type ArchivedMessage = ExtractNodeType<GetArchivedMessagesForMeteringPointDataSo
     WattDropdownComponent,
     WattFormChipDirective,
     DhDropdownTranslatorDirective,
-    DhMessageArchiveSearchDetailsComponent,
+    DhMeteringPointMessagesDetailsComponent,
     DhPermissionRequiredDirective,
   ],
   template: `
-    <dh-message-archive-search-details #details (closed)="selection.set(undefined)" />
+    <dh-metering-point-messages-details #details (closed)="selection.set(undefined)" />
     <watt-data-table
       *transloco="let t; prefix: 'messageArchive'"
       vater
