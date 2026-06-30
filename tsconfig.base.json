@@ -133,6 +133,9 @@
       "@energinet-datahub/dh/metering-point/feature-measurements": [
         "./libs/dh/metering-point/feature-measurements/index.ts"
       ],
+      "@energinet-datahub/dh/metering-point/feature-messages": [
+        "./libs/dh/metering-point/feature-messages/index.ts"
+      ],
       "@energinet-datahub/dh/metering-point/feature-move-in": [
         "./libs/dh/metering-point/feature-move-in/index.ts"
       ],
