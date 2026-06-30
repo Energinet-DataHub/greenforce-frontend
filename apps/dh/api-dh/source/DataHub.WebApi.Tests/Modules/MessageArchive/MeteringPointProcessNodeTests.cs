@@ -868,6 +868,124 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_ActiveIncorrectMoveSameDay_ExcludesMoveIn()
+    {
+        // team-volt#2037: an IncorrectMove correction of this move-in is active (it carries the
+        // move-in's validity date), so the move-in id is excluded from the eligible set and the
+        // request-correction button is hidden.
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var activeCorrection = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.IncorrectMove,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            lifecycleState: WorkflowInstanceLifecycleState.Active,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(moveIn, activeCorrection);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().NotContain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_SucceededIncorrectMoveSameDay_ExcludesMoveIn()
+    {
+        // A completed IncorrectMove correction of this move-in keeps the button hidden (team-volt#2037).
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var succeededCorrection = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.IncorrectMove,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(moveIn, succeededCorrection);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().NotContain(_processOrchestrationId.ToString());
+    }
+
+    [Theory]
+    [InlineData(WorkflowInstanceTerminationState.Canceled)]
+    [InlineData(WorkflowInstanceTerminationState.Rejected)]
+    [InlineData(WorkflowInstanceTerminationState.Failed)]
+    public async Task GetMoveInCorrectionRollbackEligibility_TerminalIncorrectMoveSameDay_ExcludesMoveIn(
+        WorkflowInstanceTerminationState terminationState)
+    {
+        // team-volt#2037: once a correction of this move-in has been initiated the button stays hidden
+        // regardless of the correction's outcome, so the move-in is excluded even when the correction
+        // is rejected (or canceled/failed) and does not come back.
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var terminalCorrection = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.IncorrectMove,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: terminationState);
+        var processManagerClient = CreateProcessManagerClient(moveIn, terminalCorrection);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().NotContain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
+    public async Task GetMoveInCorrectionRollbackEligibility_IncorrectMoveDifferentDay_IncludesMoveIn()
+    {
+        // An IncorrectMove correcting a DIFFERENT move-in (different validity day) does not hide this
+        // move-in's button (team-volt#2037).
+        var moveIn = CreateWorkflowInstance(
+            id: _processOrchestrationId,
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var unrelatedCorrection = CreateWorkflowInstance(
+            id: _otherProcessOrchestrationId,
+            businessReason: BusinessReason.IncorrectMove,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 2, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(moveIn, unrelatedCorrection);
+
+        var result = await MeteringPointProcessNode.GetMoveInCorrectionRollbackEligibilityAsync(
+            MeteringPointId,
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result.Should().Contain(_processOrchestrationId.ToString());
+    }
+
+    [Fact]
     public async Task GetIncorrectMoveInEligibility_ProjectsSupplierMoveIns_AndQueriesEmWithSupplierKey()
     {
         // The loader scopes the moves query to (metering point, supplier) and the 60-day window

@@ -184,10 +184,63 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     [Fact]
     public void CompetingProcessWithEqualCutoffDay_IsEligible()
     {
-        // The supersede checks are strict-after, so a competing process with the same cutoff day
-        // as P does not hide the action.
+        // EndOfSupply (and the other strict-after reasons) only supersede strictly after P, so a
+        // competing one with the same cutoff day as P does not hide the action. RollbackChangeOfSupplier
+        // is the exception: a same-day rollback corrects P itself and does hide it (see below).
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process("Q", BusinessReason.EndOfSupply, MeteringPointProcessState.Running, _pv);
+
+        IsEligible(p, [p, q]).Should().BeTrue();
+    }
+
+    [Fact]
+    public void ActiveRollbackChangeOfSupplierSameDay_IsNotEligible()
+    {
+        // team-volt#2037: a rollback correcting P shares P's effective day. Once it is active, the
+        // request-correction action must be hidden so a duplicate rollback cannot be started.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, MeteringPointProcessState.Running, _pv);
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact]
+    public void SucceededRollbackChangeOfSupplierSameDay_IsNotEligible()
+    {
+        // team-volt#2037: a completed rollback correcting P (same effective day) keeps the action hidden.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, MeteringPointProcessState.Succeeded, _pv);
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData(MeteringPointProcessState.Canceled)]
+    [InlineData(MeteringPointProcessState.Failed)]
+    [InlineData(MeteringPointProcessState.Rejected)]
+    public void TerminalRollbackChangeOfSupplierSameDay_IsNotEligible(MeteringPointProcessState terminalState)
+    {
+        // team-volt#2037: once a rollback correcting P has been initiated the action stays hidden
+        // regardless of the rollback's outcome, so it does not come back even if the rollback is
+        // rejected (or canceled/failed).
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, terminalState, _pv);
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData(MeteringPointProcessState.Canceled)]
+    [InlineData(MeteringPointProcessState.Failed)]
+    [InlineData(MeteringPointProcessState.Rejected)]
+    public void NewerTerminalRollbackChangeOfSupplierAfter_IsEligible(MeteringPointProcessState terminalState)
+    {
+        // A rollback with a strictly LATER effective day corrects a later supplier change, not P, so
+        // like the other superseding reasons it only blocks while active or succeeded; a terminal one
+        // is ignored and P stays eligible. This pins the newer-rollback rule (#2019) apart from the
+        // same-day own-rollback rule (#2037), where a terminal rollback still blocks.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.RollbackChangeOfSupplier, terminalState, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }
