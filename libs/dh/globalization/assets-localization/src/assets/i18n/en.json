@@ -1930,7 +1930,7 @@
       },
       "toast": {
         "loading": "Registering electrical heating...",
-        "success": "Electrical heating registered",
+        "success": "Electrical heating registration has been initiated",
         "error": "An error occurred while registering electrical heating"
       }
     }

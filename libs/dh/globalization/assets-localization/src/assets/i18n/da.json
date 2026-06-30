@@ -1930,7 +1930,7 @@
       },
       "toast": {
         "loading": "Registrerer elvarme...",
-        "success": "Elvarme registreret",
+        "success": "Elvarme rettelsen er sat i gang",
         "error": "Der opstod en fejl under registrering af elvarme"
       }
     }

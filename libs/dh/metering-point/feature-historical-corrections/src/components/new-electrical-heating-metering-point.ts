@@ -94,7 +94,12 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
             }
           </watt-text-field>
 
-          <watt-datepicker [label]="t('validityDate')" [formControl]="form.controls.validityDate" />
+          <watt-datepicker
+            [label]="t('validityDate')"
+            [formControl]="form.controls.validityDate"
+            [min]="validityDateMin"
+            [max]="validityDateMax"
+          />
 
           <watt-datepicker
             [label]="t('closeDownDate')"
@@ -131,6 +136,9 @@ export class DhNewElectricalHeatingMeteringPoint {
     validityDate: dhMakeFormControl<Date | null>(null, Validators.required),
     closeDownDate: dhMakeFormControl<Date | null>(null),
   });
+
+  validityDateMin = dayjs().startOf('day').subtract(1092, 'days').toDate();
+  validityDateMax = dayjs().startOf('day').subtract(23, 'days').toDate();
 
   private validityDateChanged = dhFormControlToSignal(this.form.controls.validityDate);
 
