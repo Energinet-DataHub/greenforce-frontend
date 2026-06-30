@@ -123,7 +123,6 @@ export class DhMessageArchiveSearchTableComponent {
   protected readonly page = inject(DhNavigationService);
 
   new = output();
-  open = output<ArchivedMessage>();
   selection = computed(() => this.dataSource.data.find((i) => i.messageId === this.page.id()));
   dataTable = viewChild.required(WattDataTableComponent);
 

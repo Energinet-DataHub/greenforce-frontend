@@ -113,7 +113,6 @@ export default class DhMessageArchiveSearchDetailsComponent {
   protected page = inject(DhNavigationService);
 
   readonly id = input.required<string>();
-  readonly closed = output();
 
   messageQuery = query(GetArchivedMessageByIdDocument, () => ({ variables: { id: this.id() } }));
   message = computed(() => this.messageQuery.data()?.archivedMessageById);
