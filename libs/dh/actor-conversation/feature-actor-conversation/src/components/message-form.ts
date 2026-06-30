@@ -218,7 +218,7 @@ export class DhActorConversationMessageForm implements ControlValueAccessor, Val
   form = new FormGroup({
     message: new FormControl<string | null>(null, {
       validators: () =>
-        this.hasMissingRequiredAttachments()
+        untracked(() => this.hasMissingRequiredAttachments())
           ? { electricalHeatingAttachmentsRequired: true }
           : null,
     }),
@@ -338,7 +338,7 @@ export class DhActorConversationMessageForm implements ControlValueAccessor, Val
     disabled ? this.form.disable({ emitEvent: false }) : this.form.enable({ emitEvent: false });
 
   validate(control: AbstractControl<MessageFormValue | null>): ValidationErrors | null {
-    return this.hasMissingRequiredAttachments(control.value?.files?.length)
+    return untracked(() => this.hasMissingRequiredAttachments(control.value?.files?.length))
       ? { electricalHeatingAttachmentsRequired: true }
       : null;
   }
