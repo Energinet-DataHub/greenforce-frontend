@@ -165,7 +165,9 @@ export class DhActorConversationDetails {
 
   meteringPointConversationInfoQuery = query(GetMeteringPointConversationInfoDocument, () => {
     const meteringPointId = this.meteringPointIdFromConversation();
-    return meteringPointId ? { variables: { meteringPointId } } : { skip: true };
+    return meteringPointId && this.showMeteringPointInfo()
+      ? { variables: { meteringPointId } }
+      : { skip: true };
   });
 
   meteringPointConversationInfo = computed(
