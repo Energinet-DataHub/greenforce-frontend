@@ -47,7 +47,7 @@ export class EndOfSupplyActions {
 
   readonly handlers: ActionHandlerMap = {
     [MeteringPointProcessAction.SendInformation]: {
-      featureFlag: 'end-of-supply',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:end-of-supply-request'],
       roles: [ResponsibleEnergySupplier],
       callback: (ctx) => {
@@ -64,7 +64,7 @@ export class EndOfSupplyActions {
       },
     },
     [MeteringPointProcessAction.ConfirmWorkflow]: {
-      featureFlag: 'end-of-supply',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:connection-state-manage'],
       roles: [EicFunction.GridAccessProvider],
       callback: disconnectProcessAction((ctx, result, onCompleted, onError) => {
@@ -85,7 +85,7 @@ export class EndOfSupplyActions {
       }),
     },
     [MeteringPointProcessAction.RejectRequest]: {
-      featureFlag: 'end-of-supply',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:end-of-supply-respond'],
       roles: [EicFunction.GridAccessProvider],
       callback: rejectProcessAction(({ ctx, result, onCompleted, onError }) => {
@@ -107,7 +107,7 @@ export class EndOfSupplyActions {
       }),
     },
     [MeteringPointProcessAction.CancelWorkflow]: {
-      featureFlag: 'end-of-supply',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:end-of-supply-request'],
       roles: [ResponsibleEnergySupplier],
       callback: cancelProcessAction(

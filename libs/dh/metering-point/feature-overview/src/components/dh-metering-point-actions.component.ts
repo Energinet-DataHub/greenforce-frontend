@@ -42,7 +42,6 @@ import {
 
 import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 import { DhReleaseToggleService } from '@energinet-datahub/dh/shared/util-release-toggle';
-import { DhFeatureFlagsService } from '@energinet-datahub/dh/shared/feature-flags';
 import {
   DhActorStorage,
   PermissionService,
@@ -154,7 +153,6 @@ import { DhSimulateMeteringPointManualCorrectionComponent } from './manual-corre
 })
 export class DhMeteringPointActionsComponent {
   private readonly releaseToggleService = inject(DhReleaseToggleService);
-  private readonly featureFlagsService = inject(DhFeatureFlagsService);
   private readonly modalService = inject(WattModalService);
   private readonly permissionService = inject(PermissionService);
   private readonly actor = inject(DhActorStorage);
@@ -287,14 +285,14 @@ export class DhMeteringPointActionsComponent {
     () =>
       this.hasMeteringPointEndOfSupplyRequestPermission() &&
       this.isEnergySupplierResponsible() &&
-      this.featureFlagsService.isEnabled('end-of-supply')
+      this.releaseToggleService.isEnabled('PM51-END-OF-SUPPLY-CIM')
   );
 
   showServiceRequestButton = computed(
     () =>
       this.hasServiceRequestPermission() &&
       this.isEnergySupplierResponsible() &&
-      this.featureFlagsService.isEnabled('service-request')
+      this.releaseToggleService.isEnabled('PM51-END-OF-SUPPLY-CIM')
   );
 
   // Change-of-supplier is initiated by the incoming (new) supplier, not the current responsible one.
