@@ -32,8 +32,8 @@ import {
   GetConversationsDocument,
   MarkConversationReadDocument,
 } from '@energinet-datahub/dh/shared/domain/graphql';
-import { DhResultComponent } from '@energinet-datahub/dh/shared/ui-util';
-import { mutation, query } from '@energinet-datahub/dh/shared/util-apollo';
+import { DhResultComponent, injectToast } from '@energinet-datahub/dh/shared/ui-util';
+import { mutation, MutationStatus, query } from '@energinet-datahub/dh/shared/util-apollo';
 
 import { WATT_CARD } from '@energinet/watt/card';
 import { WattButtonComponent } from '@energinet/watt/button';
@@ -219,7 +219,12 @@ export class DhActorConversation {
       meteringPointIdentification: this.meteringPointId(),
     },
   }));
-  readConversationMutation = mutation(MarkConversationReadDocument);
+  readConversationMutation = mutation(MarkConversationReadDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.markAsRead.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
 
   // Note: If this input is undefined, it means we are in the context of the "standalone" actor conversation view
   // If it has a value, we are in the context of the metering point details view

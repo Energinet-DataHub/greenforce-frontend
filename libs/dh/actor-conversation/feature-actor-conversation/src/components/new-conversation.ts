@@ -249,12 +249,12 @@ export class DhActorConversationNewConversation {
 
   uploading = signal(false);
   uploadError = signal(false);
-  startConversationMutation = mutation(StartConversationDocument);
-  toast = injectToast('meteringPoint.actorConversation.newConversation.toast', [
-    MutationStatus.Loading,
-    MutationStatus.Resolved,
-  ]);
-  toastEffect = effect(() => this.toast(this.startConversationMutation.status()));
+  startConversationMutation = mutation(StartConversationDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.newConversation.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
 
   electricalHeatingInformation = computed(
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
@@ -408,7 +408,7 @@ export class DhActorConversationNewConversation {
       };
     }
 
-    const result = await this.startConversationMutation.mutate({
+    await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: meteringPointId,
         subject,
@@ -422,9 +422,10 @@ export class DhActorConversationNewConversation {
       },
       refetchQueries: [GetConversationsDocument],
       awaitRefetchQueries: true,
+      onCompleted: (data) => {
+        const newConversationId = data.startConversation?.string;
+        this.closeNewConversation.emit(newConversationId ?? undefined);
+      },
     });
-
-    const newConversationId = result.data?.startConversation?.string;
-    this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }

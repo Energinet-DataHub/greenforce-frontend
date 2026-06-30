@@ -844,6 +844,21 @@
           "error": "Der opstod en fejl under afsendelse af besked"
         }
       },
+      "closeConversation": {
+        "toast": {
+          "error": "Der opstod en fejl under afslutning af sagen"
+        }
+      },
+      "markAsRead": {
+        "toast": {
+          "error": "Der opstod en fejl under markering af sagen som læst"
+        }
+      },
+      "markAsUnread": {
+        "toast": {
+          "error": "Der opstod en fejl under markering af sagen som ulæst"
+        }
+      },
       "topBarTitle": "Aktørdialog",
       "searchPlaceholder": "Søg på sags-ID eller intern note",
       "searchPlaceholderWithMeteringPointId": "Søg på sags-ID, målepunkts-ID eller intern note",
