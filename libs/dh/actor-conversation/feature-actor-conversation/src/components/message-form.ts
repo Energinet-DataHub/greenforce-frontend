@@ -27,6 +27,7 @@ import {
   inject,
   input,
   signal,
+  untracked,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import {
@@ -235,8 +236,11 @@ export class DhActorConversationMessageForm implements ControlValueAccessor, Val
   attachmentValidationEffect = effect(() => {
     this.numberOfRequiredAttachments();
     this.selectedFiles();
-    this.form.controls.message.updateValueAndValidity();
-    this.onValidatorChange?.();
+
+    untracked(() => {
+      this.form.controls.message.updateValueAndValidity({ emitEvent: false });
+      this.onValidatorChange?.();
+    });
   });
 
   value = toSignal(this.form.valueChanges);
