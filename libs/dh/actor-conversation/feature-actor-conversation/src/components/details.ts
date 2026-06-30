@@ -147,6 +147,7 @@ export class DhActorConversationDetails {
     ]),
   });
   conversationId = input.required<string>();
+  showMeteringPointInfo = input(false);
 
   conversationQuery = query(GetConversationDocument, () => ({
     returnPartialData: true,

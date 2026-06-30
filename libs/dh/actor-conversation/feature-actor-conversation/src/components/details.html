@@ -65,7 +65,7 @@ limitations under the License.
                 />
               }
             </watt-description-list>
-            @if (meteringPointConversationInfo(); as meteringPointInfo) {
+            @if (showMeteringPointInfo() && meteringPointConversationInfo(); as meteringPointInfo) {
               <watt-description-list variant="inline-flow" *transloco="let tBase">
                 <watt-description-list-item [label]="meteringPointInstallLabel()" />
                 <watt-description-list-item
