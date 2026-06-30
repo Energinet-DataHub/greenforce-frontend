@@ -17,7 +17,7 @@
  */
 //#endregion
 import { httpResource } from '@angular/common/http';
-import { Component, computed, inject, input, output, signal, viewChild } from '@angular/core';
+import { Component, computed, inject, input, signal, viewChild } from '@angular/core';
 
 import { translate, TranslocoDirective, TranslocoPipe } from '@jsverse/transloco';
 
