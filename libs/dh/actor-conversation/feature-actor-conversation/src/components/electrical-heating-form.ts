@@ -135,6 +135,7 @@ import { supplierForSelectedPeriodValidator } from './supplier-period.validator'
           <watt-datepicker
             #startPicker
             [min]="periodStartMin()"
+            [max]="periodStartMax"
             [label]="t('periodStart')"
             [formControl]="form.controls.period.controls.periodStart"
           />
@@ -207,9 +208,18 @@ export class DhActorConversationElectricalHeatingForm implements ControlValueAcc
   periodStartChanged = dhFormControlToSignal(this.form.controls.period.controls.periodStart);
 
   periodStartMin = computed(() => {
-    const date = this.addressEligibilityDateChanged();
-    return date ? dayjs(date).toDate() : undefined;
+    const defaultMin = dayjs().subtract(1092, 'days').toDate();
+
+    const eligibilityDate = this.addressEligibilityDateChanged();
+
+    if (eligibilityDate && dayjs(eligibilityDate).isAfter(defaultMin)) {
+      return dayjs(eligibilityDate).toDate();
+    }
+
+    return defaultMin;
   });
+
+  periodStartMax = dayjs().subtract(21, 'days').toDate();
 
   periodEndMin = computed(() => {
     const start = this.periodStartChanged();
