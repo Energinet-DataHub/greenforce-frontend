@@ -17,12 +17,12 @@
  */
 //#endregion
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMessageArchiveSearchFormService } from '../form.service';
 import { DhMessageArchiveSearchStartComponent } from './start.component';
 import { DhMessageArchiveSearchTableComponent } from './table.component';
-import { RouterOutlet } from '@angular/router';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-message-archive-search-page',

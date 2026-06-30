@@ -41,11 +41,11 @@ import {
 } from '@energinet-datahub/dh/shared/domain/graphql';
 
 import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/domain/graphql/data-source';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet/watt/toast';
 import { ArchivedMessage } from '../types';
-import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
