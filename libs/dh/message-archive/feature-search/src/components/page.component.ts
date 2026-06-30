@@ -19,22 +19,23 @@
 import { Component } from '@angular/core';
 
 import { DhMessageArchiveSearchFormService } from '../form.service';
-import { DhMessageArchiveSearchDetailsComponent } from './details.component';
 import { DhMessageArchiveSearchStartComponent } from './start.component';
 import { DhMessageArchiveSearchTableComponent } from './table.component';
+import { RouterOutlet } from '@angular/router';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 @Component({
   selector: 'dh-message-archive-search-page',
-  providers: [DhMessageArchiveSearchFormService],
+  providers: [DhNavigationService, DhMessageArchiveSearchFormService],
   imports: [
-    DhMessageArchiveSearchDetailsComponent,
+    RouterOutlet,
     DhMessageArchiveSearchStartComponent,
     DhMessageArchiveSearchTableComponent,
   ],
   template: `
-    <dh-message-archive-search-details #details (close)="table.clearSelection()" />
     <dh-message-archive-search-start #start (searchChanged)="table.fetch($event)" />
-    <dh-message-archive-search-table #table (open)="details.open($event)" (new)="start.open()" />
+    <dh-message-archive-search-table #table (new)="start.open()" />
+    <router-outlet />
   `,
 })
 export default class DhMessageArchiveSearchPageComponent {}

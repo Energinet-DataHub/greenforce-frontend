@@ -17,7 +17,7 @@
  */
 //#endregion
 import { ReactiveFormsModule } from '@angular/forms';
-import { Component, computed, effect, inject, output, signal, viewChild } from '@angular/core';
+import { Component, computed, effect, inject, output, viewChild } from '@angular/core';
 
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 
@@ -45,6 +45,7 @@ import { GetArchivedMessagesDataSource } from '@energinet-datahub/dh/shared/doma
 import { DhMessageArchiveSearchFiltersComponent } from './filters.component';
 import { WattToastService } from '@energinet/watt/toast';
 import { ArchivedMessage } from '../types';
+import { DhNavigationService } from '@energinet-datahub/dh/shared/util-navigation';
 
 type Variables = Partial<GetArchivedMessagesQueryVariables>;
 
@@ -98,7 +99,7 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
         [loading]="dataSource.loading"
         [resolveHeader]="resolveHeader"
         [activeRow]="selection()"
-        (rowClick)="onRowClick($event)"
+        (rowClick)="page.navigate('details', $event.messageId)"
       >
         <ng-container *wattTableCell="columns['documentType']; let row">
           {{ t('documentType.' + row.documentType) }}
@@ -119,10 +120,11 @@ type Variables = Partial<GetArchivedMessagesQueryVariables>;
 export class DhMessageArchiveSearchTableComponent {
   private readonly toast = inject(WattToastService);
   private readonly transloco = inject(TranslocoService);
+  protected readonly page = inject(DhNavigationService);
 
   new = output();
   open = output<ArchivedMessage>();
-  selection = signal<ArchivedMessage | undefined>(undefined);
+  selection = computed(() => this.dataSource.data.find((i) => i.messageId === this.page.id()));
   dataTable = viewChild.required(WattDataTableComponent);
 
   columns: WattTableColumnDef<ArchivedMessage> = {
@@ -141,18 +143,11 @@ export class DhMessageArchiveSearchTableComponent {
     },
   });
 
-  clearSelection = () => this.selection.set(undefined);
-
   fetch = (variables: Variables) => this.dataSource.refetch(variables);
 
   reset = () => {
     this.dataSource.reset();
     this.dataTable().reset();
-  };
-
-  onRowClick = (row: ArchivedMessage) => {
-    this.selection.set(row);
-    this.open.emit(row);
   };
 
   onNewSearch = () => {
