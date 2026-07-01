@@ -33,7 +33,7 @@ public interface ICommonExecutionContext
     Guid MarketParticipantNumber { get; }
 
     /// <summary>
-    /// Get the market role for the current user as a enum type useable for authentication
+    /// Get the market role for the current user as a enum type usable for authentication
     /// </summary>
     MarketRoles MarketRoleForAuth { get; }
 
