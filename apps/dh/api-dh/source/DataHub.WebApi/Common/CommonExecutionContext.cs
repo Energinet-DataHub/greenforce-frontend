@@ -54,6 +54,7 @@ internal sealed class CommonExecutionContext(
             return Enum.TryParse<EicFunction>(marketRoleString, ignoreCase: true, out var marketRole)
                 ? marketRole
                 : throw new UnauthorizedAccessException($"Unsupported marketRole '{marketRoleString}'");
+        }
     }
 
     public MarketRoles MarketRoleForAuth
