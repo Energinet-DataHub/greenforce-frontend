@@ -43,6 +43,7 @@ import {
   dhMakeFormControl,
 } from '@energinet-datahub/dh/shared/ui-util';
 import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apollo';
+import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
 
 @Component({
   selector: 'dh-connection-state-manage',
@@ -191,7 +192,9 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
         const maxDaysBackInTime = 90;
 
         if (daysSinceCreated != null && daysSinceCreated < maxDaysBackInTime) {
-          return currentCreatedDate as Date;
+          assertIsDefined(currentCreatedDate);
+
+          return currentCreatedDate;
         }
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
@@ -210,7 +213,9 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
             : 1;
 
         if (daysSinceCreated !== null && daysSinceCreated < maxDaysBackInTime) {
-          return currentCreatedDate as Date;
+          assertIsDefined(currentCreatedDate);
+
+          return currentCreatedDate;
         }
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
