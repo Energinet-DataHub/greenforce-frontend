@@ -129,6 +129,7 @@ public class GraphQLTestService
             .AddSingleton(MeasurementsApiHttpClientFactoryMock.Object)
             .AddSingleton(AuthorizationServiceMock.Object)
             .AddSingleton(AuthorizationsClientMock.Object)
+            .AddSingleton(CommonExecutionContextMock.Object)
             .AddSingleton(AuthorizedHttpClientFactory)
             .AddSingleton(MeasurementsResponseMapperMock.Object)
             .AddSingleton(ChargesClientMock.Object)
