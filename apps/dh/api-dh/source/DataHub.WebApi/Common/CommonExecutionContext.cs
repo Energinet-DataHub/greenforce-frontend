@@ -48,10 +48,12 @@ internal sealed class CommonExecutionContext(
         get
         {
             var marketRoleString = contextAccessor.HttpContext?.User.GetMarketParticipantMarketRole();
-            return string.IsNullOrEmpty(marketRoleString)
-                ? throw new UnauthorizedAccessException("No marketRole found")
-                : Enum.Parse<EicFunction>(marketRoleString);
-        }
+            if (string.IsNullOrEmpty(marketRoleString))
+                throw new UnauthorizedAccessException("No marketRole found");
+
+            return Enum.TryParse<EicFunction>(marketRoleString, ignoreCase: true, out var marketRole)
+                ? marketRole
+                : throw new UnauthorizedAccessException($"Unsupported marketRole '{marketRoleString}'");
     }
 
     public MarketRoles MarketRoleForAuth
