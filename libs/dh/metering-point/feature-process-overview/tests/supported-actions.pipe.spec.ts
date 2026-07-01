@@ -59,6 +59,9 @@ async function setup(overrides: Partial<TestHost> = {}) {
           MeteringPointProcessAction.SendInformation,
           MeteringPointProcessAction.InitiateIncorrectMoveIn,
         ],
+        [ProcessManagerBusinessReason.CustomerMoveOut]: [
+          MeteringPointProcessAction.InitiateIncorrectMoveOut,
+        ],
       };
       const supported = registered[reason] ?? [];
       return actions.filter((a) => supported.includes(a));
@@ -119,6 +122,17 @@ describe('SupportedActionsPipe', () => {
 
     expect(
       screen.getByText(MeteringPointProcessAction.InitiateIncorrectMoveIn)
+    ).toBeInTheDocument();
+  });
+
+  it('should show InitiateIncorrectMoveOut for CustomerMoveOut', async () => {
+    await setup({
+      actions: [MeteringPointProcessAction.InitiateIncorrectMoveOut],
+      businessReason: ProcessManagerBusinessReason.CustomerMoveOut,
+    });
+
+    expect(
+      screen.getByText(MeteringPointProcessAction.InitiateIncorrectMoveOut)
     ).toBeInTheDocument();
   });
 

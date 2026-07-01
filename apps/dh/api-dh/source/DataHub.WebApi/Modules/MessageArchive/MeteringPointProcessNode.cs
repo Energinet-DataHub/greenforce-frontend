@@ -167,6 +167,8 @@ public static partial class MeteringPointProcessNode
         ILatestCustomerMoveInProcessIdDataLoader latestCustomerMoveInProcessIdDataLoader,
         IChangeOfSupplierCorrectionEligibilityDataLoader changeOfSupplierCorrectionEligibilityDataLoader,
         IMoveInCorrectionRollbackEligibilityDataLoader moveInCorrectionRollbackEligibilityDataLoader,
+        IIncorrectMoveOutEligibilityDataLoader incorrectMoveOutEligibilityDataLoader,
+        ILatestCustomerMoveOutProcessIdDataLoader latestCustomerMoveOutProcessIdDataLoader,
         [Service] IHttpContextAccessor httpContextAccessor,
         CancellationToken cancellationToken)
     {
@@ -207,9 +209,25 @@ public static partial class MeteringPointProcessNode
                 : actions;
         }
 
-        if (process.BusinessReason != BusinessReason.CustomerMoveIn || process.MeteringPointId is null)
+        if (process.MeteringPointId is null ||
+            (process.BusinessReason != BusinessReason.CustomerMoveIn &&
+             process.BusinessReason != BusinessReason.CustomerMoveOut))
         {
             return actions;
+        }
+
+        // team-volt#2053: the move-out correction mirrors the move-in correction gate below, but with
+        // the narrower BRS-010 rule set (no rollback / already-initiated blocks), so it is delegated to
+        // its own helper before the move-in logic, which stays untouched.
+        if (process.BusinessReason == BusinessReason.CustomerMoveOut)
+        {
+            return await GetCustomerMoveOutActionsAsync(
+                process,
+                actions,
+                incorrectMoveOutEligibilityDataLoader,
+                latestCustomerMoveOutProcessIdDataLoader,
+                httpContextAccessor,
+                cancellationToken);
         }
 
         // InitiateIncorrectMoveIn corrects a customer move-in that has already completed,
@@ -288,91 +306,44 @@ public static partial class MeteringPointProcessNode
     }
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetIncorrectMoveInEligibilityAsync(
+    public static Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetIncorrectMoveInEligibilityAsync(
         IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
         IElectricityMarketClient electricityMarketClient,
-        CancellationToken cancellationToken)
-    {
-        // Keyed only by (metering point, supplier), the same parameters the EM moves query takes, so
-        // HotChocolate dedupes one EM call per supplier per request (the resolver matches the
-        // specific move-in by validity date). The query returns the supplier's move-ins from the
-        // 60-calendar-day window start, each flagged with whether an energy supplier was registered
-        // the day before its validity date. Mirrors GetChangeOfSupplierCorrectionEligibilityAsync.
-        var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
-        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>(keys.Count);
-        foreach (var key in keys)
-        {
-            var query = new GetMovesByEnergySupplierIdQueryV1(
-                MeteringPointId: key.MeteringPointId,
-                EnergySupplierId: key.EnergySupplierId,
-                From: from);
-
-            var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
-
-            // Intentionally fail closed: this gates a display-only action, so an EM transport
-            // failure yields no move-ins (hiding the button) instead of erroring the whole
-            // availableActions field.
-            results[key] = result.IsSuccess && result.Data is not null
-                ? result.Data.MoveIns.Select(m => (m.ValidityDate, m.HasPreviousEnergySupplier)).ToList()
-                : [];
-        }
-
-        return results;
-    }
+        CancellationToken cancellationToken) =>
+        GetMoveEligibilityAsync(keys, electricityMarketClient, static result => result.MoveIns, cancellationToken);
 
     [DataLoader]
-    public static async Task<IReadOnlyDictionary<string, string?>> GetLatestCustomerMoveInProcessIdAsync(
+    public static Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetIncorrectMoveOutEligibilityAsync(
+        IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
+        IElectricityMarketClient electricityMarketClient,
+        CancellationToken cancellationToken) =>
+        GetMoveEligibilityAsync(keys, electricityMarketClient, static result => result.MoveOuts, cancellationToken);
+
+    [DataLoader]
+    public static Task<IReadOnlyDictionary<string, string?>> GetLatestCustomerMoveInProcessIdAsync(
         IReadOnlyList<string> meteringPointIds,
         [Service] IProcessManagerClient processManagerClient,
         [Service] IHttpContextAccessor httpContextAccessor,
-        CancellationToken cancellationToken)
-    {
-        var userIdentity = httpContextAccessor.CreateUserIdentity();
-        var results = new Dictionary<string, string?>(meteringPointIds.Count);
+        CancellationToken cancellationToken) =>
+        GetLatestEffectiveProcessIdAsync(
+            meteringPointIds,
+            BusinessReason.CustomerMoveIn,
+            processManagerClient,
+            httpContextAccessor,
+            cancellationToken);
 
-        // PM lookup is done with a wide range so the "latest" check is independent of the
-        // overview user-supplied date filter; the rule says "latest ever", not "latest visible".
-        var earliest = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
-        var farFuture = DateTimeOffset.UtcNow.AddYears(10);
-
-        foreach (var meteringPointId in meteringPointIds)
-        {
-            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
-                userIdentity,
-                meteringPointId,
-                earliest,
-                farFuture);
-
-            var instances = await processManagerClient
-                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
-                .ConfigureAwait(false);
-
-            // "Latest" is the most recent move-in that has actually taken effect: its cutoff
-            // (ExpectedValidityDate) has been reached and it was not terminated without taking
-            // effect (rejected, canceled, failed). A future-dated move-in whose cutoff has not
-            // been reached, and a rejected/canceled/failed one, therefore do not steal the
-            // correction slot from the last effective move-in. Lifecycle state is not a reliable
-            // discriminator: an accepted move-in stays in Sleeping both before and (while customer
-            // master data is outstanding) after its cutoff, so the cutoff date is what decides
-            // whether it has taken effect.
-            var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
-            var latest = instances
-                .Where(x => x.BusinessReason == BusinessReason.CustomerMoveIn)
-                .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
-                .Where(x => x.Lifecycle.TerminationState
-                    is not (WorkflowInstanceTerminationState.Rejected
-                        or WorkflowInstanceTerminationState.Canceled
-                        or WorkflowInstanceTerminationState.Failed))
-                .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
-                .ThenByDescending(x => x.Lifecycle.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .FirstOrDefault();
-
-            results[meteringPointId] = latest?.Id.ToString();
-        }
-
-        return results;
-    }
+    [DataLoader]
+    public static Task<IReadOnlyDictionary<string, string?>> GetLatestCustomerMoveOutProcessIdAsync(
+        IReadOnlyList<string> meteringPointIds,
+        [Service] IProcessManagerClient processManagerClient,
+        [Service] IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken) =>
+        GetLatestEffectiveProcessIdAsync(
+            meteringPointIds,
+            BusinessReason.CustomerMoveOut,
+            processManagerClient,
+            httpContextAccessor,
+            cancellationToken);
 
     [DataLoader]
     public static async Task<IReadOnlySet<string>> GetChangeOfSupplierCorrectionEligibilityAsync(
@@ -591,6 +562,163 @@ public static partial class MeteringPointProcessNode
             .AtStartOfDayInZone(_danishTimeZone)
             .ToDateTimeOffset();
 
+    // team-volt#2053: BRS-010 move-out correction gate, mirroring the move-in logic in
+    // GetAvailableActionsAsync (Succeeded -> latest effective -> cutoff present -> FAS window or
+    // supplier has-previous-supplier date match). The move-in-only #2063 rollback and #2037
+    // already-initiated blocks are intentionally not part of BRS-010, so they are not applied here.
+    private static async Task<IEnumerable<MeteringPointProcessAction>> GetCustomerMoveOutActionsAsync(
+        MeteringPointProcess process,
+        IEnumerable<MeteringPointProcessAction> actions,
+        IIncorrectMoveOutEligibilityDataLoader incorrectMoveOutEligibilityDataLoader,
+        ILatestCustomerMoveOutProcessIdDataLoader latestCustomerMoveOutProcessIdDataLoader,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        // InitiateIncorrectMoveOut corrects a customer move-out that has already completed, so only
+        // Succeeded processes are candidates. Anything still pending/running, or terminated with a
+        // non-success state, must not surface the action.
+        if (process.State != MeteringPointProcessState.Succeeded)
+        {
+            return actions;
+        }
+
+        // The action is offered only on the single latest effective CustomerMoveOut on the metering
+        // point, and only when that latest process itself succeeded. A move-out becomes effective
+        // once its cutoff date is reached; a future-dated move-out (cutoff not yet reached) or one
+        // terminated without taking effect (rejected, canceled, failed) is ignored. The latest loader
+        // queries PM with a wide window so the result is independent of the user's overview date filter.
+        var latestProcessId = await latestCustomerMoveOutProcessIdDataLoader
+            .LoadAsync(process.MeteringPointId!, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (latestProcessId != process.Id)
+        {
+            return actions;
+        }
+
+        // Both the FAS 60-calendar-day window and the EM moves query below key off the move-out's
+        // validity date (skæringsdato), so it must be present. A latest succeeded move-out is
+        // expected to carry one; if it is absent, eligibility cannot be evaluated, so fail closed.
+        if (process.CutoffDate is not { } moveOutValidityDate)
+        {
+            return actions;
+        }
+
+        // FAS surfaces every supported action (disabled in the UI) and has no supplier GLN to scope
+        // the EM moves query against, so its eligibility is the process's own cutoff falling inside
+        // the 60-calendar-day correction window (shared with the move-in window helper).
+        if (httpContextAccessor.HttpContext?.User.IsFas() == true)
+        {
+            return moveOutValidityDate >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
+                ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveOut)
+                : actions;
+        }
+
+        // A supplier is eligible when ElectricityMarket reports a move-out it made on this metering
+        // point at this validity date within the 60-day window, AND a previous energy supplier was
+        // registered the day before that move-out. The loader is keyed only by
+        // (metering point, supplier) so HotChocolate dedupes the EM call; this resolver matches the
+        // specific move-out by validity date at Danish calendar-day granularity (skæringsdato).
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var supplierMoveOuts = await incorrectMoveOutEligibilityDataLoader
+            .LoadAsync((process.MeteringPointId!, userIdentity.ActorNumber.Value), cancellationToken)
+            .ConfigureAwait(false) ?? [];
+
+        var isEligibleForIncorrectMoveOut = supplierMoveOuts
+            .Any(m => m.HasPreviousEnergySupplier && ToDanishDate(m.ValidityDate) == ToDanishDate(moveOutValidityDate));
+
+        return isEligibleForIncorrectMoveOut
+            ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveOut)
+            : actions;
+    }
+
+    private static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetMoveEligibilityAsync(
+        IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
+        IElectricityMarketClient electricityMarketClient,
+        Func<GetMovesByEnergySupplierIdResultDtoV1, List<GetMovesByEnergySupplierIdResultDtoV1.MoveDto>> selectMoves,
+        CancellationToken cancellationToken)
+    {
+        // Keyed only by (metering point, supplier), the same parameters the EM moves query takes, so
+        // HotChocolate dedupes one EM call per supplier per request (the resolver matches the
+        // specific move by validity date). The query returns the supplier's moves from the
+        // 60-calendar-day window start, each flagged with whether an energy supplier was registered
+        // the day before its validity date. Mirrors GetChangeOfSupplierCorrectionEligibilityAsync.
+        var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>(keys.Count);
+        foreach (var key in keys)
+        {
+            var query = new GetMovesByEnergySupplierIdQueryV1(
+                MeteringPointId: key.MeteringPointId,
+                EnergySupplierId: key.EnergySupplierId,
+                From: from);
+
+            var result = await electricityMarketClient.SendAsync(query, cancellationToken).ConfigureAwait(false);
+
+            // Intentionally fail closed: this gates a display-only action, so an EM transport
+            // failure yields no moves (hiding the button) instead of erroring the whole
+            // availableActions field.
+            results[key] = result.IsSuccess && result.Data is not null
+                ? selectMoves(result.Data).Select(m => (m.ValidityDate, m.HasPreviousEnergySupplier)).ToList()
+                : [];
+        }
+
+        return results;
+    }
+
+    private static async Task<IReadOnlyDictionary<string, string?>> GetLatestEffectiveProcessIdAsync(
+        IReadOnlyList<string> meteringPointIds,
+        BusinessReason businessReason,
+        IProcessManagerClient processManagerClient,
+        IHttpContextAccessor httpContextAccessor,
+        CancellationToken cancellationToken)
+    {
+        var userIdentity = httpContextAccessor.CreateUserIdentity();
+        var results = new Dictionary<string, string?>(meteringPointIds.Count);
+
+        // PM lookup is done with a wide range so the "latest" check is independent of the
+        // overview user-supplied date filter; the rule says "latest ever", not "latest visible".
+        var earliest = new DateTimeOffset(2000, 1, 1, 0, 0, 0, TimeSpan.Zero);
+        var farFuture = DateTimeOffset.UtcNow.AddYears(10);
+
+        foreach (var meteringPointId in meteringPointIds)
+        {
+            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                userIdentity,
+                meteringPointId,
+                earliest,
+                farFuture);
+
+            var instances = await processManagerClient
+                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                .ConfigureAwait(false);
+
+            // "Latest" is the most recent process of the requested business reason that has actually
+            // taken effect: its cutoff (ExpectedValidityDate) has been reached and it was not
+            // terminated without taking effect (rejected, canceled, failed). A future-dated one whose
+            // cutoff has not been reached, and a rejected/canceled/failed one, therefore do not steal
+            // the correction slot from the last effective one. Lifecycle state is not a reliable
+            // discriminator: an accepted move stays in Sleeping both before and (while customer master
+            // data is outstanding) after its cutoff, so the cutoff date is what decides whether it has
+            // taken effect.
+            var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
+            var latest = instances
+                .Where(x => x.BusinessReason == businessReason)
+                .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
+                .Where(x => x.Lifecycle.TerminationState
+                    is not (WorkflowInstanceTerminationState.Rejected
+                        or WorkflowInstanceTerminationState.Canceled
+                        or WorkflowInstanceTerminationState.Failed))
+                .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
+                .ThenByDescending(x => x.Lifecycle.CreatedAt)
+                .ThenByDescending(x => x.Id)
+                .FirstOrDefault();
+
+            results[meteringPointId] = latest?.Id.ToString();
+        }
+
+        return results;
+    }
+
     private static bool IsActiveOrSucceeded(MeteringPointProcess process) =>
         process.State is MeteringPointProcessState.Pending
             or MeteringPointProcessState.Running
@@ -619,6 +747,8 @@ public static partial class MeteringPointProcessNode
                 ctx.DataLoader<ILatestCustomerMoveInProcessIdDataLoader>(),
                 ctx.DataLoader<IChangeOfSupplierCorrectionEligibilityDataLoader>(),
                 ctx.DataLoader<IMoveInCorrectionRollbackEligibilityDataLoader>(),
+                ctx.DataLoader<IIncorrectMoveOutEligibilityDataLoader>(),
+                ctx.DataLoader<ILatestCustomerMoveOutProcessIdDataLoader>(),
                 ctx.Service<IHttpContextAccessor>(),
                 ct));
     }

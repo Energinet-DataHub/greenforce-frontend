@@ -1166,6 +1166,9 @@
           "CANCEL_WORKFLOW": "Cancel",
           "INITIATE_INCORRECT_MOVE_IN": "Request correction"
         },
+        "CustomerMoveOut": {
+          "INITIATE_INCORRECT_MOVE_OUT": "Request correction"
+        },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Cancel"

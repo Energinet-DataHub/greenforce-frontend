@@ -1165,6 +1165,9 @@
           "CANCEL_WORKFLOW": "Annuller",
           "INITIATE_INCORRECT_MOVE_IN": "Anmod om korrektion"
         },
+        "CustomerMoveOut": {
+          "INITIATE_INCORRECT_MOVE_OUT": "Anmod om korrektion"
+        },
         "SecondaryMoveIn": {
           "SEND_INFORMATION": "Send information",
           "CANCEL_WORKFLOW": "Annuller"
