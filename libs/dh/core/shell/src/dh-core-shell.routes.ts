@@ -66,7 +66,7 @@ export const dhCoreShellRoutes: Routes = [
       },
       {
         path: getPath<BasePaths>('reports'),
-        loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports-v2'),
+        loadChildren: () => import('@energinet-datahub/dh/reports/feature-reports'),
         canActivate: [MsalGuard],
       },
       {

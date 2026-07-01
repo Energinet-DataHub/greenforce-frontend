@@ -29,7 +29,7 @@ import { DhPermissionRequiredDirective } from '@energinet-datahub/dh/shared/feat
 import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-release-toggle';
 
 @Component({
-  selector: 'dh-reports-v2',
+  selector: 'dh-reports',
   imports: [
     TranslocoDirective,
 
@@ -78,7 +78,7 @@ import { DhReleaseToggleDirective } from '@energinet-datahub/dh/shared/util-rele
     </watt-link-tabs>
   `,
 })
-export class DhReportsV2 {
+export class DhReports {
   getLink = (path: ReportsSubPaths) => path;
   getMissingMeasurementsLogLink = (path: MissingMeasurementsLogSubPaths) =>
     this.getLink('missing-measurements-log') + '/' + path;

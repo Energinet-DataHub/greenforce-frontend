@@ -26,8 +26,8 @@ import {
   VaterUtilityDirective,
 } from '@energinet/watt/vater';
 import { WATT_CARD } from '@energinet/watt/card';
-
 import { WattButtonComponent } from '@energinet/watt/button';
+
 import { ReportsSubPaths } from '@energinet-datahub/dh/core/configuration-routing';
 
 @Component({
