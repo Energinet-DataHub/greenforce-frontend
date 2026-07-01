@@ -44,7 +44,7 @@ public static class DomainRegistrationExtensions
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
     {
         return serviceCollection
-            .AddSingleton(provider => new AuthorizedHttpClientFactory(
+            .AddScoped(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
                 () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
                 provider.GetRequiredService<IOptions<SubSystemBaseUrls>>(),
