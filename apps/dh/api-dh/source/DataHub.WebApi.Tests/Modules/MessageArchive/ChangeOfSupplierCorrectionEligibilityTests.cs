@@ -184,10 +184,78 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     [Fact]
     public void CompetingProcessWithEqualCutoffDay_IsEligible()
     {
-        // The supersede checks are strict-after, so a competing process with the same cutoff day
-        // as P does not hide the action.
+        // The strict-after reasons (EndOfSupply, etc.) only supersede strictly after P, so a competing
+        // one with the same cutoff day as P does not hide the action.
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process("Q", BusinessReason.EndOfSupply, MeteringPointProcessState.Running, _pv);
+
+        IsEligible(p, [p, q]).Should().BeTrue();
+    }
+
+    [Fact]
+    public void ActiveRollbackRegisteredAfterP_IsNotEligible()
+    {
+        // team-volt#2037 (same shape as BRS-011 on dev003): a rollback correcting P is registered after
+        // P. Its validity date is assigned by Process Manager and need not match P's (here it is even
+        // before P), so the link is the registration order, not the cutoff. Once the rollback is active
+        // the action is hidden so a duplicate cannot be started.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.RollbackChangeOfSupplier,
+            MeteringPointProcessState.Running,
+            cutoff: new LocalDate(2026, 4, 28),
+            createdAt: new LocalDate(2026, 5, 10));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact]
+    public void SucceededRollbackRegisteredAfterP_IsNotEligible()
+    {
+        // A completed rollback correcting P keeps the action hidden (team-volt#2037).
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.RollbackChangeOfSupplier,
+            MeteringPointProcessState.Succeeded,
+            cutoff: new LocalDate(2026, 4, 28),
+            createdAt: new LocalDate(2026, 5, 10));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Theory]
+    [InlineData(MeteringPointProcessState.Canceled)]
+    [InlineData(MeteringPointProcessState.Failed)]
+    [InlineData(MeteringPointProcessState.Rejected)]
+    public void TerminatedRollbackRegisteredAfterP_IsNotEligible(MeteringPointProcessState terminalState)
+    {
+        // kommer ikke igen hvis processen afvises: a terminal rollback registered after P keeps the
+        // action hidden, so it does not come back even if the rollback is rejected (or canceled/failed).
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.RollbackChangeOfSupplier,
+            terminalState,
+            cutoff: new LocalDate(2026, 4, 28),
+            createdAt: new LocalDate(2026, 5, 10));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact]
+    public void RollbackRegisteredBeforeP_IsEligible()
+    {
+        // A rollback registered before P corrects an earlier change of supplier, not P, so a newer
+        // change of supplier stays eligible and its action is shown (team-volt#2037).
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.RollbackChangeOfSupplier,
+            MeteringPointProcessState.Succeeded,
+            cutoff: new LocalDate(2026, 4, 1),
+            createdAt: new LocalDate(2026, 4, 1));
 
         IsEligible(p, [p, q]).Should().BeTrue();
     }

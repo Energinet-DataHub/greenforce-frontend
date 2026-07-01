@@ -22,9 +22,14 @@ export const dhMessageArchiveShellRoutes: Routes = [
   {
     path: '',
     loadComponent: () => import('./components/page.component'),
-    pathMatch: 'full',
     data: {
       titleTranslationKey: 'messageArchive.topBarTitle',
     },
+    children: [
+      {
+        path: 'details/:id',
+        loadComponent: () => import('./components/details.component'),
+      },
+    ],
   },
 ];

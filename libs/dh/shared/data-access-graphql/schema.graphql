@@ -1373,7 +1373,7 @@ type Mutation {
   requestEndOfSupply(input: RequestEndOfSupplyInput!): RequestEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
   requestIncorrectChangeOfSupplier(input: RequestIncorrectChangeOfSupplierInput!): RequestIncorrectChangeOfSupplierPayload! @authorize(roles: [ "metering-point:change-of-supplier" ])
   requestIncorrectMoveIn(input: RequestIncorrectMoveInInput!): RequestIncorrectMoveInPayload! @authorize(roles: [ "metering-point:move-in" ])
-  requestMasterDataReport(input: RequestMasterDataReportInput!): RequestMasterDataReportPayload!
+  requestMasterDataReport(input: RequestMasterDataReportInput!): RequestMasterDataReportPayload! @authorize(roles: [ "metering-point-master-data-reports:manage" ])
   requestMeasurementsReport(requestMeasurementsReportInput: RequestMeasurementsReportInput!): RequestMeasurementsReportPayload!
   requestMissingMeasurementsLog(input: RequestMissingMeasurementsLogInput!): RequestMissingMeasurementsLogPayload! @authorize(roles: [ "missing-measurements-log:view" ])
   requestServiceEndOfSupply(input: RequestServiceEndOfSupplyInput!): RequestServiceEndOfSupplyPayload! @authorize(roles: [ "metering-point:end-of-supply-request" ])
@@ -2719,9 +2719,9 @@ input RequestMasterDataReportInput {
   date: DateTime!
   gridAreaIds: [String!]
   meteringPointTypes: [MeasurementsReportMeteringPointType!]
-  connectionStates: [ConnectionState!]
-  actorNumberOverride: String
-  marketRoleOverride: MeteringPointMasterDataReportMarketRole
+  connectionStates: [MasterDataReportConnectionStateType!]
+  requestAsActorId: String
+  requestAsMarketRole: MeteringPointMasterDataReportMarketRole
   userId: String
 }
 
@@ -3257,13 +3257,6 @@ enum ChargeType {
   FEE
 }
 
-enum ConnectionState {
-  NEW
-  CONNECTED
-  DISCONNECTED
-  CLOSED_DOWN
-}
-
 enum ContactCategory {
   DEFAULT
   CHARGES
@@ -3750,6 +3743,13 @@ enum MarketRole {
   ENERGY_SUPPLIER
   ENERGINET
   GRID_ACCESS_PROVIDER
+}
+
+enum MasterDataReportConnectionStateType {
+  New
+  Connected
+  Disconnected
+  ClosedDown
 }
 
 enum MeasurementsReportMarketRole {

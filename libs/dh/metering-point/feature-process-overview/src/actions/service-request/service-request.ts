@@ -44,7 +44,7 @@ export class ServiceRequestActions {
 
   readonly handlers: ActionHandlerMap = {
     [MeteringPointProcessAction.ConfirmWorkflow]: {
-      featureFlag: 'service-request',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:service-request-respond'],
       roles: [EicFunction.GridAccessProvider],
       callback: (ctx) => {
@@ -63,7 +63,7 @@ export class ServiceRequestActions {
       },
     },
     [MeteringPointProcessAction.RejectRequest]: {
-      featureFlag: 'service-request',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:service-request-respond'],
       roles: [EicFunction.GridAccessProvider],
       callback: rejectProcessAction(
@@ -92,7 +92,7 @@ export class ServiceRequestActions {
       ),
     },
     [MeteringPointProcessAction.CancelWorkflow]: {
-      featureFlag: 'service-request',
+      releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
       permissions: ['metering-point:service-request-request'],
       roles: [ResponsibleEnergySupplier],
       callback: cancelProcessAction(

@@ -1,0 +1,5 @@
+query GetArchivedMessageById($id: String!) {
+  archivedMessageById(id: $id) {
+    ...ArchivedMessageFields
+  }
+}

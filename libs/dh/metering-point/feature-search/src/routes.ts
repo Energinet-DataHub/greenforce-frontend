@@ -146,7 +146,7 @@ export const dhMeteringPointRoutes: Routes = [
           {
             path: getPath<MeteringPointSubPaths>('messages'),
             loadComponent: () =>
-              import('@energinet-datahub/dh/metering-point/feature-overview').then(
+              import('@energinet-datahub/dh/metering-point/feature-messages').then(
                 (m) => m.DhMeteringPointMessagesComponent
               ),
           },

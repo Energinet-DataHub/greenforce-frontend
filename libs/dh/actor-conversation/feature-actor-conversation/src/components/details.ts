@@ -121,7 +121,12 @@ export class DhActorConversationDetails {
   private readonly uploadMessageDocument = injectUploadMessageDocument();
   private readonly modalService = inject(WattModalService);
   private readonly scrollAnchor = viewChild<ElementRef<HTMLElement>>('scrollAnchor');
-  private readonly closeConversationMutation = mutation(CloseConversationDocument);
+  private readonly closeConversationMutation = mutation(CloseConversationDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.closeConversation.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
   private readonly scrollEffect = afterRenderEffect(() => {
     if (this.conversation()) {
       this.scrollAnchor()?.nativeElement.scrollIntoView();
@@ -129,14 +134,20 @@ export class DhActorConversationDetails {
   });
 
   isPartOfConversation = computed(() => this.conversation()?.partOfConversations);
-  sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument);
-  toast = injectToast('meteringPoint.actorConversation.sendMessage.toast', [
-    MutationStatus.Loading,
-    MutationStatus.Resolved,
-  ]);
-  toastEffect = effect(() => this.toast(this.sendActorConversationMessageMutation.status()));
-  unreadConversationMutation = mutation(MarkConversationUnReadDocument);
+  sendActorConversationMessageMutation = mutation(SendActorConversationMessageDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.sendMessage.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
+  unreadConversationMutation = mutation(MarkConversationUnReadDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.markAsUnread.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
   conversationId = input.required<string>();
+  showMeteringPointInfo = input(false);
 
   conversationQuery = query(GetConversationDocument, () => ({
     returnPartialData: true,
@@ -154,7 +165,9 @@ export class DhActorConversationDetails {
 
   meteringPointConversationInfoQuery = query(GetMeteringPointConversationInfoDocument, () => {
     const meteringPointId = this.meteringPointIdFromConversation();
-    return meteringPointId ? { variables: { meteringPointId } } : { skip: true };
+    return meteringPointId && this.showMeteringPointInfo()
+      ? { variables: { meteringPointId } }
+      : { skip: true };
   });
 
   meteringPointConversationInfo = computed(
@@ -225,9 +238,8 @@ export class DhActorConversationDetails {
         conversationId: this.conversationId(),
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+      onCompleted: () => this.clearMessageForm(),
     });
-
-    this.clearMessageForm();
   }
 
   openInternalNoteModal(internalNote: string | null | undefined) {
@@ -281,9 +293,8 @@ export class DhActorConversationDetails {
         attachedDocumentIds,
       },
       refetchQueries: [GetConversationDocument, GetConversationsDocument],
+      onCompleted: () => this.clearMessageForm(),
     });
-
-    this.clearMessageForm();
   }
 
   private clearMessageForm() {

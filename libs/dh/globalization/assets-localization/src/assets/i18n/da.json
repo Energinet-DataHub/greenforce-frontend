@@ -738,7 +738,12 @@
         "NEW": "Nyoprettet",
         "CONNECTED": "Tilsluttet",
         "DISCONNECTED": "Afbrudt",
-        "UNKNOWN": "Ukendt"
+        "UNKNOWN": "Ukendt",
+        "ClosedDown": "{{ meteringPoint.overview.status.CLOSED_DOWN }}",
+        "New": "{{ meteringPoint.overview.status.NEW }}",
+        "Connected": "{{ meteringPoint.overview.status.CONNECTED }}",
+        "Disconnected": "{{ meteringPoint.overview.status.DISCONNECTED }}",
+        "Unknown": "{{ meteringPoint.overview.status.UNKNOWN }}"
       },
       "actions": {
         "actionsButton": "Handlinger",
@@ -837,6 +842,21 @@
       "sendMessage": {
         "toast": {
           "error": "Der opstod en fejl under afsendelse af besked"
+        }
+      },
+      "closeConversation": {
+        "toast": {
+          "error": "Der opstod en fejl under afslutning af sagen"
+        }
+      },
+      "markAsRead": {
+        "toast": {
+          "error": "Der opstod en fejl under markering af sagen som læst"
+        }
+      },
+      "markAsUnread": {
+        "toast": {
+          "error": "Der opstod en fejl under markering af sagen som ulæst"
         }
       },
       "topBarTitle": "Aktørdialog",
@@ -1925,7 +1945,7 @@
       },
       "toast": {
         "loading": "Registrerer elvarme...",
-        "success": "Elvarme registreret",
+        "success": "Elvarme rettelsen er sat i gang",
         "error": "Der opstod en fejl under registrering af elvarme"
       }
     }
@@ -3130,7 +3150,11 @@
           "hour": "Time",
           "day": "Dag",
           "month": "Måned",
-          "submit": "{{ reports.overview.requestReport }}"
+          "submit": "{{ reports.overview.requestReport }}",
+          "toast": {
+            "success": "Målepunktsoversigt rapport bestilt.",
+            "error": "Noget gik galt. Målepunktsoversigt rapporten blev ikke bestilt. Prøv igen."
+          }
         }
       }
     },
@@ -4045,7 +4069,8 @@
         "button": "Genopbyg projektion",
         "projectionTypes": {
           "METERING_POINT": "Målepunkt",
-          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer"
+          "METERING_POINT_WITH_RELATIONS": "Målepunkt med relationer",
+          "METERING_POINTS_SEARCH": "Målepunktssøgning"
         },
         "modal": {
           "title": "Genopbyg projektion",

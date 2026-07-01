@@ -739,7 +739,12 @@
         "NEW": "Newly created",
         "CONNECTED": "Connected",
         "DISCONNECTED": "Disconnected",
-        "UNKNOWN": "Unknown"
+        "UNKNOWN": "Unknown",
+        "ClosedDown": "{{ meteringPoint.overview.status.CLOSED_DOWN }}",
+        "New": "{{ meteringPoint.overview.status.NEW }}",
+        "Connected": "{{ meteringPoint.overview.status.CONNECTED }}",
+        "Disconnected": "{{ meteringPoint.overview.status.DISCONNECTED }}",
+        "Unknown": "{{ meteringPoint.overview.status.UNKNOWN }}"
       },
       "actions": {
         "actionsButton": "Actions",
@@ -838,6 +843,21 @@
       "sendMessage": {
         "toast": {
           "error": "An error occurred while sending the message"
+        }
+      },
+      "closeConversation": {
+        "toast": {
+          "error": "An error occurred trying to close the case"
+        }
+      },
+      "markAsRead": {
+        "toast": {
+          "error": "An error occurred while marking the case as read"
+        }
+      },
+      "markAsUnread": {
+        "toast": {
+          "error": "An error occurred while marking the case as unread"
         }
       },
       "topBarTitle": "Actor Conversation",
@@ -1925,7 +1945,7 @@
       },
       "toast": {
         "loading": "Registering electrical heating...",
-        "success": "Electrical heating registered",
+        "success": "Electrical heating registration has been initiated",
         "error": "An error occurred while registering electrical heating"
       }
     }
@@ -3131,7 +3151,11 @@
           "hour": "Hour",
           "day": "Day",
           "month": "Month",
-          "submit": "{{ reports.overview.requestReport }}"
+          "submit": "{{ reports.overview.requestReport }}",
+          "toast": {
+            "success": "Metering point master data report has been requested.",
+            "error": "Something went wrong. The metering point master data report was not requested. Please try again."
+          }
         }
       }
     },
@@ -4046,7 +4070,8 @@
         "button": "Rebuild Projection",
         "projectionTypes": {
           "METERING_POINT": "Metering Point",
-          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations"
+          "METERING_POINT_WITH_RELATIONS": "Metering Point With Relations",
+          "METERING_POINTS_SEARCH": "Metering Points Search"
         },
         "modal": {
           "title": "Rebuild Projection",

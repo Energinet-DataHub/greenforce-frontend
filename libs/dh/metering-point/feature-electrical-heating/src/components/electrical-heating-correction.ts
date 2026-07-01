@@ -146,6 +146,7 @@ import { assertIsDefined } from '@energinet-datahub/dh/shared/util-assert';
                 #startDatepicker
                 [formControl]="form.controls.periodStart"
                 [min]="periodStartMin()"
+                [max]="periodStartMax"
               />
               <span class="em-dash watt-text-s">{{ emDash }}</span>
               <watt-datepicker #endDatepicker [formControl]="form.controls.periodEnd" />
@@ -253,7 +254,7 @@ export class DhElectricalHeatingCorrection {
     const electricalHeatingFrom = this.electricalHeatingUserMessage()?.electricalHeatingFrom;
 
     if (!electricalHeatingFrom) {
-      return undefined;
+      return this.dataHubElectricalHeatingCutOffDate;
     }
 
     if (dayjs(electricalHeatingFrom).isBefore(this.dataHubElectricalHeatingCutOffDate)) {
@@ -262,6 +263,8 @@ export class DhElectricalHeatingCorrection {
 
     return dayjs(electricalHeatingFrom).toDate();
   });
+
+  periodStartMax = dayjs().subtract(21, 'days').toDate();
 
   periodStartSyncEffect = effect(() => {
     const reductionPeriodFrom = this.electricalHeatingUserMessage()?.reductionPeriod.from;

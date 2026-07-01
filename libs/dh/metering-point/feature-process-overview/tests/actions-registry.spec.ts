@@ -100,7 +100,7 @@ describe('DhActionsRegistry', () => {
       actorMarketRole = EicFunction.GridAccessProvider,
       endOfSupplyHandlers = {
         [MeteringPointProcessAction.CancelWorkflow]: {
-          featureFlag: 'end-of-supply',
+          releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
           callback: vi.fn(),
         },
       },
@@ -198,7 +198,7 @@ describe('DhActionsRegistry', () => {
   }
 
   describe('getSupportedActions', () => {
-    it('should return CancelWorkflow for EndOfSupply when feature flag is enabled', () => {
+    it('should return CancelWorkflow for EndOfSupply when release toggle is enabled', () => {
       const registry = setupRegistry();
 
       const result = registry.getSupportedActions(
@@ -235,7 +235,18 @@ describe('DhActionsRegistry', () => {
     });
 
     it('should return empty array when feature flag is disabled', () => {
-      const registry = setupRegistry({ featureFlagsEnabled: false });
+      // The registry still supports the generic `featureFlag` gate even though no
+      // production action uses it; `dev-examples` is a still-registered flag used
+      // here purely to exercise that gate.
+      const registry = setupRegistry({
+        featureFlagsEnabled: false,
+        endOfSupplyHandlers: {
+          [MeteringPointProcessAction.CancelWorkflow]: {
+            featureFlag: 'dev-examples',
+            callback: vi.fn(),
+          },
+        },
+      });
 
       const result = registry.getSupportedActions(
         [MeteringPointProcessAction.CancelWorkflow],
@@ -251,7 +262,7 @@ describe('DhActionsRegistry', () => {
         releaseTogglesEnabled: false,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.CancelWorkflow]: {
-            featureFlag: 'end-of-supply',
+            featureFlag: 'dev-examples',
             releaseToggle: 'PM99-SOME-TOGGLE',
             callback: vi.fn(),
           },
@@ -271,7 +282,7 @@ describe('DhActionsRegistry', () => {
       const registry = setupRegistry({
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.CancelWorkflow]: {
-            featureFlag: 'end-of-supply',
+            featureFlag: 'dev-examples',
             releaseToggle: 'PM99-SOME-TOGGLE',
             callback: vi.fn(),
           },
@@ -316,7 +327,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: true,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.RejectRequest]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
@@ -337,7 +348,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.RejectRequest]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: ['metering-point:end-of-supply-respond'],
             callback: vi.fn(),
           },
@@ -373,7 +384,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRequestPermission: true,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: [
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
@@ -398,7 +409,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: [
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
@@ -423,7 +434,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRequestPermission: false,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: [
               'metering-point:end-of-supply-request',
               'metering-point:end-of-supply-respond',
@@ -447,7 +458,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.GridAccessProvider,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.ConfirmWorkflow]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [EicFunction.GridAccessProvider],
             callback: vi.fn(),
           },
@@ -468,7 +479,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.ConfirmWorkflow]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [EicFunction.GridAccessProvider],
             callback: vi.fn(),
           },
@@ -489,7 +500,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
           },
@@ -510,7 +521,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
           },
@@ -531,7 +542,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
           },
@@ -553,7 +564,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
           },
@@ -575,7 +586,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [InitiatingParticipant],
             callback: vi.fn(),
           },
@@ -596,7 +607,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.GridAccessProvider,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.CancelWorkflow]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [ResponsibleEnergySupplier, EicFunction.GridAccessProvider],
             callback: vi.fn(),
           },
@@ -618,7 +629,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.DataHubAdministrator,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [ResponsibleEnergySupplier],
             callback: vi.fn(),
           },
@@ -991,11 +1002,11 @@ describe('DhActionsRegistry', () => {
       // responsible energy supplier that initiated the request and is gated by the
       // `service-request-request` permission; ConfirmWorkflow is performed by the
       // grid access provider and is gated by the `service-request-respond` permission.
-      // Both are behind the `service-request` feature flag.
+      // All are behind the `PM51-END-OF-SUPPLY-CIM` release toggle.
 
       const cancelHandlers: ActionHandlerMap = {
         [MeteringPointProcessAction.CancelWorkflow]: {
-          featureFlag: 'service-request',
+          releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
           permissions: ['metering-point:service-request-request'],
           roles: [ResponsibleEnergySupplier],
           callback: vi.fn(),
@@ -1004,7 +1015,7 @@ describe('DhActionsRegistry', () => {
 
       const confirmHandlers: ActionHandlerMap = {
         [MeteringPointProcessAction.ConfirmWorkflow]: {
-          featureFlag: 'service-request',
+          releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
           permissions: ['metering-point:service-request-respond'],
           roles: [EicFunction.GridAccessProvider],
           callback: vi.fn(),
@@ -1013,14 +1024,14 @@ describe('DhActionsRegistry', () => {
 
       const rejectHandlers: ActionHandlerMap = {
         [MeteringPointProcessAction.RejectRequest]: {
-          featureFlag: 'service-request',
+          releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
           permissions: ['metering-point:service-request-respond'],
           roles: [EicFunction.GridAccessProvider],
           callback: vi.fn(),
         },
       };
 
-      it('should return CancelWorkflow when flag enabled, request permission present and actor is responsible supplier', () => {
+      it('should return CancelWorkflow when release toggle enabled, request permission present and actor is responsible supplier', () => {
         const registry = setupRegistry({
           actorMarketRole: EicFunction.EnergySupplier,
           hasServiceRequestRequestPermission: true,
@@ -1068,9 +1079,9 @@ describe('DhActionsRegistry', () => {
         expect(result).toEqual([]);
       });
 
-      it('should exclude CancelWorkflow when feature flag is disabled', () => {
+      it('should exclude CancelWorkflow when release toggle is disabled', () => {
         const registry = setupRegistry({
-          featureFlagsEnabled: false,
+          releaseTogglesEnabled: false,
           actorMarketRole: EicFunction.EnergySupplier,
           hasServiceRequestRequestPermission: true,
           serviceRequestHandlers: cancelHandlers,
@@ -1085,7 +1096,7 @@ describe('DhActionsRegistry', () => {
         expect(result).toEqual([]);
       });
 
-      it('should return ConfirmWorkflow when flag enabled, respond permission present and actor is GridAccessProvider', () => {
+      it('should return ConfirmWorkflow when release toggle enabled, respond permission present and actor is GridAccessProvider', () => {
         const registry = setupRegistry({
           actorMarketRole: EicFunction.GridAccessProvider,
           hasServiceRequestRespondPermission: true,
@@ -1133,9 +1144,9 @@ describe('DhActionsRegistry', () => {
         expect(result).toEqual([]);
       });
 
-      it('should exclude ConfirmWorkflow when feature flag is disabled', () => {
+      it('should exclude ConfirmWorkflow when release toggle is disabled', () => {
         const registry = setupRegistry({
-          featureFlagsEnabled: false,
+          releaseTogglesEnabled: false,
           actorMarketRole: EicFunction.GridAccessProvider,
           hasServiceRequestRespondPermission: true,
           serviceRequestHandlers: confirmHandlers,
@@ -1150,7 +1161,7 @@ describe('DhActionsRegistry', () => {
         expect(result).toEqual([]);
       });
 
-      it('should return RejectRequest when flag enabled, respond permission present and actor is GridAccessProvider', () => {
+      it('should return RejectRequest when release toggle enabled, respond permission present and actor is GridAccessProvider', () => {
         const registry = setupRegistry({
           actorMarketRole: EicFunction.GridAccessProvider,
           hasServiceRequestRespondPermission: true,
@@ -1198,9 +1209,9 @@ describe('DhActionsRegistry', () => {
         expect(result).toEqual([]);
       });
 
-      it('should exclude RejectRequest when feature flag is disabled', () => {
+      it('should exclude RejectRequest when release toggle is disabled', () => {
         const registry = setupRegistry({
-          featureFlagsEnabled: false,
+          releaseTogglesEnabled: false,
           actorMarketRole: EicFunction.GridAccessProvider,
           hasServiceRequestRespondPermission: true,
           serviceRequestHandlers: rejectHandlers,
@@ -1268,7 +1279,7 @@ describe('DhActionsRegistry', () => {
         hasEndOfSupplyRespondPermission: false,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.RejectRequest]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             permissions: ['metering-point:end-of-supply-respond'],
             callback,
           },
@@ -1313,7 +1324,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.ConfirmWorkflow]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [EicFunction.GridAccessProvider],
             callback,
           },
@@ -1366,7 +1377,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [InitiatingParticipant],
             callback,
           },
@@ -1390,7 +1401,7 @@ describe('DhActionsRegistry', () => {
         actorMarketRole: EicFunction.EnergySupplier,
         endOfSupplyHandlers: {
           [MeteringPointProcessAction.SendInformation]: {
-            featureFlag: 'end-of-supply',
+            releaseToggle: 'PM51-END-OF-SUPPLY-CIM',
             roles: [InitiatingParticipant],
             callback,
           },

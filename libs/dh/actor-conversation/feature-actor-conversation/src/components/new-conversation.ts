@@ -27,13 +27,7 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 
-import {
-  AbstractControl,
-  FormGroup,
-  ReactiveFormsModule,
-  ValidatorFn,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { TranslocoDirective } from '@jsverse/transloco';
 
@@ -250,24 +244,17 @@ export class DhActorConversationNewConversation {
     () => this.newConversationForm().controls.reducedElectricityTax
   );
 
-  private readonly electricalHeatingAttachmentsValidator: ValidatorFn = (
-    control: AbstractControl<MessageFormValue>
-  ) =>
-    (control.value?.files?.length ?? 0) >= 2
-      ? null
-      : { electricalHeatingAttachmentsRequired: true };
-
   internalNoteMaxLength = internalNoteMaxLength;
   currentActorMarketRole = inject(DhActorStorage).getSelectedActor().marketRole;
 
   uploading = signal(false);
   uploadError = signal(false);
-  startConversationMutation = mutation(StartConversationDocument);
-  toast = injectToast('meteringPoint.actorConversation.newConversation.toast', [
-    MutationStatus.Loading,
-    MutationStatus.Resolved,
-  ]);
-  toastEffect = effect(() => this.toast(this.startConversationMutation.status()));
+  startConversationMutation = mutation(StartConversationDocument, {
+    onStatusUpdated: injectToast('meteringPoint.actorConversation.newConversation.toast', [
+      MutationStatus.Loading,
+      MutationStatus.Resolved,
+    ]),
+  });
 
   electricalHeatingInformation = computed(
     () => this.electricHeatingInformationQuery.data()?.electricalHeatingInformation ?? undefined
@@ -360,12 +347,6 @@ export class DhActorConversationNewConversation {
     { reset: true }
   );
 
-  private readonly syncElectricalHeatingMessageValidators = dhSyncControlValidators(
-    () => this.newConversationForm().controls.message,
-    this.electricalHeatingAttachmentsValidator,
-    () => this.shouldShowElectricalHeatingForm()
-  );
-
   private readonly reducedElectricityTaxValueEffect = effect(() => {
     if (this.isElectricalHeating() && this.reducedElectricityTaxValue()) {
       this.newConversationForm().controls.receiver.setValue(MarketRole.GridAccessProvider);
@@ -375,7 +356,12 @@ export class DhActorConversationNewConversation {
   });
 
   async startConversation() {
-    if (this.newConversationForm().invalid) return;
+    const form = this.newConversationForm();
+
+    if (form.invalid) {
+      form.markAllAsTouched();
+      return;
+    }
 
     const {
       subject,
@@ -385,7 +371,7 @@ export class DhActorConversationNewConversation {
       message,
       energySupplierDate,
       electricalHeating,
-    } = this.newConversationForm().getRawValue();
+    } = form.getRawValue();
 
     if (!receiver || !subject) return;
     if (this.uploading()) return;
@@ -422,7 +408,7 @@ export class DhActorConversationNewConversation {
       };
     }
 
-    const result = await this.startConversationMutation.mutate({
+    await this.startConversationMutation.mutate({
       variables: {
         meteringPointIdentification: meteringPointId,
         subject,
@@ -436,9 +422,10 @@ export class DhActorConversationNewConversation {
       },
       refetchQueries: [GetConversationsDocument],
       awaitRefetchQueries: true,
+      onCompleted: (data) => {
+        const newConversationId = data.startConversation?.string;
+        this.closeNewConversation.emit(newConversationId ?? undefined);
+      },
     });
-
-    const newConversationId = result.data?.startConversation?.string;
-    this.closeNewConversation.emit(newConversationId ?? undefined);
   }
 }

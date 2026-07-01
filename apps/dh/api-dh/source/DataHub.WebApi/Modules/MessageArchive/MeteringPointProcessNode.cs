@@ -444,6 +444,7 @@ public static partial class MeteringPointProcessNode
             return processes
                 .Where(p => p.BusinessReason == BusinessReason.CustomerMoveIn)
                 .Where(p => !IsMoveInCorrectionBlockedByNewerRollback(p, processes))
+                .Where(p => !IsMoveInCorrectionAlreadyInitiated(p, processes))
                 .Select(p => p.Id)
                 .ToHashSet();
         }
@@ -458,7 +459,10 @@ public static partial class MeteringPointProcessNode
     /// Whether the "request correction" action should be offered for a completed change of
     /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
     /// is the current Danish date, passed in so the rule is deterministic and unit-testable.
-    /// Processes that did not take effect (failed, canceled, rejected) are ignored.
+    /// Superseding processes that did not take effect (failed, canceled, rejected) are ignored, with
+    /// one exception: a same-day RollbackChangeOfSupplier correcting this change of supplier blocks
+    /// once initiated regardless of its outcome, so the action does not come back if it is rejected
+    /// (team-volt#2037).
     /// </summary>
     internal static bool IsChangeOfSupplierCorrectionEligible(
         MeteringPointProcess process,
@@ -474,6 +478,18 @@ public static partial class MeteringPointProcessNode
         var window = new DateInterval(today.PlusDays(-WindowDays), today);
         if (!window.Contains(effectiveDate)) return false;
 
+        // team-volt#2037: once a rollback correcting this change of supplier has been initiated, hide
+        // the action permanently regardless of the rollback's outcome, so it does not come back even
+        // if the rollback is rejected. A rollback is registered after the change of supplier it
+        // corrects, and the action is offered only on the latest eligible change of supplier, so any
+        // RollbackChangeOfSupplier registered after this one is a correction of it. The rollback's
+        // validity date is assigned by Process Manager and need not match, so the link is the
+        // registration instant, not the skæringsdato.
+        var ownRollbackInitiated = allProcesses.Any(p =>
+            p.BusinessReason == BusinessReason.RollbackChangeOfSupplier
+            && p.CreatedAt > process.CreatedAt);
+        if (ownRollbackInitiated) return false;
+
         return !allProcesses
             .Where(p => p.Id != process.Id)
             .Where(IsActiveOrSucceeded)
@@ -487,8 +503,10 @@ public static partial class MeteringPointProcessNode
                 if (reason == BusinessReason.ChangeOfEnergySupplier)
                     return cutoff > effectiveDate && window.Contains(cutoff);
 
+                // RollbackChangeOfSupplier is intentionally not handled here: it is a correction whose
+                // validity date is assigned by Process Manager, so it is linked to the change of
+                // supplier by registration order in ownRollbackInitiated above, not by cutoff.
                 if (reason == BusinessReason.EndOfSupply
-                    || reason == BusinessReason.RollbackChangeOfSupplier
                     || reason == BusinessReason.CloseDownMeteringPoint
                     || reason == BusinessReason.CustomerMoveOut
                     || reason == BusinessReason.ProductionObligation)
@@ -523,6 +541,26 @@ public static partial class MeteringPointProcessNode
             .Where(IsActiveOrSucceeded)
             .Any(rollback =>
                 rollback.CutoffDate is { } cutoff && ToDanishDate(cutoff) > moveInDate);
+    }
+
+    /// <summary>
+    /// Whether the BRS-011 move-in correction button must be hidden for <paramref name="moveIn"/>
+    /// because an incorrect-move-in correction has already been initiated for it (team-volt#2037).
+    /// A correction is always registered after the move-in it corrects, and the button is offered only
+    /// on the latest effective move-in, so any IncorrectMove created after this move-in is a correction
+    /// of it. The correction's validity date is assigned by Process Manager and need not match the
+    /// move-in's, so the link is the registration instant, not the skæringsdato. Created-at is compared
+    /// as an instant because the correction and the move-in can fall on the same calendar day. Once a
+    /// correction has been initiated the button stays hidden regardless of the correction's outcome,
+    /// so it does not come back even if the correction is rejected.
+    /// </summary>
+    internal static bool IsMoveInCorrectionAlreadyInitiated(
+        MeteringPointProcess moveIn,
+        IReadOnlyList<MeteringPointProcess> allProcesses)
+    {
+        return allProcesses.Any(p =>
+            p.BusinessReason == BusinessReason.IncorrectMove
+            && p.CreatedAt > moveIn.CreatedAt);
     }
 
     /// <summary>

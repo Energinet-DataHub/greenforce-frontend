@@ -48,6 +48,7 @@ function getReleaseTogglesQuery() {
           'PM62-ACTOR-CONVERSATION',
           'PM62-ACTOR-CONVERSATION-CENTRAL',
           'PM50-CHANGE-OF-SUPPLIER-UI',
+          'PM51-END-OF-SUPPLY-CIM',
           'PM63-HISTORICAL-CORRECTIONS-UI',
           'PM94-REPORTS',
         ],

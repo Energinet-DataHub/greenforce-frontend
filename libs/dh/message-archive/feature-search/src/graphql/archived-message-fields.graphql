@@ -1,0 +1,17 @@
+fragment ArchivedMessageFields on ArchivedMessage {
+  id
+  messageId
+  documentType
+  documentUrl
+  sender {
+    id
+    displayName
+    glnOrEicNumber
+  }
+  receiver {
+    id
+    displayName
+    glnOrEicNumber
+  }
+  createdAt
+}
