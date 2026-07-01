@@ -60,8 +60,6 @@ import { ReportsSubPaths } from '@energinet-datahub/dh/core/configuration-routin
           </watt-button>
         </vater-stack>
       </vater-flex>
-
-      asd
     </watt-card>
   `,
 })
