@@ -1648,6 +1648,7 @@ type Query {
   relatedMeteringPoints(meteringPointId: String! searchMigratedMeteringPoints: Boolean): RelatedMeteringPointsDto! @authorize(roles: [ "metering-point:search" ])
   releaseToggles: [String!]!
   relevantGridAreas(actorId: UUID period: PeriodInput!): [GridAreaDto!]!
+  reports: [Report!]! @authorize(roles: [ "metering-point-master-data-reports:manage" ])
   requestOptions: RequestOptions! @authorize(roles: [ "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   requests("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [RequestSortInput!]): RequestsConnection @authorize(roles: [ "calculations:manage", "request-aggregated-measured-data:view", "request-wholesale-settlement:view" ])
   searchOrganizationInCVR(cvr: String!): CVROrganizationResult!
@@ -1750,6 +1751,15 @@ type RemoveMeteringPointsFromAdditionalRecipientPayload {
 type ReplayMigrationEventsDeadLetterQueueResultDtoV1 {
   dlqCount: Long!
   processedCount: Int!
+}
+
+type Report {
+  id: String!
+  createdDateTime: DateTime!
+  reportType: RequestedReportType!
+  meteringPointTypes: [ReportsMeteringPointType]
+  gridAreaCodes: [String!]
+  status: ReportStatus!
 }
 
 type RequestCalculatedEnergyTimeSeriesResult implements ActorRequestQueryResult & OrchestrationInstance {
@@ -4044,6 +4054,37 @@ enum ReasonCodeV1 {
   NO_ACCESS_TO_THE_METER
 }
 
+enum ReportStatus {
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  CANCELED
+}
+
+enum ReportsMeteringPointType {
+  Consumption
+  Production
+  Exchange
+  VeProduction
+  NetProduction
+  SupplyToGrid
+  ConsumptionFromGrid
+  WholesaleServicesInformation
+  OwnProduction
+  NetFromGrid
+  NetToGrid
+  TotalConsumption
+  ElectricalHeating
+  NetConsumption
+  CapacitySettlement
+  Analysis
+  OtherConsumption
+  OtherProduction
+  ExchangeReactiveEnergy
+  CollectiveNetProduction
+  CollectiveNetConsumption
+}
+
 enum RequestCalculationType {
   AGGREGATION
   BALANCE_FIXING
@@ -4052,6 +4093,10 @@ enum RequestCalculationType {
   SECOND_CORRECTION_SETTLEMENT
   THIRD_CORRECTION_SETTLEMENT
   LATEST_CORRECTION_SETTLEMENT
+}
+
+enum RequestedReportType {
+  MASTER_DATA
 }
 
 enum Resolution {
