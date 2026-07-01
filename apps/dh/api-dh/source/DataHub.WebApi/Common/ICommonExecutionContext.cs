@@ -23,7 +23,7 @@ namespace Energinet.DataHub.WebApi.Common;
 public interface ICommonExecutionContext
 {
     /// <summary>
-    /// Gets the userId of the curretn caller
+    /// Gets the userId of the current caller
     /// </summary>
     Guid UserId { get; }
 
