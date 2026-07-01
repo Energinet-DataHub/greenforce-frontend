@@ -119,8 +119,10 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     }
 
     [Fact] // TC8
-    public void IncorrectMoveCreatedAfterAndCutoffBefore_IsNotEligible()
+    public void IncorrectMoveRegisteredAfterP_CutoffBefore_IsNotEligible()
     {
+        // A BRS-011 registered after P hides the action. Its Process-Manager-assigned cutoff (here
+        // before P) is not part of the link; the registration order is (team-volt#2071).
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process(
             "Q",
@@ -139,6 +141,29 @@ public class ChangeOfSupplierCorrectionEligibilityTests
         var q = Process("Q", BusinessReason.ProductionObligation, MeteringPointProcessState.Succeeded, new LocalDate(2026, 5, 15));
 
         IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071 scenario 2
+    public void ProductionObligationSameCutoffDay_IsNotEligible()
+    {
+        // A BRS-036 production obligation taking effect on the same day as P hides the action. The
+        // other strict-after reasons keep an equal cutoff day eligible (see
+        // CompetingProcessWithEqualCutoffDay_IsEligible), but production obligation does not.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.ProductionObligation, MeteringPointProcessState.Succeeded, _pv);
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071
+    public void ProductionObligationBeforeCutoffDay_IsEligible()
+    {
+        // A production obligation taking effect BEFORE P is older than the change of supplier and
+        // does not supersede it, so the action stays visible. Pins the lower boundary of the >= rule.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process("Q", BusinessReason.ProductionObligation, MeteringPointProcessState.Succeeded, new LocalDate(2026, 4, 20));
+
+        IsEligible(p, [p, q]).Should().BeTrue();
     }
 
     [Fact]
@@ -272,12 +297,15 @@ public class ChangeOfSupplierCorrectionEligibilityTests
         IsEligible(p, [p, q]).Should().BeTrue();
     }
 
-    [Theory]
+    [Theory] // team-volt#2071
     [InlineData(MeteringPointProcessState.Canceled)]
     [InlineData(MeteringPointProcessState.Failed)]
     [InlineData(MeteringPointProcessState.Rejected)]
-    public void TerminalStateIncorrectMoveSibling_IsIgnored(MeteringPointProcessState terminalState)
+    public void TerminalIncorrectMoveRegisteredAfterP_IsNotEligible(MeteringPointProcessState terminalState)
     {
+        // kommer ikke igen hvis processen afvises: once a BRS-011 incorrect move-in is registered
+        // after P, the action stays hidden regardless of the correction's outcome, so it does not
+        // come back even if the BRS-011 is rejected (mirrors the rollback rule in team-volt#2037).
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process(
             "Q",
@@ -286,14 +314,14 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             cutoff: new LocalDate(2026, 4, 15),
             createdAt: new LocalDate(2026, 5, 15));
 
-        IsEligible(p, [p, q]).Should().BeTrue();
+        IsEligible(p, [p, q]).Should().BeFalse();
     }
 
-    [Fact]
-    public void IncorrectMoveWithCutoffAfterPv_IsEligible()
+    [Fact] // team-volt#2071
+    public void IncorrectMoveRegisteredAfterP_WithCutoffAfterPv_IsNotEligible()
     {
-        // Rule 6 only supersedes when the incorrect move corrects an EARLIER move-in (cutoff
-        // before P). A cutoff after P does not supersede, and IncorrectMove is not a rule-5 reason.
+        // A BRS-011 registered after P hides the action regardless of its Process-Manager-assigned
+        // cutoff, which is not used for the link. Here the cutoff is even after P.
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process(
             "Q",
@@ -302,7 +330,80 @@ public class ChangeOfSupplierCorrectionEligibilityTests
             cutoff: new LocalDate(2026, 5, 15),
             createdAt: new LocalDate(2026, 5, 15));
 
-        IsEligible(p, [p, q]).Should().BeTrue();
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071 scenario 1
+    public void IncorrectMoveRegisteredAfterP_WithCutoffOnPvDay_IsNotEligible()
+    {
+        // The dev003 bug: a BRS-011 correcting a move-in just before P is assigned a Process-Manager
+        // validity date that lands on P's own day (not strictly before it), so the old cutoff-based
+        // rule left the action visible. Registration order hides it: the BRS-011 was created after P.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.IncorrectMove,
+            MeteringPointProcessState.Succeeded,
+            cutoff: _pv,
+            createdAt: new LocalDate(2026, 5, 15));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071
+    public void IncorrectMoveWithoutCutoffRegisteredAfterP_IsNotEligible()
+    {
+        // The link is the registration instant, not the cutoff, so a BRS-011 with no Process-Manager
+        // validity date still hides the action once registered after P. Locks in that the rule is
+        // evaluated before the null-cutoff guard in the matrix loop.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.IncorrectMove,
+            MeteringPointProcessState.Succeeded,
+            cutoff: null,
+            createdAt: new LocalDate(2026, 5, 15));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071
+    public void PendingIncorrectMoveRegisteredAfterP_IsNotEligible()
+    {
+        // A BRS-011 still in flight (Pending) registered after P hides the action too: the rule is
+        // state-agnostic, so it does not wait for the correction to complete.
+        var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
+        var q = Process(
+            "Q",
+            BusinessReason.IncorrectMove,
+            MeteringPointProcessState.Pending,
+            cutoff: new LocalDate(2026, 4, 15),
+            createdAt: new LocalDate(2026, 5, 15));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
+    }
+
+    [Fact] // team-volt#2071
+    public void IncorrectMoveRegisteredAfterPCreatedButBeforePCutoff_IsNotEligible()
+    {
+        // The rule keys off P's registration instant, not its effective/cutoff date. P is registered
+        // 04-20 with a later cutoff of 05-01; a BRS-011 registered 04-25 (after P was created, before
+        // P's cutoff) hides the action. Under the old effectiveDate-based rule this stayed eligible,
+        // so it pins the reference point to process.CreatedAt.
+        var p = Process(
+            "P",
+            BusinessReason.ChangeOfEnergySupplier,
+            MeteringPointProcessState.Succeeded,
+            cutoff: _pv,
+            createdAt: new LocalDate(2026, 4, 20));
+        var q = Process(
+            "Q",
+            BusinessReason.IncorrectMove,
+            MeteringPointProcessState.Succeeded,
+            cutoff: new LocalDate(2026, 4, 15),
+            createdAt: new LocalDate(2026, 4, 25));
+
+        IsEligible(p, [p, q]).Should().BeFalse();
     }
 
     [Fact]
@@ -334,10 +435,11 @@ public class ChangeOfSupplierCorrectionEligibilityTests
     }
 
     [Fact]
-    public void IncorrectMoveCreatedBeforePv_IsEligible()
+    public void IncorrectMoveRegisteredBeforeP_IsEligible()
     {
-        // Rule 6 supersedes only when the incorrect move was started AFTER P's validity; one
-        // created before P (even with a cutoff before P) does not block. Isolates createdAt > pv.
+        // A BRS-011 registered BEFORE P corrects an earlier move-in, unrelated to P, so it does not
+        // hide the action (mirrors RollbackRegisteredBeforeP_IsEligible). Isolates the
+        // registration-order boundary: createdAt < P.CreatedAt (team-volt#2071).
         var p = ChangeOfSupplier("P", MeteringPointProcessState.Succeeded, _pv);
         var q = Process(
             "Q",
