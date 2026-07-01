@@ -366,7 +366,6 @@ export class DhMeteringPointActionsComponent {
     const currentCreatedDate = this.createdDate();
 
     assertIsDefined(currentConnectionState);
-    assertIsDefined(currentCreatedDate);
 
     this.modalService.open({
       component: DhConnectionStateManageComponent,

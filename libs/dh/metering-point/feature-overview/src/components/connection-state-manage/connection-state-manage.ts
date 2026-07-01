@@ -113,9 +113,9 @@ import { mutation, MutationResult } from '@energinet-datahub/dh/shared/util-apol
 })
 export class DhConnectionStateManageComponent extends WattTypedModal<{
   currentConnectionState: ElectricityMarketViewConnectionState;
-  currentCreatedDate: Date;
+  currentCreatedDate: Date | null | undefined;
   meteringPointId: string;
-  meteringPointType: ElectricityMarketMeteringPointType;
+  meteringPointType: ElectricityMarketMeteringPointType | null | undefined;
 }> {
   private readonly mutation = mutation(RequestConnectionStateChangeDocument);
   private readonly toastService = inject(WattToastService);
@@ -171,10 +171,12 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
   }
 
   private findMinDate(newConnectionState: ElectricityMarketViewConnectionState): Date {
-    const daysSinceCreated = dayjs(this.today).diff(
-      dayjs(this.modalData.currentCreatedDate),
-      'days'
-    );
+    const currentCreatedDate = this.modalData.currentCreatedDate;
+    let daysSinceCreated: number | null = null;
+
+    if (currentCreatedDate) {
+      daysSinceCreated = dayjs(this.today).diff(dayjs(currentCreatedDate), 'days');
+    }
 
     // Handle DISCONNECTED -> CONNECTED transition
     if (this.modalData.currentConnectionState === 'DISCONNECTED') {
@@ -188,8 +190,8 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
       case 'CONNECTED': {
         const maxDaysBackInTime = 90;
 
-        if (daysSinceCreated < maxDaysBackInTime) {
-          return this.modalData.currentCreatedDate;
+        if (daysSinceCreated != null && daysSinceCreated < maxDaysBackInTime) {
+          return currentCreatedDate as Date;
         }
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
@@ -207,8 +209,8 @@ export class DhConnectionStateManageComponent extends WattTypedModal<{
             ? 23
             : 1;
 
-        if (daysSinceCreated < maxDaysBackInTime) {
-          return this.modalData.currentCreatedDate;
+        if (daysSinceCreated !== null && daysSinceCreated < maxDaysBackInTime) {
+          return currentCreatedDate as Date;
         }
 
         return dayjs(this.today).subtract(maxDaysBackInTime, 'days').toDate();
