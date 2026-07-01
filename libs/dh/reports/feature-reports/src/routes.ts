@@ -34,13 +34,13 @@ import {
   DhReleaseToggleService,
 } from '@energinet-datahub/dh/shared/util-release-toggle';
 
-import { DhReportsV2 } from './reports-v2.component';
-import { DhReportsOverview } from './reports-overview';
+import { DhReports } from './components/reports.component';
+import { DhReportsOverview } from './components/reports-overview';
 
 export const routes: Routes = [
   {
     path: '',
-    component: DhReportsV2,
+    component: DhReports,
     data: {
       titleTranslationKey: 'reports.topBarTitle',
     },
@@ -77,7 +77,8 @@ export const routes: Routes = [
           },
           {
             path: 'new',
-            loadComponent: () => import('./new-report/new-report').then((m) => m.DhNewReport),
+            loadComponent: () =>
+              import('./components/new-report/new-report').then((m) => m.DhNewReport),
           },
         ],
       },
