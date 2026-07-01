@@ -12,11 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.MarketParticipant.Authorization.Model;
-using Energinet.DataHub.MarketParticipant.Authorization.Model.AccessValidationRequests;
-using Energinet.DataHub.MarketParticipant.Authorization.Services;
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Modules.ActorConversation.Models;
 using HotChocolate.Authorization;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -28,37 +25,14 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<string> StartConversationAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
+        [Service] ICommonExecutionContext executionContext,
         [Service] AuthorizedHttpClientFactory authorizedHttpClientFactory,
         StartConversationInput startConversationInput,
         StartElectricalHeatingConversationInput? electricalHeatingConversationInput,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
-        var authRequest = new CreateActorConversationRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            MarketRole = marketRole,
-            MeteringPointId = startConversationInput.MeteringPointIdentification,
-            UserId = userId,
-        };
-
-        var signature = await requestAuthorization.RequestSignatureAsync(authRequest);
-
-        if (signature.Signature == null ||
-            (signature.Result != SignatureResult.Valid && signature.Result != SignatureResult.NoContent))
-        {
-            throw new InvalidOperationException("User is not authorized to access the requested metering point.");
-        }
-
-        var authClient = authorizedHttpClientFactory.CreateActorConversationClientWithSignature(signature.Signature);
+        var authClient = await authorizedHttpClientFactory.CreateActorConversationClientWithTokenAsync(
+            new List<string> { startConversationInput.MeteringPointIdentification }, ct);
 
         if (electricalHeatingConversationInput != null)
         {
@@ -79,9 +53,9 @@ public static partial class ActorConversationOperations
             }
 
             var response = await authClient.ApiStartElectricalHeatingConversationAsync(
-                userId.ToString(),
-                marketParticipantNumber,
-                MapMarketRoleToActorType(marketRole).ToString(),
+                executionContext.UserId.ToString(),
+                executionContext.MarketParticipantNumber.ToString(),
+                MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
                 startRequest,
                 ct);
 
@@ -92,7 +66,6 @@ public static partial class ActorConversationOperations
             var startRequest = new StartConversationRequest
             {
                 Subject = startConversationInput.Subject,
-                SenderActorType = MapMarketRoleToActorType(marketRole),
                 ReceiverActorType = startConversationInput.Receiver,
                 MeteringPointIdentification = startConversationInput.MeteringPointIdentification,
                 InternalNote = startConversationInput.InternalNote,
@@ -107,9 +80,9 @@ public static partial class ActorConversationOperations
             }
 
             var response = await authClient.ApiStartConversationAsync(
-                userId.ToString(),
-                marketParticipantNumber,
-                MapMarketRoleToActorType(marketRole).ToString(),
+                executionContext.UserId.ToString(),
+                executionContext.MarketParticipantNumber.ToString(),
+                MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
                 startRequest,
                 ct);
 
@@ -120,16 +93,11 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> SendActorConversationMessageAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IActorConversationClient_V1 actorConversationClient,
         SendActorConversationMessageInput sendActorConversationMessageInput,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
         var messageRequest = new AddConversationMessageRequest
         {
             ConversationId = sendActorConversationMessageInput.ConversationId,
@@ -143,9 +111,9 @@ public static partial class ActorConversationOperations
         }
 
         await actorConversationClient.ApiAddConversationMessageAsync(
-            userId.ToString(),
-            marketParticipantNumber,
-            MapMarketRoleToActorType(marketRole).ToString(),
+            executionContext.UserId.ToString(),
+            executionContext.MarketParticipantNumber.ToString(),
+            MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
             messageRequest,
             ct);
 
@@ -155,22 +123,15 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> UpdateInternalConversationNoteAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IActorConversationClient_V1 actorConversationClient,
         UpdateInternalConversationNoteInput updateInternalConversationNoteInput,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
         await actorConversationClient.ApiUpdateInternalNoteAsync(
-            userId.ToString(),
-            marketParticipantNumber,
-            MapMarketRoleToActorType(marketRole).ToString(),
+            executionContext.UserId.ToString(),
+            executionContext.MarketParticipantNumber.ToString(),
+            MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
             new UpdateInternalNoteRequest
             {
                 ConversationId = updateInternalConversationNoteInput.ConversationId,
@@ -184,29 +145,15 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> MarkConversationReadAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
-        // Auth is not used for this operation, so just sets a randomsignature
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            UserId = userId,
-        };
-
         await actorConversationClient.ApiMarkConversationReadAsync(
-            userId.ToString(),
-            marketParticipantNumber,
-            MapMarketRoleToActorType(marketRole).ToString(),
+            executionContext.UserId.ToString(),
+            executionContext.MarketParticipantNumber.ToString(),
+            MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
             new MarkConversationReadRequest
             {
                 ConversationId = conversationId,
@@ -219,29 +166,15 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> MarkConversationUnReadAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
-        // Auth is not used for this operation, so just sets a randomsignature
-        var authRequest = new AddActorConversationMessageRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            UserId = userId,
-        };
-
         await actorConversationClient.ApiMarkConversationUnreadAsync(
-            userId.ToString(),
-            marketParticipantNumber,
-            MapMarketRoleToActorType(marketRole).ToString(),
+            executionContext.UserId.ToString(),
+            executionContext.MarketParticipantNumber.ToString(),
+            MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
             new MarkConversationUnreadRequest
             {
                 ConversationId = conversationId,
@@ -254,31 +187,17 @@ public static partial class ActorConversationOperations
     [Mutation]
     [Authorize(Roles = ["metering-point:actor-conversation"])]
     public static async Task<bool> CloseConversationAsync(
-        [Service] IHttpContextAccessor httpContextAccessor,
-        [Service] IRequestAuthorization requestAuthorization,
+        [Service] ICommonExecutionContext executionContext,
         [Service] IActorConversationClient_V1 actorConversationClient,
         Guid conversationId,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(httpContextAccessor.HttpContext);
-
-        var user = httpContextAccessor.HttpContext.User;
-        var marketParticipantNumber = user.GetMarketParticipantNumber();
-        var marketRole = Enum.Parse<EicFunctionAuth>(user.GetMarketParticipantMarketRole());
-        var userId = user.GetUserId();
-
-        var authRequest = new CloseActorConversationRequest
-        {
-            ActorNumber = marketParticipantNumber,
-            UserId = userId,
-        };
-
         try
         {
             await actorConversationClient.ApiCloseConversationAsync(
-                userId.ToString(),
-                marketParticipantNumber,
-                MapMarketRoleToActorType(marketRole).ToString(),
+                executionContext.UserId.ToString(),
+                executionContext.MarketParticipantNumber.ToString(),
+                MapMarketRoleToActorType(executionContext.MarketRole).ToString(),
                 new CloseConversationRequest
                 {
                     ConversationId = conversationId,

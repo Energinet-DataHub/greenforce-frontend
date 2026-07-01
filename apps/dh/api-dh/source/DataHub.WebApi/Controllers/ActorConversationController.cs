@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using Energinet.DataHub.WebApi.Clients.ActorConversation.v1;
-using Energinet.DataHub.WebApi.Extensions;
+using Energinet.DataHub.WebApi.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using EicFunctionAuth = Energinet.DataHub.MarketParticipant.Authorization.Model.EicFunction;
@@ -33,14 +33,14 @@ public sealed class ActorConversationController : ControllerBase
         ".bmp", ".csv", ".jpeg", ".jpg", ".pdf", ".png", ".txt",
     };
 
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly ICommonExecutionContext _executionContext;
     private readonly IActorConversationClient_V1 _actorConversationClient;
 
     public ActorConversationController(
-        IHttpContextAccessor httpContextAccessor,
+        ICommonExecutionContext executionContext,
         IActorConversationClient_V1 actorConversationClient)
     {
-        _httpContextAccessor = httpContextAccessor;
+        _executionContext = executionContext;
         _actorConversationClient = actorConversationClient;
     }
 
@@ -65,27 +65,17 @@ public sealed class ActorConversationController : ControllerBase
             return BadRequest($"File size exceeds the maximum allowed size of 25 MB.");
         }
 
-        ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext);
-
-        var user = _httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
-        var userId = user.GetUserId();
-        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
-        {
-            return Forbid();
-        }
-
-        if (!TryMapMarketRole(marketRole, out var mappedRole))
-        {
-            return Forbid();
-        }
-
         await using var stream = document.OpenReadStream();
         var fileParameter = new FileParameter(stream, document.FileName, document.ContentType);
 
         try
         {
-            var response = await _actorConversationClient.ApiAddMessageDocumentAsync(userId.ToString(), actorNumber, mappedRole.ToString(), fileParameter, ct);
+            var response = await _actorConversationClient.ApiAddMessageDocumentAsync(
+                _executionContext.UserId.ToString(),
+                _executionContext.MarketParticipantNumber.ToString(),
+                MapMarketRoleToActorType(_executionContext.MarketRole).ToString(),
+                fileParameter,
+                ct);
 
             return Ok(response.DocumentId);
         }
@@ -104,24 +94,14 @@ public sealed class ActorConversationController : ControllerBase
         Guid documentId,
         CancellationToken ct)
     {
-        ArgumentNullException.ThrowIfNull(_httpContextAccessor.HttpContext);
-
-        var user = _httpContextAccessor.HttpContext.User;
-        var actorNumber = user.GetMarketParticipantNumber();
-        var userId = user.GetUserId();
-        if (!Enum.TryParse<EicFunctionAuth>(user.GetMarketParticipantMarketRole(), out var marketRole))
-        {
-            return Forbid();
-        }
-
-        if (!TryMapMarketRole(marketRole, out var mappedRole))
-        {
-            return Forbid();
-        }
-
         try
         {
-            using var response = await _actorConversationClient.ApiGetMessageDocumentAsync(documentId, userId.ToString(), actorNumber, mappedRole.ToString(), ct);
+            using var response = await _actorConversationClient.ApiGetMessageDocumentAsync(
+                documentId,
+                _executionContext.UserId.ToString(),
+                _executionContext.MarketParticipantNumber.ToString(),
+                MapMarketRoleToActorType(_executionContext.MarketRole).ToString(),
+                ct);
 
             var contentType = response.Headers.TryGetValue("Content-Type", out var contentTypeValues)
                 ? contentTypeValues.FirstOrDefault() ?? "application/octet-stream"
@@ -158,22 +138,14 @@ public sealed class ActorConversationController : ControllerBase
         return memoryStream.ToArray();
     }
 
-    private static bool TryMapMarketRole(EicFunctionAuth marketRole, out MarketRole mapped)
+    private static MarketRole MapMarketRoleToActorType(EicFunctionAuth marketRole)
     {
-        switch (marketRole)
+        return marketRole switch
         {
-            case EicFunctionAuth.EnergySupplier:
-                mapped = MarketRole.EnergySupplier;
-                return true;
-            case EicFunctionAuth.GridAccessProvider:
-                mapped = MarketRole.GridAccessProvider;
-                return true;
-            case EicFunctionAuth.DataHubAdministrator:
-                mapped = MarketRole.Energinet;
-                return true;
-            default:
-                mapped = default;
-                return false;
-        }
+            EicFunctionAuth.EnergySupplier => MarketRole.EnergySupplier,
+            EicFunctionAuth.GridAccessProvider => MarketRole.GridAccessProvider,
+            EicFunctionAuth.DataHubAdministrator => MarketRole.Energinet,
+            _ => throw new InvalidOperationException($"Unsupported market role: {marketRole}"),
+        };
     }
 }

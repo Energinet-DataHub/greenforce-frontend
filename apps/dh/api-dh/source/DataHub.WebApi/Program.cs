@@ -21,6 +21,7 @@ using Energinet.DataHub.Core.App.WebApp.Extensions.DependencyInjection;
 using Energinet.DataHub.EDI.B2CClient.Extensions.DependencyInjection;
 using Energinet.DataHub.MarketParticipant.Authorization.Extensions;
 using Energinet.DataHub.MarketParticipant.Authorization.Model;
+using Energinet.DataHub.MarketParticipant.Authorizations.Client;
 using Energinet.DataHub.WebApi;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
@@ -122,6 +123,7 @@ services.AddDomainClients();
 services.AddEDIB2CClient();
 services.RegisterModules(configuration);
 services.AddAuthorizationRequestModule();
+services.AddAuthorizationClient();
 
 services.AddFeatureManagement();
 

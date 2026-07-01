@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using Energinet.DataHub.Core.App.Common.Calendar;
 using Energinet.DataHub.Core.App.Common.Extensions.DependencyInjection;
 using Energinet.DataHub.ElectricityMarket.Client.Extensions.DependencyInjection;
 using Energinet.DataHub.WebApi.Clients.Dh2Bridge;
 using Energinet.DataHub.WebApi.Clients.ElectricityMarket.Import;
+using Energinet.DataHub.WebApi.Common;
 using Energinet.DataHub.WebApi.Extensions;
 using Energinet.DataHub.WebApi.Options;
 using Microsoft.Extensions.Options;
@@ -32,6 +32,8 @@ public static class DomainRegistrationExtensions
             .AddDataHubCalendar()
             .AddHttpClient()
             .AddHttpContextAccessor()
+            .AddScoped<ICommonExecutionContext, CommonExecutionContext>()
+            .AddScoped<IAuthorizationsClient, AuthorizationsClientWrapper>()
             .AddAuthorizedHttpClient()
             .AddClient<IDh2BridgeClient>(baseUrls => baseUrls.Dh2BridgeBaseUrl, (_, client) => new Dh2BridgeClient(client))
             .AddClient<IElectricityMarketImportClient>(baseUrls => baseUrls.ElectricityMarketBaseUrl, (_, client) => new ElectricityMarketImportClient(client))
@@ -42,9 +44,11 @@ public static class DomainRegistrationExtensions
     private static IServiceCollection AddAuthorizedHttpClient(this IServiceCollection serviceCollection)
     {
         return serviceCollection
-            .AddSingleton(provider => new AuthorizedHttpClientFactory(
+            .AddScoped(provider => new AuthorizedHttpClientFactory(
                 provider.GetRequiredService<IHttpClientFactory>(),
                 () => (string?)provider.GetRequiredService<IHttpContextAccessor>().HttpContext!.Request.Headers["Authorization"] ?? string.Empty,
-                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>()));
+                provider.GetRequiredService<IOptions<SubSystemBaseUrls>>(),
+                provider.GetRequiredService<IAuthorizationsClient>(),
+                provider.GetRequiredService<ICommonExecutionContext>()));
     }
 }
