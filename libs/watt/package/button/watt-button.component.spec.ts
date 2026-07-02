@@ -150,4 +150,21 @@ describe(WattButtonComponent, () => {
     expect(contentWrapper).toHaveClass('content-wrapper--loading');
     expect(screen.getByRole('progressbar').closest('.loading-spinner')).toBeInTheDocument();
   });
+
+  it('is non-interactive while loading, so an in-flight action cannot be triggered again', async () => {
+    const renderResult = await renderComponent({ loading: true });
+    const user = userEvent.setup();
+
+    const wattButton = renderResult.container;
+
+    // The underlying control is disabled, announced as busy, and pointer interaction is blocked...
+    expect(screen.getByRole('button')).toBeDisabled();
+    expect(screen.getByRole('button')).toHaveAttribute('aria-busy', 'true');
+    expect(wattButton).toHaveStyle({ 'pointer-events': 'none' });
+    await expect(user.click(wattButton)).rejects.toThrow();
+
+    // ...but it keeps its normal appearance: the spinner conveys the busy state instead of the
+    // greyed-out disabled styling (which is reserved for the explicit `disabled` input).
+    expect(wattButton).not.toHaveClass('watt-button--disabled');
+  });
 });

@@ -57,7 +57,8 @@ export type WattButtonIconPosition = 'leading' | 'trailing';
     <button
       mat-button
       [disableRipple]="true"
-      [disabled]="disabled()"
+      [disabled]="disabled() || loading()"
+      [attr.aria-busy]="loading()"
       [type]="type()"
       [color]="variant()"
       [attr.form]="type() === 'submit' ? formId() : null"
@@ -99,11 +100,12 @@ export class WattButtonComponent {
 
   classes = computed(() => `watt-button--${this.variant()} watt-button-size--${this.size()}`);
 
-  // Prevents emitting a click event in Chrome/Edge/Safari when a disabled button is clicked
+  // Prevents emitting a click event in Chrome/Edge/Safari when a disabled or loading button is
+  // clicked (loading buttons are non-interactive so an in-flight action cannot be triggered twice).
   // WebKit bug: https://bugs.webkit.org/show_bug.cgi?id=89041
   // Note: This solution is preferred (in this particular case) over adding styling to the Scss file
   // because the presence of inline styles can be tested with Vitest.
-  pointerEvents = computed(() => (this.disabled() ? 'none' : 'auto'));
+  pointerEvents = computed(() => (this.disabled() || this.loading() ? 'none' : 'auto'));
 
   /**
    * @ignore
