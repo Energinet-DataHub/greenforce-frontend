@@ -457,12 +457,17 @@ public static partial class MeteringPointProcessNode
 
     /// <summary>
     /// Whether the "request correction" action should be offered for a completed change of
-    /// supplier. Dates are compared at Danish calendar-day granularity; <paramref name="today"/>
-    /// is the current Danish date, passed in so the rule is deterministic and unit-testable.
+    /// supplier. Cutoff (validity) dates are compared at Danish calendar-day granularity;
+    /// <paramref name="today"/> is the current Danish date, passed in so the rule is deterministic
+    /// and unit-testable. The two correction-registration exceptions below instead compare the
+    /// registration instant (<c>CreatedAt</c>), since a correction can share a calendar day with the
+    /// process it corrects.
     /// Superseding processes that did not take effect (failed, canceled, rejected) are ignored, with
-    /// one exception: a same-day RollbackChangeOfSupplier correcting this change of supplier blocks
-    /// once initiated regardless of its outcome, so the action does not come back if it is rejected
-    /// (team-volt#2037).
+    /// two exceptions that block once initiated regardless of outcome, so the action does not come
+    /// back if they are rejected: a RollbackChangeOfSupplier correcting this change of supplier
+    /// (team-volt#2037) and an incorrect move-in (BRS-011) registered after it (team-volt#2071). A
+    /// production obligation (BRS-036) taking effect on the same day as the change of supplier also
+    /// hides the action (team-volt#2071).
     /// </summary>
     internal static bool IsChangeOfSupplierCorrectionEligible(
         MeteringPointProcess process,
@@ -490,6 +495,17 @@ public static partial class MeteringPointProcessNode
             && p.CreatedAt > process.CreatedAt);
         if (ownRollbackInitiated) return false;
 
+        // team-volt#2071: once an incorrect move-in (BRS-011) has been registered after this change of
+        // supplier, hide the action regardless of the correction's outcome, so it does not come back
+        // even if the BRS-011 is rejected. Like the rollback above, the correction's validity date is
+        // assigned by Process Manager and does not reliably fall before the change of supplier, so the
+        // link is the registration instant (compared as an instant, since the two can share a calendar
+        // day), not the skæringsdato.
+        var incorrectMoveInitiatedAfter = allProcesses.Any(p =>
+            p.BusinessReason == BusinessReason.IncorrectMove
+            && p.CreatedAt > process.CreatedAt);
+        if (incorrectMoveInitiatedAfter) return false;
+
         return !allProcesses
             .Where(p => p.Id != process.Id)
             .Where(IsActiveOrSucceeded)
@@ -503,21 +519,24 @@ public static partial class MeteringPointProcessNode
                 if (reason == BusinessReason.ChangeOfEnergySupplier)
                     return cutoff > effectiveDate && window.Contains(cutoff);
 
-                // RollbackChangeOfSupplier is intentionally not handled here: it is a correction whose
-                // validity date is assigned by Process Manager, so it is linked to the change of
-                // supplier by registration order in ownRollbackInitiated above, not by cutoff.
                 if (reason == BusinessReason.EndOfSupply
                     || reason == BusinessReason.CloseDownMeteringPoint
-                    || reason == BusinessReason.CustomerMoveOut
-                    || reason == BusinessReason.ProductionObligation)
+                    || reason == BusinessReason.CustomerMoveOut)
                     return cutoff > effectiveDate;
+
+                // team-volt#2071: a production obligation update (BRS-036) taking effect on the same
+                // day as, or after, the change of supplier supersedes it. Unlike the strict-after
+                // reasons above, an equal cutoff day also blocks here.
+                if (reason == BusinessReason.ProductionObligation)
+                    return cutoff >= effectiveDate;
 
                 if (reason == BusinessReason.CustomerMoveIn)
                     return other.State == MeteringPointProcessState.Succeeded && cutoff > effectiveDate;
 
-                if (reason == BusinessReason.IncorrectMove)
-                    return ToDanishDate(other.CreatedAt) > effectiveDate && cutoff < effectiveDate;
-
+                // RollbackChangeOfSupplier and IncorrectMove are corrections whose validity date is
+                // assigned by Process Manager, so they are linked to the change of supplier by
+                // registration order above (ownRollbackInitiated / incorrectMoveInitiatedAfter), not
+                // by cutoff.
                 return false;
             });
     }
