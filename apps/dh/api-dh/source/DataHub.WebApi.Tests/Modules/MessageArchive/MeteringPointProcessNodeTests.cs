@@ -809,6 +809,23 @@ public class MeteringPointProcessNodeTests
     }
 
     [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_ProcessManagerThrows_FailsClosed_ReturnsNull()
+    {
+        // A process-manager failure must hide the action (fail closed), not error the whole
+        // availableActions field, so the loader yields null for the failing metering point and a
+        // null latest id never matches a process id.
+        var processManagerClient = CreateThrowingProcessManagerClient();
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().BeNull();
+    }
+
+    [Fact]
     public async Task GetMoveInCorrectionRollbackEligibility_NoBlockingRollback_IncludesMoveIn()
     {
         // No rollback on the metering point, so the succeeded move-in is eligible: its id is returned.
@@ -1555,6 +1572,23 @@ public class MeteringPointProcessNodeTests
         result[MeteringPointId].Should().Be(createdLater.Id.ToString());
     }
 
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_ProcessManagerThrows_FailsClosed_ReturnsNull()
+    {
+        // A process-manager failure must hide the action (fail closed), not error the whole
+        // availableActions field, so the loader yields null for the failing metering point and a
+        // null latest id never matches a process id.
+        var processManagerClient = CreateThrowingProcessManagerClient();
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().BeNull();
+    }
+
     private static async Task<IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>> InvokeIncorrectMoveInEligibilityAsync(
         Result<GetMovesByEnergySupplierIdResultDtoV1> electricityMarketResult)
     {
@@ -1675,6 +1709,17 @@ public class MeteringPointProcessNodeTests
                 It.IsAny<SearchWorkflowInstancesByMeteringPointIdQuery>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync(instances);
+        return processManagerClient;
+    }
+
+    private static Mock<IProcessManagerClient> CreateThrowingProcessManagerClient()
+    {
+        var processManagerClient = new Mock<IProcessManagerClient>();
+        processManagerClient
+            .Setup(x => x.SearchWorkflowInstancesByMeteringPointIdQueryAsync(
+                It.IsAny<SearchWorkflowInstancesByMeteringPointIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("process manager unavailable"));
         return processManagerClient;
     }
 

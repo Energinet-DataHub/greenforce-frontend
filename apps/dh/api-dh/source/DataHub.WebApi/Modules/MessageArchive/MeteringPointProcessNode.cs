@@ -682,38 +682,48 @@ public static partial class MeteringPointProcessNode
 
         foreach (var meteringPointId in meteringPointIds)
         {
-            var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
-                userIdentity,
-                meteringPointId,
-                earliest,
-                farFuture);
+            try
+            {
+                var query = new SearchWorkflowInstancesByMeteringPointIdQuery(
+                    userIdentity,
+                    meteringPointId,
+                    earliest,
+                    farFuture);
 
-            var instances = await processManagerClient
-                .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
-                .ConfigureAwait(false);
+                var instances = await processManagerClient
+                    .SearchWorkflowInstancesByMeteringPointIdQueryAsync(query, cancellationToken)
+                    .ConfigureAwait(false);
 
-            // "Latest" is the most recent process of the requested business reason that has actually
-            // taken effect: its cutoff (ExpectedValidityDate) has been reached and it was not
-            // terminated without taking effect (rejected, canceled, failed). A future-dated one whose
-            // cutoff has not been reached, and a rejected/canceled/failed one, therefore do not steal
-            // the correction slot from the last effective one. Lifecycle state is not a reliable
-            // discriminator: an accepted move stays in Sleeping both before and (while customer master
-            // data is outstanding) after its cutoff, so the cutoff date is what decides whether it has
-            // taken effect.
-            var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
-            var latest = instances
-                .Where(x => x.BusinessReason == businessReason)
-                .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
-                .Where(x => x.Lifecycle.TerminationState
-                    is not (WorkflowInstanceTerminationState.Rejected
-                        or WorkflowInstanceTerminationState.Canceled
-                        or WorkflowInstanceTerminationState.Failed))
-                .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
-                .ThenByDescending(x => x.Lifecycle.CreatedAt)
-                .ThenByDescending(x => x.Id)
-                .FirstOrDefault();
+                // "Latest" is the most recent process of the requested business reason that has actually
+                // taken effect: its cutoff (ExpectedValidityDate) has been reached and it was not
+                // terminated without taking effect (rejected, canceled, failed). A future-dated one whose
+                // cutoff has not been reached, and a rejected/canceled/failed one, therefore do not steal
+                // the correction slot from the last effective one. Lifecycle state is not a reliable
+                // discriminator: an accepted move stays in Sleeping both before and (while customer master
+                // data is outstanding) after its cutoff, so the cutoff date is what decides whether it has
+                // taken effect.
+                var now = SystemClock.Instance.GetCurrentInstant().ToDateTimeOffset();
+                var latest = instances
+                    .Where(x => x.BusinessReason == businessReason)
+                    .Where(x => x.ExpectedValidityDate is { } validity && validity <= now)
+                    .Where(x => x.Lifecycle.TerminationState
+                        is not (WorkflowInstanceTerminationState.Rejected
+                            or WorkflowInstanceTerminationState.Canceled
+                            or WorkflowInstanceTerminationState.Failed))
+                    .OrderByDescending(x => x.ExpectedValidityDate ?? DateTimeOffset.MinValue)
+                    .ThenByDescending(x => x.Lifecycle.CreatedAt)
+                    .ThenByDescending(x => x.Id)
+                    .FirstOrDefault();
 
-            results[meteringPointId] = latest?.Id.ToString();
+                results[meteringPointId] = latest?.Id.ToString();
+            }
+            catch (Exception) when (!cancellationToken.IsCancellationRequested)
+            {
+                // Fail closed so a process-manager error hides the action instead of failing the
+                // field. A null latest id never matches a process id, and the try/catch is per
+                // metering point so one failing lookup does not hide the action on the others.
+                results[meteringPointId] = null;
+            }
         }
 
         return results;
