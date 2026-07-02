@@ -281,7 +281,7 @@ public static partial class MeteringPointProcessNode
         // be evaluated for FAS because the moves query is supplier-scoped, so it is not applied here.
         if (httpContextAccessor.HttpContext?.User.IsFas() == true)
         {
-            return moveInValidityDate >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
+            return moveInValidityDate >= IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant())
                 ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveIn)
                 : actions;
         }
@@ -548,14 +548,14 @@ public static partial class MeteringPointProcessNode
             now.InUtc().LocalDateTime.PlusYears(1).InUtc().ToInstant());
 
     /// <summary>
-    /// Start of the Danish calendar day 60 days before <paramref name="now"/>, the inclusive
-    /// lower bound of the incorrect-move-in correction window. Comparing against
-    /// DateTimeOffset.UtcNow.AddDays(-60) would carry the current time of day and exclude a
-    /// move-in whose cutoff (Danish midnight) is exactly 60 calendar days back, so the window
-    /// starts at the beginning of the Danish day. Pure by design: <paramref name="now"/> is
-    /// passed in so the boundary is unit-testable for a fixed instant.
+    /// Start of the Danish calendar day 60 days before <paramref name="now"/>, the inclusive lower
+    /// bound of the incorrect-move correction window (shared by the BRS-011 move-in and move-out
+    /// gates). Comparing against DateTimeOffset.UtcNow.AddDays(-60) would carry the current time of
+    /// day and exclude a move whose cutoff (Danish midnight) is exactly 60 calendar days back, so
+    /// the window starts at the beginning of the Danish day. Pure by design: <paramref name="now"/>
+    /// is passed in so the boundary is unit-testable for a fixed instant.
     /// </summary>
-    internal static DateTimeOffset IncorrectMoveInWindowStart(Instant now) =>
+    internal static DateTimeOffset IncorrectMoveWindowStart(Instant now) =>
         now.InZone(_danishTimeZone)
             .Date
             .PlusDays(-60)
@@ -609,7 +609,7 @@ public static partial class MeteringPointProcessNode
         // the 60-calendar-day correction window (shared with the move-in window helper).
         if (httpContextAccessor.HttpContext?.User.IsFas() == true)
         {
-            return moveOutValidityDate >= IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant())
+            return moveOutValidityDate >= IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant())
                 ? actions.Append(MeteringPointProcessAction.InitiateIncorrectMoveOut)
                 : actions;
         }
@@ -635,7 +635,7 @@ public static partial class MeteringPointProcessNode
     private static async Task<IReadOnlyDictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>> GetMoveEligibilityAsync(
         IReadOnlyList<(string MeteringPointId, string EnergySupplierId)> keys,
         IElectricityMarketClient electricityMarketClient,
-        Func<GetMovesByEnergySupplierIdResultDtoV1, List<GetMovesByEnergySupplierIdResultDtoV1.MoveDto>> selectMoves,
+        Func<GetMovesByEnergySupplierIdResultDtoV1, IReadOnlyList<GetMovesByEnergySupplierIdResultDtoV1.MoveDto>> selectMoves,
         CancellationToken cancellationToken)
     {
         // Keyed only by (metering point, supplier), the same parameters the EM moves query takes, so
@@ -643,7 +643,7 @@ public static partial class MeteringPointProcessNode
         // specific move by validity date). The query returns the supplier's moves from the
         // 60-calendar-day window start, each flagged with whether an energy supplier was registered
         // the day before its validity date. Mirrors GetChangeOfSupplierCorrectionEligibilityAsync.
-        var from = IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        var from = IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant());
         var results = new Dictionary<(string MeteringPointId, string EnergySupplierId), IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>>(keys.Count);
         foreach (var key in keys)
         {

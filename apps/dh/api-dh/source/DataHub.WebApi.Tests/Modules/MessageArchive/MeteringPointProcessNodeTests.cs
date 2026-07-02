@@ -247,7 +247,7 @@ public class MeteringPointProcessNodeTests
     [InlineData("2026-06-17T09:00:00Z", "2026-04-17T22:00:00Z")]
     // Winter (CET, UTC+1): 60 days before 2026-02-10 is 2025-12-12; its Danish start-of-day is 2025-12-11T23:00Z.
     [InlineData("2026-02-10T09:00:00Z", "2025-12-11T23:00:00Z")]
-    public void IncorrectMoveInWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
+    public void IncorrectMoveWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
     {
         // The 60-day correction window must start at the beginning of the Danish calendar day, so a
         // cutoff at Danish midnight exactly 60 days back is included. Counting from
@@ -256,7 +256,7 @@ public class MeteringPointProcessNodeTests
         // across both DST offsets. The time of day in `now` must not affect the result.
         var now = InstantPattern.ExtendedIso.Parse(nowUtc).Value;
 
-        var result = MeteringPointProcessNode.IncorrectMoveInWindowStart(now);
+        var result = MeteringPointProcessNode.IncorrectMoveWindowStart(now);
 
         Instant.FromDateTimeOffset(result)
             .Should().Be(InstantPattern.ExtendedIso.Parse(expectedUtc).Value);
@@ -1020,7 +1020,7 @@ public class MeteringPointProcessNodeTests
 
         // Capture the expected window start before invoking, so the assertion does not recompute it
         // at verification time (which could differ if the test crossed Danish midnight in between).
-        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant());
 
         var result = await MeteringPointProcessNode.GetIncorrectMoveInEligibilityAsync(
             [key],
@@ -1352,7 +1352,7 @@ public class MeteringPointProcessNodeTests
 
         // Capture the expected window start before invoking, so the assertion does not recompute it
         // at verification time (which could differ if the test crossed Danish midnight in between).
-        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant());
 
         var result = await MeteringPointProcessNode.GetIncorrectMoveOutEligibilityAsync(
             [key],
