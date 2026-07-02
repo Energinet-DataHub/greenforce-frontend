@@ -61,9 +61,13 @@ public static class OrchestrationInstanceFactory
             state,
             terminationState,
             terminationState == OrchestrationInstanceTerminationState.UserCanceled ? Identity : null,
+            null,
             CreatedAt,
             state == OrchestrationInstanceLifecycleState.Pending ? ScheduledToRunAt : null,
             state == OrchestrationInstanceLifecycleState.Pending ? null : QueuedAt,
             state == OrchestrationInstanceLifecycleState.Running || terminationState != null ? StartedAt : null,
-            state == OrchestrationInstanceLifecycleState.Terminated ? TerminatedAt : null);
+            state == OrchestrationInstanceLifecycleState.Terminated ? TerminatedAt : null,
+            null,
+            null,
+            null);
 }

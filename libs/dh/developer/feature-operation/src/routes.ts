@@ -33,6 +33,11 @@ const routes: Routes = [
     path: getPath<OperationToolsSubPaths>('metering-point'),
     loadChildren: () => import('@energinet-datahub/dh/metering-point/feature-debug'),
   },
+  {
+    canActivate: [PermissionGuard(['fas']), PermissionGuard(['failed-processes-overview:view'])],
+    path: getPath<OperationToolsSubPaths>('failed-processes'),
+    loadChildren: () => import('@energinet-datahub/dh/developer/feature-failed-processes'),
+  },
 ];
 
 export default routes;

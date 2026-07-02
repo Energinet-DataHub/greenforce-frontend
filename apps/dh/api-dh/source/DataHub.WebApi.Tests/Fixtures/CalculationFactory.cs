@@ -75,7 +75,8 @@ public static class CalculationFactory
             OrchestrationInstanceLifecycleState.Pending or
             OrchestrationInstanceLifecycleState.Queued =>
                 CreateStepLifecycle(StepInstanceLifecycleState.Pending),
-            OrchestrationInstanceLifecycleState.Running =>
+            OrchestrationInstanceLifecycleState.Running or
+            OrchestrationInstanceLifecycleState.Suspended =>
                 CreateStepLifecycle(StepInstanceLifecycleState.Running),
             OrchestrationInstanceLifecycleState.Terminated => terminationState switch
             {
