@@ -2185,7 +2185,7 @@
       "CUSTOMER_MOVE_OUT": "Fraflytning",
       "PRODUCTION_OBLIGATION": "Aftagepligt",
       "NO_DISCONNECTION_OF_METERING_POINT": "Ingen afbrydelse af målepunkt",
-      "DATA_ALIGNMENT_FOR_MASTER_DATA_METERING_POINT": "Datajustering af stamdata",
+      "DATA_ALIGNMENT_FOR_MASTER_DATA_METERING_POINT": "Anmodning om stamdata",
       "REQUEST_FOR_CHARGE_PRICES": "Anmodning om priser",
       "CANCEL_SERVICE_REQUEST": "Annullering af serviceydelse",
       "CANCELLATION": "Annullering",
