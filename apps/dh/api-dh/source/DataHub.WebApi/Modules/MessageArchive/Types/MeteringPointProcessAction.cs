@@ -26,5 +26,6 @@ public enum MeteringPointProcessAction
     ConfirmWorkflow,
     RejectRequest,
     InitiateIncorrectMoveIn,
+    InitiateIncorrectMoveOut,
     HandlingOfIncorrectChangeOfSupplier,
 }

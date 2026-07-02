@@ -62,6 +62,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -90,6 +92,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -112,6 +116,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -141,6 +147,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -165,6 +173,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -198,6 +208,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -222,6 +234,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -233,7 +247,7 @@ public class MeteringPointProcessNodeTests
     [InlineData("2026-06-17T09:00:00Z", "2026-04-17T22:00:00Z")]
     // Winter (CET, UTC+1): 60 days before 2026-02-10 is 2025-12-12; its Danish start-of-day is 2025-12-11T23:00Z.
     [InlineData("2026-02-10T09:00:00Z", "2025-12-11T23:00:00Z")]
-    public void IncorrectMoveInWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
+    public void IncorrectMoveWindowStart_ReturnsStartOfDanishCalendarDay60DaysBack(string nowUtc, string expectedUtc)
     {
         // The 60-day correction window must start at the beginning of the Danish calendar day, so a
         // cutoff at Danish midnight exactly 60 days back is included. Counting from
@@ -242,7 +256,7 @@ public class MeteringPointProcessNodeTests
         // across both DST offsets. The time of day in `now` must not affect the result.
         var now = InstantPattern.ExtendedIso.Parse(nowUtc).Value;
 
-        var result = MeteringPointProcessNode.IncorrectMoveInWindowStart(now);
+        var result = MeteringPointProcessNode.IncorrectMoveWindowStart(now);
 
         Instant.FromDateTimeOffset(result)
             .Should().Be(InstantPattern.ExtendedIso.Parse(expectedUtc).Value);
@@ -266,6 +280,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -288,6 +304,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -314,6 +332,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -340,6 +360,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -364,6 +386,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader().Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -392,6 +416,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader().Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -414,6 +440,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateFasHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -438,6 +466,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -462,6 +492,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -487,6 +519,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             correctionLoader.Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -513,6 +547,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             correctionLoader.Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -539,6 +575,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             correctionLoader.Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None);
 
@@ -567,6 +605,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -594,6 +634,8 @@ public class MeteringPointProcessNodeTests
             latestLoader.Object,
             new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
             CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict).Object,
             CreateHttpContextAccessor().Object,
             CancellationToken.None)).ToList();
 
@@ -764,6 +806,23 @@ public class MeteringPointProcessNodeTests
             CancellationToken.None);
 
         result[MeteringPointId].Should().Be(createdLater.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveInProcessId_ProcessManagerThrows_FailsClosed_ReturnsNull()
+    {
+        // A process-manager failure must hide the action (fail closed), not error the whole
+        // availableActions field, so the loader yields null for the failing metering point and a
+        // null latest id never matches a process id.
+        var processManagerClient = CreateThrowingProcessManagerClient();
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveInProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().BeNull();
     }
 
     [Fact]
@@ -978,7 +1037,7 @@ public class MeteringPointProcessNodeTests
 
         // Capture the expected window start before invoking, so the assertion does not recompute it
         // at verification time (which could differ if the test crossed Danish midnight in between).
-        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveInWindowStart(SystemClock.Instance.GetCurrentInstant());
+        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant());
 
         var result = await MeteringPointProcessNode.GetIncorrectMoveInEligibilityAsync(
             [key],
@@ -1017,6 +1076,519 @@ public class MeteringPointProcessNodeTests
         moveIns.Should().BeEmpty();
     }
 
+    [Fact]
+    public async Task GetAvailableActionsAsync_EligibleCustomerMoveOut_IncludesInitiateIncorrectMoveOut()
+    {
+        // team-volt#2053: mirror of the move-in eligible case. The move-out loader returns the
+        // supplier's move-outs; the resolver matches the one at this process's validity date and
+        // requires its previous-supplier flag, so a matching flagged move-out surfaces the action.
+        // Strict move-in loaders prove the move-out branch never touches the move-in path.
+        var process = CreateCustomerMoveOutProcess();
+        var moveOutLoader = CreateMoveOutEligibilityDataLoader((process.CutoffDate!.Value, HasPreviousEnergySupplier: true));
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+        actions.Should().Contain(MeteringPointProcessAction.CancelWorkflow);
+        moveOutLoader.Verify(
+            x => x.LoadAsync(
+                It.Is<(string MeteringPointId, string EnergySupplierId)>(
+                    k => k.MeteringPointId == MeteringPointId && k.EnergySupplierId == EnergySupplierGln),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_IneligibleCustomerMoveOut_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        // The loader returns no move-outs for this supplier (EM reports none in the 60-day window),
+        // so nothing matches the process validity date and the action is hidden.
+        var process = CreateCustomerMoveOutProcess();
+        var moveOutLoader = CreateMoveOutEligibilityDataLoader();
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_LatestMoveOutWithoutPreviousSupplier_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        // The supplier's move-out at this validity date is found, but EM reports no energy supplier
+        // the day before it, so there is nothing to revert supply to and the action is hidden.
+        var process = CreateCustomerMoveOutProcess();
+        var moveOutLoader = CreateMoveOutEligibilityDataLoader((process.CutoffDate!.Value, HasPreviousEnergySupplier: false));
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_MoveOutSameDanishCalendarDayDifferentInstant_IncludesInitiateIncorrectMoveOut()
+    {
+        // The resolver matches the supplier's move-out to the process by Danish calendar day, not by
+        // instant: EM's ValidityDate (Danish midnight) and the process cutoff (UTC midnight) are the
+        // same skæringsdato expressed differently, so they must match.
+        var cutoff = new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero); // UTC midnight, 1 May
+        var moveOutValidityDate = new DateTimeOffset(2026, 4, 30, 22, 0, 0, TimeSpan.Zero); // Danish midnight, 1 May (CEST)
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveOut,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var moveOutLoader = CreateMoveOutEligibilityDataLoader((moveOutValidityDate, HasPreviousEnergySupplier: true));
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_CustomerMoveIn_DoesNotInvokeMoveOutDataLoaders()
+    {
+        // A non-move-out reason (here the fully-eligible move-in path) must never consult the
+        // move-out loaders. Strict move-out loaders would throw if touched; the explicit Verify makes
+        // the "move-in path leaves move-out loaders alone" contract falsifiable.
+        var process = CreateCustomerMoveInProcess();
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            CreateEligibilityDataLoader((process.CutoffDate!.Value, HasPreviousEnergySupplier: true)).Object,
+            CreateLatestDataLoader(latestProcessId: _processOrchestrationId.ToString()).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            CreateRollbackEligibilityDataLoader(_processOrchestrationId.ToString()).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveIn);
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+        moveOutLoader.Verify(
+            x => x.LoadAsync(
+                It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
+                It.IsAny<CancellationToken>()),
+            Times.Never);
+        latestMoveOutLoader.Verify(
+            x => x.LoadAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_CustomerMoveOutWithinWindow_IncludesInitiateIncorrectMoveOutWithoutCallingDataLoader()
+    {
+        // FAS has no supplier GLN to scope the moves query against, so it surfaces the action
+        // whenever the process's own cutoff is inside the 60-day window. The previous-supplier gate
+        // is supplier-scoped and therefore not applied to FAS. The strict eligibility loader proves
+        // FAS never consults it.
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-10);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveOut,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().Contain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_FasUser_CustomerMoveOutOutsideWindow_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        var cutoff = DateTimeOffset.UtcNow.AddDays(-61);
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveOut,
+            MeteringPointId,
+            cutoff,
+            state: MeteringPointProcessState.Succeeded);
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateFasHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_PendingCustomerMoveOut_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        // A still-pending CustomerMoveOut cannot be corrected, so the action must not appear.
+        // Strict mocks on both move-out loaders prove the short-circuit happens before any data is loaded.
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveOut,
+            MeteringPointId,
+            state: MeteringPointProcessState.Pending);
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = new Mock<ILatestCustomerMoveOutProcessIdDataLoader>(MockBehavior.Strict);
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_SucceededButNotLatestMoveOut_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        // The process is Succeeded but a newer CustomerMoveOut supersedes it on the same metering
+        // point, so InitiateIncorrectMoveOut must not be offered. The EM loader is strict to prove the
+        // latest gate short-circuits before per-supplier eligibility is checked.
+        var process = CreateCustomerMoveOutProcess();
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _otherProcessOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetAvailableActionsAsync_LatestSucceededMoveOutWithoutCutoff_DoesNotIncludeInitiateIncorrectMoveOut()
+    {
+        // The move-out's validity date drives both the FAS window check and the EM moves query, so a
+        // latest succeeded move-out with no cutoff cannot be evaluated and fails closed. The strict
+        // eligibility loader proves the short-circuit happens before eligibility is consulted.
+        var process = CreateProcess(
+            BusinessReason.CustomerMoveOut,
+            MeteringPointId,
+            cutoffDate: null,
+            state: MeteringPointProcessState.Succeeded);
+        var moveOutLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>(MockBehavior.Strict);
+        var latestMoveOutLoader = CreateLatestMoveOutDataLoader(latestProcessId: _processOrchestrationId.ToString());
+
+        var actions = await MeteringPointProcessNode.GetAvailableActionsAsync(
+            process,
+            new Mock<IIncorrectMoveInEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<ILatestCustomerMoveInProcessIdDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IChangeOfSupplierCorrectionEligibilityDataLoader>(MockBehavior.Strict).Object,
+            new Mock<IMoveInCorrectionRollbackEligibilityDataLoader>(MockBehavior.Strict).Object,
+            moveOutLoader.Object,
+            latestMoveOutLoader.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        actions.Should().NotContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+    }
+
+    [Fact]
+    public async Task GetIncorrectMoveOutEligibility_ProjectsSupplierMoveOuts_AndQueriesEmWithSupplierKey()
+    {
+        // The loader scopes the moves query to (metering point, supplier) and the 60-day window
+        // start, and projects each returned move-out (from the MoveOuts list, not MoveIns) to its
+        // (validity date, previous-supplier flag), preserving order. The empty move-in list means a
+        // wrong selector would yield an empty result and fail this test. The Verify pins the
+        // supplier-scoped, window-from query construction.
+        var key = (MeteringPointId, EnergySupplierGln);
+        var withPrevious = new DateTimeOffset(2026, 5, 1, 0, 0, 0, TimeSpan.Zero);
+        var withoutPrevious = new DateTimeOffset(2026, 4, 1, 0, 0, 0, TimeSpan.Zero);
+        var electricityMarketClient = CreateMovesClient(
+            MoveOutsResult(
+                new GetMovesByEnergySupplierIdResultDtoV1.MoveDto(withPrevious, Guid.NewGuid(), HasPreviousEnergySupplier: true),
+                new GetMovesByEnergySupplierIdResultDtoV1.MoveDto(withoutPrevious, Guid.NewGuid(), HasPreviousEnergySupplier: false)));
+
+        // Capture the expected window start before invoking, so the assertion does not recompute it
+        // at verification time (which could differ if the test crossed Danish midnight in between).
+        var expectedWindowStart = MeteringPointProcessNode.IncorrectMoveWindowStart(SystemClock.Instance.GetCurrentInstant());
+
+        var result = await MeteringPointProcessNode.GetIncorrectMoveOutEligibilityAsync(
+            [key],
+            electricityMarketClient.Object,
+            CancellationToken.None);
+
+        result[key].Should().Equal(
+            [(withPrevious, true), (withoutPrevious, false)]);
+        electricityMarketClient.Verify(
+            x => x.SendAsync(
+                It.Is<GetMovesByEnergySupplierIdQueryV1>(
+                    q => q.MeteringPointId == MeteringPointId
+                        && q.EnergySupplierId == EnergySupplierGln
+                        && q.From == expectedWindowStart),
+                It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task GetIncorrectMoveOutEligibility_SuccessWithNoData_ReturnsEmpty()
+    {
+        var moveOuts = await InvokeIncorrectMoveOutEligibilityAsync(
+            Result<GetMovesByEnergySupplierIdResultDtoV1>.SuccessWithNoData());
+
+        moveOuts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetIncorrectMoveOutEligibility_FailedResult_FailsClosed_ReturnsEmpty()
+    {
+        // Fail closed: an EM transport failure yields no move-outs (hiding the action) rather than
+        // erroring the whole availableActions field.
+        var moveOuts = await InvokeIncorrectMoveOutEligibilityAsync(
+            Result<GetMovesByEnergySupplierIdResultDtoV1>.Fail("EM transport error"));
+
+        moveOuts.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_NewerRejectedMoveOut_DoesNotSupersedeOlderSucceededMoveOut()
+    {
+        // Product rule: "latest" is the most recent move-out that has taken effect. A rejected
+        // move-out never took effect, so it must not suppress correction of the last good move-out;
+        // the loader returns the older succeeded id, not the rejected one (both cutoffs are past).
+        // The even newer CustomerMoveIn instance is noise proving other business reasons are ignored.
+        var olderSucceededMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerRejectedMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Rejected);
+        var newestMoveIn = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000cc"),
+            businessReason: BusinessReason.CustomerMoveIn,
+            expectedValidityDate: new DateTimeOffset(2026, 3, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 2, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveOut,
+            newerRejectedMoveOut,
+            newestMoveIn);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(olderSucceededMoveOut.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_NewerCanceledMoveOut_DoesNotSupersedeOlderSucceededMoveOut()
+    {
+        // Like the rejected case: a canceled move-out never took effect and must not suppress
+        // correction of the last good move-out, even though its cutoff is in the past.
+        var olderSucceededMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2025, 12, 1, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerCanceledMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero),
+            createdAt: new DateTimeOffset(2026, 1, 15, 0, 0, 0, TimeSpan.Zero),
+            terminationState: WorkflowInstanceTerminationState.Canceled);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveOut,
+            newerCanceledMoveOut);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(olderSucceededMoveOut.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_FutureMoveOut_DoesNotSupersedeOlderEffectiveMoveOut()
+    {
+        // AC5: a future-dated move-out (cutoff not yet reached) has not taken effect, so it must not
+        // suppress correction of the last completed move-out. It is the cutoff date, not the lifecycle
+        // state, that excludes it; the correction stays on the older effective move-out until the
+        // future one's cutoff is reached.
+        var now = DateTimeOffset.UtcNow;
+        var olderEffectiveMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: now.AddDays(-30),
+            createdAt: now.AddDays(-35),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var futureMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: now.AddDays(30),
+            createdAt: now.AddDays(-1),
+            lifecycleState: WorkflowInstanceLifecycleState.Sleeping,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(
+            olderEffectiveMoveOut,
+            futureMoveOut);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(olderEffectiveMoveOut.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_PastCutoffSleepingMoveOut_SupersedesOlderSucceededMoveOut()
+    {
+        // A newer move-out whose cutoff has been reached but which is still Sleeping HAS taken effect.
+        // It is the current effective move-out and must take over the correction slot from the older
+        // completed one. Excluding it (e.g. by filtering on lifecycle state) would wrongly leave the
+        // correction on a superseded move-out.
+        var now = DateTimeOffset.UtcNow;
+        var olderSucceededMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000aa"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: now.AddDays(-60),
+            createdAt: now.AddDays(-65),
+            terminationState: WorkflowInstanceTerminationState.Succeeded);
+        var newerEffectiveSleepingMoveOut = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-0000000000bb"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: now.AddDays(-20),
+            createdAt: now.AddDays(-25),
+            lifecycleState: WorkflowInstanceLifecycleState.Sleeping,
+            terminationState: null);
+        var processManagerClient = CreateProcessManagerClient(
+            olderSucceededMoveOut,
+            newerEffectiveSleepingMoveOut);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(newerEffectiveSleepingMoveOut.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_EqualExpectedValidityDate_LaterCreatedAtWins()
+    {
+        // The ids are chosen so the final Id tiebreak alone would pick the earlier-created instance,
+        // proving Lifecycle.CreatedAt decides before Id.
+        var expectedValidityDate = new DateTimeOffset(2026, 2, 1, 0, 0, 0, TimeSpan.Zero);
+        var createdLater = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-000000000001"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: expectedValidityDate,
+            createdAt: new DateTimeOffset(2026, 1, 20, 0, 0, 0, TimeSpan.Zero));
+        var createdEarlier = CreateWorkflowInstance(
+            id: Guid.Parse("00000000-0000-0000-0000-000000000002"),
+            businessReason: BusinessReason.CustomerMoveOut,
+            expectedValidityDate: expectedValidityDate,
+            createdAt: new DateTimeOffset(2026, 1, 10, 0, 0, 0, TimeSpan.Zero));
+        var processManagerClient = CreateProcessManagerClient(createdEarlier, createdLater);
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().Be(createdLater.Id.ToString());
+    }
+
+    [Fact]
+    public async Task GetLatestCustomerMoveOutProcessId_ProcessManagerThrows_FailsClosed_ReturnsNull()
+    {
+        // A process-manager failure must hide the action (fail closed), not error the whole
+        // availableActions field, so the loader yields null for the failing metering point and a
+        // null latest id never matches a process id.
+        var processManagerClient = CreateThrowingProcessManagerClient();
+
+        var result = await MeteringPointProcessNode.GetLatestCustomerMoveOutProcessIdAsync(
+            [MeteringPointId],
+            processManagerClient.Object,
+            CreateHttpContextAccessor().Object,
+            CancellationToken.None);
+
+        result[MeteringPointId].Should().BeNull();
+    }
+
     private static async Task<IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>> InvokeIncorrectMoveInEligibilityAsync(
         Result<GetMovesByEnergySupplierIdResultDtoV1> electricityMarketResult)
     {
@@ -1024,6 +1596,20 @@ public class MeteringPointProcessNodeTests
         var electricityMarketClient = CreateMovesClient(electricityMarketResult);
 
         var result = await MeteringPointProcessNode.GetIncorrectMoveInEligibilityAsync(
+            [key],
+            electricityMarketClient.Object,
+            CancellationToken.None);
+
+        return result[key];
+    }
+
+    private static async Task<IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>> InvokeIncorrectMoveOutEligibilityAsync(
+        Result<GetMovesByEnergySupplierIdResultDtoV1> electricityMarketResult)
+    {
+        var key = (MeteringPointId, EnergySupplierGln);
+        var electricityMarketClient = CreateMovesClient(electricityMarketResult);
+
+        var result = await MeteringPointProcessNode.GetIncorrectMoveOutEligibilityAsync(
             [key],
             electricityMarketClient.Object,
             CancellationToken.None);
@@ -1048,9 +1634,21 @@ public class MeteringPointProcessNodeTests
         Result<GetMovesByEnergySupplierIdResultDtoV1>.Success(
             new GetMovesByEnergySupplierIdResultDtoV1(moveIns.ToList(), []));
 
+    private static Result<GetMovesByEnergySupplierIdResultDtoV1> MoveOutsResult(
+        params GetMovesByEnergySupplierIdResultDtoV1.MoveDto[] moveOuts) =>
+        Result<GetMovesByEnergySupplierIdResultDtoV1>.Success(
+            new GetMovesByEnergySupplierIdResultDtoV1([], moveOuts.ToList()));
+
     private static MeteringPointProcess CreateCustomerMoveInProcess() =>
         CreateProcess(
             BusinessReason.CustomerMoveIn,
+            meteringPointId: MeteringPointId,
+            cutoffDate: DateTimeOffset.UtcNow.AddDays(-10),
+            state: MeteringPointProcessState.Succeeded);
+
+    private static MeteringPointProcess CreateCustomerMoveOutProcess() =>
+        CreateProcess(
+            BusinessReason.CustomerMoveOut,
             meteringPointId: MeteringPointId,
             cutoffDate: DateTimeOffset.UtcNow.AddDays(-10),
             state: MeteringPointProcessState.Succeeded);
@@ -1114,6 +1712,17 @@ public class MeteringPointProcessNodeTests
         return processManagerClient;
     }
 
+    private static Mock<IProcessManagerClient> CreateThrowingProcessManagerClient()
+    {
+        var processManagerClient = new Mock<IProcessManagerClient>();
+        processManagerClient
+            .Setup(x => x.SearchWorkflowInstancesByMeteringPointIdQueryAsync(
+                It.IsAny<SearchWorkflowInstancesByMeteringPointIdQuery>(),
+                It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new InvalidOperationException("process manager unavailable"));
+        return processManagerClient;
+    }
+
     private static Mock<IIncorrectMoveInEligibilityDataLoader> CreateEligibilityDataLoader(
         params (DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)[] supplierMoveIns)
     {
@@ -1123,6 +1732,18 @@ public class MeteringPointProcessNodeTests
                 It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
                 It.IsAny<CancellationToken>()))
             .ReturnsAsync((IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>)supplierMoveIns.ToList());
+        return dataLoader;
+    }
+
+    private static Mock<IIncorrectMoveOutEligibilityDataLoader> CreateMoveOutEligibilityDataLoader(
+        params (DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)[] supplierMoveOuts)
+    {
+        var dataLoader = new Mock<IIncorrectMoveOutEligibilityDataLoader>();
+        dataLoader
+            .Setup(x => x.LoadAsync(
+                It.IsAny<(string MeteringPointId, string EnergySupplierId)>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync((IReadOnlyList<(DateTimeOffset ValidityDate, bool HasPreviousEnergySupplier)>)supplierMoveOuts.ToList());
         return dataLoader;
     }
 
@@ -1149,6 +1770,17 @@ public class MeteringPointProcessNodeTests
     private static Mock<ILatestCustomerMoveInProcessIdDataLoader> CreateLatestDataLoader(string? latestProcessId)
     {
         var dataLoader = new Mock<ILatestCustomerMoveInProcessIdDataLoader>();
+        dataLoader
+            .Setup(x => x.LoadAsync(
+                It.IsAny<string>(),
+                It.IsAny<CancellationToken>()))
+            .ReturnsAsync(latestProcessId);
+        return dataLoader;
+    }
+
+    private static Mock<ILatestCustomerMoveOutProcessIdDataLoader> CreateLatestMoveOutDataLoader(string? latestProcessId)
+    {
+        var dataLoader = new Mock<ILatestCustomerMoveOutProcessIdDataLoader>();
         dataLoader
             .Setup(x => x.LoadAsync(
                 It.IsAny<string>(),

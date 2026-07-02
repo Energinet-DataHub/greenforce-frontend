@@ -42,6 +42,7 @@ import {
 import { EndOfSupplyActions } from '../src/actions/end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from '../src/actions/customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from '../src/actions/customer-move-in/secondary-move-in';
+import { CustomerMoveOutActions } from '../src/actions/customer-move-out/customer-move-out';
 import { ChangeOfEnergySupplierActions } from '../src/actions/change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from '../src/actions/incorrect-move/incorrect-move';
 import { RollbackChangeOfSupplierActions } from '../src/actions/rollback-change-of-supplier/rollback-change-of-supplier';
@@ -80,6 +81,7 @@ describe('DhActionsRegistry', () => {
       actorMarketRole?: EicFunction;
       endOfSupplyHandlers?: ActionHandlerMap;
       customerMoveInHandlers?: ActionHandlerMap;
+      customerMoveOutHandlers?: ActionHandlerMap;
       secondaryMoveInHandlers?: ActionHandlerMap;
       changeOfEnergySupplierHandlers?: ActionHandlerMap;
       incorrectMoveHandlers?: ActionHandlerMap;
@@ -109,6 +111,7 @@ describe('DhActionsRegistry', () => {
           callback: vi.fn(),
         },
       },
+      customerMoveOutHandlers = {} as ActionHandlerMap,
       secondaryMoveInHandlers = {} as ActionHandlerMap,
       changeOfEnergySupplierHandlers = {
         [MeteringPointProcessAction.SendInformation]: {
@@ -170,6 +173,10 @@ describe('DhActionsRegistry', () => {
         {
           provide: CustomerMoveInActions,
           useValue: createMockHandlers(customerMoveInHandlers),
+        },
+        {
+          provide: CustomerMoveOutActions,
+          useValue: createMockHandlers(customerMoveOutHandlers),
         },
         {
           provide: SecondaryMoveInActions,
@@ -997,6 +1004,73 @@ describe('DhActionsRegistry', () => {
       });
     });
 
+    describe('CustomerMoveOut (BRS-011 move-out correction)', () => {
+      // Mirrors the move-in correction button: InitiateIncorrectMoveOut is gated by
+      // the `metering-point:move-in` permission (the shared modal's mutation is
+      // authorized there) and the InitiatingParticipant ownership rule. No release toggle.
+      const moveOutHandlers: ActionHandlerMap = {
+        [MeteringPointProcessAction.InitiateIncorrectMoveOut]: {
+          permissions: ['metering-point:move-in'],
+          roles: [InitiatingParticipant],
+          callback: vi.fn(),
+        },
+      };
+
+      const matchingInitiatorGln = '1234567890123';
+      const nonMatchingInitiatorGln = '9999999999999';
+
+      it('should surface InitiateIncorrectMoveOut for an initiating supplier holding move-in permission', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasMoveInPermission: true,
+          customerMoveOutHandlers: moveOutHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveOut],
+          ProcessManagerBusinessReason.CustomerMoveOut,
+          false,
+          matchingInitiatorGln
+        );
+
+        expect(result).toEqual([MeteringPointProcessAction.InitiateIncorrectMoveOut]);
+      });
+
+      it('should exclude the action when the actor is not the process initiator', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasMoveInPermission: true,
+          customerMoveOutHandlers: moveOutHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveOut],
+          ProcessManagerBusinessReason.CustomerMoveOut,
+          false,
+          nonMatchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+      });
+
+      it('should exclude the action when move-in permission is missing', () => {
+        const registry = setupRegistry({
+          actorMarketRole: EicFunction.EnergySupplier,
+          hasMoveInPermission: false,
+          customerMoveOutHandlers: moveOutHandlers,
+        });
+
+        const result = registry.getSupportedActions(
+          [MeteringPointProcessAction.InitiateIncorrectMoveOut],
+          ProcessManagerBusinessReason.CustomerMoveOut,
+          false,
+          matchingInitiatorGln
+        );
+
+        expect(result).not.toContain(MeteringPointProcessAction.InitiateIncorrectMoveOut);
+      });
+    });
+
     describe('ServiceRequest (BRS-039)', () => {
       // Mirrors the EndOfSupply registry cases. CancelWorkflow is performed by the
       // responsible energy supplier that initiated the request and is gated by the
@@ -1687,6 +1761,27 @@ describe('DhActionsRegistry', () => {
       const result = registry.getActorRolesForAction(
         MeteringPointProcessAction.InitiateIncorrectMoveIn,
         ProcessManagerBusinessReason.CustomerMoveIn
+      );
+
+      expect(result).toHaveLength(2);
+      expect(result).toEqual(
+        expect.arrayContaining([EicFunction.EnergySupplier, EicFunction.GridAccessProvider])
+      );
+    });
+
+    it('smoke: CustomerMoveOut InitiateIncorrectMoveOut [InitiatingParticipant] -> [EnergySupplier, GridAccessProvider]', () => {
+      const registry = setupRegistry({
+        customerMoveOutHandlers: {
+          [MeteringPointProcessAction.InitiateIncorrectMoveOut]: {
+            roles: [InitiatingParticipant],
+            callback: vi.fn(),
+          },
+        },
+      });
+
+      const result = registry.getActorRolesForAction(
+        MeteringPointProcessAction.InitiateIncorrectMoveOut,
+        ProcessManagerBusinessReason.CustomerMoveOut
       );
 
       expect(result).toHaveLength(2);

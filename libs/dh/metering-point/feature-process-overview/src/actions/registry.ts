@@ -36,6 +36,7 @@ import { ProcessActionContext } from './context';
 import { EndOfSupplyActions } from './end-of-supply/end-of-supply';
 import { CustomerMoveInActions } from './customer-move-in/customer-move-in';
 import { SecondaryMoveInActions } from './customer-move-in/secondary-move-in';
+import { CustomerMoveOutActions } from './customer-move-out/customer-move-out';
 import { ChangeOfEnergySupplierActions } from './change-of-energy-supplier/change-of-energy-supplier';
 import { IncorrectMoveActions } from './incorrect-move/incorrect-move';
 import { RollbackChangeOfSupplierActions } from './rollback-change-of-supplier/rollback-change-of-supplier';
@@ -94,6 +95,7 @@ export class DhActionsRegistry {
     [ProcessManagerBusinessReason.EndOfSupply]: inject(EndOfSupplyActions).handlers,
     [ProcessManagerBusinessReason.CustomerMoveIn]: inject(CustomerMoveInActions).handlers,
     [ProcessManagerBusinessReason.SecondaryMoveIn]: inject(SecondaryMoveInActions).handlers,
+    [ProcessManagerBusinessReason.CustomerMoveOut]: inject(CustomerMoveOutActions).handlers,
     [ProcessManagerBusinessReason.IncorrectMove]: inject(IncorrectMoveActions).handlers,
     [ProcessManagerBusinessReason.ChangeOfEnergySupplier]: inject(ChangeOfEnergySupplierActions)
       .handlers,

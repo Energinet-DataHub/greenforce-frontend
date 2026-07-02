@@ -347,6 +347,24 @@ function buildOverviewProcesses() {
     initiatorRole: EicFunction.EnergySupplier,
   };
 
+  const customerMoveOutIncorrectMoveOutProcess = {
+    __typename: 'MeteringPointProcess' as const,
+    id: 'process-cmo-incorrect-move-out',
+    businessReason: ProcessManagerBusinessReason.CustomerMoveOut,
+    processType: 'BRS_010_CustomerMoveOut',
+    createdAt: new Date(Date.now() - 3 * 864e5), // 3 days ago
+    cutoffDate: new Date(Date.now() + 2 * 864e5), // 2 days from now
+    state: MeteringPointProcessState.Succeeded,
+    availableActions: [MeteringPointProcessAction.InitiateIncorrectMoveOut],
+    initiator: {
+      __typename: 'MarketParticipant' as const,
+      id: '0199ed3d-f1b2-7180-9546-39b5836fb576',
+      displayName: `${processCmiInfoInitiatorGln} • RSI 01 (Elleverandør)`,
+      glnOrEicNumber: processCmiInfoInitiatorGln,
+    },
+    initiatorRole: EicFunction.EnergySupplier,
+  };
+
   const changeOfEnergySupplierProcess = {
     __typename: 'MeteringPointProcess' as const,
     id: 'process-cos-info',
@@ -473,6 +491,7 @@ function buildOverviewProcesses() {
     endOfSupplyProcess,
     customerMoveInProcess,
     customerMoveInIncorrectMoveInProcess,
+    customerMoveOutIncorrectMoveOutProcess,
     changeOfEnergySupplierProcess,
     secondaryMoveInProcess,
     endOfSupplyRequestServiceProcess,
