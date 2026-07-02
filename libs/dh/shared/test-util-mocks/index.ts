@@ -38,6 +38,7 @@ import { meteringPointMocks } from './src/metering-point.mocks';
 import { organizationMocks } from './src/organization.mocks';
 import { requestMocks } from './src/request.mocks';
 import { processMocks } from './src/process';
+import { failedProcessesMocks } from './src/failed-processes';
 import { chargesMocks } from './src/charges.mocks';
 import { measurementsReportsMocks } from './src/measurements-reports.mocks';
 import { releaseTogglesMocks } from './src/release-toggles.mocks';
@@ -61,6 +62,7 @@ export const mocks = [
   requestMocks,
   meteringPointMocks,
   processMocks,
+  failedProcessesMocks,
   chargesMocks,
   measurementsReportsMocks,
   releaseTogglesMocks,

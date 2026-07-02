@@ -35,6 +35,8 @@ export const permissions = [
   'dh2-bridge:import',
   'dh3-skalpellen',
   'esett-exchange:manage',
+  'failed-processes-overview:manage',
+  'failed-processes-overview:view',
   'fas',
   'grid-loss-notifications:view',
   'imbalance-prices:manage',

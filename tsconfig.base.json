@@ -55,6 +55,9 @@
       "@energinet-datahub/dh/developer/feature-examples": [
         "./libs/dh/developer/feature-examples/index.ts"
       ],
+      "@energinet-datahub/dh/developer/feature-failed-processes": [
+        "./libs/dh/developer/feature-failed-processes/index.ts"
+      ],
       "@energinet-datahub/dh/developer/feature-operation": [
         "./libs/dh/developer/feature-operation/index.ts"
       ],

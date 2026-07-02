@@ -860,6 +860,23 @@ type ExecuteMeteringPointManualCorrectionPayload {
   boolean: Boolean
 }
 
+type FailedProcess {
+  processType: String
+  createdBy: MarketParticipant
+  id: UUID!
+  meteringPointId: String!
+  createdAt: DateTime!
+  suspendedAt: DateTime!
+  suspendReason: FailedProcessSuspendReason!
+  suspendContext: String
+  orchestrationInstanceId: UUID!
+}
+
+type FailedProcessesResult {
+  items: [FailedProcess!]!
+  totalCount: Int!
+}
+
 "A connection to a list of items."
 type FailedSendMeasurementsInstancesConnection {
   "Information to aid in pagination."
@@ -1605,6 +1622,7 @@ type Query {
   esettExchangeStatusReport: ExchangeEventStatusReportResponse!
   esettOutgoingMessageById(documentId: String!): EsettOutgoingMessage!
   esettServiceStatus: [ReadinessStatusDto!]!
+  failedProcesses: FailedProcessesResult! @authorize(roles: [ "failed-processes-overview:view" ]) @authorize(policy: "fas")
   failedSendMeasurementsInstances(created: DateRange! filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [SendMeasurementsInstanceDtoSortInput!]): FailedSendMeasurementsInstancesConnection
   filteredMarketParticipants: [MarketParticipant!]!
   filteredPermissions(filter: String "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [PermissionDtoSortInput!]): FilteredPermissionsConnection
@@ -3662,6 +3680,13 @@ enum EsettTimeSeriesType {
 enum ExchangeEventCalculationType {
   BALANCE_FIXING
   AGGREGATION
+}
+
+enum FailedProcessSuspendReason {
+  RETRY_DURATION_EXCEEDED
+  UNHANDLED_FAILURE
+  USER_REQUESTED
+  ORCHESTRATION_FAILED
 }
 
 enum GridAreaAuditedChange {

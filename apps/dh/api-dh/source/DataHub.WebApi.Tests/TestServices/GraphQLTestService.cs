@@ -80,7 +80,8 @@ public class GraphQLTestService
 
         Services = new ServiceCollection()
             .AddLogging()
-            .AddAuthorization()
+            .AddAuthorization(options =>
+                options.AddPolicy("fas", policy => policy.RequireClaim("multitenancy", "true")))
             .AddGraphQLServer(disableDefaultSecurity: true)
             .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
             .AddInMemorySubscriptions()

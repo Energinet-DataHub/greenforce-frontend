@@ -243,7 +243,8 @@
       "developer": {
         "operationTools": {
           "menuGroupLabel": "Operation tools",
-          "meteringPoint": "Metering point"
+          "meteringPoint": "Metering point",
+          "failedProcesses": "Failed processes"
         }
       },
       "devExamples": {
@@ -4114,6 +4115,41 @@
     "uploadInProgress": "Upload in progress",
     "uploadSuccess": "File uploaded, {{ count }} metering point master data imported",
     "uploadError": "An error occurred while uploading the file. Please try again"
+  },
+  "failedProcesses": {
+    "topBarTitle": "Failed processes",
+    "columns": {
+      "brs": "BRS",
+      "meteringPointId": "MP ID",
+      "owner": "Owner",
+      "status": "Status",
+      "registered": "Registered"
+    },
+    "filters": {
+      "period": "Period",
+      "status": "Status",
+      "brs": "BRS",
+      "owner": "Owner"
+    },
+    "emptyState": {
+      "title": "No failed processes",
+      "message": "There are no failed processes to show."
+    },
+    "suspendReason": {
+      "RETRY_DURATION_EXCEEDED": "Ran for too long",
+      "UNHANDLED_FAILURE": "Unexpected error",
+      "USER_REQUESTED": "Manually suspended",
+      "ORCHESTRATION_FAILED": "Orchestration failed"
+    },
+    "drawer": {
+      "registeredInDataHub": "Registered in DataHub",
+      "processId": "Process ID",
+      "copy": "Copy",
+      "startedBy": "Started by",
+      "meteringPointId": "Metering point ID",
+      "registered": "Registered",
+      "orchestrationId": "Orchestration ID"
+    }
   },
   "devExamples": {
     "topBarTitle": "Dev examples",

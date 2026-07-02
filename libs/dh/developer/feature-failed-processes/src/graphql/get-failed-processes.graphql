@@ -1,0 +1,21 @@
+query GetFailedProcesses {
+  failedProcesses {
+    totalCount
+    items {
+      id
+      processType
+      meteringPointId
+      createdAt
+      suspendedAt
+      suspendReason
+      suspendContext
+      orchestrationInstanceId
+      createdBy {
+        id
+        name
+        glnOrEicNumber
+        marketRole
+      }
+    }
+  }
+}

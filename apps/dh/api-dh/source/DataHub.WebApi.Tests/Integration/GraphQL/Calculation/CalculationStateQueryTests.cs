@@ -41,6 +41,7 @@ public class CalculationStateQueryTests
     [InlineData(OrchestrationInstanceLifecycleState.Pending, null)]
     [InlineData(OrchestrationInstanceLifecycleState.Queued, null)]
     [InlineData(OrchestrationInstanceLifecycleState.Running, null)]
+    [InlineData(OrchestrationInstanceLifecycleState.Suspended, null)]
     [InlineData(OrchestrationInstanceLifecycleState.Terminated, OrchestrationInstanceTerminationState.Failed)]
     [InlineData(OrchestrationInstanceLifecycleState.Terminated, OrchestrationInstanceTerminationState.Succeeded)]
     [InlineData(OrchestrationInstanceLifecycleState.Terminated, OrchestrationInstanceTerminationState.UserCanceled)]

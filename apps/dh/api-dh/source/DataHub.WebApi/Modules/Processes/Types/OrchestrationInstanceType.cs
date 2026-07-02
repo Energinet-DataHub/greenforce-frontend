@@ -82,7 +82,8 @@ public class OrchestrationInstanceType : InterfaceType<OrchestrationInstanceType
             OrchestrationInstanceLifecycleState.Pending =>
                 new OrchestrationInstanceStep(ProcessStepState.Pending, true),
             OrchestrationInstanceLifecycleState.Queued or
-            OrchestrationInstanceLifecycleState.Running =>
+            OrchestrationInstanceLifecycleState.Running or
+            OrchestrationInstanceLifecycleState.Suspended =>
                 new OrchestrationInstanceStep(ProcessStepState.Succeeded, false),
             OrchestrationInstanceLifecycleState.Terminated =>
                 instance.Lifecycle.TerminationState == OrchestrationInstanceTerminationState.UserCanceled
@@ -96,7 +97,8 @@ public class OrchestrationInstanceType : InterfaceType<OrchestrationInstanceType
         {
             OrchestrationInstanceLifecycleState.Pending => false,
             OrchestrationInstanceLifecycleState.Queued => step.Sequence == 1,
-            OrchestrationInstanceLifecycleState.Running => step.Lifecycle.State switch
+            OrchestrationInstanceLifecycleState.Running or
+            OrchestrationInstanceLifecycleState.Suspended => step.Lifecycle.State switch
             {
                 StepInstanceLifecycleState.Pending =>
                     step.Sequence == instance.Steps

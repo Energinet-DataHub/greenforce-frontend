@@ -1097,6 +1097,8 @@ public class MeteringPointProcessNodeTests
                 TerminationState: isTerminated ? terminationState : null,
                 CreatedAt: createdAt,
                 TerminatedAt: isTerminated ? createdAt : null,
+                SuspendedAt: null,
+                ResumedAt: null,
                 CanceledByWorkflowInstanceId: null),
             Action: WorkflowAction.NoAction,
             Actions: [],

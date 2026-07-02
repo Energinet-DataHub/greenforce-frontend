@@ -42,6 +42,7 @@ public static class OrchestrationStateExtensions
             { State: OrchestrationInstanceLifecycleState.Pending } => OrchestrationState.Pending,
             { State: OrchestrationInstanceLifecycleState.Queued } => OrchestrationState.Pending,
             { State: OrchestrationInstanceLifecycleState.Running } => OrchestrationState.Running,
+            { State: OrchestrationInstanceLifecycleState.Suspended } => OrchestrationState.Failed,
             { State: OrchestrationInstanceLifecycleState.Terminated } =>
                 lifecycle.TerminationState switch
                 {

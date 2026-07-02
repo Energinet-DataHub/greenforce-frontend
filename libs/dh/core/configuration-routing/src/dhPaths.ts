@@ -71,7 +71,7 @@ export type MissingMeasurementsLogSubPaths = 'request';
 
 export type ChargesSubPaths = 'prices' | 'information' | 'history';
 
-export type OperationToolsSubPaths = 'metering-point';
+export type OperationToolsSubPaths = 'metering-point' | 'failed-processes';
 
 export type BasePaths =
   | 'dev-examples'

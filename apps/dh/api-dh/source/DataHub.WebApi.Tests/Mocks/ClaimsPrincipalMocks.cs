@@ -52,6 +52,20 @@ public static class ClaimsPrincipalMocks
                 },
                 "MockedAuthenticationType"));
 
+    public static ClaimsPrincipal CreateFasAdministrator() =>
+        new ClaimsPrincipal(
+            new ClaimsIdentity(
+                new[]
+                {
+                    new("azp", ActorId.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, "67ee0eee-5d07-45e6-abda-828434cdc5fe"),
+                    new Claim("actornumber", "5790001330583"),
+                    new Claim("marketroles", "DataHubAdministrator"),
+                    new Claim("multitenancy", "true"),
+                    new Claim(ClaimTypes.Role, "failed-processes-overview:view"),
+                },
+                "MockedAuthenticationType"));
+
     public static ClaimsPrincipal CreateAuthenticated() =>
         new ClaimsPrincipal(new ClaimsIdentity(null, "MockedAuthenticationType"));
 

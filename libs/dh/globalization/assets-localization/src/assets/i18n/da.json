@@ -243,7 +243,8 @@
       "developer": {
         "operationTools": {
           "menuGroupLabel": "Driftsværktøjer",
-          "meteringPoint": "Målepunkt"
+          "meteringPoint": "Målepunkt",
+          "failedProcesses": "Fejlede processer"
         }
       },
       "devExamples": {
@@ -4113,6 +4114,41 @@
     "uploadInProgress": "Upload i gang",
     "uploadSuccess": "Fil uploadet, {{ count }} målepunktstamdata importeret",
     "uploadError": "Noget gik galt. Filen blev ikke uploadet. Prøv igen"
+  },
+  "failedProcesses": {
+    "topBarTitle": "Fejlede processer",
+    "columns": {
+      "brs": "BRS",
+      "meteringPointId": "MP ID",
+      "owner": "Ejer",
+      "status": "Status",
+      "registered": "Registreret"
+    },
+    "filters": {
+      "period": "Periode",
+      "status": "Status",
+      "brs": "BRS",
+      "owner": "Ejer"
+    },
+    "emptyState": {
+      "title": "Ingen fejlede processer",
+      "message": "Der er ingen fejlede processer at vise."
+    },
+    "suspendReason": {
+      "RETRY_DURATION_EXCEEDED": "Har kørt for længe",
+      "UNHANDLED_FAILURE": "Uventet fejl",
+      "USER_REQUESTED": "Manuelt suspenderet",
+      "ORCHESTRATION_FAILED": "Orkestrering fejlede"
+    },
+    "drawer": {
+      "registeredInDataHub": "Registreret i DataHub",
+      "processId": "Proces-ID",
+      "copy": "Kopier",
+      "startedBy": "Startet af",
+      "meteringPointId": "Målepunkts-ID",
+      "registered": "Registreret",
+      "orchestrationId": "Orchestration ID"
+    }
   },
   "devExamples": {
     "topBarTitle": "Dev eksempler",
