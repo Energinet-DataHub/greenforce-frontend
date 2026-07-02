@@ -148,6 +148,59 @@ describe('Service request modal', () => {
     await waitForAsync(() => expect(submissions).toBe(1));
   });
 
+  it('sends only one request when the submit button is clicked twice in a row', async () => {
+    let submissions = 0;
+    // Hold the request in flight (so the button stays loading) via a gate we resolve
+    // ourselves at the end. This suite runs with `isolate: false`, so an unbounded
+    // pending request would leak into the next spec file.
+    let releaseRequest!: () => void;
+    const requestInFlight = new Promise<void>((resolve) => (releaseRequest = resolve));
+    server.use(
+      graphql.mutation('RequestServiceServiceRequest', async () => {
+        submissions += 1;
+        await requestInFlight;
+        return HttpResponse.json({
+          data: {
+            __typename: 'Mutation',
+            requestServiceServiceRequest: {
+              __typename: 'RequestServiceServiceRequestPayload',
+              boolean: true,
+            },
+          },
+        });
+      })
+    );
+
+    const { dialog, user } = await setup();
+
+    await user.click(within(dialog).getByRole('combobox'));
+    await user.click(await screen.findByRole('option', { name: /disconnection/i }));
+    await setCutOffDate(dialog, user);
+
+    const submit = within(dialog).getByRole('button', { name: /submit/i });
+    await user.click(submit);
+
+    try {
+      // While the first request is in flight the submit button is disabled and
+      // non-interactive, so a rapid second click is rejected rather than starting a
+      // second request. The `watt-button` host carries the `pointer-events: none`, so
+      // clicking it is what user-event refuses.
+      await waitForAsync(() => expect(submit).toBeDisabled());
+      const submitHost = submit.closest('watt-button') as HTMLElement;
+      await expect(user.click(submitHost)).rejects.toThrow();
+
+      expect(submissions).toBe(1);
+    } finally {
+      // Always release the in-flight request, even if an assertion above fails, so a
+      // failing run cannot leave it pending and poison the next spec file (the suite
+      // runs with `isolate: false`).
+      releaseRequest();
+    }
+
+    // Let the request complete so the modal closes and nothing is left pending.
+    await waitForAsync(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+  });
+
   it('rejects a cut-off date in the past with an inline error and does not submit', async () => {
     let submissions = 0;
     server.use(
